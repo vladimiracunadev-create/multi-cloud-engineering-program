@@ -1,0 +1,17 @@
+id: '227'
+number: 227
+title: 'Cost Management, Advisor, resiliencia y Chaos Studio'
+part: '18'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'finops'
+artifact: 'azure-optimization'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'cost'
+  - 'management'
+  - 'advisor'
+  - 'resiliencia'
+  - 'chaos'
+  - 'studio'

@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="004", kind="automation"))
+    raise SystemExit(main(lesson_id="004", kind="automation", title='Python, JSON y automatización mínima', artifact="script-de-diagnostico"))

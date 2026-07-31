@@ -1,0 +1,16 @@
+id: '235'
+number: 235
+title: 'Cloud SQL, Spanner, Firestore y Bigtable'
+part: '19'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'data'
+artifact: 'gcp-operational-data'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'cloud'
+  - 'sql'
+  - 'spanner'
+  - 'firestore'
+  - 'bigtable'

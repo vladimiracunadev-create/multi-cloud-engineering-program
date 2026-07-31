@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: cloudshop}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: cloudshop}}
+  template:
+    metadata: {labels: {app: cloudshop}}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: api
+          image: ghcr.io/example/cloudshop:2.0.0
+          ports: [{containerPort: 8080}]
+          resources: {requests: {cpu: 50m, memory: 64Mi}, limits: {cpu: 500m, memory: 256Mi}}
+          readinessProbe: {httpGet: {path: /health/ready, port: 8080}}
+          livenessProbe: {httpGet: {path: /health/live, port: 8080}}
+          securityContext: {allowPrivilegeEscalation: false, capabilities: {drop: ["ALL"]}, readOnlyRootFilesystem: true}

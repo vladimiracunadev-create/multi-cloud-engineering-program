@@ -1,0 +1,17 @@
+id: '204'
+number: 204
+title: 'Proyecto: red multi-región y multi-cloud'
+part: '16'
+level: 'avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'multicloud-network'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'proyecto'
+  - 'red'
+  - 'multi'
+  - 'región'
+  - 'multi'
+  - 'cloud'

@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="024", kind="capstone"))
+    raise SystemExit(main(lesson_id="024", kind="capstone", title='Proyecto: decisión de migración sustentada con ADR', artifact="adr-de-migracion"))

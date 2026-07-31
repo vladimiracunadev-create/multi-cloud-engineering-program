@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="009", kind="api"))
+    raise SystemExit(main(lesson_id="009", kind="api", title='APIs REST, autenticación y contratos', artifact="cliente-api-verificado"))

@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="073", kind="kubernetes"))
+    raise SystemExit(main(lesson_id="073", kind="kubernetes", title='API server, etcd, scheduler, controllers y kubelet', artifact="mapa-control-plane"))

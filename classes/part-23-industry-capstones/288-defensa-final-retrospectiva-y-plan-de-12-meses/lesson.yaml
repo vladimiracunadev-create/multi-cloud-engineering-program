@@ -1,0 +1,17 @@
+id: '288'
+number: 288
+title: 'Defensa final, retrospectiva y plan de 12 meses'
+part: '23'
+level: 'experto'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'final-defense'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'defensa'
+  - 'final'
+  - 'retrospectiva'
+  - 'plan'
+  - '12'
+  - 'meses'

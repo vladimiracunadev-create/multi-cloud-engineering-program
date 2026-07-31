@@ -1,0 +1,16 @@
+id: '190'
+number: 190
+title: 'ADRs, fitness functions y gobierno de decisiones'
+part: '15'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'architecture'
+artifact: 'adr-library'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'adrs'
+  - 'fitness'
+  - 'functions'
+  - 'gobierno'
+  - 'decisiones'

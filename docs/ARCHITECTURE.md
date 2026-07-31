@@ -3,13 +3,13 @@
 ## Fuente de verdad
 
 `scripts/course_data.py` define partes, clases, niveles, laboratorios, artefactos y libros.
-`scripts/generate_course.py` produce índices, 180 contratos de clase y los catálogos JSON.
+`scripts/generate_course.py` produce índices, 288 contratos de clase y los catálogos JSON.
 Los archivos generados se versionan para permitir estudio sin herramientas adicionales.
 
 ```mermaid
 flowchart TD
     A["scripts/course_data.py"] --> B["scripts/generate_course.py"]
-    B --> C["classes/: 180 clases"]
+    B --> C["classes/: 288 clases"]
     B --> D["curriculum/catalog.json"]
     B --> E["site/catalog.json"]
     C --> F["Alumno y docente"]

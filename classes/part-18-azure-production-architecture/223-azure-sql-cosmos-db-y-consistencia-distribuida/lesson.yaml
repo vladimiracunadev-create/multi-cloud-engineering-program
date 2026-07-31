@@ -1,0 +1,17 @@
+id: '223'
+number: 223
+title: 'Azure SQL, Cosmos DB y consistencia distribuida'
+part: '18'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'data'
+artifact: 'azure-data-platform'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'azure'
+  - 'sql'
+  - 'cosmos'
+  - 'db'
+  - 'consistencia'
+  - 'distribuida'

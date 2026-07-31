@@ -1,5 +1,7 @@
 """Canonical curriculum data for the Multi-Cloud Engineering Program."""
 
+from course_expansion import EXPANSION_PARTS
+
 PARTS = [
     {
         "slug": "foundations-computing-networking-linux",
@@ -333,6 +335,10 @@ PARTS = [
     },
 ]
 
+# Advanced domains are kept in a separate module so the original 180-class
+# sequence remains auditable while the complete 288-class program can evolve.
+PARTS.extend(EXPANSION_PARTS)
+
 
 LAB_EXPECTATIONS = {
     "foundation": "un mapa con fronteras, entradas, salidas y supuestos",
@@ -380,4 +386,5 @@ LAB_EXPECTATIONS = {
     "hybrid": "una topología híbrida con dependencia y modo degradado",
     "ai": "una arquitectura de IA con datos, cómputo, costo y seguridad",
     "edge": "un flujo edge que tolera desconexión y sincroniza estado",
+    "assessment": "una evaluación por escenarios con rúbrica y evidencia trazable",
 }

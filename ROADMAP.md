@@ -2,7 +2,7 @@
 
 ## 1.0 — núcleo completo
 
-- 180 clases y 15 índices generados.
+- 288 clases y 24 índices generados.
 - motor local determinista y CLI.
 - syllabus, metodología, rúbrica, rutas y capstone.
 - portal de estudio, pruebas y CI.

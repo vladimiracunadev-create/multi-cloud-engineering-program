@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="020", kind="finops"))
+    raise SystemExit(main(lesson_id="020", kind="finops", title='TCO, costos variables, unit economics y FinOps', artifact="caso-tco"))

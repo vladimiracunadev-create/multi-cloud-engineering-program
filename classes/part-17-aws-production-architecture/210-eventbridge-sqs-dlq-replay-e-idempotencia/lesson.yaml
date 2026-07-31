@@ -1,0 +1,17 @@
+id: '210'
+number: 210
+title: 'EventBridge, SQS, DLQ, replay e idempotencia'
+part: '17'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'messaging'
+artifact: 'aws-event-platform'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'eventbridge'
+  - 'sqs'
+  - 'dlq'
+  - 'replay'
+  - 'e'
+  - 'idempotencia'

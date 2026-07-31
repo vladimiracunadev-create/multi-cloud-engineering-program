@@ -2,7 +2,11 @@ __pycache__/
 *.py[cod]
 .venv/
 .site-deps/
+.vendor/
 .pytest_cache/
 *.egg-info/
 lab_result.json
 classes/**/lab_result.json
+.learning-progress.json
+certificate.html
+tmp/

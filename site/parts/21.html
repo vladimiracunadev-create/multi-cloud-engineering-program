@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 21 — Operación cloud, automatización y respuesta a incidentes ← Parte 20 ../part-20-cloud-data-ai-platforms/README.md · Índice completo ../README.md">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 21 — Operación cloud, automatización y respuesta a incidentes">
+  <meta property="og:description" content="Parte 21 — Operación cloud, automatización y respuesta a incidentes ← Parte 20 ../part-20-cloud-data-ai-platforms/README.md · Índice completo ../README.md">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/21.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/21.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 21 — Operación cloud, automatización y respuesta a incidentes", "description": "Parte 21 — Operación cloud, automatización y respuesta a incidentes ← Parte 20 ../part-20-cloud-data-ai-platforms/README.md · Índice completo ../README.md", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/21.html"}</script>
+  <title>Parte 21 — Operación cloud, automatización y respuesta a incidentes · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 21</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-21-operacion-cloud-automatizacion-y-respuesta-a-incidentes">Parte 21 — Operación cloud, automatización y respuesta a incidentes</h1>
+<blockquote>
+<p><a href="../part-20-cloud-data-ai-platforms/README.md">← Parte 20</a> · <a href="../README.md">Índice completo</a> · <a href="../part-22-specializations-certifications-career/README.md">Parte 22 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> avanzado · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Convertir la operación diaria en procesos observables, repetibles y progresivamente automatizados.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>Operar es controlar cambios bajo incertidumbre: inventario, señal, diagnóstico, acción reversible y aprendizaje deben formar un ciclo cerrado.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">253</td>
+<td><a href="253-inventario-etiquetado-cmdb-y-ownership/README.md">Inventario, etiquetado, CMDB y ownership</a></td>
+<td><code>governance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">254</td>
+<td><a href="254-patching-imagenes-doradas-y-gestion-de-configuracion/README.md">Patching, imágenes doradas y gestión de configuración</a></td>
+<td><code>operations</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">255</td>
+<td><a href="255-backups-restore-testing-vaults-e-inmutabilidad/README.md">Backups, restore testing, vaults e inmutabilidad</a></td>
+<td><code>reliability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">256</td>
+<td><a href="256-administracion-remota-sin-ssh-permanente/README.md">Administración remota sin SSH permanente</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">257</td>
+<td><a href="257-alertas-on-call-escalamiento-y-comunicacion/README.md">Alertas, on-call, escalamiento y comunicación</a></td>
+<td><code>incident</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">258</td>
+<td><a href="258-triage-de-red-computo-datos-y-dependencias/README.md">Triage de red, cómputo, datos y dependencias</a></td>
+<td><code>incident</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">259</td>
+<td><a href="259-runbooks-ejecutables-y-auto-remediation/README.md">Runbooks ejecutables y auto-remediation</a></td>
+<td><code>operations</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">260</td>
+<td><a href="260-change-management-ventanas-y-rollback/README.md">Change management, ventanas y rollback</a></td>
+<td><code>delivery</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">261</td>
+<td><a href="261-game-days-chaos-engineering-y-aprendizaje/README.md">Game days, chaos engineering y aprendizaje</a></td>
+<td><code>chaos</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">262</td>
+<td><a href="262-capacity-planning-cuotas-y-gestion-de-demanda/README.md">Capacity planning, cuotas y gestión de demanda</a></td>
+<td><code>capacity</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">263</td>
+<td><a href="263-aiops-automatizacion-asistida-y-limites-humanos/README.md">AIOps, automatización asistida y límites humanos</a></td>
+<td><code>governance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">264</td>
+<td><a href="264-proyecto-centro-de-operaciones-de-cloudshop/README.md">Proyecto: centro de operaciones de CloudShop</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>The Site Reliability Workbook — Beyer et al..</li>
+<li>Seeking SRE — Murphy et al..</li>
+<li>Effective DevOps — Davis y Daniels.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="253">
+          <label><input type="checkbox" data-lesson-complete="253"><span>253</span></label>
+          <div><a href="../classes/253.html">Inventario, etiquetado, CMDB y ownership</a><small>governance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="254">
+          <label><input type="checkbox" data-lesson-complete="254"><span>254</span></label>
+          <div><a href="../classes/254.html">Patching, imágenes doradas y gestión de configuración</a><small>operations · 4 h</small></div>
+        </article><article class="part-class" data-class-id="255">
+          <label><input type="checkbox" data-lesson-complete="255"><span>255</span></label>
+          <div><a href="../classes/255.html">Backups, restore testing, vaults e inmutabilidad</a><small>reliability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="256">
+          <label><input type="checkbox" data-lesson-complete="256"><span>256</span></label>
+          <div><a href="../classes/256.html">Administración remota sin SSH permanente</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="257">
+          <label><input type="checkbox" data-lesson-complete="257"><span>257</span></label>
+          <div><a href="../classes/257.html">Alertas, on-call, escalamiento y comunicación</a><small>incident · 4 h</small></div>
+        </article><article class="part-class" data-class-id="258">
+          <label><input type="checkbox" data-lesson-complete="258"><span>258</span></label>
+          <div><a href="../classes/258.html">Triage de red, cómputo, datos y dependencias</a><small>incident · 4 h</small></div>
+        </article><article class="part-class" data-class-id="259">
+          <label><input type="checkbox" data-lesson-complete="259"><span>259</span></label>
+          <div><a href="../classes/259.html">Runbooks ejecutables y auto-remediation</a><small>operations · 4 h</small></div>
+        </article><article class="part-class" data-class-id="260">
+          <label><input type="checkbox" data-lesson-complete="260"><span>260</span></label>
+          <div><a href="../classes/260.html">Change management, ventanas y rollback</a><small>delivery · 4 h</small></div>
+        </article><article class="part-class" data-class-id="261">
+          <label><input type="checkbox" data-lesson-complete="261"><span>261</span></label>
+          <div><a href="../classes/261.html">Game days, chaos engineering y aprendizaje</a><small>chaos · 4 h</small></div>
+        </article><article class="part-class" data-class-id="262">
+          <label><input type="checkbox" data-lesson-complete="262"><span>262</span></label>
+          <div><a href="../classes/262.html">Capacity planning, cuotas y gestión de demanda</a><small>capacity · 4 h</small></div>
+        </article><article class="part-class" data-class-id="263">
+          <label><input type="checkbox" data-lesson-complete="263"><span>263</span></label>
+          <div><a href="../classes/263.html">AIOps, automatización asistida y límites humanos</a><small>governance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="264">
+          <label><input type="checkbox" data-lesson-complete="264"><span>264</span></label>
+          <div><a href="../classes/264.html">Proyecto: centro de operaciones de CloudShop</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

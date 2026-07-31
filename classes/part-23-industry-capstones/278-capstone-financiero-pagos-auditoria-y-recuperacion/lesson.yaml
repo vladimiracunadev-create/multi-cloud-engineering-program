@@ -1,0 +1,16 @@
+id: '278'
+number: 278
+title: 'Capstone financiero: pagos, auditoría y recuperación'
+part: '23'
+level: 'experto'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'finance-capstone'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'capstone'
+  - 'financiero'
+  - 'pagos'
+  - 'auditoría'
+  - 'recuperación'

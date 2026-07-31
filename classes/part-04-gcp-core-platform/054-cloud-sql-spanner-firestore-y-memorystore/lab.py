@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="054", kind="data"))
+    raise SystemExit(main(lesson_id="054", kind="data", title='Cloud SQL, Spanner, Firestore y Memorystore', artifact="matriz-datos-gcp"))

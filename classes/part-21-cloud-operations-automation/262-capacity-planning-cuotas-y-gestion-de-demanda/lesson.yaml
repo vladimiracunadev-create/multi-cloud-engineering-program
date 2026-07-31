@@ -1,0 +1,16 @@
+id: '262'
+number: 262
+title: 'Capacity planning, cuotas y gestión de demanda'
+part: '21'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'capacity'
+artifact: 'capacity-plan'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'capacity'
+  - 'planning'
+  - 'cuotas'
+  - 'gestión'
+  - 'demanda'

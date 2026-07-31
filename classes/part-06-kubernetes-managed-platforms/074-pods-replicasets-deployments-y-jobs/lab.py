@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="074", kind="kubernetes"))
+    raise SystemExit(main(lesson_id="074", kind="kubernetes", title='Pods, ReplicaSets, Deployments y Jobs', artifact="workload-kubernetes"))

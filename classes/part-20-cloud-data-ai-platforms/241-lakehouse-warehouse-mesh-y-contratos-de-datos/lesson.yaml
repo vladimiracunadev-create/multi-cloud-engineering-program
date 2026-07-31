@@ -1,0 +1,16 @@
+id: '241'
+number: 241
+title: 'Lakehouse, warehouse, mesh y contratos de datos'
+part: '20'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'data'
+artifact: 'data-architecture'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'lakehouse'
+  - 'warehouse'
+  - 'mesh'
+  - 'contratos'
+  - 'datos'

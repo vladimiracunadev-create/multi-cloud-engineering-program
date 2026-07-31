@@ -1,0 +1,15 @@
+id: '228'
+number: 228
+title: 'Proyecto: CloudShop productivo en Azure'
+part: '18'
+level: 'avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'cloudshop-azure'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'proyecto'
+  - 'cloudshop'
+  - 'productivo'
+  - 'azure'

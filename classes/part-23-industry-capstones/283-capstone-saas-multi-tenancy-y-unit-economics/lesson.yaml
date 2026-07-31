@@ -1,0 +1,17 @@
+id: '283'
+number: 283
+title: 'Capstone SaaS: multi-tenancy y unit economics'
+part: '23'
+level: 'experto'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'saas-capstone'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'capstone'
+  - 'saas'
+  - 'multi'
+  - 'tenancy'
+  - 'unit'
+  - 'economics'

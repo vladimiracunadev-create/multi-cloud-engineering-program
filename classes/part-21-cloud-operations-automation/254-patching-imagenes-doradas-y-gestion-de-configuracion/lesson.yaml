@@ -1,0 +1,16 @@
+id: '254'
+number: 254
+title: 'Patching, imágenes doradas y gestión de configuración'
+part: '21'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'operations'
+artifact: 'patch-strategy'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'patching'
+  - 'imágenes'
+  - 'doradas'
+  - 'gestión'
+  - 'configuración'

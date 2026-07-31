@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#101512">
-  <meta name="description" content="Multi-Cloud Engineering Program: 180 clases en 15 partes, con laboratorios, evaluaciones, rutas, progreso y contenidos desde fundamentos hasta arquitectura multi-cloud experta.">
+  <meta name="description" content="Multi-Cloud Engineering Program: 288 clases en 24 partes, con prácticas, evaluaciones, arquitectura de sistemas y contenidos desde fundamentos hasta nube experta.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Multi-Cloud Engineering Program">
-  <meta property="og:description" content="180 clases · 15 partes · 788 horas · de fundamentos a ingeniería multi-cloud experta.">
+  <meta property="og:description" content="288 clases · 24 partes · 1.288 horas · de fundamentos a arquitectura multi-cloud experta.">
   <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/">
   <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -21,7 +21,7 @@
   <header class="app-header">
     <a class="brand" href="#dashboard" aria-label="Multi-Cloud Engineering Program">
       <span class="brand-icon">☁</span>
-      <span><strong>Multi-Cloud Engineering</strong><small>Programa 2026 · v1.1</small></span>
+      <span><strong>Multi-Cloud Engineering</strong><small>Programa 2026 · v2.0</small></span>
     </a>
     <nav class="primary-nav" aria-label="Vistas del programa">
       <button class="nav-tab active" data-view-target="dashboard">Panel</button>
@@ -32,7 +32,7 @@
     <div class="header-actions">
       <label class="global-search">
         <span aria-hidden="true">⌕</span>
-        <input id="global-search" type="search" placeholder="Buscar en 180 clases" autocomplete="off">
+        <input id="global-search" type="search" placeholder="Buscar en 288 clases" autocomplete="off">
       </label>
       <button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button>
       <button class="icon-button" id="data-menu-toggle" title="Gestionar progreso" aria-label="Gestionar progreso">⋮</button>
@@ -58,20 +58,21 @@
             <a class="button primary" id="continue-course" href="classes/001.html">▶ Continuar</a>
             <button class="button secondary" data-view-target="roadmap">Ver roadmap</button>
             <a class="button secondary" href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program">Código fuente</a>
+            <a class="button secondary" href="downloads/multi-cloud-engineering-manual-v2.0.pdf" download>Manual PDF</a>
           </div>
         </div>
         <div class="hero-progress">
           <div><span>Progreso global</span><strong id="hero-progress-label">0%</strong></div>
-          <progress id="hero-progress" max="180" value="0"></progress>
-          <small id="hero-progress-detail">0 de 180 clases</small>
+          <progress id="hero-progress" max="288" value="0"></progress>
+          <small id="hero-progress-detail">0 de 288 clases</small>
         </div>
       </div>
 
       <section class="metric-band" aria-label="Estado del programa">
-        <div><span>Clases</span><strong>180</strong><small>contenido completo</small></div>
-        <div><span>Partes</span><strong>15</strong><small>secuencia verificable</small></div>
-        <div><span>Duración</span><strong>788 h</strong><small>teoría + práctica</small></div>
-        <div><span>Laboratorios</span><strong>180</strong><small>entrypoints locales</small></div>
+        <div><span>Clases</span><strong>288</strong><small>contenido completo</small></div>
+        <div><span>Partes</span><strong>24</strong><small>secuencia verificable</small></div>
+        <div><span>Duración</span><strong>1.288 h</strong><small>teoría + práctica</small></div>
+        <div><span>Laboratorios</span><strong>288</strong><small>prácticas verificables</small></div>
         <div><span>Nubes</span><strong>3 + híbrida</strong><small>AWS · Azure · GCP</small></div>
       </section>
 
@@ -111,7 +112,7 @@
 
     <section class="app-view" id="curriculum-view" data-view="curriculum">
       <div class="view-header">
-        <div><p class="eyebrow">180 clases · fuente de verdad</p><h1>Currículo completo</h1><p>Filtra por parte, nivel, laboratorio o estado. Cada clase abre su contenido íntegro, evaluación y laboratorio.</p></div>
+        <div><p class="eyebrow">288 clases · fuente de verdad</p><h1>Currículo completo</h1><p>Filtra por parte, nivel, laboratorio o estado. Cada clase abre su contenido íntegro, evaluación y práctica.</p></div>
         <div class="view-progress"><strong id="curriculum-progress">0%</strong><span>completado</span></div>
       </div>
       <div class="curriculum-toolbar">
@@ -123,7 +124,7 @@
         </div>
         <select id="sort-control" aria-label="Ordenar clases"><option value="sequence">Secuencia</option><option value="title">Título</option><option value="hours">Duración</option></select>
       </div>
-      <div class="result-summary"><span id="result-count">180 clases</span><span id="result-hours">788 horas</span></div>
+      <div class="result-summary"><span id="result-count">288 clases</span><span id="result-hours">1.288 horas</span></div>
       <div class="curriculum-list" id="curriculum-list"></div>
       <p class="empty-state" id="empty-state" hidden>No hay clases para esta combinación.</p>
     </section>

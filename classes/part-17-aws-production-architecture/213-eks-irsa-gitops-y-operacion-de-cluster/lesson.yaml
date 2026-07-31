@@ -1,0 +1,16 @@
+id: '213'
+number: 213
+title: 'EKS, IRSA, GitOps y operación de clúster'
+part: '17'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'kubernetes'
+artifact: 'aws-eks-gitops'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'eks'
+  - 'irsa'
+  - 'gitops'
+  - 'operación'
+  - 'clúster'

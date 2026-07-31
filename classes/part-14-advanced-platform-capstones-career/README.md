@@ -1,6 +1,6 @@
 # Parte 14 — Plataformas avanzadas, capstones y carrera
 
-> [← Parte 13](../part-13-multicloud-hybrid-disaster-recovery/README.md) · [Índice completo](../README.md) · Fin
+> [← Parte 13](../part-13-multicloud-hybrid-disaster-recovery/README.md) · [Índice completo](../README.md) · [Parte 15 →](../part-15-systems-architecture-engineering/README.md)
 
 **Nivel:** experto-frontera · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 

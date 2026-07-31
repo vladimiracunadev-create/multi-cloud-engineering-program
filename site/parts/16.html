@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 16 — Redes cloud avanzadas, conectividad híbrida y edge ← Parte 15 ../part-15-systems-architecture-engineering/README.md · Índice completo ../README.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 16 — Redes cloud avanzadas, conectividad híbrida y edge">
+  <meta property="og:description" content="Parte 16 — Redes cloud avanzadas, conectividad híbrida y edge ← Parte 15 ../part-15-systems-architecture-engineering/README.md · Índice completo ../README.">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/16.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/16.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 16 — Redes cloud avanzadas, conectividad híbrida y edge", "description": "Parte 16 — Redes cloud avanzadas, conectividad híbrida y edge ← Parte 15 ../part-15-systems-architecture-engineering/README.md · Índice completo ../README.", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/16.html"}</script>
+  <title>Parte 16 — Redes cloud avanzadas, conectividad híbrida y edge · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 16</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-16-redes-cloud-avanzadas-conectividad-hibrida-y-edge">Parte 16 — Redes cloud avanzadas, conectividad híbrida y edge</h1>
+<blockquote>
+<p><a href="../part-15-systems-architecture-engineering/README.md">← Parte 15</a> · <a href="../README.md">Índice completo</a> · <a href="../part-17-aws-production-architecture/README.md">Parte 17 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> avanzado · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Diseñar conectividad segura y observable entre regiones, proveedores, centros de datos y edge.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>La red cloud es un sistema distribuido de rutas, identidades y políticas; cada salto añade latencia, costo y una frontera de fallo.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">193</td>
+<td><a href="193-cidr-subnetting-y-planificacion-ip-a-escala/README.md">CIDR, subnetting y planificación IP a escala</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">194</td>
+<td><a href="194-routing-bgp-transito-y-propagacion-de-rutas/README.md">Routing, BGP, tránsito y propagación de rutas</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">195</td>
+<td><a href="195-dns-autoritativo-recursivo-split-horizon-y-dnssec/README.md">DNS autoritativo, recursivo, split-horizon y DNSSEC</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">196</td>
+<td><a href="196-balanceo-l4-l7-proxies-tls-y-gestion-de-certificados/README.md">Balanceo L4/L7, proxies, TLS y gestión de certificados</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">197</td>
+<td><a href="197-cdn-cache-origin-shielding-y-edge-compute/README.md">CDN, caché, origin shielding y edge compute</a></td>
+<td><code>performance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">198</td>
+<td><a href="198-vpn-direct-connect-expressroute-e-interconnect/README.md">VPN, Direct Connect, ExpressRoute e Interconnect</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">199</td>
+<td><a href="199-transit-gateway-virtual-wan-y-network-connectivity-center/README.md">Transit Gateway, Virtual WAN y Network Connectivity Center</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">200</td>
+<td><a href="200-private-endpoints-service-networking-y-egress-control/README.md">Private endpoints, service networking y egress control</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">201</td>
+<td><a href="201-service-mesh-mtls-y-gestion-de-trafico-este-oeste/README.md">Service mesh, mTLS y gestión de tráfico este-oeste</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">202</td>
+<td><a href="202-ebpf-flow-logs-packet-capture-y-diagnostico/README.md">eBPF, flow logs, packet capture y diagnóstico</a></td>
+<td><code>observability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">203</td>
+<td><a href="203-sd-wan-5g-iot-y-operacion-desconectada/README.md">SD-WAN, 5G, IoT y operación desconectada</a></td>
+<td><code>architecture</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">204</td>
+<td><a href="204-proyecto-red-multi-region-y-multi-cloud/README.md">Proyecto: red multi-región y multi-cloud</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>Computer Networking: A Top-Down Approach — Kurose y Ross.</li>
+<li>Cloud Native Data Center Networking — Dinesh Dutt.</li>
+<li>AWS Advanced Networking Study Guide — S. Mahalingam.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="193">
+          <label><input type="checkbox" data-lesson-complete="193"><span>193</span></label>
+          <div><a href="../classes/193.html">CIDR, subnetting y planificación IP a escala</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="194">
+          <label><input type="checkbox" data-lesson-complete="194"><span>194</span></label>
+          <div><a href="../classes/194.html">Routing, BGP, tránsito y propagación de rutas</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="195">
+          <label><input type="checkbox" data-lesson-complete="195"><span>195</span></label>
+          <div><a href="../classes/195.html">DNS autoritativo, recursivo, split-horizon y DNSSEC</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="196">
+          <label><input type="checkbox" data-lesson-complete="196"><span>196</span></label>
+          <div><a href="../classes/196.html">Balanceo L4/L7, proxies, TLS y gestión de certificados</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="197">
+          <label><input type="checkbox" data-lesson-complete="197"><span>197</span></label>
+          <div><a href="../classes/197.html">CDN, caché, origin shielding y edge compute</a><small>performance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="198">
+          <label><input type="checkbox" data-lesson-complete="198"><span>198</span></label>
+          <div><a href="../classes/198.html">VPN, Direct Connect, ExpressRoute e Interconnect</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="199">
+          <label><input type="checkbox" data-lesson-complete="199"><span>199</span></label>
+          <div><a href="../classes/199.html">Transit Gateway, Virtual WAN y Network Connectivity Center</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="200">
+          <label><input type="checkbox" data-lesson-complete="200"><span>200</span></label>
+          <div><a href="../classes/200.html">Private endpoints, service networking y egress control</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="201">
+          <label><input type="checkbox" data-lesson-complete="201"><span>201</span></label>
+          <div><a href="../classes/201.html">Service mesh, mTLS y gestión de tráfico este-oeste</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="202">
+          <label><input type="checkbox" data-lesson-complete="202"><span>202</span></label>
+          <div><a href="../classes/202.html">eBPF, flow logs, packet capture y diagnóstico</a><small>observability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="203">
+          <label><input type="checkbox" data-lesson-complete="203"><span>203</span></label>
+          <div><a href="../classes/203.html">SD-WAN, 5G, IoT y operación desconectada</a><small>architecture · 4 h</small></div>
+        </article><article class="part-class" data-class-id="204">
+          <label><input type="checkbox" data-lesson-complete="204"><span>204</span></label>
+          <div><a href="../classes/204.html">Proyecto: red multi-región y multi-cloud</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="134", kind="iam"))
+    raise SystemExit(main(lesson_id="134", kind="iam", title='Mínimo privilegio, acceso temporal y separación de funciones', artifact="revision-accesos"))

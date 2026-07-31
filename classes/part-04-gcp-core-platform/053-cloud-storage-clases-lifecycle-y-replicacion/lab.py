@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="053", kind="storage"))
+    raise SystemExit(main(lesson_id="053", kind="storage", title='Cloud Storage, clases, lifecycle y replicación', artifact="bucket-gobernado-gcp"))

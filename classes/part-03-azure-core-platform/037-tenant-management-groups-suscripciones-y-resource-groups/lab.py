@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="037", kind="governance"))
+    raise SystemExit(main(lesson_id="037", kind="governance", title='Tenant, management groups, suscripciones y resource groups', artifact="jerarquia-azure"))

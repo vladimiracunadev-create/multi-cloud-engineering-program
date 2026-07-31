@@ -246,7 +246,7 @@ def build() -> None:
         ),
         encoding="utf-8",
     )
-    print(f"Generated {len(catalog)} class pages, 15 part pages and SEO assets.")
+    print(f"Generated {len(catalog)} class pages, {len({x['part'] for x in catalog})} part pages and SEO assets.")
 
 
 if __name__ == "__main__":

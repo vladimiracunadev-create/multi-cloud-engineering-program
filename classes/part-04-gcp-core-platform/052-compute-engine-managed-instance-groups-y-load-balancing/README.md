@@ -2,8 +2,8 @@
 
 > [← Clase anterior](../../part-04-gcp-core-platform/051-vpc-global-subredes-regionales-firewall-y-cloud-nat/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-04-gcp-core-platform/053-cloud-storage-clases-lifecycle-y-replicacion/README.md)
 
-**Parte:** 04 — Google Cloud: plataforma esencial  
-**Nivel:** intermedio · **Horas estimadas:** 4  
+**Parte:** 04 — Google Cloud: plataforma esencial<br>
+**Nivel:** intermedio · **Horas estimadas:** 4<br>
 **Laboratorio:** `compute` · **Estado:** `EXECUTABLE_CORE`
 
 ## 🎯 Propósito
@@ -108,14 +108,15 @@ Ejecuta desde la raíz:
 python classes/part-04-gcp-core-platform/052-compute-engine-managed-instance-groups-y-load-balancing/lab.py
 ```
 
-El laboratorio reutiliza un motor didáctico probado y produce `lab_result.json`. Su objetivo
-es practicar el contrato antes de depender de credenciales o una cuenta con costo.
+El laboratorio selecciona el motor de práctica **`compute`** y produce
+`lab_result.json`. El escenario, sus comprobaciones y el artefacto esperado corresponden a
+esta clase; no requiere credenciales y deja explícito qué debe revalidarse en un sandbox real.
 
-1. Ejecuta con la semilla predeterminada y conserva la salida.
-2. Repite con `--seed 42`; confirma qué cambia y qué permanece estable.
-3. Revisa `decision`, `evidence`, `limitations` y `cost_units`.
-4. Añade una prueba negativa relacionada con el tema de la clase.
-5. Documenta por qué la simulación no equivale a una validación en producción.
+1. Lee `exercise.steps` y formula una predicción antes de ejecutar.
+2. Ejecuta la práctica y verifica todos los elementos de `checks`.
+3. Provoca el caso de `negative_test` y explica la señal observada.
+4. Materializa `servicio-elastico-gcp` en `evidence/` usando la plantilla indicada.
+5. Para proveedor real, sigue `sandbox.requires`, registra costo y ejecuta `destroy`.
 
 ### Evidencia esperada
 

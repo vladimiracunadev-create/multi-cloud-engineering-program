@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="106", kind="platform"))
+    raise SystemExit(main(lesson_id="106", kind="platform", title='Platform engineering e Internal Developer Platform', artifact="mapa-capacidades-plataforma"))

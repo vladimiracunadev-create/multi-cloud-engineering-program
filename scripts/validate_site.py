@@ -33,8 +33,8 @@ def validate() -> list[str]:
     part_pages = sorted((SITE / "parts").glob("*.html"))
     if len(class_pages) != len(catalog):
         errors.append(f"expected {len(catalog)} class pages, found {len(class_pages)}")
-    if len(part_pages) != 15:
-        errors.append(f"expected 15 part pages, found {len(part_pages)}")
+    if len(part_pages) != 24:
+        errors.append(f"expected 24 part pages, found {len(part_pages)}")
 
     for item in catalog:
         page = SITE / "classes" / f"{item['id']}.html"
@@ -62,7 +62,7 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("Site valid: 180 classes, 15 parts, PWA and SEO assets complete.")
+    print("Site valid: 288 classes, 24 parts, PWA and SEO assets complete.")
     return 0
 
 

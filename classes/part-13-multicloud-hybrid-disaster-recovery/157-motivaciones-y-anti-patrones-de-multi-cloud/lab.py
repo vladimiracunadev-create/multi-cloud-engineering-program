@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="157", kind="decision"))
+    raise SystemExit(main(lesson_id="157", kind="decision", title='Motivaciones y anti-patrones de multi-cloud', artifact="decision-multicloud"))

@@ -7,7 +7,7 @@
   "theme_color": "#101412",
   "lang": "es",
   "scope": "./",
-  "description": "Programa completo de ingenieria multi-cloud con 180 clases, laboratorios y progreso local.",
+  "description": "Programa completo de ingenieria multi-cloud con 288 clases, practicas y progreso local.",
   "icons": [
     {"src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}
   ],

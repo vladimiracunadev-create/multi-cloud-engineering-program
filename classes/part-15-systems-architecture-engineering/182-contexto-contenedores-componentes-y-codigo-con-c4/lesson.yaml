@@ -1,0 +1,16 @@
+id: '182'
+number: 182
+title: 'Contexto, contenedores, componentes y código con C4'
+part: '15'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'architecture'
+artifact: 'c4-model'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'contexto'
+  - 'contenedores'
+  - 'componentes'
+  - 'código'
+  - 'c4'

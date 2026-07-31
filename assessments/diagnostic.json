@@ -1,0 +1,1 @@
+{"version":"2.0","passing_score":70,"dimensions":[{"id":"foundations","questions":12},{"id":"architecture","questions":12},{"id":"providers","questions":12},{"id":"delivery","questions":12},{"id":"operations","questions":12}],"routes":{"0-24":"start-001","25-44":"start-013","45-60":"choose-provider","61-80":"advanced-core","81-100":"capstone-validation"}}

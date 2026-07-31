@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="038", kind="iam"))
+    raise SystemExit(main(lesson_id="038", kind="iam", title='Microsoft Entra ID, RBAC, managed identities y PIM', artifact="identidad-azure"))
