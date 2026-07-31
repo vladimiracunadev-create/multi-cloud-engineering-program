@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="165", kind="hybrid"))
+    raise SystemExit(main(lesson_id="165", kind="hybrid", title='Nube híbrida, edge y conectividad privada', artifact="arquitectura-hibrida"))

@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="058", kind="security"))
+    raise SystemExit(main(lesson_id="058", kind="security", title='Cloud KMS, Secret Manager y Security Command Center', artifact="controles-gcp"))

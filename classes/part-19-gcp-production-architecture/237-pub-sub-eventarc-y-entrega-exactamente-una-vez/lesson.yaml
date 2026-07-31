@@ -1,0 +1,17 @@
+id: '237'
+number: 237
+title: 'Pub/Sub, Eventarc y entrega exactamente-una-vez'
+part: '19'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'messaging'
+artifact: 'gcp-event-platform'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'pub'
+  - 'sub'
+  - 'eventarc'
+  - 'entrega'
+  - 'exactamente'
+  - 'vez'

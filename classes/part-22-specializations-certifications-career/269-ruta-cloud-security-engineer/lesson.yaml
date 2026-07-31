@@ -1,0 +1,15 @@
+id: '269'
+number: 269
+title: 'Ruta Cloud Security Engineer'
+part: '22'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'decision'
+artifact: 'security-engineer-plan'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'ruta'
+  - 'cloud'
+  - 'security'
+  - 'engineer'

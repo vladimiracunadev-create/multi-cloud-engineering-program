@@ -1,0 +1,16 @@
+id: '240'
+number: 240
+title: 'Proyecto: CloudShop productivo en Google Cloud'
+part: '19'
+level: 'avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'cloudshop-gcp'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'proyecto'
+  - 'cloudshop'
+  - 'productivo'
+  - 'google'
+  - 'cloud'

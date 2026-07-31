@@ -1,0 +1,15 @@
+id: '264'
+number: 264
+title: 'Proyecto: centro de operaciones de CloudShop'
+part: '21'
+level: 'avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'cloudshop-operations'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'proyecto'
+  - 'centro'
+  - 'operaciones'
+  - 'cloudshop'

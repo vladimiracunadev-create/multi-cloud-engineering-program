@@ -1,0 +1,16 @@
+id: '194'
+number: 194
+title: 'Routing, BGP, tránsito y propagación de rutas'
+part: '16'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'network'
+artifact: 'routing-lab'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'routing'
+  - 'bgp'
+  - 'tránsito'
+  - 'propagación'
+  - 'rutas'

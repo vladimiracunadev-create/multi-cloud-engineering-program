@@ -1,7 +1,7 @@
 # Laboratorios ejecutables
 
-Cada una de las 180 clases incluye `lab.py`. Los entrypoints reutilizan
-`src/multicloud_program/labs.py`, que genera escenarios deterministas y un contrato JSON común.
+Cada una de las 288 clases incluye `lab.py`. Los entrypoints seleccionan una familia de
+práctica en `src/multicloud_program/labs.py` y generan un contrato JSON 2.0 verificable.
 
 ## Por qué existe un núcleo local
 

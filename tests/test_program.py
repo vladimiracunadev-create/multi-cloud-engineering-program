@@ -12,10 +12,10 @@ from validate_repository import validate
 
 
 class ProgramTests(unittest.TestCase):
-    def test_catalog_has_180_contiguous_lessons(self):
+    def test_catalog_has_288_contiguous_lessons(self):
         catalog = json.loads((ROOT / "curriculum" / "catalog.json").read_text(encoding="utf-8"))
-        self.assertEqual(180, len(catalog))
-        self.assertEqual([f"{n:03d}" for n in range(1, 181)], [x["id"] for x in catalog])
+        self.assertEqual(288, len(catalog))
+        self.assertEqual([f"{n:03d}" for n in range(1, 289)], [x["id"] for x in catalog])
 
     def test_lab_is_deterministic(self):
         first = run_lab("001", "foundation", 42)

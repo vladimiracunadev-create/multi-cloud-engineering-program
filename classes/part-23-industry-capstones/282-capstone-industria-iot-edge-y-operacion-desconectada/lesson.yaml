@@ -1,0 +1,17 @@
+id: '282'
+number: 282
+title: 'Capstone industria: IoT, edge y operación desconectada'
+part: '23'
+level: 'experto'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'industry-capstone'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'capstone'
+  - 'industria'
+  - 'iot'
+  - 'edge'
+  - 'operación'
+  - 'desconectada'

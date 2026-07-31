@@ -1,0 +1,16 @@
+id: '249'
+number: 249
+title: 'Agentes, tools, memoria, permisos y guardrails'
+part: '20'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'agent-architecture'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'agentes'
+  - 'tools'
+  - 'memoria'
+  - 'permisos'
+  - 'guardrails'

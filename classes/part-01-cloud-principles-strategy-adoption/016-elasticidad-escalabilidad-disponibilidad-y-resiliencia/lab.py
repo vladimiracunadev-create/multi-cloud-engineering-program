@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="016", kind="reliability"))
+    raise SystemExit(main(lesson_id="016", kind="reliability", title='Elasticidad, escalabilidad, disponibilidad y resiliencia', artifact="modelo-de-capacidad"))

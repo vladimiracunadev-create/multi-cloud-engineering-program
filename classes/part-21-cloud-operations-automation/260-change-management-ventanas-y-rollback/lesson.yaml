@@ -1,0 +1,15 @@
+id: '260'
+number: 260
+title: 'Change management, ventanas y rollback'
+part: '21'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'delivery'
+artifact: 'change-plan'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'change'
+  - 'management'
+  - 'ventanas'
+  - 'rollback'

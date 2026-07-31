@@ -1,0 +1,17 @@
+id: '231'
+number: 231
+title: 'Red global, load balancing, PSC y Cloud DNS'
+part: '19'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'network'
+artifact: 'gcp-network'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'red'
+  - 'global'
+  - 'load'
+  - 'balancing'
+  - 'psc'
+  - 'cloud'

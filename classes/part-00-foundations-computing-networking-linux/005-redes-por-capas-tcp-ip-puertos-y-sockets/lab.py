@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="005", kind="network"))
+    raise SystemExit(main(lesson_id="005", kind="network", title='Redes por capas, TCP/IP, puertos y sockets', artifact="captura-y-mapa-de-red"))

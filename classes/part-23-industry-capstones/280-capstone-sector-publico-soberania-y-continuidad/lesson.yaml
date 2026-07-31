@@ -1,0 +1,16 @@
+id: '280'
+number: 280
+title: 'Capstone sector público: soberanía y continuidad'
+part: '23'
+level: 'experto'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'public-sector-capstone'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'capstone'
+  - 'sector'
+  - 'público'
+  - 'soberanía'
+  - 'continuidad'

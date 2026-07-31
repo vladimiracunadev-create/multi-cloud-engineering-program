@@ -1,0 +1,17 @@
+id: '239'
+number: 239
+title: 'SCC, VPC Service Controls, KMS y FinOps'
+part: '19'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'gcp-security-finops'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'scc'
+  - 'vpc'
+  - 'service'
+  - 'controls'
+  - 'kms'
+  - 'finops'

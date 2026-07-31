@@ -1,0 +1,16 @@
+id: '281'
+number: 281
+title: 'Capstone media: streaming y distribución global'
+part: '23'
+level: 'experto'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'media-capstone'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'capstone'
+  - 'media'
+  - 'streaming'
+  - 'distribución'
+  - 'global'

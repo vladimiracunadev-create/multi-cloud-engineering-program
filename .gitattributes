@@ -1,0 +1,9 @@
+* text=auto
+*.pdf binary
+*.pptx binary
+*.png binary
+*.svg text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+Makefile text eol=lf

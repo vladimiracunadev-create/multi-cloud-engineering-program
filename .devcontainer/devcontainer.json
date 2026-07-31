@@ -1,0 +1,1 @@
+{"name":"Multi-Cloud Engineering","build":{"dockerfile":"Dockerfile"},"postCreateCommand":"python -m pip install -e '.[site]'","customizations":{"vscode":{"extensions":["ms-python.python","hashicorp.terraform","redhat.vscode-yaml"]}}}

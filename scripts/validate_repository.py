@@ -27,12 +27,14 @@ def validate(strict: bool = False) -> list[str]:
     if not catalog_path.exists():
         return ["missing curriculum/catalog.json"]
     catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
-    if len(catalog) != 180:
-        errors.append(f"expected 180 catalog entries, found {len(catalog)}")
+    expected_lessons = 288
+    expected_parts = 24
+    if len(catalog) != expected_lessons:
+        errors.append(f"expected {expected_lessons} catalog entries, found {len(catalog)}")
     if len({x["id"] for x in catalog}) != len(catalog):
         errors.append("catalog contains duplicate lesson ids")
-    if [x["id"] for x in catalog] != [f"{n:03d}" for n in range(1, 181)]:
-        errors.append("lesson ids are not contiguous from 001 to 180")
+    if [x["id"] for x in catalog] != [f"{n:03d}" for n in range(1, expected_lessons + 1)]:
+        errors.append(f"lesson ids are not contiguous from 001 to {expected_lessons}")
 
     for item in catalog:
         folder = ROOT / "classes" / f"part-{item['part']}-{item['part_slug']}" / f"{item['id']}-{item['slug']}"
@@ -53,12 +55,17 @@ def validate(strict: bool = False) -> list[str]:
             errors.append(f"{item['id']}: lesson.yaml id mismatch")
         if strict and len(readme.split()) < 700:
             errors.append(f"{item['id']}: lesson is too short for strict mode")
+        for pack in ("starter", "solution", "evidence"):
+            if not (folder / pack / "README.md").exists():
+                errors.append(f"{item['id']}: missing {pack} pack")
 
     part_indexes = list((ROOT / "classes").glob("part-*/README.md"))
-    if len(part_indexes) != 15:
-        errors.append(f"expected 15 part indexes, found {len(part_indexes)}")
+    if len(part_indexes) != expected_parts:
+        errors.append(f"expected {expected_parts} part indexes, found {len(part_indexes)}")
 
     for path in ROOT.rglob("*.md"):
+        if any(part in {".git", "tmp", "node_modules", ".venv", ".site-deps"} for part in path.parts):
+            continue
         text = path.read_text(encoding="utf-8")
         if re.search(r"\b(TODO|TBD|FIXME)\b", text):
             errors.append(f"placeholder marker in {path.relative_to(ROOT)}")
@@ -74,6 +81,11 @@ def validate(strict: bool = False) -> list[str]:
                 continue
             if not resolved.exists():
                 errors.append(f"broken link in {path.relative_to(ROOT)}: {target}")
+    required_surfaces = ["projects/cloudshop/app.py", "assessments/diagnostic.json", "docs/INSTRUCTOR_GUIDE.md", "docs/STUDENT_GUIDE.md", "apps/desktop/app.py", "output/pdf/multi-cloud-engineering-manual-v2.0.pdf", "output/pptx/multi-cloud-engineering-program-v2.0.pptx"]
+    for relative in required_surfaces:
+        if not (ROOT / relative).exists(): errors.append(f"missing program surface: {relative}")
+    dated = json.loads((ROOT / "data/cloud-catalog-2026-07.json").read_text(encoding="utf-8"))
+    if not dated.get("as_of") or not dated.get("policy"): errors.append("cloud catalog lacks version policy")
     return errors
 
 
@@ -87,7 +99,7 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("Repository valid: 180 lessons, 15 parts, class contracts complete.")
+    print("Repository valid: 288 lessons, 24 parts, class contracts complete.")
     return 0
 
 

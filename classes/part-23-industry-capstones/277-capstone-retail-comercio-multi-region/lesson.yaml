@@ -1,0 +1,16 @@
+id: '277'
+number: 277
+title: 'Capstone retail: comercio multi-región'
+part: '23'
+level: 'experto'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'retail-capstone'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'capstone'
+  - 'retail'
+  - 'comercio'
+  - 'multi'
+  - 'región'

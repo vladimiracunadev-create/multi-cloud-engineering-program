@@ -1,0 +1,16 @@
+id: '279'
+number: 279
+title: 'Capstone salud: privacidad e interoperabilidad'
+part: '23'
+level: 'experto'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'health-capstone'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'capstone'
+  - 'salud'
+  - 'privacidad'
+  - 'e'
+  - 'interoperabilidad'

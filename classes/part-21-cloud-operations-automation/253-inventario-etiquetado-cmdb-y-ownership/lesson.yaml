@@ -1,0 +1,15 @@
+id: '253'
+number: 253
+title: 'Inventario, etiquetado, CMDB y ownership'
+part: '21'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'governance'
+artifact: 'cloud-inventory'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'inventario'
+  - 'etiquetado'
+  - 'cmdb'
+  - 'ownership'

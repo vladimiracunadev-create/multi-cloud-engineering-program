@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="065", kind="network"))
+    raise SystemExit(main(lesson_id="065", kind="network", title='Redes bridge, DNS interno y publicación de puertos', artifact="red-contenedores"))

@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="095", kind="platform"))
+    raise SystemExit(main(lesson_id="095", kind="platform", title='Plantillas, golden paths y catálogo interno', artifact="plantilla-plataforma"))

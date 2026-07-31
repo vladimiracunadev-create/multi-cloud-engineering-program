@@ -1,0 +1,17 @@
+id: '244'
+number: 244
+title: 'Feature stores, training pipelines y experiment tracking'
+part: '20'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'platform'
+artifact: 'ml-platform'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'feature'
+  - 'stores'
+  - 'training'
+  - 'pipelines'
+  - 'experiment'
+  - 'tracking'

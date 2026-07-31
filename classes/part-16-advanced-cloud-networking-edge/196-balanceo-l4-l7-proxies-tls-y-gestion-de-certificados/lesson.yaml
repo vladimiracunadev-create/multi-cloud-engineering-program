@@ -1,0 +1,17 @@
+id: '196'
+number: 196
+title: 'Balanceo L4/L7, proxies, TLS y gestión de certificados'
+part: '16'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'network'
+artifact: 'traffic-entry'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'balanceo'
+  - 'l4'
+  - 'l7'
+  - 'proxies'
+  - 'tls'
+  - 'gestión'

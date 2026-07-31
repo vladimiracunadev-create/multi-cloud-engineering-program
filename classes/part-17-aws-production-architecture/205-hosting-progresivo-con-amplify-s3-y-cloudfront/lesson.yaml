@@ -1,0 +1,16 @@
+id: '205'
+number: 205
+title: 'Hosting progresivo con Amplify, S3 y CloudFront'
+part: '17'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'delivery'
+artifact: 'aws-static-platform'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'hosting'
+  - 'progresivo'
+  - 'amplify'
+  - 's3'
+  - 'cloudfront'

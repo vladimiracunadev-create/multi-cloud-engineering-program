@@ -159,14 +159,15 @@ sino una cadena trazable: requisito → mecanismo → prueba → señal → lím
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-06-kubernetes-managed-platforms/081-helm-kustomize-y-gestion-de-paquetes/lab.py
 </code></pre>
-<p>El laboratorio reutiliza un motor didáctico probado y produce <code>lab_result.json</code>. Su objetivo
-es practicar el contrato antes de depender de credenciales o una cuenta con costo.</p>
+<p>El laboratorio selecciona el motor de práctica <strong><code>configuration</code></strong> y produce
+<code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
+esta clase; no requiere credenciales y deja explícito qué debe revalidarse en un sandbox real.</p>
 <ol>
-<li>Ejecuta con la semilla predeterminada y conserva la salida.</li>
-<li>Repite con <code>--seed 42</code>; confirma qué cambia y qué permanece estable.</li>
-<li>Revisa <code>decision</code>, <code>evidence</code>, <code>limitations</code> y <code>cost_units</code>.</li>
-<li>Añade una prueba negativa relacionada con el tema de la clase.</li>
-<li>Documenta por qué la simulación no equivale a una validación en producción.</li>
+<li>Lee <code>exercise.steps</code> y formula una predicción antes de ejecutar.</li>
+<li>Ejecuta la práctica y verifica todos los elementos de <code>checks</code>.</li>
+<li>Provoca el caso de <code>negative_test</code> y explica la señal observada.</li>
+<li>Materializa <code>paquete-kubernetes</code> en <code>evidence/</code> usando la plantilla indicada.</li>
+<li>Para proveedor real, sigue <code>sandbox.requires</code>, registra costo y ejecuta <code>destroy</code>.</li>
 </ol>
 <h3 id="evidencia-esperada">Evidencia esperada</h3>
 <p>El artefacto principal es configuración separada, validada y promovible. Además, la entrega debe incluir el comando ejecutado,

@@ -1,0 +1,17 @@
+id: '206'
+number: 206
+title: 'OIDC de GitHub y GitLab hacia AWS sin secretos'
+part: '17'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'iam'
+artifact: 'aws-oidc-federation'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'oidc'
+  - 'github'
+  - 'gitlab'
+  - 'hacia'
+  - 'aws'
+  - 'sin'

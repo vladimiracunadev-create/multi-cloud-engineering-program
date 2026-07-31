@@ -45,12 +45,27 @@ KIND_RULES = {
     "capstone": ("integrate architecture, delivery, operations and evidence", "capstone_increment"),
 }
 
+PRACTICE_STEPS = {
+    "network": ["calcula el espacio de direcciones", "construye la tabla de rutas", "prueba conectividad y denegación"],
+    "iam": ["define principal, acción y recurso", "concede el mínimo privilegio", "demuestra una denegación esperada"],
+    "security": ["modela la amenaza", "aplica el control preventivo o detectivo", "conserva evidencia de eficacia"],
+    "iac": ["valida y formatea", "genera un plan sin secretos", "comprueba drift y destrucción"],
+    "container": ["construye una imagen reproducible", "inspecciona usuario, capas y SBOM", "ejecuta health check y apagado"],
+    "kubernetes": ["aplica estado deseado", "observa reconciliación y eventos", "provoca fallo y verifica recuperación"],
+    "data": ["declara patrones de acceso", "modela claves y consistencia", "prueba concurrencia y recuperación"],
+    "messaging": ["publica un contrato versionado", "simula reintento y duplicado", "envía el mensaje venenoso a DLQ"],
+    "observability": ["formula una pregunta operativa", "correlaciona logs, métricas y trazas", "crea una alerta accionable"],
+    "reliability": ["define SLI, RTO y RPO", "inyecta un fallo acotado", "mide detección y recuperación"],
+    "architecture": ["escribe escenarios de calidad", "compara estructuras y fronteras", "registra la decisión y fitness function"],
+    "capstone": ["integra el incremento", "ejecuta pruebas positivas y de fallo", "empaqueta evidencia y defensa"],
+}
+
 
 def _rule(kind: str) -> tuple[str, str]:
     return KIND_RULES.get(kind, (f"apply the {kind} contract with explicit evidence", "result"))
 
 
-def run_lab(lesson_id: str, kind: str, seed: int = 7) -> dict[str, Any]:
+def run_lab(lesson_id: str, kind: str, seed: int = 7, title: str = "", artifact: str = "evidence-pack") -> dict[str, Any]:
     rng = random.Random(f"{lesson_id}:{kind}:{seed}")
     baseline_rps = rng.randint(18, 42)
     peak_multiplier = rng.choice([3, 4, 5, 6])
@@ -60,10 +75,17 @@ def run_lab(lesson_id: str, kind: str, seed: int = 7) -> dict[str, Any]:
     failure_minutes = round((100 - availability_target) / 100 * 30 * 24 * 60, 2)
     decision, evidence_key = _rule(kind)
     digest = hashlib.sha256(f"{lesson_id}:{kind}:{seed}:{decision}".encode()).hexdigest()[:16]
+    steps = PRACTICE_STEPS.get(kind, [
+        f"define el contrato de {kind}",
+        "ejecuta el cambio en un entorno local aislado",
+        "verifica resultado, fallo y reversión",
+    ])
     return {
-        "contract_version": "1.0",
+        "contract_version": "2.0",
         "lesson_id": lesson_id,
         "kind": kind,
+        "title": title or f"Lesson {lesson_id}",
+        "artifact": artifact,
         "seed": seed,
         "scenario": {
             "baseline_rps": baseline_rps,
@@ -73,6 +95,12 @@ def run_lab(lesson_id: str, kind: str, seed: int = 7) -> dict[str, Any]:
             "allowed_failure_minutes_30d": failure_minutes,
         },
         "decision": decision,
+        "exercise": {"mode": "local-safe", "steps": steps, "deliverable": artifact},
+        "checks": [
+            {"id": "positive", "status": "pass", "evidence": f"positive:{digest}"},
+            {"id": "negative", "status": "pass", "evidence": f"denial:{digest}"},
+            {"id": "rollback", "status": "pass", "evidence": f"rollback:{digest}"},
+        ],
         evidence_key: {
             "status": "simulated-pass",
             "check_id": digest,
@@ -84,6 +112,11 @@ def run_lab(lesson_id: str, kind: str, seed: int = 7) -> dict[str, Any]:
             f"availability-budget:{failure_minutes}min/30d",
         ],
         "cost_units": ["requests", "runtime-hours", "stored-gb", "egress-gb"],
+        "sandbox": {
+            "requires": ["cuenta autorizada", "identidad federada temporal", "presupuesto y etiquetas"],
+            "cost_gate": "CLOUD_LAB_ALLOW_COST=1",
+            "destroy": "python scripts/cloud_lab.py destroy --lesson " + lesson_id,
+        },
         "negative_test": {
             "input": "unauthorized-or-over-capacity",
             "expected": "denied-or-degraded-with-signal",
@@ -97,7 +130,7 @@ def run_lab(lesson_id: str, kind: str, seed: int = 7) -> dict[str, Any]:
     }
 
 
-def main(lesson_id: str | None = None, kind: str | None = None) -> int:
+def main(lesson_id: str | None = None, kind: str | None = None, title: str = "", artifact: str = "evidence-pack") -> int:
     parser = argparse.ArgumentParser(description="Run a deterministic cloud engineering lab")
     parser.add_argument("--lesson-id", default=lesson_id)
     parser.add_argument("--kind", default=kind)
@@ -106,7 +139,7 @@ def main(lesson_id: str | None = None, kind: str | None = None) -> int:
     args = parser.parse_args()
     if not args.lesson_id or not args.kind:
         parser.error("--lesson-id and --kind are required")
-    result = run_lab(args.lesson_id, args.kind, args.seed)
+    result = run_lab(args.lesson_id, args.kind, args.seed, title, artifact)
     default_output = Path(__file__).resolve()
     invoked = Path(__import__("sys").argv[0]).resolve()
     if invoked.name == "lab.py":

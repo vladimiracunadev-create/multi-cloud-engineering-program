@@ -1,6 +1,6 @@
 # Índice completo de clases
 
-**180 clases · 15 partes · 788 horas estimadas · inicial → experto-frontera**
+**288 clases · 24 partes · 1.288 horas estimadas · inicial → experto**
 
 El orden es deliberado. Cada parte cierra con un proyecto que aporta evidencia al capstone
 continuo **CloudShop**. Quien ya domina fundamentos puede usar las rutas por rol, pero debe
@@ -23,6 +23,15 @@ validar los prerrequisitos con los retos de entrada.
 | 12 | [Arquitectura cloud-native y sistemas distribuidos](part-12-cloud-native-distributed-architecture/README.md) | 145–156 | 12 | avanzado-experto |
 | 13 | [Multi-cloud, híbrido, migración y recuperación](part-13-multicloud-hybrid-disaster-recovery/README.md) | 157–168 | 12 | experto |
 | 14 | [Plataformas avanzadas, capstones y carrera](part-14-advanced-platform-capstones-career/README.md) | 169–180 | 12 | experto-frontera |
+| 15 | [Arquitectura de sistemas e ingeniería de requisitos](part-15-systems-architecture-engineering/README.md) | 181–192 | 12 | intermedio-avanzado |
+| 16 | [Redes cloud avanzadas, conectividad híbrida y edge](part-16-advanced-cloud-networking-edge/README.md) | 193–204 | 12 | avanzado |
+| 17 | [AWS: arquitectura, automatización y operación en producción](part-17-aws-production-architecture/README.md) | 205–216 | 12 | avanzado |
+| 18 | [Azure: arquitectura empresarial y operación en producción](part-18-azure-production-architecture/README.md) | 217–228 | 12 | avanzado |
+| 19 | [Google Cloud: arquitectura de datos y operación en producción](part-19-gcp-production-architecture/README.md) | 229–240 | 12 | avanzado |
+| 20 | [Plataformas cloud de datos, analítica, IA y agentes](part-20-cloud-data-ai-platforms/README.md) | 241–252 | 12 | avanzado |
+| 21 | [Operación cloud, automatización y respuesta a incidentes](part-21-cloud-operations-automation/README.md) | 253–264 | 12 | avanzado |
+| 22 | [Especializaciones, certificaciones y práctica profesional](part-22-specializations-certifications-career/README.md) | 265–276 | 12 | intermedio-avanzado |
+| 23 | [Capstones por industria y defensa final](part-23-industry-capstones/README.md) | 277–288 | 12 | experto |
 
 ## Contrato de una clase
 

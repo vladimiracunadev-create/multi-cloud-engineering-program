@@ -1,0 +1,16 @@
+id: '251'
+number: 251
+title: 'Privacidad, gobernanza, sostenibilidad y costo de IA'
+part: '20'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'governance'
+artifact: 'responsible-ai-controls'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'privacidad'
+  - 'gobernanza'
+  - 'sostenibilidad'
+  - 'costo'
+  - 'ia'

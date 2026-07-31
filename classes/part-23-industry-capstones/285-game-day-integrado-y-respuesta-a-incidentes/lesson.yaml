@@ -1,0 +1,16 @@
+id: '285'
+number: 285
+title: 'Game day integrado y respuesta a incidentes'
+part: '23'
+level: 'experto'
+estimated_hours: 4
+lab_kind: 'chaos'
+artifact: 'final-gameday'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'game'
+  - 'day'
+  - 'integrado'
+  - 'respuesta'
+  - 'incidentes'

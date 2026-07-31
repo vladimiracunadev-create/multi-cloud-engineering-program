@@ -1,0 +1,16 @@
+id: '286'
+number: 286
+title: 'Revisión Well-Architected multi-proveedor'
+part: '23'
+level: 'experto'
+estimated_hours: 4
+lab_kind: 'architecture'
+artifact: 'final-architecture-review'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'revisión'
+  - 'well'
+  - 'architected'
+  - 'multi'
+  - 'proveedor'

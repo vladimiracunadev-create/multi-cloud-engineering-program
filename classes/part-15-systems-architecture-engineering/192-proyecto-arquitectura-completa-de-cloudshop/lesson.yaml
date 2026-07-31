@@ -1,0 +1,15 @@
+id: '192'
+number: 192
+title: 'Proyecto: arquitectura completa de CloudShop'
+part: '15'
+level: 'intermedio-avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'cloudshop-system-design'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'proyecto'
+  - 'arquitectura'
+  - 'completa'
+  - 'cloudshop'

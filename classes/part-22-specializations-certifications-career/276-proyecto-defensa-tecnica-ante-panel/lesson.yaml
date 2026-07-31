@@ -1,0 +1,16 @@
+id: '276'
+number: 276
+title: 'Proyecto: defensa técnica ante panel'
+part: '22'
+level: 'intermedio-avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'technical-defense'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'proyecto'
+  - 'defensa'
+  - 'técnica'
+  - 'ante'
+  - 'panel'

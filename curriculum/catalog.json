@@ -25,7 +25,12 @@
       "Pro Git — Chacon y Straub"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "foundations-computing-networking-linux",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "002",
@@ -54,7 +59,12 @@
       "Pro Git — Chacon y Straub"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "foundations-computing-networking-linux",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "003",
@@ -81,7 +91,12 @@
       "Pro Git — Chacon y Straub"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "foundations-computing-networking-linux",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "004",
@@ -108,7 +123,12 @@
       "Pro Git — Chacon y Straub"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "foundations-computing-networking-linux",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "005",
@@ -137,7 +157,12 @@
       "Pro Git — Chacon y Straub"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "foundations-computing-networking-linux",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "006",
@@ -166,7 +191,12 @@
       "Pro Git — Chacon y Straub"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "foundations-computing-networking-linux",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "007",
@@ -194,7 +224,12 @@
       "Pro Git — Chacon y Straub"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "foundations-computing-networking-linux",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "008",
@@ -221,7 +256,12 @@
       "Pro Git — Chacon y Straub"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "foundations-computing-networking-linux",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "009",
@@ -248,7 +288,12 @@
       "Pro Git — Chacon y Straub"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "foundations-computing-networking-linux",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "010",
@@ -275,7 +320,12 @@
       "Pro Git — Chacon y Straub"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "foundations-computing-networking-linux",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "011",
@@ -303,7 +353,12 @@
       "Pro Git — Chacon y Straub"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "foundations-computing-networking-linux",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "012",
@@ -331,7 +386,12 @@
       "Pro Git — Chacon y Straub"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "foundations-computing-networking-linux",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "013",
@@ -359,7 +419,12 @@
       "Accelerate — Forsgren, Humble y Kim"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "cloud-principles-strategy-adoption",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "014",
@@ -388,7 +453,12 @@
       "Accelerate — Forsgren, Humble y Kim"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "cloud-principles-strategy-adoption",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "015",
@@ -416,7 +486,12 @@
       "Accelerate — Forsgren, Humble y Kim"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "cloud-principles-strategy-adoption",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "016",
@@ -443,7 +518,12 @@
       "Accelerate — Forsgren, Humble y Kim"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "cloud-principles-strategy-adoption",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "017",
@@ -471,7 +551,12 @@
       "Accelerate — Forsgren, Humble y Kim"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "cloud-principles-strategy-adoption",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "018",
@@ -498,7 +583,12 @@
       "Accelerate — Forsgren, Humble y Kim"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "cloud-principles-strategy-adoption",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "019",
@@ -525,7 +615,12 @@
       "Accelerate — Forsgren, Humble y Kim"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "cloud-principles-strategy-adoption",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "020",
@@ -554,7 +649,12 @@
       "Accelerate — Forsgren, Humble y Kim"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "cloud-principles-strategy-adoption",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "021",
@@ -581,7 +681,12 @@
       "Accelerate — Forsgren, Humble y Kim"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "cloud-principles-strategy-adoption",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "022",
@@ -609,7 +714,12 @@
       "Accelerate — Forsgren, Humble y Kim"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "cloud-principles-strategy-adoption",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "023",
@@ -635,7 +745,12 @@
       "Accelerate — Forsgren, Humble y Kim"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "cloud-principles-strategy-adoption",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "024",
@@ -663,7 +778,12 @@
       "Accelerate — Forsgren, Humble y Kim"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "cloud-principles-strategy-adoption",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "025",
@@ -692,7 +812,12 @@
       "Amazon Web Services in Action — Wittig y Wittig"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "aws-core-platform",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
   },
   {
     "id": "026",
@@ -720,7 +845,12 @@
       "Amazon Web Services in Action — Wittig y Wittig"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "aws-core-platform",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
   },
   {
     "id": "027",
@@ -749,7 +879,12 @@
       "Amazon Web Services in Action — Wittig y Wittig"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "aws-core-platform",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
   },
   {
     "id": "028",
@@ -777,7 +912,12 @@
       "Amazon Web Services in Action — Wittig y Wittig"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "aws-core-platform",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
   },
   {
     "id": "029",
@@ -805,7 +945,12 @@
       "Amazon Web Services in Action — Wittig y Wittig"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "aws-core-platform",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
   },
   {
     "id": "030",
@@ -833,7 +978,12 @@
       "Amazon Web Services in Action — Wittig y Wittig"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "aws-core-platform",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
   },
   {
     "id": "031",
@@ -861,7 +1011,12 @@
       "Amazon Web Services in Action — Wittig y Wittig"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "aws-core-platform",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
   },
   {
     "id": "032",
@@ -889,7 +1044,12 @@
       "Amazon Web Services in Action — Wittig y Wittig"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "aws-core-platform",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
   },
   {
     "id": "033",
@@ -915,7 +1075,12 @@
       "Amazon Web Services in Action — Wittig y Wittig"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "aws-core-platform",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
   },
   {
     "id": "034",
@@ -943,7 +1108,12 @@
       "Amazon Web Services in Action — Wittig y Wittig"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "aws-core-platform",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
   },
   {
     "id": "035",
@@ -972,7 +1142,12 @@
       "Amazon Web Services in Action — Wittig y Wittig"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "aws-core-platform",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
   },
   {
     "id": "036",
@@ -1000,7 +1175,12 @@
       "Amazon Web Services in Action — Wittig y Wittig"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "aws-core-platform",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
   },
   {
     "id": "037",
@@ -1029,7 +1209,12 @@
       "Exam Ref AZ-305 — Microsoft Press"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "azure-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "038",
@@ -1058,7 +1243,12 @@
       "Exam Ref AZ-305 — Microsoft Press"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "azure-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "039",
@@ -1087,7 +1277,12 @@
       "Exam Ref AZ-305 — Microsoft Press"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "azure-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "040",
@@ -1116,7 +1311,12 @@
       "Exam Ref AZ-305 — Microsoft Press"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "azure-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "041",
@@ -1144,7 +1344,12 @@
       "Exam Ref AZ-305 — Microsoft Press"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "azure-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "042",
@@ -1173,7 +1378,12 @@
       "Exam Ref AZ-305 — Microsoft Press"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "azure-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "043",
@@ -1201,7 +1411,12 @@
       "Exam Ref AZ-305 — Microsoft Press"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "azure-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "044",
@@ -1230,7 +1445,12 @@
       "Exam Ref AZ-305 — Microsoft Press"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "azure-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "045",
@@ -1259,7 +1479,12 @@
       "Exam Ref AZ-305 — Microsoft Press"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "azure-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "046",
@@ -1288,7 +1513,12 @@
       "Exam Ref AZ-305 — Microsoft Press"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "azure-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "047",
@@ -1315,7 +1545,12 @@
       "Exam Ref AZ-305 — Microsoft Press"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "azure-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "048",
@@ -1343,7 +1578,12 @@
       "Exam Ref AZ-305 — Microsoft Press"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "azure-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "049",
@@ -1371,7 +1611,12 @@
       "Data Engineering with Google Cloud Platform — Adi Wijaya"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "gcp-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "050",
@@ -1400,7 +1645,12 @@
       "Data Engineering with Google Cloud Platform — Adi Wijaya"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "gcp-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "051",
@@ -1429,7 +1679,12 @@
       "Data Engineering with Google Cloud Platform — Adi Wijaya"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "gcp-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "052",
@@ -1458,7 +1713,12 @@
       "Data Engineering with Google Cloud Platform — Adi Wijaya"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "gcp-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "053",
@@ -1486,7 +1746,12 @@
       "Data Engineering with Google Cloud Platform — Adi Wijaya"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "gcp-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "054",
@@ -1514,7 +1779,12 @@
       "Data Engineering with Google Cloud Platform — Adi Wijaya"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "gcp-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "055",
@@ -1543,7 +1813,12 @@
       "Data Engineering with Google Cloud Platform — Adi Wijaya"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "gcp-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "056",
@@ -1571,7 +1846,12 @@
       "Data Engineering with Google Cloud Platform — Adi Wijaya"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "gcp-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "057",
@@ -1600,7 +1880,12 @@
       "Data Engineering with Google Cloud Platform — Adi Wijaya"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "gcp-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "058",
@@ -1629,7 +1914,12 @@
       "Data Engineering with Google Cloud Platform — Adi Wijaya"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "gcp-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "059",
@@ -1656,7 +1946,12 @@
       "Data Engineering with Google Cloud Platform — Adi Wijaya"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "gcp-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "060",
@@ -1685,7 +1980,12 @@
       "Data Engineering with Google Cloud Platform — Adi Wijaya"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "gcp-core-platform",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "061",
@@ -1713,7 +2013,12 @@
       "Cloud Native Patterns — Cornelia Davis"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "containers-docker-oci",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "062",
@@ -1741,7 +2046,12 @@
       "Cloud Native Patterns — Cornelia Davis"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "containers-docker-oci",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "063",
@@ -1768,7 +2078,12 @@
       "Cloud Native Patterns — Cornelia Davis"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "containers-docker-oci",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "064",
@@ -1795,7 +2110,12 @@
       "Cloud Native Patterns — Cornelia Davis"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "containers-docker-oci",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "065",
@@ -1824,7 +2144,12 @@
       "Cloud Native Patterns — Cornelia Davis"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "containers-docker-oci",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "066",
@@ -1851,7 +2176,12 @@
       "Cloud Native Patterns — Cornelia Davis"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "containers-docker-oci",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "067",
@@ -1879,7 +2209,12 @@
       "Cloud Native Patterns — Cornelia Davis"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "containers-docker-oci",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "068",
@@ -1907,7 +2242,12 @@
       "Cloud Native Patterns — Cornelia Davis"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "containers-docker-oci",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "069",
@@ -1934,7 +2274,12 @@
       "Cloud Native Patterns — Cornelia Davis"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "containers-docker-oci",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "070",
@@ -1962,7 +2307,12 @@
       "Cloud Native Patterns — Cornelia Davis"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "containers-docker-oci",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "071",
@@ -1989,7 +2339,12 @@
       "Cloud Native Patterns — Cornelia Davis"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "containers-docker-oci",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "072",
@@ -2017,7 +2372,12 @@
       "Cloud Native Patterns — Cornelia Davis"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "containers-docker-oci",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "073",
@@ -2046,7 +2406,12 @@
       "Production Kubernetes — Rosso et al."
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "kubernetes-managed-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "074",
@@ -2073,7 +2438,12 @@
       "Production Kubernetes — Rosso et al."
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "kubernetes-managed-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "075",
@@ -2101,7 +2471,12 @@
       "Production Kubernetes — Rosso et al."
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "kubernetes-managed-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "076",
@@ -2128,7 +2503,12 @@
       "Production Kubernetes — Rosso et al."
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "kubernetes-managed-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "077",
@@ -2155,7 +2535,12 @@
       "Production Kubernetes — Rosso et al."
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "kubernetes-managed-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "078",
@@ -2182,7 +2567,12 @@
       "Production Kubernetes — Rosso et al."
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "kubernetes-managed-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "079",
@@ -2209,7 +2599,12 @@
       "Production Kubernetes — Rosso et al."
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "kubernetes-managed-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "080",
@@ -2236,7 +2631,12 @@
       "Production Kubernetes — Rosso et al."
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "kubernetes-managed-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "081",
@@ -2263,7 +2663,12 @@
       "Production Kubernetes — Rosso et al."
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "kubernetes-managed-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "082",
@@ -2290,7 +2695,12 @@
       "Production Kubernetes — Rosso et al."
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "kubernetes-managed-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "083",
@@ -2318,7 +2728,12 @@
       "Production Kubernetes — Rosso et al."
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "kubernetes-managed-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "084",
@@ -2345,7 +2760,12 @@
       "Production Kubernetes — Rosso et al."
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "kubernetes-managed-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "085",
@@ -2372,7 +2792,12 @@
       "Ansible for DevOps — Jeff Geerling"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "infrastructure-as-code-configuration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "086",
@@ -2400,7 +2825,12 @@
       "Ansible for DevOps — Jeff Geerling"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "infrastructure-as-code-configuration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "087",
@@ -2428,7 +2858,12 @@
       "Ansible for DevOps — Jeff Geerling"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "infrastructure-as-code-configuration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "088",
@@ -2455,7 +2890,12 @@
       "Ansible for DevOps — Jeff Geerling"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "infrastructure-as-code-configuration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "089",
@@ -2483,7 +2923,12 @@
       "Ansible for DevOps — Jeff Geerling"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "infrastructure-as-code-configuration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "090",
@@ -2512,7 +2957,12 @@
       "Ansible for DevOps — Jeff Geerling"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "infrastructure-as-code-configuration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "091",
@@ -2541,7 +2991,12 @@
       "Ansible for DevOps — Jeff Geerling"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "infrastructure-as-code-configuration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "092",
@@ -2568,7 +3023,12 @@
       "Ansible for DevOps — Jeff Geerling"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "infrastructure-as-code-configuration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "093",
@@ -2595,7 +3055,12 @@
       "Ansible for DevOps — Jeff Geerling"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "infrastructure-as-code-configuration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "094",
@@ -2623,7 +3088,12 @@
       "Ansible for DevOps — Jeff Geerling"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "infrastructure-as-code-configuration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "095",
@@ -2651,7 +3121,12 @@
       "Ansible for DevOps — Jeff Geerling"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "infrastructure-as-code-configuration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "096",
@@ -2678,7 +3153,12 @@
       "Ansible for DevOps — Jeff Geerling"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "infrastructure-as-code-configuration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "097",
@@ -2707,7 +3187,12 @@
       "Team Topologies — Skelton y Pais"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "continuous-delivery-platform-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "098",
@@ -2736,7 +3221,12 @@
       "Team Topologies — Skelton y Pais"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "continuous-delivery-platform-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "099",
@@ -2763,7 +3253,12 @@
       "Team Topologies — Skelton y Pais"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "continuous-delivery-platform-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "100",
@@ -2790,7 +3285,12 @@
       "Team Topologies — Skelton y Pais"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "continuous-delivery-platform-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "101",
@@ -2819,7 +3319,12 @@
       "Team Topologies — Skelton y Pais"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "continuous-delivery-platform-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "102",
@@ -2847,7 +3352,12 @@
       "Team Topologies — Skelton y Pais"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "continuous-delivery-platform-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "103",
@@ -2875,7 +3385,12 @@
       "Team Topologies — Skelton y Pais"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "continuous-delivery-platform-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "104",
@@ -2903,7 +3418,12 @@
       "Team Topologies — Skelton y Pais"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "continuous-delivery-platform-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "105",
@@ -2931,7 +3451,12 @@
       "Team Topologies — Skelton y Pais"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "continuous-delivery-platform-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "106",
@@ -2960,7 +3485,12 @@
       "Team Topologies — Skelton y Pais"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "continuous-delivery-platform-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "107",
@@ -2988,7 +3518,12 @@
       "Team Topologies — Skelton y Pais"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "continuous-delivery-platform-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "108",
@@ -3016,7 +3551,12 @@
       "Team Topologies — Skelton y Pais"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "continuous-delivery-platform-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "109",
@@ -3043,7 +3583,12 @@
       "Building Event-Driven Microservices — Adam Bellemare"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "data-messaging-serverless-integration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "110",
@@ -3072,7 +3617,12 @@
       "Building Event-Driven Microservices — Adam Bellemare"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "data-messaging-serverless-integration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "111",
@@ -3099,7 +3649,12 @@
       "Building Event-Driven Microservices — Adam Bellemare"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "data-messaging-serverless-integration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "112",
@@ -3128,7 +3683,12 @@
       "Building Event-Driven Microservices — Adam Bellemare"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "data-messaging-serverless-integration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "113",
@@ -3157,7 +3717,12 @@
       "Building Event-Driven Microservices — Adam Bellemare"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "data-messaging-serverless-integration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "114",
@@ -3185,7 +3750,12 @@
       "Building Event-Driven Microservices — Adam Bellemare"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "data-messaging-serverless-integration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "115",
@@ -3212,7 +3782,12 @@
       "Building Event-Driven Microservices — Adam Bellemare"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "data-messaging-serverless-integration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "116",
@@ -3239,7 +3814,12 @@
       "Building Event-Driven Microservices — Adam Bellemare"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "data-messaging-serverless-integration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "117",
@@ -3267,7 +3847,12 @@
       "Building Event-Driven Microservices — Adam Bellemare"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "data-messaging-serverless-integration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "118",
@@ -3295,7 +3880,12 @@
       "Building Event-Driven Microservices — Adam Bellemare"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "data-messaging-serverless-integration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "119",
@@ -3321,7 +3911,12 @@
       "Building Event-Driven Microservices — Adam Bellemare"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "data-messaging-serverless-integration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "120",
@@ -3349,7 +3944,12 @@
       "Building Event-Driven Microservices — Adam Bellemare"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "stable"
+    "maturity": "stable",
+    "practice_track": "data-messaging-serverless-integration",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "121",
@@ -3377,7 +3977,12 @@
       "Observability Engineering — Majors, Fong-Jones y Miranda"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "observability-sre-reliability",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "122",
@@ -3404,7 +4009,12 @@
       "Observability Engineering — Majors, Fong-Jones y Miranda"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "observability-sre-reliability",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "123",
@@ -3432,7 +4042,12 @@
       "Observability Engineering — Majors, Fong-Jones y Miranda"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "observability-sre-reliability",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "124",
@@ -3458,7 +4073,12 @@
       "Observability Engineering — Majors, Fong-Jones y Miranda"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "observability-sre-reliability",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "125",
@@ -3485,7 +4105,12 @@
       "Observability Engineering — Majors, Fong-Jones y Miranda"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "observability-sre-reliability",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "126",
@@ -3513,7 +4138,12 @@
       "Observability Engineering — Majors, Fong-Jones y Miranda"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "observability-sre-reliability",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "127",
@@ -3540,7 +4170,12 @@
       "Observability Engineering — Majors, Fong-Jones y Miranda"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "observability-sre-reliability",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "128",
@@ -3567,7 +4202,12 @@
       "Observability Engineering — Majors, Fong-Jones y Miranda"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "observability-sre-reliability",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "129",
@@ -3594,7 +4234,12 @@
       "Observability Engineering — Majors, Fong-Jones y Miranda"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "observability-sre-reliability",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "130",
@@ -3623,7 +4268,12 @@
       "Observability Engineering — Majors, Fong-Jones y Miranda"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "observability-sre-reliability",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "131",
@@ -3650,7 +4300,12 @@
       "Observability Engineering — Majors, Fong-Jones y Miranda"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "observability-sre-reliability",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "132",
@@ -3677,7 +4332,12 @@
       "Observability Engineering — Majors, Fong-Jones y Miranda"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "observability-sre-reliability",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "133",
@@ -3704,7 +4364,12 @@
       "Cloud FinOps — Storment y Fuller"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "security-governance-finops",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "134",
@@ -3733,7 +4398,12 @@
       "Cloud FinOps — Storment y Fuller"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "security-governance-finops",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "135",
@@ -3761,7 +4431,12 @@
       "Cloud FinOps — Storment y Fuller"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "security-governance-finops",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "136",
@@ -3790,7 +4465,12 @@
       "Cloud FinOps — Storment y Fuller"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "security-governance-finops",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "137",
@@ -3817,7 +4497,12 @@
       "Cloud FinOps — Storment y Fuller"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "security-governance-finops",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "138",
@@ -3844,7 +4529,12 @@
       "Cloud FinOps — Storment y Fuller"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "security-governance-finops",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "139",
@@ -3873,7 +4563,12 @@
       "Cloud FinOps — Storment y Fuller"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "security-governance-finops",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "140",
@@ -3901,7 +4596,12 @@
       "Cloud FinOps — Storment y Fuller"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "security-governance-finops",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "141",
@@ -3928,7 +4628,12 @@
       "Cloud FinOps — Storment y Fuller"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "security-governance-finops",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "142",
@@ -3956,7 +4661,12 @@
       "Cloud FinOps — Storment y Fuller"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "security-governance-finops",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "143",
@@ -3983,7 +4693,12 @@
       "Cloud FinOps — Storment y Fuller"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "security-governance-finops",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "144",
@@ -4010,7 +4725,12 @@
       "Cloud FinOps — Storment y Fuller"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "security-governance-finops",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "145",
@@ -4038,7 +4758,12 @@
       "Designing Data-Intensive Applications — Martin Kleppmann"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "cloud-native-distributed-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "146",
@@ -4068,7 +4793,12 @@
       "Designing Data-Intensive Applications — Martin Kleppmann"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "cloud-native-distributed-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "147",
@@ -4097,7 +4827,12 @@
       "Designing Data-Intensive Applications — Martin Kleppmann"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "cloud-native-distributed-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "148",
@@ -4125,7 +4860,12 @@
       "Designing Data-Intensive Applications — Martin Kleppmann"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "cloud-native-distributed-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "149",
@@ -4153,7 +4893,12 @@
       "Designing Data-Intensive Applications — Martin Kleppmann"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "cloud-native-distributed-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "150",
@@ -4180,7 +4925,12 @@
       "Designing Data-Intensive Applications — Martin Kleppmann"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "cloud-native-distributed-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "151",
@@ -4208,7 +4958,12 @@
       "Designing Data-Intensive Applications — Martin Kleppmann"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "cloud-native-distributed-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "152",
@@ -4236,7 +4991,12 @@
       "Designing Data-Intensive Applications — Martin Kleppmann"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "cloud-native-distributed-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "153",
@@ -4264,7 +5024,12 @@
       "Designing Data-Intensive Applications — Martin Kleppmann"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "cloud-native-distributed-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "154",
@@ -4293,7 +5058,12 @@
       "Designing Data-Intensive Applications — Martin Kleppmann"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "cloud-native-distributed-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "155",
@@ -4321,7 +5091,12 @@
       "Designing Data-Intensive Applications — Martin Kleppmann"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "cloud-native-distributed-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "156",
@@ -4349,7 +5124,12 @@
       "Designing Data-Intensive Applications — Martin Kleppmann"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "cloud-native-distributed-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "157",
@@ -4377,7 +5157,12 @@
       "Enterprise Integration Patterns — Hohpe y Woolf"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "multicloud-hybrid-disaster-recovery",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "158",
@@ -4405,7 +5190,12 @@
       "Enterprise Integration Patterns — Hohpe y Woolf"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "multicloud-hybrid-disaster-recovery",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "159",
@@ -4432,7 +5222,12 @@
       "Enterprise Integration Patterns — Hohpe y Woolf"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "multicloud-hybrid-disaster-recovery",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "160",
@@ -4460,7 +5255,12 @@
       "Enterprise Integration Patterns — Hohpe y Woolf"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "multicloud-hybrid-disaster-recovery",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "161",
@@ -4488,7 +5288,12 @@
       "Enterprise Integration Patterns — Hohpe y Woolf"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "multicloud-hybrid-disaster-recovery",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "162",
@@ -4515,7 +5320,12 @@
       "Enterprise Integration Patterns — Hohpe y Woolf"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "multicloud-hybrid-disaster-recovery",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "163",
@@ -4543,7 +5353,12 @@
       "Enterprise Integration Patterns — Hohpe y Woolf"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "multicloud-hybrid-disaster-recovery",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "164",
@@ -4570,7 +5385,12 @@
       "Enterprise Integration Patterns — Hohpe y Woolf"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "multicloud-hybrid-disaster-recovery",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "165",
@@ -4598,7 +5418,12 @@
       "Enterprise Integration Patterns — Hohpe y Woolf"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "multicloud-hybrid-disaster-recovery",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "166",
@@ -4627,7 +5452,12 @@
       "Enterprise Integration Patterns — Hohpe y Woolf"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "multicloud-hybrid-disaster-recovery",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "167",
@@ -4653,7 +5483,12 @@
       "Enterprise Integration Patterns — Hohpe y Woolf"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "multicloud-hybrid-disaster-recovery",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "168",
@@ -4682,7 +5517,12 @@
       "Enterprise Integration Patterns — Hohpe y Woolf"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "multicloud-hybrid-disaster-recovery",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "169",
@@ -4710,7 +5550,12 @@
       "Fundamentals of Software Architecture — Richards y Ford"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "advanced-platform-capstones-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "170",
@@ -4739,7 +5584,12 @@
       "Fundamentals of Software Architecture — Richards y Ford"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "advanced-platform-capstones-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "171",
@@ -4767,7 +5617,12 @@
       "Fundamentals of Software Architecture — Richards y Ford"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "advanced-platform-capstones-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "172",
@@ -4795,7 +5650,12 @@
       "Fundamentals of Software Architecture — Richards y Ford"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "advanced-platform-capstones-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "173",
@@ -4822,7 +5682,12 @@
       "Fundamentals of Software Architecture — Richards y Ford"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "advanced-platform-capstones-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "174",
@@ -4849,7 +5714,12 @@
       "Fundamentals of Software Architecture — Richards y Ford"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "advanced-platform-capstones-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "175",
@@ -4878,7 +5748,12 @@
       "Fundamentals of Software Architecture — Richards y Ford"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "advanced-platform-capstones-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "176",
@@ -4905,7 +5780,12 @@
       "Fundamentals of Software Architecture — Richards y Ford"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "advanced-platform-capstones-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "177",
@@ -4932,7 +5812,12 @@
       "Fundamentals of Software Architecture — Richards y Ford"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "advanced-platform-capstones-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "178",
@@ -4958,7 +5843,12 @@
       "Fundamentals of Software Architecture — Richards y Ford"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "advanced-platform-capstones-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "179",
@@ -4984,7 +5874,12 @@
       "Fundamentals of Software Architecture — Richards y Ford"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "advanced-platform-capstones-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   },
   {
     "id": "180",
@@ -5012,6 +5907,3605 @@
       "Fundamentals of Software Architecture — Richards y Ford"
     ],
     "status": "EXECUTABLE_CORE",
-    "maturity": "evolving"
+    "maturity": "evolving",
+    "practice_track": "advanced-platform-capstones-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "181",
+    "number": 181,
+    "title": "Requisitos funcionales, restricciones y atributos de calidad",
+    "slug": "requisitos-funcionales-restricciones-y-atributos-de-calidad",
+    "part": "15",
+    "part_slug": "systems-architecture-engineering",
+    "part_title": "Arquitectura de sistemas e ingeniería de requisitos",
+    "part_class": 1,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "quality-attribute-scenarios",
+    "keywords": [
+      "requisitos",
+      "funcionales",
+      "restricciones",
+      "atributos",
+      "calidad"
+    ],
+    "books": [
+      "Software Architecture in Practice — Bass, Clements y Kazman",
+      "Fundamentals of Software Architecture — Richards y Ford",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "systems-architecture-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "182",
+    "number": 182,
+    "title": "Contexto, contenedores, componentes y código con C4",
+    "slug": "contexto-contenedores-componentes-y-codigo-con-c4",
+    "part": "15",
+    "part_slug": "systems-architecture-engineering",
+    "part_title": "Arquitectura de sistemas e ingeniería de requisitos",
+    "part_class": 2,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "c4-model",
+    "keywords": [
+      "contexto",
+      "contenedores",
+      "componentes",
+      "código",
+      "c4"
+    ],
+    "books": [
+      "Software Architecture in Practice — Bass, Clements y Kazman",
+      "Fundamentals of Software Architecture — Richards y Ford",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "systems-architecture-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "183",
+    "number": 183,
+    "title": "Acoplamiento, cohesión, modularidad y fronteras",
+    "slug": "acoplamiento-cohesion-modularidad-y-fronteras",
+    "part": "15",
+    "part_slug": "systems-architecture-engineering",
+    "part_title": "Arquitectura de sistemas e ingeniería de requisitos",
+    "part_class": 3,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "module-map",
+    "keywords": [
+      "acoplamiento",
+      "cohesión",
+      "modularidad",
+      "fronteras"
+    ],
+    "books": [
+      "Software Architecture in Practice — Bass, Clements y Kazman",
+      "Fundamentals of Software Architecture — Richards y Ford",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "systems-architecture-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "184",
+    "number": 184,
+    "title": "Arquitectura monolítica, modular y de microservicios",
+    "slug": "arquitectura-monolitica-modular-y-de-microservicios",
+    "part": "15",
+    "part_slug": "systems-architecture-engineering",
+    "part_title": "Arquitectura de sistemas e ingeniería de requisitos",
+    "part_class": 4,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "architecture-style-adr",
+    "keywords": [
+      "arquitectura",
+      "monolítica",
+      "modular",
+      "microservicios"
+    ],
+    "books": [
+      "Software Architecture in Practice — Bass, Clements y Kazman",
+      "Fundamentals of Software Architecture — Richards y Ford",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "systems-architecture-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "185",
+    "number": 185,
+    "title": "Disponibilidad, confiabilidad y análisis de puntos de fallo",
+    "slug": "disponibilidad-confiabilidad-y-analisis-de-puntos-de-fallo",
+    "part": "15",
+    "part_slug": "systems-architecture-engineering",
+    "part_title": "Arquitectura de sistemas e ingeniería de requisitos",
+    "part_class": 5,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "reliability",
+    "artifact": "failure-mode-analysis",
+    "keywords": [
+      "disponibilidad",
+      "confiabilidad",
+      "análisis",
+      "puntos",
+      "fallo"
+    ],
+    "books": [
+      "Software Architecture in Practice — Bass, Clements y Kazman",
+      "Fundamentals of Software Architecture — Richards y Ford",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "systems-architecture-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "186",
+    "number": 186,
+    "title": "Capacidad, latencia, throughput y teoría de colas",
+    "slug": "capacidad-latencia-throughput-y-teoria-de-colas",
+    "part": "15",
+    "part_slug": "systems-architecture-engineering",
+    "part_title": "Arquitectura de sistemas e ingeniería de requisitos",
+    "part_class": 6,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "performance",
+    "artifact": "capacity-model",
+    "keywords": [
+      "capacidad",
+      "latencia",
+      "throughput",
+      "teoría",
+      "colas"
+    ],
+    "books": [
+      "Software Architecture in Practice — Bass, Clements y Kazman",
+      "Fundamentals of Software Architecture — Richards y Ford",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "systems-architecture-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "187",
+    "number": 187,
+    "title": "Consistencia, particiones, relojes y consenso",
+    "slug": "consistencia-particiones-relojes-y-consenso",
+    "part": "15",
+    "part_slug": "systems-architecture-engineering",
+    "part_title": "Arquitectura de sistemas e ingeniería de requisitos",
+    "part_class": 7,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "distributed",
+    "artifact": "consistency-model",
+    "keywords": [
+      "consistencia",
+      "particiones",
+      "relojes",
+      "consenso"
+    ],
+    "books": [
+      "Software Architecture in Practice — Bass, Clements y Kazman",
+      "Fundamentals of Software Architecture — Richards y Ford",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "systems-architecture-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "188",
+    "number": 188,
+    "title": "Contratos de API, eventos y compatibilidad evolutiva",
+    "slug": "contratos-de-api-eventos-y-compatibilidad-evolutiva",
+    "part": "15",
+    "part_slug": "systems-architecture-engineering",
+    "part_title": "Arquitectura de sistemas e ingeniería de requisitos",
+    "part_class": 8,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "api",
+    "artifact": "contract-evolution",
+    "keywords": [
+      "contratos",
+      "api",
+      "eventos",
+      "compatibilidad",
+      "evolutiva"
+    ],
+    "books": [
+      "Software Architecture in Practice — Bass, Clements y Kazman",
+      "Fundamentals of Software Architecture — Richards y Ford",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "systems-architecture-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "189",
+    "number": 189,
+    "title": "Modelado de amenazas y arquitectura de confianza cero",
+    "slug": "modelado-de-amenazas-y-arquitectura-de-confianza-cero",
+    "part": "15",
+    "part_slug": "systems-architecture-engineering",
+    "part_title": "Arquitectura de sistemas e ingeniería de requisitos",
+    "part_class": 9,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "system-threat-model",
+    "keywords": [
+      "modelado",
+      "amenazas",
+      "arquitectura",
+      "confianza",
+      "cero"
+    ],
+    "books": [
+      "Software Architecture in Practice — Bass, Clements y Kazman",
+      "Fundamentals of Software Architecture — Richards y Ford",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "systems-architecture-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "190",
+    "number": 190,
+    "title": "ADRs, fitness functions y gobierno de decisiones",
+    "slug": "adrs-fitness-functions-y-gobierno-de-decisiones",
+    "part": "15",
+    "part_slug": "systems-architecture-engineering",
+    "part_title": "Arquitectura de sistemas e ingeniería de requisitos",
+    "part_class": 10,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "adr-library",
+    "keywords": [
+      "adrs",
+      "fitness",
+      "functions",
+      "gobierno",
+      "decisiones"
+    ],
+    "books": [
+      "Software Architecture in Practice — Bass, Clements y Kazman",
+      "Fundamentals of Software Architecture — Richards y Ford",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "systems-architecture-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "191",
+    "number": 191,
+    "title": "Architecture review y comunicación con stakeholders",
+    "slug": "architecture-review-y-comunicacion-con-stakeholders",
+    "part": "15",
+    "part_slug": "systems-architecture-engineering",
+    "part_title": "Arquitectura de sistemas e ingeniería de requisitos",
+    "part_class": 11,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "architecture-review",
+    "keywords": [
+      "architecture",
+      "review",
+      "comunicación",
+      "stakeholders"
+    ],
+    "books": [
+      "Software Architecture in Practice — Bass, Clements y Kazman",
+      "Fundamentals of Software Architecture — Richards y Ford",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "systems-architecture-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "192",
+    "number": 192,
+    "title": "Proyecto: arquitectura completa de CloudShop",
+    "slug": "proyecto-arquitectura-completa-de-cloudshop",
+    "part": "15",
+    "part_slug": "systems-architecture-engineering",
+    "part_title": "Arquitectura de sistemas e ingeniería de requisitos",
+    "part_class": 12,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "cloudshop-system-design",
+    "keywords": [
+      "proyecto",
+      "arquitectura",
+      "completa",
+      "cloudshop"
+    ],
+    "books": [
+      "Software Architecture in Practice — Bass, Clements y Kazman",
+      "Fundamentals of Software Architecture — Richards y Ford",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "systems-architecture-engineering",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "193",
+    "number": 193,
+    "title": "CIDR, subnetting y planificación IP a escala",
+    "slug": "cidr-subnetting-y-planificacion-ip-a-escala",
+    "part": "16",
+    "part_slug": "advanced-cloud-networking-edge",
+    "part_title": "Redes cloud avanzadas, conectividad híbrida y edge",
+    "part_class": 1,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "ipam-plan",
+    "keywords": [
+      "cidr",
+      "subnetting",
+      "planificación",
+      "ip",
+      "escala"
+    ],
+    "books": [
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Cloud Native Data Center Networking — Dinesh Dutt",
+      "AWS Advanced Networking Study Guide — S. Mahalingam"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "advanced-cloud-networking-edge",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "194",
+    "number": 194,
+    "title": "Routing, BGP, tránsito y propagación de rutas",
+    "slug": "routing-bgp-transito-y-propagacion-de-rutas",
+    "part": "16",
+    "part_slug": "advanced-cloud-networking-edge",
+    "part_title": "Redes cloud avanzadas, conectividad híbrida y edge",
+    "part_class": 2,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "routing-lab",
+    "keywords": [
+      "routing",
+      "bgp",
+      "tránsito",
+      "propagación",
+      "rutas"
+    ],
+    "books": [
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Cloud Native Data Center Networking — Dinesh Dutt",
+      "AWS Advanced Networking Study Guide — S. Mahalingam"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "advanced-cloud-networking-edge",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "195",
+    "number": 195,
+    "title": "DNS autoritativo, recursivo, split-horizon y DNSSEC",
+    "slug": "dns-autoritativo-recursivo-split-horizon-y-dnssec",
+    "part": "16",
+    "part_slug": "advanced-cloud-networking-edge",
+    "part_title": "Redes cloud avanzadas, conectividad híbrida y edge",
+    "part_class": 3,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "dns-design",
+    "keywords": [
+      "dns",
+      "autoritativo",
+      "recursivo",
+      "split",
+      "horizon",
+      "dnssec"
+    ],
+    "books": [
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Cloud Native Data Center Networking — Dinesh Dutt",
+      "AWS Advanced Networking Study Guide — S. Mahalingam"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "advanced-cloud-networking-edge",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "196",
+    "number": 196,
+    "title": "Balanceo L4/L7, proxies, TLS y gestión de certificados",
+    "slug": "balanceo-l4-l7-proxies-tls-y-gestion-de-certificados",
+    "part": "16",
+    "part_slug": "advanced-cloud-networking-edge",
+    "part_title": "Redes cloud avanzadas, conectividad híbrida y edge",
+    "part_class": 4,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "traffic-entry",
+    "keywords": [
+      "balanceo",
+      "l4",
+      "l7",
+      "proxies",
+      "tls",
+      "gestión"
+    ],
+    "books": [
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Cloud Native Data Center Networking — Dinesh Dutt",
+      "AWS Advanced Networking Study Guide — S. Mahalingam"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "advanced-cloud-networking-edge",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "197",
+    "number": 197,
+    "title": "CDN, caché, origin shielding y edge compute",
+    "slug": "cdn-cache-origin-shielding-y-edge-compute",
+    "part": "16",
+    "part_slug": "advanced-cloud-networking-edge",
+    "part_title": "Redes cloud avanzadas, conectividad híbrida y edge",
+    "part_class": 5,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "performance",
+    "artifact": "cdn-experiment",
+    "keywords": [
+      "cdn",
+      "caché",
+      "origin",
+      "shielding",
+      "edge",
+      "compute"
+    ],
+    "books": [
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Cloud Native Data Center Networking — Dinesh Dutt",
+      "AWS Advanced Networking Study Guide — S. Mahalingam"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "advanced-cloud-networking-edge",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "198",
+    "number": 198,
+    "title": "VPN, Direct Connect, ExpressRoute e Interconnect",
+    "slug": "vpn-direct-connect-expressroute-e-interconnect",
+    "part": "16",
+    "part_slug": "advanced-cloud-networking-edge",
+    "part_title": "Redes cloud avanzadas, conectividad híbrida y edge",
+    "part_class": 6,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "hybrid-connectivity",
+    "keywords": [
+      "vpn",
+      "direct",
+      "connect",
+      "expressroute",
+      "e",
+      "interconnect"
+    ],
+    "books": [
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Cloud Native Data Center Networking — Dinesh Dutt",
+      "AWS Advanced Networking Study Guide — S. Mahalingam"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "advanced-cloud-networking-edge",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "199",
+    "number": 199,
+    "title": "Transit Gateway, Virtual WAN y Network Connectivity Center",
+    "slug": "transit-gateway-virtual-wan-y-network-connectivity-center",
+    "part": "16",
+    "part_slug": "advanced-cloud-networking-edge",
+    "part_title": "Redes cloud avanzadas, conectividad híbrida y edge",
+    "part_class": 7,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "transit-comparison",
+    "keywords": [
+      "transit",
+      "gateway",
+      "virtual",
+      "wan",
+      "network",
+      "connectivity"
+    ],
+    "books": [
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Cloud Native Data Center Networking — Dinesh Dutt",
+      "AWS Advanced Networking Study Guide — S. Mahalingam"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "advanced-cloud-networking-edge",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "200",
+    "number": 200,
+    "title": "Private endpoints, service networking y egress control",
+    "slug": "private-endpoints-service-networking-y-egress-control",
+    "part": "16",
+    "part_slug": "advanced-cloud-networking-edge",
+    "part_title": "Redes cloud avanzadas, conectividad híbrida y edge",
+    "part_class": 8,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "private-connectivity",
+    "keywords": [
+      "private",
+      "endpoints",
+      "service",
+      "networking",
+      "egress",
+      "control"
+    ],
+    "books": [
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Cloud Native Data Center Networking — Dinesh Dutt",
+      "AWS Advanced Networking Study Guide — S. Mahalingam"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "advanced-cloud-networking-edge",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "201",
+    "number": 201,
+    "title": "Service mesh, mTLS y gestión de tráfico este-oeste",
+    "slug": "service-mesh-mtls-y-gestion-de-trafico-este-oeste",
+    "part": "16",
+    "part_slug": "advanced-cloud-networking-edge",
+    "part_title": "Redes cloud avanzadas, conectividad híbrida y edge",
+    "part_class": 9,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "service-mesh",
+    "keywords": [
+      "service",
+      "mesh",
+      "mtls",
+      "gestión",
+      "tráfico",
+      "este"
+    ],
+    "books": [
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Cloud Native Data Center Networking — Dinesh Dutt",
+      "AWS Advanced Networking Study Guide — S. Mahalingam"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "advanced-cloud-networking-edge",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "202",
+    "number": 202,
+    "title": "eBPF, flow logs, packet capture y diagnóstico",
+    "slug": "ebpf-flow-logs-packet-capture-y-diagnostico",
+    "part": "16",
+    "part_slug": "advanced-cloud-networking-edge",
+    "part_title": "Redes cloud avanzadas, conectividad híbrida y edge",
+    "part_class": 10,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "network-evidence",
+    "keywords": [
+      "ebpf",
+      "flow",
+      "logs",
+      "packet",
+      "capture",
+      "diagnóstico"
+    ],
+    "books": [
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Cloud Native Data Center Networking — Dinesh Dutt",
+      "AWS Advanced Networking Study Guide — S. Mahalingam"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "advanced-cloud-networking-edge",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "203",
+    "number": 203,
+    "title": "SD-WAN, 5G, IoT y operación desconectada",
+    "slug": "sd-wan-5g-iot-y-operacion-desconectada",
+    "part": "16",
+    "part_slug": "advanced-cloud-networking-edge",
+    "part_title": "Redes cloud avanzadas, conectividad híbrida y edge",
+    "part_class": 11,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "edge-topology",
+    "keywords": [
+      "sd",
+      "wan",
+      "5g",
+      "iot",
+      "operación",
+      "desconectada"
+    ],
+    "books": [
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Cloud Native Data Center Networking — Dinesh Dutt",
+      "AWS Advanced Networking Study Guide — S. Mahalingam"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "advanced-cloud-networking-edge",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "204",
+    "number": 204,
+    "title": "Proyecto: red multi-región y multi-cloud",
+    "slug": "proyecto-red-multi-region-y-multi-cloud",
+    "part": "16",
+    "part_slug": "advanced-cloud-networking-edge",
+    "part_title": "Redes cloud avanzadas, conectividad híbrida y edge",
+    "part_class": 12,
+    "level": "avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "multicloud-network",
+    "keywords": [
+      "proyecto",
+      "red",
+      "multi",
+      "región",
+      "multi",
+      "cloud"
+    ],
+    "books": [
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Cloud Native Data Center Networking — Dinesh Dutt",
+      "AWS Advanced Networking Study Guide — S. Mahalingam"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "advanced-cloud-networking-edge",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "205",
+    "number": 205,
+    "title": "Hosting progresivo con Amplify, S3 y CloudFront",
+    "slug": "hosting-progresivo-con-amplify-s3-y-cloudfront",
+    "part": "17",
+    "part_slug": "aws-production-architecture",
+    "part_title": "AWS: arquitectura, automatización y operación en producción",
+    "part_class": 1,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "delivery",
+    "artifact": "aws-static-platform",
+    "keywords": [
+      "hosting",
+      "progresivo",
+      "amplify",
+      "s3",
+      "cloudfront"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — Culkin y Zazon",
+      "Serverless Architectures on AWS — Peter Sbarski",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "aws-production-architecture",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
+  },
+  {
+    "id": "206",
+    "number": 206,
+    "title": "OIDC de GitHub y GitLab hacia AWS sin secretos",
+    "slug": "oidc-de-github-y-gitlab-hacia-aws-sin-secretos",
+    "part": "17",
+    "part_slug": "aws-production-architecture",
+    "part_title": "AWS: arquitectura, automatización y operación en producción",
+    "part_class": 2,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "iam",
+    "artifact": "aws-oidc-federation",
+    "keywords": [
+      "oidc",
+      "github",
+      "gitlab",
+      "hacia",
+      "aws",
+      "sin"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — Culkin y Zazon",
+      "Serverless Architectures on AWS — Peter Sbarski",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "aws-production-architecture",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
+  },
+  {
+    "id": "207",
+    "number": 207,
+    "title": "SAM, Lambda, API Gateway y despliegue serverless",
+    "slug": "sam-lambda-api-gateway-y-despliegue-serverless",
+    "part": "17",
+    "part_slug": "aws-production-architecture",
+    "part_title": "AWS: arquitectura, automatización y operación en producción",
+    "part_class": 3,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "serverless",
+    "artifact": "aws-serverless-api",
+    "keywords": [
+      "sam",
+      "lambda",
+      "api",
+      "gateway",
+      "despliegue",
+      "serverless"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — Culkin y Zazon",
+      "Serverless Architectures on AWS — Peter Sbarski",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "aws-production-architecture",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
+  },
+  {
+    "id": "208",
+    "number": 208,
+    "title": "DynamoDB por patrones de acceso y single-table design",
+    "slug": "dynamodb-por-patrones-de-acceso-y-single-table-design",
+    "part": "17",
+    "part_slug": "aws-production-architecture",
+    "part_title": "AWS: arquitectura, automatización y operación en producción",
+    "part_class": 4,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "aws-dynamodb-model",
+    "keywords": [
+      "dynamodb",
+      "patrones",
+      "acceso",
+      "single",
+      "table",
+      "design"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — Culkin y Zazon",
+      "Serverless Architectures on AWS — Peter Sbarski",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "aws-production-architecture",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
+  },
+  {
+    "id": "209",
+    "number": 209,
+    "title": "Cognito, JWT authorizers, WAF y defensa en profundidad",
+    "slug": "cognito-jwt-authorizers-waf-y-defensa-en-profundidad",
+    "part": "17",
+    "part_slug": "aws-production-architecture",
+    "part_title": "AWS: arquitectura, automatización y operación en producción",
+    "part_class": 5,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "aws-identity-edge",
+    "keywords": [
+      "cognito",
+      "jwt",
+      "authorizers",
+      "waf",
+      "defensa",
+      "profundidad"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — Culkin y Zazon",
+      "Serverless Architectures on AWS — Peter Sbarski",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "aws-production-architecture",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
+  },
+  {
+    "id": "210",
+    "number": 210,
+    "title": "EventBridge, SQS, DLQ, replay e idempotencia",
+    "slug": "eventbridge-sqs-dlq-replay-e-idempotencia",
+    "part": "17",
+    "part_slug": "aws-production-architecture",
+    "part_title": "AWS: arquitectura, automatización y operación en producción",
+    "part_class": 6,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "messaging",
+    "artifact": "aws-event-platform",
+    "keywords": [
+      "eventbridge",
+      "sqs",
+      "dlq",
+      "replay",
+      "e",
+      "idempotencia"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — Culkin y Zazon",
+      "Serverless Architectures on AWS — Peter Sbarski",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "aws-production-architecture",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
+  },
+  {
+    "id": "211",
+    "number": 211,
+    "title": "CloudWatch, X-Ray y observabilidad como código",
+    "slug": "cloudwatch-x-ray-y-observabilidad-como-codigo",
+    "part": "17",
+    "part_slug": "aws-production-architecture",
+    "part_title": "AWS: arquitectura, automatización y operación en producción",
+    "part_class": 7,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "aws-observability",
+    "keywords": [
+      "cloudwatch",
+      "x",
+      "ray",
+      "observabilidad",
+      "código"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — Culkin y Zazon",
+      "Serverless Architectures on AWS — Peter Sbarski",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "aws-production-architecture",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
+  },
+  {
+    "id": "212",
+    "number": 212,
+    "title": "ECR, ECS Fargate, ALB y autoscaling",
+    "slug": "ecr-ecs-fargate-alb-y-autoscaling",
+    "part": "17",
+    "part_slug": "aws-production-architecture",
+    "part_title": "AWS: arquitectura, automatización y operación en producción",
+    "part_class": 8,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "container",
+    "artifact": "aws-ecs-platform",
+    "keywords": [
+      "ecr",
+      "ecs",
+      "fargate",
+      "alb",
+      "autoscaling"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — Culkin y Zazon",
+      "Serverless Architectures on AWS — Peter Sbarski",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "aws-production-architecture",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
+  },
+  {
+    "id": "213",
+    "number": 213,
+    "title": "EKS, IRSA, GitOps y operación de clúster",
+    "slug": "eks-irsa-gitops-y-operacion-de-cluster",
+    "part": "17",
+    "part_slug": "aws-production-architecture",
+    "part_title": "AWS: arquitectura, automatización y operación en producción",
+    "part_class": 9,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "kubernetes",
+    "artifact": "aws-eks-gitops",
+    "keywords": [
+      "eks",
+      "irsa",
+      "gitops",
+      "operación",
+      "clúster"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — Culkin y Zazon",
+      "Serverless Architectures on AWS — Peter Sbarski",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "aws-production-architecture",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
+  },
+  {
+    "id": "214",
+    "number": 214,
+    "title": "Budgets, Cost Explorer, etiquetado y FinOps automatizado",
+    "slug": "budgets-cost-explorer-etiquetado-y-finops-automatizado",
+    "part": "17",
+    "part_slug": "aws-production-architecture",
+    "part_title": "AWS: arquitectura, automatización y operación en producción",
+    "part_class": 10,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "finops",
+    "artifact": "aws-cost-control",
+    "keywords": [
+      "budgets",
+      "cost",
+      "explorer",
+      "etiquetado",
+      "finops",
+      "automatizado"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — Culkin y Zazon",
+      "Serverless Architectures on AWS — Peter Sbarski",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "aws-production-architecture",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
+  },
+  {
+    "id": "215",
+    "number": 215,
+    "title": "Multi-región, Route 53, failover y game day",
+    "slug": "multi-region-route-53-failover-y-game-day",
+    "part": "17",
+    "part_slug": "aws-production-architecture",
+    "part_title": "AWS: arquitectura, automatización y operación en producción",
+    "part_class": 11,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "reliability",
+    "artifact": "aws-dr-drill",
+    "keywords": [
+      "multi",
+      "región",
+      "route",
+      "53",
+      "failover",
+      "game"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — Culkin y Zazon",
+      "Serverless Architectures on AWS — Peter Sbarski",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "aws-production-architecture",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
+  },
+  {
+    "id": "216",
+    "number": 216,
+    "title": "Proyecto: CloudShop productivo en AWS",
+    "slug": "proyecto-cloudshop-productivo-en-aws",
+    "part": "17",
+    "part_slug": "aws-production-architecture",
+    "part_title": "AWS: arquitectura, automatización y operación en producción",
+    "part_class": 12,
+    "level": "avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "cloudshop-aws",
+    "keywords": [
+      "proyecto",
+      "cloudshop",
+      "productivo",
+      "aws"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — Culkin y Zazon",
+      "Serverless Architectures on AWS — Peter Sbarski",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "aws-production-architecture",
+    "source_repositories": [
+      "proyectos-aws",
+      "proyectos-aws-gitlab"
+    ]
+  },
+  {
+    "id": "217",
+    "number": 217,
+    "title": "Enterprise-scale landing zones y management groups",
+    "slug": "enterprise-scale-landing-zones-y-management-groups",
+    "part": "18",
+    "part_slug": "azure-production-architecture",
+    "part_title": "Azure: arquitectura empresarial y operación en producción",
+    "part_class": 1,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "azure-landing-zone",
+    "keywords": [
+      "enterprise",
+      "scale",
+      "landing",
+      "zones",
+      "management",
+      "groups"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Exam Ref AZ-305 — Microsoft Press",
+      "Designing Distributed Systems — Brendan Burns"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "azure-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "218",
+    "number": 218,
+    "title": "Entra ID, workload identity, PIM y Conditional Access",
+    "slug": "entra-id-workload-identity-pim-y-conditional-access",
+    "part": "18",
+    "part_slug": "azure-production-architecture",
+    "part_title": "Azure: arquitectura empresarial y operación en producción",
+    "part_class": 2,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "iam",
+    "artifact": "azure-identity",
+    "keywords": [
+      "entra",
+      "id",
+      "workload",
+      "identity",
+      "pim",
+      "conditional"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Exam Ref AZ-305 — Microsoft Press",
+      "Designing Distributed Systems — Brendan Burns"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "azure-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "219",
+    "number": 219,
+    "title": "Hub-spoke, Virtual WAN, Private Link y DNS privado",
+    "slug": "hub-spoke-virtual-wan-private-link-y-dns-privado",
+    "part": "18",
+    "part_slug": "azure-production-architecture",
+    "part_title": "Azure: arquitectura empresarial y operación en producción",
+    "part_class": 3,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "azure-network",
+    "keywords": [
+      "hub",
+      "spoke",
+      "virtual",
+      "wan",
+      "private",
+      "link"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Exam Ref AZ-305 — Microsoft Press",
+      "Designing Distributed Systems — Brendan Burns"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "azure-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "220",
+    "number": 220,
+    "title": "Bicep, deployment stacks y Azure Verified Modules",
+    "slug": "bicep-deployment-stacks-y-azure-verified-modules",
+    "part": "18",
+    "part_slug": "azure-production-architecture",
+    "part_title": "Azure: arquitectura empresarial y operación en producción",
+    "part_class": 4,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "iac",
+    "artifact": "azure-bicep-stack",
+    "keywords": [
+      "bicep",
+      "deployment",
+      "stacks",
+      "azure",
+      "verified",
+      "modules"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Exam Ref AZ-305 — Microsoft Press",
+      "Designing Distributed Systems — Brendan Burns"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "azure-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "221",
+    "number": 221,
+    "title": "App Service, Functions y Container Apps en producción",
+    "slug": "app-service-functions-y-container-apps-en-produccion",
+    "part": "18",
+    "part_slug": "azure-production-architecture",
+    "part_title": "Azure: arquitectura empresarial y operación en producción",
+    "part_class": 5,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "serverless",
+    "artifact": "azure-app-platform",
+    "keywords": [
+      "app",
+      "service",
+      "functions",
+      "container",
+      "apps",
+      "producción"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Exam Ref AZ-305 — Microsoft Press",
+      "Designing Distributed Systems — Brendan Burns"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "azure-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "222",
+    "number": 222,
+    "title": "AKS, workload identity, ingress y GitOps",
+    "slug": "aks-workload-identity-ingress-y-gitops",
+    "part": "18",
+    "part_slug": "azure-production-architecture",
+    "part_title": "Azure: arquitectura empresarial y operación en producción",
+    "part_class": 6,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "kubernetes",
+    "artifact": "azure-aks-platform",
+    "keywords": [
+      "aks",
+      "workload",
+      "identity",
+      "ingress",
+      "gitops"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Exam Ref AZ-305 — Microsoft Press",
+      "Designing Distributed Systems — Brendan Burns"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "azure-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "223",
+    "number": 223,
+    "title": "Azure SQL, Cosmos DB y consistencia distribuida",
+    "slug": "azure-sql-cosmos-db-y-consistencia-distribuida",
+    "part": "18",
+    "part_slug": "azure-production-architecture",
+    "part_title": "Azure: arquitectura empresarial y operación en producción",
+    "part_class": 7,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "azure-data-platform",
+    "keywords": [
+      "azure",
+      "sql",
+      "cosmos",
+      "db",
+      "consistencia",
+      "distribuida"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Exam Ref AZ-305 — Microsoft Press",
+      "Designing Distributed Systems — Brendan Burns"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "azure-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "224",
+    "number": 224,
+    "title": "Service Bus, Event Grid y Event Hubs",
+    "slug": "service-bus-event-grid-y-event-hubs",
+    "part": "18",
+    "part_slug": "azure-production-architecture",
+    "part_title": "Azure: arquitectura empresarial y operación en producción",
+    "part_class": 8,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "messaging",
+    "artifact": "azure-event-platform",
+    "keywords": [
+      "service",
+      "bus",
+      "event",
+      "grid",
+      "event",
+      "hubs"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Exam Ref AZ-305 — Microsoft Press",
+      "Designing Distributed Systems — Brendan Burns"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "azure-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "225",
+    "number": 225,
+    "title": "Azure Monitor, Application Insights y OpenTelemetry",
+    "slug": "azure-monitor-application-insights-y-opentelemetry",
+    "part": "18",
+    "part_slug": "azure-production-architecture",
+    "part_title": "Azure: arquitectura empresarial y operación en producción",
+    "part_class": 9,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "azure-observability",
+    "keywords": [
+      "azure",
+      "monitor",
+      "application",
+      "insights",
+      "opentelemetry"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Exam Ref AZ-305 — Microsoft Press",
+      "Designing Distributed Systems — Brendan Burns"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "azure-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "226",
+    "number": 226,
+    "title": "Defender for Cloud, Policy y Sentinel",
+    "slug": "defender-for-cloud-policy-y-sentinel",
+    "part": "18",
+    "part_slug": "azure-production-architecture",
+    "part_title": "Azure: arquitectura empresarial y operación en producción",
+    "part_class": 10,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "azure-security-operations",
+    "keywords": [
+      "defender",
+      "for",
+      "cloud",
+      "policy",
+      "sentinel"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Exam Ref AZ-305 — Microsoft Press",
+      "Designing Distributed Systems — Brendan Burns"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "azure-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "227",
+    "number": 227,
+    "title": "Cost Management, Advisor, resiliencia y Chaos Studio",
+    "slug": "cost-management-advisor-resiliencia-y-chaos-studio",
+    "part": "18",
+    "part_slug": "azure-production-architecture",
+    "part_title": "Azure: arquitectura empresarial y operación en producción",
+    "part_class": 11,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "finops",
+    "artifact": "azure-optimization",
+    "keywords": [
+      "cost",
+      "management",
+      "advisor",
+      "resiliencia",
+      "chaos",
+      "studio"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Exam Ref AZ-305 — Microsoft Press",
+      "Designing Distributed Systems — Brendan Burns"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "azure-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "228",
+    "number": 228,
+    "title": "Proyecto: CloudShop productivo en Azure",
+    "slug": "proyecto-cloudshop-productivo-en-azure",
+    "part": "18",
+    "part_slug": "azure-production-architecture",
+    "part_title": "Azure: arquitectura empresarial y operación en producción",
+    "part_class": 12,
+    "level": "avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "cloudshop-azure",
+    "keywords": [
+      "proyecto",
+      "cloudshop",
+      "productivo",
+      "azure"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Exam Ref AZ-305 — Microsoft Press",
+      "Designing Distributed Systems — Brendan Burns"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "azure-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "229",
+    "number": 229,
+    "title": "Resource Manager, folders, Shared VPC y guardrails",
+    "slug": "resource-manager-folders-shared-vpc-y-guardrails",
+    "part": "19",
+    "part_slug": "gcp-production-architecture",
+    "part_title": "Google Cloud: arquitectura de datos y operación en producción",
+    "part_class": 1,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "gcp-foundation",
+    "keywords": [
+      "resource",
+      "manager",
+      "folders",
+      "shared",
+      "vpc",
+      "guardrails"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "gcp-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "230",
+    "number": 230,
+    "title": "Workload Identity Federation, IAM Conditions y PAM",
+    "slug": "workload-identity-federation-iam-conditions-y-pam",
+    "part": "19",
+    "part_slug": "gcp-production-architecture",
+    "part_title": "Google Cloud: arquitectura de datos y operación en producción",
+    "part_class": 2,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "iam",
+    "artifact": "gcp-identity",
+    "keywords": [
+      "workload",
+      "identity",
+      "federation",
+      "iam",
+      "conditions",
+      "pam"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "gcp-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "231",
+    "number": 231,
+    "title": "Red global, load balancing, PSC y Cloud DNS",
+    "slug": "red-global-load-balancing-psc-y-cloud-dns",
+    "part": "19",
+    "part_slug": "gcp-production-architecture",
+    "part_title": "Google Cloud: arquitectura de datos y operación en producción",
+    "part_class": 3,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "gcp-network",
+    "keywords": [
+      "red",
+      "global",
+      "load",
+      "balancing",
+      "psc",
+      "cloud"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "gcp-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "232",
+    "number": 232,
+    "title": "Terraform, Infrastructure Manager y policy validation",
+    "slug": "terraform-infrastructure-manager-y-policy-validation",
+    "part": "19",
+    "part_slug": "gcp-production-architecture",
+    "part_title": "Google Cloud: arquitectura de datos y operación en producción",
+    "part_class": 4,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "iac",
+    "artifact": "gcp-iac-stack",
+    "keywords": [
+      "terraform",
+      "infrastructure",
+      "manager",
+      "policy",
+      "validation"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "gcp-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "233",
+    "number": 233,
+    "title": "Cloud Run, Functions, API Gateway y Workflows",
+    "slug": "cloud-run-functions-api-gateway-y-workflows",
+    "part": "19",
+    "part_slug": "gcp-production-architecture",
+    "part_title": "Google Cloud: arquitectura de datos y operación en producción",
+    "part_class": 5,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "serverless",
+    "artifact": "gcp-serverless",
+    "keywords": [
+      "cloud",
+      "run",
+      "functions",
+      "api",
+      "gateway",
+      "workflows"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "gcp-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "234",
+    "number": 234,
+    "title": "GKE Autopilot, Workload Identity y Config Sync",
+    "slug": "gke-autopilot-workload-identity-y-config-sync",
+    "part": "19",
+    "part_slug": "gcp-production-architecture",
+    "part_title": "Google Cloud: arquitectura de datos y operación en producción",
+    "part_class": 6,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "kubernetes",
+    "artifact": "gcp-gke-platform",
+    "keywords": [
+      "gke",
+      "autopilot",
+      "workload",
+      "identity",
+      "config",
+      "sync"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "gcp-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "235",
+    "number": 235,
+    "title": "Cloud SQL, Spanner, Firestore y Bigtable",
+    "slug": "cloud-sql-spanner-firestore-y-bigtable",
+    "part": "19",
+    "part_slug": "gcp-production-architecture",
+    "part_title": "Google Cloud: arquitectura de datos y operación en producción",
+    "part_class": 7,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "gcp-operational-data",
+    "keywords": [
+      "cloud",
+      "sql",
+      "spanner",
+      "firestore",
+      "bigtable"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "gcp-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "236",
+    "number": 236,
+    "title": "BigQuery, Dataflow, Dataproc y gobernanza de datos",
+    "slug": "bigquery-dataflow-dataproc-y-gobernanza-de-datos",
+    "part": "19",
+    "part_slug": "gcp-production-architecture",
+    "part_title": "Google Cloud: arquitectura de datos y operación en producción",
+    "part_class": 8,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "gcp-analytics-platform",
+    "keywords": [
+      "bigquery",
+      "dataflow",
+      "dataproc",
+      "gobernanza",
+      "datos"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "gcp-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "237",
+    "number": 237,
+    "title": "Pub/Sub, Eventarc y entrega exactamente-una-vez",
+    "slug": "pub-sub-eventarc-y-entrega-exactamente-una-vez",
+    "part": "19",
+    "part_slug": "gcp-production-architecture",
+    "part_title": "Google Cloud: arquitectura de datos y operación en producción",
+    "part_class": 9,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "messaging",
+    "artifact": "gcp-event-platform",
+    "keywords": [
+      "pub",
+      "sub",
+      "eventarc",
+      "entrega",
+      "exactamente",
+      "vez"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "gcp-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "238",
+    "number": 238,
+    "title": "Cloud Operations, Trace y OpenTelemetry",
+    "slug": "cloud-operations-trace-y-opentelemetry",
+    "part": "19",
+    "part_slug": "gcp-production-architecture",
+    "part_title": "Google Cloud: arquitectura de datos y operación en producción",
+    "part_class": 10,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "gcp-observability",
+    "keywords": [
+      "cloud",
+      "operations",
+      "trace",
+      "opentelemetry"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "gcp-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "239",
+    "number": 239,
+    "title": "SCC, VPC Service Controls, KMS y FinOps",
+    "slug": "scc-vpc-service-controls-kms-y-finops",
+    "part": "19",
+    "part_slug": "gcp-production-architecture",
+    "part_title": "Google Cloud: arquitectura de datos y operación en producción",
+    "part_class": 11,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "gcp-security-finops",
+    "keywords": [
+      "scc",
+      "vpc",
+      "service",
+      "controls",
+      "kms",
+      "finops"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "gcp-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "240",
+    "number": 240,
+    "title": "Proyecto: CloudShop productivo en Google Cloud",
+    "slug": "proyecto-cloudshop-productivo-en-google-cloud",
+    "part": "19",
+    "part_slug": "gcp-production-architecture",
+    "part_title": "Google Cloud: arquitectura de datos y operación en producción",
+    "part_class": 12,
+    "level": "avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "cloudshop-gcp",
+    "keywords": [
+      "proyecto",
+      "cloudshop",
+      "productivo",
+      "google",
+      "cloud"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "gcp-production-architecture",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "241",
+    "number": 241,
+    "title": "Lakehouse, warehouse, mesh y contratos de datos",
+    "slug": "lakehouse-warehouse-mesh-y-contratos-de-datos",
+    "part": "20",
+    "part_slug": "cloud-data-ai-platforms",
+    "part_title": "Plataformas cloud de datos, analítica, IA y agentes",
+    "part_class": 1,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "data-architecture",
+    "keywords": [
+      "lakehouse",
+      "warehouse",
+      "mesh",
+      "contratos",
+      "datos"
+    ],
+    "books": [
+      "Designing Machine Learning Systems — Chip Huyen",
+      "Fundamentals of Data Engineering — Reis y Housley",
+      "Building Machine Learning Powered Applications — Emmanuel Ameisen"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-data-ai-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "242",
+    "number": 242,
+    "title": "Ingesta batch, CDC y streaming",
+    "slug": "ingesta-batch-cdc-y-streaming",
+    "part": "20",
+    "part_slug": "cloud-data-ai-platforms",
+    "part_title": "Plataformas cloud de datos, analítica, IA y agentes",
+    "part_class": 2,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "ingestion-pipeline",
+    "keywords": [
+      "ingesta",
+      "batch",
+      "cdc",
+      "streaming"
+    ],
+    "books": [
+      "Designing Machine Learning Systems — Chip Huyen",
+      "Fundamentals of Data Engineering — Reis y Housley",
+      "Building Machine Learning Powered Applications — Emmanuel Ameisen"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-data-ai-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "243",
+    "number": 243,
+    "title": "Orquestación, calidad, lineage y observabilidad de datos",
+    "slug": "orquestacion-calidad-lineage-y-observabilidad-de-datos",
+    "part": "20",
+    "part_slug": "cloud-data-ai-platforms",
+    "part_title": "Plataformas cloud de datos, analítica, IA y agentes",
+    "part_class": 3,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "data-reliability",
+    "keywords": [
+      "orquestación",
+      "calidad",
+      "lineage",
+      "observabilidad",
+      "datos"
+    ],
+    "books": [
+      "Designing Machine Learning Systems — Chip Huyen",
+      "Fundamentals of Data Engineering — Reis y Housley",
+      "Building Machine Learning Powered Applications — Emmanuel Ameisen"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-data-ai-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "244",
+    "number": 244,
+    "title": "Feature stores, training pipelines y experiment tracking",
+    "slug": "feature-stores-training-pipelines-y-experiment-tracking",
+    "part": "20",
+    "part_slug": "cloud-data-ai-platforms",
+    "part_title": "Plataformas cloud de datos, analítica, IA y agentes",
+    "part_class": 4,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "platform",
+    "artifact": "ml-platform",
+    "keywords": [
+      "feature",
+      "stores",
+      "training",
+      "pipelines",
+      "experiment",
+      "tracking"
+    ],
+    "books": [
+      "Designing Machine Learning Systems — Chip Huyen",
+      "Fundamentals of Data Engineering — Reis y Housley",
+      "Building Machine Learning Powered Applications — Emmanuel Ameisen"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-data-ai-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "245",
+    "number": 245,
+    "title": "Serving online, batch inference y escalado de modelos",
+    "slug": "serving-online-batch-inference-y-escalado-de-modelos",
+    "part": "20",
+    "part_slug": "cloud-data-ai-platforms",
+    "part_title": "Plataformas cloud de datos, analítica, IA y agentes",
+    "part_class": 5,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "performance",
+    "artifact": "model-serving",
+    "keywords": [
+      "serving",
+      "online",
+      "batch",
+      "inference",
+      "escalado",
+      "modelos"
+    ],
+    "books": [
+      "Designing Machine Learning Systems — Chip Huyen",
+      "Fundamentals of Data Engineering — Reis y Housley",
+      "Building Machine Learning Powered Applications — Emmanuel Ameisen"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-data-ai-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "246",
+    "number": 246,
+    "title": "MLOps, registro, promoción, drift y rollback",
+    "slug": "mlops-registro-promocion-drift-y-rollback",
+    "part": "20",
+    "part_slug": "cloud-data-ai-platforms",
+    "part_title": "Plataformas cloud de datos, analítica, IA y agentes",
+    "part_class": 6,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "delivery",
+    "artifact": "mlops-pipeline",
+    "keywords": [
+      "mlops",
+      "registro",
+      "promoción",
+      "drift",
+      "rollback"
+    ],
+    "books": [
+      "Designing Machine Learning Systems — Chip Huyen",
+      "Fundamentals of Data Engineering — Reis y Housley",
+      "Building Machine Learning Powered Applications — Emmanuel Ameisen"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-data-ai-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "247",
+    "number": 247,
+    "title": "Modelos fundacionales, tokens, embeddings y RAG",
+    "slug": "modelos-fundacionales-tokens-embeddings-y-rag",
+    "part": "20",
+    "part_slug": "cloud-data-ai-platforms",
+    "part_title": "Plataformas cloud de datos, analítica, IA y agentes",
+    "part_class": 7,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "rag-system",
+    "keywords": [
+      "modelos",
+      "fundacionales",
+      "tokens",
+      "embeddings",
+      "rag"
+    ],
+    "books": [
+      "Designing Machine Learning Systems — Chip Huyen",
+      "Fundamentals of Data Engineering — Reis y Housley",
+      "Building Machine Learning Powered Applications — Emmanuel Ameisen"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-data-ai-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "248",
+    "number": 248,
+    "title": "Bedrock, Azure AI Foundry y Vertex AI",
+    "slug": "bedrock-azure-ai-foundry-y-vertex-ai",
+    "part": "20",
+    "part_slug": "cloud-data-ai-platforms",
+    "part_title": "Plataformas cloud de datos, analítica, IA y agentes",
+    "part_class": 8,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "genai-provider-adr",
+    "keywords": [
+      "bedrock",
+      "azure",
+      "ai",
+      "foundry",
+      "vertex",
+      "ai"
+    ],
+    "books": [
+      "Designing Machine Learning Systems — Chip Huyen",
+      "Fundamentals of Data Engineering — Reis y Housley",
+      "Building Machine Learning Powered Applications — Emmanuel Ameisen"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-data-ai-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "249",
+    "number": 249,
+    "title": "Agentes, tools, memoria, permisos y guardrails",
+    "slug": "agentes-tools-memoria-permisos-y-guardrails",
+    "part": "20",
+    "part_slug": "cloud-data-ai-platforms",
+    "part_title": "Plataformas cloud de datos, analítica, IA y agentes",
+    "part_class": 9,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "agent-architecture",
+    "keywords": [
+      "agentes",
+      "tools",
+      "memoria",
+      "permisos",
+      "guardrails"
+    ],
+    "books": [
+      "Designing Machine Learning Systems — Chip Huyen",
+      "Fundamentals of Data Engineering — Reis y Housley",
+      "Building Machine Learning Powered Applications — Emmanuel Ameisen"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-data-ai-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "250",
+    "number": 250,
+    "title": "Evaluación de IA, red teaming y observabilidad",
+    "slug": "evaluacion-de-ia-red-teaming-y-observabilidad",
+    "part": "20",
+    "part_slug": "cloud-data-ai-platforms",
+    "part_title": "Plataformas cloud de datos, analítica, IA y agentes",
+    "part_class": 10,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "testing",
+    "artifact": "ai-evaluation",
+    "keywords": [
+      "evaluación",
+      "ia",
+      "red",
+      "teaming",
+      "observabilidad"
+    ],
+    "books": [
+      "Designing Machine Learning Systems — Chip Huyen",
+      "Fundamentals of Data Engineering — Reis y Housley",
+      "Building Machine Learning Powered Applications — Emmanuel Ameisen"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-data-ai-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "251",
+    "number": 251,
+    "title": "Privacidad, gobernanza, sostenibilidad y costo de IA",
+    "slug": "privacidad-gobernanza-sostenibilidad-y-costo-de-ia",
+    "part": "20",
+    "part_slug": "cloud-data-ai-platforms",
+    "part_title": "Plataformas cloud de datos, analítica, IA y agentes",
+    "part_class": 11,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "responsible-ai-controls",
+    "keywords": [
+      "privacidad",
+      "gobernanza",
+      "sostenibilidad",
+      "costo",
+      "ia"
+    ],
+    "books": [
+      "Designing Machine Learning Systems — Chip Huyen",
+      "Fundamentals of Data Engineering — Reis y Housley",
+      "Building Machine Learning Powered Applications — Emmanuel Ameisen"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-data-ai-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "252",
+    "number": 252,
+    "title": "Proyecto: asistente operativo de CloudShop",
+    "slug": "proyecto-asistente-operativo-de-cloudshop",
+    "part": "20",
+    "part_slug": "cloud-data-ai-platforms",
+    "part_title": "Plataformas cloud de datos, analítica, IA y agentes",
+    "part_class": 12,
+    "level": "avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "cloudshop-ai-assistant",
+    "keywords": [
+      "proyecto",
+      "asistente",
+      "operativo",
+      "cloudshop"
+    ],
+    "books": [
+      "Designing Machine Learning Systems — Chip Huyen",
+      "Fundamentals of Data Engineering — Reis y Housley",
+      "Building Machine Learning Powered Applications — Emmanuel Ameisen"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-data-ai-platforms",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "253",
+    "number": 253,
+    "title": "Inventario, etiquetado, CMDB y ownership",
+    "slug": "inventario-etiquetado-cmdb-y-ownership",
+    "part": "21",
+    "part_slug": "cloud-operations-automation",
+    "part_title": "Operación cloud, automatización y respuesta a incidentes",
+    "part_class": 1,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "cloud-inventory",
+    "keywords": [
+      "inventario",
+      "etiquetado",
+      "cmdb",
+      "ownership"
+    ],
+    "books": [
+      "The Site Reliability Workbook — Beyer et al.",
+      "Seeking SRE — Murphy et al.",
+      "Effective DevOps — Davis y Daniels"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-operations-automation",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "254",
+    "number": 254,
+    "title": "Patching, imágenes doradas y gestión de configuración",
+    "slug": "patching-imagenes-doradas-y-gestion-de-configuracion",
+    "part": "21",
+    "part_slug": "cloud-operations-automation",
+    "part_title": "Operación cloud, automatización y respuesta a incidentes",
+    "part_class": 2,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "operations",
+    "artifact": "patch-strategy",
+    "keywords": [
+      "patching",
+      "imágenes",
+      "doradas",
+      "gestión",
+      "configuración"
+    ],
+    "books": [
+      "The Site Reliability Workbook — Beyer et al.",
+      "Seeking SRE — Murphy et al.",
+      "Effective DevOps — Davis y Daniels"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-operations-automation",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "255",
+    "number": 255,
+    "title": "Backups, restore testing, vaults e inmutabilidad",
+    "slug": "backups-restore-testing-vaults-e-inmutabilidad",
+    "part": "21",
+    "part_slug": "cloud-operations-automation",
+    "part_title": "Operación cloud, automatización y respuesta a incidentes",
+    "part_class": 3,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "reliability",
+    "artifact": "backup-restore",
+    "keywords": [
+      "backups",
+      "restore",
+      "testing",
+      "vaults",
+      "e",
+      "inmutabilidad"
+    ],
+    "books": [
+      "The Site Reliability Workbook — Beyer et al.",
+      "Seeking SRE — Murphy et al.",
+      "Effective DevOps — Davis y Daniels"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-operations-automation",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "256",
+    "number": 256,
+    "title": "Administración remota sin SSH permanente",
+    "slug": "administracion-remota-sin-ssh-permanente",
+    "part": "21",
+    "part_slug": "cloud-operations-automation",
+    "part_title": "Operación cloud, automatización y respuesta a incidentes",
+    "part_class": 4,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "secure-operations",
+    "keywords": [
+      "administración",
+      "remota",
+      "sin",
+      "ssh",
+      "permanente"
+    ],
+    "books": [
+      "The Site Reliability Workbook — Beyer et al.",
+      "Seeking SRE — Murphy et al.",
+      "Effective DevOps — Davis y Daniels"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-operations-automation",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "257",
+    "number": 257,
+    "title": "Alertas, on-call, escalamiento y comunicación",
+    "slug": "alertas-on-call-escalamiento-y-comunicacion",
+    "part": "21",
+    "part_slug": "cloud-operations-automation",
+    "part_title": "Operación cloud, automatización y respuesta a incidentes",
+    "part_class": 5,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "incident",
+    "artifact": "oncall-system",
+    "keywords": [
+      "alertas",
+      "on",
+      "call",
+      "escalamiento",
+      "comunicación"
+    ],
+    "books": [
+      "The Site Reliability Workbook — Beyer et al.",
+      "Seeking SRE — Murphy et al.",
+      "Effective DevOps — Davis y Daniels"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-operations-automation",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "258",
+    "number": 258,
+    "title": "Triage de red, cómputo, datos y dependencias",
+    "slug": "triage-de-red-computo-datos-y-dependencias",
+    "part": "21",
+    "part_slug": "cloud-operations-automation",
+    "part_title": "Operación cloud, automatización y respuesta a incidentes",
+    "part_class": 6,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "incident",
+    "artifact": "diagnostic-tree",
+    "keywords": [
+      "triage",
+      "red",
+      "cómputo",
+      "datos",
+      "dependencias"
+    ],
+    "books": [
+      "The Site Reliability Workbook — Beyer et al.",
+      "Seeking SRE — Murphy et al.",
+      "Effective DevOps — Davis y Daniels"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-operations-automation",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "259",
+    "number": 259,
+    "title": "Runbooks ejecutables y auto-remediation",
+    "slug": "runbooks-ejecutables-y-auto-remediation",
+    "part": "21",
+    "part_slug": "cloud-operations-automation",
+    "part_title": "Operación cloud, automatización y respuesta a incidentes",
+    "part_class": 7,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "operations",
+    "artifact": "executable-runbook",
+    "keywords": [
+      "runbooks",
+      "ejecutables",
+      "auto",
+      "remediation"
+    ],
+    "books": [
+      "The Site Reliability Workbook — Beyer et al.",
+      "Seeking SRE — Murphy et al.",
+      "Effective DevOps — Davis y Daniels"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-operations-automation",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "260",
+    "number": 260,
+    "title": "Change management, ventanas y rollback",
+    "slug": "change-management-ventanas-y-rollback",
+    "part": "21",
+    "part_slug": "cloud-operations-automation",
+    "part_title": "Operación cloud, automatización y respuesta a incidentes",
+    "part_class": 8,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "delivery",
+    "artifact": "change-plan",
+    "keywords": [
+      "change",
+      "management",
+      "ventanas",
+      "rollback"
+    ],
+    "books": [
+      "The Site Reliability Workbook — Beyer et al.",
+      "Seeking SRE — Murphy et al.",
+      "Effective DevOps — Davis y Daniels"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-operations-automation",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "261",
+    "number": 261,
+    "title": "Game days, chaos engineering y aprendizaje",
+    "slug": "game-days-chaos-engineering-y-aprendizaje",
+    "part": "21",
+    "part_slug": "cloud-operations-automation",
+    "part_title": "Operación cloud, automatización y respuesta a incidentes",
+    "part_class": 9,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "chaos",
+    "artifact": "gameday-report",
+    "keywords": [
+      "game",
+      "days",
+      "chaos",
+      "engineering",
+      "aprendizaje"
+    ],
+    "books": [
+      "The Site Reliability Workbook — Beyer et al.",
+      "Seeking SRE — Murphy et al.",
+      "Effective DevOps — Davis y Daniels"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-operations-automation",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "262",
+    "number": 262,
+    "title": "Capacity planning, cuotas y gestión de demanda",
+    "slug": "capacity-planning-cuotas-y-gestion-de-demanda",
+    "part": "21",
+    "part_slug": "cloud-operations-automation",
+    "part_title": "Operación cloud, automatización y respuesta a incidentes",
+    "part_class": 10,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "capacity",
+    "artifact": "capacity-plan",
+    "keywords": [
+      "capacity",
+      "planning",
+      "cuotas",
+      "gestión",
+      "demanda"
+    ],
+    "books": [
+      "The Site Reliability Workbook — Beyer et al.",
+      "Seeking SRE — Murphy et al.",
+      "Effective DevOps — Davis y Daniels"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-operations-automation",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "263",
+    "number": 263,
+    "title": "AIOps, automatización asistida y límites humanos",
+    "slug": "aiops-automatizacion-asistida-y-limites-humanos",
+    "part": "21",
+    "part_slug": "cloud-operations-automation",
+    "part_title": "Operación cloud, automatización y respuesta a incidentes",
+    "part_class": 11,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "aiops-control",
+    "keywords": [
+      "aiops",
+      "automatización",
+      "asistida",
+      "límites",
+      "humanos"
+    ],
+    "books": [
+      "The Site Reliability Workbook — Beyer et al.",
+      "Seeking SRE — Murphy et al.",
+      "Effective DevOps — Davis y Daniels"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-operations-automation",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "264",
+    "number": 264,
+    "title": "Proyecto: centro de operaciones de CloudShop",
+    "slug": "proyecto-centro-de-operaciones-de-cloudshop",
+    "part": "21",
+    "part_slug": "cloud-operations-automation",
+    "part_title": "Operación cloud, automatización y respuesta a incidentes",
+    "part_class": 12,
+    "level": "avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "cloudshop-operations",
+    "keywords": [
+      "proyecto",
+      "centro",
+      "operaciones",
+      "cloudshop"
+    ],
+    "books": [
+      "The Site Reliability Workbook — Beyer et al.",
+      "Seeking SRE — Murphy et al.",
+      "Effective DevOps — Davis y Daniels"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "cloud-operations-automation",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "265",
+    "number": 265,
+    "title": "Ruta Cloud Engineer y mapa de competencias",
+    "slug": "ruta-cloud-engineer-y-mapa-de-competencias",
+    "part": "22",
+    "part_slug": "specializations-certifications-career",
+    "part_title": "Especializaciones, certificaciones y práctica profesional",
+    "part_class": 1,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "cloud-engineer-plan",
+    "keywords": [
+      "ruta",
+      "cloud",
+      "engineer",
+      "mapa",
+      "competencias"
+    ],
+    "books": [
+      "The Staff Engineer's Path — Tanya Reilly",
+      "The Manager's Path — Camille Fournier",
+      "Staff Engineer — Will Larson"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "specializations-certifications-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "266",
+    "number": 266,
+    "title": "Ruta DevOps y Delivery Engineer",
+    "slug": "ruta-devops-y-delivery-engineer",
+    "part": "22",
+    "part_slug": "specializations-certifications-career",
+    "part_title": "Especializaciones, certificaciones y práctica profesional",
+    "part_class": 2,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "devops-plan",
+    "keywords": [
+      "ruta",
+      "devops",
+      "delivery",
+      "engineer"
+    ],
+    "books": [
+      "The Staff Engineer's Path — Tanya Reilly",
+      "The Manager's Path — Camille Fournier",
+      "Staff Engineer — Will Larson"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "specializations-certifications-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "267",
+    "number": 267,
+    "title": "Ruta Platform Engineer",
+    "slug": "ruta-platform-engineer",
+    "part": "22",
+    "part_slug": "specializations-certifications-career",
+    "part_title": "Especializaciones, certificaciones y práctica profesional",
+    "part_class": 3,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "platform-engineer-plan",
+    "keywords": [
+      "ruta",
+      "platform",
+      "engineer"
+    ],
+    "books": [
+      "The Staff Engineer's Path — Tanya Reilly",
+      "The Manager's Path — Camille Fournier",
+      "Staff Engineer — Will Larson"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "specializations-certifications-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "268",
+    "number": 268,
+    "title": "Ruta Site Reliability Engineer",
+    "slug": "ruta-site-reliability-engineer",
+    "part": "22",
+    "part_slug": "specializations-certifications-career",
+    "part_title": "Especializaciones, certificaciones y práctica profesional",
+    "part_class": 4,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "sre-plan",
+    "keywords": [
+      "ruta",
+      "site",
+      "reliability",
+      "engineer"
+    ],
+    "books": [
+      "The Staff Engineer's Path — Tanya Reilly",
+      "The Manager's Path — Camille Fournier",
+      "Staff Engineer — Will Larson"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "specializations-certifications-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "269",
+    "number": 269,
+    "title": "Ruta Cloud Security Engineer",
+    "slug": "ruta-cloud-security-engineer",
+    "part": "22",
+    "part_slug": "specializations-certifications-career",
+    "part_title": "Especializaciones, certificaciones y práctica profesional",
+    "part_class": 5,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "security-engineer-plan",
+    "keywords": [
+      "ruta",
+      "cloud",
+      "security",
+      "engineer"
+    ],
+    "books": [
+      "The Staff Engineer's Path — Tanya Reilly",
+      "The Manager's Path — Camille Fournier",
+      "Staff Engineer — Will Larson"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "specializations-certifications-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "270",
+    "number": 270,
+    "title": "Ruta FinOps Practitioner",
+    "slug": "ruta-finops-practitioner",
+    "part": "22",
+    "part_slug": "specializations-certifications-career",
+    "part_title": "Especializaciones, certificaciones y práctica profesional",
+    "part_class": 6,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "finops-plan",
+    "keywords": [
+      "ruta",
+      "finops",
+      "practitioner"
+    ],
+    "books": [
+      "The Staff Engineer's Path — Tanya Reilly",
+      "The Manager's Path — Camille Fournier",
+      "Staff Engineer — Will Larson"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "specializations-certifications-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "271",
+    "number": 271,
+    "title": "Ruta Cloud Data y AI Engineer",
+    "slug": "ruta-cloud-data-y-ai-engineer",
+    "part": "22",
+    "part_slug": "specializations-certifications-career",
+    "part_title": "Especializaciones, certificaciones y práctica profesional",
+    "part_class": 7,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "data-ai-plan",
+    "keywords": [
+      "ruta",
+      "cloud",
+      "data",
+      "ai",
+      "engineer"
+    ],
+    "books": [
+      "The Staff Engineer's Path — Tanya Reilly",
+      "The Manager's Path — Camille Fournier",
+      "Staff Engineer — Will Larson"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "specializations-certifications-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "272",
+    "number": 272,
+    "title": "Ruta Cloud Solutions Architect",
+    "slug": "ruta-cloud-solutions-architect",
+    "part": "22",
+    "part_slug": "specializations-certifications-career",
+    "part_title": "Especializaciones, certificaciones y práctica profesional",
+    "part_class": 8,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "architect-plan",
+    "keywords": [
+      "ruta",
+      "cloud",
+      "solutions",
+      "architect"
+    ],
+    "books": [
+      "The Staff Engineer's Path — Tanya Reilly",
+      "The Manager's Path — Camille Fournier",
+      "Staff Engineer — Will Larson"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "specializations-certifications-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "273",
+    "number": 273,
+    "title": "Mapeo AWS, Azure, Google Cloud, Kubernetes y FinOps",
+    "slug": "mapeo-aws-azure-google-cloud-kubernetes-y-finops",
+    "part": "22",
+    "part_slug": "specializations-certifications-career",
+    "part_title": "Especializaciones, certificaciones y práctica profesional",
+    "part_class": 9,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "assessment",
+    "artifact": "certification-map",
+    "keywords": [
+      "mapeo",
+      "aws",
+      "azure",
+      "google",
+      "cloud",
+      "kubernetes"
+    ],
+    "books": [
+      "The Staff Engineer's Path — Tanya Reilly",
+      "The Manager's Path — Camille Fournier",
+      "Staff Engineer — Will Larson"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "specializations-certifications-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "274",
+    "number": 274,
+    "title": "Preguntas de escenario y estrategia de examen",
+    "slug": "preguntas-de-escenario-y-estrategia-de-examen",
+    "part": "22",
+    "part_slug": "specializations-certifications-career",
+    "part_title": "Especializaciones, certificaciones y práctica profesional",
+    "part_class": 10,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "assessment",
+    "artifact": "exam-simulation",
+    "keywords": [
+      "preguntas",
+      "escenario",
+      "estrategia",
+      "examen"
+    ],
+    "books": [
+      "The Staff Engineer's Path — Tanya Reilly",
+      "The Manager's Path — Camille Fournier",
+      "Staff Engineer — Will Larson"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "specializations-certifications-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "275",
+    "number": 275,
+    "title": "Portafolio, evidencia, README y entrevista de sistemas",
+    "slug": "portafolio-evidencia-readme-y-entrevista-de-sistemas",
+    "part": "22",
+    "part_slug": "specializations-certifications-career",
+    "part_title": "Especializaciones, certificaciones y práctica profesional",
+    "part_class": 11,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "assessment",
+    "artifact": "professional-portfolio",
+    "keywords": [
+      "portafolio",
+      "evidencia",
+      "readme",
+      "entrevista",
+      "sistemas"
+    ],
+    "books": [
+      "The Staff Engineer's Path — Tanya Reilly",
+      "The Manager's Path — Camille Fournier",
+      "Staff Engineer — Will Larson"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "specializations-certifications-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "276",
+    "number": 276,
+    "title": "Proyecto: defensa técnica ante panel",
+    "slug": "proyecto-defensa-tecnica-ante-panel",
+    "part": "22",
+    "part_slug": "specializations-certifications-career",
+    "part_title": "Especializaciones, certificaciones y práctica profesional",
+    "part_class": 12,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "technical-defense",
+    "keywords": [
+      "proyecto",
+      "defensa",
+      "técnica",
+      "ante",
+      "panel"
+    ],
+    "books": [
+      "The Staff Engineer's Path — Tanya Reilly",
+      "The Manager's Path — Camille Fournier",
+      "Staff Engineer — Will Larson"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "specializations-certifications-career",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "277",
+    "number": 277,
+    "title": "Capstone retail: comercio multi-región",
+    "slug": "capstone-retail-comercio-multi-region",
+    "part": "23",
+    "part_slug": "industry-capstones",
+    "part_title": "Capstones por industria y defensa final",
+    "part_class": 1,
+    "level": "experto",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "retail-capstone",
+    "keywords": [
+      "capstone",
+      "retail",
+      "comercio",
+      "multi",
+      "región"
+    ],
+    "books": [
+      "Building Evolutionary Architectures — Ford, Parsons y Kua",
+      "Release It! — Michael Nygard",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "industry-capstones",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "278",
+    "number": 278,
+    "title": "Capstone financiero: pagos, auditoría y recuperación",
+    "slug": "capstone-financiero-pagos-auditoria-y-recuperacion",
+    "part": "23",
+    "part_slug": "industry-capstones",
+    "part_title": "Capstones por industria y defensa final",
+    "part_class": 2,
+    "level": "experto",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "finance-capstone",
+    "keywords": [
+      "capstone",
+      "financiero",
+      "pagos",
+      "auditoría",
+      "recuperación"
+    ],
+    "books": [
+      "Building Evolutionary Architectures — Ford, Parsons y Kua",
+      "Release It! — Michael Nygard",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "industry-capstones",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "279",
+    "number": 279,
+    "title": "Capstone salud: privacidad e interoperabilidad",
+    "slug": "capstone-salud-privacidad-e-interoperabilidad",
+    "part": "23",
+    "part_slug": "industry-capstones",
+    "part_title": "Capstones por industria y defensa final",
+    "part_class": 3,
+    "level": "experto",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "health-capstone",
+    "keywords": [
+      "capstone",
+      "salud",
+      "privacidad",
+      "e",
+      "interoperabilidad"
+    ],
+    "books": [
+      "Building Evolutionary Architectures — Ford, Parsons y Kua",
+      "Release It! — Michael Nygard",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "industry-capstones",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "280",
+    "number": 280,
+    "title": "Capstone sector público: soberanía y continuidad",
+    "slug": "capstone-sector-publico-soberania-y-continuidad",
+    "part": "23",
+    "part_slug": "industry-capstones",
+    "part_title": "Capstones por industria y defensa final",
+    "part_class": 4,
+    "level": "experto",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "public-sector-capstone",
+    "keywords": [
+      "capstone",
+      "sector",
+      "público",
+      "soberanía",
+      "continuidad"
+    ],
+    "books": [
+      "Building Evolutionary Architectures — Ford, Parsons y Kua",
+      "Release It! — Michael Nygard",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "industry-capstones",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "281",
+    "number": 281,
+    "title": "Capstone media: streaming y distribución global",
+    "slug": "capstone-media-streaming-y-distribucion-global",
+    "part": "23",
+    "part_slug": "industry-capstones",
+    "part_title": "Capstones por industria y defensa final",
+    "part_class": 5,
+    "level": "experto",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "media-capstone",
+    "keywords": [
+      "capstone",
+      "media",
+      "streaming",
+      "distribución",
+      "global"
+    ],
+    "books": [
+      "Building Evolutionary Architectures — Ford, Parsons y Kua",
+      "Release It! — Michael Nygard",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "industry-capstones",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "282",
+    "number": 282,
+    "title": "Capstone industria: IoT, edge y operación desconectada",
+    "slug": "capstone-industria-iot-edge-y-operacion-desconectada",
+    "part": "23",
+    "part_slug": "industry-capstones",
+    "part_title": "Capstones por industria y defensa final",
+    "part_class": 6,
+    "level": "experto",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "industry-capstone",
+    "keywords": [
+      "capstone",
+      "industria",
+      "iot",
+      "edge",
+      "operación",
+      "desconectada"
+    ],
+    "books": [
+      "Building Evolutionary Architectures — Ford, Parsons y Kua",
+      "Release It! — Michael Nygard",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "industry-capstones",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "283",
+    "number": 283,
+    "title": "Capstone SaaS: multi-tenancy y unit economics",
+    "slug": "capstone-saas-multi-tenancy-y-unit-economics",
+    "part": "23",
+    "part_slug": "industry-capstones",
+    "part_title": "Capstones por industria y defensa final",
+    "part_class": 7,
+    "level": "experto",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "saas-capstone",
+    "keywords": [
+      "capstone",
+      "saas",
+      "multi",
+      "tenancy",
+      "unit",
+      "economics"
+    ],
+    "books": [
+      "Building Evolutionary Architectures — Ford, Parsons y Kua",
+      "Release It! — Michael Nygard",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "industry-capstones",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "284",
+    "number": 284,
+    "title": "Capstone datos e IA: plataforma gobernada",
+    "slug": "capstone-datos-e-ia-plataforma-gobernada",
+    "part": "23",
+    "part_slug": "industry-capstones",
+    "part_title": "Capstones por industria y defensa final",
+    "part_class": 8,
+    "level": "experto",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "data-ai-capstone",
+    "keywords": [
+      "capstone",
+      "datos",
+      "e",
+      "ia",
+      "plataforma",
+      "gobernada"
+    ],
+    "books": [
+      "Building Evolutionary Architectures — Ford, Parsons y Kua",
+      "Release It! — Michael Nygard",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "industry-capstones",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "285",
+    "number": 285,
+    "title": "Game day integrado y respuesta a incidentes",
+    "slug": "game-day-integrado-y-respuesta-a-incidentes",
+    "part": "23",
+    "part_slug": "industry-capstones",
+    "part_title": "Capstones por industria y defensa final",
+    "part_class": 9,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "chaos",
+    "artifact": "final-gameday",
+    "keywords": [
+      "game",
+      "day",
+      "integrado",
+      "respuesta",
+      "incidentes"
+    ],
+    "books": [
+      "Building Evolutionary Architectures — Ford, Parsons y Kua",
+      "Release It! — Michael Nygard",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "industry-capstones",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "286",
+    "number": 286,
+    "title": "Revisión Well-Architected multi-proveedor",
+    "slug": "revision-well-architected-multi-proveedor",
+    "part": "23",
+    "part_slug": "industry-capstones",
+    "part_title": "Capstones por industria y defensa final",
+    "part_class": 10,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "final-architecture-review",
+    "keywords": [
+      "revisión",
+      "well",
+      "architected",
+      "multi",
+      "proveedor"
+    ],
+    "books": [
+      "Building Evolutionary Architectures — Ford, Parsons y Kua",
+      "Release It! — Michael Nygard",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "industry-capstones",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "287",
+    "number": 287,
+    "title": "Paquete de evidencia, costos y riesgos residuales",
+    "slug": "paquete-de-evidencia-costos-y-riesgos-residuales",
+    "part": "23",
+    "part_slug": "industry-capstones",
+    "part_title": "Capstones por industria y defensa final",
+    "part_class": 11,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "assessment",
+    "artifact": "final-evidence-pack",
+    "keywords": [
+      "paquete",
+      "evidencia",
+      "costos",
+      "riesgos",
+      "residuales"
+    ],
+    "books": [
+      "Building Evolutionary Architectures — Ford, Parsons y Kua",
+      "Release It! — Michael Nygard",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "industry-capstones",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
+  },
+  {
+    "id": "288",
+    "number": 288,
+    "title": "Defensa final, retrospectiva y plan de 12 meses",
+    "slug": "defensa-final-retrospectiva-y-plan-de-12-meses",
+    "part": "23",
+    "part_slug": "industry-capstones",
+    "part_title": "Capstones por industria y defensa final",
+    "part_class": 12,
+    "level": "experto",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "final-defense",
+    "keywords": [
+      "defensa",
+      "final",
+      "retrospectiva",
+      "plan",
+      "12",
+      "meses"
+    ],
+    "books": [
+      "Building Evolutionary Architectures — Ford, Parsons y Kua",
+      "Release It! — Michael Nygard",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving",
+    "practice_track": "industry-capstones",
+    "source_repositories": [
+      "multi-cloud-engineering-program",
+      "multi-cloud-engineering-program"
+    ]
   }
 ]

@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="046", kind="security"))
+    raise SystemExit(main(lesson_id="046", kind="security", title='Key Vault, Defender for Cloud y Azure Policy', artifact="controles-azure"))

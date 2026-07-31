@@ -1,0 +1,16 @@
+id: '265'
+number: 265
+title: 'Ruta Cloud Engineer y mapa de competencias'
+part: '22'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'decision'
+artifact: 'cloud-engineer-plan'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'ruta'
+  - 'cloud'
+  - 'engineer'
+  - 'mapa'
+  - 'competencias'

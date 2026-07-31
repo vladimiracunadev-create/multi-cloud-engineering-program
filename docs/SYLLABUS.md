@@ -2,9 +2,9 @@
 
 ## Carga total
 
-El programa contiene 180 clases. Una clase regular estima 4 horas entre lectura, sesión,
+El programa contiene 288 clases. Una clase regular estima 4 horas entre lectura, sesión,
 laboratorio y reto; los cierres y las tres clases finales de capstone estiman 8 horas.
-Carga total aproximada: **788 h**.
+Carga total aproximada: **1.288 h**.
 
 | Parte | Tema | Clases | Horas aprox. | Semanas a 10 h |
 |---:|---|---:|---:|---:|
@@ -23,7 +23,8 @@ Carga total aproximada: **788 h**.
 | 12 | Arquitectura distribuida | 12 | 52 | 5–6 |
 | 13 | Multi-cloud, híbrido y DR | 12 | 52 | 5–6 |
 | 14 | Avanzado y capstones | 12 | 60 | 6 |
-| | **Total** | **180** | **788** | **79** |
+| 15–23 | Arquitectura, proveedores productivos, IA, operaciones y capstones | 108 | 500 | 50 |
+| | **Total** | **288** | **1.288** | **129** |
 
 ## Ritmos sugeridos
 

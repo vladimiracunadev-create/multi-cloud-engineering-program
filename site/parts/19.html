@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 19 — Google Cloud: arquitectura de datos y operación en producción ← Parte 18 ../part-18-azure-production-architecture/README.md · Índice completo ..">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 19 — Google Cloud: arquitectura de datos y operación en producción">
+  <meta property="og:description" content="Parte 19 — Google Cloud: arquitectura de datos y operación en producción ← Parte 18 ../part-18-azure-production-architecture/README.md · Índice completo ..">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/19.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/19.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 19 — Google Cloud: arquitectura de datos y operación en producción", "description": "Parte 19 — Google Cloud: arquitectura de datos y operación en producción ← Parte 18 ../part-18-azure-production-architecture/README.md · Índice completo ..", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/19.html"}</script>
+  <title>Parte 19 — Google Cloud: arquitectura de datos y operación en producción · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 19</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-19-google-cloud-arquitectura-de-datos-y-operacion-en-produccion">Parte 19 — Google Cloud: arquitectura de datos y operación en producción</h1>
+<blockquote>
+<p><a href="../part-18-azure-production-architecture/README.md">← Parte 18</a> · <a href="../README.md">Índice completo</a> · <a href="../part-20-cloud-data-ai-platforms/README.md">Parte 20 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> avanzado · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Operar CloudShop con la red global, servicios administrados, seguridad y plataforma de datos de Google Cloud.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>Google Cloud combina una jerarquía estricta de recursos con una red global y servicios data-first; proyecto, cuota e IAM forman una unidad operativa.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">229</td>
+<td><a href="229-resource-manager-folders-shared-vpc-y-guardrails/README.md">Resource Manager, folders, Shared VPC y guardrails</a></td>
+<td><code>governance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">230</td>
+<td><a href="230-workload-identity-federation-iam-conditions-y-pam/README.md">Workload Identity Federation, IAM Conditions y PAM</a></td>
+<td><code>iam</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">231</td>
+<td><a href="231-red-global-load-balancing-psc-y-cloud-dns/README.md">Red global, load balancing, PSC y Cloud DNS</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">232</td>
+<td><a href="232-terraform-infrastructure-manager-y-policy-validation/README.md">Terraform, Infrastructure Manager y policy validation</a></td>
+<td><code>iac</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">233</td>
+<td><a href="233-cloud-run-functions-api-gateway-y-workflows/README.md">Cloud Run, Functions, API Gateway y Workflows</a></td>
+<td><code>serverless</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">234</td>
+<td><a href="234-gke-autopilot-workload-identity-y-config-sync/README.md">GKE Autopilot, Workload Identity y Config Sync</a></td>
+<td><code>kubernetes</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">235</td>
+<td><a href="235-cloud-sql-spanner-firestore-y-bigtable/README.md">Cloud SQL, Spanner, Firestore y Bigtable</a></td>
+<td><code>data</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">236</td>
+<td><a href="236-bigquery-dataflow-dataproc-y-gobernanza-de-datos/README.md">BigQuery, Dataflow, Dataproc y gobernanza de datos</a></td>
+<td><code>data</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">237</td>
+<td><a href="237-pub-sub-eventarc-y-entrega-exactamente-una-vez/README.md">Pub/Sub, Eventarc y entrega exactamente-una-vez</a></td>
+<td><code>messaging</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">238</td>
+<td><a href="238-cloud-operations-trace-y-opentelemetry/README.md">Cloud Operations, Trace y OpenTelemetry</a></td>
+<td><code>observability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">239</td>
+<td><a href="239-scc-vpc-service-controls-kms-y-finops/README.md">SCC, VPC Service Controls, KMS y FinOps</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">240</td>
+<td><a href="240-proyecto-cloudshop-productivo-en-google-cloud/README.md">Proyecto: CloudShop productivo en Google Cloud</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>Google Cloud Architecture Framework — Google.</li>
+<li>Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan.</li>
+<li>Data Engineering with Google Cloud — Adi Wijaya.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="229">
+          <label><input type="checkbox" data-lesson-complete="229"><span>229</span></label>
+          <div><a href="../classes/229.html">Resource Manager, folders, Shared VPC y guardrails</a><small>governance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="230">
+          <label><input type="checkbox" data-lesson-complete="230"><span>230</span></label>
+          <div><a href="../classes/230.html">Workload Identity Federation, IAM Conditions y PAM</a><small>iam · 4 h</small></div>
+        </article><article class="part-class" data-class-id="231">
+          <label><input type="checkbox" data-lesson-complete="231"><span>231</span></label>
+          <div><a href="../classes/231.html">Red global, load balancing, PSC y Cloud DNS</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="232">
+          <label><input type="checkbox" data-lesson-complete="232"><span>232</span></label>
+          <div><a href="../classes/232.html">Terraform, Infrastructure Manager y policy validation</a><small>iac · 4 h</small></div>
+        </article><article class="part-class" data-class-id="233">
+          <label><input type="checkbox" data-lesson-complete="233"><span>233</span></label>
+          <div><a href="../classes/233.html">Cloud Run, Functions, API Gateway y Workflows</a><small>serverless · 4 h</small></div>
+        </article><article class="part-class" data-class-id="234">
+          <label><input type="checkbox" data-lesson-complete="234"><span>234</span></label>
+          <div><a href="../classes/234.html">GKE Autopilot, Workload Identity y Config Sync</a><small>kubernetes · 4 h</small></div>
+        </article><article class="part-class" data-class-id="235">
+          <label><input type="checkbox" data-lesson-complete="235"><span>235</span></label>
+          <div><a href="../classes/235.html">Cloud SQL, Spanner, Firestore y Bigtable</a><small>data · 4 h</small></div>
+        </article><article class="part-class" data-class-id="236">
+          <label><input type="checkbox" data-lesson-complete="236"><span>236</span></label>
+          <div><a href="../classes/236.html">BigQuery, Dataflow, Dataproc y gobernanza de datos</a><small>data · 4 h</small></div>
+        </article><article class="part-class" data-class-id="237">
+          <label><input type="checkbox" data-lesson-complete="237"><span>237</span></label>
+          <div><a href="../classes/237.html">Pub/Sub, Eventarc y entrega exactamente-una-vez</a><small>messaging · 4 h</small></div>
+        </article><article class="part-class" data-class-id="238">
+          <label><input type="checkbox" data-lesson-complete="238"><span>238</span></label>
+          <div><a href="../classes/238.html">Cloud Operations, Trace y OpenTelemetry</a><small>observability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="239">
+          <label><input type="checkbox" data-lesson-complete="239"><span>239</span></label>
+          <div><a href="../classes/239.html">SCC, VPC Service Controls, KMS y FinOps</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="240">
+          <label><input type="checkbox" data-lesson-complete="240"><span>240</span></label>
+          <div><a href="../classes/240.html">Proyecto: CloudShop productivo en Google Cloud</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

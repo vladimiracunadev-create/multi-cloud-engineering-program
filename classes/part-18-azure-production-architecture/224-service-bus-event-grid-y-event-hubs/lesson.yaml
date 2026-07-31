@@ -1,0 +1,17 @@
+id: '224'
+number: 224
+title: 'Service Bus, Event Grid y Event Hubs'
+part: '18'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'messaging'
+artifact: 'azure-event-platform'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'service'
+  - 'bus'
+  - 'event'
+  - 'grid'
+  - 'event'
+  - 'hubs'

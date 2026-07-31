@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="014", kind="architecture"))
+    raise SystemExit(main(lesson_id="014", kind="architecture", title='Regiones, zonas de disponibilidad, puntos de presencia y edge', artifact="mapa-de-topologia"))

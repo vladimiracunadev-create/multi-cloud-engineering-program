@@ -1,0 +1,15 @@
+id: '252'
+number: 252
+title: 'Proyecto: asistente operativo de CloudShop'
+part: '20'
+level: 'avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'cloudshop-ai-assistant'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'proyecto'
+  - 'asistente'
+  - 'operativo'
+  - 'cloudshop'

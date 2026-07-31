@@ -1,0 +1,15 @@
+id: '268'
+number: 268
+title: 'Ruta Site Reliability Engineer'
+part: '22'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'decision'
+artifact: 'sre-plan'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'ruta'
+  - 'site'
+  - 'reliability'
+  - 'engineer'

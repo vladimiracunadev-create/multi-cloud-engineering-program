@@ -1,0 +1,15 @@
+id: '242'
+number: 242
+title: 'Ingesta batch, CDC y streaming'
+part: '20'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'data'
+artifact: 'ingestion-pipeline'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'ingesta'
+  - 'batch'
+  - 'cdc'
+  - 'streaming'

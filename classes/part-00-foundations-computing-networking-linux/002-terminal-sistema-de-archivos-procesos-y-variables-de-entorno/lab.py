@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="002", kind="shell"))
+    raise SystemExit(main(lesson_id="002", kind="shell", title='Terminal, sistema de archivos, procesos y variables de entorno', artifact="bitacora-de-comandos"))

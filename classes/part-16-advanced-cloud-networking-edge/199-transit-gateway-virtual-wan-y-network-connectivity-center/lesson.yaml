@@ -1,0 +1,17 @@
+id: '199'
+number: 199
+title: 'Transit Gateway, Virtual WAN y Network Connectivity Center'
+part: '16'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'network'
+artifact: 'transit-comparison'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'transit'
+  - 'gateway'
+  - 'virtual'
+  - 'wan'
+  - 'network'
+  - 'connectivity'

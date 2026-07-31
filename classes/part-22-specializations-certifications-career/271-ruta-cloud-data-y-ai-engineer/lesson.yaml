@@ -1,0 +1,16 @@
+id: '271'
+number: 271
+title: 'Ruta Cloud Data y AI Engineer'
+part: '22'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'decision'
+artifact: 'data-ai-plan'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'ruta'
+  - 'cloud'
+  - 'data'
+  - 'ai'
+  - 'engineer'

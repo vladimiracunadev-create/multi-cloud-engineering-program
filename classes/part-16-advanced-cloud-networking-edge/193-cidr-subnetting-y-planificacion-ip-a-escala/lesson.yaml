@@ -1,0 +1,16 @@
+id: '193'
+number: 193
+title: 'CIDR, subnetting y planificación IP a escala'
+part: '16'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'network'
+artifact: 'ipam-plan'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'cidr'
+  - 'subnetting'
+  - 'planificación'
+  - 'ip'
+  - 'escala'

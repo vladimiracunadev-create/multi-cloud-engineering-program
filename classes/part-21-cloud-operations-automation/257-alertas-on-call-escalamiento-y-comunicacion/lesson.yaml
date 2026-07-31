@@ -1,0 +1,16 @@
+id: '257'
+number: 257
+title: 'Alertas, on-call, escalamiento y comunicación'
+part: '21'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'incident'
+artifact: 'oncall-system'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'alertas'
+  - 'on'
+  - 'call'
+  - 'escalamiento'
+  - 'comunicación'

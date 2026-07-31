@@ -1,0 +1,17 @@
+id: '284'
+number: 284
+title: 'Capstone datos e IA: plataforma gobernada'
+part: '23'
+level: 'experto'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'data-ai-capstone'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'capstone'
+  - 'datos'
+  - 'e'
+  - 'ia'
+  - 'plataforma'
+  - 'gobernada'

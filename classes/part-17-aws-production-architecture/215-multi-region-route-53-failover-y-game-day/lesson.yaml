@@ -1,0 +1,17 @@
+id: '215'
+number: 215
+title: 'Multi-región, Route 53, failover y game day'
+part: '17'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'reliability'
+artifact: 'aws-dr-drill'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'multi'
+  - 'región'
+  - 'route'
+  - '53'
+  - 'failover'
+  - 'game'

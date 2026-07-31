@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="008", kind="virtualization"))
+    raise SystemExit(main(lesson_id="008", kind="virtualization", title='Virtualización, hipervisores e imágenes', artifact="comparativa-de-aislamiento"))

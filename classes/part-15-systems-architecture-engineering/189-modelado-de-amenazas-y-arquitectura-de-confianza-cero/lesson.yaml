@@ -1,0 +1,16 @@
+id: '189'
+number: 189
+title: 'Modelado de amenazas y arquitectura de confianza cero'
+part: '15'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'system-threat-model'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'modelado'
+  - 'amenazas'
+  - 'arquitectura'
+  - 'confianza'
+  - 'cero'

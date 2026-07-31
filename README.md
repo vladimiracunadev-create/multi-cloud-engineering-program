@@ -2,7 +2,7 @@
 
 # ☁️ Multi-Cloud Engineering Program
 
-## **15 partes · 180 clases · 788 horas · de cero a ingeniería cloud experta**
+## **24 partes · 288 clases · 1.288 horas · de cero a arquitectura cloud experta**
 
 **Programa educativo en español para aprender cloud engineering de extremo a extremo:
 fundamentos, AWS, Azure, Google Cloud, contenedores, Kubernetes, IaC, entrega continua,
@@ -11,15 +11,17 @@ datos, SRE, seguridad, FinOps, arquitectura distribuida, nube híbrida y multi-c
 [![CI](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/ci.yml)
 [![Pages](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/pages.yml/badge.svg?branch=main)](https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/)
 [![Security](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/security.yml)
-[![Version](https://img.shields.io/badge/version-1.1.0-e67e22?style=for-the-badge)](CHANGELOG.md)
-[![Classes](https://img.shields.io/badge/clases-180%20·%2015%20partes-7c5cff?style=for-the-badge)](classes/README.md)
+[![Version](https://img.shields.io/badge/version-2.0.0-e67e22?style=for-the-badge)](CHANGELOG.md)
+[![Classes](https://img.shields.io/badge/clases-288%20·%2024%20partes-7c5cff?style=for-the-badge)](classes/README.md)
 [![Level](https://img.shields.io/badge/nivel-inicial%20→%20experto-2e8b57?style=for-the-badge)](docs/SYLLABUS.md)
 [![License](https://img.shields.io/badge/license-MIT-3fb950?style=for-the-badge)](LICENSE)
 
 [🌐 Portal interactivo](https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/) ·
 [📚 Clases](classes/README.md) · [🧭 Rutas](learning-paths/README.md) ·
 [📅 Syllabus](docs/SYLLABUS.md) · [🧪 Laboratorios](labs/README.md) ·
-[🏗️ Capstones](capstones/README.md) · [📖 Bibliografía](docs/BIBLIOGRAPHY.md)
+[🏗️ Capstones](capstones/README.md) · [📖 Bibliografía](docs/BIBLIOGRAPHY.md) ·
+[Manual PDF](site/downloads/multi-cloud-engineering-manual-v2.0.pdf) ·
+[Presentación PPTX](site/downloads/multi-cloud-engineering-program-v2.0.pptx)
 
 </div>
 
@@ -29,12 +31,12 @@ datos, SRE, seguridad, FinOps, arquitectura distribuida, nube híbrida y multi-c
 
 | Superficie | Estado |
 |---|---|
-| Currículo | ✅ 180/180 clases, numeración continua 001–180 |
+| Currículo | ✅ 288/288 clases, numeración continua 001–288 |
 | Contrato por clase | ✅ teoría + evaluación + metadatos + laboratorio |
-| Laboratorios | ✅ 180 entrypoints sobre un motor local determinista |
-| Partes | ✅ 15/15 índices con secuencia, evaluación y bibliografía |
+| Laboratorios | ✅ 288 entrypoints, prácticas por dominio y sandboxes con cost gate |
+| Partes | ✅ 24/24 índices con secuencia, evaluación y bibliografía |
 | CLI | ✅ catálogo, inspección y ejecución de laboratorios |
-| Portal | ✅ PWA, 180 páginas de clase, buscador, rutas, roadmap, progreso y analítica |
+| Portal | ✅ PWA, 288 páginas de clase, buscador, rutas, roadmap, progreso y analítica |
 | Calidad | ✅ CI multi-OS/Python, validador estricto, pruebas y generación reproducible |
 | Seguridad | ✅ CodeQL, Bandit, pip-audit y Gitleaks programados |
 | Publicación | ✅ GitHub Pages generado desde la fuente curricular |
@@ -80,7 +82,7 @@ flowchart LR
     N --> O["14 Capstones y carrera"]
 ```
 
-## 🗂️ Las 15 partes
+## 🗂️ Las 24 partes
 
 | # | Parte | Clases | Resultado principal |
 |---:|---|---:|---|
@@ -99,8 +101,17 @@ flowchart LR
 | 12 | Arquitectura cloud-native y distribuida | 145–156 | Architecture review con ADR |
 | 13 | Multi-cloud, híbrido, migración y DR | 157–168 | Continuidad activa-pasiva |
 | 14 | Plataformas avanzadas, capstones y carrera | 169–180 | Defensa y portafolio profesional |
+| 15 | Arquitectura de sistemas e ingeniería de requisitos | 181–192 | Diseño completo de CloudShop |
+| 16 | Redes cloud avanzadas, híbridas y edge | 193–204 | Red multi-región y multi-cloud |
+| 17 | AWS en producción | 205–216 | CloudShop productivo en AWS |
+| 18 | Azure en producción | 217–228 | CloudShop productivo en Azure |
+| 19 | Google Cloud en producción | 229–240 | CloudShop productivo en GCP |
+| 20 | Datos, analítica, IA y agentes | 241–252 | Asistente operativo gobernado |
+| 21 | Operación y respuesta a incidentes | 253–264 | Centro de operaciones CloudShop |
+| 22 | Especializaciones y certificaciones | 265–276 | Defensa técnica por rol |
+| 23 | Capstones por industria | 277–288 | Game day y defensa final |
 
-➡️ [Abrir el índice completo de las 180 clases](classes/README.md).
+➡️ [Abrir el índice completo de las 288 clases](classes/README.md).
 
 ## 🚀 Inicio rápido
 
@@ -136,7 +147,7 @@ Abre `http://localhost:8080/site/` o usa el
 ## 🖥️ Portal de aprendizaje
 
 La web no es una portada separada del contenido: se genera directamente desde
-`curriculum/catalog.json` y los Markdown de las 180 clases. Incluye:
+`curriculum/catalog.json` y los Markdown de las 288 clases. Incluye:
 
 - panel de continuidad con la siguiente clase y comando de laboratorio;
 - filtros por parte, nivel, tipo de laboratorio, estado y ruta profesional;
@@ -192,6 +203,8 @@ La reconstrucción se basó específicamente en:
 - [Blockchain Learning Path](https://github.com/vladimiracunadev-create/blockchain-learning-path)
 - [Python Data Science Program](https://github.com/vladimiracunadev-create/python-data-science-program)
 - [Modern Cybersecurity Program](https://github.com/vladimiracunadev-create/modern-cybersecurity-program)
+- [Proyectos AWS con GitHub Actions](https://github.com/vladimiracunadev-create/proyectos-aws)
+- [Proyectos AWS con GitLab CI](https://gitlab.com/vladimir.acuna.dev-group/proyectos-aws-gitlab)
 
 El análisis de patrones y las decisiones adoptadas están documentados en
 [docs/REPOSITORY_RESEARCH.md](docs/REPOSITORY_RESEARCH.md).

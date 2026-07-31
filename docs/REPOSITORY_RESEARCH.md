@@ -18,7 +18,7 @@ docente, syllabus, rúbricas, rutas, contratos de clase y superficies de product
 
 | Patrón común | Evidencia observada | Aplicación en este programa |
 |---|---|---|
-| Progresión exhaustiva | 180 clases de IA, 232 de Data Science y 340 de ciberseguridad | 180 clases continuas en 15 partes |
+| Progresión exhaustiva | 180 clases de IA, 232 de Data Science y 340 de ciberseguridad | 288 clases continuas en 24 partes |
 | Contrato pedagógico | Objetivos, resultados, teoría, práctica, errores y referencias | Contrato obligatorio validado en cada README |
 | Evidencia ejecutable | Notebooks, labs y entrypoints reutilizables | 180 `lab.py` sobre un motor determinista común |
 | Evaluación objetiva | Retos y criterios de aceptación | `assessment.md` por clase y rúbrica transversal |
@@ -27,11 +27,11 @@ docente, syllabus, rúbricas, rutas, contratos de clase y superficies de product
 | Varias audiencias | Alumno, docente, evaluador, institución | Guía docente, syllabus, rutas y arquitectura |
 | Producto verificable | CLI, sitio, manual, apps y CI según el repo | CLI, portal, catálogo JSON, tests y CI |
 | Honestidad de madurez | Estado verificable y límites explícitos | Simulación separada de validación cloud real |
-| Proyecto acumulativo | Capstones y portafolio | CloudShop progresa en las 15 partes |
+| Proyecto acumulativo | Capstones y portafolio | CloudShop progresa en las 24 partes |
 
 ## Decisiones tomadas
 
-Se eligieron 15 partes de 12 clases para conservar una progresión suficientemente granular
+Se eligieron 24 partes de 12 clases para conservar una progresión suficientemente granular
 sin convertir cada servicio del proveedor en una clase aislada. Las partes 02–04 ofrecen
 profundidad simétrica en AWS, Azure y Google Cloud. Desde la parte 05 el currículo vuelve a
 contratos portables: OCI, Kubernetes, Terraform, entrega, datos, SRE y gobierno.

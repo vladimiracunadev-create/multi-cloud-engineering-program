@@ -1,0 +1,14 @@
+name: Mejora de contenido
+description: Reporta una brecha pedagógica o referencia desactualizada
+body:
+  - type: input
+    id: lesson
+    attributes: {label: Clase o parte}
+    validations: {required: true}
+  - type: textarea
+    id: gap
+    attributes: {label: Brecha y evidencia}
+    validations: {required: true}
+  - type: textarea
+    id: proposal
+    attributes: {label: Resultado verificable propuesto}

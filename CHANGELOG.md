@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.0 — 2026-07-31
+
+- 24 partes, 288 clases y arquitectura de sistemas como dominio explícito;
+- rutas productivas AWS, Azure y Google Cloud, apoyadas por 27 casos AWS auditados;
+- CloudShop ejecutable, Docker, Kubernetes, Terraform y sandboxes con costo bloqueado;
+- diagnóstico, checkpoints, banco por escenarios, exámenes por rol y kits académicos;
+- aplicaciones web/móvil PWA y escritorio, ADRs, threat models, rutas profesionales y releases;
+- gobierno comunitario, doble licencia, Dependabot, SBOM y validación ampliada.
+
 ## 1.1.0 — 2026-07-31
 
 - portal rediseñado como experiencia educativa completa y responsive;

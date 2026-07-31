@@ -57,6 +57,11 @@ def build_catalog() -> list[dict]:
                     "books": part["books"],
                     "status": "EXECUTABLE_CORE",
                     "maturity": "stable" if part_no < 10 else "evolving",
+                    "practice_track": part["slug"],
+                    "source_repositories": [
+                        "proyectos-aws" if "aws" in part["slug"] else "multi-cloud-engineering-program",
+                        "proyectos-aws-gitlab" if "aws" in part["slug"] else "multi-cloud-engineering-program",
+                    ],
                 }
             )
             number += 1
@@ -76,8 +81,8 @@ def lesson_readme(item: dict, part: dict, previous: dict | None, following: dict
 
 > {prev_link} · [Índice de la parte](../README.md) · {next_link}
 
-**Parte:** {item['part']} — {item['part_title']}  
-**Nivel:** {item['level']} · **Horas estimadas:** {item['estimated_hours']}  
+**Parte:** {item['part']} — {item['part_title']}<br>
+**Nivel:** {item['level']} · **Horas estimadas:** {item['estimated_hours']}<br>
 **Laboratorio:** `{item['lab_kind']}` · **Estado:** `{item['status']}`
 
 ## 🎯 Propósito
@@ -177,14 +182,15 @@ Ejecuta desde la raíz:
 python classes/part-{item['part']}-{item['part_slug']}/{item['id']}-{item['slug']}/lab.py
 ```
 
-El laboratorio reutiliza un motor didáctico probado y produce `lab_result.json`. Su objetivo
-es practicar el contrato antes de depender de credenciales o una cuenta con costo.
+El laboratorio selecciona el motor de práctica **`{item['lab_kind']}`** y produce
+`lab_result.json`. El escenario, sus comprobaciones y el artefacto esperado corresponden a
+esta clase; no requiere credenciales y deja explícito qué debe revalidarse en un sandbox real.
 
-1. Ejecuta con la semilla predeterminada y conserva la salida.
-2. Repite con `--seed 42`; confirma qué cambia y qué permanece estable.
-3. Revisa `decision`, `evidence`, `limitations` y `cost_units`.
-4. Añade una prueba negativa relacionada con el tema de la clase.
-5. Documenta por qué la simulación no equivale a una validación en producción.
+1. Lee `exercise.steps` y formula una predicción antes de ejecutar.
+2. Ejecuta la práctica y verifica todos los elementos de `checks`.
+3. Provoca el caso de `negative_test` y explica la señal observada.
+4. Materializa `{item['artifact']}` en `evidence/` usando la plantilla indicada.
+5. Para proveedor real, sigue `sandbox.requires`, registra costo y ejecuta `destroy`.
 
 ### Evidencia esperada
 
@@ -305,7 +311,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="{item['id']}", kind="{item['lab_kind']}"))
+    raise SystemExit(main(lesson_id="{item['id']}", kind="{item['lab_kind']}", title={item['title']!r}, artifact="{item['artifact']}"))
 '''
 
 
@@ -376,7 +382,7 @@ def classes_index(catalog: list[dict]) -> str:
         rows.append(f"| {part_no:02d} | [{part['title']}]({path}) | {start:03d}–{end:03d} | 12 | {part['level']} |")
     return f"""# Índice completo de clases
 
-**180 clases · 15 partes · 788 horas estimadas · inicial → experto-frontera**
+**288 clases · 24 partes · 1.288 horas estimadas · inicial → experto**
 
 El orden es deliberado. Cada parte cierra con un proyecto que aporta evidencia al capstone
 continuo **CloudShop**. Quien ya domina fundamentos puede usar las rutas por rol, pero debe
@@ -411,6 +417,20 @@ def generate() -> None:
         (folder / "assessment.md").write_text(assessment(item), encoding="utf-8")
         (folder / "lesson.yaml").write_text(lesson_yaml(item), encoding="utf-8")
         (folder / "lab.py").write_text(lab_entrypoint(item), encoding="utf-8")
+        for name in ("starter", "solution", "evidence"):
+            (folder / name).mkdir(exist_ok=True)
+        (folder / "starter" / "README.md").write_text(
+            f"# Starter — {item['id']}\n\nFormula una predicción y materializa `{item['artifact']}` sin consultar la solución.\n",
+            encoding="utf-8",
+        )
+        (folder / "solution" / "README.md").write_text(
+            f"# Solution contract — {item['id']}\n\nUna solución competente satisface `checks`, prueba el fallo y explica límites; no existe una única arquitectura válida.\n",
+            encoding="utf-8",
+        )
+        (folder / "evidence" / "README.md").write_text(
+            "# Evidence\n\nGuarda aquí salida JSON, prueba negativa, rollback, costo y conclusión delimitada.\n",
+            encoding="utf-8",
+        )
 
     for part_no, part in enumerate(PARTS):
         part_items = [x for x in catalog if x["part"] == f"{part_no:02d}"]

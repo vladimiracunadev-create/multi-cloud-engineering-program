@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="062", kind="container"))
+    raise SystemExit(main(lesson_id="062", kind="container", title='Dockerfile reproducible y builds multi-stage', artifact="imagen-minima"))

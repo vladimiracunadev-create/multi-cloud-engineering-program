@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 20 — Plataformas cloud de datos, analítica, IA y agentes ← Parte 19 ../part-19-gcp-production-architecture/README.md · Índice completo ../README.md ·">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 20 — Plataformas cloud de datos, analítica, IA y agentes">
+  <meta property="og:description" content="Parte 20 — Plataformas cloud de datos, analítica, IA y agentes ← Parte 19 ../part-19-gcp-production-architecture/README.md · Índice completo ../README.md ·">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/20.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/20.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 20 — Plataformas cloud de datos, analítica, IA y agentes", "description": "Parte 20 — Plataformas cloud de datos, analítica, IA y agentes ← Parte 19 ../part-19-gcp-production-architecture/README.md · Índice completo ../README.md ·", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/20.html"}</script>
+  <title>Parte 20 — Plataformas cloud de datos, analítica, IA y agentes · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 20</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-20-plataformas-cloud-de-datos-analitica-ia-y-agentes">Parte 20 — Plataformas cloud de datos, analítica, IA y agentes</h1>
+<blockquote>
+<p><a href="../part-19-gcp-production-architecture/README.md">← Parte 19</a> · <a href="../README.md">Índice completo</a> · <a href="../part-21-cloud-operations-automation/README.md">Parte 21 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> avanzado · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Diseñar plataformas gobernadas para batch, streaming, ML, IA generativa y agentes.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>Una plataforma de IA sigue siendo un sistema de datos: necesita procedencia, evaluación, límites de costo, seguridad y operación antes de una interfaz inteligente.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">241</td>
+<td><a href="241-lakehouse-warehouse-mesh-y-contratos-de-datos/README.md">Lakehouse, warehouse, mesh y contratos de datos</a></td>
+<td><code>data</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">242</td>
+<td><a href="242-ingesta-batch-cdc-y-streaming/README.md">Ingesta batch, CDC y streaming</a></td>
+<td><code>data</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">243</td>
+<td><a href="243-orquestacion-calidad-lineage-y-observabilidad-de-datos/README.md">Orquestación, calidad, lineage y observabilidad de datos</a></td>
+<td><code>observability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">244</td>
+<td><a href="244-feature-stores-training-pipelines-y-experiment-tracking/README.md">Feature stores, training pipelines y experiment tracking</a></td>
+<td><code>platform</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">245</td>
+<td><a href="245-serving-online-batch-inference-y-escalado-de-modelos/README.md">Serving online, batch inference y escalado de modelos</a></td>
+<td><code>performance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">246</td>
+<td><a href="246-mlops-registro-promocion-drift-y-rollback/README.md">MLOps, registro, promoción, drift y rollback</a></td>
+<td><code>delivery</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">247</td>
+<td><a href="247-modelos-fundacionales-tokens-embeddings-y-rag/README.md">Modelos fundacionales, tokens, embeddings y RAG</a></td>
+<td><code>architecture</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">248</td>
+<td><a href="248-bedrock-azure-ai-foundry-y-vertex-ai/README.md">Bedrock, Azure AI Foundry y Vertex AI</a></td>
+<td><code>decision</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">249</td>
+<td><a href="249-agentes-tools-memoria-permisos-y-guardrails/README.md">Agentes, tools, memoria, permisos y guardrails</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">250</td>
+<td><a href="250-evaluacion-de-ia-red-teaming-y-observabilidad/README.md">Evaluación de IA, red teaming y observabilidad</a></td>
+<td><code>testing</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">251</td>
+<td><a href="251-privacidad-gobernanza-sostenibilidad-y-costo-de-ia/README.md">Privacidad, gobernanza, sostenibilidad y costo de IA</a></td>
+<td><code>governance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">252</td>
+<td><a href="252-proyecto-asistente-operativo-de-cloudshop/README.md">Proyecto: asistente operativo de CloudShop</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>Designing Machine Learning Systems — Chip Huyen.</li>
+<li>Fundamentals of Data Engineering — Reis y Housley.</li>
+<li>Building Machine Learning Powered Applications — Emmanuel Ameisen.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="241">
+          <label><input type="checkbox" data-lesson-complete="241"><span>241</span></label>
+          <div><a href="../classes/241.html">Lakehouse, warehouse, mesh y contratos de datos</a><small>data · 4 h</small></div>
+        </article><article class="part-class" data-class-id="242">
+          <label><input type="checkbox" data-lesson-complete="242"><span>242</span></label>
+          <div><a href="../classes/242.html">Ingesta batch, CDC y streaming</a><small>data · 4 h</small></div>
+        </article><article class="part-class" data-class-id="243">
+          <label><input type="checkbox" data-lesson-complete="243"><span>243</span></label>
+          <div><a href="../classes/243.html">Orquestación, calidad, lineage y observabilidad de datos</a><small>observability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="244">
+          <label><input type="checkbox" data-lesson-complete="244"><span>244</span></label>
+          <div><a href="../classes/244.html">Feature stores, training pipelines y experiment tracking</a><small>platform · 4 h</small></div>
+        </article><article class="part-class" data-class-id="245">
+          <label><input type="checkbox" data-lesson-complete="245"><span>245</span></label>
+          <div><a href="../classes/245.html">Serving online, batch inference y escalado de modelos</a><small>performance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="246">
+          <label><input type="checkbox" data-lesson-complete="246"><span>246</span></label>
+          <div><a href="../classes/246.html">MLOps, registro, promoción, drift y rollback</a><small>delivery · 4 h</small></div>
+        </article><article class="part-class" data-class-id="247">
+          <label><input type="checkbox" data-lesson-complete="247"><span>247</span></label>
+          <div><a href="../classes/247.html">Modelos fundacionales, tokens, embeddings y RAG</a><small>architecture · 4 h</small></div>
+        </article><article class="part-class" data-class-id="248">
+          <label><input type="checkbox" data-lesson-complete="248"><span>248</span></label>
+          <div><a href="../classes/248.html">Bedrock, Azure AI Foundry y Vertex AI</a><small>decision · 4 h</small></div>
+        </article><article class="part-class" data-class-id="249">
+          <label><input type="checkbox" data-lesson-complete="249"><span>249</span></label>
+          <div><a href="../classes/249.html">Agentes, tools, memoria, permisos y guardrails</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="250">
+          <label><input type="checkbox" data-lesson-complete="250"><span>250</span></label>
+          <div><a href="../classes/250.html">Evaluación de IA, red teaming y observabilidad</a><small>testing · 4 h</small></div>
+        </article><article class="part-class" data-class-id="251">
+          <label><input type="checkbox" data-lesson-complete="251"><span>251</span></label>
+          <div><a href="../classes/251.html">Privacidad, gobernanza, sostenibilidad y costo de IA</a><small>governance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="252">
+          <label><input type="checkbox" data-lesson-complete="252"><span>252</span></label>
+          <div><a href="../classes/252.html">Proyecto: asistente operativo de CloudShop</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+id: '245'
+number: 245
+title: 'Serving online, batch inference y escalado de modelos'
+part: '20'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'performance'
+artifact: 'model-serving'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'serving'
+  - 'online'
+  - 'batch'
+  - 'inference'
+  - 'escalado'
+  - 'modelos'

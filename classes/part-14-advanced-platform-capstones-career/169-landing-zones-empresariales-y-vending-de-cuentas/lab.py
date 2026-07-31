@@ -9,4 +9,4 @@ sys.path.insert(0, str(ROOT / "src"))
 from multicloud_program.labs import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(lesson_id="169", kind="governance"))
+    raise SystemExit(main(lesson_id="169", kind="governance", title='Landing zones empresariales y vending de cuentas', artifact="landing-zone-empresarial"))

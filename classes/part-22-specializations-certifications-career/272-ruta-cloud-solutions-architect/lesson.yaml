@@ -1,0 +1,15 @@
+id: '272'
+number: 272
+title: 'Ruta Cloud Solutions Architect'
+part: '22'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'decision'
+artifact: 'architect-plan'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'ruta'
+  - 'cloud'
+  - 'solutions'
+  - 'architect'

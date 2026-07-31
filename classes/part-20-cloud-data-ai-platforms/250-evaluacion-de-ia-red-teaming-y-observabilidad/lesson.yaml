@@ -1,0 +1,16 @@
+id: '250'
+number: 250
+title: 'Evaluación de IA, red teaming y observabilidad'
+part: '20'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'testing'
+artifact: 'ai-evaluation'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'evaluación'
+  - 'ia'
+  - 'red'
+  - 'teaming'
+  - 'observabilidad'

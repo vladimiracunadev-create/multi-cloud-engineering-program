@@ -1,0 +1,15 @@
+id: '216'
+number: 216
+title: 'Proyecto: CloudShop productivo en AWS'
+part: '17'
+level: 'avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'cloudshop-aws'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'proyecto'
+  - 'cloudshop'
+  - 'productivo'
+  - 'aws'
