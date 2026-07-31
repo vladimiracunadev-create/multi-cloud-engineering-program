@@ -17,11 +17,14 @@ def fetch(base_url: str, path: str, *, byte_range: str | None = None) -> bytes:
     url = urllib.parse.urljoin(base_url.rstrip("/") + "/", path)
     separator = "&" if "?" in url else "?"
     url = f"{url}{separator}smoke={int(time.time())}"
+    if urllib.parse.urlsplit(url).scheme not in {"http", "https"}:
+        raise ValueError("Pages URL must use HTTP or HTTPS")
     headers = {"Cache-Control": "no-cache", "User-Agent": "multi-cloud-pages-smoke-test"}
     if byte_range:
         headers["Range"] = byte_range
     request = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(request, timeout=30) as response:
+    # The explicit scheme allowlist above makes urlopen safe for this smoke test.
+    with urllib.request.urlopen(request, timeout=30) as response:  # nosec B310
         return response.read(5) if byte_range else response.read()
 
 
