@@ -1,0 +1,16 @@
+id: '056'
+number: 56
+title: 'Pub/Sub, Cloud Tasks y Workflows'
+part: '04'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'messaging'
+artifact: 'flujo-eventos-gcp'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'pub'
+  - 'sub'
+  - 'cloud'
+  - 'tasks'
+  - 'workflows'

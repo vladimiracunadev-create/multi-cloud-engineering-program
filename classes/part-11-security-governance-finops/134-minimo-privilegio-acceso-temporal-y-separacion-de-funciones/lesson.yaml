@@ -1,0 +1,17 @@
+id: '134'
+number: 134
+title: 'Mínimo privilegio, acceso temporal y separación de funciones'
+part: '11'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'iam'
+artifact: 'revision-accesos'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'mínimo'
+  - 'privilegio'
+  - 'acceso'
+  - 'temporal'
+  - 'separación'
+  - 'funciones'

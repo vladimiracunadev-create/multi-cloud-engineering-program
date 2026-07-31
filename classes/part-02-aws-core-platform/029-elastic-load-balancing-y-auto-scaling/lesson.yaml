@@ -1,0 +1,16 @@
+id: '029'
+number: 29
+title: 'Elastic Load Balancing y Auto Scaling'
+part: '02'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'reliability'
+artifact: 'servicio-elastico-aws'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'elastic'
+  - 'load'
+  - 'balancing'
+  - 'auto'
+  - 'scaling'

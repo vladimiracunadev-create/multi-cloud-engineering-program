@@ -1,0 +1,17 @@
+id: '042'
+number: 42
+title: 'Azure SQL, Cosmos DB y Azure Cache for Redis'
+part: '03'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'data'
+artifact: 'matriz-datos-azure'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'azure'
+  - 'sql'
+  - 'cosmos'
+  - 'db'
+  - 'azure'
+  - 'cache'

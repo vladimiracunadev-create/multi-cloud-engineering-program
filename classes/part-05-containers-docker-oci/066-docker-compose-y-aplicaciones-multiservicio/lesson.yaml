@@ -1,0 +1,15 @@
+id: '066'
+number: 66
+title: 'Docker Compose y aplicaciones multiservicio'
+part: '05'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'orchestration'
+artifact: 'stack-compose'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'docker'
+  - 'compose'
+  - 'aplicaciones'
+  - 'multiservicio'

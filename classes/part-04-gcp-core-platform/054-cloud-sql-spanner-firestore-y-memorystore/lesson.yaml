@@ -1,0 +1,16 @@
+id: '054'
+number: 54
+title: 'Cloud SQL, Spanner, Firestore y Memorystore'
+part: '04'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'data'
+artifact: 'matriz-datos-gcp'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'cloud'
+  - 'sql'
+  - 'spanner'
+  - 'firestore'
+  - 'memorystore'

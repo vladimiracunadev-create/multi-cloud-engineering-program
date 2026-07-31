@@ -1,0 +1,15 @@
+id: '063'
+number: 63
+title: 'Namespaces, cgroups y runtime de contenedores'
+part: '05'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'container'
+artifact: 'mapa-aislamiento'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'namespaces'
+  - 'cgroups'
+  - 'runtime'
+  - 'contenedores'

@@ -1,0 +1,16 @@
+id: '123'
+number: 123
+title: 'Métricas, cardinalidad y modelos RED y USE'
+part: '10'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'metrics'
+artifact: 'catalogo-metricas'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'métricas'
+  - 'cardinalidad'
+  - 'modelos'
+  - 'red'
+  - 'use'

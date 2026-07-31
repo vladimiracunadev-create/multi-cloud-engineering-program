@@ -1,0 +1,16 @@
+id: '049'
+number: 49
+title: 'Organización, folders, proyectos, billing y cuotas'
+part: '04'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'governance'
+artifact: 'jerarquia-gcp'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'organización'
+  - 'folders'
+  - 'proyectos'
+  - 'billing'
+  - 'cuotas'

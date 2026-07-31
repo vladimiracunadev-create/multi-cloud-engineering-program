@@ -1,0 +1,15 @@
+id: '152'
+number: 152
+title: 'Service discovery, malla y comunicación'
+part: '12'
+level: 'avanzado-experto'
+estimated_hours: 4
+lab_kind: 'network'
+artifact: 'topologia-servicios'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'service'
+  - 'discovery'
+  - 'malla'
+  - 'comunicación'

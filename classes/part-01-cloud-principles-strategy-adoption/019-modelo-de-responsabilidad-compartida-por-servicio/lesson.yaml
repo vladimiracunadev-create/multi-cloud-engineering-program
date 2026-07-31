@@ -1,0 +1,15 @@
+id: '019'
+number: 19
+title: 'Modelo de responsabilidad compartida por servicio'
+part: '01'
+level: 'inicial-intermedio'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'raci-de-controles'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'modelo'
+  - 'responsabilidad'
+  - 'compartida'
+  - 'servicio'

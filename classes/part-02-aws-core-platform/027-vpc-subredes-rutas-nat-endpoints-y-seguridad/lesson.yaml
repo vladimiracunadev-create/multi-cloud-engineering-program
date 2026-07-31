@@ -1,0 +1,17 @@
+id: '027'
+number: 27
+title: 'VPC, subredes, rutas, NAT, endpoints y seguridad'
+part: '02'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'network'
+artifact: 'vpc-aws'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'vpc'
+  - 'subredes'
+  - 'rutas'
+  - 'nat'
+  - 'endpoints'
+  - 'seguridad'

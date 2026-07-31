@@ -1,0 +1,16 @@
+id: '041'
+number: 41
+title: 'Blob Storage, Files, redundancia y lifecycle'
+part: '03'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'storage'
+artifact: 'storage-gobernado-azure'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'blob'
+  - 'storage'
+  - 'files'
+  - 'redundancia'
+  - 'lifecycle'

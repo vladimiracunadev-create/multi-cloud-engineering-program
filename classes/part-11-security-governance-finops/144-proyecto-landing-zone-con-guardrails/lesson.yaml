@@ -1,0 +1,15 @@
+id: '144'
+number: 144
+title: 'Proyecto: landing zone con guardrails'
+part: '11'
+level: 'avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'landing-zone-gobernada'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'proyecto'
+  - 'landing'
+  - 'zone'
+  - 'guardrails'

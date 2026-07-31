@@ -1,0 +1,15 @@
+id: '137'
+number: 137
+title: 'Gestión de secretos y credenciales de workloads'
+part: '11'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'ciclo-secretos'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'gestión'
+  - 'secretos'
+  - 'credenciales'
+  - 'workloads'

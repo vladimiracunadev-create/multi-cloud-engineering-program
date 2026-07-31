@@ -1,0 +1,16 @@
+id: '013'
+number: 13
+title: 'Definición NIST y características esenciales de cloud'
+part: '01'
+level: 'inicial-intermedio'
+estimated_hours: 4
+lab_kind: 'foundation'
+artifact: 'matriz-nist'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'definición'
+  - 'nist'
+  - 'características'
+  - 'esenciales'
+  - 'cloud'

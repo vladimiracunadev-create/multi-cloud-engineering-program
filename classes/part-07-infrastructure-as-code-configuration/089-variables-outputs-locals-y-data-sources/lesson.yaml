@@ -1,0 +1,16 @@
+id: '089'
+number: 89
+title: 'Variables, outputs, locals y data sources'
+part: '07'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'iac'
+artifact: 'interfaz-infraestructura'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'variables'
+  - 'outputs'
+  - 'locals'
+  - 'data'
+  - 'sources'

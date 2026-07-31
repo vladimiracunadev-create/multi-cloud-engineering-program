@@ -1,0 +1,15 @@
+id: '129'
+number: 129
+title: 'Capacidad, rendimiento y pruebas de carga'
+part: '10'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'performance'
+artifact: 'informe-carga'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'capacidad'
+  - 'rendimiento'
+  - 'pruebas'
+  - 'carga'

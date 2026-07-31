@@ -1,0 +1,15 @@
+id: '071'
+number: 71
+title: 'Migración de una aplicación legacy a contenedores'
+part: '05'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'migration'
+artifact: 'plan-modernizacion'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'migración'
+  - 'aplicación'
+  - 'legacy'
+  - 'contenedores'

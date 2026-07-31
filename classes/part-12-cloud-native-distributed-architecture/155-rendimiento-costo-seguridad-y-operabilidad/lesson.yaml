@@ -1,0 +1,15 @@
+id: '155'
+number: 155
+title: 'Rendimiento, costo, seguridad y operabilidad'
+part: '12'
+level: 'avanzado-experto'
+estimated_hours: 4
+lab_kind: 'decision'
+artifact: 'tradeoff-analysis'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'rendimiento'
+  - 'costo'
+  - 'seguridad'
+  - 'operabilidad'

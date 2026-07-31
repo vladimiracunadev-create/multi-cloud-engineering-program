@@ -1,0 +1,17 @@
+id: '101'
+number: 101
+title: 'SAST, SCA, secretos, SBOM y firma en pipeline'
+part: '08'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'pipeline-devsecops'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'sast'
+  - 'sca'
+  - 'secretos'
+  - 'sbom'
+  - 'firma'
+  - 'pipeline'

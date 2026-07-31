@@ -1,0 +1,17 @@
+id: '002'
+number: 2
+title: 'Terminal, sistema de archivos, procesos y variables de entorno'
+part: '00'
+level: 'inicial'
+estimated_hours: 4
+lab_kind: 'shell'
+artifact: 'bitacora-de-comandos'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'terminal'
+  - 'sistema'
+  - 'archivos'
+  - 'procesos'
+  - 'variables'
+  - 'entorno'

@@ -1,0 +1,17 @@
+id: '146'
+number: 146
+title: 'Twelve-Factor App y configuración cloud-native'
+part: '12'
+level: 'avanzado-experto'
+estimated_hours: 4
+lab_kind: 'architecture'
+artifact: 'revision-twelve-factor'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'twelve'
+  - 'factor'
+  - 'app'
+  - 'configuración'
+  - 'cloud'
+  - 'native'

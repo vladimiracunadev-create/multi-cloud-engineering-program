@@ -1,0 +1,15 @@
+id: '156'
+number: 156
+title: 'Proyecto: revisión de arquitectura con ADR'
+part: '12'
+level: 'avanzado-experto'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'architecture-review'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'proyecto'
+  - 'revisión'
+  - 'arquitectura'
+  - 'adr'

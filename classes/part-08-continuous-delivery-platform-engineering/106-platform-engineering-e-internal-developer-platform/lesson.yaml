@@ -1,0 +1,17 @@
+id: '106'
+number: 106
+title: 'Platform engineering e Internal Developer Platform'
+part: '08'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'platform'
+artifact: 'mapa-capacidades-plataforma'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'platform'
+  - 'engineering'
+  - 'e'
+  - 'internal'
+  - 'developer'
+  - 'platform'

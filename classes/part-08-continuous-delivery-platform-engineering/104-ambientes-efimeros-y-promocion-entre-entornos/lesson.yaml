@@ -1,0 +1,16 @@
+id: '104'
+number: 104
+title: 'Ambientes efímeros y promoción entre entornos'
+part: '08'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'delivery'
+artifact: 'flujo-ambientes'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'ambientes'
+  - 'efímeros'
+  - 'promoción'
+  - 'entre'
+  - 'entornos'

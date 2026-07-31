@@ -1,0 +1,16 @@
+id: '026'
+number: 26
+title: 'IAM, roles, políticas, STS y federación'
+part: '02'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'iam'
+artifact: 'politica-iam-aws'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'iam'
+  - 'roles'
+  - 'políticas'
+  - 'sts'
+  - 'federación'

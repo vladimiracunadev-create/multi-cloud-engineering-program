@@ -1,0 +1,17 @@
+id: '110'
+number: 110
+title: 'NoSQL: clave-valor, documento, columna y grafo'
+part: '09'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'data'
+artifact: 'matriz-nosql'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'nosql'
+  - 'clave'
+  - 'valor'
+  - 'documento'
+  - 'columna'
+  - 'grafo'

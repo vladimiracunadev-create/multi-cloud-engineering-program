@@ -1,0 +1,17 @@
+id: '046'
+number: 46
+title: 'Key Vault, Defender for Cloud y Azure Policy'
+part: '03'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'controles-azure'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'key'
+  - 'vault'
+  - 'defender'
+  - 'for'
+  - 'cloud'
+  - 'azure'

@@ -1,0 +1,16 @@
+id: '072'
+number: 72
+title: 'Proyecto: stack OCI endurecido y observable'
+part: '05'
+level: 'intermedio'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'plataforma-contenedores'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'proyecto'
+  - 'stack'
+  - 'oci'
+  - 'endurecido'
+  - 'observable'

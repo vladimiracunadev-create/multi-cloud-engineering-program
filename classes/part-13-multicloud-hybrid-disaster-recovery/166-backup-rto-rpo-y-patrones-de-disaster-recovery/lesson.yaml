@@ -1,0 +1,17 @@
+id: '166'
+number: 166
+title: 'Backup, RTO, RPO y patrones de disaster recovery'
+part: '13'
+level: 'experto'
+estimated_hours: 4
+lab_kind: 'reliability'
+artifact: 'plan-dr'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'backup'
+  - 'rto'
+  - 'rpo'
+  - 'patrones'
+  - 'disaster'
+  - 'recovery'

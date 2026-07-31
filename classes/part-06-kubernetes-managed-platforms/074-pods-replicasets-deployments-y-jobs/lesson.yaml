@@ -1,0 +1,15 @@
+id: '074'
+number: 74
+title: 'Pods, ReplicaSets, Deployments y Jobs'
+part: '06'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'kubernetes'
+artifact: 'workload-kubernetes'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'pods'
+  - 'replicasets'
+  - 'deployments'
+  - 'jobs'

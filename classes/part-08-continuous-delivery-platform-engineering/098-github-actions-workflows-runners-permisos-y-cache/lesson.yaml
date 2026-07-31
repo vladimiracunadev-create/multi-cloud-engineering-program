@@ -1,0 +1,17 @@
+id: '098'
+number: 98
+title: 'GitHub Actions: workflows, runners, permisos y caché'
+part: '08'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'delivery'
+artifact: 'pipeline-github-actions'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'github'
+  - 'actions'
+  - 'workflows'
+  - 'runners'
+  - 'permisos'
+  - 'caché'

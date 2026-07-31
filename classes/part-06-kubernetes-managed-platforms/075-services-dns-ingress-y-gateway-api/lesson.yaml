@@ -1,0 +1,16 @@
+id: '075'
+number: 75
+title: 'Services, DNS, Ingress y Gateway API'
+part: '06'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'network'
+artifact: 'exposicion-kubernetes'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'services'
+  - 'dns'
+  - 'ingress'
+  - 'gateway'
+  - 'api'

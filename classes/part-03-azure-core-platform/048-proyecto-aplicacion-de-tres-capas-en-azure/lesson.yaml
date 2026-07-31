@@ -1,0 +1,16 @@
+id: '048'
+number: 48
+title: 'Proyecto: aplicación de tres capas en Azure'
+part: '03'
+level: 'intermedio'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'plataforma-azure'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'proyecto'
+  - 'aplicación'
+  - 'tres'
+  - 'capas'
+  - 'azure'

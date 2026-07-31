@@ -1,0 +1,16 @@
+id: '126'
+number: 126
+title: 'SLI, SLO, SLA y presupuesto de error'
+part: '10'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'sre'
+artifact: 'slo-servicio'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'sli'
+  - 'slo'
+  - 'sla'
+  - 'presupuesto'
+  - 'error'

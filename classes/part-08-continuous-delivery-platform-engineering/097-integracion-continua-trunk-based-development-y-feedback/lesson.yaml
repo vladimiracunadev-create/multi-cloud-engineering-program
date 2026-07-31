@@ -1,0 +1,17 @@
+id: '097'
+number: 97
+title: 'Integración continua, trunk-based development y feedback'
+part: '08'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'delivery'
+artifact: 'flujo-ci'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'integración'
+  - 'continua'
+  - 'trunk'
+  - 'based'
+  - 'development'
+  - 'feedback'

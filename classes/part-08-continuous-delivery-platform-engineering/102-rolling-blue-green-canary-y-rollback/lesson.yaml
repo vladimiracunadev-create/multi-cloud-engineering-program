@@ -1,0 +1,16 @@
+id: '102'
+number: 102
+title: 'Rolling, blue-green, canary y rollback'
+part: '08'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'delivery'
+artifact: 'estrategia-despliegue'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'rolling'
+  - 'blue'
+  - 'green'
+  - 'canary'
+  - 'rollback'

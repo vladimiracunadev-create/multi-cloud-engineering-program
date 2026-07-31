@@ -1,0 +1,16 @@
+id: '061'
+number: 61
+title: 'Imágenes, capas, registros y estándar OCI'
+part: '05'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'container'
+artifact: 'inspeccion-imagen'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'imágenes'
+  - 'capas'
+  - 'registros'
+  - 'estándar'
+  - 'oci'

@@ -1,0 +1,15 @@
+id: '080'
+number: 80
+title: 'Namespaces, RBAC, NetworkPolicy y admission'
+part: '06'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'tenant-kubernetes'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'namespaces'
+  - 'rbac'
+  - 'networkpolicy'
+  - 'admission'

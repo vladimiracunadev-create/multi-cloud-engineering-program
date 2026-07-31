@@ -1,0 +1,17 @@
+id: '060'
+number: 60
+title: 'Proyecto: aplicación de tres capas en Google Cloud'
+part: '04'
+level: 'intermedio'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'plataforma-gcp'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'proyecto'
+  - 'aplicación'
+  - 'tres'
+  - 'capas'
+  - 'google'
+  - 'cloud'

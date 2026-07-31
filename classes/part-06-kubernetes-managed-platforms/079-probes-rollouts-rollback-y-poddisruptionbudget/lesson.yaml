@@ -1,0 +1,15 @@
+id: '079'
+number: 79
+title: 'Probes, rollouts, rollback y PodDisruptionBudget'
+part: '06'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'reliability'
+artifact: 'despliegue-resiliente'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'probes'
+  - 'rollouts'
+  - 'rollback'
+  - 'poddisruptionbudget'

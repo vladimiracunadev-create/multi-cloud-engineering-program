@@ -1,0 +1,15 @@
+id: '085'
+number: 85
+title: 'Declarativo, imperativo, idempotencia y convergencia'
+part: '07'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'iac'
+artifact: 'comparativa-iac'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'declarativo'
+  - 'imperativo'
+  - 'idempotencia'
+  - 'convergencia'

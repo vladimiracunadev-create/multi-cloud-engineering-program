@@ -1,0 +1,16 @@
+id: '067'
+number: 67
+title: 'Registros, SBOM, firma y procedencia de imágenes'
+part: '05'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'supply-chain'
+artifact: 'cadena-suministro-imagen'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'registros'
+  - 'sbom'
+  - 'firma'
+  - 'procedencia'
+  - 'imágenes'

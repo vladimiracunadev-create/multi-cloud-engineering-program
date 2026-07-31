@@ -1,0 +1,15 @@
+id: '078'
+number: 78
+title: 'Requests, limits, scheduling y autoscaling'
+part: '06'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'capacity'
+artifact: 'capacidad-kubernetes'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'requests'
+  - 'limits'
+  - 'scheduling'
+  - 'autoscaling'

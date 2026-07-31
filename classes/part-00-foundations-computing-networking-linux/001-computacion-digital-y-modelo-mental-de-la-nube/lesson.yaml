@@ -1,0 +1,16 @@
+id: '001'
+number: 1
+title: 'Computación digital y modelo mental de la nube'
+part: '00'
+level: 'inicial'
+estimated_hours: 4
+lab_kind: 'foundation'
+artifact: 'mapa-de-componentes'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'computación'
+  - 'digital'
+  - 'modelo'
+  - 'mental'
+  - 'nube'

@@ -1,0 +1,16 @@
+id: '015'
+number: 15
+title: 'IaaS, PaaS, SaaS, CaaS y FaaS'
+part: '01'
+level: 'inicial-intermedio'
+estimated_hours: 4
+lab_kind: 'decision'
+artifact: 'matriz-de-servicios'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'iaas'
+  - 'paas'
+  - 'saas'
+  - 'caas'
+  - 'faas'

@@ -1,0 +1,17 @@
+id: '058'
+number: 58
+title: 'Cloud KMS, Secret Manager y Security Command Center'
+part: '04'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'controles-gcp'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'cloud'
+  - 'kms'
+  - 'secret'
+  - 'manager'
+  - 'security'
+  - 'command'

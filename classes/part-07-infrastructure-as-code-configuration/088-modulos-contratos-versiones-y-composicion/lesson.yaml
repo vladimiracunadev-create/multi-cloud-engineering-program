@@ -1,0 +1,15 @@
+id: '088'
+number: 88
+title: 'Módulos, contratos, versiones y composición'
+part: '07'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'iac'
+artifact: 'modulo-terraform'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'módulos'
+  - 'contratos'
+  - 'versiones'
+  - 'composición'

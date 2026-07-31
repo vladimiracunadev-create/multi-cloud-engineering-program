@@ -1,0 +1,16 @@
+id: '107'
+number: 107
+title: 'Developer experience, DORA y carga cognitiva'
+part: '08'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'metrics'
+artifact: 'tablero-dora'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'developer'
+  - 'experience'
+  - 'dora'
+  - 'carga'
+  - 'cognitiva'

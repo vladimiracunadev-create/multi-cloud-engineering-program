@@ -1,0 +1,16 @@
+id: '017'
+number: 17
+title: 'Tenancy, cuentas, suscripciones, proyectos y jerarquías'
+part: '01'
+level: 'inicial-intermedio'
+estimated_hours: 4
+lab_kind: 'governance'
+artifact: 'arbol-de-recursos'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'tenancy'
+  - 'cuentas'
+  - 'suscripciones'
+  - 'proyectos'
+  - 'jerarquías'

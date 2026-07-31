@@ -1,0 +1,17 @@
+id: '035'
+number: 35
+title: 'KMS, Secrets Manager, WAF y controles de seguridad'
+part: '02'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'controles-aws'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'kms'
+  - 'secrets'
+  - 'manager'
+  - 'waf'
+  - 'controles'
+  - 'seguridad'

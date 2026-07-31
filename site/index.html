@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101412">
+  <title>Multi-Cloud Engineering Program</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">☁</span>
+      <div>
+        <strong>Multi-Cloud Engineering</strong>
+        <span>180 clases · 15 partes</span>
+      </div>
+    </div>
+    <div class="progress-summary" aria-live="polite">
+      <span id="progress-label">0 / 180</span>
+      <progress id="progress" max="180" value="0"></progress>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="sidebar" aria-label="Filtros del currículo">
+      <label class="search">
+        <span aria-hidden="true">⌕</span>
+        <input id="search" type="search" placeholder="Buscar clase o concepto" autocomplete="off">
+      </label>
+
+      <div class="filter-block">
+        <h2>Parte</h2>
+        <select id="part-filter" aria-label="Filtrar por parte">
+          <option value="all">Todas las partes</option>
+        </select>
+      </div>
+
+      <div class="filter-block">
+        <h2>Nivel</h2>
+        <select id="level-filter" aria-label="Filtrar por nivel">
+          <option value="all">Todos los niveles</option>
+        </select>
+      </div>
+
+      <div class="filter-block">
+        <h2>Estado</h2>
+        <div class="segmented" role="group" aria-label="Filtrar por progreso">
+          <button type="button" class="active" data-progress="all">Todas</button>
+          <button type="button" data-progress="pending">Pendientes</button>
+          <button type="button" data-progress="done">Hechas</button>
+        </div>
+      </div>
+
+      <dl class="metrics">
+        <div><dt>Clases visibles</dt><dd id="visible-count">180</dd></div>
+        <div><dt>Horas estimadas</dt><dd id="hours-count">788</dd></div>
+      </dl>
+    </aside>
+
+    <section class="content" aria-labelledby="view-title">
+      <div class="content-heading">
+        <div>
+          <p id="view-kicker">Ruta completa</p>
+          <h1 id="view-title">De fundamentos a arquitectura multi-cloud</h1>
+        </div>
+        <a class="repo-link" href="../README.md">README</a>
+      </div>
+      <div id="class-list" class="class-list" aria-live="polite"></div>
+      <p id="empty" class="empty" hidden>No hay clases para este filtro.</p>
+    </section>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

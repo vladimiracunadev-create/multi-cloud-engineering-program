@@ -1,0 +1,17 @@
+id: '037'
+number: 37
+title: 'Tenant, management groups, suscripciones y resource groups'
+part: '03'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'governance'
+artifact: 'jerarquia-azure'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'tenant'
+  - 'management'
+  - 'groups'
+  - 'suscripciones'
+  - 'resource'
+  - 'groups'

@@ -1,0 +1,14 @@
+id: '178'
+number: 178
+title: 'Capstone: descubrimiento y diseño'
+part: '14'
+level: 'experto-frontera'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'dossier-diseno-final'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'capstone'
+  - 'descubrimiento'
+  - 'diseño'

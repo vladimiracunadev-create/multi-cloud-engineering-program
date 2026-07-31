@@ -1,0 +1,16 @@
+id: '163'
+number: 163
+title: 'Terraform multi-provider y separación de estados'
+part: '13'
+level: 'experto'
+estimated_hours: 4
+lab_kind: 'iac'
+artifact: 'iac-multicloud'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'terraform'
+  - 'multi'
+  - 'provider'
+  - 'separación'
+  - 'estados'

@@ -1,0 +1,15 @@
+id: '092'
+number: 92
+title: 'Secretos y datos sensibles en IaC'
+part: '07'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'modelo-secretos-iac'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'secretos'
+  - 'datos'
+  - 'sensibles'
+  - 'iac'

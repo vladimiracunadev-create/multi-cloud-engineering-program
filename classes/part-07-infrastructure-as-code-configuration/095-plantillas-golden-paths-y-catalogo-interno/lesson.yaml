@@ -1,0 +1,16 @@
+id: '095'
+number: 95
+title: 'Plantillas, golden paths y catálogo interno'
+part: '07'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'platform'
+artifact: 'plantilla-plataforma'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'plantillas'
+  - 'golden'
+  - 'paths'
+  - 'catálogo'
+  - 'interno'

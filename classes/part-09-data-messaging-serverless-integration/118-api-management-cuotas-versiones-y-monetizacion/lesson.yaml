@@ -1,0 +1,16 @@
+id: '118'
+number: 118
+title: 'API management, cuotas, versiones y monetización'
+part: '09'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'api'
+artifact: 'producto-api'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'api'
+  - 'management'
+  - 'cuotas'
+  - 'versiones'
+  - 'monetización'

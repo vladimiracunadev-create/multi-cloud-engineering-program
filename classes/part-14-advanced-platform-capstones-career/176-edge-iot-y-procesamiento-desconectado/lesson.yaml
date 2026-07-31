@@ -1,0 +1,15 @@
+id: '176'
+number: 176
+title: 'Edge, IoT y procesamiento desconectado'
+part: '14'
+level: 'experto-frontera'
+estimated_hours: 4
+lab_kind: 'edge'
+artifact: 'arquitectura-edge'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'edge'
+  - 'iot'
+  - 'procesamiento'
+  - 'desconectado'

@@ -1,0 +1,17 @@
+id: '065'
+number: 65
+title: 'Redes bridge, DNS interno y publicación de puertos'
+part: '05'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'network'
+artifact: 'red-contenedores'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'redes'
+  - 'bridge'
+  - 'dns'
+  - 'interno'
+  - 'publicación'
+  - 'puertos'

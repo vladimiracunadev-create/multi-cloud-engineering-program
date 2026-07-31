@@ -1,0 +1,16 @@
+id: '094'
+number: 94
+title: 'Ansible e imagen dorada para configuración'
+part: '07'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'configuration'
+artifact: 'configuracion-servidor'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'ansible'
+  - 'e'
+  - 'imagen'
+  - 'dorada'
+  - 'configuración'

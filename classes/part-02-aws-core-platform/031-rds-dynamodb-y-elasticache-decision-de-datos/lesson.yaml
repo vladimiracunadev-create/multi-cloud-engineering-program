@@ -1,0 +1,16 @@
+id: '031'
+number: 31
+title: 'RDS, DynamoDB y ElastiCache: decisión de datos'
+part: '02'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'data'
+artifact: 'matriz-datos-aws'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'rds'
+  - 'dynamodb'
+  - 'elasticache'
+  - 'decisión'
+  - 'datos'

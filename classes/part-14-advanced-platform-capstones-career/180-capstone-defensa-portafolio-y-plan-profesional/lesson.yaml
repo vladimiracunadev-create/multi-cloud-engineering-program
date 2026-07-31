@@ -1,0 +1,16 @@
+id: '180'
+number: 180
+title: 'Capstone: defensa, portafolio y plan profesional'
+part: '14'
+level: 'experto-frontera'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'defensa-final'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'capstone'
+  - 'defensa'
+  - 'portafolio'
+  - 'plan'
+  - 'profesional'

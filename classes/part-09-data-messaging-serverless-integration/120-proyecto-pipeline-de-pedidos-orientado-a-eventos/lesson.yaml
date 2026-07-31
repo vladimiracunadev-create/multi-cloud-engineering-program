@@ -1,0 +1,16 @@
+id: '120'
+number: 120
+title: 'Proyecto: pipeline de pedidos orientado a eventos'
+part: '09'
+level: 'avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'plataforma-eventos'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'proyecto'
+  - 'pipeline'
+  - 'pedidos'
+  - 'orientado'
+  - 'eventos'

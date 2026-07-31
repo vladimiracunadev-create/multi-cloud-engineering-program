@@ -1,0 +1,17 @@
+id: '130'
+number: 130
+title: 'Timeouts, retries, backoff, circuit breaker y bulkhead'
+part: '10'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'reliability'
+artifact: 'cliente-resiliente'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'timeouts'
+  - 'retries'
+  - 'backoff'
+  - 'circuit'
+  - 'breaker'
+  - 'bulkhead'

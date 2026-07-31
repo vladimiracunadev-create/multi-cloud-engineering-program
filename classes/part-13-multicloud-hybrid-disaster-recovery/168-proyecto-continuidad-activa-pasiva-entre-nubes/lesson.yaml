@@ -1,0 +1,17 @@
+id: '168'
+number: 168
+title: 'Proyecto: continuidad activa-pasiva entre nubes'
+part: '13'
+level: 'experto'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'plataforma-multicloud'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'proyecto'
+  - 'continuidad'
+  - 'activa'
+  - 'pasiva'
+  - 'entre'
+  - 'nubes'

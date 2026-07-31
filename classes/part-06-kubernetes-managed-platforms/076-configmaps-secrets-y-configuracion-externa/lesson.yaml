@@ -1,0 +1,15 @@
+id: '076'
+number: 76
+title: 'ConfigMaps, Secrets y configuración externa'
+part: '06'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'configuration'
+artifact: 'configuracion-kubernetes'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'configmaps'
+  - 'secrets'
+  - 'configuración'
+  - 'externa'

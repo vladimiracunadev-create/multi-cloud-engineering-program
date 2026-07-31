@@ -1,0 +1,16 @@
+id: '028'
+number: 28
+title: 'EC2, AMI, EBS y selección de capacidad'
+part: '02'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'compute'
+artifact: 'instancia-aws'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'ec2'
+  - 'ami'
+  - 'ebs'
+  - 'selección'
+  - 'capacidad'

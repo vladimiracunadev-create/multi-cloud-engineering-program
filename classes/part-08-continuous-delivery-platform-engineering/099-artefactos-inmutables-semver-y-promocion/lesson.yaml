@@ -1,0 +1,15 @@
+id: '099'
+number: 99
+title: 'Artefactos inmutables, semver y promoción'
+part: '08'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'supply-chain'
+artifact: 'registro-artefactos'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'artefactos'
+  - 'inmutables'
+  - 'semver'
+  - 'promoción'

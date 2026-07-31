@@ -1,0 +1,17 @@
+id: '038'
+number: 38
+title: 'Microsoft Entra ID, RBAC, managed identities y PIM'
+part: '03'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'iam'
+artifact: 'identidad-azure'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'microsoft'
+  - 'entra'
+  - 'id'
+  - 'rbac'
+  - 'managed'
+  - 'identities'

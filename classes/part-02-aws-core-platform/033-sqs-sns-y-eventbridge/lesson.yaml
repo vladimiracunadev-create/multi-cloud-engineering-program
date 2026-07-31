@@ -1,0 +1,14 @@
+id: '033'
+number: 33
+title: 'SQS, SNS y EventBridge'
+part: '02'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'messaging'
+artifact: 'flujo-eventos-aws'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'sqs'
+  - 'sns'
+  - 'eventbridge'

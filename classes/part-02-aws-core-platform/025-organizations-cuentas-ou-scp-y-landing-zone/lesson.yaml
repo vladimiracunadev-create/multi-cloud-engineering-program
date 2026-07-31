@@ -1,0 +1,17 @@
+id: '025'
+number: 25
+title: 'Organizations, cuentas, OU, SCP y landing zone'
+part: '02'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'governance'
+artifact: 'landing-zone-aws'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'organizations'
+  - 'cuentas'
+  - 'ou'
+  - 'scp'
+  - 'landing'
+  - 'zone'

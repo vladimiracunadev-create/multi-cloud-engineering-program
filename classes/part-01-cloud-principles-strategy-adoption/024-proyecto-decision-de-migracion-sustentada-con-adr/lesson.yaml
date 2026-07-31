@@ -1,0 +1,16 @@
+id: '024'
+number: 24
+title: 'Proyecto: decisión de migración sustentada con ADR'
+part: '01'
+level: 'inicial-intermedio'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'adr-de-migracion'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'proyecto'
+  - 'decisión'
+  - 'migración'
+  - 'sustentada'
+  - 'adr'

@@ -1,0 +1,16 @@
+id: '121'
+number: 121
+title: 'Logs, métricas, trazas y eventos como señales'
+part: '10'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'observability'
+artifact: 'mapa-telemetria'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'logs'
+  - 'métricas'
+  - 'trazas'
+  - 'eventos'
+  - 'señales'

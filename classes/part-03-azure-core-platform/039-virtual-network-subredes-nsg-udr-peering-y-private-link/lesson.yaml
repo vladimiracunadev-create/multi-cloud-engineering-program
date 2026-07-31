@@ -1,0 +1,17 @@
+id: '039'
+number: 39
+title: 'Virtual Network, subredes, NSG, UDR, peering y Private Link'
+part: '03'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'network'
+artifact: 'vnet-azure'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'virtual'
+  - 'network'
+  - 'subredes'
+  - 'nsg'
+  - 'udr'
+  - 'peering'

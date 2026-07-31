@@ -1,0 +1,15 @@
+id: '081'
+number: 81
+title: 'Helm, Kustomize y gestión de paquetes'
+part: '06'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'configuration'
+artifact: 'paquete-kubernetes'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'helm'
+  - 'kustomize'
+  - 'gestión'
+  - 'paquetes'

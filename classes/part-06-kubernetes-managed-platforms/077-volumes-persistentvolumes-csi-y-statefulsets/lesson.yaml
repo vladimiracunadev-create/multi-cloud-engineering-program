@@ -1,0 +1,15 @@
+id: '077'
+number: 77
+title: 'Volumes, PersistentVolumes, CSI y StatefulSets'
+part: '06'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'storage'
+artifact: 'estado-kubernetes'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'volumes'
+  - 'persistentvolumes'
+  - 'csi'
+  - 'statefulsets'

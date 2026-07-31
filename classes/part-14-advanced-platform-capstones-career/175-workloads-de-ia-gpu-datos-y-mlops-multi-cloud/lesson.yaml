@@ -1,0 +1,17 @@
+id: '175'
+number: 175
+title: 'Workloads de IA, GPU, datos y MLOps multi-cloud'
+part: '14'
+level: 'experto-frontera'
+estimated_hours: 4
+lab_kind: 'ai'
+artifact: 'arquitectura-ia-cloud'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'workloads'
+  - 'ia'
+  - 'gpu'
+  - 'datos'
+  - 'mlops'
+  - 'multi'

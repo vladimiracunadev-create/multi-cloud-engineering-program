@@ -1,0 +1,17 @@
+id: '170'
+number: 170
+title: 'Gobierno federado y policy as code a escala'
+part: '14'
+level: 'experto-frontera'
+estimated_hours: 4
+lab_kind: 'governance'
+artifact: 'modelo-gobierno'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'gobierno'
+  - 'federado'
+  - 'policy'
+  - 'as'
+  - 'code'
+  - 'escala'

@@ -1,0 +1,17 @@
+id: '050'
+number: 50
+title: 'IAM, service accounts y Workload Identity Federation'
+part: '04'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'iam'
+artifact: 'identidad-gcp'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'iam'
+  - 'service'
+  - 'accounts'
+  - 'workload'
+  - 'identity'
+  - 'federation'

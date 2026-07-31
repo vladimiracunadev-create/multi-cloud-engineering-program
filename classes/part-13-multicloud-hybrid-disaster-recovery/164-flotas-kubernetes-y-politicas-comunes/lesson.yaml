@@ -1,0 +1,15 @@
+id: '164'
+number: 164
+title: 'Flotas Kubernetes y políticas comunes'
+part: '13'
+level: 'experto'
+estimated_hours: 4
+lab_kind: 'kubernetes'
+artifact: 'fleet-kubernetes'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'flotas'
+  - 'kubernetes'
+  - 'políticas'
+  - 'comunes'

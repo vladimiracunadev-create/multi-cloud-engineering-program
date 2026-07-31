@@ -1,0 +1,17 @@
+id: '136'
+number: 136
+title: 'Cifrado, KMS, HSM, rotación y envelope encryption'
+part: '11'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'jerarquia-claves'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'cifrado'
+  - 'kms'
+  - 'hsm'
+  - 'rotación'
+  - 'envelope'
+  - 'encryption'

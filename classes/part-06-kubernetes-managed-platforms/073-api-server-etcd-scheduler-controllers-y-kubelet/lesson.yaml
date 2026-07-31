@@ -1,0 +1,17 @@
+id: '073'
+number: 73
+title: 'API server, etcd, scheduler, controllers y kubelet'
+part: '06'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'kubernetes'
+artifact: 'mapa-control-plane'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'api'
+  - 'server'
+  - 'etcd'
+  - 'scheduler'
+  - 'controllers'
+  - 'kubelet'

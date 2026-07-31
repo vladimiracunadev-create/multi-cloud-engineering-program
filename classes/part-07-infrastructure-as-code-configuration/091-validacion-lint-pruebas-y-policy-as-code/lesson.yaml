@@ -1,0 +1,17 @@
+id: '091'
+number: 91
+title: 'Validación, lint, pruebas y policy as code'
+part: '07'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'testing'
+artifact: 'pipeline-iac'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'validación'
+  - 'lint'
+  - 'pruebas'
+  - 'policy'
+  - 'as'
+  - 'code'

@@ -1,0 +1,15 @@
+id: '131'
+number: 131
+title: 'Chaos engineering y game days'
+part: '10'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'chaos'
+artifact: 'experimento-caos'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'chaos'
+  - 'engineering'
+  - 'game'
+  - 'days'

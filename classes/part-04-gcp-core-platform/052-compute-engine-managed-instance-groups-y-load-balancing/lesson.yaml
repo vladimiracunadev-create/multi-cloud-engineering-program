@@ -1,0 +1,17 @@
+id: '052'
+number: 52
+title: 'Compute Engine, managed instance groups y load balancing'
+part: '04'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'compute'
+artifact: 'servicio-elastico-gcp'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'compute'
+  - 'engine'
+  - 'managed'
+  - 'instance'
+  - 'groups'
+  - 'load'

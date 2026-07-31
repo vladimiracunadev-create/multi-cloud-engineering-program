@@ -1,0 +1,15 @@
+id: '064'
+number: 64
+title: 'Volúmenes, bind mounts y persistencia'
+part: '05'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'storage'
+artifact: 'persistencia-contenedor'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'volúmenes'
+  - 'bind'
+  - 'mounts'
+  - 'persistencia'

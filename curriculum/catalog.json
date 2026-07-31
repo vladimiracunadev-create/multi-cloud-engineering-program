@@ -1,0 +1,5017 @@
+[
+  {
+    "id": "001",
+    "number": 1,
+    "title": "Computación digital y modelo mental de la nube",
+    "slug": "computacion-digital-y-modelo-mental-de-la-nube",
+    "part": "00",
+    "part_slug": "foundations-computing-networking-linux",
+    "part_title": "Fundamentos de computación, redes y Linux",
+    "part_class": 1,
+    "level": "inicial",
+    "estimated_hours": 4,
+    "lab_kind": "foundation",
+    "artifact": "mapa-de-componentes",
+    "keywords": [
+      "computación",
+      "digital",
+      "modelo",
+      "mental",
+      "nube"
+    ],
+    "books": [
+      "How Linux Works — Brian Ward",
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Pro Git — Chacon y Straub"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "002",
+    "number": 2,
+    "title": "Terminal, sistema de archivos, procesos y variables de entorno",
+    "slug": "terminal-sistema-de-archivos-procesos-y-variables-de-entorno",
+    "part": "00",
+    "part_slug": "foundations-computing-networking-linux",
+    "part_title": "Fundamentos de computación, redes y Linux",
+    "part_class": 2,
+    "level": "inicial",
+    "estimated_hours": 4,
+    "lab_kind": "shell",
+    "artifact": "bitacora-de-comandos",
+    "keywords": [
+      "terminal",
+      "sistema",
+      "archivos",
+      "procesos",
+      "variables",
+      "entorno"
+    ],
+    "books": [
+      "How Linux Works — Brian Ward",
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Pro Git — Chacon y Straub"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "003",
+    "number": 3,
+    "title": "Git, GitHub y trabajo reproducible",
+    "slug": "git-github-y-trabajo-reproducible",
+    "part": "00",
+    "part_slug": "foundations-computing-networking-linux",
+    "part_title": "Fundamentos de computación, redes y Linux",
+    "part_class": 3,
+    "level": "inicial",
+    "estimated_hours": 4,
+    "lab_kind": "git",
+    "artifact": "repositorio-reproducible",
+    "keywords": [
+      "git",
+      "github",
+      "trabajo",
+      "reproducible"
+    ],
+    "books": [
+      "How Linux Works — Brian Ward",
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Pro Git — Chacon y Straub"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "004",
+    "number": 4,
+    "title": "Python, JSON y automatización mínima",
+    "slug": "python-json-y-automatizacion-minima",
+    "part": "00",
+    "part_slug": "foundations-computing-networking-linux",
+    "part_title": "Fundamentos de computación, redes y Linux",
+    "part_class": 4,
+    "level": "inicial",
+    "estimated_hours": 4,
+    "lab_kind": "automation",
+    "artifact": "script-de-diagnostico",
+    "keywords": [
+      "python",
+      "json",
+      "automatización",
+      "mínima"
+    ],
+    "books": [
+      "How Linux Works — Brian Ward",
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Pro Git — Chacon y Straub"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "005",
+    "number": 5,
+    "title": "Redes por capas, TCP/IP, puertos y sockets",
+    "slug": "redes-por-capas-tcp-ip-puertos-y-sockets",
+    "part": "00",
+    "part_slug": "foundations-computing-networking-linux",
+    "part_title": "Fundamentos de computación, redes y Linux",
+    "part_class": 5,
+    "level": "inicial",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "captura-y-mapa-de-red",
+    "keywords": [
+      "redes",
+      "capas",
+      "tcp",
+      "ip",
+      "puertos",
+      "sockets"
+    ],
+    "books": [
+      "How Linux Works — Brian Ward",
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Pro Git — Chacon y Straub"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "006",
+    "number": 6,
+    "title": "DNS, HTTP, HTTPS y TLS de extremo a extremo",
+    "slug": "dns-http-https-y-tls-de-extremo-a-extremo",
+    "part": "00",
+    "part_slug": "foundations-computing-networking-linux",
+    "part_title": "Fundamentos de computación, redes y Linux",
+    "part_class": 6,
+    "level": "inicial",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "traza-de-solicitud",
+    "keywords": [
+      "dns",
+      "http",
+      "https",
+      "tls",
+      "extremo",
+      "extremo"
+    ],
+    "books": [
+      "How Linux Works — Brian Ward",
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Pro Git — Chacon y Straub"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "007",
+    "number": 7,
+    "title": "Linux: usuarios, permisos, servicios y logs",
+    "slug": "linux-usuarios-permisos-servicios-y-logs",
+    "part": "00",
+    "part_slug": "foundations-computing-networking-linux",
+    "part_title": "Fundamentos de computación, redes y Linux",
+    "part_class": 7,
+    "level": "inicial",
+    "estimated_hours": 4,
+    "lab_kind": "linux",
+    "artifact": "servicio-auditado",
+    "keywords": [
+      "linux",
+      "usuarios",
+      "permisos",
+      "servicios",
+      "logs"
+    ],
+    "books": [
+      "How Linux Works — Brian Ward",
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Pro Git — Chacon y Straub"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "008",
+    "number": 8,
+    "title": "Virtualización, hipervisores e imágenes",
+    "slug": "virtualizacion-hipervisores-e-imagenes",
+    "part": "00",
+    "part_slug": "foundations-computing-networking-linux",
+    "part_title": "Fundamentos de computación, redes y Linux",
+    "part_class": 8,
+    "level": "inicial",
+    "estimated_hours": 4,
+    "lab_kind": "virtualization",
+    "artifact": "comparativa-de-aislamiento",
+    "keywords": [
+      "virtualización",
+      "hipervisores",
+      "e",
+      "imágenes"
+    ],
+    "books": [
+      "How Linux Works — Brian Ward",
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Pro Git — Chacon y Straub"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "009",
+    "number": 9,
+    "title": "APIs REST, autenticación y contratos",
+    "slug": "apis-rest-autenticacion-y-contratos",
+    "part": "00",
+    "part_slug": "foundations-computing-networking-linux",
+    "part_title": "Fundamentos de computación, redes y Linux",
+    "part_class": 9,
+    "level": "inicial",
+    "estimated_hours": 4,
+    "lab_kind": "api",
+    "artifact": "cliente-api-verificado",
+    "keywords": [
+      "apis",
+      "rest",
+      "autenticación",
+      "contratos"
+    ],
+    "books": [
+      "How Linux Works — Brian Ward",
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Pro Git — Chacon y Straub"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "010",
+    "number": 10,
+    "title": "Responsabilidad compartida y pensamiento de riesgo",
+    "slug": "responsabilidad-compartida-y-pensamiento-de-riesgo",
+    "part": "00",
+    "part_slug": "foundations-computing-networking-linux",
+    "part_title": "Fundamentos de computación, redes y Linux",
+    "part_class": 10,
+    "level": "inicial",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "matriz-de-responsabilidad",
+    "keywords": [
+      "responsabilidad",
+      "compartida",
+      "pensamiento",
+      "riesgo"
+    ],
+    "books": [
+      "How Linux Works — Brian Ward",
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Pro Git — Chacon y Straub"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "011",
+    "number": 11,
+    "title": "Costo, energía, capacidad y medición básica",
+    "slug": "costo-energia-capacidad-y-medicion-basica",
+    "part": "00",
+    "part_slug": "foundations-computing-networking-linux",
+    "part_title": "Fundamentos de computación, redes y Linux",
+    "part_class": 11,
+    "level": "inicial",
+    "estimated_hours": 4,
+    "lab_kind": "finops",
+    "artifact": "estimacion-de-costo",
+    "keywords": [
+      "costo",
+      "energía",
+      "capacidad",
+      "medición",
+      "básica"
+    ],
+    "books": [
+      "How Linux Works — Brian Ward",
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Pro Git — Chacon y Straub"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "012",
+    "number": 12,
+    "title": "Proyecto: servicio local reproducible y observable",
+    "slug": "proyecto-servicio-local-reproducible-y-observable",
+    "part": "00",
+    "part_slug": "foundations-computing-networking-linux",
+    "part_title": "Fundamentos de computación, redes y Linux",
+    "part_class": 12,
+    "level": "inicial",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "servicio-local",
+    "keywords": [
+      "proyecto",
+      "servicio",
+      "local",
+      "reproducible",
+      "observable"
+    ],
+    "books": [
+      "How Linux Works — Brian Ward",
+      "Computer Networking: A Top-Down Approach — Kurose y Ross",
+      "Pro Git — Chacon y Straub"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "013",
+    "number": 13,
+    "title": "Definición NIST y características esenciales de cloud",
+    "slug": "definicion-nist-y-caracteristicas-esenciales-de-cloud",
+    "part": "01",
+    "part_slug": "cloud-principles-strategy-adoption",
+    "part_title": "Principios, estrategia y adopción cloud",
+    "part_class": 1,
+    "level": "inicial-intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "foundation",
+    "artifact": "matriz-nist",
+    "keywords": [
+      "definición",
+      "nist",
+      "características",
+      "esenciales",
+      "cloud"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Cloud FinOps — Storment y Fuller",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "014",
+    "number": 14,
+    "title": "Regiones, zonas de disponibilidad, puntos de presencia y edge",
+    "slug": "regiones-zonas-de-disponibilidad-puntos-de-presencia-y-edge",
+    "part": "01",
+    "part_slug": "cloud-principles-strategy-adoption",
+    "part_title": "Principios, estrategia y adopción cloud",
+    "part_class": 2,
+    "level": "inicial-intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "mapa-de-topologia",
+    "keywords": [
+      "regiones",
+      "zonas",
+      "disponibilidad",
+      "puntos",
+      "presencia",
+      "edge"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Cloud FinOps — Storment y Fuller",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "015",
+    "number": 15,
+    "title": "IaaS, PaaS, SaaS, CaaS y FaaS",
+    "slug": "iaas-paas-saas-caas-y-faas",
+    "part": "01",
+    "part_slug": "cloud-principles-strategy-adoption",
+    "part_title": "Principios, estrategia y adopción cloud",
+    "part_class": 3,
+    "level": "inicial-intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "matriz-de-servicios",
+    "keywords": [
+      "iaas",
+      "paas",
+      "saas",
+      "caas",
+      "faas"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Cloud FinOps — Storment y Fuller",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "016",
+    "number": 16,
+    "title": "Elasticidad, escalabilidad, disponibilidad y resiliencia",
+    "slug": "elasticidad-escalabilidad-disponibilidad-y-resiliencia",
+    "part": "01",
+    "part_slug": "cloud-principles-strategy-adoption",
+    "part_title": "Principios, estrategia y adopción cloud",
+    "part_class": 4,
+    "level": "inicial-intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "reliability",
+    "artifact": "modelo-de-capacidad",
+    "keywords": [
+      "elasticidad",
+      "escalabilidad",
+      "disponibilidad",
+      "resiliencia"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Cloud FinOps — Storment y Fuller",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "017",
+    "number": 17,
+    "title": "Tenancy, cuentas, suscripciones, proyectos y jerarquías",
+    "slug": "tenancy-cuentas-suscripciones-proyectos-y-jerarquias",
+    "part": "01",
+    "part_slug": "cloud-principles-strategy-adoption",
+    "part_title": "Principios, estrategia y adopción cloud",
+    "part_class": 5,
+    "level": "inicial-intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "arbol-de-recursos",
+    "keywords": [
+      "tenancy",
+      "cuentas",
+      "suscripciones",
+      "proyectos",
+      "jerarquías"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Cloud FinOps — Storment y Fuller",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "018",
+    "number": 18,
+    "title": "Identidad, roles, políticas y federación",
+    "slug": "identidad-roles-politicas-y-federacion",
+    "part": "01",
+    "part_slug": "cloud-principles-strategy-adoption",
+    "part_title": "Principios, estrategia y adopción cloud",
+    "part_class": 6,
+    "level": "inicial-intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "iam",
+    "artifact": "matriz-rbac",
+    "keywords": [
+      "identidad",
+      "roles",
+      "políticas",
+      "federación"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Cloud FinOps — Storment y Fuller",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "019",
+    "number": 19,
+    "title": "Modelo de responsabilidad compartida por servicio",
+    "slug": "modelo-de-responsabilidad-compartida-por-servicio",
+    "part": "01",
+    "part_slug": "cloud-principles-strategy-adoption",
+    "part_title": "Principios, estrategia y adopción cloud",
+    "part_class": 7,
+    "level": "inicial-intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "raci-de-controles",
+    "keywords": [
+      "modelo",
+      "responsabilidad",
+      "compartida",
+      "servicio"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Cloud FinOps — Storment y Fuller",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "020",
+    "number": 20,
+    "title": "TCO, costos variables, unit economics y FinOps",
+    "slug": "tco-costos-variables-unit-economics-y-finops",
+    "part": "01",
+    "part_slug": "cloud-principles-strategy-adoption",
+    "part_title": "Principios, estrategia y adopción cloud",
+    "part_class": 8,
+    "level": "inicial-intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "finops",
+    "artifact": "caso-tco",
+    "keywords": [
+      "tco",
+      "costos",
+      "variables",
+      "unit",
+      "economics",
+      "finops"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Cloud FinOps — Storment y Fuller",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "021",
+    "number": 21,
+    "title": "Well-Architected y atributos de calidad",
+    "slug": "well-architected-y-atributos-de-calidad",
+    "part": "01",
+    "part_slug": "cloud-principles-strategy-adoption",
+    "part_title": "Principios, estrategia y adopción cloud",
+    "part_class": 9,
+    "level": "inicial-intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "revision-well-architected",
+    "keywords": [
+      "well",
+      "architected",
+      "atributos",
+      "calidad"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Cloud FinOps — Storment y Fuller",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "022",
+    "number": 22,
+    "title": "Cloud Adoption Framework y modelo operativo",
+    "slug": "cloud-adoption-framework-y-modelo-operativo",
+    "part": "01",
+    "part_slug": "cloud-principles-strategy-adoption",
+    "part_title": "Principios, estrategia y adopción cloud",
+    "part_class": 10,
+    "level": "inicial-intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "backlog-de-adopcion",
+    "keywords": [
+      "cloud",
+      "adoption",
+      "framework",
+      "modelo",
+      "operativo"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Cloud FinOps — Storment y Fuller",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "023",
+    "number": 23,
+    "title": "Descubrimiento y clasificación de workloads",
+    "slug": "descubrimiento-y-clasificacion-de-workloads",
+    "part": "01",
+    "part_slug": "cloud-principles-strategy-adoption",
+    "part_title": "Principios, estrategia y adopción cloud",
+    "part_class": 11,
+    "level": "inicial-intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "migration",
+    "artifact": "inventario-de-workloads",
+    "keywords": [
+      "descubrimiento",
+      "clasificación",
+      "workloads"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Cloud FinOps — Storment y Fuller",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "024",
+    "number": 24,
+    "title": "Proyecto: decisión de migración sustentada con ADR",
+    "slug": "proyecto-decision-de-migracion-sustentada-con-adr",
+    "part": "01",
+    "part_slug": "cloud-principles-strategy-adoption",
+    "part_title": "Principios, estrategia y adopción cloud",
+    "part_class": 12,
+    "level": "inicial-intermedio",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "adr-de-migracion",
+    "keywords": [
+      "proyecto",
+      "decisión",
+      "migración",
+      "sustentada",
+      "adr"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Cloud FinOps — Storment y Fuller",
+      "Accelerate — Forsgren, Humble y Kim"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "025",
+    "number": 25,
+    "title": "Organizations, cuentas, OU, SCP y landing zone",
+    "slug": "organizations-cuentas-ou-scp-y-landing-zone",
+    "part": "02",
+    "part_slug": "aws-core-platform",
+    "part_title": "AWS: plataforma esencial",
+    "part_class": 1,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "landing-zone-aws",
+    "keywords": [
+      "organizations",
+      "cuentas",
+      "ou",
+      "scp",
+      "landing",
+      "zone"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — John Culkin y Mike Zazon",
+      "Amazon Web Services in Action — Wittig y Wittig"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "026",
+    "number": 26,
+    "title": "IAM, roles, políticas, STS y federación",
+    "slug": "iam-roles-politicas-sts-y-federacion",
+    "part": "02",
+    "part_slug": "aws-core-platform",
+    "part_title": "AWS: plataforma esencial",
+    "part_class": 2,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "iam",
+    "artifact": "politica-iam-aws",
+    "keywords": [
+      "iam",
+      "roles",
+      "políticas",
+      "sts",
+      "federación"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — John Culkin y Mike Zazon",
+      "Amazon Web Services in Action — Wittig y Wittig"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "027",
+    "number": 27,
+    "title": "VPC, subredes, rutas, NAT, endpoints y seguridad",
+    "slug": "vpc-subredes-rutas-nat-endpoints-y-seguridad",
+    "part": "02",
+    "part_slug": "aws-core-platform",
+    "part_title": "AWS: plataforma esencial",
+    "part_class": 3,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "vpc-aws",
+    "keywords": [
+      "vpc",
+      "subredes",
+      "rutas",
+      "nat",
+      "endpoints",
+      "seguridad"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — John Culkin y Mike Zazon",
+      "Amazon Web Services in Action — Wittig y Wittig"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "028",
+    "number": 28,
+    "title": "EC2, AMI, EBS y selección de capacidad",
+    "slug": "ec2-ami-ebs-y-seleccion-de-capacidad",
+    "part": "02",
+    "part_slug": "aws-core-platform",
+    "part_title": "AWS: plataforma esencial",
+    "part_class": 4,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "compute",
+    "artifact": "instancia-aws",
+    "keywords": [
+      "ec2",
+      "ami",
+      "ebs",
+      "selección",
+      "capacidad"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — John Culkin y Mike Zazon",
+      "Amazon Web Services in Action — Wittig y Wittig"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "029",
+    "number": 29,
+    "title": "Elastic Load Balancing y Auto Scaling",
+    "slug": "elastic-load-balancing-y-auto-scaling",
+    "part": "02",
+    "part_slug": "aws-core-platform",
+    "part_title": "AWS: plataforma esencial",
+    "part_class": 5,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "reliability",
+    "artifact": "servicio-elastico-aws",
+    "keywords": [
+      "elastic",
+      "load",
+      "balancing",
+      "auto",
+      "scaling"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — John Culkin y Mike Zazon",
+      "Amazon Web Services in Action — Wittig y Wittig"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "030",
+    "number": 30,
+    "title": "S3: objetos, versionado, lifecycle y replicación",
+    "slug": "s3-objetos-versionado-lifecycle-y-replicacion",
+    "part": "02",
+    "part_slug": "aws-core-platform",
+    "part_title": "AWS: plataforma esencial",
+    "part_class": 6,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "storage",
+    "artifact": "bucket-gobernado-aws",
+    "keywords": [
+      "s3",
+      "objetos",
+      "versionado",
+      "lifecycle",
+      "replicación"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — John Culkin y Mike Zazon",
+      "Amazon Web Services in Action — Wittig y Wittig"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "031",
+    "number": 31,
+    "title": "RDS, DynamoDB y ElastiCache: decisión de datos",
+    "slug": "rds-dynamodb-y-elasticache-decision-de-datos",
+    "part": "02",
+    "part_slug": "aws-core-platform",
+    "part_title": "AWS: plataforma esencial",
+    "part_class": 7,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "matriz-datos-aws",
+    "keywords": [
+      "rds",
+      "dynamodb",
+      "elasticache",
+      "decisión",
+      "datos"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — John Culkin y Mike Zazon",
+      "Amazon Web Services in Action — Wittig y Wittig"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "032",
+    "number": 32,
+    "title": "Lambda, API Gateway y Step Functions",
+    "slug": "lambda-api-gateway-y-step-functions",
+    "part": "02",
+    "part_slug": "aws-core-platform",
+    "part_title": "AWS: plataforma esencial",
+    "part_class": 8,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "serverless",
+    "artifact": "api-serverless-aws",
+    "keywords": [
+      "lambda",
+      "api",
+      "gateway",
+      "step",
+      "functions"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — John Culkin y Mike Zazon",
+      "Amazon Web Services in Action — Wittig y Wittig"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "033",
+    "number": 33,
+    "title": "SQS, SNS y EventBridge",
+    "slug": "sqs-sns-y-eventbridge",
+    "part": "02",
+    "part_slug": "aws-core-platform",
+    "part_title": "AWS: plataforma esencial",
+    "part_class": 9,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "messaging",
+    "artifact": "flujo-eventos-aws",
+    "keywords": [
+      "sqs",
+      "sns",
+      "eventbridge"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — John Culkin y Mike Zazon",
+      "Amazon Web Services in Action — Wittig y Wittig"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "034",
+    "number": 34,
+    "title": "CloudWatch, CloudTrail, Config y Systems Manager",
+    "slug": "cloudwatch-cloudtrail-config-y-systems-manager",
+    "part": "02",
+    "part_slug": "aws-core-platform",
+    "part_title": "AWS: plataforma esencial",
+    "part_class": 10,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "evidencia-operativa-aws",
+    "keywords": [
+      "cloudwatch",
+      "cloudtrail",
+      "config",
+      "systems",
+      "manager"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — John Culkin y Mike Zazon",
+      "Amazon Web Services in Action — Wittig y Wittig"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "035",
+    "number": 35,
+    "title": "KMS, Secrets Manager, WAF y controles de seguridad",
+    "slug": "kms-secrets-manager-waf-y-controles-de-seguridad",
+    "part": "02",
+    "part_slug": "aws-core-platform",
+    "part_title": "AWS: plataforma esencial",
+    "part_class": 11,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "controles-aws",
+    "keywords": [
+      "kms",
+      "secrets",
+      "manager",
+      "waf",
+      "controles",
+      "seguridad"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — John Culkin y Mike Zazon",
+      "Amazon Web Services in Action — Wittig y Wittig"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "036",
+    "number": 36,
+    "title": "Proyecto: aplicación de tres capas en AWS",
+    "slug": "proyecto-aplicacion-de-tres-capas-en-aws",
+    "part": "02",
+    "part_slug": "aws-core-platform",
+    "part_title": "AWS: plataforma esencial",
+    "part_class": 12,
+    "level": "intermedio",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "plataforma-aws",
+    "keywords": [
+      "proyecto",
+      "aplicación",
+      "tres",
+      "capas",
+      "aws"
+    ],
+    "books": [
+      "AWS Well-Architected Framework — AWS",
+      "AWS Cookbook — John Culkin y Mike Zazon",
+      "Amazon Web Services in Action — Wittig y Wittig"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "037",
+    "number": 37,
+    "title": "Tenant, management groups, suscripciones y resource groups",
+    "slug": "tenant-management-groups-suscripciones-y-resource-groups",
+    "part": "03",
+    "part_slug": "azure-core-platform",
+    "part_title": "Azure: plataforma esencial",
+    "part_class": 1,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "jerarquia-azure",
+    "keywords": [
+      "tenant",
+      "management",
+      "groups",
+      "suscripciones",
+      "resource",
+      "groups"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Azure for Architects — Ritesh Modi",
+      "Exam Ref AZ-305 — Microsoft Press"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "038",
+    "number": 38,
+    "title": "Microsoft Entra ID, RBAC, managed identities y PIM",
+    "slug": "microsoft-entra-id-rbac-managed-identities-y-pim",
+    "part": "03",
+    "part_slug": "azure-core-platform",
+    "part_title": "Azure: plataforma esencial",
+    "part_class": 2,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "iam",
+    "artifact": "identidad-azure",
+    "keywords": [
+      "microsoft",
+      "entra",
+      "id",
+      "rbac",
+      "managed",
+      "identities"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Azure for Architects — Ritesh Modi",
+      "Exam Ref AZ-305 — Microsoft Press"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "039",
+    "number": 39,
+    "title": "Virtual Network, subredes, NSG, UDR, peering y Private Link",
+    "slug": "virtual-network-subredes-nsg-udr-peering-y-private-link",
+    "part": "03",
+    "part_slug": "azure-core-platform",
+    "part_title": "Azure: plataforma esencial",
+    "part_class": 3,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "vnet-azure",
+    "keywords": [
+      "virtual",
+      "network",
+      "subredes",
+      "nsg",
+      "udr",
+      "peering"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Azure for Architects — Ritesh Modi",
+      "Exam Ref AZ-305 — Microsoft Press"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "040",
+    "number": 40,
+    "title": "Virtual Machines, Scale Sets y Load Balancer",
+    "slug": "virtual-machines-scale-sets-y-load-balancer",
+    "part": "03",
+    "part_slug": "azure-core-platform",
+    "part_title": "Azure: plataforma esencial",
+    "part_class": 4,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "compute",
+    "artifact": "servicio-elastico-azure",
+    "keywords": [
+      "virtual",
+      "machines",
+      "scale",
+      "sets",
+      "load",
+      "balancer"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Azure for Architects — Ritesh Modi",
+      "Exam Ref AZ-305 — Microsoft Press"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "041",
+    "number": 41,
+    "title": "Blob Storage, Files, redundancia y lifecycle",
+    "slug": "blob-storage-files-redundancia-y-lifecycle",
+    "part": "03",
+    "part_slug": "azure-core-platform",
+    "part_title": "Azure: plataforma esencial",
+    "part_class": 5,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "storage",
+    "artifact": "storage-gobernado-azure",
+    "keywords": [
+      "blob",
+      "storage",
+      "files",
+      "redundancia",
+      "lifecycle"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Azure for Architects — Ritesh Modi",
+      "Exam Ref AZ-305 — Microsoft Press"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "042",
+    "number": 42,
+    "title": "Azure SQL, Cosmos DB y Azure Cache for Redis",
+    "slug": "azure-sql-cosmos-db-y-azure-cache-for-redis",
+    "part": "03",
+    "part_slug": "azure-core-platform",
+    "part_title": "Azure: plataforma esencial",
+    "part_class": 6,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "matriz-datos-azure",
+    "keywords": [
+      "azure",
+      "sql",
+      "cosmos",
+      "db",
+      "azure",
+      "cache"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Azure for Architects — Ritesh Modi",
+      "Exam Ref AZ-305 — Microsoft Press"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "043",
+    "number": 43,
+    "title": "App Service, Functions y Container Apps",
+    "slug": "app-service-functions-y-container-apps",
+    "part": "03",
+    "part_slug": "azure-core-platform",
+    "part_title": "Azure: plataforma esencial",
+    "part_class": 7,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "serverless",
+    "artifact": "api-plataforma-azure",
+    "keywords": [
+      "app",
+      "service",
+      "functions",
+      "container",
+      "apps"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Azure for Architects — Ritesh Modi",
+      "Exam Ref AZ-305 — Microsoft Press"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "044",
+    "number": 44,
+    "title": "Service Bus, Event Grid y Event Hubs",
+    "slug": "service-bus-event-grid-y-event-hubs",
+    "part": "03",
+    "part_slug": "azure-core-platform",
+    "part_title": "Azure: plataforma esencial",
+    "part_class": 8,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "messaging",
+    "artifact": "flujo-eventos-azure",
+    "keywords": [
+      "service",
+      "bus",
+      "event",
+      "grid",
+      "event",
+      "hubs"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Azure for Architects — Ritesh Modi",
+      "Exam Ref AZ-305 — Microsoft Press"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "045",
+    "number": 45,
+    "title": "Azure Monitor, Log Analytics y Application Insights",
+    "slug": "azure-monitor-log-analytics-y-application-insights",
+    "part": "03",
+    "part_slug": "azure-core-platform",
+    "part_title": "Azure: plataforma esencial",
+    "part_class": 9,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "evidencia-operativa-azure",
+    "keywords": [
+      "azure",
+      "monitor",
+      "log",
+      "analytics",
+      "application",
+      "insights"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Azure for Architects — Ritesh Modi",
+      "Exam Ref AZ-305 — Microsoft Press"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "046",
+    "number": 46,
+    "title": "Key Vault, Defender for Cloud y Azure Policy",
+    "slug": "key-vault-defender-for-cloud-y-azure-policy",
+    "part": "03",
+    "part_slug": "azure-core-platform",
+    "part_title": "Azure: plataforma esencial",
+    "part_class": 10,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "controles-azure",
+    "keywords": [
+      "key",
+      "vault",
+      "defender",
+      "for",
+      "cloud",
+      "azure"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Azure for Architects — Ritesh Modi",
+      "Exam Ref AZ-305 — Microsoft Press"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "047",
+    "number": 47,
+    "title": "Bicep, plantillas y despliegues por alcance",
+    "slug": "bicep-plantillas-y-despliegues-por-alcance",
+    "part": "03",
+    "part_slug": "azure-core-platform",
+    "part_title": "Azure: plataforma esencial",
+    "part_class": 11,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "iac",
+    "artifact": "infraestructura-bicep",
+    "keywords": [
+      "bicep",
+      "plantillas",
+      "despliegues",
+      "alcance"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Azure for Architects — Ritesh Modi",
+      "Exam Ref AZ-305 — Microsoft Press"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "048",
+    "number": 48,
+    "title": "Proyecto: aplicación de tres capas en Azure",
+    "slug": "proyecto-aplicacion-de-tres-capas-en-azure",
+    "part": "03",
+    "part_slug": "azure-core-platform",
+    "part_title": "Azure: plataforma esencial",
+    "part_class": 12,
+    "level": "intermedio",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "plataforma-azure",
+    "keywords": [
+      "proyecto",
+      "aplicación",
+      "tres",
+      "capas",
+      "azure"
+    ],
+    "books": [
+      "Azure Architecture Center — Microsoft",
+      "Azure for Architects — Ritesh Modi",
+      "Exam Ref AZ-305 — Microsoft Press"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "049",
+    "number": 49,
+    "title": "Organización, folders, proyectos, billing y cuotas",
+    "slug": "organizacion-folders-proyectos-billing-y-cuotas",
+    "part": "04",
+    "part_slug": "gcp-core-platform",
+    "part_title": "Google Cloud: plataforma esencial",
+    "part_class": 1,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "jerarquia-gcp",
+    "keywords": [
+      "organización",
+      "folders",
+      "proyectos",
+      "billing",
+      "cuotas"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud Platform — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "050",
+    "number": 50,
+    "title": "IAM, service accounts y Workload Identity Federation",
+    "slug": "iam-service-accounts-y-workload-identity-federation",
+    "part": "04",
+    "part_slug": "gcp-core-platform",
+    "part_title": "Google Cloud: plataforma esencial",
+    "part_class": 2,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "iam",
+    "artifact": "identidad-gcp",
+    "keywords": [
+      "iam",
+      "service",
+      "accounts",
+      "workload",
+      "identity",
+      "federation"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud Platform — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "051",
+    "number": 51,
+    "title": "VPC global, subredes regionales, firewall y Cloud NAT",
+    "slug": "vpc-global-subredes-regionales-firewall-y-cloud-nat",
+    "part": "04",
+    "part_slug": "gcp-core-platform",
+    "part_title": "Google Cloud: plataforma esencial",
+    "part_class": 3,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "vpc-gcp",
+    "keywords": [
+      "vpc",
+      "global",
+      "subredes",
+      "regionales",
+      "firewall",
+      "cloud"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud Platform — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "052",
+    "number": 52,
+    "title": "Compute Engine, managed instance groups y load balancing",
+    "slug": "compute-engine-managed-instance-groups-y-load-balancing",
+    "part": "04",
+    "part_slug": "gcp-core-platform",
+    "part_title": "Google Cloud: plataforma esencial",
+    "part_class": 4,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "compute",
+    "artifact": "servicio-elastico-gcp",
+    "keywords": [
+      "compute",
+      "engine",
+      "managed",
+      "instance",
+      "groups",
+      "load"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud Platform — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "053",
+    "number": 53,
+    "title": "Cloud Storage, clases, lifecycle y replicación",
+    "slug": "cloud-storage-clases-lifecycle-y-replicacion",
+    "part": "04",
+    "part_slug": "gcp-core-platform",
+    "part_title": "Google Cloud: plataforma esencial",
+    "part_class": 5,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "storage",
+    "artifact": "bucket-gobernado-gcp",
+    "keywords": [
+      "cloud",
+      "storage",
+      "clases",
+      "lifecycle",
+      "replicación"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud Platform — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "054",
+    "number": 54,
+    "title": "Cloud SQL, Spanner, Firestore y Memorystore",
+    "slug": "cloud-sql-spanner-firestore-y-memorystore",
+    "part": "04",
+    "part_slug": "gcp-core-platform",
+    "part_title": "Google Cloud: plataforma esencial",
+    "part_class": 6,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "matriz-datos-gcp",
+    "keywords": [
+      "cloud",
+      "sql",
+      "spanner",
+      "firestore",
+      "memorystore"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud Platform — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "055",
+    "number": 55,
+    "title": "Cloud Run, Cloud Functions y API Gateway",
+    "slug": "cloud-run-cloud-functions-y-api-gateway",
+    "part": "04",
+    "part_slug": "gcp-core-platform",
+    "part_title": "Google Cloud: plataforma esencial",
+    "part_class": 7,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "serverless",
+    "artifact": "api-serverless-gcp",
+    "keywords": [
+      "cloud",
+      "run",
+      "cloud",
+      "functions",
+      "api",
+      "gateway"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud Platform — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "056",
+    "number": 56,
+    "title": "Pub/Sub, Cloud Tasks y Workflows",
+    "slug": "pub-sub-cloud-tasks-y-workflows",
+    "part": "04",
+    "part_slug": "gcp-core-platform",
+    "part_title": "Google Cloud: plataforma esencial",
+    "part_class": 8,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "messaging",
+    "artifact": "flujo-eventos-gcp",
+    "keywords": [
+      "pub",
+      "sub",
+      "cloud",
+      "tasks",
+      "workflows"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud Platform — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "057",
+    "number": 57,
+    "title": "Cloud Logging, Monitoring, Trace y Audit Logs",
+    "slug": "cloud-logging-monitoring-trace-y-audit-logs",
+    "part": "04",
+    "part_slug": "gcp-core-platform",
+    "part_title": "Google Cloud: plataforma esencial",
+    "part_class": 9,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "evidencia-operativa-gcp",
+    "keywords": [
+      "cloud",
+      "logging",
+      "monitoring",
+      "trace",
+      "audit",
+      "logs"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud Platform — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "058",
+    "number": 58,
+    "title": "Cloud KMS, Secret Manager y Security Command Center",
+    "slug": "cloud-kms-secret-manager-y-security-command-center",
+    "part": "04",
+    "part_slug": "gcp-core-platform",
+    "part_title": "Google Cloud: plataforma esencial",
+    "part_class": 10,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "controles-gcp",
+    "keywords": [
+      "cloud",
+      "kms",
+      "secret",
+      "manager",
+      "security",
+      "command"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud Platform — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "059",
+    "number": 59,
+    "title": "Terraform y despliegues reproducibles en GCP",
+    "slug": "terraform-y-despliegues-reproducibles-en-gcp",
+    "part": "04",
+    "part_slug": "gcp-core-platform",
+    "part_title": "Google Cloud: plataforma esencial",
+    "part_class": 11,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "iac",
+    "artifact": "infraestructura-gcp",
+    "keywords": [
+      "terraform",
+      "despliegues",
+      "reproducibles",
+      "gcp"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud Platform — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "060",
+    "number": 60,
+    "title": "Proyecto: aplicación de tres capas en Google Cloud",
+    "slug": "proyecto-aplicacion-de-tres-capas-en-google-cloud",
+    "part": "04",
+    "part_slug": "gcp-core-platform",
+    "part_title": "Google Cloud: plataforma esencial",
+    "part_class": 12,
+    "level": "intermedio",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "plataforma-gcp",
+    "keywords": [
+      "proyecto",
+      "aplicación",
+      "tres",
+      "capas",
+      "google",
+      "cloud"
+    ],
+    "books": [
+      "Google Cloud Architecture Framework — Google",
+      "Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan",
+      "Data Engineering with Google Cloud Platform — Adi Wijaya"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "061",
+    "number": 61,
+    "title": "Imágenes, capas, registros y estándar OCI",
+    "slug": "imagenes-capas-registros-y-estandar-oci",
+    "part": "05",
+    "part_slug": "containers-docker-oci",
+    "part_title": "Contenedores, Docker y OCI",
+    "part_class": 1,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "container",
+    "artifact": "inspeccion-imagen",
+    "keywords": [
+      "imágenes",
+      "capas",
+      "registros",
+      "estándar",
+      "oci"
+    ],
+    "books": [
+      "Docker Deep Dive — Nigel Poulton",
+      "Container Security — Liz Rice",
+      "Cloud Native Patterns — Cornelia Davis"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "062",
+    "number": 62,
+    "title": "Dockerfile reproducible y builds multi-stage",
+    "slug": "dockerfile-reproducible-y-builds-multi-stage",
+    "part": "05",
+    "part_slug": "containers-docker-oci",
+    "part_title": "Contenedores, Docker y OCI",
+    "part_class": 2,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "container",
+    "artifact": "imagen-minima",
+    "keywords": [
+      "dockerfile",
+      "reproducible",
+      "builds",
+      "multi",
+      "stage"
+    ],
+    "books": [
+      "Docker Deep Dive — Nigel Poulton",
+      "Container Security — Liz Rice",
+      "Cloud Native Patterns — Cornelia Davis"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "063",
+    "number": 63,
+    "title": "Namespaces, cgroups y runtime de contenedores",
+    "slug": "namespaces-cgroups-y-runtime-de-contenedores",
+    "part": "05",
+    "part_slug": "containers-docker-oci",
+    "part_title": "Contenedores, Docker y OCI",
+    "part_class": 3,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "container",
+    "artifact": "mapa-aislamiento",
+    "keywords": [
+      "namespaces",
+      "cgroups",
+      "runtime",
+      "contenedores"
+    ],
+    "books": [
+      "Docker Deep Dive — Nigel Poulton",
+      "Container Security — Liz Rice",
+      "Cloud Native Patterns — Cornelia Davis"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "064",
+    "number": 64,
+    "title": "Volúmenes, bind mounts y persistencia",
+    "slug": "volumenes-bind-mounts-y-persistencia",
+    "part": "05",
+    "part_slug": "containers-docker-oci",
+    "part_title": "Contenedores, Docker y OCI",
+    "part_class": 4,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "storage",
+    "artifact": "persistencia-contenedor",
+    "keywords": [
+      "volúmenes",
+      "bind",
+      "mounts",
+      "persistencia"
+    ],
+    "books": [
+      "Docker Deep Dive — Nigel Poulton",
+      "Container Security — Liz Rice",
+      "Cloud Native Patterns — Cornelia Davis"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "065",
+    "number": 65,
+    "title": "Redes bridge, DNS interno y publicación de puertos",
+    "slug": "redes-bridge-dns-interno-y-publicacion-de-puertos",
+    "part": "05",
+    "part_slug": "containers-docker-oci",
+    "part_title": "Contenedores, Docker y OCI",
+    "part_class": 5,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "red-contenedores",
+    "keywords": [
+      "redes",
+      "bridge",
+      "dns",
+      "interno",
+      "publicación",
+      "puertos"
+    ],
+    "books": [
+      "Docker Deep Dive — Nigel Poulton",
+      "Container Security — Liz Rice",
+      "Cloud Native Patterns — Cornelia Davis"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "066",
+    "number": 66,
+    "title": "Docker Compose y aplicaciones multiservicio",
+    "slug": "docker-compose-y-aplicaciones-multiservicio",
+    "part": "05",
+    "part_slug": "containers-docker-oci",
+    "part_title": "Contenedores, Docker y OCI",
+    "part_class": 6,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "orchestration",
+    "artifact": "stack-compose",
+    "keywords": [
+      "docker",
+      "compose",
+      "aplicaciones",
+      "multiservicio"
+    ],
+    "books": [
+      "Docker Deep Dive — Nigel Poulton",
+      "Container Security — Liz Rice",
+      "Cloud Native Patterns — Cornelia Davis"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "067",
+    "number": 67,
+    "title": "Registros, SBOM, firma y procedencia de imágenes",
+    "slug": "registros-sbom-firma-y-procedencia-de-imagenes",
+    "part": "05",
+    "part_slug": "containers-docker-oci",
+    "part_title": "Contenedores, Docker y OCI",
+    "part_class": 7,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "supply-chain",
+    "artifact": "cadena-suministro-imagen",
+    "keywords": [
+      "registros",
+      "sbom",
+      "firma",
+      "procedencia",
+      "imágenes"
+    ],
+    "books": [
+      "Docker Deep Dive — Nigel Poulton",
+      "Container Security — Liz Rice",
+      "Cloud Native Patterns — Cornelia Davis"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "068",
+    "number": 68,
+    "title": "Límites, health checks y apagado ordenado",
+    "slug": "limites-health-checks-y-apagado-ordenado",
+    "part": "05",
+    "part_slug": "containers-docker-oci",
+    "part_title": "Contenedores, Docker y OCI",
+    "part_class": 8,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "reliability",
+    "artifact": "contenedor-operable",
+    "keywords": [
+      "límites",
+      "health",
+      "checks",
+      "apagado",
+      "ordenado"
+    ],
+    "books": [
+      "Docker Deep Dive — Nigel Poulton",
+      "Container Security — Liz Rice",
+      "Cloud Native Patterns — Cornelia Davis"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "069",
+    "number": 69,
+    "title": "Rootless, capabilities, seccomp y secretos",
+    "slug": "rootless-capabilities-seccomp-y-secretos",
+    "part": "05",
+    "part_slug": "containers-docker-oci",
+    "part_title": "Contenedores, Docker y OCI",
+    "part_class": 9,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "contenedor-endurecido",
+    "keywords": [
+      "rootless",
+      "capabilities",
+      "seccomp",
+      "secretos"
+    ],
+    "books": [
+      "Docker Deep Dive — Nigel Poulton",
+      "Container Security — Liz Rice",
+      "Cloud Native Patterns — Cornelia Davis"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "070",
+    "number": 70,
+    "title": "Diagnóstico de CPU, memoria, red y filesystem",
+    "slug": "diagnostico-de-cpu-memoria-red-y-filesystem",
+    "part": "05",
+    "part_slug": "containers-docker-oci",
+    "part_title": "Contenedores, Docker y OCI",
+    "part_class": 10,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "informe-diagnostico",
+    "keywords": [
+      "diagnóstico",
+      "cpu",
+      "memoria",
+      "red",
+      "filesystem"
+    ],
+    "books": [
+      "Docker Deep Dive — Nigel Poulton",
+      "Container Security — Liz Rice",
+      "Cloud Native Patterns — Cornelia Davis"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "071",
+    "number": 71,
+    "title": "Migración de una aplicación legacy a contenedores",
+    "slug": "migracion-de-una-aplicacion-legacy-a-contenedores",
+    "part": "05",
+    "part_slug": "containers-docker-oci",
+    "part_title": "Contenedores, Docker y OCI",
+    "part_class": 11,
+    "level": "intermedio",
+    "estimated_hours": 4,
+    "lab_kind": "migration",
+    "artifact": "plan-modernizacion",
+    "keywords": [
+      "migración",
+      "aplicación",
+      "legacy",
+      "contenedores"
+    ],
+    "books": [
+      "Docker Deep Dive — Nigel Poulton",
+      "Container Security — Liz Rice",
+      "Cloud Native Patterns — Cornelia Davis"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "072",
+    "number": 72,
+    "title": "Proyecto: stack OCI endurecido y observable",
+    "slug": "proyecto-stack-oci-endurecido-y-observable",
+    "part": "05",
+    "part_slug": "containers-docker-oci",
+    "part_title": "Contenedores, Docker y OCI",
+    "part_class": 12,
+    "level": "intermedio",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "plataforma-contenedores",
+    "keywords": [
+      "proyecto",
+      "stack",
+      "oci",
+      "endurecido",
+      "observable"
+    ],
+    "books": [
+      "Docker Deep Dive — Nigel Poulton",
+      "Container Security — Liz Rice",
+      "Cloud Native Patterns — Cornelia Davis"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "073",
+    "number": 73,
+    "title": "API server, etcd, scheduler, controllers y kubelet",
+    "slug": "api-server-etcd-scheduler-controllers-y-kubelet",
+    "part": "06",
+    "part_slug": "kubernetes-managed-platforms",
+    "part_title": "Kubernetes y plataformas administradas",
+    "part_class": 1,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "kubernetes",
+    "artifact": "mapa-control-plane",
+    "keywords": [
+      "api",
+      "server",
+      "etcd",
+      "scheduler",
+      "controllers",
+      "kubelet"
+    ],
+    "books": [
+      "Kubernetes: Up and Running — Burns, Beda y Hightower",
+      "Kubernetes Patterns — Ibryam y Huß",
+      "Production Kubernetes — Rosso et al."
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "074",
+    "number": 74,
+    "title": "Pods, ReplicaSets, Deployments y Jobs",
+    "slug": "pods-replicasets-deployments-y-jobs",
+    "part": "06",
+    "part_slug": "kubernetes-managed-platforms",
+    "part_title": "Kubernetes y plataformas administradas",
+    "part_class": 2,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "kubernetes",
+    "artifact": "workload-kubernetes",
+    "keywords": [
+      "pods",
+      "replicasets",
+      "deployments",
+      "jobs"
+    ],
+    "books": [
+      "Kubernetes: Up and Running — Burns, Beda y Hightower",
+      "Kubernetes Patterns — Ibryam y Huß",
+      "Production Kubernetes — Rosso et al."
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "075",
+    "number": 75,
+    "title": "Services, DNS, Ingress y Gateway API",
+    "slug": "services-dns-ingress-y-gateway-api",
+    "part": "06",
+    "part_slug": "kubernetes-managed-platforms",
+    "part_title": "Kubernetes y plataformas administradas",
+    "part_class": 3,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "exposicion-kubernetes",
+    "keywords": [
+      "services",
+      "dns",
+      "ingress",
+      "gateway",
+      "api"
+    ],
+    "books": [
+      "Kubernetes: Up and Running — Burns, Beda y Hightower",
+      "Kubernetes Patterns — Ibryam y Huß",
+      "Production Kubernetes — Rosso et al."
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "076",
+    "number": 76,
+    "title": "ConfigMaps, Secrets y configuración externa",
+    "slug": "configmaps-secrets-y-configuracion-externa",
+    "part": "06",
+    "part_slug": "kubernetes-managed-platforms",
+    "part_title": "Kubernetes y plataformas administradas",
+    "part_class": 4,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "configuration",
+    "artifact": "configuracion-kubernetes",
+    "keywords": [
+      "configmaps",
+      "secrets",
+      "configuración",
+      "externa"
+    ],
+    "books": [
+      "Kubernetes: Up and Running — Burns, Beda y Hightower",
+      "Kubernetes Patterns — Ibryam y Huß",
+      "Production Kubernetes — Rosso et al."
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "077",
+    "number": 77,
+    "title": "Volumes, PersistentVolumes, CSI y StatefulSets",
+    "slug": "volumes-persistentvolumes-csi-y-statefulsets",
+    "part": "06",
+    "part_slug": "kubernetes-managed-platforms",
+    "part_title": "Kubernetes y plataformas administradas",
+    "part_class": 5,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "storage",
+    "artifact": "estado-kubernetes",
+    "keywords": [
+      "volumes",
+      "persistentvolumes",
+      "csi",
+      "statefulsets"
+    ],
+    "books": [
+      "Kubernetes: Up and Running — Burns, Beda y Hightower",
+      "Kubernetes Patterns — Ibryam y Huß",
+      "Production Kubernetes — Rosso et al."
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "078",
+    "number": 78,
+    "title": "Requests, limits, scheduling y autoscaling",
+    "slug": "requests-limits-scheduling-y-autoscaling",
+    "part": "06",
+    "part_slug": "kubernetes-managed-platforms",
+    "part_title": "Kubernetes y plataformas administradas",
+    "part_class": 6,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "capacity",
+    "artifact": "capacidad-kubernetes",
+    "keywords": [
+      "requests",
+      "limits",
+      "scheduling",
+      "autoscaling"
+    ],
+    "books": [
+      "Kubernetes: Up and Running — Burns, Beda y Hightower",
+      "Kubernetes Patterns — Ibryam y Huß",
+      "Production Kubernetes — Rosso et al."
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "079",
+    "number": 79,
+    "title": "Probes, rollouts, rollback y PodDisruptionBudget",
+    "slug": "probes-rollouts-rollback-y-poddisruptionbudget",
+    "part": "06",
+    "part_slug": "kubernetes-managed-platforms",
+    "part_title": "Kubernetes y plataformas administradas",
+    "part_class": 7,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "reliability",
+    "artifact": "despliegue-resiliente",
+    "keywords": [
+      "probes",
+      "rollouts",
+      "rollback",
+      "poddisruptionbudget"
+    ],
+    "books": [
+      "Kubernetes: Up and Running — Burns, Beda y Hightower",
+      "Kubernetes Patterns — Ibryam y Huß",
+      "Production Kubernetes — Rosso et al."
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "080",
+    "number": 80,
+    "title": "Namespaces, RBAC, NetworkPolicy y admission",
+    "slug": "namespaces-rbac-networkpolicy-y-admission",
+    "part": "06",
+    "part_slug": "kubernetes-managed-platforms",
+    "part_title": "Kubernetes y plataformas administradas",
+    "part_class": 8,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "tenant-kubernetes",
+    "keywords": [
+      "namespaces",
+      "rbac",
+      "networkpolicy",
+      "admission"
+    ],
+    "books": [
+      "Kubernetes: Up and Running — Burns, Beda y Hightower",
+      "Kubernetes Patterns — Ibryam y Huß",
+      "Production Kubernetes — Rosso et al."
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "081",
+    "number": 81,
+    "title": "Helm, Kustomize y gestión de paquetes",
+    "slug": "helm-kustomize-y-gestion-de-paquetes",
+    "part": "06",
+    "part_slug": "kubernetes-managed-platforms",
+    "part_title": "Kubernetes y plataformas administradas",
+    "part_class": 9,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "configuration",
+    "artifact": "paquete-kubernetes",
+    "keywords": [
+      "helm",
+      "kustomize",
+      "gestión",
+      "paquetes"
+    ],
+    "books": [
+      "Kubernetes: Up and Running — Burns, Beda y Hightower",
+      "Kubernetes Patterns — Ibryam y Huß",
+      "Production Kubernetes — Rosso et al."
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "082",
+    "number": 82,
+    "title": "Logs, métricas, eventos y depuración",
+    "slug": "logs-metricas-eventos-y-depuracion",
+    "part": "06",
+    "part_slug": "kubernetes-managed-platforms",
+    "part_title": "Kubernetes y plataformas administradas",
+    "part_class": 10,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "diagnostico-kubernetes",
+    "keywords": [
+      "logs",
+      "métricas",
+      "eventos",
+      "depuración"
+    ],
+    "books": [
+      "Kubernetes: Up and Running — Burns, Beda y Hightower",
+      "Kubernetes Patterns — Ibryam y Huß",
+      "Production Kubernetes — Rosso et al."
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "083",
+    "number": 83,
+    "title": "EKS, AKS y GKE: similitudes y diferencias",
+    "slug": "eks-aks-y-gke-similitudes-y-diferencias",
+    "part": "06",
+    "part_slug": "kubernetes-managed-platforms",
+    "part_title": "Kubernetes y plataformas administradas",
+    "part_class": 11,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "matriz-kubernetes-administrado",
+    "keywords": [
+      "eks",
+      "aks",
+      "gke",
+      "similitudes",
+      "diferencias"
+    ],
+    "books": [
+      "Kubernetes: Up and Running — Burns, Beda y Hightower",
+      "Kubernetes Patterns — Ibryam y Huß",
+      "Production Kubernetes — Rosso et al."
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "084",
+    "number": 84,
+    "title": "Proyecto: plataforma Kubernetes portable",
+    "slug": "proyecto-plataforma-kubernetes-portable",
+    "part": "06",
+    "part_slug": "kubernetes-managed-platforms",
+    "part_title": "Kubernetes y plataformas administradas",
+    "part_class": 12,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "plataforma-kubernetes",
+    "keywords": [
+      "proyecto",
+      "plataforma",
+      "kubernetes",
+      "portable"
+    ],
+    "books": [
+      "Kubernetes: Up and Running — Burns, Beda y Hightower",
+      "Kubernetes Patterns — Ibryam y Huß",
+      "Production Kubernetes — Rosso et al."
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "085",
+    "number": 85,
+    "title": "Declarativo, imperativo, idempotencia y convergencia",
+    "slug": "declarativo-imperativo-idempotencia-y-convergencia",
+    "part": "07",
+    "part_slug": "infrastructure-as-code-configuration",
+    "part_title": "Infraestructura como código y configuración",
+    "part_class": 1,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "iac",
+    "artifact": "comparativa-iac",
+    "keywords": [
+      "declarativo",
+      "imperativo",
+      "idempotencia",
+      "convergencia"
+    ],
+    "books": [
+      "Infrastructure as Code — Kief Morris",
+      "Terraform: Up & Running — Yevgeniy Brikman",
+      "Ansible for DevOps — Jeff Geerling"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "086",
+    "number": 86,
+    "title": "Terraform: HCL, providers, resources y grafo",
+    "slug": "terraform-hcl-providers-resources-y-grafo",
+    "part": "07",
+    "part_slug": "infrastructure-as-code-configuration",
+    "part_title": "Infraestructura como código y configuración",
+    "part_class": 2,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "iac",
+    "artifact": "stack-terraform",
+    "keywords": [
+      "terraform",
+      "hcl",
+      "providers",
+      "resources",
+      "grafo"
+    ],
+    "books": [
+      "Infrastructure as Code — Kief Morris",
+      "Terraform: Up & Running — Yevgeniy Brikman",
+      "Ansible for DevOps — Jeff Geerling"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "087",
+    "number": 87,
+    "title": "Estado remoto, locking, cifrado y recuperación",
+    "slug": "estado-remoto-locking-cifrado-y-recuperacion",
+    "part": "07",
+    "part_slug": "infrastructure-as-code-configuration",
+    "part_title": "Infraestructura como código y configuración",
+    "part_class": 3,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "iac",
+    "artifact": "backend-terraform",
+    "keywords": [
+      "estado",
+      "remoto",
+      "locking",
+      "cifrado",
+      "recuperación"
+    ],
+    "books": [
+      "Infrastructure as Code — Kief Morris",
+      "Terraform: Up & Running — Yevgeniy Brikman",
+      "Ansible for DevOps — Jeff Geerling"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "088",
+    "number": 88,
+    "title": "Módulos, contratos, versiones y composición",
+    "slug": "modulos-contratos-versiones-y-composicion",
+    "part": "07",
+    "part_slug": "infrastructure-as-code-configuration",
+    "part_title": "Infraestructura como código y configuración",
+    "part_class": 4,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "iac",
+    "artifact": "modulo-terraform",
+    "keywords": [
+      "módulos",
+      "contratos",
+      "versiones",
+      "composición"
+    ],
+    "books": [
+      "Infrastructure as Code — Kief Morris",
+      "Terraform: Up & Running — Yevgeniy Brikman",
+      "Ansible for DevOps — Jeff Geerling"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "089",
+    "number": 89,
+    "title": "Variables, outputs, locals y data sources",
+    "slug": "variables-outputs-locals-y-data-sources",
+    "part": "07",
+    "part_slug": "infrastructure-as-code-configuration",
+    "part_title": "Infraestructura como código y configuración",
+    "part_class": 5,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "iac",
+    "artifact": "interfaz-infraestructura",
+    "keywords": [
+      "variables",
+      "outputs",
+      "locals",
+      "data",
+      "sources"
+    ],
+    "books": [
+      "Infrastructure as Code — Kief Morris",
+      "Terraform: Up & Running — Yevgeniy Brikman",
+      "Ansible for DevOps — Jeff Geerling"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "090",
+    "number": 90,
+    "title": "Plan, apply, drift, import y refactor con moved",
+    "slug": "plan-apply-drift-import-y-refactor-con-moved",
+    "part": "07",
+    "part_slug": "infrastructure-as-code-configuration",
+    "part_title": "Infraestructura como código y configuración",
+    "part_class": 6,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "iac",
+    "artifact": "ciclo-cambio-iac",
+    "keywords": [
+      "plan",
+      "apply",
+      "drift",
+      "import",
+      "refactor",
+      "moved"
+    ],
+    "books": [
+      "Infrastructure as Code — Kief Morris",
+      "Terraform: Up & Running — Yevgeniy Brikman",
+      "Ansible for DevOps — Jeff Geerling"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "091",
+    "number": 91,
+    "title": "Validación, lint, pruebas y policy as code",
+    "slug": "validacion-lint-pruebas-y-policy-as-code",
+    "part": "07",
+    "part_slug": "infrastructure-as-code-configuration",
+    "part_title": "Infraestructura como código y configuración",
+    "part_class": 7,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "testing",
+    "artifact": "pipeline-iac",
+    "keywords": [
+      "validación",
+      "lint",
+      "pruebas",
+      "policy",
+      "as",
+      "code"
+    ],
+    "books": [
+      "Infrastructure as Code — Kief Morris",
+      "Terraform: Up & Running — Yevgeniy Brikman",
+      "Ansible for DevOps — Jeff Geerling"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "092",
+    "number": 92,
+    "title": "Secretos y datos sensibles en IaC",
+    "slug": "secretos-y-datos-sensibles-en-iac",
+    "part": "07",
+    "part_slug": "infrastructure-as-code-configuration",
+    "part_title": "Infraestructura como código y configuración",
+    "part_class": 8,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "modelo-secretos-iac",
+    "keywords": [
+      "secretos",
+      "datos",
+      "sensibles",
+      "iac"
+    ],
+    "books": [
+      "Infrastructure as Code — Kief Morris",
+      "Terraform: Up & Running — Yevgeniy Brikman",
+      "Ansible for DevOps — Jeff Geerling"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "093",
+    "number": 93,
+    "title": "CloudFormation, Bicep, Pulumi y Terraform",
+    "slug": "cloudformation-bicep-pulumi-y-terraform",
+    "part": "07",
+    "part_slug": "infrastructure-as-code-configuration",
+    "part_title": "Infraestructura como código y configuración",
+    "part_class": 9,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "adr-herramienta-iac",
+    "keywords": [
+      "cloudformation",
+      "bicep",
+      "pulumi",
+      "terraform"
+    ],
+    "books": [
+      "Infrastructure as Code — Kief Morris",
+      "Terraform: Up & Running — Yevgeniy Brikman",
+      "Ansible for DevOps — Jeff Geerling"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "094",
+    "number": 94,
+    "title": "Ansible e imagen dorada para configuración",
+    "slug": "ansible-e-imagen-dorada-para-configuracion",
+    "part": "07",
+    "part_slug": "infrastructure-as-code-configuration",
+    "part_title": "Infraestructura como código y configuración",
+    "part_class": 10,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "configuration",
+    "artifact": "configuracion-servidor",
+    "keywords": [
+      "ansible",
+      "e",
+      "imagen",
+      "dorada",
+      "configuración"
+    ],
+    "books": [
+      "Infrastructure as Code — Kief Morris",
+      "Terraform: Up & Running — Yevgeniy Brikman",
+      "Ansible for DevOps — Jeff Geerling"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "095",
+    "number": 95,
+    "title": "Plantillas, golden paths y catálogo interno",
+    "slug": "plantillas-golden-paths-y-catalogo-interno",
+    "part": "07",
+    "part_slug": "infrastructure-as-code-configuration",
+    "part_title": "Infraestructura como código y configuración",
+    "part_class": 11,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "platform",
+    "artifact": "plantilla-plataforma",
+    "keywords": [
+      "plantillas",
+      "golden",
+      "paths",
+      "catálogo",
+      "interno"
+    ],
+    "books": [
+      "Infrastructure as Code — Kief Morris",
+      "Terraform: Up & Running — Yevgeniy Brikman",
+      "Ansible for DevOps — Jeff Geerling"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "096",
+    "number": 96,
+    "title": "Proyecto: infraestructura multiambiente promovible",
+    "slug": "proyecto-infraestructura-multiambiente-promovible",
+    "part": "07",
+    "part_slug": "infrastructure-as-code-configuration",
+    "part_title": "Infraestructura como código y configuración",
+    "part_class": 12,
+    "level": "intermedio-avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "plataforma-iac",
+    "keywords": [
+      "proyecto",
+      "infraestructura",
+      "multiambiente",
+      "promovible"
+    ],
+    "books": [
+      "Infrastructure as Code — Kief Morris",
+      "Terraform: Up & Running — Yevgeniy Brikman",
+      "Ansible for DevOps — Jeff Geerling"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "097",
+    "number": 97,
+    "title": "Integración continua, trunk-based development y feedback",
+    "slug": "integracion-continua-trunk-based-development-y-feedback",
+    "part": "08",
+    "part_slug": "continuous-delivery-platform-engineering",
+    "part_title": "Entrega continua y platform engineering",
+    "part_class": 1,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "delivery",
+    "artifact": "flujo-ci",
+    "keywords": [
+      "integración",
+      "continua",
+      "trunk",
+      "based",
+      "development",
+      "feedback"
+    ],
+    "books": [
+      "Continuous Delivery — Humble y Farley",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Team Topologies — Skelton y Pais"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "098",
+    "number": 98,
+    "title": "GitHub Actions: workflows, runners, permisos y caché",
+    "slug": "github-actions-workflows-runners-permisos-y-cache",
+    "part": "08",
+    "part_slug": "continuous-delivery-platform-engineering",
+    "part_title": "Entrega continua y platform engineering",
+    "part_class": 2,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "delivery",
+    "artifact": "pipeline-github-actions",
+    "keywords": [
+      "github",
+      "actions",
+      "workflows",
+      "runners",
+      "permisos",
+      "caché"
+    ],
+    "books": [
+      "Continuous Delivery — Humble y Farley",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Team Topologies — Skelton y Pais"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "099",
+    "number": 99,
+    "title": "Artefactos inmutables, semver y promoción",
+    "slug": "artefactos-inmutables-semver-y-promocion",
+    "part": "08",
+    "part_slug": "continuous-delivery-platform-engineering",
+    "part_title": "Entrega continua y platform engineering",
+    "part_class": 3,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "supply-chain",
+    "artifact": "registro-artefactos",
+    "keywords": [
+      "artefactos",
+      "inmutables",
+      "semver",
+      "promoción"
+    ],
+    "books": [
+      "Continuous Delivery — Humble y Farley",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Team Topologies — Skelton y Pais"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "100",
+    "number": 100,
+    "title": "Pruebas, calidad y puertas de cambio",
+    "slug": "pruebas-calidad-y-puertas-de-cambio",
+    "part": "08",
+    "part_slug": "continuous-delivery-platform-engineering",
+    "part_title": "Entrega continua y platform engineering",
+    "part_class": 4,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "testing",
+    "artifact": "quality-gates",
+    "keywords": [
+      "pruebas",
+      "calidad",
+      "puertas",
+      "cambio"
+    ],
+    "books": [
+      "Continuous Delivery — Humble y Farley",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Team Topologies — Skelton y Pais"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "101",
+    "number": 101,
+    "title": "SAST, SCA, secretos, SBOM y firma en pipeline",
+    "slug": "sast-sca-secretos-sbom-y-firma-en-pipeline",
+    "part": "08",
+    "part_slug": "continuous-delivery-platform-engineering",
+    "part_title": "Entrega continua y platform engineering",
+    "part_class": 5,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "pipeline-devsecops",
+    "keywords": [
+      "sast",
+      "sca",
+      "secretos",
+      "sbom",
+      "firma",
+      "pipeline"
+    ],
+    "books": [
+      "Continuous Delivery — Humble y Farley",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Team Topologies — Skelton y Pais"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "102",
+    "number": 102,
+    "title": "Rolling, blue-green, canary y rollback",
+    "slug": "rolling-blue-green-canary-y-rollback",
+    "part": "08",
+    "part_slug": "continuous-delivery-platform-engineering",
+    "part_title": "Entrega continua y platform engineering",
+    "part_class": 6,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "delivery",
+    "artifact": "estrategia-despliegue",
+    "keywords": [
+      "rolling",
+      "blue",
+      "green",
+      "canary",
+      "rollback"
+    ],
+    "books": [
+      "Continuous Delivery — Humble y Farley",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Team Topologies — Skelton y Pais"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "103",
+    "number": 103,
+    "title": "GitOps con Argo CD o Flux",
+    "slug": "gitops-con-argo-cd-o-flux",
+    "part": "08",
+    "part_slug": "continuous-delivery-platform-engineering",
+    "part_title": "Entrega continua y platform engineering",
+    "part_class": 7,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "gitops",
+    "artifact": "reconciliacion-gitops",
+    "keywords": [
+      "gitops",
+      "argo",
+      "cd",
+      "o",
+      "flux"
+    ],
+    "books": [
+      "Continuous Delivery — Humble y Farley",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Team Topologies — Skelton y Pais"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "104",
+    "number": 104,
+    "title": "Ambientes efímeros y promoción entre entornos",
+    "slug": "ambientes-efimeros-y-promocion-entre-entornos",
+    "part": "08",
+    "part_slug": "continuous-delivery-platform-engineering",
+    "part_title": "Entrega continua y platform engineering",
+    "part_class": 8,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "delivery",
+    "artifact": "flujo-ambientes",
+    "keywords": [
+      "ambientes",
+      "efímeros",
+      "promoción",
+      "entre",
+      "entornos"
+    ],
+    "books": [
+      "Continuous Delivery — Humble y Farley",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Team Topologies — Skelton y Pais"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "105",
+    "number": 105,
+    "title": "Feature flags y separación deploy-release",
+    "slug": "feature-flags-y-separacion-deploy-release",
+    "part": "08",
+    "part_slug": "continuous-delivery-platform-engineering",
+    "part_title": "Entrega continua y platform engineering",
+    "part_class": 9,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "delivery",
+    "artifact": "plan-feature-flags",
+    "keywords": [
+      "feature",
+      "flags",
+      "separación",
+      "deploy",
+      "release"
+    ],
+    "books": [
+      "Continuous Delivery — Humble y Farley",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Team Topologies — Skelton y Pais"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "106",
+    "number": 106,
+    "title": "Platform engineering e Internal Developer Platform",
+    "slug": "platform-engineering-e-internal-developer-platform",
+    "part": "08",
+    "part_slug": "continuous-delivery-platform-engineering",
+    "part_title": "Entrega continua y platform engineering",
+    "part_class": 10,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "platform",
+    "artifact": "mapa-capacidades-plataforma",
+    "keywords": [
+      "platform",
+      "engineering",
+      "e",
+      "internal",
+      "developer",
+      "platform"
+    ],
+    "books": [
+      "Continuous Delivery — Humble y Farley",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Team Topologies — Skelton y Pais"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "107",
+    "number": 107,
+    "title": "Developer experience, DORA y carga cognitiva",
+    "slug": "developer-experience-dora-y-carga-cognitiva",
+    "part": "08",
+    "part_slug": "continuous-delivery-platform-engineering",
+    "part_title": "Entrega continua y platform engineering",
+    "part_class": 11,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "metrics",
+    "artifact": "tablero-dora",
+    "keywords": [
+      "developer",
+      "experience",
+      "dora",
+      "carga",
+      "cognitiva"
+    ],
+    "books": [
+      "Continuous Delivery — Humble y Farley",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Team Topologies — Skelton y Pais"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "108",
+    "number": 108,
+    "title": "Proyecto: fábrica de software multi-cloud",
+    "slug": "proyecto-fabrica-de-software-multi-cloud",
+    "part": "08",
+    "part_slug": "continuous-delivery-platform-engineering",
+    "part_title": "Entrega continua y platform engineering",
+    "part_class": 12,
+    "level": "avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "plataforma-entrega",
+    "keywords": [
+      "proyecto",
+      "fábrica",
+      "software",
+      "multi",
+      "cloud"
+    ],
+    "books": [
+      "Continuous Delivery — Humble y Farley",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Team Topologies — Skelton y Pais"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "109",
+    "number": 109,
+    "title": "Bases relacionales administradas y pooling",
+    "slug": "bases-relacionales-administradas-y-pooling",
+    "part": "09",
+    "part_slug": "data-messaging-serverless-integration",
+    "part_title": "Datos, mensajería, serverless e integración",
+    "part_class": 1,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "modelo-relacional",
+    "keywords": [
+      "bases",
+      "relacionales",
+      "administradas",
+      "pooling"
+    ],
+    "books": [
+      "Designing Data-Intensive Applications — Martin Kleppmann",
+      "Enterprise Integration Patterns — Hohpe y Woolf",
+      "Building Event-Driven Microservices — Adam Bellemare"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "110",
+    "number": 110,
+    "title": "NoSQL: clave-valor, documento, columna y grafo",
+    "slug": "nosql-clave-valor-documento-columna-y-grafo",
+    "part": "09",
+    "part_slug": "data-messaging-serverless-integration",
+    "part_title": "Datos, mensajería, serverless e integración",
+    "part_class": 2,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "matriz-nosql",
+    "keywords": [
+      "nosql",
+      "clave",
+      "valor",
+      "documento",
+      "columna",
+      "grafo"
+    ],
+    "books": [
+      "Designing Data-Intensive Applications — Martin Kleppmann",
+      "Enterprise Integration Patterns — Hohpe y Woolf",
+      "Building Event-Driven Microservices — Adam Bellemare"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "111",
+    "number": 111,
+    "title": "Caché, invalidación, TTL y consistencia",
+    "slug": "cache-invalidacion-ttl-y-consistencia",
+    "part": "09",
+    "part_slug": "data-messaging-serverless-integration",
+    "part_title": "Datos, mensajería, serverless e integración",
+    "part_class": 3,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "estrategia-cache",
+    "keywords": [
+      "caché",
+      "invalidación",
+      "ttl",
+      "consistencia"
+    ],
+    "books": [
+      "Designing Data-Intensive Applications — Martin Kleppmann",
+      "Enterprise Integration Patterns — Hohpe y Woolf",
+      "Building Event-Driven Microservices — Adam Bellemare"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "112",
+    "number": 112,
+    "title": "Object storage, data lake y formatos columnares",
+    "slug": "object-storage-data-lake-y-formatos-columnares",
+    "part": "09",
+    "part_slug": "data-messaging-serverless-integration",
+    "part_title": "Datos, mensajería, serverless e integración",
+    "part_class": 4,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "diseno-data-lake",
+    "keywords": [
+      "object",
+      "storage",
+      "data",
+      "lake",
+      "formatos",
+      "columnares"
+    ],
+    "books": [
+      "Designing Data-Intensive Applications — Martin Kleppmann",
+      "Enterprise Integration Patterns — Hohpe y Woolf",
+      "Building Event-Driven Microservices — Adam Bellemare"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "113",
+    "number": 113,
+    "title": "Colas, entrega, reintentos y dead-letter queues",
+    "slug": "colas-entrega-reintentos-y-dead-letter-queues",
+    "part": "09",
+    "part_slug": "data-messaging-serverless-integration",
+    "part_title": "Datos, mensajería, serverless e integración",
+    "part_class": 5,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "messaging",
+    "artifact": "cola-resiliente",
+    "keywords": [
+      "colas",
+      "entrega",
+      "reintentos",
+      "dead",
+      "letter",
+      "queues"
+    ],
+    "books": [
+      "Designing Data-Intensive Applications — Martin Kleppmann",
+      "Enterprise Integration Patterns — Hohpe y Woolf",
+      "Building Event-Driven Microservices — Adam Bellemare"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "114",
+    "number": 114,
+    "title": "Pub/sub, streams, particiones y orden",
+    "slug": "pub-sub-streams-particiones-y-orden",
+    "part": "09",
+    "part_slug": "data-messaging-serverless-integration",
+    "part_title": "Datos, mensajería, serverless e integración",
+    "part_class": 6,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "messaging",
+    "artifact": "stream-particionado",
+    "keywords": [
+      "pub",
+      "sub",
+      "streams",
+      "particiones",
+      "orden"
+    ],
+    "books": [
+      "Designing Data-Intensive Applications — Martin Kleppmann",
+      "Enterprise Integration Patterns — Hohpe y Woolf",
+      "Building Event-Driven Microservices — Adam Bellemare"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "115",
+    "number": 115,
+    "title": "Arquitectura dirigida por eventos y contratos",
+    "slug": "arquitectura-dirigida-por-eventos-y-contratos",
+    "part": "09",
+    "part_slug": "data-messaging-serverless-integration",
+    "part_title": "Datos, mensajería, serverless e integración",
+    "part_class": 7,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "catalogo-eventos",
+    "keywords": [
+      "arquitectura",
+      "dirigida",
+      "eventos",
+      "contratos"
+    ],
+    "books": [
+      "Designing Data-Intensive Applications — Martin Kleppmann",
+      "Enterprise Integration Patterns — Hohpe y Woolf",
+      "Building Event-Driven Microservices — Adam Bellemare"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "116",
+    "number": 116,
+    "title": "Sagas, outbox, idempotencia y deduplicación",
+    "slug": "sagas-outbox-idempotencia-y-deduplicacion",
+    "part": "09",
+    "part_slug": "data-messaging-serverless-integration",
+    "part_title": "Datos, mensajería, serverless e integración",
+    "part_class": 8,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "distributed",
+    "artifact": "transaccion-distribuida",
+    "keywords": [
+      "sagas",
+      "outbox",
+      "idempotencia",
+      "deduplicación"
+    ],
+    "books": [
+      "Designing Data-Intensive Applications — Martin Kleppmann",
+      "Enterprise Integration Patterns — Hohpe y Woolf",
+      "Building Event-Driven Microservices — Adam Bellemare"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "117",
+    "number": 117,
+    "title": "Serverless: límites, cold starts y concurrencia",
+    "slug": "serverless-limites-cold-starts-y-concurrencia",
+    "part": "09",
+    "part_slug": "data-messaging-serverless-integration",
+    "part_title": "Datos, mensajería, serverless e integración",
+    "part_class": 9,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "serverless",
+    "artifact": "funcion-operable",
+    "keywords": [
+      "serverless",
+      "límites",
+      "cold",
+      "starts",
+      "concurrencia"
+    ],
+    "books": [
+      "Designing Data-Intensive Applications — Martin Kleppmann",
+      "Enterprise Integration Patterns — Hohpe y Woolf",
+      "Building Event-Driven Microservices — Adam Bellemare"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "118",
+    "number": 118,
+    "title": "API management, cuotas, versiones y monetización",
+    "slug": "api-management-cuotas-versiones-y-monetizacion",
+    "part": "09",
+    "part_slug": "data-messaging-serverless-integration",
+    "part_title": "Datos, mensajería, serverless e integración",
+    "part_class": 10,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "api",
+    "artifact": "producto-api",
+    "keywords": [
+      "api",
+      "management",
+      "cuotas",
+      "versiones",
+      "monetización"
+    ],
+    "books": [
+      "Designing Data-Intensive Applications — Martin Kleppmann",
+      "Enterprise Integration Patterns — Hohpe y Woolf",
+      "Building Event-Driven Microservices — Adam Bellemare"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "119",
+    "number": 119,
+    "title": "Workflows y orquestación durable",
+    "slug": "workflows-y-orquestacion-durable",
+    "part": "09",
+    "part_slug": "data-messaging-serverless-integration",
+    "part_title": "Datos, mensajería, serverless e integración",
+    "part_class": 11,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "orchestration",
+    "artifact": "workflow-durable",
+    "keywords": [
+      "workflows",
+      "orquestación",
+      "durable"
+    ],
+    "books": [
+      "Designing Data-Intensive Applications — Martin Kleppmann",
+      "Enterprise Integration Patterns — Hohpe y Woolf",
+      "Building Event-Driven Microservices — Adam Bellemare"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "120",
+    "number": 120,
+    "title": "Proyecto: pipeline de pedidos orientado a eventos",
+    "slug": "proyecto-pipeline-de-pedidos-orientado-a-eventos",
+    "part": "09",
+    "part_slug": "data-messaging-serverless-integration",
+    "part_title": "Datos, mensajería, serverless e integración",
+    "part_class": 12,
+    "level": "avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "plataforma-eventos",
+    "keywords": [
+      "proyecto",
+      "pipeline",
+      "pedidos",
+      "orientado",
+      "eventos"
+    ],
+    "books": [
+      "Designing Data-Intensive Applications — Martin Kleppmann",
+      "Enterprise Integration Patterns — Hohpe y Woolf",
+      "Building Event-Driven Microservices — Adam Bellemare"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "stable"
+  },
+  {
+    "id": "121",
+    "number": 121,
+    "title": "Logs, métricas, trazas y eventos como señales",
+    "slug": "logs-metricas-trazas-y-eventos-como-senales",
+    "part": "10",
+    "part_slug": "observability-sre-reliability",
+    "part_title": "Observabilidad, SRE y confiabilidad",
+    "part_class": 1,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "mapa-telemetria",
+    "keywords": [
+      "logs",
+      "métricas",
+      "trazas",
+      "eventos",
+      "señales"
+    ],
+    "books": [
+      "Site Reliability Engineering — Beyer et al.",
+      "The Site Reliability Workbook — Beyer et al.",
+      "Observability Engineering — Majors, Fong-Jones y Miranda"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "122",
+    "number": 122,
+    "title": "Logging estructurado, correlación y retención",
+    "slug": "logging-estructurado-correlacion-y-retencion",
+    "part": "10",
+    "part_slug": "observability-sre-reliability",
+    "part_title": "Observabilidad, SRE y confiabilidad",
+    "part_class": 2,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "contrato-logs",
+    "keywords": [
+      "logging",
+      "estructurado",
+      "correlación",
+      "retención"
+    ],
+    "books": [
+      "Site Reliability Engineering — Beyer et al.",
+      "The Site Reliability Workbook — Beyer et al.",
+      "Observability Engineering — Majors, Fong-Jones y Miranda"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "123",
+    "number": 123,
+    "title": "Métricas, cardinalidad y modelos RED y USE",
+    "slug": "metricas-cardinalidad-y-modelos-red-y-use",
+    "part": "10",
+    "part_slug": "observability-sre-reliability",
+    "part_title": "Observabilidad, SRE y confiabilidad",
+    "part_class": 3,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "metrics",
+    "artifact": "catalogo-metricas",
+    "keywords": [
+      "métricas",
+      "cardinalidad",
+      "modelos",
+      "red",
+      "use"
+    ],
+    "books": [
+      "Site Reliability Engineering — Beyer et al.",
+      "The Site Reliability Workbook — Beyer et al.",
+      "Observability Engineering — Majors, Fong-Jones y Miranda"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "124",
+    "number": 124,
+    "title": "Tracing distribuido y OpenTelemetry",
+    "slug": "tracing-distribuido-y-opentelemetry",
+    "part": "10",
+    "part_slug": "observability-sre-reliability",
+    "part_title": "Observabilidad, SRE y confiabilidad",
+    "part_class": 4,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "traza-distribuida",
+    "keywords": [
+      "tracing",
+      "distribuido",
+      "opentelemetry"
+    ],
+    "books": [
+      "Site Reliability Engineering — Beyer et al.",
+      "The Site Reliability Workbook — Beyer et al.",
+      "Observability Engineering — Majors, Fong-Jones y Miranda"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "125",
+    "number": 125,
+    "title": "Dashboards, alertas accionables y fatiga",
+    "slug": "dashboards-alertas-accionables-y-fatiga",
+    "part": "10",
+    "part_slug": "observability-sre-reliability",
+    "part_title": "Observabilidad, SRE y confiabilidad",
+    "part_class": 5,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "tablero-operativo",
+    "keywords": [
+      "dashboards",
+      "alertas",
+      "accionables",
+      "fatiga"
+    ],
+    "books": [
+      "Site Reliability Engineering — Beyer et al.",
+      "The Site Reliability Workbook — Beyer et al.",
+      "Observability Engineering — Majors, Fong-Jones y Miranda"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "126",
+    "number": 126,
+    "title": "SLI, SLO, SLA y presupuesto de error",
+    "slug": "sli-slo-sla-y-presupuesto-de-error",
+    "part": "10",
+    "part_slug": "observability-sre-reliability",
+    "part_title": "Observabilidad, SRE y confiabilidad",
+    "part_class": 6,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "sre",
+    "artifact": "slo-servicio",
+    "keywords": [
+      "sli",
+      "slo",
+      "sla",
+      "presupuesto",
+      "error"
+    ],
+    "books": [
+      "Site Reliability Engineering — Beyer et al.",
+      "The Site Reliability Workbook — Beyer et al.",
+      "Observability Engineering — Majors, Fong-Jones y Miranda"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "127",
+    "number": 127,
+    "title": "Incidentes, severidad, comando y comunicación",
+    "slug": "incidentes-severidad-comando-y-comunicacion",
+    "part": "10",
+    "part_slug": "observability-sre-reliability",
+    "part_title": "Observabilidad, SRE y confiabilidad",
+    "part_class": 7,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "incident",
+    "artifact": "plan-incidente",
+    "keywords": [
+      "incidentes",
+      "severidad",
+      "comando",
+      "comunicación"
+    ],
+    "books": [
+      "Site Reliability Engineering — Beyer et al.",
+      "The Site Reliability Workbook — Beyer et al.",
+      "Observability Engineering — Majors, Fong-Jones y Miranda"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "128",
+    "number": 128,
+    "title": "Runbooks, playbooks y automatización operativa",
+    "slug": "runbooks-playbooks-y-automatizacion-operativa",
+    "part": "10",
+    "part_slug": "observability-sre-reliability",
+    "part_title": "Observabilidad, SRE y confiabilidad",
+    "part_class": 8,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "operations",
+    "artifact": "runbook-verificado",
+    "keywords": [
+      "runbooks",
+      "playbooks",
+      "automatización",
+      "operativa"
+    ],
+    "books": [
+      "Site Reliability Engineering — Beyer et al.",
+      "The Site Reliability Workbook — Beyer et al.",
+      "Observability Engineering — Majors, Fong-Jones y Miranda"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "129",
+    "number": 129,
+    "title": "Capacidad, rendimiento y pruebas de carga",
+    "slug": "capacidad-rendimiento-y-pruebas-de-carga",
+    "part": "10",
+    "part_slug": "observability-sre-reliability",
+    "part_title": "Observabilidad, SRE y confiabilidad",
+    "part_class": 9,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "performance",
+    "artifact": "informe-carga",
+    "keywords": [
+      "capacidad",
+      "rendimiento",
+      "pruebas",
+      "carga"
+    ],
+    "books": [
+      "Site Reliability Engineering — Beyer et al.",
+      "The Site Reliability Workbook — Beyer et al.",
+      "Observability Engineering — Majors, Fong-Jones y Miranda"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "130",
+    "number": 130,
+    "title": "Timeouts, retries, backoff, circuit breaker y bulkhead",
+    "slug": "timeouts-retries-backoff-circuit-breaker-y-bulkhead",
+    "part": "10",
+    "part_slug": "observability-sre-reliability",
+    "part_title": "Observabilidad, SRE y confiabilidad",
+    "part_class": 10,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "reliability",
+    "artifact": "cliente-resiliente",
+    "keywords": [
+      "timeouts",
+      "retries",
+      "backoff",
+      "circuit",
+      "breaker",
+      "bulkhead"
+    ],
+    "books": [
+      "Site Reliability Engineering — Beyer et al.",
+      "The Site Reliability Workbook — Beyer et al.",
+      "Observability Engineering — Majors, Fong-Jones y Miranda"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "131",
+    "number": 131,
+    "title": "Chaos engineering y game days",
+    "slug": "chaos-engineering-y-game-days",
+    "part": "10",
+    "part_slug": "observability-sre-reliability",
+    "part_title": "Observabilidad, SRE y confiabilidad",
+    "part_class": 11,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "chaos",
+    "artifact": "experimento-caos",
+    "keywords": [
+      "chaos",
+      "engineering",
+      "game",
+      "days"
+    ],
+    "books": [
+      "Site Reliability Engineering — Beyer et al.",
+      "The Site Reliability Workbook — Beyer et al.",
+      "Observability Engineering — Majors, Fong-Jones y Miranda"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "132",
+    "number": 132,
+    "title": "Proyecto: operación SRE de CloudShop",
+    "slug": "proyecto-operacion-sre-de-cloudshop",
+    "part": "10",
+    "part_slug": "observability-sre-reliability",
+    "part_title": "Observabilidad, SRE y confiabilidad",
+    "part_class": 12,
+    "level": "avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "plataforma-sre",
+    "keywords": [
+      "proyecto",
+      "operación",
+      "sre",
+      "cloudshop"
+    ],
+    "books": [
+      "Site Reliability Engineering — Beyer et al.",
+      "The Site Reliability Workbook — Beyer et al.",
+      "Observability Engineering — Majors, Fong-Jones y Miranda"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "133",
+    "number": 133,
+    "title": "Zero Trust y defensa en profundidad",
+    "slug": "zero-trust-y-defensa-en-profundidad",
+    "part": "11",
+    "part_slug": "security-governance-finops",
+    "part_title": "Seguridad, gobierno, cumplimiento y FinOps",
+    "part_class": 1,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "modelo-zero-trust",
+    "keywords": [
+      "zero",
+      "trust",
+      "defensa",
+      "profundidad"
+    ],
+    "books": [
+      "Practical Cloud Security — Chris Dotson",
+      "Cloud Security Handbook — Eyal Estrin",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "134",
+    "number": 134,
+    "title": "Mínimo privilegio, acceso temporal y separación de funciones",
+    "slug": "minimo-privilegio-acceso-temporal-y-separacion-de-funciones",
+    "part": "11",
+    "part_slug": "security-governance-finops",
+    "part_title": "Seguridad, gobierno, cumplimiento y FinOps",
+    "part_class": 2,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "iam",
+    "artifact": "revision-accesos",
+    "keywords": [
+      "mínimo",
+      "privilegio",
+      "acceso",
+      "temporal",
+      "separación",
+      "funciones"
+    ],
+    "books": [
+      "Practical Cloud Security — Chris Dotson",
+      "Cloud Security Handbook — Eyal Estrin",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "135",
+    "number": 135,
+    "title": "Segmentación, perímetro, WAF, DDoS y egress",
+    "slug": "segmentacion-perimetro-waf-ddos-y-egress",
+    "part": "11",
+    "part_slug": "security-governance-finops",
+    "part_title": "Seguridad, gobierno, cumplimiento y FinOps",
+    "part_class": 3,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "arquitectura-defensiva",
+    "keywords": [
+      "segmentación",
+      "perímetro",
+      "waf",
+      "ddos",
+      "egress"
+    ],
+    "books": [
+      "Practical Cloud Security — Chris Dotson",
+      "Cloud Security Handbook — Eyal Estrin",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "136",
+    "number": 136,
+    "title": "Cifrado, KMS, HSM, rotación y envelope encryption",
+    "slug": "cifrado-kms-hsm-rotacion-y-envelope-encryption",
+    "part": "11",
+    "part_slug": "security-governance-finops",
+    "part_title": "Seguridad, gobierno, cumplimiento y FinOps",
+    "part_class": 4,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "jerarquia-claves",
+    "keywords": [
+      "cifrado",
+      "kms",
+      "hsm",
+      "rotación",
+      "envelope",
+      "encryption"
+    ],
+    "books": [
+      "Practical Cloud Security — Chris Dotson",
+      "Cloud Security Handbook — Eyal Estrin",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "137",
+    "number": 137,
+    "title": "Gestión de secretos y credenciales de workloads",
+    "slug": "gestion-de-secretos-y-credenciales-de-workloads",
+    "part": "11",
+    "part_slug": "security-governance-finops",
+    "part_title": "Seguridad, gobierno, cumplimiento y FinOps",
+    "part_class": 5,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "ciclo-secretos",
+    "keywords": [
+      "gestión",
+      "secretos",
+      "credenciales",
+      "workloads"
+    ],
+    "books": [
+      "Practical Cloud Security — Chris Dotson",
+      "Cloud Security Handbook — Eyal Estrin",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "138",
+    "number": 138,
+    "title": "Vulnerabilidades, imágenes y cadena de suministro",
+    "slug": "vulnerabilidades-imagenes-y-cadena-de-suministro",
+    "part": "11",
+    "part_slug": "security-governance-finops",
+    "part_title": "Seguridad, gobierno, cumplimiento y FinOps",
+    "part_class": 6,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "supply-chain",
+    "artifact": "informe-supply-chain",
+    "keywords": [
+      "vulnerabilidades",
+      "imágenes",
+      "cadena",
+      "suministro"
+    ],
+    "books": [
+      "Practical Cloud Security — Chris Dotson",
+      "Cloud Security Handbook — Eyal Estrin",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "139",
+    "number": 139,
+    "title": "CSPM, postura, policy as code y remediación",
+    "slug": "cspm-postura-policy-as-code-y-remediacion",
+    "part": "11",
+    "part_slug": "security-governance-finops",
+    "part_title": "Seguridad, gobierno, cumplimiento y FinOps",
+    "part_class": 7,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "guardrail-policy",
+    "keywords": [
+      "cspm",
+      "postura",
+      "policy",
+      "as",
+      "code",
+      "remediación"
+    ],
+    "books": [
+      "Practical Cloud Security — Chris Dotson",
+      "Cloud Security Handbook — Eyal Estrin",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "140",
+    "number": 140,
+    "title": "Threat modeling con STRIDE y attack paths",
+    "slug": "threat-modeling-con-stride-y-attack-paths",
+    "part": "11",
+    "part_slug": "security-governance-finops",
+    "part_title": "Seguridad, gobierno, cumplimiento y FinOps",
+    "part_class": 8,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "modelo-amenazas",
+    "keywords": [
+      "threat",
+      "modeling",
+      "stride",
+      "attack",
+      "paths"
+    ],
+    "books": [
+      "Practical Cloud Security — Chris Dotson",
+      "Cloud Security Handbook — Eyal Estrin",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "141",
+    "number": 141,
+    "title": "Cumplimiento, residencia, privacidad y evidencia",
+    "slug": "cumplimiento-residencia-privacidad-y-evidencia",
+    "part": "11",
+    "part_slug": "security-governance-finops",
+    "part_title": "Seguridad, gobierno, cumplimiento y FinOps",
+    "part_class": 9,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "compliance",
+    "artifact": "matriz-controles",
+    "keywords": [
+      "cumplimiento",
+      "residencia",
+      "privacidad",
+      "evidencia"
+    ],
+    "books": [
+      "Practical Cloud Security — Chris Dotson",
+      "Cloud Security Handbook — Eyal Estrin",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "142",
+    "number": 142,
+    "title": "FinOps: showback, chargeback, budgets y anomalías",
+    "slug": "finops-showback-chargeback-budgets-y-anomalias",
+    "part": "11",
+    "part_slug": "security-governance-finops",
+    "part_title": "Seguridad, gobierno, cumplimiento y FinOps",
+    "part_class": 10,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "finops",
+    "artifact": "modelo-asignacion-costos",
+    "keywords": [
+      "finops",
+      "showback",
+      "chargeback",
+      "budgets",
+      "anomalías"
+    ],
+    "books": [
+      "Practical Cloud Security — Chris Dotson",
+      "Cloud Security Handbook — Eyal Estrin",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "143",
+    "number": 143,
+    "title": "Optimización de costo, capacidad y sostenibilidad",
+    "slug": "optimizacion-de-costo-capacidad-y-sostenibilidad",
+    "part": "11",
+    "part_slug": "security-governance-finops",
+    "part_title": "Seguridad, gobierno, cumplimiento y FinOps",
+    "part_class": 11,
+    "level": "avanzado",
+    "estimated_hours": 4,
+    "lab_kind": "finops",
+    "artifact": "backlog-optimizacion",
+    "keywords": [
+      "optimización",
+      "costo",
+      "capacidad",
+      "sostenibilidad"
+    ],
+    "books": [
+      "Practical Cloud Security — Chris Dotson",
+      "Cloud Security Handbook — Eyal Estrin",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "144",
+    "number": 144,
+    "title": "Proyecto: landing zone con guardrails",
+    "slug": "proyecto-landing-zone-con-guardrails",
+    "part": "11",
+    "part_slug": "security-governance-finops",
+    "part_title": "Seguridad, gobierno, cumplimiento y FinOps",
+    "part_class": 12,
+    "level": "avanzado",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "landing-zone-gobernada",
+    "keywords": [
+      "proyecto",
+      "landing",
+      "zone",
+      "guardrails"
+    ],
+    "books": [
+      "Practical Cloud Security — Chris Dotson",
+      "Cloud Security Handbook — Eyal Estrin",
+      "Cloud FinOps — Storment y Fuller"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "145",
+    "number": 145,
+    "title": "Requisitos, restricciones y atributos de calidad",
+    "slug": "requisitos-restricciones-y-atributos-de-calidad",
+    "part": "12",
+    "part_slug": "cloud-native-distributed-architecture",
+    "part_title": "Arquitectura cloud-native y sistemas distribuidos",
+    "part_class": 1,
+    "level": "avanzado-experto",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "quality-attribute-scenarios",
+    "keywords": [
+      "requisitos",
+      "restricciones",
+      "atributos",
+      "calidad"
+    ],
+    "books": [
+      "Cloud Native Patterns — Cornelia Davis",
+      "Building Microservices — Sam Newman",
+      "Release It! — Michael Nygard",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "146",
+    "number": 146,
+    "title": "Twelve-Factor App y configuración cloud-native",
+    "slug": "twelve-factor-app-y-configuracion-cloud-native",
+    "part": "12",
+    "part_slug": "cloud-native-distributed-architecture",
+    "part_title": "Arquitectura cloud-native y sistemas distribuidos",
+    "part_class": 2,
+    "level": "avanzado-experto",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "revision-twelve-factor",
+    "keywords": [
+      "twelve",
+      "factor",
+      "app",
+      "configuración",
+      "cloud",
+      "native"
+    ],
+    "books": [
+      "Cloud Native Patterns — Cornelia Davis",
+      "Building Microservices — Sam Newman",
+      "Release It! — Michael Nygard",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "147",
+    "number": 147,
+    "title": "DDD, bounded contexts y ownership de datos",
+    "slug": "ddd-bounded-contexts-y-ownership-de-datos",
+    "part": "12",
+    "part_slug": "cloud-native-distributed-architecture",
+    "part_title": "Arquitectura cloud-native y sistemas distribuidos",
+    "part_class": 3,
+    "level": "avanzado-experto",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "context-map",
+    "keywords": [
+      "ddd",
+      "bounded",
+      "contexts",
+      "ownership",
+      "datos"
+    ],
+    "books": [
+      "Cloud Native Patterns — Cornelia Davis",
+      "Building Microservices — Sam Newman",
+      "Release It! — Michael Nygard",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "148",
+    "number": 148,
+    "title": "Monolito modular, microservicios y función",
+    "slug": "monolito-modular-microservicios-y-funcion",
+    "part": "12",
+    "part_slug": "cloud-native-distributed-architecture",
+    "part_title": "Arquitectura cloud-native y sistemas distribuidos",
+    "part_class": 4,
+    "level": "avanzado-experto",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "adr-descomposicion",
+    "keywords": [
+      "monolito",
+      "modular",
+      "microservicios",
+      "función"
+    ],
+    "books": [
+      "Cloud Native Patterns — Cornelia Davis",
+      "Building Microservices — Sam Newman",
+      "Release It! — Michael Nygard",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "149",
+    "number": 149,
+    "title": "CAP, PACELC y consistencia por operación",
+    "slug": "cap-pacelc-y-consistencia-por-operacion",
+    "part": "12",
+    "part_slug": "cloud-native-distributed-architecture",
+    "part_title": "Arquitectura cloud-native y sistemas distribuidos",
+    "part_class": 5,
+    "level": "avanzado-experto",
+    "estimated_hours": 4,
+    "lab_kind": "distributed",
+    "artifact": "matriz-consistencia",
+    "keywords": [
+      "cap",
+      "pacelc",
+      "consistencia",
+      "operación"
+    ],
+    "books": [
+      "Cloud Native Patterns — Cornelia Davis",
+      "Building Microservices — Sam Newman",
+      "Release It! — Michael Nygard",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "150",
+    "number": 150,
+    "title": "Replicación, particionado y consenso",
+    "slug": "replicacion-particionado-y-consenso",
+    "part": "12",
+    "part_slug": "cloud-native-distributed-architecture",
+    "part_title": "Arquitectura cloud-native y sistemas distribuidos",
+    "part_class": 6,
+    "level": "avanzado-experto",
+    "estimated_hours": 4,
+    "lab_kind": "distributed",
+    "artifact": "modelo-replicacion",
+    "keywords": [
+      "replicación",
+      "particionado",
+      "consenso"
+    ],
+    "books": [
+      "Cloud Native Patterns — Cornelia Davis",
+      "Building Microservices — Sam Newman",
+      "Release It! — Michael Nygard",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "151",
+    "number": 151,
+    "title": "Fallos parciales y patrones de resiliencia",
+    "slug": "fallos-parciales-y-patrones-de-resiliencia",
+    "part": "12",
+    "part_slug": "cloud-native-distributed-architecture",
+    "part_title": "Arquitectura cloud-native y sistemas distribuidos",
+    "part_class": 7,
+    "level": "avanzado-experto",
+    "estimated_hours": 4,
+    "lab_kind": "reliability",
+    "artifact": "mapa-fallos",
+    "keywords": [
+      "fallos",
+      "parciales",
+      "patrones",
+      "resiliencia"
+    ],
+    "books": [
+      "Cloud Native Patterns — Cornelia Davis",
+      "Building Microservices — Sam Newman",
+      "Release It! — Michael Nygard",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "152",
+    "number": 152,
+    "title": "Service discovery, malla y comunicación",
+    "slug": "service-discovery-malla-y-comunicacion",
+    "part": "12",
+    "part_slug": "cloud-native-distributed-architecture",
+    "part_title": "Arquitectura cloud-native y sistemas distribuidos",
+    "part_class": 8,
+    "level": "avanzado-experto",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "topologia-servicios",
+    "keywords": [
+      "service",
+      "discovery",
+      "malla",
+      "comunicación"
+    ],
+    "books": [
+      "Cloud Native Patterns — Cornelia Davis",
+      "Building Microservices — Sam Newman",
+      "Release It! — Michael Nygard",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "153",
+    "number": 153,
+    "title": "Contratos API, compatibilidad y evolución",
+    "slug": "contratos-api-compatibilidad-y-evolucion",
+    "part": "12",
+    "part_slug": "cloud-native-distributed-architecture",
+    "part_title": "Arquitectura cloud-native y sistemas distribuidos",
+    "part_class": 9,
+    "level": "avanzado-experto",
+    "estimated_hours": 4,
+    "lab_kind": "api",
+    "artifact": "contrato-versionado",
+    "keywords": [
+      "contratos",
+      "api",
+      "compatibilidad",
+      "evolución"
+    ],
+    "books": [
+      "Cloud Native Patterns — Cornelia Davis",
+      "Building Microservices — Sam Newman",
+      "Release It! — Michael Nygard",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "154",
+    "number": 154,
+    "title": "Multi-tenancy, aislamiento y noisy neighbor",
+    "slug": "multi-tenancy-aislamiento-y-noisy-neighbor",
+    "part": "12",
+    "part_slug": "cloud-native-distributed-architecture",
+    "part_title": "Arquitectura cloud-native y sistemas distribuidos",
+    "part_class": 10,
+    "level": "avanzado-experto",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "modelo-tenancy",
+    "keywords": [
+      "multi",
+      "tenancy",
+      "aislamiento",
+      "noisy",
+      "neighbor"
+    ],
+    "books": [
+      "Cloud Native Patterns — Cornelia Davis",
+      "Building Microservices — Sam Newman",
+      "Release It! — Michael Nygard",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "155",
+    "number": 155,
+    "title": "Rendimiento, costo, seguridad y operabilidad",
+    "slug": "rendimiento-costo-seguridad-y-operabilidad",
+    "part": "12",
+    "part_slug": "cloud-native-distributed-architecture",
+    "part_title": "Arquitectura cloud-native y sistemas distribuidos",
+    "part_class": 11,
+    "level": "avanzado-experto",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "tradeoff-analysis",
+    "keywords": [
+      "rendimiento",
+      "costo",
+      "seguridad",
+      "operabilidad"
+    ],
+    "books": [
+      "Cloud Native Patterns — Cornelia Davis",
+      "Building Microservices — Sam Newman",
+      "Release It! — Michael Nygard",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "156",
+    "number": 156,
+    "title": "Proyecto: revisión de arquitectura con ADR",
+    "slug": "proyecto-revision-de-arquitectura-con-adr",
+    "part": "12",
+    "part_slug": "cloud-native-distributed-architecture",
+    "part_title": "Arquitectura cloud-native y sistemas distribuidos",
+    "part_class": 12,
+    "level": "avanzado-experto",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "architecture-review",
+    "keywords": [
+      "proyecto",
+      "revisión",
+      "arquitectura",
+      "adr"
+    ],
+    "books": [
+      "Cloud Native Patterns — Cornelia Davis",
+      "Building Microservices — Sam Newman",
+      "Release It! — Michael Nygard",
+      "Designing Data-Intensive Applications — Martin Kleppmann"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "157",
+    "number": 157,
+    "title": "Motivaciones y anti-patrones de multi-cloud",
+    "slug": "motivaciones-y-anti-patrones-de-multi-cloud",
+    "part": "13",
+    "part_slug": "multicloud-hybrid-disaster-recovery",
+    "part_title": "Multi-cloud, híbrido, migración y recuperación",
+    "part_class": 1,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "decision",
+    "artifact": "decision-multicloud",
+    "keywords": [
+      "motivaciones",
+      "anti",
+      "patrones",
+      "multi",
+      "cloud"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Seeking SRE — Blank-Edelman",
+      "Enterprise Integration Patterns — Hohpe y Woolf"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "158",
+    "number": 158,
+    "title": "Portabilidad, capas de abstracción y lock-in",
+    "slug": "portabilidad-capas-de-abstraccion-y-lock-in",
+    "part": "13",
+    "part_slug": "multicloud-hybrid-disaster-recovery",
+    "part_title": "Multi-cloud, híbrido, migración y recuperación",
+    "part_class": 2,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "architecture",
+    "artifact": "matriz-portabilidad",
+    "keywords": [
+      "portabilidad",
+      "capas",
+      "abstracción",
+      "lock",
+      "in"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Seeking SRE — Blank-Edelman",
+      "Enterprise Integration Patterns — Hohpe y Woolf"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "159",
+    "number": 159,
+    "title": "Federación de identidad entre nubes",
+    "slug": "federacion-de-identidad-entre-nubes",
+    "part": "13",
+    "part_slug": "multicloud-hybrid-disaster-recovery",
+    "part_title": "Multi-cloud, híbrido, migración y recuperación",
+    "part_class": 3,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "iam",
+    "artifact": "federacion-multicloud",
+    "keywords": [
+      "federación",
+      "identidad",
+      "entre",
+      "nubes"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Seeking SRE — Blank-Edelman",
+      "Enterprise Integration Patterns — Hohpe y Woolf"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "160",
+    "number": 160,
+    "title": "Conectividad, tránsito, DNS y service discovery",
+    "slug": "conectividad-transito-dns-y-service-discovery",
+    "part": "13",
+    "part_slug": "multicloud-hybrid-disaster-recovery",
+    "part_title": "Multi-cloud, híbrido, migración y recuperación",
+    "part_class": 4,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "network",
+    "artifact": "red-multicloud",
+    "keywords": [
+      "conectividad",
+      "tránsito",
+      "dns",
+      "service",
+      "discovery"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Seeking SRE — Blank-Edelman",
+      "Enterprise Integration Patterns — Hohpe y Woolf"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "161",
+    "number": 161,
+    "title": "Replicación de datos, soberanía y costos de egress",
+    "slug": "replicacion-de-datos-soberania-y-costos-de-egress",
+    "part": "13",
+    "part_slug": "multicloud-hybrid-disaster-recovery",
+    "part_title": "Multi-cloud, híbrido, migración y recuperación",
+    "part_class": 5,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "data",
+    "artifact": "estrategia-datos-multicloud",
+    "keywords": [
+      "replicación",
+      "datos",
+      "soberanía",
+      "costos",
+      "egress"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Seeking SRE — Blank-Edelman",
+      "Enterprise Integration Patterns — Hohpe y Woolf"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "162",
+    "number": 162,
+    "title": "Observabilidad y operación entre proveedores",
+    "slug": "observabilidad-y-operacion-entre-proveedores",
+    "part": "13",
+    "part_slug": "multicloud-hybrid-disaster-recovery",
+    "part_title": "Multi-cloud, híbrido, migración y recuperación",
+    "part_class": 6,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "observability",
+    "artifact": "telemetria-multicloud",
+    "keywords": [
+      "observabilidad",
+      "operación",
+      "entre",
+      "proveedores"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Seeking SRE — Blank-Edelman",
+      "Enterprise Integration Patterns — Hohpe y Woolf"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "163",
+    "number": 163,
+    "title": "Terraform multi-provider y separación de estados",
+    "slug": "terraform-multi-provider-y-separacion-de-estados",
+    "part": "13",
+    "part_slug": "multicloud-hybrid-disaster-recovery",
+    "part_title": "Multi-cloud, híbrido, migración y recuperación",
+    "part_class": 7,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "iac",
+    "artifact": "iac-multicloud",
+    "keywords": [
+      "terraform",
+      "multi",
+      "provider",
+      "separación",
+      "estados"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Seeking SRE — Blank-Edelman",
+      "Enterprise Integration Patterns — Hohpe y Woolf"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "164",
+    "number": 164,
+    "title": "Flotas Kubernetes y políticas comunes",
+    "slug": "flotas-kubernetes-y-politicas-comunes",
+    "part": "13",
+    "part_slug": "multicloud-hybrid-disaster-recovery",
+    "part_title": "Multi-cloud, híbrido, migración y recuperación",
+    "part_class": 8,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "kubernetes",
+    "artifact": "fleet-kubernetes",
+    "keywords": [
+      "flotas",
+      "kubernetes",
+      "políticas",
+      "comunes"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Seeking SRE — Blank-Edelman",
+      "Enterprise Integration Patterns — Hohpe y Woolf"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "165",
+    "number": 165,
+    "title": "Nube híbrida, edge y conectividad privada",
+    "slug": "nube-hibrida-edge-y-conectividad-privada",
+    "part": "13",
+    "part_slug": "multicloud-hybrid-disaster-recovery",
+    "part_title": "Multi-cloud, híbrido, migración y recuperación",
+    "part_class": 9,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "hybrid",
+    "artifact": "arquitectura-hibrida",
+    "keywords": [
+      "nube",
+      "híbrida",
+      "edge",
+      "conectividad",
+      "privada"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Seeking SRE — Blank-Edelman",
+      "Enterprise Integration Patterns — Hohpe y Woolf"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "166",
+    "number": 166,
+    "title": "Backup, RTO, RPO y patrones de disaster recovery",
+    "slug": "backup-rto-rpo-y-patrones-de-disaster-recovery",
+    "part": "13",
+    "part_slug": "multicloud-hybrid-disaster-recovery",
+    "part_title": "Multi-cloud, híbrido, migración y recuperación",
+    "part_class": 10,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "reliability",
+    "artifact": "plan-dr",
+    "keywords": [
+      "backup",
+      "rto",
+      "rpo",
+      "patrones",
+      "disaster",
+      "recovery"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Seeking SRE — Blank-Edelman",
+      "Enterprise Integration Patterns — Hohpe y Woolf"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "167",
+    "number": 167,
+    "title": "Las 7R de migración y oleadas",
+    "slug": "las-7r-de-migracion-y-oleadas",
+    "part": "13",
+    "part_slug": "multicloud-hybrid-disaster-recovery",
+    "part_title": "Multi-cloud, híbrido, migración y recuperación",
+    "part_class": 11,
+    "level": "experto",
+    "estimated_hours": 4,
+    "lab_kind": "migration",
+    "artifact": "roadmap-migracion",
+    "keywords": [
+      "7r",
+      "migración",
+      "oleadas"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Seeking SRE — Blank-Edelman",
+      "Enterprise Integration Patterns — Hohpe y Woolf"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "168",
+    "number": 168,
+    "title": "Proyecto: continuidad activa-pasiva entre nubes",
+    "slug": "proyecto-continuidad-activa-pasiva-entre-nubes",
+    "part": "13",
+    "part_slug": "multicloud-hybrid-disaster-recovery",
+    "part_title": "Multi-cloud, híbrido, migración y recuperación",
+    "part_class": 12,
+    "level": "experto",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "plataforma-multicloud",
+    "keywords": [
+      "proyecto",
+      "continuidad",
+      "activa",
+      "pasiva",
+      "entre",
+      "nubes"
+    ],
+    "books": [
+      "Cloud Strategy — Gregor Hohpe",
+      "Seeking SRE — Blank-Edelman",
+      "Enterprise Integration Patterns — Hohpe y Woolf"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "169",
+    "number": 169,
+    "title": "Landing zones empresariales y vending de cuentas",
+    "slug": "landing-zones-empresariales-y-vending-de-cuentas",
+    "part": "14",
+    "part_slug": "advanced-platform-capstones-career",
+    "part_title": "Plataformas avanzadas, capstones y carrera",
+    "part_class": 1,
+    "level": "experto-frontera",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "landing-zone-empresarial",
+    "keywords": [
+      "landing",
+      "zones",
+      "empresariales",
+      "vending",
+      "cuentas"
+    ],
+    "books": [
+      "Team Topologies — Skelton y Pais",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Fundamentals of Software Architecture — Richards y Ford"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "170",
+    "number": 170,
+    "title": "Gobierno federado y policy as code a escala",
+    "slug": "gobierno-federado-y-policy-as-code-a-escala",
+    "part": "14",
+    "part_slug": "advanced-platform-capstones-career",
+    "part_title": "Plataformas avanzadas, capstones y carrera",
+    "part_class": 2,
+    "level": "experto-frontera",
+    "estimated_hours": 4,
+    "lab_kind": "governance",
+    "artifact": "modelo-gobierno",
+    "keywords": [
+      "gobierno",
+      "federado",
+      "policy",
+      "as",
+      "code",
+      "escala"
+    ],
+    "books": [
+      "Team Topologies — Skelton y Pais",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Fundamentals of Software Architecture — Richards y Ford"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "171",
+    "number": 171,
+    "title": "Platform as a Product y roadmap de capacidades",
+    "slug": "platform-as-a-product-y-roadmap-de-capacidades",
+    "part": "14",
+    "part_slug": "advanced-platform-capstones-career",
+    "part_title": "Plataformas avanzadas, capstones y carrera",
+    "part_class": 3,
+    "level": "experto-frontera",
+    "estimated_hours": 4,
+    "lab_kind": "platform",
+    "artifact": "roadmap-plataforma",
+    "keywords": [
+      "platform",
+      "as",
+      "product",
+      "roadmap",
+      "capacidades"
+    ],
+    "books": [
+      "Team Topologies — Skelton y Pais",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Fundamentals of Software Architecture — Richards y Ford"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "172",
+    "number": 172,
+    "title": "Modelo operativo FinOps y economía unitaria",
+    "slug": "modelo-operativo-finops-y-economia-unitaria",
+    "part": "14",
+    "part_slug": "advanced-platform-capstones-career",
+    "part_title": "Plataformas avanzadas, capstones y carrera",
+    "part_class": 4,
+    "level": "experto-frontera",
+    "estimated_hours": 4,
+    "lab_kind": "finops",
+    "artifact": "operating-model-finops",
+    "keywords": [
+      "modelo",
+      "operativo",
+      "finops",
+      "economía",
+      "unitaria"
+    ],
+    "books": [
+      "Team Topologies — Skelton y Pais",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Fundamentals of Software Architecture — Richards y Ford"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "173",
+    "number": 173,
+    "title": "Madurez SRE y confiabilidad organizacional",
+    "slug": "madurez-sre-y-confiabilidad-organizacional",
+    "part": "14",
+    "part_slug": "advanced-platform-capstones-career",
+    "part_title": "Plataformas avanzadas, capstones y carrera",
+    "part_class": 5,
+    "level": "experto-frontera",
+    "estimated_hours": 4,
+    "lab_kind": "sre",
+    "artifact": "assessment-sre",
+    "keywords": [
+      "madurez",
+      "sre",
+      "confiabilidad",
+      "organizacional"
+    ],
+    "books": [
+      "Team Topologies — Skelton y Pais",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Fundamentals of Software Architecture — Richards y Ford"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "174",
+    "number": 174,
+    "title": "Arquitectura de seguridad cloud empresarial",
+    "slug": "arquitectura-de-seguridad-cloud-empresarial",
+    "part": "14",
+    "part_slug": "advanced-platform-capstones-career",
+    "part_title": "Plataformas avanzadas, capstones y carrera",
+    "part_class": 6,
+    "level": "experto-frontera",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "security-reference-architecture",
+    "keywords": [
+      "arquitectura",
+      "seguridad",
+      "cloud",
+      "empresarial"
+    ],
+    "books": [
+      "Team Topologies — Skelton y Pais",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Fundamentals of Software Architecture — Richards y Ford"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "175",
+    "number": 175,
+    "title": "Workloads de IA, GPU, datos y MLOps multi-cloud",
+    "slug": "workloads-de-ia-gpu-datos-y-mlops-multi-cloud",
+    "part": "14",
+    "part_slug": "advanced-platform-capstones-career",
+    "part_title": "Plataformas avanzadas, capstones y carrera",
+    "part_class": 7,
+    "level": "experto-frontera",
+    "estimated_hours": 4,
+    "lab_kind": "ai",
+    "artifact": "arquitectura-ia-cloud",
+    "keywords": [
+      "workloads",
+      "ia",
+      "gpu",
+      "datos",
+      "mlops",
+      "multi"
+    ],
+    "books": [
+      "Team Topologies — Skelton y Pais",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Fundamentals of Software Architecture — Richards y Ford"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "176",
+    "number": 176,
+    "title": "Edge, IoT y procesamiento desconectado",
+    "slug": "edge-iot-y-procesamiento-desconectado",
+    "part": "14",
+    "part_slug": "advanced-platform-capstones-career",
+    "part_title": "Plataformas avanzadas, capstones y carrera",
+    "part_class": 8,
+    "level": "experto-frontera",
+    "estimated_hours": 4,
+    "lab_kind": "edge",
+    "artifact": "arquitectura-edge",
+    "keywords": [
+      "edge",
+      "iot",
+      "procesamiento",
+      "desconectado"
+    ],
+    "books": [
+      "Team Topologies — Skelton y Pais",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Fundamentals of Software Architecture — Richards y Ford"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "177",
+    "number": 177,
+    "title": "Soberanía digital y confidential computing",
+    "slug": "soberania-digital-y-confidential-computing",
+    "part": "14",
+    "part_slug": "advanced-platform-capstones-career",
+    "part_title": "Plataformas avanzadas, capstones y carrera",
+    "part_class": 9,
+    "level": "experto-frontera",
+    "estimated_hours": 4,
+    "lab_kind": "security",
+    "artifact": "decision-soberania",
+    "keywords": [
+      "soberanía",
+      "digital",
+      "confidential",
+      "computing"
+    ],
+    "books": [
+      "Team Topologies — Skelton y Pais",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Fundamentals of Software Architecture — Richards y Ford"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "178",
+    "number": 178,
+    "title": "Capstone: descubrimiento y diseño",
+    "slug": "capstone-descubrimiento-y-diseno",
+    "part": "14",
+    "part_slug": "advanced-platform-capstones-career",
+    "part_title": "Plataformas avanzadas, capstones y carrera",
+    "part_class": 10,
+    "level": "experto-frontera",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "dossier-diseno-final",
+    "keywords": [
+      "capstone",
+      "descubrimiento",
+      "diseño"
+    ],
+    "books": [
+      "Team Topologies — Skelton y Pais",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Fundamentals of Software Architecture — Richards y Ford"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "179",
+    "number": 179,
+    "title": "Capstone: implementación y operación",
+    "slug": "capstone-implementacion-y-operacion",
+    "part": "14",
+    "part_slug": "advanced-platform-capstones-career",
+    "part_title": "Plataformas avanzadas, capstones y carrera",
+    "part_class": 11,
+    "level": "experto-frontera",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "evidencia-implementacion-final",
+    "keywords": [
+      "capstone",
+      "implementación",
+      "operación"
+    ],
+    "books": [
+      "Team Topologies — Skelton y Pais",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Fundamentals of Software Architecture — Richards y Ford"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  },
+  {
+    "id": "180",
+    "number": 180,
+    "title": "Capstone: defensa, portafolio y plan profesional",
+    "slug": "capstone-defensa-portafolio-y-plan-profesional",
+    "part": "14",
+    "part_slug": "advanced-platform-capstones-career",
+    "part_title": "Plataformas avanzadas, capstones y carrera",
+    "part_class": 12,
+    "level": "experto-frontera",
+    "estimated_hours": 8,
+    "lab_kind": "capstone",
+    "artifact": "defensa-final",
+    "keywords": [
+      "capstone",
+      "defensa",
+      "portafolio",
+      "plan",
+      "profesional"
+    ],
+    "books": [
+      "Team Topologies — Skelton y Pais",
+      "Accelerate — Forsgren, Humble y Kim",
+      "Fundamentals of Software Architecture — Richards y Ford"
+    ],
+    "status": "EXECUTABLE_CORE",
+    "maturity": "evolving"
+  }
+]

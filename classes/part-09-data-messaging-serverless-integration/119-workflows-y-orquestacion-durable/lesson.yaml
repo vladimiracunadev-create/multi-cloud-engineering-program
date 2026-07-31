@@ -1,0 +1,14 @@
+id: '119'
+number: 119
+title: 'Workflows y orquestación durable'
+part: '09'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'orchestration'
+artifact: 'workflow-durable'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'workflows'
+  - 'orquestación'
+  - 'durable'

@@ -1,0 +1,15 @@
+id: '109'
+number: 109
+title: 'Bases relacionales administradas y pooling'
+part: '09'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'data'
+artifact: 'modelo-relacional'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'bases'
+  - 'relacionales'
+  - 'administradas'
+  - 'pooling'

@@ -1,0 +1,15 @@
+id: '093'
+number: 93
+title: 'CloudFormation, Bicep, Pulumi y Terraform'
+part: '07'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'decision'
+artifact: 'adr-herramienta-iac'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'cloudformation'
+  - 'bicep'
+  - 'pulumi'
+  - 'terraform'

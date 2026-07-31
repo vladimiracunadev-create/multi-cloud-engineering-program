@@ -1,0 +1,17 @@
+id: '040'
+number: 40
+title: 'Virtual Machines, Scale Sets y Load Balancer'
+part: '03'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'compute'
+artifact: 'servicio-elastico-azure'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'virtual'
+  - 'machines'
+  - 'scale'
+  - 'sets'
+  - 'load'
+  - 'balancer'

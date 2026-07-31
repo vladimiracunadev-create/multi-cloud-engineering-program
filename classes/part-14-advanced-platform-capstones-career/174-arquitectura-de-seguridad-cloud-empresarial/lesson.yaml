@@ -1,0 +1,15 @@
+id: '174'
+number: 174
+title: 'Arquitectura de seguridad cloud empresarial'
+part: '14'
+level: 'experto-frontera'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'security-reference-architecture'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'arquitectura'
+  - 'seguridad'
+  - 'cloud'
+  - 'empresarial'

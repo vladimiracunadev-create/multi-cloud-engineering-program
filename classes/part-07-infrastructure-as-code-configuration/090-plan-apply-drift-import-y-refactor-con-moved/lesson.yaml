@@ -1,0 +1,17 @@
+id: '090'
+number: 90
+title: 'Plan, apply, drift, import y refactor con moved'
+part: '07'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'iac'
+artifact: 'ciclo-cambio-iac'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'plan'
+  - 'apply'
+  - 'drift'
+  - 'import'
+  - 'refactor'
+  - 'moved'

@@ -1,0 +1,17 @@
+id: '055'
+number: 55
+title: 'Cloud Run, Cloud Functions y API Gateway'
+part: '04'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'serverless'
+artifact: 'api-serverless-gcp'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'cloud'
+  - 'run'
+  - 'cloud'
+  - 'functions'
+  - 'api'
+  - 'gateway'

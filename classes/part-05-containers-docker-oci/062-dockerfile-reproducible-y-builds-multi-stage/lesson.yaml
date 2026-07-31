@@ -1,0 +1,16 @@
+id: '062'
+number: 62
+title: 'Dockerfile reproducible y builds multi-stage'
+part: '05'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'container'
+artifact: 'imagen-minima'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'dockerfile'
+  - 'reproducible'
+  - 'builds'
+  - 'multi'
+  - 'stage'

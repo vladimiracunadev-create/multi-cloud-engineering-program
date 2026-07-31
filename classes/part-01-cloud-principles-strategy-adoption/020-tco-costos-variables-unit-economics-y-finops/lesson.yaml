@@ -1,0 +1,17 @@
+id: '020'
+number: 20
+title: 'TCO, costos variables, unit economics y FinOps'
+part: '01'
+level: 'inicial-intermedio'
+estimated_hours: 4
+lab_kind: 'finops'
+artifact: 'caso-tco'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'tco'
+  - 'costos'
+  - 'variables'
+  - 'unit'
+  - 'economics'
+  - 'finops'

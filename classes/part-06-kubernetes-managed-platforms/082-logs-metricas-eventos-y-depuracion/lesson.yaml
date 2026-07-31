@@ -1,0 +1,15 @@
+id: '082'
+number: 82
+title: 'Logs, métricas, eventos y depuración'
+part: '06'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'observability'
+artifact: 'diagnostico-kubernetes'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'logs'
+  - 'métricas'
+  - 'eventos'
+  - 'depuración'

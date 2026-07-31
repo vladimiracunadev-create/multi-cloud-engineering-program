@@ -1,0 +1,16 @@
+id: '012'
+number: 12
+title: 'Proyecto: servicio local reproducible y observable'
+part: '00'
+level: 'inicial'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'servicio-local'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'proyecto'
+  - 'servicio'
+  - 'local'
+  - 'reproducible'
+  - 'observable'

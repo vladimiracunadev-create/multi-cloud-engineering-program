@@ -1,0 +1,16 @@
+id: '160'
+number: 160
+title: 'Conectividad, tránsito, DNS y service discovery'
+part: '13'
+level: 'experto'
+estimated_hours: 4
+lab_kind: 'network'
+artifact: 'red-multicloud'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'conectividad'
+  - 'tránsito'
+  - 'dns'
+  - 'service'
+  - 'discovery'

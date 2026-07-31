@@ -1,0 +1,16 @@
+id: '117'
+number: 117
+title: 'Serverless: límites, cold starts y concurrencia'
+part: '09'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'serverless'
+artifact: 'funcion-operable'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'serverless'
+  - 'límites'
+  - 'cold'
+  - 'starts'
+  - 'concurrencia'

@@ -1,0 +1,17 @@
+id: '045'
+number: 45
+title: 'Azure Monitor, Log Analytics y Application Insights'
+part: '03'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'observability'
+artifact: 'evidencia-operativa-azure'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'azure'
+  - 'monitor'
+  - 'log'
+  - 'analytics'
+  - 'application'
+  - 'insights'

@@ -1,0 +1,9 @@
+{
+  "name": "Multi-Cloud Engineering Program",
+  "short_name": "Multi-Cloud",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#101412",
+  "theme_color": "#101412",
+  "lang": "es"
+}

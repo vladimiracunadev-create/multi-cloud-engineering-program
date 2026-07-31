@@ -1,0 +1,15 @@
+id: '084'
+number: 84
+title: 'Proyecto: plataforma Kubernetes portable'
+part: '06'
+level: 'intermedio-avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'plataforma-kubernetes'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'proyecto'
+  - 'plataforma'
+  - 'kubernetes'
+  - 'portable'

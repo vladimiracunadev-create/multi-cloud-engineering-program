@@ -1,0 +1,15 @@
+id: '096'
+number: 96
+title: 'Proyecto: infraestructura multiambiente promovible'
+part: '07'
+level: 'intermedio-avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'plataforma-iac'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'proyecto'
+  - 'infraestructura'
+  - 'multiambiente'
+  - 'promovible'

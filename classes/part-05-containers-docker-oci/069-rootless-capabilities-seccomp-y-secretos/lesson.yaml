@@ -1,0 +1,15 @@
+id: '069'
+number: 69
+title: 'Rootless, capabilities, seccomp y secretos'
+part: '05'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'security'
+artifact: 'contenedor-endurecido'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'rootless'
+  - 'capabilities'
+  - 'seccomp'
+  - 'secretos'

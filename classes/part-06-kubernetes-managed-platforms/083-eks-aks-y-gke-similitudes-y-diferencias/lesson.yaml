@@ -1,0 +1,16 @@
+id: '083'
+number: 83
+title: 'EKS, AKS y GKE: similitudes y diferencias'
+part: '06'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'decision'
+artifact: 'matriz-kubernetes-administrado'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'eks'
+  - 'aks'
+  - 'gke'
+  - 'similitudes'
+  - 'diferencias'

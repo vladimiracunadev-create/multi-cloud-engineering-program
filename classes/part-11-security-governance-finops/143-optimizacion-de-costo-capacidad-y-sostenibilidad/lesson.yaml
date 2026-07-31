@@ -1,0 +1,15 @@
+id: '143'
+number: 143
+title: 'Optimización de costo, capacidad y sostenibilidad'
+part: '11'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'finops'
+artifact: 'backlog-optimizacion'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'optimización'
+  - 'costo'
+  - 'capacidad'
+  - 'sostenibilidad'

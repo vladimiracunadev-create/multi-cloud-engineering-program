@@ -1,0 +1,16 @@
+id: '030'
+number: 30
+title: 'S3: objetos, versionado, lifecycle y replicación'
+part: '02'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'storage'
+artifact: 'bucket-gobernado-aws'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 's3'
+  - 'objetos'
+  - 'versionado'
+  - 'lifecycle'
+  - 'replicación'

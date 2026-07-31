@@ -1,0 +1,15 @@
+id: '132'
+number: 132
+title: 'Proyecto: operación SRE de CloudShop'
+part: '10'
+level: 'avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'plataforma-sre'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'proyecto'
+  - 'operación'
+  - 'sre'
+  - 'cloudshop'

@@ -1,0 +1,15 @@
+id: '116'
+number: 116
+title: 'Sagas, outbox, idempotencia y deduplicación'
+part: '09'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'distributed'
+artifact: 'transaccion-distribuida'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'sagas'
+  - 'outbox'
+  - 'idempotencia'
+  - 'deduplicación'

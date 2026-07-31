@@ -1,0 +1,16 @@
+id: '105'
+number: 105
+title: 'Feature flags y separación deploy-release'
+part: '08'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'delivery'
+artifact: 'plan-feature-flags'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'feature'
+  - 'flags'
+  - 'separación'
+  - 'deploy'
+  - 'release'

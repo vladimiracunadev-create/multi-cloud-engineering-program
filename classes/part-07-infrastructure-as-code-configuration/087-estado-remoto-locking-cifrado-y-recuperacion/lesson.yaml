@@ -1,0 +1,16 @@
+id: '087'
+number: 87
+title: 'Estado remoto, locking, cifrado y recuperación'
+part: '07'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'iac'
+artifact: 'backend-terraform'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'estado'
+  - 'remoto'
+  - 'locking'
+  - 'cifrado'
+  - 'recuperación'

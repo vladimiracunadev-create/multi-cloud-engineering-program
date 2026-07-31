@@ -1,0 +1,16 @@
+id: '108'
+number: 108
+title: 'Proyecto: fábrica de software multi-cloud'
+part: '08'
+level: 'avanzado'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'plataforma-entrega'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'proyecto'
+  - 'fábrica'
+  - 'software'
+  - 'multi'
+  - 'cloud'

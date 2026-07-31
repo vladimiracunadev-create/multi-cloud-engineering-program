@@ -1,0 +1,15 @@
+id: '100'
+number: 100
+title: 'Pruebas, calidad y puertas de cambio'
+part: '08'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'testing'
+artifact: 'quality-gates'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'pruebas'
+  - 'calidad'
+  - 'puertas'
+  - 'cambio'

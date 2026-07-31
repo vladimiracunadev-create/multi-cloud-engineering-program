@@ -1,0 +1,15 @@
+id: '138'
+number: 138
+title: 'Vulnerabilidades, imágenes y cadena de suministro'
+part: '11'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'supply-chain'
+artifact: 'informe-supply-chain'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'vulnerabilidades'
+  - 'imágenes'
+  - 'cadena'
+  - 'suministro'

@@ -1,0 +1,15 @@
+id: '047'
+number: 47
+title: 'Bicep, plantillas y despliegues por alcance'
+part: '03'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'iac'
+artifact: 'infraestructura-bicep'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'bicep'
+  - 'plantillas'
+  - 'despliegues'
+  - 'alcance'

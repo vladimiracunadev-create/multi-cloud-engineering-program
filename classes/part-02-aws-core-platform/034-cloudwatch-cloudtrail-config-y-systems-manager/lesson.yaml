@@ -1,0 +1,16 @@
+id: '034'
+number: 34
+title: 'CloudWatch, CloudTrail, Config y Systems Manager'
+part: '02'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'observability'
+artifact: 'evidencia-operativa-aws'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'cloudwatch'
+  - 'cloudtrail'
+  - 'config'
+  - 'systems'
+  - 'manager'

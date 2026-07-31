@@ -1,0 +1,15 @@
+id: '111'
+number: 111
+title: 'Caché, invalidación, TTL y consistencia'
+part: '09'
+level: 'avanzado'
+estimated_hours: 4
+lab_kind: 'data'
+artifact: 'estrategia-cache'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'caché'
+  - 'invalidación'
+  - 'ttl'
+  - 'consistencia'

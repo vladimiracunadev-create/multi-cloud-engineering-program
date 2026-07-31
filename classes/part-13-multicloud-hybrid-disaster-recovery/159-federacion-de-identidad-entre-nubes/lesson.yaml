@@ -1,0 +1,15 @@
+id: '159'
+number: 159
+title: 'Federación de identidad entre nubes'
+part: '13'
+level: 'experto'
+estimated_hours: 4
+lab_kind: 'iam'
+artifact: 'federacion-multicloud'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'federación'
+  - 'identidad'
+  - 'entre'
+  - 'nubes'

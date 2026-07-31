@@ -1,0 +1,16 @@
+id: '070'
+number: 70
+title: 'Diagnóstico de CPU, memoria, red y filesystem'
+part: '05'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'observability'
+artifact: 'informe-diagnostico'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'diagnóstico'
+  - 'cpu'
+  - 'memoria'
+  - 'red'
+  - 'filesystem'

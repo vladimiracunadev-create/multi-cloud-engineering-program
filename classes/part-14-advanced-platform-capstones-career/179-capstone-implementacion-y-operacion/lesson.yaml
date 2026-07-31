@@ -1,0 +1,14 @@
+id: '179'
+number: 179
+title: 'Capstone: implementación y operación'
+part: '14'
+level: 'experto-frontera'
+estimated_hours: 8
+lab_kind: 'capstone'
+artifact: 'evidencia-implementacion-final'
+status: 'EXECUTABLE_CORE'
+maturity: 'evolving'
+keywords:
+  - 'capstone'
+  - 'implementación'
+  - 'operación'

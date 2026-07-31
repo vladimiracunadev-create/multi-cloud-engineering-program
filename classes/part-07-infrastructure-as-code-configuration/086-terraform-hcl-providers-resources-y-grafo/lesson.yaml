@@ -1,0 +1,16 @@
+id: '086'
+number: 86
+title: 'Terraform: HCL, providers, resources y grafo'
+part: '07'
+level: 'intermedio-avanzado'
+estimated_hours: 4
+lab_kind: 'iac'
+artifact: 'stack-terraform'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'terraform'
+  - 'hcl'
+  - 'providers'
+  - 'resources'
+  - 'grafo'

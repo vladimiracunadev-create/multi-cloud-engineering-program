@@ -1,0 +1,16 @@
+id: '043'
+number: 43
+title: 'App Service, Functions y Container Apps'
+part: '03'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'serverless'
+artifact: 'api-plataforma-azure'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'app'
+  - 'service'
+  - 'functions'
+  - 'container'
+  - 'apps'

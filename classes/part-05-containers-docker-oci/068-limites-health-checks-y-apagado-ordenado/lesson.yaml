@@ -1,0 +1,16 @@
+id: '068'
+number: 68
+title: 'Límites, health checks y apagado ordenado'
+part: '05'
+level: 'intermedio'
+estimated_hours: 4
+lab_kind: 'reliability'
+artifact: 'contenedor-operable'
+status: 'EXECUTABLE_CORE'
+maturity: 'stable'
+keywords:
+  - 'límites'
+  - 'health'
+  - 'checks'
+  - 'apagado'
+  - 'ordenado'
