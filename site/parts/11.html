@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 11 — Seguridad, gobierno, cumplimiento y FinOps ← Parte 10 ../part-10-observability-sre-reliability/README.md · Índice completo ../README.md · Parte">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 11 — Seguridad, gobierno, cumplimiento y FinOps">
+  <meta property="og:description" content="Parte 11 — Seguridad, gobierno, cumplimiento y FinOps ← Parte 10 ../part-10-observability-sre-reliability/README.md · Índice completo ../README.md · Parte">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/11.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/11.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 11 — Seguridad, gobierno, cumplimiento y FinOps", "description": "Parte 11 — Seguridad, gobierno, cumplimiento y FinOps ← Parte 10 ../part-10-observability-sre-reliability/README.md · Índice completo ../README.md · Parte", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/11.html"}</script>
+  <title>Parte 11 — Seguridad, gobierno, cumplimiento y FinOps · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 11</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-11-seguridad-gobierno-cumplimiento-y-finops">Parte 11 — Seguridad, gobierno, cumplimiento y FinOps</h1>
+<blockquote>
+<p><a href="../part-10-observability-sre-reliability/README.md">← Parte 10</a> · <a href="../README.md">Índice completo</a> · <a href="../part-12-cloud-native-distributed-architecture/README.md">Parte 12 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> avanzado · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Construir guardrails que hagan segura y económicamente sostenible la autonomía.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>Gobernar no significa aprobar cada cambio: significa codificar límites, evidencia y responsabilidades para que los equipos puedan avanzar con seguridad.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">133</td>
+<td><a href="133-zero-trust-y-defensa-en-profundidad/README.md">Zero Trust y defensa en profundidad</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">134</td>
+<td><a href="134-minimo-privilegio-acceso-temporal-y-separacion-de-funciones/README.md">Mínimo privilegio, acceso temporal y separación de funciones</a></td>
+<td><code>iam</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">135</td>
+<td><a href="135-segmentacion-perimetro-waf-ddos-y-egress/README.md">Segmentación, perímetro, WAF, DDoS y egress</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">136</td>
+<td><a href="136-cifrado-kms-hsm-rotacion-y-envelope-encryption/README.md">Cifrado, KMS, HSM, rotación y envelope encryption</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">137</td>
+<td><a href="137-gestion-de-secretos-y-credenciales-de-workloads/README.md">Gestión de secretos y credenciales de workloads</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">138</td>
+<td><a href="138-vulnerabilidades-imagenes-y-cadena-de-suministro/README.md">Vulnerabilidades, imágenes y cadena de suministro</a></td>
+<td><code>supply-chain</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">139</td>
+<td><a href="139-cspm-postura-policy-as-code-y-remediacion/README.md">CSPM, postura, policy as code y remediación</a></td>
+<td><code>governance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">140</td>
+<td><a href="140-threat-modeling-con-stride-y-attack-paths/README.md">Threat modeling con STRIDE y attack paths</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">141</td>
+<td><a href="141-cumplimiento-residencia-privacidad-y-evidencia/README.md">Cumplimiento, residencia, privacidad y evidencia</a></td>
+<td><code>compliance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">142</td>
+<td><a href="142-finops-showback-chargeback-budgets-y-anomalias/README.md">FinOps: showback, chargeback, budgets y anomalías</a></td>
+<td><code>finops</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">143</td>
+<td><a href="143-optimizacion-de-costo-capacidad-y-sostenibilidad/README.md">Optimización de costo, capacidad y sostenibilidad</a></td>
+<td><code>finops</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">144</td>
+<td><a href="144-proyecto-landing-zone-con-guardrails/README.md">Proyecto: landing zone con guardrails</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>Practical Cloud Security — Chris Dotson.</li>
+<li>Cloud Security Handbook — Eyal Estrin.</li>
+<li>Cloud FinOps — Storment y Fuller.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="133">
+          <label><input type="checkbox" data-lesson-complete="133"><span>133</span></label>
+          <div><a href="../classes/133.html">Zero Trust y defensa en profundidad</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="134">
+          <label><input type="checkbox" data-lesson-complete="134"><span>134</span></label>
+          <div><a href="../classes/134.html">Mínimo privilegio, acceso temporal y separación de funciones</a><small>iam · 4 h</small></div>
+        </article><article class="part-class" data-class-id="135">
+          <label><input type="checkbox" data-lesson-complete="135"><span>135</span></label>
+          <div><a href="../classes/135.html">Segmentación, perímetro, WAF, DDoS y egress</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="136">
+          <label><input type="checkbox" data-lesson-complete="136"><span>136</span></label>
+          <div><a href="../classes/136.html">Cifrado, KMS, HSM, rotación y envelope encryption</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="137">
+          <label><input type="checkbox" data-lesson-complete="137"><span>137</span></label>
+          <div><a href="../classes/137.html">Gestión de secretos y credenciales de workloads</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="138">
+          <label><input type="checkbox" data-lesson-complete="138"><span>138</span></label>
+          <div><a href="../classes/138.html">Vulnerabilidades, imágenes y cadena de suministro</a><small>supply-chain · 4 h</small></div>
+        </article><article class="part-class" data-class-id="139">
+          <label><input type="checkbox" data-lesson-complete="139"><span>139</span></label>
+          <div><a href="../classes/139.html">CSPM, postura, policy as code y remediación</a><small>governance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="140">
+          <label><input type="checkbox" data-lesson-complete="140"><span>140</span></label>
+          <div><a href="../classes/140.html">Threat modeling con STRIDE y attack paths</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="141">
+          <label><input type="checkbox" data-lesson-complete="141"><span>141</span></label>
+          <div><a href="../classes/141.html">Cumplimiento, residencia, privacidad y evidencia</a><small>compliance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="142">
+          <label><input type="checkbox" data-lesson-complete="142"><span>142</span></label>
+          <div><a href="../classes/142.html">FinOps: showback, chargeback, budgets y anomalías</a><small>finops · 4 h</small></div>
+        </article><article class="part-class" data-class-id="143">
+          <label><input type="checkbox" data-lesson-complete="143"><span>143</span></label>
+          <div><a href="../classes/143.html">Optimización de costo, capacidad y sostenibilidad</a><small>finops · 4 h</small></div>
+        </article><article class="part-class" data-class-id="144">
+          <label><input type="checkbox" data-lesson-complete="144"><span>144</span></label>
+          <div><a href="../classes/144.html">Proyecto: landing zone con guardrails</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

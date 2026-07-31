@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 02 — AWS: plataforma esencial ← Parte 01 ../part-01-cloud-principles-strategy-adoption/README.md · Índice completo ../README.md · Parte 03 → ../part-">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 02 — AWS: plataforma esencial">
+  <meta property="og:description" content="Parte 02 — AWS: plataforma esencial ← Parte 01 ../part-01-cloud-principles-strategy-adoption/README.md · Índice completo ../README.md · Parte 03 → ../part-">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/02.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/02.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 02 — AWS: plataforma esencial", "description": "Parte 02 — AWS: plataforma esencial ← Parte 01 ../part-01-cloud-principles-strategy-adoption/README.md · Índice completo ../README.md · Parte 03 → ../part-", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/02.html"}</script>
+  <title>Parte 02 — AWS: plataforma esencial · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 02</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-02-aws-plataforma-esencial">Parte 02 — AWS: plataforma esencial</h1>
+<blockquote>
+<p><a href="../part-01-cloud-principles-strategy-adoption/README.md">← Parte 01</a> · <a href="../README.md">Índice completo</a> · <a href="../part-03-azure-core-platform/README.md">Parte 03 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> intermedio · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Diseñar y operar una carga completa en AWS con controles explícitos.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>Una cuenta AWS es una frontera de seguridad y facturación; los servicios se combinan mediante contratos, no como una lista de productos aislados.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">025</td>
+<td><a href="025-organizations-cuentas-ou-scp-y-landing-zone/README.md">Organizations, cuentas, OU, SCP y landing zone</a></td>
+<td><code>governance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">026</td>
+<td><a href="026-iam-roles-politicas-sts-y-federacion/README.md">IAM, roles, políticas, STS y federación</a></td>
+<td><code>iam</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">027</td>
+<td><a href="027-vpc-subredes-rutas-nat-endpoints-y-seguridad/README.md">VPC, subredes, rutas, NAT, endpoints y seguridad</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">028</td>
+<td><a href="028-ec2-ami-ebs-y-seleccion-de-capacidad/README.md">EC2, AMI, EBS y selección de capacidad</a></td>
+<td><code>compute</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">029</td>
+<td><a href="029-elastic-load-balancing-y-auto-scaling/README.md">Elastic Load Balancing y Auto Scaling</a></td>
+<td><code>reliability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">030</td>
+<td><a href="030-s3-objetos-versionado-lifecycle-y-replicacion/README.md">S3: objetos, versionado, lifecycle y replicación</a></td>
+<td><code>storage</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">031</td>
+<td><a href="031-rds-dynamodb-y-elasticache-decision-de-datos/README.md">RDS, DynamoDB y ElastiCache: decisión de datos</a></td>
+<td><code>data</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">032</td>
+<td><a href="032-lambda-api-gateway-y-step-functions/README.md">Lambda, API Gateway y Step Functions</a></td>
+<td><code>serverless</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">033</td>
+<td><a href="033-sqs-sns-y-eventbridge/README.md">SQS, SNS y EventBridge</a></td>
+<td><code>messaging</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">034</td>
+<td><a href="034-cloudwatch-cloudtrail-config-y-systems-manager/README.md">CloudWatch, CloudTrail, Config y Systems Manager</a></td>
+<td><code>observability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">035</td>
+<td><a href="035-kms-secrets-manager-waf-y-controles-de-seguridad/README.md">KMS, Secrets Manager, WAF y controles de seguridad</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">036</td>
+<td><a href="036-proyecto-aplicacion-de-tres-capas-en-aws/README.md">Proyecto: aplicación de tres capas en AWS</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>AWS Well-Architected Framework — AWS.</li>
+<li>AWS Cookbook — John Culkin y Mike Zazon.</li>
+<li>Amazon Web Services in Action — Wittig y Wittig.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="025">
+          <label><input type="checkbox" data-lesson-complete="025"><span>025</span></label>
+          <div><a href="../classes/025.html">Organizations, cuentas, OU, SCP y landing zone</a><small>governance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="026">
+          <label><input type="checkbox" data-lesson-complete="026"><span>026</span></label>
+          <div><a href="../classes/026.html">IAM, roles, políticas, STS y federación</a><small>iam · 4 h</small></div>
+        </article><article class="part-class" data-class-id="027">
+          <label><input type="checkbox" data-lesson-complete="027"><span>027</span></label>
+          <div><a href="../classes/027.html">VPC, subredes, rutas, NAT, endpoints y seguridad</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="028">
+          <label><input type="checkbox" data-lesson-complete="028"><span>028</span></label>
+          <div><a href="../classes/028.html">EC2, AMI, EBS y selección de capacidad</a><small>compute · 4 h</small></div>
+        </article><article class="part-class" data-class-id="029">
+          <label><input type="checkbox" data-lesson-complete="029"><span>029</span></label>
+          <div><a href="../classes/029.html">Elastic Load Balancing y Auto Scaling</a><small>reliability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="030">
+          <label><input type="checkbox" data-lesson-complete="030"><span>030</span></label>
+          <div><a href="../classes/030.html">S3: objetos, versionado, lifecycle y replicación</a><small>storage · 4 h</small></div>
+        </article><article class="part-class" data-class-id="031">
+          <label><input type="checkbox" data-lesson-complete="031"><span>031</span></label>
+          <div><a href="../classes/031.html">RDS, DynamoDB y ElastiCache: decisión de datos</a><small>data · 4 h</small></div>
+        </article><article class="part-class" data-class-id="032">
+          <label><input type="checkbox" data-lesson-complete="032"><span>032</span></label>
+          <div><a href="../classes/032.html">Lambda, API Gateway y Step Functions</a><small>serverless · 4 h</small></div>
+        </article><article class="part-class" data-class-id="033">
+          <label><input type="checkbox" data-lesson-complete="033"><span>033</span></label>
+          <div><a href="../classes/033.html">SQS, SNS y EventBridge</a><small>messaging · 4 h</small></div>
+        </article><article class="part-class" data-class-id="034">
+          <label><input type="checkbox" data-lesson-complete="034"><span>034</span></label>
+          <div><a href="../classes/034.html">CloudWatch, CloudTrail, Config y Systems Manager</a><small>observability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="035">
+          <label><input type="checkbox" data-lesson-complete="035"><span>035</span></label>
+          <div><a href="../classes/035.html">KMS, Secrets Manager, WAF y controles de seguridad</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="036">
+          <label><input type="checkbox" data-lesson-complete="036"><span>036</span></label>
+          <div><a href="../classes/036.html">Proyecto: aplicación de tres capas en AWS</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

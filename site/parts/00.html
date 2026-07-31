@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 00 — Fundamentos de computación, redes y Linux Programa · Índice completo ../README.md · Parte 01 → ../part-01-cloud-principles-strategy-adoption/REA">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 00 — Fundamentos de computación, redes y Linux">
+  <meta property="og:description" content="Parte 00 — Fundamentos de computación, redes y Linux Programa · Índice completo ../README.md · Parte 01 → ../part-01-cloud-principles-strategy-adoption/REA">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/00.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/00.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 00 — Fundamentos de computación, redes y Linux", "description": "Parte 00 — Fundamentos de computación, redes y Linux Programa · Índice completo ../README.md · Parte 01 → ../part-01-cloud-principles-strategy-adoption/REA", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/00.html"}</script>
+  <title>Parte 00 — Fundamentos de computación, redes y Linux · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 00</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-00-fundamentos-de-computacion-redes-y-linux">Parte 00 — Fundamentos de computación, redes y Linux</h1>
+<blockquote>
+<p>Programa · <a href="../README.md">Índice completo</a> · <a href="../part-01-cloud-principles-strategy-adoption/README.md">Parte 01 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> inicial · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Construir el vocabulario y las destrezas técnicas que la nube da por supuestas.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>Antes de alquilar infraestructura remota, aprende a observar una computadora local como un conjunto de procesos, redes, archivos, identidades y recursos medibles.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">001</td>
+<td><a href="001-computacion-digital-y-modelo-mental-de-la-nube/README.md">Computación digital y modelo mental de la nube</a></td>
+<td><code>foundation</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">002</td>
+<td><a href="002-terminal-sistema-de-archivos-procesos-y-variables-de-entorno/README.md">Terminal, sistema de archivos, procesos y variables de entorno</a></td>
+<td><code>shell</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">003</td>
+<td><a href="003-git-github-y-trabajo-reproducible/README.md">Git, GitHub y trabajo reproducible</a></td>
+<td><code>git</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">004</td>
+<td><a href="004-python-json-y-automatizacion-minima/README.md">Python, JSON y automatización mínima</a></td>
+<td><code>automation</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">005</td>
+<td><a href="005-redes-por-capas-tcp-ip-puertos-y-sockets/README.md">Redes por capas, TCP/IP, puertos y sockets</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">006</td>
+<td><a href="006-dns-http-https-y-tls-de-extremo-a-extremo/README.md">DNS, HTTP, HTTPS y TLS de extremo a extremo</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">007</td>
+<td><a href="007-linux-usuarios-permisos-servicios-y-logs/README.md">Linux: usuarios, permisos, servicios y logs</a></td>
+<td><code>linux</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">008</td>
+<td><a href="008-virtualizacion-hipervisores-e-imagenes/README.md">Virtualización, hipervisores e imágenes</a></td>
+<td><code>virtualization</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">009</td>
+<td><a href="009-apis-rest-autenticacion-y-contratos/README.md">APIs REST, autenticación y contratos</a></td>
+<td><code>api</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">010</td>
+<td><a href="010-responsabilidad-compartida-y-pensamiento-de-riesgo/README.md">Responsabilidad compartida y pensamiento de riesgo</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">011</td>
+<td><a href="011-costo-energia-capacidad-y-medicion-basica/README.md">Costo, energía, capacidad y medición básica</a></td>
+<td><code>finops</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">012</td>
+<td><a href="012-proyecto-servicio-local-reproducible-y-observable/README.md">Proyecto: servicio local reproducible y observable</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>How Linux Works — Brian Ward.</li>
+<li>Computer Networking: A Top-Down Approach — Kurose y Ross.</li>
+<li>Pro Git — Chacon y Straub.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="001">
+          <label><input type="checkbox" data-lesson-complete="001"><span>001</span></label>
+          <div><a href="../classes/001.html">Computación digital y modelo mental de la nube</a><small>foundation · 4 h</small></div>
+        </article><article class="part-class" data-class-id="002">
+          <label><input type="checkbox" data-lesson-complete="002"><span>002</span></label>
+          <div><a href="../classes/002.html">Terminal, sistema de archivos, procesos y variables de entorno</a><small>shell · 4 h</small></div>
+        </article><article class="part-class" data-class-id="003">
+          <label><input type="checkbox" data-lesson-complete="003"><span>003</span></label>
+          <div><a href="../classes/003.html">Git, GitHub y trabajo reproducible</a><small>git · 4 h</small></div>
+        </article><article class="part-class" data-class-id="004">
+          <label><input type="checkbox" data-lesson-complete="004"><span>004</span></label>
+          <div><a href="../classes/004.html">Python, JSON y automatización mínima</a><small>automation · 4 h</small></div>
+        </article><article class="part-class" data-class-id="005">
+          <label><input type="checkbox" data-lesson-complete="005"><span>005</span></label>
+          <div><a href="../classes/005.html">Redes por capas, TCP/IP, puertos y sockets</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="006">
+          <label><input type="checkbox" data-lesson-complete="006"><span>006</span></label>
+          <div><a href="../classes/006.html">DNS, HTTP, HTTPS y TLS de extremo a extremo</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="007">
+          <label><input type="checkbox" data-lesson-complete="007"><span>007</span></label>
+          <div><a href="../classes/007.html">Linux: usuarios, permisos, servicios y logs</a><small>linux · 4 h</small></div>
+        </article><article class="part-class" data-class-id="008">
+          <label><input type="checkbox" data-lesson-complete="008"><span>008</span></label>
+          <div><a href="../classes/008.html">Virtualización, hipervisores e imágenes</a><small>virtualization · 4 h</small></div>
+        </article><article class="part-class" data-class-id="009">
+          <label><input type="checkbox" data-lesson-complete="009"><span>009</span></label>
+          <div><a href="../classes/009.html">APIs REST, autenticación y contratos</a><small>api · 4 h</small></div>
+        </article><article class="part-class" data-class-id="010">
+          <label><input type="checkbox" data-lesson-complete="010"><span>010</span></label>
+          <div><a href="../classes/010.html">Responsabilidad compartida y pensamiento de riesgo</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="011">
+          <label><input type="checkbox" data-lesson-complete="011"><span>011</span></label>
+          <div><a href="../classes/011.html">Costo, energía, capacidad y medición básica</a><small>finops · 4 h</small></div>
+        </article><article class="part-class" data-class-id="012">
+          <label><input type="checkbox" data-lesson-complete="012"><span>012</span></label>
+          <div><a href="../classes/012.html">Proyecto: servicio local reproducible y observable</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

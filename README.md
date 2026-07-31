@@ -2,18 +2,21 @@
 
 # ☁️ Multi-Cloud Engineering Program
 
-## **15 partes · 180 clases · de cero a ingeniería cloud experta**
+## **15 partes · 180 clases · 788 horas · de cero a ingeniería cloud experta**
 
 **Programa educativo en español para aprender cloud engineering de extremo a extremo:
 fundamentos, AWS, Azure, Google Cloud, contenedores, Kubernetes, IaC, entrega continua,
 datos, SRE, seguridad, FinOps, arquitectura distribuida, nube híbrida y multi-cloud.**
 
 [![CI](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-1.0.0-e67e22?style=for-the-badge)](CHANGELOG.md)
+[![Pages](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/pages.yml/badge.svg?branch=main)](https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/)
+[![Security](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/security.yml)
+[![Version](https://img.shields.io/badge/version-1.1.0-e67e22?style=for-the-badge)](CHANGELOG.md)
 [![Classes](https://img.shields.io/badge/clases-180%20·%2015%20partes-7c5cff?style=for-the-badge)](classes/README.md)
 [![Level](https://img.shields.io/badge/nivel-inicial%20→%20experto-2e8b57?style=for-the-badge)](docs/SYLLABUS.md)
 [![License](https://img.shields.io/badge/license-MIT-3fb950?style=for-the-badge)](LICENSE)
 
+[🌐 Portal interactivo](https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/) ·
 [📚 Clases](classes/README.md) · [🧭 Rutas](learning-paths/README.md) ·
 [📅 Syllabus](docs/SYLLABUS.md) · [🧪 Laboratorios](labs/README.md) ·
 [🏗️ Capstones](capstones/README.md) · [📖 Bibliografía](docs/BIBLIOGRAPHY.md)
@@ -31,8 +34,10 @@ datos, SRE, seguridad, FinOps, arquitectura distribuida, nube híbrida y multi-c
 | Laboratorios | ✅ 180 entrypoints sobre un motor local determinista |
 | Partes | ✅ 15/15 índices con secuencia, evaluación y bibliografía |
 | CLI | ✅ catálogo, inspección y ejecución de laboratorios |
-| Portal | ✅ buscador, filtros y progreso local |
-| Calidad | ✅ validador estricto y pruebas unitarias |
+| Portal | ✅ PWA, 180 páginas de clase, buscador, rutas, roadmap, progreso y analítica |
+| Calidad | ✅ CI multi-OS/Python, validador estricto, pruebas y generación reproducible |
+| Seguridad | ✅ CodeQL, Bandit, pip-audit y Gitleaks programados |
+| Publicación | ✅ GitHub Pages generado desde la fuente curricular |
 | Cuentas cloud | ⚪ opcionales; los labs base no crean recursos ni costos |
 
 ## 🎯 Qué es este programa
@@ -119,10 +124,27 @@ multicloud-program run 001 --seed 42
 Portal local:
 
 ```bash
+python -m pip install -e ".[site]"
+python scripts/generate_site.py
+python scripts/validate_site.py
 python -m http.server 8080
 ```
 
-Abre `http://localhost:8080/site/`.
+Abre `http://localhost:8080/site/` o usa el
+[portal publicado](https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/).
+
+## 🖥️ Portal de aprendizaje
+
+La web no es una portada separada del contenido: se genera directamente desde
+`curriculum/catalog.json` y los Markdown de las 180 clases. Incluye:
+
+- panel de continuidad con la siguiente clase y comando de laboratorio;
+- filtros por parte, nivel, tipo de laboratorio, estado y ruta profesional;
+- páginas completas por clase y parte, con evaluación, índice y navegación secuencial;
+- roadmap del capstone CloudShop y matriz comparable entre proveedores;
+- gráficas de progreso, horas y distribución de laboratorios;
+- favoritos, tema claro/oscuro y exportación/importación del progreso;
+- PWA, SEO, Open Graph, sitemap y experiencia responsive.
 
 ## 🧪 Filosofía de laboratorio
 

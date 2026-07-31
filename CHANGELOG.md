@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.0 — 2026-07-31
+
+- portal rediseñado como experiencia educativa completa y responsive;
+- 180 páginas de clase y 15 páginas de parte generadas desde el currículo;
+- rutas profesionales, roadmap, búsqueda, favoritos, progreso y analítica visual;
+- PWA, SEO, Open Graph, sitemap, robots y página 404;
+- CI multi-OS/Python, auditoría de seguridad, CodeQL y despliegue de GitHub Pages;
+- documentación de contribución, política de seguridad y metadatos About ampliados.
+
 ## 1.0.0 — 2026-07-31
 
 - reconstrucción completa basada en los repositorios pedagógicos correctos del autor;

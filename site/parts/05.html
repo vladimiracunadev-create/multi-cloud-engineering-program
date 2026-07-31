@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 05 — Contenedores, Docker y OCI ← Parte 04 ../part-04-gcp-core-platform/README.md · Índice completo ../README.md · Parte 06 → ../part-06-kubernetes-m">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 05 — Contenedores, Docker y OCI">
+  <meta property="og:description" content="Parte 05 — Contenedores, Docker y OCI ← Parte 04 ../part-04-gcp-core-platform/README.md · Índice completo ../README.md · Parte 06 → ../part-06-kubernetes-m">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/05.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/05.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 05 — Contenedores, Docker y OCI", "description": "Parte 05 — Contenedores, Docker y OCI ← Parte 04 ../part-04-gcp-core-platform/README.md · Índice completo ../README.md · Parte 06 → ../part-06-kubernetes-m", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/05.html"}</script>
+  <title>Parte 05 — Contenedores, Docker y OCI · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 05</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-05-contenedores-docker-y-oci">Parte 05 — Contenedores, Docker y OCI</h1>
+<blockquote>
+<p><a href="../part-04-gcp-core-platform/README.md">← Parte 04</a> · <a href="../README.md">Índice completo</a> · <a href="../part-06-kubernetes-managed-platforms/README.md">Parte 06 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> intermedio · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Empaquetar servicios portables, observables y endurecidos.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>Una imagen es un artefacto inmutable; un contenedor es un proceso aislado con límites y dependencias explícitas, no una máquina virtual pequeña.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">061</td>
+<td><a href="061-imagenes-capas-registros-y-estandar-oci/README.md">Imágenes, capas, registros y estándar OCI</a></td>
+<td><code>container</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">062</td>
+<td><a href="062-dockerfile-reproducible-y-builds-multi-stage/README.md">Dockerfile reproducible y builds multi-stage</a></td>
+<td><code>container</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">063</td>
+<td><a href="063-namespaces-cgroups-y-runtime-de-contenedores/README.md">Namespaces, cgroups y runtime de contenedores</a></td>
+<td><code>container</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">064</td>
+<td><a href="064-volumenes-bind-mounts-y-persistencia/README.md">Volúmenes, bind mounts y persistencia</a></td>
+<td><code>storage</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">065</td>
+<td><a href="065-redes-bridge-dns-interno-y-publicacion-de-puertos/README.md">Redes bridge, DNS interno y publicación de puertos</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">066</td>
+<td><a href="066-docker-compose-y-aplicaciones-multiservicio/README.md">Docker Compose y aplicaciones multiservicio</a></td>
+<td><code>orchestration</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">067</td>
+<td><a href="067-registros-sbom-firma-y-procedencia-de-imagenes/README.md">Registros, SBOM, firma y procedencia de imágenes</a></td>
+<td><code>supply-chain</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">068</td>
+<td><a href="068-limites-health-checks-y-apagado-ordenado/README.md">Límites, health checks y apagado ordenado</a></td>
+<td><code>reliability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">069</td>
+<td><a href="069-rootless-capabilities-seccomp-y-secretos/README.md">Rootless, capabilities, seccomp y secretos</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">070</td>
+<td><a href="070-diagnostico-de-cpu-memoria-red-y-filesystem/README.md">Diagnóstico de CPU, memoria, red y filesystem</a></td>
+<td><code>observability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">071</td>
+<td><a href="071-migracion-de-una-aplicacion-legacy-a-contenedores/README.md">Migración de una aplicación legacy a contenedores</a></td>
+<td><code>migration</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">072</td>
+<td><a href="072-proyecto-stack-oci-endurecido-y-observable/README.md">Proyecto: stack OCI endurecido y observable</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>Docker Deep Dive — Nigel Poulton.</li>
+<li>Container Security — Liz Rice.</li>
+<li>Cloud Native Patterns — Cornelia Davis.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="061">
+          <label><input type="checkbox" data-lesson-complete="061"><span>061</span></label>
+          <div><a href="../classes/061.html">Imágenes, capas, registros y estándar OCI</a><small>container · 4 h</small></div>
+        </article><article class="part-class" data-class-id="062">
+          <label><input type="checkbox" data-lesson-complete="062"><span>062</span></label>
+          <div><a href="../classes/062.html">Dockerfile reproducible y builds multi-stage</a><small>container · 4 h</small></div>
+        </article><article class="part-class" data-class-id="063">
+          <label><input type="checkbox" data-lesson-complete="063"><span>063</span></label>
+          <div><a href="../classes/063.html">Namespaces, cgroups y runtime de contenedores</a><small>container · 4 h</small></div>
+        </article><article class="part-class" data-class-id="064">
+          <label><input type="checkbox" data-lesson-complete="064"><span>064</span></label>
+          <div><a href="../classes/064.html">Volúmenes, bind mounts y persistencia</a><small>storage · 4 h</small></div>
+        </article><article class="part-class" data-class-id="065">
+          <label><input type="checkbox" data-lesson-complete="065"><span>065</span></label>
+          <div><a href="../classes/065.html">Redes bridge, DNS interno y publicación de puertos</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="066">
+          <label><input type="checkbox" data-lesson-complete="066"><span>066</span></label>
+          <div><a href="../classes/066.html">Docker Compose y aplicaciones multiservicio</a><small>orchestration · 4 h</small></div>
+        </article><article class="part-class" data-class-id="067">
+          <label><input type="checkbox" data-lesson-complete="067"><span>067</span></label>
+          <div><a href="../classes/067.html">Registros, SBOM, firma y procedencia de imágenes</a><small>supply-chain · 4 h</small></div>
+        </article><article class="part-class" data-class-id="068">
+          <label><input type="checkbox" data-lesson-complete="068"><span>068</span></label>
+          <div><a href="../classes/068.html">Límites, health checks y apagado ordenado</a><small>reliability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="069">
+          <label><input type="checkbox" data-lesson-complete="069"><span>069</span></label>
+          <div><a href="../classes/069.html">Rootless, capabilities, seccomp y secretos</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="070">
+          <label><input type="checkbox" data-lesson-complete="070"><span>070</span></label>
+          <div><a href="../classes/070.html">Diagnóstico de CPU, memoria, red y filesystem</a><small>observability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="071">
+          <label><input type="checkbox" data-lesson-complete="071"><span>071</span></label>
+          <div><a href="../classes/071.html">Migración de una aplicación legacy a contenedores</a><small>migration · 4 h</small></div>
+        </article><article class="part-class" data-class-id="072">
+          <label><input type="checkbox" data-lesson-complete="072"><span>072</span></label>
+          <div><a href="../classes/072.html">Proyecto: stack OCI endurecido y observable</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

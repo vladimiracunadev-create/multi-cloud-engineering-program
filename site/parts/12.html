@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 12 — Arquitectura cloud-native y sistemas distribuidos ← Parte 11 ../part-11-security-governance-finops/README.md · Índice completo ../README.md · Pa">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 12 — Arquitectura cloud-native y sistemas distribuidos">
+  <meta property="og:description" content="Parte 12 — Arquitectura cloud-native y sistemas distribuidos ← Parte 11 ../part-11-security-governance-finops/README.md · Índice completo ../README.md · Pa">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/12.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/12.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 12 — Arquitectura cloud-native y sistemas distribuidos", "description": "Parte 12 — Arquitectura cloud-native y sistemas distribuidos ← Parte 11 ../part-11-security-governance-finops/README.md · Índice completo ../README.md · Pa", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/12.html"}</script>
+  <title>Parte 12 — Arquitectura cloud-native y sistemas distribuidos · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 12</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-12-arquitectura-cloud-native-y-sistemas-distribuidos">Parte 12 — Arquitectura cloud-native y sistemas distribuidos</h1>
+<blockquote>
+<p><a href="../part-11-security-governance-finops/README.md">← Parte 11</a> · <a href="../README.md">Índice completo</a> · <a href="../part-13-multicloud-hybrid-disaster-recovery/README.md">Parte 13 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> avanzado-experto · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Tomar decisiones de arquitectura con compensaciones explícitas y evidencia.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>Una arquitectura es un conjunto de decisiones costosas de cambiar; su calidad se juzga contra escenarios concretos, no por la cantidad de servicios usados.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">145</td>
+<td><a href="145-requisitos-restricciones-y-atributos-de-calidad/README.md">Requisitos, restricciones y atributos de calidad</a></td>
+<td><code>architecture</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">146</td>
+<td><a href="146-twelve-factor-app-y-configuracion-cloud-native/README.md">Twelve-Factor App y configuración cloud-native</a></td>
+<td><code>architecture</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">147</td>
+<td><a href="147-ddd-bounded-contexts-y-ownership-de-datos/README.md">DDD, bounded contexts y ownership de datos</a></td>
+<td><code>architecture</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">148</td>
+<td><a href="148-monolito-modular-microservicios-y-funcion/README.md">Monolito modular, microservicios y función</a></td>
+<td><code>decision</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">149</td>
+<td><a href="149-cap-pacelc-y-consistencia-por-operacion/README.md">CAP, PACELC y consistencia por operación</a></td>
+<td><code>distributed</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">150</td>
+<td><a href="150-replicacion-particionado-y-consenso/README.md">Replicación, particionado y consenso</a></td>
+<td><code>distributed</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">151</td>
+<td><a href="151-fallos-parciales-y-patrones-de-resiliencia/README.md">Fallos parciales y patrones de resiliencia</a></td>
+<td><code>reliability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">152</td>
+<td><a href="152-service-discovery-malla-y-comunicacion/README.md">Service discovery, malla y comunicación</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">153</td>
+<td><a href="153-contratos-api-compatibilidad-y-evolucion/README.md">Contratos API, compatibilidad y evolución</a></td>
+<td><code>api</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">154</td>
+<td><a href="154-multi-tenancy-aislamiento-y-noisy-neighbor/README.md">Multi-tenancy, aislamiento y noisy neighbor</a></td>
+<td><code>architecture</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">155</td>
+<td><a href="155-rendimiento-costo-seguridad-y-operabilidad/README.md">Rendimiento, costo, seguridad y operabilidad</a></td>
+<td><code>decision</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">156</td>
+<td><a href="156-proyecto-revision-de-arquitectura-con-adr/README.md">Proyecto: revisión de arquitectura con ADR</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>Cloud Native Patterns — Cornelia Davis.</li>
+<li>Building Microservices — Sam Newman.</li>
+<li>Release It! — Michael Nygard.</li>
+<li>Designing Data-Intensive Applications — Martin Kleppmann.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="145">
+          <label><input type="checkbox" data-lesson-complete="145"><span>145</span></label>
+          <div><a href="../classes/145.html">Requisitos, restricciones y atributos de calidad</a><small>architecture · 4 h</small></div>
+        </article><article class="part-class" data-class-id="146">
+          <label><input type="checkbox" data-lesson-complete="146"><span>146</span></label>
+          <div><a href="../classes/146.html">Twelve-Factor App y configuración cloud-native</a><small>architecture · 4 h</small></div>
+        </article><article class="part-class" data-class-id="147">
+          <label><input type="checkbox" data-lesson-complete="147"><span>147</span></label>
+          <div><a href="../classes/147.html">DDD, bounded contexts y ownership de datos</a><small>architecture · 4 h</small></div>
+        </article><article class="part-class" data-class-id="148">
+          <label><input type="checkbox" data-lesson-complete="148"><span>148</span></label>
+          <div><a href="../classes/148.html">Monolito modular, microservicios y función</a><small>decision · 4 h</small></div>
+        </article><article class="part-class" data-class-id="149">
+          <label><input type="checkbox" data-lesson-complete="149"><span>149</span></label>
+          <div><a href="../classes/149.html">CAP, PACELC y consistencia por operación</a><small>distributed · 4 h</small></div>
+        </article><article class="part-class" data-class-id="150">
+          <label><input type="checkbox" data-lesson-complete="150"><span>150</span></label>
+          <div><a href="../classes/150.html">Replicación, particionado y consenso</a><small>distributed · 4 h</small></div>
+        </article><article class="part-class" data-class-id="151">
+          <label><input type="checkbox" data-lesson-complete="151"><span>151</span></label>
+          <div><a href="../classes/151.html">Fallos parciales y patrones de resiliencia</a><small>reliability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="152">
+          <label><input type="checkbox" data-lesson-complete="152"><span>152</span></label>
+          <div><a href="../classes/152.html">Service discovery, malla y comunicación</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="153">
+          <label><input type="checkbox" data-lesson-complete="153"><span>153</span></label>
+          <div><a href="../classes/153.html">Contratos API, compatibilidad y evolución</a><small>api · 4 h</small></div>
+        </article><article class="part-class" data-class-id="154">
+          <label><input type="checkbox" data-lesson-complete="154"><span>154</span></label>
+          <div><a href="../classes/154.html">Multi-tenancy, aislamiento y noisy neighbor</a><small>architecture · 4 h</small></div>
+        </article><article class="part-class" data-class-id="155">
+          <label><input type="checkbox" data-lesson-complete="155"><span>155</span></label>
+          <div><a href="../classes/155.html">Rendimiento, costo, seguridad y operabilidad</a><small>decision · 4 h</small></div>
+        </article><article class="part-class" data-class-id="156">
+          <label><input type="checkbox" data-lesson-complete="156"><span>156</span></label>
+          <div><a href="../classes/156.html">Proyecto: revisión de arquitectura con ADR</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>
