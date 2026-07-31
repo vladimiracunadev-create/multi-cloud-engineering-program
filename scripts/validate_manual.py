@@ -17,7 +17,7 @@ def aggregate_hash(paths: list[Path]) -> str:
     for path in paths:
         digest.update(path.relative_to(ROOT).as_posix().encode("utf-8"))
         digest.update(b"\0")
-        digest.update(path.read_bytes())
+        digest.update(path.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n").encode("utf-8"))
         digest.update(b"\0")
     return digest.hexdigest()
 
