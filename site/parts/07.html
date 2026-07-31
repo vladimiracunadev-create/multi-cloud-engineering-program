@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 07 — Infraestructura como código y configuración ← Parte 06 ../part-06-kubernetes-managed-platforms/README.md · Índice completo ../README.md · Parte">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 07 — Infraestructura como código y configuración">
+  <meta property="og:description" content="Parte 07 — Infraestructura como código y configuración ← Parte 06 ../part-06-kubernetes-managed-platforms/README.md · Índice completo ../README.md · Parte">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/07.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/07.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 07 — Infraestructura como código y configuración", "description": "Parte 07 — Infraestructura como código y configuración ← Parte 06 ../part-06-kubernetes-managed-platforms/README.md · Índice completo ../README.md · Parte", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/07.html"}</script>
+  <title>Parte 07 — Infraestructura como código y configuración · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 07</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-07-infraestructura-como-codigo-y-configuracion">Parte 07 — Infraestructura como código y configuración</h1>
+<blockquote>
+<p><a href="../part-06-kubernetes-managed-platforms/README.md">← Parte 06</a> · <a href="../README.md">Índice completo</a> · <a href="../part-08-continuous-delivery-platform-engineering/README.md">Parte 08 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> intermedio-avanzado · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Convertir infraestructura y políticas en cambios revisables, probables y repetibles.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>IaC trata la infraestructura como producto versionado: el plan explica intención, el estado conecta intención y realidad, y la revisión reduce cambios accidentales.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">085</td>
+<td><a href="085-declarativo-imperativo-idempotencia-y-convergencia/README.md">Declarativo, imperativo, idempotencia y convergencia</a></td>
+<td><code>iac</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">086</td>
+<td><a href="086-terraform-hcl-providers-resources-y-grafo/README.md">Terraform: HCL, providers, resources y grafo</a></td>
+<td><code>iac</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">087</td>
+<td><a href="087-estado-remoto-locking-cifrado-y-recuperacion/README.md">Estado remoto, locking, cifrado y recuperación</a></td>
+<td><code>iac</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">088</td>
+<td><a href="088-modulos-contratos-versiones-y-composicion/README.md">Módulos, contratos, versiones y composición</a></td>
+<td><code>iac</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">089</td>
+<td><a href="089-variables-outputs-locals-y-data-sources/README.md">Variables, outputs, locals y data sources</a></td>
+<td><code>iac</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">090</td>
+<td><a href="090-plan-apply-drift-import-y-refactor-con-moved/README.md">Plan, apply, drift, import y refactor con moved</a></td>
+<td><code>iac</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">091</td>
+<td><a href="091-validacion-lint-pruebas-y-policy-as-code/README.md">Validación, lint, pruebas y policy as code</a></td>
+<td><code>testing</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">092</td>
+<td><a href="092-secretos-y-datos-sensibles-en-iac/README.md">Secretos y datos sensibles en IaC</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">093</td>
+<td><a href="093-cloudformation-bicep-pulumi-y-terraform/README.md">CloudFormation, Bicep, Pulumi y Terraform</a></td>
+<td><code>decision</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">094</td>
+<td><a href="094-ansible-e-imagen-dorada-para-configuracion/README.md">Ansible e imagen dorada para configuración</a></td>
+<td><code>configuration</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">095</td>
+<td><a href="095-plantillas-golden-paths-y-catalogo-interno/README.md">Plantillas, golden paths y catálogo interno</a></td>
+<td><code>platform</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">096</td>
+<td><a href="096-proyecto-infraestructura-multiambiente-promovible/README.md">Proyecto: infraestructura multiambiente promovible</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>Infrastructure as Code — Kief Morris.</li>
+<li>Terraform: Up &amp; Running — Yevgeniy Brikman.</li>
+<li>Ansible for DevOps — Jeff Geerling.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="085">
+          <label><input type="checkbox" data-lesson-complete="085"><span>085</span></label>
+          <div><a href="../classes/085.html">Declarativo, imperativo, idempotencia y convergencia</a><small>iac · 4 h</small></div>
+        </article><article class="part-class" data-class-id="086">
+          <label><input type="checkbox" data-lesson-complete="086"><span>086</span></label>
+          <div><a href="../classes/086.html">Terraform: HCL, providers, resources y grafo</a><small>iac · 4 h</small></div>
+        </article><article class="part-class" data-class-id="087">
+          <label><input type="checkbox" data-lesson-complete="087"><span>087</span></label>
+          <div><a href="../classes/087.html">Estado remoto, locking, cifrado y recuperación</a><small>iac · 4 h</small></div>
+        </article><article class="part-class" data-class-id="088">
+          <label><input type="checkbox" data-lesson-complete="088"><span>088</span></label>
+          <div><a href="../classes/088.html">Módulos, contratos, versiones y composición</a><small>iac · 4 h</small></div>
+        </article><article class="part-class" data-class-id="089">
+          <label><input type="checkbox" data-lesson-complete="089"><span>089</span></label>
+          <div><a href="../classes/089.html">Variables, outputs, locals y data sources</a><small>iac · 4 h</small></div>
+        </article><article class="part-class" data-class-id="090">
+          <label><input type="checkbox" data-lesson-complete="090"><span>090</span></label>
+          <div><a href="../classes/090.html">Plan, apply, drift, import y refactor con moved</a><small>iac · 4 h</small></div>
+        </article><article class="part-class" data-class-id="091">
+          <label><input type="checkbox" data-lesson-complete="091"><span>091</span></label>
+          <div><a href="../classes/091.html">Validación, lint, pruebas y policy as code</a><small>testing · 4 h</small></div>
+        </article><article class="part-class" data-class-id="092">
+          <label><input type="checkbox" data-lesson-complete="092"><span>092</span></label>
+          <div><a href="../classes/092.html">Secretos y datos sensibles en IaC</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="093">
+          <label><input type="checkbox" data-lesson-complete="093"><span>093</span></label>
+          <div><a href="../classes/093.html">CloudFormation, Bicep, Pulumi y Terraform</a><small>decision · 4 h</small></div>
+        </article><article class="part-class" data-class-id="094">
+          <label><input type="checkbox" data-lesson-complete="094"><span>094</span></label>
+          <div><a href="../classes/094.html">Ansible e imagen dorada para configuración</a><small>configuration · 4 h</small></div>
+        </article><article class="part-class" data-class-id="095">
+          <label><input type="checkbox" data-lesson-complete="095"><span>095</span></label>
+          <div><a href="../classes/095.html">Plantillas, golden paths y catálogo interno</a><small>platform · 4 h</small></div>
+        </article><article class="part-class" data-class-id="096">
+          <label><input type="checkbox" data-lesson-complete="096"><span>096</span></label>
+          <div><a href="../classes/096.html">Proyecto: infraestructura multiambiente promovible</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

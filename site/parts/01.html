@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 01 — Principios, estrategia y adopción cloud ← Parte 00 ../part-00-foundations-computing-networking-linux/README.md · Índice completo ../README.md ·">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 01 — Principios, estrategia y adopción cloud">
+  <meta property="og:description" content="Parte 01 — Principios, estrategia y adopción cloud ← Parte 00 ../part-00-foundations-computing-networking-linux/README.md · Índice completo ../README.md ·">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/01.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/01.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 01 — Principios, estrategia y adopción cloud", "description": "Parte 01 — Principios, estrategia y adopción cloud ← Parte 00 ../part-00-foundations-computing-networking-linux/README.md · Índice completo ../README.md ·", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/01.html"}</script>
+  <title>Parte 01 — Principios, estrategia y adopción cloud · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 01</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-01-principios-estrategia-y-adopcion-cloud">Parte 01 — Principios, estrategia y adopción cloud</h1>
+<blockquote>
+<p><a href="../part-00-foundations-computing-networking-linux/README.md">← Parte 00</a> · <a href="../README.md">Índice completo</a> · <a href="../part-02-aws-core-platform/README.md">Parte 02 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> inicial-intermedio · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Decidir cuándo, por qué y cómo adoptar nube con criterios técnicos y económicos.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>La nube es un modelo operativo de acceso bajo demanda, no un lugar mágico ni el centro de datos de otra persona.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">013</td>
+<td><a href="013-definicion-nist-y-caracteristicas-esenciales-de-cloud/README.md">Definición NIST y características esenciales de cloud</a></td>
+<td><code>foundation</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">014</td>
+<td><a href="014-regiones-zonas-de-disponibilidad-puntos-de-presencia-y-edge/README.md">Regiones, zonas de disponibilidad, puntos de presencia y edge</a></td>
+<td><code>architecture</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">015</td>
+<td><a href="015-iaas-paas-saas-caas-y-faas/README.md">IaaS, PaaS, SaaS, CaaS y FaaS</a></td>
+<td><code>decision</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">016</td>
+<td><a href="016-elasticidad-escalabilidad-disponibilidad-y-resiliencia/README.md">Elasticidad, escalabilidad, disponibilidad y resiliencia</a></td>
+<td><code>reliability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">017</td>
+<td><a href="017-tenancy-cuentas-suscripciones-proyectos-y-jerarquias/README.md">Tenancy, cuentas, suscripciones, proyectos y jerarquías</a></td>
+<td><code>governance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">018</td>
+<td><a href="018-identidad-roles-politicas-y-federacion/README.md">Identidad, roles, políticas y federación</a></td>
+<td><code>iam</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">019</td>
+<td><a href="019-modelo-de-responsabilidad-compartida-por-servicio/README.md">Modelo de responsabilidad compartida por servicio</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">020</td>
+<td><a href="020-tco-costos-variables-unit-economics-y-finops/README.md">TCO, costos variables, unit economics y FinOps</a></td>
+<td><code>finops</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">021</td>
+<td><a href="021-well-architected-y-atributos-de-calidad/README.md">Well-Architected y atributos de calidad</a></td>
+<td><code>architecture</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">022</td>
+<td><a href="022-cloud-adoption-framework-y-modelo-operativo/README.md">Cloud Adoption Framework y modelo operativo</a></td>
+<td><code>governance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">023</td>
+<td><a href="023-descubrimiento-y-clasificacion-de-workloads/README.md">Descubrimiento y clasificación de workloads</a></td>
+<td><code>migration</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">024</td>
+<td><a href="024-proyecto-decision-de-migracion-sustentada-con-adr/README.md">Proyecto: decisión de migración sustentada con ADR</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>Cloud Strategy — Gregor Hohpe.</li>
+<li>Cloud FinOps — Storment y Fuller.</li>
+<li>Accelerate — Forsgren, Humble y Kim.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="013">
+          <label><input type="checkbox" data-lesson-complete="013"><span>013</span></label>
+          <div><a href="../classes/013.html">Definición NIST y características esenciales de cloud</a><small>foundation · 4 h</small></div>
+        </article><article class="part-class" data-class-id="014">
+          <label><input type="checkbox" data-lesson-complete="014"><span>014</span></label>
+          <div><a href="../classes/014.html">Regiones, zonas de disponibilidad, puntos de presencia y edge</a><small>architecture · 4 h</small></div>
+        </article><article class="part-class" data-class-id="015">
+          <label><input type="checkbox" data-lesson-complete="015"><span>015</span></label>
+          <div><a href="../classes/015.html">IaaS, PaaS, SaaS, CaaS y FaaS</a><small>decision · 4 h</small></div>
+        </article><article class="part-class" data-class-id="016">
+          <label><input type="checkbox" data-lesson-complete="016"><span>016</span></label>
+          <div><a href="../classes/016.html">Elasticidad, escalabilidad, disponibilidad y resiliencia</a><small>reliability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="017">
+          <label><input type="checkbox" data-lesson-complete="017"><span>017</span></label>
+          <div><a href="../classes/017.html">Tenancy, cuentas, suscripciones, proyectos y jerarquías</a><small>governance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="018">
+          <label><input type="checkbox" data-lesson-complete="018"><span>018</span></label>
+          <div><a href="../classes/018.html">Identidad, roles, políticas y federación</a><small>iam · 4 h</small></div>
+        </article><article class="part-class" data-class-id="019">
+          <label><input type="checkbox" data-lesson-complete="019"><span>019</span></label>
+          <div><a href="../classes/019.html">Modelo de responsabilidad compartida por servicio</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="020">
+          <label><input type="checkbox" data-lesson-complete="020"><span>020</span></label>
+          <div><a href="../classes/020.html">TCO, costos variables, unit economics y FinOps</a><small>finops · 4 h</small></div>
+        </article><article class="part-class" data-class-id="021">
+          <label><input type="checkbox" data-lesson-complete="021"><span>021</span></label>
+          <div><a href="../classes/021.html">Well-Architected y atributos de calidad</a><small>architecture · 4 h</small></div>
+        </article><article class="part-class" data-class-id="022">
+          <label><input type="checkbox" data-lesson-complete="022"><span>022</span></label>
+          <div><a href="../classes/022.html">Cloud Adoption Framework y modelo operativo</a><small>governance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="023">
+          <label><input type="checkbox" data-lesson-complete="023"><span>023</span></label>
+          <div><a href="../classes/023.html">Descubrimiento y clasificación de workloads</a><small>migration · 4 h</small></div>
+        </article><article class="part-class" data-class-id="024">
+          <label><input type="checkbox" data-lesson-complete="024"><span>024</span></label>
+          <div><a href="../classes/024.html">Proyecto: decisión de migración sustentada con ADR</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

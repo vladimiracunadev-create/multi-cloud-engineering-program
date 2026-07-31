@@ -1,6 +1,7 @@
 __pycache__/
 *.py[cod]
 .venv/
+.site-deps/
 .pytest_cache/
 *.egg-info/
 lab_result.json

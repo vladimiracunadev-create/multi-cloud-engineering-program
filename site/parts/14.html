@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 14 — Plataformas avanzadas, capstones y carrera ← Parte 13 ../part-13-multicloud-hybrid-disaster-recovery/README.md · Índice completo ../README.md ·">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 14 — Plataformas avanzadas, capstones y carrera">
+  <meta property="og:description" content="Parte 14 — Plataformas avanzadas, capstones y carrera ← Parte 13 ../part-13-multicloud-hybrid-disaster-recovery/README.md · Índice completo ../README.md ·">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/14.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/14.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 14 — Plataformas avanzadas, capstones y carrera", "description": "Parte 14 — Plataformas avanzadas, capstones y carrera ← Parte 13 ../part-13-multicloud-hybrid-disaster-recovery/README.md · Índice completo ../README.md ·", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/14.html"}</script>
+  <title>Parte 14 — Plataformas avanzadas, capstones y carrera · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 14</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-14-plataformas-avanzadas-capstones-y-carrera">Parte 14 — Plataformas avanzadas, capstones y carrera</h1>
+<blockquote>
+<p><a href="../part-13-multicloud-hybrid-disaster-recovery/README.md">← Parte 13</a> · <a href="../README.md">Índice completo</a> · Fin</p>
+</blockquote>
+<p><strong>Nivel:</strong> experto-frontera · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Integrar tecnología, operación, gobierno y comunicación en evidencia profesional.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>El nivel experto no consiste en conocer más productos, sino en formular mejores preguntas, validar supuestos y sostener decisiones frente a costo, riesgo y operación.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">169</td>
+<td><a href="169-landing-zones-empresariales-y-vending-de-cuentas/README.md">Landing zones empresariales y vending de cuentas</a></td>
+<td><code>governance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">170</td>
+<td><a href="170-gobierno-federado-y-policy-as-code-a-escala/README.md">Gobierno federado y policy as code a escala</a></td>
+<td><code>governance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">171</td>
+<td><a href="171-platform-as-a-product-y-roadmap-de-capacidades/README.md">Platform as a Product y roadmap de capacidades</a></td>
+<td><code>platform</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">172</td>
+<td><a href="172-modelo-operativo-finops-y-economia-unitaria/README.md">Modelo operativo FinOps y economía unitaria</a></td>
+<td><code>finops</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">173</td>
+<td><a href="173-madurez-sre-y-confiabilidad-organizacional/README.md">Madurez SRE y confiabilidad organizacional</a></td>
+<td><code>sre</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">174</td>
+<td><a href="174-arquitectura-de-seguridad-cloud-empresarial/README.md">Arquitectura de seguridad cloud empresarial</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">175</td>
+<td><a href="175-workloads-de-ia-gpu-datos-y-mlops-multi-cloud/README.md">Workloads de IA, GPU, datos y MLOps multi-cloud</a></td>
+<td><code>ai</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">176</td>
+<td><a href="176-edge-iot-y-procesamiento-desconectado/README.md">Edge, IoT y procesamiento desconectado</a></td>
+<td><code>edge</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">177</td>
+<td><a href="177-soberania-digital-y-confidential-computing/README.md">Soberanía digital y confidential computing</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">178</td>
+<td><a href="178-capstone-descubrimiento-y-diseno/README.md">Capstone: descubrimiento y diseño</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr>
+<td style="text-align: right;">179</td>
+<td><a href="179-capstone-implementacion-y-operacion/README.md">Capstone: implementación y operación</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr>
+<td style="text-align: right;">180</td>
+<td><a href="180-capstone-defensa-portafolio-y-plan-profesional/README.md">Capstone: defensa, portafolio y plan profesional</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>Team Topologies — Skelton y Pais.</li>
+<li>Accelerate — Forsgren, Humble y Kim.</li>
+<li>Fundamentals of Software Architecture — Richards y Ford.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="169">
+          <label><input type="checkbox" data-lesson-complete="169"><span>169</span></label>
+          <div><a href="../classes/169.html">Landing zones empresariales y vending de cuentas</a><small>governance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="170">
+          <label><input type="checkbox" data-lesson-complete="170"><span>170</span></label>
+          <div><a href="../classes/170.html">Gobierno federado y policy as code a escala</a><small>governance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="171">
+          <label><input type="checkbox" data-lesson-complete="171"><span>171</span></label>
+          <div><a href="../classes/171.html">Platform as a Product y roadmap de capacidades</a><small>platform · 4 h</small></div>
+        </article><article class="part-class" data-class-id="172">
+          <label><input type="checkbox" data-lesson-complete="172"><span>172</span></label>
+          <div><a href="../classes/172.html">Modelo operativo FinOps y economía unitaria</a><small>finops · 4 h</small></div>
+        </article><article class="part-class" data-class-id="173">
+          <label><input type="checkbox" data-lesson-complete="173"><span>173</span></label>
+          <div><a href="../classes/173.html">Madurez SRE y confiabilidad organizacional</a><small>sre · 4 h</small></div>
+        </article><article class="part-class" data-class-id="174">
+          <label><input type="checkbox" data-lesson-complete="174"><span>174</span></label>
+          <div><a href="../classes/174.html">Arquitectura de seguridad cloud empresarial</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="175">
+          <label><input type="checkbox" data-lesson-complete="175"><span>175</span></label>
+          <div><a href="../classes/175.html">Workloads de IA, GPU, datos y MLOps multi-cloud</a><small>ai · 4 h</small></div>
+        </article><article class="part-class" data-class-id="176">
+          <label><input type="checkbox" data-lesson-complete="176"><span>176</span></label>
+          <div><a href="../classes/176.html">Edge, IoT y procesamiento desconectado</a><small>edge · 4 h</small></div>
+        </article><article class="part-class" data-class-id="177">
+          <label><input type="checkbox" data-lesson-complete="177"><span>177</span></label>
+          <div><a href="../classes/177.html">Soberanía digital y confidential computing</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="178">
+          <label><input type="checkbox" data-lesson-complete="178"><span>178</span></label>
+          <div><a href="../classes/178.html">Capstone: descubrimiento y diseño</a><small>capstone · 8 h</small></div>
+        </article><article class="part-class" data-class-id="179">
+          <label><input type="checkbox" data-lesson-complete="179"><span>179</span></label>
+          <div><a href="../classes/179.html">Capstone: implementación y operación</a><small>capstone · 8 h</small></div>
+        </article><article class="part-class" data-class-id="180">
+          <label><input type="checkbox" data-lesson-complete="180"><span>180</span></label>
+          <div><a href="../classes/180.html">Capstone: defensa, portafolio y plan profesional</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

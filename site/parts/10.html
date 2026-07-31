@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 10 — Observabilidad, SRE y confiabilidad ← Parte 09 ../part-09-data-messaging-serverless-integration/README.md · Índice completo ../README.md · Parte">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 10 — Observabilidad, SRE y confiabilidad">
+  <meta property="og:description" content="Parte 10 — Observabilidad, SRE y confiabilidad ← Parte 09 ../part-09-data-messaging-serverless-integration/README.md · Índice completo ../README.md · Parte">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/10.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/10.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 10 — Observabilidad, SRE y confiabilidad", "description": "Parte 10 — Observabilidad, SRE y confiabilidad ← Parte 09 ../part-09-data-messaging-serverless-integration/README.md · Índice completo ../README.md · Parte", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/10.html"}</script>
+  <title>Parte 10 — Observabilidad, SRE y confiabilidad · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 10</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-10-observabilidad-sre-y-confiabilidad">Parte 10 — Observabilidad, SRE y confiabilidad</h1>
+<blockquote>
+<p><a href="../part-09-data-messaging-serverless-integration/README.md">← Parte 09</a> · <a href="../README.md">Índice completo</a> · <a href="../part-11-security-governance-finops/README.md">Parte 11 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> avanzado · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Operar sistemas mediante señales, objetivos y aprendizaje de incidentes.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>La confiabilidad es una característica del servicio percibido por usuarios; SRE la administra con objetivos explícitos y presupuestos de error.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">121</td>
+<td><a href="121-logs-metricas-trazas-y-eventos-como-senales/README.md">Logs, métricas, trazas y eventos como señales</a></td>
+<td><code>observability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">122</td>
+<td><a href="122-logging-estructurado-correlacion-y-retencion/README.md">Logging estructurado, correlación y retención</a></td>
+<td><code>observability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">123</td>
+<td><a href="123-metricas-cardinalidad-y-modelos-red-y-use/README.md">Métricas, cardinalidad y modelos RED y USE</a></td>
+<td><code>metrics</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">124</td>
+<td><a href="124-tracing-distribuido-y-opentelemetry/README.md">Tracing distribuido y OpenTelemetry</a></td>
+<td><code>observability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">125</td>
+<td><a href="125-dashboards-alertas-accionables-y-fatiga/README.md">Dashboards, alertas accionables y fatiga</a></td>
+<td><code>observability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">126</td>
+<td><a href="126-sli-slo-sla-y-presupuesto-de-error/README.md">SLI, SLO, SLA y presupuesto de error</a></td>
+<td><code>sre</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">127</td>
+<td><a href="127-incidentes-severidad-comando-y-comunicacion/README.md">Incidentes, severidad, comando y comunicación</a></td>
+<td><code>incident</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">128</td>
+<td><a href="128-runbooks-playbooks-y-automatizacion-operativa/README.md">Runbooks, playbooks y automatización operativa</a></td>
+<td><code>operations</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">129</td>
+<td><a href="129-capacidad-rendimiento-y-pruebas-de-carga/README.md">Capacidad, rendimiento y pruebas de carga</a></td>
+<td><code>performance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">130</td>
+<td><a href="130-timeouts-retries-backoff-circuit-breaker-y-bulkhead/README.md">Timeouts, retries, backoff, circuit breaker y bulkhead</a></td>
+<td><code>reliability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">131</td>
+<td><a href="131-chaos-engineering-y-game-days/README.md">Chaos engineering y game days</a></td>
+<td><code>chaos</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">132</td>
+<td><a href="132-proyecto-operacion-sre-de-cloudshop/README.md">Proyecto: operación SRE de CloudShop</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>Site Reliability Engineering — Beyer et al..</li>
+<li>The Site Reliability Workbook — Beyer et al..</li>
+<li>Observability Engineering — Majors, Fong-Jones y Miranda.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="121">
+          <label><input type="checkbox" data-lesson-complete="121"><span>121</span></label>
+          <div><a href="../classes/121.html">Logs, métricas, trazas y eventos como señales</a><small>observability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="122">
+          <label><input type="checkbox" data-lesson-complete="122"><span>122</span></label>
+          <div><a href="../classes/122.html">Logging estructurado, correlación y retención</a><small>observability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="123">
+          <label><input type="checkbox" data-lesson-complete="123"><span>123</span></label>
+          <div><a href="../classes/123.html">Métricas, cardinalidad y modelos RED y USE</a><small>metrics · 4 h</small></div>
+        </article><article class="part-class" data-class-id="124">
+          <label><input type="checkbox" data-lesson-complete="124"><span>124</span></label>
+          <div><a href="../classes/124.html">Tracing distribuido y OpenTelemetry</a><small>observability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="125">
+          <label><input type="checkbox" data-lesson-complete="125"><span>125</span></label>
+          <div><a href="../classes/125.html">Dashboards, alertas accionables y fatiga</a><small>observability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="126">
+          <label><input type="checkbox" data-lesson-complete="126"><span>126</span></label>
+          <div><a href="../classes/126.html">SLI, SLO, SLA y presupuesto de error</a><small>sre · 4 h</small></div>
+        </article><article class="part-class" data-class-id="127">
+          <label><input type="checkbox" data-lesson-complete="127"><span>127</span></label>
+          <div><a href="../classes/127.html">Incidentes, severidad, comando y comunicación</a><small>incident · 4 h</small></div>
+        </article><article class="part-class" data-class-id="128">
+          <label><input type="checkbox" data-lesson-complete="128"><span>128</span></label>
+          <div><a href="../classes/128.html">Runbooks, playbooks y automatización operativa</a><small>operations · 4 h</small></div>
+        </article><article class="part-class" data-class-id="129">
+          <label><input type="checkbox" data-lesson-complete="129"><span>129</span></label>
+          <div><a href="../classes/129.html">Capacidad, rendimiento y pruebas de carga</a><small>performance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="130">
+          <label><input type="checkbox" data-lesson-complete="130"><span>130</span></label>
+          <div><a href="../classes/130.html">Timeouts, retries, backoff, circuit breaker y bulkhead</a><small>reliability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="131">
+          <label><input type="checkbox" data-lesson-complete="131"><span>131</span></label>
+          <div><a href="../classes/131.html">Chaos engineering y game days</a><small>chaos · 4 h</small></div>
+        </article><article class="part-class" data-class-id="132">
+          <label><input type="checkbox" data-lesson-complete="132"><span>132</span></label>
+          <div><a href="../classes/132.html">Proyecto: operación SRE de CloudShop</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

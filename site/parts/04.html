@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 04 — Google Cloud: plataforma esencial ← Parte 03 ../part-03-azure-core-platform/README.md · Índice completo ../README.md · Parte 05 → ../part-05-con">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 04 — Google Cloud: plataforma esencial">
+  <meta property="og:description" content="Parte 04 — Google Cloud: plataforma esencial ← Parte 03 ../part-03-azure-core-platform/README.md · Índice completo ../README.md · Parte 05 → ../part-05-con">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/04.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/04.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 04 — Google Cloud: plataforma esencial", "description": "Parte 04 — Google Cloud: plataforma esencial ← Parte 03 ../part-03-azure-core-platform/README.md · Índice completo ../README.md · Parte 05 → ../part-05-con", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/04.html"}</script>
+  <title>Parte 04 — Google Cloud: plataforma esencial · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 04</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-04-google-cloud-plataforma-esencial">Parte 04 — Google Cloud: plataforma esencial</h1>
+<blockquote>
+<p><a href="../part-03-azure-core-platform/README.md">← Parte 03</a> · <a href="../README.md">Índice completo</a> · <a href="../part-05-containers-docker-oci/README.md">Parte 05 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> intermedio · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Diseñar y operar una carga en Google Cloud con proyectos, identidades y datos bien delimitados.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>Un proyecto de Google Cloud es la unidad práctica de API, cuota, IAM y facturación; la organización aporta la política heredable.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">049</td>
+<td><a href="049-organizacion-folders-proyectos-billing-y-cuotas/README.md">Organización, folders, proyectos, billing y cuotas</a></td>
+<td><code>governance</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">050</td>
+<td><a href="050-iam-service-accounts-y-workload-identity-federation/README.md">IAM, service accounts y Workload Identity Federation</a></td>
+<td><code>iam</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">051</td>
+<td><a href="051-vpc-global-subredes-regionales-firewall-y-cloud-nat/README.md">VPC global, subredes regionales, firewall y Cloud NAT</a></td>
+<td><code>network</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">052</td>
+<td><a href="052-compute-engine-managed-instance-groups-y-load-balancing/README.md">Compute Engine, managed instance groups y load balancing</a></td>
+<td><code>compute</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">053</td>
+<td><a href="053-cloud-storage-clases-lifecycle-y-replicacion/README.md">Cloud Storage, clases, lifecycle y replicación</a></td>
+<td><code>storage</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">054</td>
+<td><a href="054-cloud-sql-spanner-firestore-y-memorystore/README.md">Cloud SQL, Spanner, Firestore y Memorystore</a></td>
+<td><code>data</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">055</td>
+<td><a href="055-cloud-run-cloud-functions-y-api-gateway/README.md">Cloud Run, Cloud Functions y API Gateway</a></td>
+<td><code>serverless</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">056</td>
+<td><a href="056-pub-sub-cloud-tasks-y-workflows/README.md">Pub/Sub, Cloud Tasks y Workflows</a></td>
+<td><code>messaging</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">057</td>
+<td><a href="057-cloud-logging-monitoring-trace-y-audit-logs/README.md">Cloud Logging, Monitoring, Trace y Audit Logs</a></td>
+<td><code>observability</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">058</td>
+<td><a href="058-cloud-kms-secret-manager-y-security-command-center/README.md">Cloud KMS, Secret Manager y Security Command Center</a></td>
+<td><code>security</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">059</td>
+<td><a href="059-terraform-y-despliegues-reproducibles-en-gcp/README.md">Terraform y despliegues reproducibles en GCP</a></td>
+<td><code>iac</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">060</td>
+<td><a href="060-proyecto-aplicacion-de-tres-capas-en-google-cloud/README.md">Proyecto: aplicación de tres capas en Google Cloud</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>Google Cloud Architecture Framework — Google.</li>
+<li>Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan.</li>
+<li>Data Engineering with Google Cloud Platform — Adi Wijaya.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="049">
+          <label><input type="checkbox" data-lesson-complete="049"><span>049</span></label>
+          <div><a href="../classes/049.html">Organización, folders, proyectos, billing y cuotas</a><small>governance · 4 h</small></div>
+        </article><article class="part-class" data-class-id="050">
+          <label><input type="checkbox" data-lesson-complete="050"><span>050</span></label>
+          <div><a href="../classes/050.html">IAM, service accounts y Workload Identity Federation</a><small>iam · 4 h</small></div>
+        </article><article class="part-class" data-class-id="051">
+          <label><input type="checkbox" data-lesson-complete="051"><span>051</span></label>
+          <div><a href="../classes/051.html">VPC global, subredes regionales, firewall y Cloud NAT</a><small>network · 4 h</small></div>
+        </article><article class="part-class" data-class-id="052">
+          <label><input type="checkbox" data-lesson-complete="052"><span>052</span></label>
+          <div><a href="../classes/052.html">Compute Engine, managed instance groups y load balancing</a><small>compute · 4 h</small></div>
+        </article><article class="part-class" data-class-id="053">
+          <label><input type="checkbox" data-lesson-complete="053"><span>053</span></label>
+          <div><a href="../classes/053.html">Cloud Storage, clases, lifecycle y replicación</a><small>storage · 4 h</small></div>
+        </article><article class="part-class" data-class-id="054">
+          <label><input type="checkbox" data-lesson-complete="054"><span>054</span></label>
+          <div><a href="../classes/054.html">Cloud SQL, Spanner, Firestore y Memorystore</a><small>data · 4 h</small></div>
+        </article><article class="part-class" data-class-id="055">
+          <label><input type="checkbox" data-lesson-complete="055"><span>055</span></label>
+          <div><a href="../classes/055.html">Cloud Run, Cloud Functions y API Gateway</a><small>serverless · 4 h</small></div>
+        </article><article class="part-class" data-class-id="056">
+          <label><input type="checkbox" data-lesson-complete="056"><span>056</span></label>
+          <div><a href="../classes/056.html">Pub/Sub, Cloud Tasks y Workflows</a><small>messaging · 4 h</small></div>
+        </article><article class="part-class" data-class-id="057">
+          <label><input type="checkbox" data-lesson-complete="057"><span>057</span></label>
+          <div><a href="../classes/057.html">Cloud Logging, Monitoring, Trace y Audit Logs</a><small>observability · 4 h</small></div>
+        </article><article class="part-class" data-class-id="058">
+          <label><input type="checkbox" data-lesson-complete="058"><span>058</span></label>
+          <div><a href="../classes/058.html">Cloud KMS, Secret Manager y Security Command Center</a><small>security · 4 h</small></div>
+        </article><article class="part-class" data-class-id="059">
+          <label><input type="checkbox" data-lesson-complete="059"><span>059</span></label>
+          <div><a href="../classes/059.html">Terraform y despliegues reproducibles en GCP</a><small>iac · 4 h</small></div>
+        </article><article class="part-class" data-class-id="060">
+          <label><input type="checkbox" data-lesson-complete="060"><span>060</span></label>
+          <div><a href="../classes/060.html">Proyecto: aplicación de tres capas en Google Cloud</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

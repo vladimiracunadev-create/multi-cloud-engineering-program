@@ -1,77 +1,175 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101412">
-  <title>Multi-Cloud Engineering Program</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101512">
+  <meta name="description" content="Multi-Cloud Engineering Program: 180 clases en 15 partes, con laboratorios, evaluaciones, rutas, progreso y contenidos desde fundamentos hasta arquitectura multi-cloud experta.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Multi-Cloud Engineering Program">
+  <meta property="og:description" content="180 clases · 15 partes · 788 horas · de fundamentos a ingeniería multi-cloud experta.">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/">
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css">
+  <title>Multi-Cloud Engineering Program</title>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <span class="brand-mark" aria-hidden="true">☁</span>
-      <div>
-        <strong>Multi-Cloud Engineering</strong>
-        <span>180 clases · 15 partes</span>
+  <header class="app-header">
+    <a class="brand" href="#dashboard" aria-label="Multi-Cloud Engineering Program">
+      <span class="brand-icon">☁</span>
+      <span><strong>Multi-Cloud Engineering</strong><small>Programa 2026 · v1.1</small></span>
+    </a>
+    <nav class="primary-nav" aria-label="Vistas del programa">
+      <button class="nav-tab active" data-view-target="dashboard">Panel</button>
+      <button class="nav-tab" data-view-target="curriculum">Currículo</button>
+      <button class="nav-tab" data-view-target="roadmap">Roadmap</button>
+      <button class="nav-tab" data-view-target="analytics">Analítica</button>
+    </nav>
+    <div class="header-actions">
+      <label class="global-search">
+        <span aria-hidden="true">⌕</span>
+        <input id="global-search" type="search" placeholder="Buscar en 180 clases" autocomplete="off">
+      </label>
+      <button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button>
+      <button class="icon-button" id="data-menu-toggle" title="Gestionar progreso" aria-label="Gestionar progreso">⋮</button>
+      <div class="data-menu" id="data-menu" hidden>
+        <button id="export-progress">↓ Exportar progreso</button>
+        <button id="import-progress">↑ Importar progreso</button>
+        <button id="reset-progress" class="danger">× Reiniciar progreso</button>
       </div>
-    </div>
-    <div class="progress-summary" aria-live="polite">
-      <span id="progress-label">0 / 180</span>
-      <progress id="progress" max="180" value="0"></progress>
+      <input id="progress-file" type="file" accept="application/json" hidden>
     </div>
   </header>
 
-  <main class="workspace">
-    <aside class="sidebar" aria-label="Filtros del currículo">
-      <label class="search">
-        <span aria-hidden="true">⌕</span>
-        <input id="search" type="search" placeholder="Buscar clase o concepto" autocomplete="off">
-      </label>
-
-      <div class="filter-block">
-        <h2>Parte</h2>
-        <select id="part-filter" aria-label="Filtrar por parte">
-          <option value="all">Todas las partes</option>
-        </select>
-      </div>
-
-      <div class="filter-block">
-        <h2>Nivel</h2>
-        <select id="level-filter" aria-label="Filtrar por nivel">
-          <option value="all">Todos los niveles</option>
-        </select>
-      </div>
-
-      <div class="filter-block">
-        <h2>Estado</h2>
-        <div class="segmented" role="group" aria-label="Filtrar por progreso">
-          <button type="button" class="active" data-progress="all">Todas</button>
-          <button type="button" data-progress="pending">Pendientes</button>
-          <button type="button" data-progress="done">Hechas</button>
+  <main>
+    <section class="app-view active" id="dashboard-view" data-view="dashboard">
+      <div class="course-hero">
+        <img src="assets/multicloud-topology.png" alt="Topología técnica de una plataforma distribuida entre tres nubes" width="1672" height="938">
+        <div class="hero-shade"></div>
+        <div class="hero-content">
+          <p class="eyebrow">Ruta completa · inicial a experto</p>
+          <h1>Ingeniería cloud que se puede explicar, ejecutar y operar</h1>
+          <p>Fundamentos, AWS, Azure, Google Cloud, Kubernetes, IaC, SRE, seguridad, FinOps y arquitectura multi-cloud en un recorrido verificable.</p>
+          <div class="hero-actions">
+            <a class="button primary" id="continue-course" href="classes/001.html">▶ Continuar</a>
+            <button class="button secondary" data-view-target="roadmap">Ver roadmap</button>
+            <a class="button secondary" href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program">Código fuente</a>
+          </div>
+        </div>
+        <div class="hero-progress">
+          <div><span>Progreso global</span><strong id="hero-progress-label">0%</strong></div>
+          <progress id="hero-progress" max="180" value="0"></progress>
+          <small id="hero-progress-detail">0 de 180 clases</small>
         </div>
       </div>
 
-      <dl class="metrics">
-        <div><dt>Clases visibles</dt><dd id="visible-count">180</dd></div>
-        <div><dt>Horas estimadas</dt><dd id="hours-count">788</dd></div>
-      </dl>
-    </aside>
+      <section class="metric-band" aria-label="Estado del programa">
+        <div><span>Clases</span><strong>180</strong><small>contenido completo</small></div>
+        <div><span>Partes</span><strong>15</strong><small>secuencia verificable</small></div>
+        <div><span>Duración</span><strong>788 h</strong><small>teoría + práctica</small></div>
+        <div><span>Laboratorios</span><strong>180</strong><small>entrypoints locales</small></div>
+        <div><span>Nubes</span><strong>3 + híbrida</strong><small>AWS · Azure · GCP</small></div>
+      </section>
 
-    <section class="content" aria-labelledby="view-title">
-      <div class="content-heading">
-        <div>
-          <p id="view-kicker">Ruta completa</p>
-          <h1 id="view-title">De fundamentos a arquitectura multi-cloud</h1>
-        </div>
-        <a class="repo-link" href="../README.md">README</a>
+      <div class="dashboard-grid">
+        <section class="next-section">
+          <div class="section-heading"><div><span class="eyebrow">Siguiente hito</span><h2 id="next-title">Clase 001</h2></div><span class="status-dot">lista</span></div>
+          <p id="next-description">Computación digital y modelo mental de la nube</p>
+          <div class="next-meta" id="next-meta"></div>
+          <div class="command-strip"><code id="next-command">python .../lab.py --seed 42</code><button id="copy-next-command" title="Copiar comando" aria-label="Copiar comando">▣</button></div>
+          <a class="text-link" id="next-link" href="classes/001.html">Abrir clase →</a>
+        </section>
+
+        <section class="progress-chart-section">
+          <div class="section-heading"><div><span class="eyebrow">Dominio</span><h2>Avance por etapa</h2></div><button class="text-action" data-view-target="analytics">Detalle</button></div>
+          <canvas id="progress-chart" width="560" height="210" aria-label="Gráfico de progreso por etapa"></canvas>
+        </section>
       </div>
-      <div id="class-list" class="class-list" aria-live="polite"></div>
-      <p id="empty" class="empty" hidden>No hay clases para este filtro.</p>
+
+      <section class="routes-section">
+        <div class="section-heading"><div><span class="eyebrow">Rutas profesionales</span><h2>Elige un resultado, conserva los fundamentos</h2></div><a class="text-link" href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/learning-paths/README.md">Documento completo</a></div>
+        <div class="route-grid" id="route-grid"></div>
+      </section>
+
+      <section class="coverage-section">
+        <div class="section-heading"><div><span class="eyebrow">Mapa de capacidades</span><h2>Una plataforma, cuatro planos de decisión</h2></div></div>
+        <div class="capability-layout">
+          <figure class="topology-figure"><img src="assets/multicloud-topology.png" alt="Capas de control, datos, identidad, entrega y observabilidad en tres nubes"><figcaption>Topología de referencia del capstone CloudShop.</figcaption></figure>
+          <div class="capability-list">
+            <a href="parts/02.html"><span class="capability-color green"></span><div><strong>Plataformas proveedoras</strong><small>AWS · Azure · Google Cloud</small></div><b>36 clases</b></a>
+            <a href="parts/06.html"><span class="capability-color cyan"></span><div><strong>Portabilidad y plataforma</strong><small>OCI · Kubernetes · IaC · GitOps</small></div><b>48 clases</b></a>
+            <a href="parts/10.html"><span class="capability-color amber"></span><div><strong>Operación y confiabilidad</strong><small>Telemetría · SLO · incidentes · DR</small></div><b>36 clases</b></a>
+            <a href="parts/11.html"><span class="capability-color coral"></span><div><strong>Gobierno y arquitectura</strong><small>Seguridad · FinOps · distribuidos</small></div><b>36 clases</b></a>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="app-view" id="curriculum-view" data-view="curriculum">
+      <div class="view-header">
+        <div><p class="eyebrow">180 clases · fuente de verdad</p><h1>Currículo completo</h1><p>Filtra por parte, nivel, laboratorio o estado. Cada clase abre su contenido íntegro, evaluación y laboratorio.</p></div>
+        <div class="view-progress"><strong id="curriculum-progress">0%</strong><span>completado</span></div>
+      </div>
+      <div class="curriculum-toolbar">
+        <select id="part-filter" aria-label="Filtrar por parte"><option value="all">Todas las partes</option></select>
+        <select id="level-filter" aria-label="Filtrar por nivel"><option value="all">Todos los niveles</option></select>
+        <select id="lab-filter" aria-label="Filtrar por laboratorio"><option value="all">Todos los laboratorios</option></select>
+        <div class="segmented" role="group" aria-label="Filtrar por estado">
+          <button class="active" data-status="all">Todas</button><button data-status="pending">Pendientes</button><button data-status="done">Hechas</button><button data-status="saved">Guardadas</button>
+        </div>
+        <select id="sort-control" aria-label="Ordenar clases"><option value="sequence">Secuencia</option><option value="title">Título</option><option value="hours">Duración</option></select>
+      </div>
+      <div class="result-summary"><span id="result-count">180 clases</span><span id="result-hours">788 horas</span></div>
+      <div class="curriculum-list" id="curriculum-list"></div>
+      <p class="empty-state" id="empty-state" hidden>No hay clases para esta combinación.</p>
+    </section>
+
+    <section class="app-view" id="roadmap-view" data-view="roadmap">
+      <div class="view-header">
+        <div><p class="eyebrow">Dependencias y resultados</p><h1>Roadmap de aprendizaje</h1><p>Las partes convergen en CloudShop: una plataforma que crece desde un servicio local hasta continuidad multi-cloud.</p></div>
+      </div>
+      <div class="roadmap-legend"><span><i class="foundation"></i>Base</span><span><i class="providers"></i>Proveedores</span><span><i class="platform"></i>Plataforma</span><span><i class="operations"></i>Operación</span><span><i class="expert"></i>Experto</span></div>
+      <div class="roadmap" id="roadmap"></div>
+      <section class="capstone-timeline">
+        <div class="section-heading"><div><span class="eyebrow">Proyecto continuo</span><h2>CloudShop, de localhost a multi-cloud</h2></div><a class="text-link" href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/capstones/README.md">Especificación</a></div>
+        <div class="timeline" id="capstone-timeline"></div>
+      </section>
+    </section>
+
+    <section class="app-view" id="analytics-view" data-view="analytics">
+      <div class="view-header">
+        <div><p class="eyebrow">Cobertura y esfuerzo</p><h1>Analítica del programa</h1><p>Distribución real del catálogo y avance guardado únicamente en este navegador.</p></div>
+        <button class="button secondary" id="analytics-export">↓ Exportar</button>
+      </div>
+      <div class="analytics-grid">
+        <section><div class="section-heading"><div><span class="eyebrow">Progreso</span><h2>Estado global</h2></div></div><canvas id="completion-donut" width="420" height="260" aria-label="Gráfico circular de progreso"></canvas></section>
+        <section><div class="section-heading"><div><span class="eyebrow">Carga</span><h2>Horas por parte</h2></div></div><canvas id="hours-bars" width="620" height="300" aria-label="Gráfico de horas por parte"></canvas></section>
+        <section class="wide"><div class="section-heading"><div><span class="eyebrow">Práctica</span><h2>Motores de laboratorio</h2></div></div><canvas id="labs-bars" width="1100" height="320" aria-label="Gráfico de laboratorios por tipo"></canvas></section>
+      </div>
+      <section class="provider-matrix">
+        <div class="section-heading"><div><span class="eyebrow">Comparación estructural</span><h2>Cobertura simétrica de proveedores</h2></div></div>
+        <div class="matrix-wrap"><table><thead><tr><th>Plano</th><th>AWS</th><th>Azure</th><th>Google Cloud</th><th>Contrato portable</th></tr></thead><tbody>
+          <tr><td>Organización</td><td>Organizations / SCP</td><td>Management Groups</td><td>Organization / Folders</td><td>Jerarquía y policy</td></tr>
+          <tr><td>Identidad</td><td>IAM / STS</td><td>Entra ID / RBAC</td><td>IAM / Workload Identity</td><td>OIDC y mínimo privilegio</td></tr>
+          <tr><td>Red</td><td>VPC regional</td><td>Virtual Network</td><td>VPC global</td><td>DNS, rutas y segmentación</td></tr>
+          <tr><td>Serverless</td><td>Lambda</td><td>Functions</td><td>Cloud Run / Functions</td><td>Eventos e idempotencia</td></tr>
+          <tr><td>Observabilidad</td><td>CloudWatch</td><td>Azure Monitor</td><td>Cloud Operations</td><td>OpenTelemetry y SLO</td></tr>
+          <tr><td>Gobierno</td><td>Config / Control Tower</td><td>Azure Policy</td><td>Org Policy / SCC</td><td>Policy as code</td></tr>
+        </tbody></table></div>
+      </section>
     </section>
   </main>
 
+  <footer>
+    <div><strong>Multi-Cloud Engineering Program</strong><span>Construido como currículo abierto, verificable y reproducible.</span></div>
+    <nav><a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program">GitHub</a><a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/docs/SYLLABUS.md">Syllabus</a><a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/docs/BIBLIOGRAPHY.md">Bibliografía</a><a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/LICENSE">MIT</a></nav>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="app.js" defer></script>
 </body>
 </html>

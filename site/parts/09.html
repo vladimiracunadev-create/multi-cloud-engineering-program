@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Parte 09 — Datos, mensajería, serverless e integración ← Parte 08 ../part-08-continuous-delivery-platform-engineering/README.md · Índice completo ../README">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Parte 09 — Datos, mensajería, serverless e integración">
+  <meta property="og:description" content="Parte 09 — Datos, mensajería, serverless e integración ← Parte 08 ../part-08-continuous-delivery-platform-engineering/README.md · Índice completo ../README">
+  <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/09.html">
+  <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/multicloud-topology.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/09.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/class.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Parte 09 — Datos, mensajería, serverless e integración", "description": "Parte 09 — Datos, mensajería, serverless e integración ← Parte 08 ../part-08-continuous-delivery-platform-engineering/README.md · Índice completo ../README", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/parts/09.html"}</script>
+  <title>Parte 09 — Datos, mensajería, serverless e integración · Multi-Cloud Engineering</title>
+</head>
+<body class="doc-page" data-page-type="part">
+
+  <header class="doc-topbar">
+    <a class="doc-brand" href="../index.html"><span>☁</span> Multi-Cloud Engineering</a>
+    <div class="doc-actions"><button class="icon-button" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button></div>
+  </header>
+  <main class="part-content">
+    <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte 09</strong></nav>
+    <article class="markdown-body part-intro"><h1 id="parte-09-datos-mensajeria-serverless-e-integracion">Parte 09 — Datos, mensajería, serverless e integración</h1>
+<blockquote>
+<p><a href="../part-08-continuous-delivery-platform-engineering/README.md">← Parte 08</a> · <a href="../README.md">Índice completo</a> · <a href="../part-10-observability-sre-reliability/README.md">Parte 10 →</a></p>
+</blockquote>
+<p><strong>Nivel:</strong> avanzado · <strong>Clases:</strong> 12 · <strong>Duración sugerida:</strong> 6–8 semanas</p>
+<p>Elegir servicios de datos e integración por sus garantías y patrones de acceso.</p>
+<h2 id="resultados-de-la-parte">Resultados de la parte</h2>
+<p>Al completar esta parte podrás explicar el dominio con lenguaje independiente del proveedor,
+implementar sus mecanismos esenciales, diagnosticar fallos y defender decisiones mediante
+evidencia, costo, seguridad y objetivos de confiabilidad.</p>
+<h2 id="modelo-mental">Modelo mental</h2>
+<p>La base de datos correcta depende del patrón de acceso y de las garantías necesarias; distribuir datos convierte latencia, consistencia y fallos parciales en decisiones de diseño.</p>
+<h2 id="secuencia">Secuencia</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;Conceptos&quot;] --&gt; B[&quot;Implementación guiada&quot;]
+    B --&gt; C[&quot;Pruebas y fallos&quot;]
+    C --&gt; D[&quot;Operación&quot;]
+    D --&gt; E[&quot;Proyecto integrador&quot;]
+</code></pre>
+<h2 id="clases">Clases</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th>Clase</th>
+<th>Laboratorio</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">109</td>
+<td><a href="109-bases-relacionales-administradas-y-pooling/README.md">Bases relacionales administradas y pooling</a></td>
+<td><code>data</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">110</td>
+<td><a href="110-nosql-clave-valor-documento-columna-y-grafo/README.md">NoSQL: clave-valor, documento, columna y grafo</a></td>
+<td><code>data</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">111</td>
+<td><a href="111-cache-invalidacion-ttl-y-consistencia/README.md">Caché, invalidación, TTL y consistencia</a></td>
+<td><code>data</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">112</td>
+<td><a href="112-object-storage-data-lake-y-formatos-columnares/README.md">Object storage, data lake y formatos columnares</a></td>
+<td><code>data</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">113</td>
+<td><a href="113-colas-entrega-reintentos-y-dead-letter-queues/README.md">Colas, entrega, reintentos y dead-letter queues</a></td>
+<td><code>messaging</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">114</td>
+<td><a href="114-pub-sub-streams-particiones-y-orden/README.md">Pub/sub, streams, particiones y orden</a></td>
+<td><code>messaging</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">115</td>
+<td><a href="115-arquitectura-dirigida-por-eventos-y-contratos/README.md">Arquitectura dirigida por eventos y contratos</a></td>
+<td><code>architecture</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">116</td>
+<td><a href="116-sagas-outbox-idempotencia-y-deduplicacion/README.md">Sagas, outbox, idempotencia y deduplicación</a></td>
+<td><code>distributed</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">117</td>
+<td><a href="117-serverless-limites-cold-starts-y-concurrencia/README.md">Serverless: límites, cold starts y concurrencia</a></td>
+<td><code>serverless</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">118</td>
+<td><a href="118-api-management-cuotas-versiones-y-monetizacion/README.md">API management, cuotas, versiones y monetización</a></td>
+<td><code>api</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">119</td>
+<td><a href="119-workflows-y-orquestacion-durable/README.md">Workflows y orquestación durable</a></td>
+<td><code>orchestration</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">120</td>
+<td><a href="120-proyecto-pipeline-de-pedidos-orientado-a-eventos/README.md">Proyecto: pipeline de pedidos orientado a eventos</a></td>
+<td><code>capstone</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluacion-de-la-parte">Evaluación de la parte</h2>
+<ul>
+<li>35 % laboratorios y evidencia reproducible.</li>
+<li>25 % retos verificables.</li>
+<li>20 % decisiones y ADR.</li>
+<li>10 % seguridad, confiabilidad y costo.</li>
+<li>10 % proyecto integrador de la parte.</li>
+</ul>
+<p>Se aprueba con 80 % de clases en nivel B o superior y el proyecto integrador reproducible.</p>
+<h2 id="pauta-bibliografica">Pauta bibliográfica</h2>
+<ul>
+<li>Designing Data-Intensive Applications — Martin Kleppmann.</li>
+<li>Enterprise Integration Patterns — Hohpe y Woolf.</li>
+<li>Building Event-Driven Microservices — Adam Bellemare.</li>
+</ul></article>
+    <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div><article class="part-class" data-class-id="109">
+          <label><input type="checkbox" data-lesson-complete="109"><span>109</span></label>
+          <div><a href="../classes/109.html">Bases relacionales administradas y pooling</a><small>data · 4 h</small></div>
+        </article><article class="part-class" data-class-id="110">
+          <label><input type="checkbox" data-lesson-complete="110"><span>110</span></label>
+          <div><a href="../classes/110.html">NoSQL: clave-valor, documento, columna y grafo</a><small>data · 4 h</small></div>
+        </article><article class="part-class" data-class-id="111">
+          <label><input type="checkbox" data-lesson-complete="111"><span>111</span></label>
+          <div><a href="../classes/111.html">Caché, invalidación, TTL y consistencia</a><small>data · 4 h</small></div>
+        </article><article class="part-class" data-class-id="112">
+          <label><input type="checkbox" data-lesson-complete="112"><span>112</span></label>
+          <div><a href="../classes/112.html">Object storage, data lake y formatos columnares</a><small>data · 4 h</small></div>
+        </article><article class="part-class" data-class-id="113">
+          <label><input type="checkbox" data-lesson-complete="113"><span>113</span></label>
+          <div><a href="../classes/113.html">Colas, entrega, reintentos y dead-letter queues</a><small>messaging · 4 h</small></div>
+        </article><article class="part-class" data-class-id="114">
+          <label><input type="checkbox" data-lesson-complete="114"><span>114</span></label>
+          <div><a href="../classes/114.html">Pub/sub, streams, particiones y orden</a><small>messaging · 4 h</small></div>
+        </article><article class="part-class" data-class-id="115">
+          <label><input type="checkbox" data-lesson-complete="115"><span>115</span></label>
+          <div><a href="../classes/115.html">Arquitectura dirigida por eventos y contratos</a><small>architecture · 4 h</small></div>
+        </article><article class="part-class" data-class-id="116">
+          <label><input type="checkbox" data-lesson-complete="116"><span>116</span></label>
+          <div><a href="../classes/116.html">Sagas, outbox, idempotencia y deduplicación</a><small>distributed · 4 h</small></div>
+        </article><article class="part-class" data-class-id="117">
+          <label><input type="checkbox" data-lesson-complete="117"><span>117</span></label>
+          <div><a href="../classes/117.html">Serverless: límites, cold starts y concurrencia</a><small>serverless · 4 h</small></div>
+        </article><article class="part-class" data-class-id="118">
+          <label><input type="checkbox" data-lesson-complete="118"><span>118</span></label>
+          <div><a href="../classes/118.html">API management, cuotas, versiones y monetización</a><small>api · 4 h</small></div>
+        </article><article class="part-class" data-class-id="119">
+          <label><input type="checkbox" data-lesson-complete="119"><span>119</span></label>
+          <div><a href="../classes/119.html">Workflows y orquestación durable</a><small>orchestration · 4 h</small></div>
+        </article><article class="part-class" data-class-id="120">
+          <label><input type="checkbox" data-lesson-complete="120"><span>120</span></label>
+          <div><a href="../classes/120.html">Proyecto: pipeline de pedidos orientado a eventos</a><small>capstone · 8 h</small></div>
+        </article></section>
+  </main>
+
+  <aside class="toc-panel" aria-label="Contenido de la página">
+    <strong>En esta página</strong>
+    <nav><a class="toc-level-2" href="#resultados-de-la-parte">Resultados de la parte</a><a class="toc-level-2" href="#modelo-mental">Modelo mental</a><a class="toc-level-2" href="#secuencia">Secuencia</a><a class="toc-level-2" href="#clases">Clases</a><a class="toc-level-2" href="#evaluacion-de-la-parte">Evaluación de la parte</a><a class="toc-level-2" href="#pauta-bibliografica">Pauta bibliográfica</a></nav>
+  </aside>
+  <script type="module" src="../assets/class.js"></script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/sitemap.xml

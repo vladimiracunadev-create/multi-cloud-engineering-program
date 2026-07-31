@@ -5,5 +5,15 @@
   "display": "standalone",
   "background_color": "#101412",
   "theme_color": "#101412",
-  "lang": "es"
+  "lang": "es",
+  "scope": "./",
+  "description": "Programa completo de ingenieria multi-cloud con 180 clases, laboratorios y progreso local.",
+  "icons": [
+    {"src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Curriculo", "url": "./#curriculum"},
+    {"name": "Roadmap", "url": "./#roadmap"},
+    {"name": "Analitica", "url": "./#analytics"}
+  ]
 }
