@@ -288,10 +288,14 @@ function bindEvents() {
 
 async function start() {
   applyTheme(localStorage.getItem(THEME_KEY) || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"));
-  const response = await fetch("catalog.json"); if (!response.ok) throw new Error(`No se pudo cargar el catálogo: ${response.status}`);
+  const response = await fetch("catalog.json", { cache: "no-cache" }); if (!response.ok) throw new Error(`No se pudo cargar el catálogo: ${response.status}`);
   state.catalog = await response.json();
   populateFilters(); bindEvents(); renderAll(); setView(state.view, false);
-  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("service-worker.js").catch(() => {});
+  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+    navigator.serviceWorker.register("service-worker.js", { updateViaCache: "none" })
+      .then((registration) => registration.update())
+      .catch(() => {});
+  }
 }
 
 start().catch((error) => { toast(error.message); console.error(error); });
