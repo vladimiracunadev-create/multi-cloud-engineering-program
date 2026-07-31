@@ -11,6 +11,7 @@ license = {text = "MIT"}
 
 [project.optional-dependencies]
 site = ["markdown==3.10.2"]
+manual = ["reportlab==4.4.3", "pypdf==5.9.0"]
 
 [project.scripts]
 multicloud-program = "multicloud_program.cli:main"
