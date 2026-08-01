@@ -44,7 +44,7 @@ def validate(base_url: str) -> None:
             raise ValueError(f"class {class_id} is incomplete")
 
     worker = fetch(base_url, "service-worker.js").decode("utf-8")
-    if "multicloud-program-v2.0.0-r3" not in worker:
+    if "multicloud-program-v2.0.0-r4" not in worker:
         raise ValueError("the deployed service worker cache is obsolete")
 
     manual = fetch(

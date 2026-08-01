@@ -1,8 +1,8 @@
-const CACHE = "multicloud-program-v2.0.0-r3";
+const CACHE = "multicloud-program-v2.0.0-r4";
 const CORE = [
-  "./", "./index.html", "./styles.css?v=2.0.0-r3", "./app.js?v=2.0.0-r3", "./catalog.json",
-  "./manifest.webmanifest", "./assets/icon.svg", "./assets/class.css",
-  "./assets/class.js", "./assets/multicloud-topology.png"
+  "./", "./index.html", "./styles.css?v=2.0.0-r4", "./app.js?v=2.0.0-r4", "./catalog.json",
+  "./manifest.webmanifest", "./assets/icon.svg", "./assets/class.css?v=2.0.0-r4",
+  "./assets/class.js?v=2.0.0-r4", "./assets/multicloud-topology.png"
 ];
 
 self.addEventListener("install", (event) => {

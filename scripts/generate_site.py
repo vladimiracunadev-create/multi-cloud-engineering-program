@@ -17,6 +17,7 @@ PARTS_OUT = SITE / "parts"
 CATALOG_PATH = ROOT / "curriculum" / "catalog.json"
 REPO_URL = "https://github.com/vladimiracunadev-create/multi-cloud-engineering-program"
 PAGES_URL = "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program"
+ASSET_VERSION = "2.0.0-r4"
 
 MD_EXTENSIONS = ["extra", "toc", "sane_lists"]
 
@@ -75,7 +76,7 @@ def page_shell(*, title: str, meta: str, body: str, page_type: str, toc: str = "
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="{canonical_url}">
   <link rel="icon" type="image/svg+xml" href="{asset_prefix}assets/icon.svg">
-  <link rel="stylesheet" href="{asset_prefix}assets/class.css">
+  <link rel="stylesheet" href="{asset_prefix}assets/class.css?v={ASSET_VERSION}">
   <script type="application/ld+json">{json_ld}</script>
   <title>{escaped_title} · Multi-Cloud Engineering</title>
 </head>
@@ -85,7 +86,7 @@ def page_shell(*, title: str, meta: str, body: str, page_type: str, toc: str = "
     <strong>En esta página</strong>
     <nav>{toc}</nav>
   </aside>
-  <script type="module" src="{asset_prefix}assets/class.js"></script>
+  <script type="module" src="{asset_prefix}assets/class.js?v={ASSET_VERSION}"></script>
 </body>
 </html>
 """

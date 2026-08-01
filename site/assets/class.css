@@ -64,7 +64,9 @@ button, input { font: inherit; letter-spacing: 0; }
 .markdown-body code { padding: 2px 5px; background: var(--code); color: var(--amber); border-radius: 3px; overflow-wrap: anywhere; }
 .markdown-body pre { overflow-x: auto; padding: 15px; border: 1px solid var(--line); background: var(--code); }
 .markdown-body pre code { padding: 0; color: var(--text); }
-.mermaid { padding: 20px; border: 1px solid var(--line); background: var(--surface); overflow-x: auto; }
+.mermaid { min-height: 180px; display: grid; place-items: center; padding: 20px; border: 1px solid var(--line); background: var(--surface); overflow-x: auto; }
+.mermaid svg { display: block; width: 100%; max-width: 920px; height: auto; margin: 0 auto; }
+.mermaid-error { display: block; color: var(--muted); white-space: pre-wrap; }
 
 .toc-panel { position: fixed; top: 84px; right: max(20px, calc((100vw - 1220px) / 2 + 22px)); width: 240px; max-height: calc(100vh - 112px); overflow-y: auto; padding-left: 16px; border-left: 1px solid var(--line); }
 .toc-panel strong { display: block; margin-bottom: 10px; font-size: 12px; }
