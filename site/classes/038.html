@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> intermedio · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>iam</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>microsoft entra id, rbac, managed identities y pim</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Dominar el modelo de identidad de Azure, que difiere del de AWS en algo estructural: el directorio es del tenant y los permisos sobre recursos son otra cosa. Confundir un rol de Entra ID con uno de Azure RBAC es la causa de la mitad de los problemas de acceso al llegar de AWS, y de una parte de las escaladas de privilegio.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> microsoft entra id, rbac, managed identities y pim con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>identidad-azure</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Distinguir</strong> roles de Entra ID de roles de Azure RBAC y saber cuál gobierna cada acción.</li>
+<li><strong>Explicar</strong> por qué una denegación de Azure RBAC no es equivalente a un <code>Deny</code> de IAM y qué la sustituye.</li>
+<li><strong>Sustituir</strong> secretos de aplicación por identidades administradas y por federación desde un pipeline.</li>
+<li><strong>Aplicar</strong> acceso con privilegios mínimos en el tiempo mediante activación con caducidad y aprobación.</li>
+<li><strong>Diagnosticar</strong> un acceso denegado sabiendo en qué ámbito y en qué sistema de roles buscar.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,28 +62,24 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>microsoft</code></td>
-<td>Define su papel en <strong>microsoft entra id, rbac, managed identities y pim</strong> y cómo observarlo en un sistema real.</td>
+<td><code>rol de Entra ID</code></td>
+<td>Permiso sobre el directorio: crear usuarios, conceder consentimiento a aplicaciones, gestionar el propio tenant. No otorga ningún permiso sobre recursos de Azure.</td>
 </tr>
 <tr>
-<td><code>entra</code></td>
-<td>Define su papel en <strong>microsoft entra id, rbac, managed identities y pim</strong> y cómo observarlo en un sistema real.</td>
+<td><code>rol de Azure RBAC</code></td>
+<td>Permiso sobre recursos, asignado en un ámbito —grupo de administración, suscripción, grupo de recursos o recurso—. Se hereda hacia abajo y es acumulativo.</td>
 </tr>
 <tr>
-<td><code>id</code></td>
-<td>Define su papel en <strong>microsoft entra id, rbac, managed identities y pim</strong> y cómo observarlo en un sistema real.</td>
+<td><code>identidad administrada</code></td>
+<td>Identidad que Azure crea y rota por ti, asociada a un recurso. Elimina el secreto: no hay nada que guardar ni que filtrar.</td>
 </tr>
 <tr>
-<td><code>rbac</code></td>
-<td>Define su papel en <strong>microsoft entra id, rbac, managed identities y pim</strong> y cómo observarlo en un sistema real.</td>
+<td><code>asignación de denegación</code></td>
+<td>Mecanismo que bloquea acciones con independencia de los roles concedidos. A diferencia de IAM, <strong>no se puede crear directamente</strong>: solo la generan servicios como los blueprints o los entornos gestionados.</td>
 </tr>
 <tr>
-<td><code>managed</code></td>
-<td>Define su papel en <strong>microsoft entra id, rbac, managed identities y pim</strong> y cómo observarlo en un sistema real.</td>
-</tr>
-<tr>
-<td><code>identities</code></td>
-<td>Define su papel en <strong>microsoft entra id, rbac, managed identities y pim</strong> y cómo observarlo en un sistema real.</td>
+<td><code>acceso con privilegios mínimos en el tiempo</code></td>
+<td>Modelo en el que un rol privilegiado no está activo permanentemente: se activa por un periodo acotado, con justificación y posible aprobación.</td>
 </tr>
 </tbody>
 </table>
@@ -97,75 +90,261 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Microsoft Entra ID, RBAC, managed identities y PIM&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    subgraph dir[&quot;Plano del directorio · Entra ID&quot;]
+        U[&quot;usuario&quot;] --&gt; RE[&quot;roles de Entra ID&lt;br/&gt;Global Admin, App Admin…&quot;]
+        RE --&gt; D[&quot;crear usuarios, consentir apps,&lt;br/&gt;gestionar el tenant&quot;]
+    end
+    subgraph rec[&quot;Plano de recursos · Azure RBAC&quot;]
+        U --&gt; RA[&quot;asignaciones de rol&quot;]
+        RA --&gt; MG[&quot;ámbito: grupo de administración&quot;]
+        MG --&gt; SUB[&quot;suscripción&quot;] --&gt; RG[&quot;grupo de recursos&quot;] --&gt; RES[&quot;recurso&quot;]
+    end
+    dir -.-&gt;|&quot;un Global Admin puede\nCONCEDERSE acceso a todas\nlas suscripciones&quot;| rec
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
+<h3 id="1-dos-sistemas-de-roles-que-no-se-solapan">1. Dos sistemas de roles que no se solapan</h3>
+<p>Azure tiene <strong>dos planos de autorización independientes</strong>, y esa es la diferencia estructural con AWS:</p>
 <table>
 <thead>
 <tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
+<th></th>
+<th>Roles de Entra ID</th>
+<th>Roles de Azure RBAC</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
+<td>Gobiernan</td>
+<td>El directorio</td>
+<td>Los recursos</td>
 </tr>
 <tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
+<td>Ejemplos</td>
+<td>Global Administrator, User Administrator</td>
+<td>Owner, Contributor, Reader</td>
 </tr>
 <tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
+<td>Ámbito</td>
+<td>Todo el tenant o unidades administrativas</td>
+<td>Grupo de administración → recurso</td>
 </tr>
 <tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
+<td>Pregunta que responden</td>
+<td>¿Puedes crear un usuario?</td>
+<td>¿Puedes crear una máquina virtual?</td>
 </tr>
 </tbody>
 </table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<p>Un <em>Global Administrator</em> <strong>no tiene por defecto ningún permiso sobre recursos</strong>. Puede crear usuarios y consentir aplicaciones, y no puede leer una base de datos.</p>
+<p>Pero hay una conexión peligrosa que conviene conocer:</p>
+<pre><code class="language-bash"># Un Global Administrator puede concederse a sí mismo acceso a TODAS las suscripciones
+$ az rest --method post --url &quot;https://management.azure.com/providers/Microsoft.Authorization/elevateAccess?api-version=2016-07-01&quot;
+</code></pre>
+<p>Esa llamada le asigna <em>User Access Administrator</em> en el ámbito raíz. Es una función legítima —recuperar el control de una suscripción huérfana— y una escalada completa. <strong>Debe alertarse siempre</strong>, y el número de Global Administrators debe ser mínimo: entre dos y cuatro, todos con acceso privilegiado en el tiempo.</p>
+<p>Al depurar «no tengo permiso», la primera pregunta es <strong>en qué plano está la acción</strong>. Crear un grupo de recursos es RBAC; invitar a un usuario externo es Entra ID. Añadir permisos en el plano equivocado no cambia nada, igual que añadir permisos de identidad contra un <code>Deny</code> de SCP en la clase 026.</p>
+<h3 id="2-rbac-es-aditivo-y-las-denegaciones-no-se-crean-a-mano">2. RBAC es aditivo y las denegaciones no se crean a mano</h3>
+<p>El modelo de evaluación de Azure RBAC es más simple que el de AWS y su simplicidad tiene una consecuencia importante:</p>
+<pre><code class="language-text">permiso efectivo = unión de todas las asignaciones en todos los ámbitos heredados
+                   menos las asignaciones de denegación (que no puedes crear)
+</code></pre>
+<p><strong>Es aditivo.</strong> No existe un <code>Deny</code> que puedas escribir para excluir una acción concreta de un rol amplio. Si alguien tiene <em>Contributor</em> en la suscripción, tiene todo lo que ese rol incluye sobre todo lo que hay debajo, y no hay forma de restarle una acción con otra asignación.</p>
+<p>Las dos formas reales de acotar:</p>
+<pre><code class="language-text">1. Rol personalizado con NotActions
+   define exactamente lo que incluye y lo que excluye
+
+2. Azure Policy con efecto Deny
+   no es autorización, es gobierno: impide la operación aunque el rol la permita
+</code></pre>
+<p>La segunda es la que sustituye funcionalmente al <code>Deny</code> de IAM, y opera en otro plano: <strong>el rol dice que puedes y la directiva impide que ocurra</strong>. Al diagnosticar, el mensaje de error las distingue:</p>
+<pre><code class="language-text">AuthorizationFailed              → falta el rol
+RequestDisallowedByPolicy        → el rol lo permite y la directiva lo impide
+</code></pre>
+<p>Un rol personalizado con exclusiones:</p>
+<pre><code class="language-json">{
+  &quot;Name&quot;: &quot;Colaborador sin borrado&quot;,
+  &quot;Actions&quot;: [&quot;Microsoft.Compute/*&quot;, &quot;Microsoft.Network/*&quot;, &quot;Microsoft.Storage/*&quot;],
+  &quot;NotActions&quot;: [
+    &quot;Microsoft.Compute/virtualMachines/delete&quot;,
+    &quot;Microsoft.Storage/storageAccounts/delete&quot;
+  ],
+  &quot;AssignableScopes&quot;: [&quot;/subscriptions/aaaa-bbbb&quot;]
+}
+</code></pre>
+<p>Y una precisión que evita sorpresas: <strong><code>NotActions</code> no es una denegación</strong>. Si otra asignación concede esa misma acción, se permite. Solo excluye la acción <em>de ese rol</em>.</p>
+<h3 id="3-identidades-administradas-el-secreto-que-no-existe">3. Identidades administradas: el secreto que no existe</h3>
+<p>Es el equivalente al rol de instancia de AWS, con dos variantes:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Asignada por el sistema</th>
+<th>Asignada por el usuario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ciclo de vida</td>
+<td>Ligado al recurso: se borra con él</td>
+<td>Independiente</td>
+</tr>
+<tr>
+<td>Compartible</td>
+<td>No</td>
+<td><strong>Sí, entre varios recursos</strong></td>
+</tr>
+<tr>
+<td>Cuándo</td>
+<td>Un recurso único</td>
+<td>Flotas y despliegues azul-verde</td>
+</tr>
+</tbody>
+</table>
+<p>La segunda es la que conviene en una flota: si la identidad estuviera ligada al recurso, cada instancia nueva tendría una identidad distinta y habría que asignarle roles al crearla. Con identidad asignada por el usuario, <strong>los roles se conceden una vez y todas las instancias los heredan</strong>.</p>
+<p>El código no maneja ningún secreto:</p>
+<pre><code class="language-python">from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
+
+cred = DefaultAzureCredential()          # detecta la identidad administrada
+cliente = SecretClient(&quot;https://kv-cloudshop.vault.azure.net&quot;, cred)
+secreto = cliente.get_secret(&quot;db-password&quot;).value
+</code></pre>
+<p><code>DefaultAzureCredential</code> prueba varias fuentes en orden: variables de entorno, identidad administrada, credenciales del desarrollador. Eso hace que el mismo código funcione en local y en producción, y también esconde una trampa: <strong>si la identidad administrada falla, puede caer silenciosamente a otra credencial</strong> y funcionar por el motivo equivocado. En producción conviene fijar la fuente explícitamente.</p>
+<p>Para el pipeline, la equivalencia con la federación OIDC de la clase 026:</p>
+<pre><code class="language-bash">$ az ad app federated-credential create --id $APP_ID --parameters '{
+    &quot;name&quot;: &quot;github-produccion&quot;,
+    &quot;issuer&quot;: &quot;https://token.actions.githubusercontent.com&quot;,
+    &quot;subject&quot;: &quot;repo:miorg/cloudshop:environment:produccion&quot;,
+    &quot;audiences&quot;: [&quot;api://AzureADTokenExchange&quot;]
+  }'
+</code></pre>
+<p>El campo <code>subject</code> cumple exactamente la misma función crítica que en AWS: <strong>sin él acotado, cualquier repositorio puede obtener el token</strong>. Y aquí hay un detalle propio: el valor es de coincidencia exacta, no admite comodines, lo que elimina el error de usar <code>StringLike</code> con un patrón demasiado amplio.</p>
+<h3 id="4-privilegio-minimo-en-el-tiempo-no-solo-en-el-alcance">4. Privilegio mínimo en el tiempo, no solo en el alcance</h3>
+<p>El privilegio mínimo clásico acota <strong>qué</strong> puedes hacer. Añadir la dimensión temporal acota <strong>cuándo</strong>:</p>
+<pre><code class="language-text">modelo permanente   el rol está activo 24×7
+                    una credencial comprometida a las 3 de la madrugada
+                    tiene los mismos permisos que a mediodía
+
+modelo elegible     el rol existe pero está inactivo
+                    se activa por 1-8 h, con justificación y a veces aprobación
+                    fuera de esa ventana, el permiso no existe
+</code></pre>
+<p>La reducción de superficie es aritmética:</p>
+<pre><code class="language-text">rol permanente:  720 h/mes de exposición
+rol elegible activado 4 h/semana: 16 h/mes
+reducción: 97,8 %
+</code></pre>
+<p>La configuración añade tres controles a la activación:</p>
+<pre><code class="language-text">duración máxima          8 h, no indefinida
+justificación            obligatoria y registrada
+aprobación               para los roles más sensibles
+notificación             a un segundo par al activarse
+</code></pre>
+<p>La última es la más rentable y la menos usada: <strong>si alguien activa un rol privilegiado y otra persona lo ve al instante</strong>, un uso indebido se detecta en minutos en vez de en la revisión trimestral.</p>
+<p>Los roles que deberían ser siempre elegibles y nunca permanentes:</p>
+<pre><code class="language-text">Global Administrator          (Entra ID)
+Privileged Role Administrator (Entra ID)
+Owner y User Access Administrator en suscripciones de producción (RBAC)
+</code></pre>
+<p>Y una excepción deliberada: <strong>conviene mantener dos cuentas de emergencia con acceso permanente</strong>, excluidas de acceso condicional y con credenciales en custodia física. Son la salida si el sistema de activación o el proveedor de identidad falla. Su uso debe alertar de inmediato, y su existencia hay que documentarla — porque una cuenta de emergencia olvidada es una puerta trasera.</p>
+<h3 id="5-diagnosticar-un-acceso-denegado">5. Diagnosticar un acceso denegado</h3>
+<p>El orden que acota el problema en minutos:</p>
+<pre><code class="language-bash"># 1. ¿Qué roles tengo y en qué ámbito?
+$ az role assignment list --assignee $UPN --all -o table --include-inherited
+
+# 2. ¿La acción concreta está en alguno de esos roles?
+$ az role definition list --name &quot;Storage Blob Data Reader&quot; \
+    --query &quot;[0].permissions[0].{a:actions,da:dataActions}&quot;
+
+# 3. ¿Lo impide una directiva en vez de faltar el rol?
+$ az policy state list --resource $ID --filter &quot;complianceState eq 'NonCompliant'&quot; \
+    --query &quot;[].policyDefinitionName&quot;
+</code></pre>
+<p>El paso 2 esconde la sutileza que más confunde en Azure: <strong>existen <code>actions</code> y <code>dataActions</code>, y son planos distintos</strong>.</p>
+<pre><code class="language-text">actions      operaciones sobre el recurso: crear la cuenta de almacenamiento,
+             leer sus claves, cambiar su configuración
+dataActions  operaciones sobre los DATOS: leer un blob concreto
+</code></pre>
+<p>Un rol <em>Contributor</em> sobre una cuenta de almacenamiento <strong>no permite leer los blobs</strong> — permite gestionarla y obtener sus claves, que es otra cosa. Leerlos exige un rol con <code>dataActions</code>, como <em>Storage Blob Data Reader</em>.</p>
+<p>Eso produce el error más desconcertante para quien llega de AWS: alguien con <em>Owner</em> sobre la suscripción recibe <code>AuthorizationPermissionMismatch</code> al listar blobs. No es un fallo: es que <em>Owner</em> concede <code>actions</code> y no <code>dataActions</code> sobre datos.</p>
+<p>Y el mensaje de error distingue los tres casos:</p>
+<pre><code class="language-text">AuthorizationFailed                  falta el rol de gestión
+AuthorizationPermissionMismatch      falta el rol de DATOS
+RequestDisallowedByPolicy            hay rol y una directiva lo impide
+</code></pre>
+<p>Leerlo ahorra la búsqueda en el plano equivocado, igual que en la clase 026.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>microsoft entra id, rbac, managed identities y pim</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-03-azure-core-platform/038-microsoft-entra-id-rbac-managed-identities-y-pim/lab.py
+<p><strong>Al desplegar CloudShop en Azure, el equipo replica el rol del pipeline de AWS y se encuentra con tres problemas en dos días.</strong></p>
+<p><strong>Problema 1 — el pipeline no puede leer el almacenamiento pese a ser Owner.</strong></p>
+<pre><code class="language-bash">$ az role assignment list --assignee $APP_ID --all --query &quot;[].{rol:roleDefinitionName,ambito:scope}&quot; -o tsv
+Owner    /subscriptions/aaaa-bbbb
+$ az storage blob list --account-name stcloudshop --container-name facturas --auth-mode login
+AuthorizationPermissionMismatch
+</code></pre>
+<p><strong>Owner sobre la suscripción y no puede listar blobs.</strong> La causa es la separación entre <code>actions</code> y <code>dataActions</code>:</p>
+<pre><code class="language-bash">$ az role definition list --name Owner --query &quot;[0].permissions[0].dataActions&quot; -o tsv
+(vacío)
+</code></pre>
+<p>Owner no tiene ninguna <code>dataAction</code>. Se asigna el rol de datos, acotado al contenedor:</p>
+<pre><code class="language-bash">$ az role assignment create --assignee $APP_ID \
+    --role &quot;Storage Blob Data Contributor&quot; \
+    --scope &quot;/subscriptions/aaaa-bbbb/resourceGroups/rg-prod/providers/\
+Microsoft.Storage/storageAccounts/stcloudshop/blobServices/default/containers/facturas&quot;
+$ az storage blob list --account-name stcloudshop --container-name facturas --auth-mode login -o tsv | wc -l
+412                                                                       ✓
+</code></pre>
+<p>Y se aprovecha para quitar <em>Owner</em>, que estaba de más:</p>
+<pre><code class="language-text">antes:   Owner sobre la suscripción entera
+después: Storage Blob Data Contributor sobre UN contenedor
+         + Website Contributor sobre el grupo de recursos de la app
+</code></pre>
+<p><strong>Problema 2 — el pipeline usaba un secreto de aplicación.</strong></p>
+<pre><code class="language-bash">$ az ad app credential list --id $APP_ID --query &quot;[].{fin:endDateTime}&quot; -o tsv
+2027-03-14T10:22:00Z
+</code></pre>
+<p>Un secreto con dos años de vigencia, guardado en el repositorio. Se sustituye por federación:</p>
+<pre><code class="language-bash">$ az ad app federated-credential create --id $APP_ID --parameters '{
+    &quot;name&quot;:&quot;github-produccion&quot;,
+    &quot;issuer&quot;:&quot;https://token.actions.githubusercontent.com&quot;,
+    &quot;subject&quot;:&quot;repo:miorg/cloudshop:environment:produccion&quot;,
+    &quot;audiences&quot;:[&quot;api://AzureADTokenExchange&quot;]}'
+$ az ad app credential delete --id $APP_ID --key-id $KEY_ID
+</code></pre>
+<p>Pruebas del sujeto, igual que en la clase 026:</p>
+<pre><code class="language-text">desde otro repositorio                    AADSTS70021: no matching federated identity  ✓
+desde miorg/cloudshop, rama de trabajo    AADSTS70021                                  ✓
+desde miorg/cloudshop, entorno produccion token emitido                                ✓
+</code></pre>
+<p><strong>Problema 3 — un despliegue legítimo bloqueado.</strong></p>
+<pre><code class="language-text">RequestDisallowedByPolicy: Resource 'st-cloudshop-tmp' was disallowed by policy
+  'Storage accounts should restrict network access'
+</code></pre>
+<p>El mensaje <strong>no dice <code>AuthorizationFailed</code></strong>, así que no falta rol: hay rol y una directiva lo impide. Añadir permisos no habría servido de nada.</p>
+<pre><code class="language-bash">$ az policy assignment show --name red-almacenamiento --query &quot;parameters&quot; -o json
+{&quot;effect&quot;:{&quot;value&quot;:&quot;Deny&quot;}}
+</code></pre>
+<p>La cuenta temporal se creaba sin restricción de red. Se corrige en la plantilla, no en la directiva.</p>
+<p><strong>Revisión final de la superficie de identidad:</strong></p>
+<pre><code class="language-bash">$ az role assignment list --all --query &quot;[?roleDefinitionName=='Owner']\
+.{p:principalName,a:scope}&quot; -o tsv | wc -l
+11
+</code></pre>
+<p><strong>Once asignaciones de Owner.</strong> Se reducen a dos y el resto pasa a elegible con activación:</p>
+<p>```text                              antes         después
+Owner permanentes                   11             2 (emergencia, documentadas)
+Owner elegibles                      0             9 (activación de 8 h con justificación)
+Global Administrators                6             3, todos elegibles
+secretos de aplicación               1             0
+exposición de roles privilegiados  720 h/mes    ~22 h/mes   (−97 %)</p>
+<pre><code>
+**La lección que traslada esta clase al resto del programa**: el modelo de identidad de Azure se parece al de AWS en el objetivo y difiere en la mecánica. Traducir literalmente —«Owner es como AdministratorAccess»— produce a la vez permisos de más en el plano de gestión y permisos de menos en el plano de datos.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-03-azure-core-platform/038-microsoft-entra-id-rbac-managed-identities-y-pim/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>iam</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -203,29 +382,29 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Un principal con Owner recibe <code>AuthorizationPermissionMismatch</code> al leer datos</td>
+<td>Owner concede <code>actions</code> y no <code>dataActions</code>: son planos distintos</td>
+<td>Asigna un rol de datos como Storage Blob Data Reader, acotado al contenedor.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Se añaden roles y el despliegue sigue fallando</td>
+<td>El error es <code>RequestDisallowedByPolicy</code>: hay rol y una directiva lo impide</td>
+<td>Lee el código de error; con directivas, la corrección va en la plantilla o en la directiva, no en los roles.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>No se puede excluir una acción concreta de un rol amplio</td>
+<td>Azure RBAC es aditivo y las asignaciones de denegación no se crean a mano</td>
+<td>Usa un rol personalizado con <code>NotActions</code> o una directiva con efecto Deny.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Un Global Administrator obtiene acceso a todas las suscripciones</td>
+<td>La elevación de acceso es una función legítima del rol</td>
+<td>Minimiza los Global Administrators, hazlos elegibles y alerta siempre sobre <code>elevateAccess</code>.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Cada instancia nueva de una flota necesita asignaciones de rol propias</td>
+<td>Se usó identidad asignada por el sistema, ligada al ciclo de vida del recurso</td>
+<td>Usa identidad asignada por el usuario: los roles se conceden una vez y las instancias la comparten.</td>
 </tr>
 </tbody>
 </table>
@@ -236,17 +415,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué puede hacer un Global Administrator sobre los recursos de una suscripción, y cómo puede cambiar eso?</li>
+<li>¿Por qué <code>NotActions</code> en un rol personalizado no equivale a un <code>Deny</code> de IAM?</li>
+<li>Un principal con Owner no puede listar blobs. ¿Cuál es la causa y cuál el arreglo?</li>
+<li>¿Qué distingue <code>AuthorizationFailed</code> de <code>RequestDisallowedByPolicy</code> y qué corrige cada uno?</li>
+<li>¿Cuánto se reduce la exposición al pasar un rol de permanente a elegible activado 4 h por semana?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Azure Architecture Center — Microsoft.</li>
-<li>Azure for Architects — Ritesh Modi.</li>
-<li>Exam Ref AZ-305 — Microsoft Press.</li>
+<li>Microsoft (2024). <em>Azure RBAC vs Microsoft Entra roles</em> — los dos planos y qué gobierna cada uno. <a href="https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/custom-overview">https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/custom-overview</a></li>
+<li>Microsoft (2024). <em>Understand Azure role definitions</em> — actions, notActions, dataActions y su evaluación. <a href="https://learn.microsoft.com/en-us/azure/role-based-access-control/role-definitions">https://learn.microsoft.com/en-us/azure/role-based-access-control/role-definitions</a></li>
+<li>Microsoft (2024). <em>Managed identities for Azure resources</em> — asignadas por el sistema y por el usuario. <a href="https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview">https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview</a></li>
+<li>Microsoft (2024). <em>Workload identity federation</em> — credenciales federadas y coincidencia exacta del sujeto. <a href="https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation">https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation</a></li>
+<li>Microsoft (2024). <em>Privileged Identity Management</em> — activación con caducidad, justificación y aprobación. <a href="https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure">https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -314,7 +495,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-dos-sistemas-de-roles-que-no-se-solapan">1. Dos sistemas de roles que no se solapan</a><a class="toc-level-3" href="#2-rbac-es-aditivo-y-las-denegaciones-no-se-crean-a-mano">2. RBAC es aditivo y las denegaciones no se crean a mano</a><a class="toc-level-3" href="#3-identidades-administradas-el-secreto-que-no-existe">3. Identidades administradas: el secreto que no existe</a><a class="toc-level-3" href="#4-privilegio-minimo-en-el-tiempo-no-solo-en-el-alcance">4. Privilegio mínimo en el tiempo, no solo en el alcance</a><a class="toc-level-3" href="#5-diagnosticar-un-acceso-denegado">5. Diagnosticar un acceso denegado</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
