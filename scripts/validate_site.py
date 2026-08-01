@@ -6,6 +6,8 @@ import json
 import re
 from pathlib import Path
 
+from generate_site import ASSET_VERSION
+
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 
@@ -48,13 +50,13 @@ def validate() -> list[str]:
             "data-lesson-complete",
             "application/ld+json",
             "language-mermaid",
-            "class.js?v=2.0.0-r4",
+            f"class.js?v={ASSET_VERSION}",
         ):
             if marker not in text:
                 errors.append(f"{page.relative_to(ROOT)} missing {marker}")
 
     index = (SITE / "index.html").read_text(encoding="utf-8")
-    for marker in ("og:title", "twitter:card", "curriculum-view", "analytics-view", "roadmap-view", "load-more", "v=2.0.0-r4"):
+    for marker in ("og:title", "twitter:card", "curriculum-view", "analytics-view", "roadmap-view", "load-more", f"v={ASSET_VERSION}"):
         if marker not in index:
             errors.append(f"site/index.html missing {marker}")
     if re.search(r"\b(TODO|TBD|FIXME)\b", index):
@@ -68,7 +70,7 @@ def validate() -> list[str]:
             errors.append(f"site/app.js missing responsive curriculum marker: {marker}")
 
     worker = (SITE / "service-worker.js").read_text(encoding="utf-8")
-    if "multicloud-program-v2.0.0-r4" not in worker:
+    if f"multicloud-program-v{ASSET_VERSION}" not in worker:
         errors.append("site/service-worker.js has an obsolete cache version")
     if 'cached || caches.match("./index.html")' in worker:
         errors.append("site/service-worker.js must not return HTML for failed asset requests")

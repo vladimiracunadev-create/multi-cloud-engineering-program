@@ -305,16 +305,48 @@ function bindEvents() {
   addEventListener("resize", () => requestAnimationFrame(drawCharts));
 }
 
+const CATALOG_TIMEOUT_MS = 6000;
+
+// Sin límite de tiempo, una red lenta deja fetch() colgado y el portal nunca
+// pinta: pantalla en blanco indefinida. Si la red tarda, se usa la copia que
+// el service worker ya guardó; solo si tampoco la hay se reporta el fallo.
+async function loadCatalog() {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), CATALOG_TIMEOUT_MS);
+  try {
+    const response = await fetch("catalog.json", { signal: controller.signal });
+    if (!response.ok) throw new Error(`No se pudo cargar el catálogo: ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    const cached = await caches.match("catalog.json").catch(() => null);
+    if (cached) return cached.json();
+    throw new Error("No se pudo cargar el catálogo y no hay copia guardada. Revisa tu conexión y recarga.");
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function reportStartupFailure(message) {
+  const root = $("#curriculum-list") || document.querySelector("main");
+  if (root) {
+    root.innerHTML = `<div class="empty-state" role="alert"><h2>El portal no pudo cargar</h2><p>${message}</p>`
+      + `<p><button type="button" onclick="location.reload()">Reintentar</button> · `
+      + `<a href="${REPO}" rel="noopener">Ver el curso en GitHub</a></p></div>`;
+  }
+  toast(message);
+}
+
 async function start() {
   applyTheme(localStorage.getItem(THEME_KEY) || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"));
-  const response = await fetch("catalog.json", { cache: "no-cache" }); if (!response.ok) throw new Error(`No se pudo cargar el catálogo: ${response.status}`);
-  state.catalog = await response.json();
-  populateFilters(); bindEvents(); updateGlobalProgress(); setView(state.view, false);
+  // El service worker se registra antes del catálogo: así puede servirlo desde
+  // la caché en la siguiente visita aunque esta se quede sin red.
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
     navigator.serviceWorker.register("service-worker.js", { updateViaCache: "none" })
       .then((registration) => registration.update())
       .catch(() => {});
   }
+  state.catalog = await loadCatalog();
+  populateFilters(); bindEvents(); updateGlobalProgress(); setView(state.view, false);
 }
 
-start().catch((error) => { toast(error.message); console.error(error); });
+start().catch((error) => { reportStartupFailure(error.message); console.error(error); });

@@ -9,6 +9,8 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
+from generate_site import ASSET_VERSION
+
 
 DEFAULT_URL = "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/"
 
@@ -44,7 +46,7 @@ def validate(base_url: str) -> None:
             raise ValueError(f"class {class_id} is incomplete")
 
     worker = fetch(base_url, "service-worker.js").decode("utf-8")
-    if "multicloud-program-v2.0.0-r4" not in worker:
+    if f"multicloud-program-v{ASSET_VERSION}" not in worker:
         raise ValueError("the deployed service worker cache is obsolete")
 
     manual = fetch(
