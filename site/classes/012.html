@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> inicial · <strong>Horas estimadas:</strong> 8<br>
 <strong>Laboratorio:</strong> <code>capstone</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>proyecto: servicio local reproducible y observable</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Integrar las once clases anteriores en un artefacto único: un servicio local que arranca con un comando, se observa, falla de forma controlada y se recupera. Es el punto de partida de CloudShop, el sistema que evolucionará durante las 276 clases restantes hasta operar en tres nubes. Lo que se construye aquí no es un ejercicio: es la línea base contra la que se medirá cada cambio posterior.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> proyecto: servicio local reproducible y observable con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>servicio-local</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Ensamblar</strong> un servicio con comprobaciones de vida y de disponibilidad distinguiendo correctamente sus semánticas.</li>
+<li><strong>Instrumentar</strong> las cuatro señales doradas y justificar por qué la media es insuficiente para la latencia.</li>
+<li><strong>Provocar</strong> un fallo de dependencia y demostrar que el servicio degrada en vez de caer.</li>
+<li><strong>Establecer</strong> una línea base de rendimiento reproducible que sirva de referencia para comparar cambios futuros.</li>
+<li><strong>Documentar</strong> el servicio de modo que otra persona lo levante, lo observe y lo recupere sin conocimiento tácito.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,24 +62,24 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>proyecto</code></td>
-<td>Define su papel en <strong>proyecto: servicio local reproducible y observable</strong> y cómo observarlo en un sistema real.</td>
+<td><code>liveness</code></td>
+<td>Comprobación de si el proceso debe reiniciarse. Debe fallar solo ante un estado irrecuperable: si comprueba dependencias externas, una caída de la base de datos reinicia todas las réplicas y convierte una degradación en una caída total.</td>
 </tr>
 <tr>
-<td><code>servicio</code></td>
-<td>Define su papel en <strong>proyecto: servicio local reproducible y observable</strong> y cómo observarlo en un sistema real.</td>
+<td><code>readiness</code></td>
+<td>Comprobación de si el proceso puede recibir tráfico ahora. Sí debe mirar dependencias: al fallar, el balanceador retira la instancia sin matarla, y vuelve a incluirla cuando se recupera.</td>
 </tr>
 <tr>
-<td><code>local</code></td>
-<td>Define su papel en <strong>proyecto: servicio local reproducible y observable</strong> y cómo observarlo en un sistema real.</td>
+<td><code>señales doradas</code></td>
+<td>Latencia, tráfico, errores y saturación. Cuatro métricas que, según el SRE Book, bastan para detectar la mayoría de los problemas de un servicio orientado a peticiones.</td>
 </tr>
 <tr>
-<td><code>reproducible</code></td>
-<td>Define su papel en <strong>proyecto: servicio local reproducible y observable</strong> y cómo observarlo en un sistema real.</td>
+<td><code>degradación elegante</code></td>
+<td>Responder con funcionalidad reducida en vez de fallar por completo cuando una dependencia no esencial no está disponible.</td>
 </tr>
 <tr>
-<td><code>observable</code></td>
-<td>Define su papel en <strong>proyecto: servicio local reproducible y observable</strong> y cómo observarlo en un sistema real.</td>
+<td><code>línea base</code></td>
+<td>Medición reproducible del comportamiento actual. Sin ella, cualquier afirmación posterior sobre mejora o regresión es una opinión.</td>
 </tr>
 </tbody>
 </table>
@@ -93,72 +90,241 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Proyecto: servicio local reproducible y observable&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    CL[&quot;cliente&quot;] --&gt; LB[&quot;balanceador&quot;]
+    LB --&gt;|&quot;/health/ready&quot;| API[&quot;servicio CloudShop&quot;]
+    API --&gt; DB[(&quot;base de datos&lt;br/&gt;esencial&quot;)]
+    API -.-&gt;|&quot;opcional&quot;| CA[(&quot;caché&quot;)]
+    API -.-&gt;|&quot;opcional&quot;| REC[&quot;recomendaciones&quot;]
+    API --&gt; M[&quot;/metrics&lt;br/&gt;latencia, tráfico,&lt;br/&gt;errores, saturación&quot;]
+    DB -.-&gt;|&quot;cae → ready falla&lt;br/&gt;→ se retira del balanceador&quot;| LB
+    REC -.-&gt;|&quot;cae → responde sin&lt;br/&gt;recomendaciones: 200&quot;| CL
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
+<h3 id="1-liveness-y-readiness-responden-a-preguntas-opuestas">1. Liveness y readiness responden a preguntas opuestas</h3>
+<p>Confundirlas es el error que convierte una degradación en una caída total, y ocurre porque ambas «comprueban si el servicio está bien».</p>
 <table>
 <thead>
 <tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
+<th></th>
+<th>Liveness</th>
+<th>Readiness</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
+<td>Pregunta</td>
+<td>¿Hay que reiniciar?</td>
+<td>¿Puede recibir tráfico?</td>
 </tr>
 <tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
+<td>Acción al fallar</td>
+<td>Matar y reiniciar</td>
+<td>Retirar del balanceador</td>
 </tr>
 <tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
+<td>¿Mira dependencias?</td>
+<td><strong>Nunca</strong></td>
+<td><strong>Sí</strong></td>
 </tr>
 <tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
+<td>Coste de un falso positivo</td>
+<td>Reinicio innecesario</td>
+<td>Capacidad reducida</td>
 </tr>
 </tbody>
 </table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<pre><code class="language-python">@app.get(&quot;/health/live&quot;)
+def live():
+    return {&quot;status&quot;: &quot;ok&quot;}          # solo: ¿responde el bucle de eventos?
+
+@app.get(&quot;/health/ready&quot;)
+def ready():
+    fallos = []
+    if not db.ping(timeout=1.0):
+        fallos.append(&quot;db&quot;)           # esencial
+    if fallos:
+        raise HTTPException(503, {&quot;no_listo&quot;: fallos})
+    return {&quot;status&quot;: &quot;ok&quot;, &quot;degradado&quot;: estado_opcionales()}
+</code></pre>
+<p>El escenario que justifica la regla: la base de datos se cae 40 segundos. Con liveness mirando la base de datos, <strong>las 9 réplicas fallan la comprobación a la vez y el orquestador las mata todas</strong>; cuando la base vuelve, no hay servicio porque todas están arrancando en frío. Con la separación correcta, las 9 salen del balanceador, siguen vivas, y vuelven a entrar en cuanto la dependencia responde.</p>
+<p>Hay una tercera comprobación que conviene desde el principio: <strong>startup</strong>, para procesos con arranque lento. Sin ella hay que relajar el plazo de liveness para todo el ciclo de vida, lo que retrasa la detección de bloqueos reales.</p>
+<h3 id="2-las-cuatro-senales-doradas-y-por-que-la-media-miente">2. Las cuatro señales doradas, y por qué la media miente</h3>
+<p>El SRE Book reduce la instrumentación mínima a cuatro señales:</p>
+<table>
+<thead>
+<tr>
+<th>Señal</th>
+<th>Qué mide</th>
+<th>Cómo se instrumenta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Latencia</strong></td>
+<td>Cuánto tarda, <strong>separando éxitos de errores</strong></td>
+<td>Histograma, no media</td>
+</tr>
+<tr>
+<td><strong>Tráfico</strong></td>
+<td>Demanda: peticiones/s</td>
+<td>Contador</td>
+</tr>
+<tr>
+<td><strong>Errores</strong></td>
+<td>Tasa de fallo, explícito e implícito</td>
+<td>Contador por código</td>
+</tr>
+<tr>
+<td><strong>Saturación</strong></td>
+<td>Cuán lleno está el recurso más restrictivo</td>
+<td>Medidor</td>
+</tr>
+</tbody>
+</table>
+<p>La separación de latencia entre éxitos y errores no es un detalle: <strong>los errores suelen ser rápidos</strong>, así que mezclarlos baja artificialmente la media justo cuando el servicio está peor.</p>
+<p>Y la media es insuficiente por sí misma. Con 1.000 peticiones:</p>
+<pre><code class="language-text">950 peticiones a  50 ms
+ 50 peticiones a 2.000 ms
+
+media  = (950×50 + 50×2000)/1000 = 147,5 ms   ← parece aceptable
+p95    = 50 ms
+p99    = 2.000 ms                              ← 1 de cada 100 usuarios espera 2 s
+</code></pre>
+<p>La media de 147 ms no la experimenta <strong>nadie</strong>: unos ven 50 ms y otros 2 segundos. Por eso los SLO se fijan sobre percentiles, y por eso las métricas se exportan como histograma —que permite calcular percentiles agregando entre instancias— y no como media previamente calculada, que es matemáticamente imposible de agregar.</p>
+<p>La saturación es la más olvidada y la más predictiva: es la única que <strong>avisa antes</strong> de que la latencia y los errores se degraden. Con lo visto en la clase 011, la saturación por encima de 0,7 anticipa el problema que las otras tres señales aún no muestran.</p>
+<h3 id="3-degradar-en-vez-de-caer">3. Degradar en vez de caer</h3>
+<p>No todas las dependencias son iguales, y tratarlas igual convierte cualquier fallo en una caída completa. Clasificarlas es una decisión de producto, no técnica:</p>
+<table>
+<thead>
+<tr>
+<th>Dependencia</th>
+<th>Clase</th>
+<th>Si no está</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base de datos de pedidos</td>
+<td>Esencial</td>
+<td>503: no se puede servir</td>
+</tr>
+<tr>
+<td>Caché</td>
+<td>Opcional</td>
+<td>Responder más lento desde origen</td>
+</tr>
+<tr>
+<td>Recomendaciones</td>
+<td>Opcional</td>
+<td>Responder sin esa sección</td>
+</tr>
+<tr>
+<td>Telemetría</td>
+<td>Opcional</td>
+<td>Registrar localmente y continuar</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">async def pagina_producto(pid: str):
+    producto = await db.producto(pid)              # esencial: si falla, propaga
+    recomendados, degradado = [], []
+    try:
+        recomendados = await asyncio.wait_for(rec.para(pid), timeout=0.15)
+    except (asyncio.TimeoutError, ConnectionError):
+        degradado.append(&quot;recomendaciones&quot;)        # opcional: se anota y sigue
+    return {&quot;producto&quot;: producto, &quot;recomendados&quot;: recomendados, &quot;degradado&quot;: degradado}
+</code></pre>
+<p>Tres detalles que hacen que esto funcione de verdad:</p>
+<ol>
+<li><strong>El plazo es obligatorio.</strong> Sin <code>timeout</code>, una dependencia lenta bloquea al llamante y propaga la saturación hacia arriba. Una dependencia opcional sin plazo es una dependencia esencial disfrazada.</li>
+<li><strong>La degradación se declara en la respuesta.</strong> El campo <code>degradado</code> permite que el cliente y el panel sepan que el 200 no es completo.</li>
+<li><strong>El plazo debe ser menor que el del llamante.</strong> Si el usuario espera 300 ms, una dependencia opcional con plazo de 500 ms nunca llega a tiempo y solo añade latencia.</li>
+</ol>
+<h3 id="4-una-linea-base-que-se-pueda-repetir">4. Una línea base que se pueda repetir</h3>
+<p>Sin medición previa, «esto mejoró el rendimiento» es una creencia. La línea base debe fijar <strong>carga, duración, entorno y percentiles</strong>, y guardarse junto al código:</p>
+<pre><code class="language-bash">$ hey -z 60s -c 50 -q 20 http://localhost:8080/api/productos/A-1042
+
+Summary:
+  Total:        60.0031 secs
+  Requests/sec: 987.4210
+
+Latency distribution:
+  50% in 0.0384 secs
+  95% in 0.0912 secs
+  99% in 0.1847 secs
+
+Status code distribution:
+  [200] 59248 responses
+</code></pre>
+<p>Se registra como contrato comparable:</p>
+<pre><code class="language-json">{&quot;escenario&quot;: &quot;productos-lectura&quot;, &quot;concurrencia&quot;: 50, &quot;duracion_s&quot;: 60,
+ &quot;rps&quot;: 987.4, &quot;p50_ms&quot;: 38.4, &quot;p95_ms&quot;: 91.2, &quot;p99_ms&quot;: 184.7, &quot;errores&quot;: 0}
+</code></pre>
+<p>Dos verificaciones con lo aprendido en la clase 011. Ley de Little:</p>
+<pre><code class="language-text">L = λ · W = 987 × 0,0384 = 37,9 concurrentes
+</code></pre>
+<p>Coherente con los 50 solicitados: el sistema no está saturado, hay holgura. Si <code>L</code> hubiera dado 50 exactos, la concurrencia sería el cuello de botella y la medida estaría limitada por el generador de carga, no por el servicio.</p>
+<p>Relación p99/p50 = 184,7/38,4 = <strong>4,8×</strong>. Es la métrica que hay que vigilar entre versiones: si sube, la cola se está alargando aunque la media no se mueva.</p>
+<h3 id="5-reproducible-significa-sin-conocimiento-tacito">5. Reproducible significa sin conocimiento tácito</h3>
+<p>El criterio de aceptación del proyecto no es que funcione en tu máquina: es que <strong>otra persona lo levante sin preguntarte nada</strong>. Eso exige que el repositorio contenga:</p>
+<pre><code class="language-text">projects/cloudshop/
+├── README.md          qué es, cómo se levanta, cómo se comprueba, cómo se para
+├── Dockerfile         entorno de ejecución fijado
+├── compose.yaml       el servicio y sus dependencias
+├── app.py             el servicio
+├── smoke.sh           comprobación de extremo a extremo con código de salida
+└── baseline.json      la línea base medida, con su escenario
+</code></pre>
+<p>Y que el recorrido completo quepa en cuatro comandos con salida verificable:</p>
+<pre><code class="language-bash">$ docker compose up -d
+$ ./smoke.sh                    # sale 0 si todo responde; distinto de 0 si no
+$ curl -s localhost:8080/metrics | grep -c '^http_request_duration'
+$ docker compose down -v
+</code></pre>
+<p>El <code>smoke.sh</code> con código de salida no es cosmético: es lo que permite que este mismo recorrido se ejecute en CI en la parte 08 sin cambiar nada. Un script que imprime «OK» pero siempre sale 0 no verifica nada.</p>
+<p>Lo que <strong>no</strong> debe estar: credenciales reales, rutas absolutas de tu máquina, dependencias instaladas globalmente y no declaradas, y pasos que solo tú conoces. Cada uno de esos es conocimiento tácito, y el conocimiento tácito es lo que hace que un servicio sea irrecuperable cuando la persona que lo sabe está de vacaciones.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>proyecto: servicio local reproducible y observable</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>Se ensambla CloudShop v0 y se comprueba con un fallo provocado que degrada en vez de caer.</strong></p>
+<p>Línea base con todas las dependencias sanas:</p>
+<pre><code class="language-bash">$ docker compose up -d &amp;&amp; ./smoke.sh
+ready: ok  ·  degradado: []
+$ hey -z 30s -c 50 http://localhost:8080/api/productos/A-1042 | grep -E '95%|99%|Requests/sec'
+  Requests/sec: 987.4210
+  95% in 0.0912 secs
+  99% in 0.1847 secs
+</code></pre>
+<p><strong>Prueba negativa 1 — cae una dependencia opcional.</strong> Se detiene el servicio de recomendaciones:</p>
+<pre><code class="language-bash">$ docker compose stop recomendaciones
+$ curl -s -o /dev/null -w '%{http_code}\n' localhost:8080/api/productos/A-1042
+200
+$ curl -s localhost:8080/api/productos/A-1042 | jq -c '.degradado'
+[&quot;recomendaciones&quot;]
+$ curl -s localhost:8080/health/ready | jq -c '.'
+{&quot;status&quot;:&quot;ok&quot;,&quot;degradado&quot;:[&quot;recomendaciones&quot;]}
+</code></pre>
+<p>Sigue respondiendo 200 y declara la degradación. El impacto en latencia se mide, no se supone:</p>
+<pre><code class="language-text">p95 con recomendaciones     91,2 ms
+p95 sin recomendaciones     73,8 ms      ← más rápido: ya no espera esa llamada
+</code></pre>
+<p><strong>Prueba negativa 2 — la dependencia opcional no cae, se vuelve lenta.</strong> Este es el caso que de verdad rompe sistemas, porque nada falla:</p>
+<pre><code class="language-bash">$ docker compose exec recomendaciones tc qdisc add dev eth0 root netem delay 800ms
+$ hey -z 30s -c 50 http://localhost:8080/api/productos/A-1042 | grep '95%'
+  95% in 0.0947 secs
+</code></pre>
+<p><strong>El p95 apenas se mueve: 94,7 ms frente a 91,2.</strong> El plazo de 150 ms corta la llamada lenta y el resultado es equivalente a que estuviera caída. Sin ese plazo, el p95 habría subido a más de 800 ms y la saturación se habría propagado hacia arriba: cada petición mantendría un trabajador ocupado 800 ms, y por la ley de Little la concurrencia necesaria se multiplicaría por 8.</p>
+<p><strong>Prueba negativa 3 — cae la dependencia esencial.</strong></p>
+<pre><code class="language-bash">$ docker compose stop db
+$ curl -s -o /dev/null -w '%{http_code}\n' localhost:8080/health/ready
+503
+$ curl -s -o /dev/null -w '%{http_code}\n' localhost:8080/health/live
+200                                    # sigue VIVO: no debe reiniciarse
+$ docker compose start db &amp;&amp; sleep 3
+$ curl -s localhost:8080/health/ready | jq -r .status
+ok                                     # vuelve solo, sin reiniciar
+</code></pre>
+<p>Ese <code>200</code> en liveness durante la caída es el resultado que valida el diseño: el orquestador <strong>retira</strong> la instancia del balanceador pero <strong>no la mata</strong>, así que cuando la base vuelve hay capacidad caliente inmediata. Si liveness hubiera consultado la base, las nueve réplicas habrían muerto a la vez y la recuperación habría añadido el arranque en frío al tiempo de indisponibilidad.</p>
+<p><strong>Evidencia registrada</strong> en <code>evidence/</code>: <code>baseline.json</code>, las tres pruebas negativas con su salida, y una limitación explícita — <em>la línea base se midió en una sola máquina sin latencia de red entre componentes; los números no son extrapolables a un despliegue distribuido, solo comparables contra sí mismos</em>.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-00-foundations-computing-networking-linux/012-proyecto-servicio-local-reproducible-y-observable/lab.py
@@ -199,29 +365,29 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Cae la base de datos y el orquestador reinicia todas las réplicas a la vez</td>
+<td>La comprobación de liveness consulta dependencias externas</td>
+<td>Liveness solo mira el propio proceso; las dependencias van en readiness.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>El panel muestra latencia media aceptable mientras los usuarios se quejan</td>
+<td>La media oculta la cola y mezcla errores rápidos con éxitos lentos</td>
+<td>Exporta histogramas, separa éxitos de errores y fija los SLO sobre p95 y p99.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Una dependencia opcional se vuelve lenta y satura todo el servicio</td>
+<td>La llamada no tenía plazo, así que la dependencia opcional era esencial de hecho</td>
+<td>Toda llamada opcional necesita timeout menor que el presupuesto del llamante.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Nadie puede afirmar si un cambio mejoró o empeoró el rendimiento</td>
+<td>No existe una línea base reproducible con escenario y percentiles</td>
+<td>Registra carga, duración, entorno y p50/p95/p99 en un fichero versionado.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Solo una persona sabe levantar el servicio</td>
+<td>El recorrido depende de conocimiento tácito no escrito</td>
+<td>Exige que otra persona lo levante siguiendo solo el README, y corrige lo que le falte.</td>
 </tr>
 </tbody>
 </table>
@@ -232,17 +398,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Por qué liveness no debe consultar la base de datos, y qué ocurre exactamente si lo hace durante una caída de 40 s?</li>
+<li>Con 950 peticiones a 50 ms y 50 a 2.000 ms, ¿cuál es la media y cuál el p99? ¿Cuál describe mejor la experiencia?</li>
+<li>Una dependencia opcional se vuelve lenta pero no falla. ¿Qué la convierte de hecho en esencial y cómo se evita?</li>
+<li>¿Por qué no se pueden agregar medias de latencia entre instancias, y qué formato de métrica sí lo permite?</li>
+<li>Tu línea base da 987 rps y p50 de 38 ms con concurrencia 50. Por la ley de Little, ¿estaba saturado el sistema?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>How Linux Works — Brian Ward.</li>
-<li>Computer Networking: A Top-Down Approach — Kurose y Ross.</li>
-<li>Pro Git — Chacon y Straub.</li>
+<li>Beyer, B. et al., eds. (2016). <em>Site Reliability Engineering</em>, cap. 6 «Monitoring Distributed Systems» — las cuatro señales doradas. <a href="https://sre.google/sre-book/monitoring-distributed-systems/">https://sre.google/sre-book/monitoring-distributed-systems/</a></li>
+<li>Kubernetes (2024). <em>Configure Liveness, Readiness and Startup Probes</em> — semántica y efectos de cada sonda. <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/">https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/</a></li>
+<li>Nygard, M. (2018). <em>Release It!</em>, 2.ª ed., caps. 4-5 — patrones de estabilidad: timeouts, bulkheads y circuit breaker.</li>
+<li>Prometheus (2024). <em>Histograms and summaries</em> — por qué los histogramas son agregables y los cuantiles precalculados no. <a href="https://prometheus.io/docs/practices/histograms/">https://prometheus.io/docs/practices/histograms/</a></li>
+<li>Dean, J. y Barroso, L. (2013). <em>The Tail at Scale</em>. Communications of the ACM 56(2), 74-80. <a href="https://doi.org/10.1145/2408776.2408794">https://doi.org/10.1145/2408776.2408794</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -310,7 +478,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-liveness-y-readiness-responden-a-preguntas-opuestas">1. Liveness y readiness responden a preguntas opuestas</a><a class="toc-level-3" href="#2-las-cuatro-senales-doradas-y-por-que-la-media-miente">2. Las cuatro señales doradas, y por qué la media miente</a><a class="toc-level-3" href="#3-degradar-en-vez-de-caer">3. Degradar en vez de caer</a><a class="toc-level-3" href="#4-una-linea-base-que-se-pueda-repetir">4. Una línea base que se pueda repetir</a><a class="toc-level-3" href="#5-reproducible-significa-sin-conocimiento-tacito">5. Reproducible significa sin conocimiento tácito</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
