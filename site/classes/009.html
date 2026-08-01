@@ -156,7 +156,7 @@ en un diagrama pero fallan al operar.</p>
 <p>Un cliente envía <code>POST /pagos</code>, la red se corta antes de la respuesta y el cliente no sabe si el pago se ejecutó. Solo tiene dos opciones malas: reintentar y arriesgarse a cobrar dos veces, o no reintentar y arriesgarse a no cobrar.</p>
 <p>La solución es que el <strong>cliente</strong> genere un identificador único por intención y lo repita en cada reintento:</p>
 <pre><code class="language-http">POST /pagos HTTP/1.1
-Idempotency-Key: 7d2b8e91-c4a2-4f7d-9b3e-8a1c6f9d2b4e
+Idempotency-Key: &lt;uuid v4 que genera el cliente&gt;
 Content-Type: application/json
 
 {&quot;pedido&quot;: &quot;A-1042&quot;, &quot;importe&quot;: &quot;149.90&quot;, &quot;moneda&quot;: &quot;CLP&quot;}

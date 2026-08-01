@@ -79,7 +79,7 @@ La solución es que el **cliente** genere un identificador único por intención
 
 ```http
 POST /pagos HTTP/1.1
-Idempotency-Key: 7d2b8e91-c4a2-4f7d-9b3e-8a1c6f9d2b4e
+Idempotency-Key: <uuid v4 que genera el cliente>
 Content-Type: application/json
 
 {"pedido": "A-1042", "importe": "149.90", "moneda": "CLP"}
