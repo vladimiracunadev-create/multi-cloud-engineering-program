@@ -21,7 +21,7 @@
 | 17 | Kit docente | modalidades, evaluación y reglas de evidencia |
 | 18 | Guía estudiante | flujo completo y seguridad de sandbox |
 | 19 | Certificaciones | mapeo AWS, Azure, GCP, Kubernetes y FinOps |
-| 20 | PDF/PPTX | manual integral de 1.328 páginas, manifiesto verificable y deck editable |
+| 20 | PDF/PPTX | manual integral de 1.345 páginas, manifiesto verificable y deck editable |
 | 21 | Escritorio | navegador Tkinter offline |
 | 22 | Móvil | PWA instalable como superficie oficial |
 | 23 | PWA | offline, progreso, favoritos y 288 páginas |
