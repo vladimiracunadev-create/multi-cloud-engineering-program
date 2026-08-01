@@ -1,6 +1,6 @@
-const CACHE = "multicloud-program-v2.0.0-r2";
+const CACHE = "multicloud-program-v2.0.0-r3";
 const CORE = [
-  "./", "./index.html", "./styles.css?v=2.0.0-r2", "./app.js?v=2.0.0-r2", "./catalog.json",
+  "./", "./index.html", "./styles.css?v=2.0.0-r3", "./app.js?v=2.0.0-r3", "./catalog.json",
   "./manifest.webmanifest", "./assets/icon.svg", "./assets/class.css",
   "./assets/class.js", "./assets/multicloud-topology.png"
 ];

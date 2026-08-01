@@ -15,6 +15,7 @@ const state = {
   status: "all",
   sort: "sequence",
   route: null,
+  visibleLessons: 60,
 };
 
 const partColors = ["#59c88b", "#e4ad4d", "#62bcc9", "#df7b72", "#c3b36a"];
@@ -91,8 +92,8 @@ function setView(view, updateHash = true) {
   document.querySelectorAll(".app-view").forEach((element) => element.classList.toggle("active", element.dataset.view === view));
   document.querySelectorAll(".nav-tab").forEach((button) => button.classList.toggle("active", button.dataset.viewTarget === view));
   if (updateHash) history.replaceState(null, "", `#${view}`);
-  if (view === "analytics" || view === "dashboard") requestAnimationFrame(drawCharts);
-  scrollTo({ top: 0, behavior: "smooth" });
+  renderView(view);
+  scrollTo({ top: 0, behavior: "auto" });
 }
 
 function groupByPart(items = state.catalog) {
@@ -145,8 +146,9 @@ function filteredLessons() {
 
 function renderCurriculum() {
   const items = filteredLessons();
+  const visibleItems = items.slice(0, state.visibleLessons);
   const root = $("#curriculum-list");
-  root.innerHTML = groupByPart(items).map(([part, lessons]) => {
+  root.innerHTML = groupByPart(visibleItems).map(([part, lessons]) => {
     const color = partColors[Number(part) % partColors.length];
     return `<section class="part-group" style="--part-color:${color}">
       <header class="part-group-header"><span class="part-number">P${part}</span><div><h2>${lessons[0].part_title}</h2><p>${lessons.length} clases visibles</p></div><a href="parts/${part}.html">Abrir parte →</a></header>
@@ -164,6 +166,10 @@ function renderCurriculum() {
   $("#result-count").textContent = `${items.length} clases`;
   $("#result-hours").textContent = `${items.reduce((sum, item) => sum + item.estimated_hours, 0)} horas`;
   $("#empty-state").hidden = items.length !== 0;
+  const loadMore = $("#load-more");
+  const remaining = Math.max(0, items.length - visibleItems.length);
+  loadMore.hidden = remaining === 0;
+  loadMore.textContent = `Mostrar ${Math.min(60, remaining)} clases más`;
 }
 
 function renderRoadmap() {
@@ -174,6 +180,18 @@ function renderRoadmap() {
     return `<a class="roadmap-node" href="parts/${part}.html"><span>PARTE ${part}</span><strong>${items[0].part_title}</strong><small>${done}/12 · ${items.reduce((sum, item) => sum + item.estimated_hours, 0)} h</small></a>`;
   }).join("")}</div></section>`).join("");
   $("#capstone-timeline").innerHTML = capstoneLabels.map((label, index) => `<div class="timeline-item" style="--timeline-color:${partColors[index % partColors.length]}"><strong>P${String(index).padStart(2, "0")}</strong><span>${label}</span></div>`).join("");
+}
+
+function renderView(view) {
+  if (view === "dashboard") renderRoutes();
+  if (view === "curriculum") renderCurriculum();
+  if (view === "roadmap") renderRoadmap();
+  if (view === "analytics" || view === "dashboard") requestAnimationFrame(drawCharts);
+}
+
+function refreshCurriculum() {
+  state.visibleLessons = 60;
+  renderCurriculum();
 }
 
 function chartColors() {
@@ -258,23 +276,24 @@ async function importProgress(file) {
   state.done = new Set(payload.completed); state.saved = new Set(payload.saved || []); saveState(); renderAll(); toast("Progreso importado");
 }
 
-function renderAll() { updateGlobalProgress(); renderRoutes(); renderCurriculum(); renderRoadmap(); requestAnimationFrame(drawCharts); }
+function renderAll() { updateGlobalProgress(); renderView(state.view); }
 
 function bindEvents() {
   document.addEventListener("click", async (event) => {
     const viewButton = event.target.closest("[data-view-target]"); if (viewButton) setView(viewButton.dataset.viewTarget);
-    const statusButton = event.target.closest("[data-status]"); if (statusButton) { document.querySelectorAll("[data-status]").forEach((button) => button.classList.remove("active")); statusButton.classList.add("active"); state.status = statusButton.dataset.status; renderCurriculum(); }
+    const statusButton = event.target.closest("[data-status]"); if (statusButton) { document.querySelectorAll("[data-status]").forEach((button) => button.classList.remove("active")); statusButton.classList.add("active"); state.status = statusButton.dataset.status; refreshCurriculum(); }
     const saveButton = event.target.closest("[data-save]"); if (saveButton) { const id = saveButton.dataset.save; state.saved.has(id) ? state.saved.delete(id) : state.saved.add(id); saveState(); renderCurriculum(); }
-    const routeButton = event.target.closest("[data-route]"); if (routeButton) { const route = routes.find((item) => item.id === routeButton.dataset.route); state.route = route; state.part = "all"; state.query = ""; state.status = "all"; $("#part-filter").value = "all"; setView("curriculum"); $("#global-search").value = ""; renderCurriculum(); toast(`Ruta activa: ${route.title}`); }
+    const routeButton = event.target.closest("[data-route]"); if (routeButton) { const route = routes.find((item) => item.id === routeButton.dataset.route); state.route = route; state.part = "all"; state.query = ""; state.status = "all"; state.visibleLessons = 60; $("#part-filter").value = "all"; setView("curriculum"); $("#global-search").value = ""; toast(`Ruta activa: ${route.title}`); }
+    if (event.target.closest("#load-more")) { state.visibleLessons += 60; renderCurriculum(); }
   });
   document.addEventListener("change", (event) => {
     if (event.target.matches("[data-complete]")) { event.target.checked ? state.done.add(event.target.dataset.complete) : state.done.delete(event.target.dataset.complete); saveState(); renderAll(); }
   });
-  $("#global-search").addEventListener("input", (event) => { state.query = event.target.value; if (state.query) setView("curriculum"); renderCurriculum(); });
-  $("#part-filter").addEventListener("change", (event) => { state.route = null; state.part = event.target.value; renderCurriculum(); });
-  $("#level-filter").addEventListener("change", (event) => { state.level = event.target.value; renderCurriculum(); });
-  $("#lab-filter").addEventListener("change", (event) => { state.lab = event.target.value; renderCurriculum(); });
-  $("#sort-control").addEventListener("change", (event) => { state.sort = event.target.value; renderCurriculum(); });
+  $("#global-search").addEventListener("input", (event) => { state.query = event.target.value; state.visibleLessons = 60; if (state.query && state.view !== "curriculum") setView("curriculum"); else if (state.view === "curriculum") renderCurriculum(); });
+  $("#part-filter").addEventListener("change", (event) => { state.route = null; state.part = event.target.value; refreshCurriculum(); });
+  $("#level-filter").addEventListener("change", (event) => { state.level = event.target.value; refreshCurriculum(); });
+  $("#lab-filter").addEventListener("change", (event) => { state.lab = event.target.value; refreshCurriculum(); });
+  $("#sort-control").addEventListener("change", (event) => { state.sort = event.target.value; refreshCurriculum(); });
   $("#theme-toggle").addEventListener("click", () => applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark"));
   $("#data-menu-toggle").addEventListener("click", () => { $("#data-menu").hidden = !$("#data-menu").hidden; });
   $("#export-progress").addEventListener("click", exportProgress); $("#analytics-export").addEventListener("click", exportProgress);
@@ -290,7 +309,7 @@ async function start() {
   applyTheme(localStorage.getItem(THEME_KEY) || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"));
   const response = await fetch("catalog.json", { cache: "no-cache" }); if (!response.ok) throw new Error(`No se pudo cargar el catálogo: ${response.status}`);
   state.catalog = await response.json();
-  populateFilters(); bindEvents(); renderAll(); setView(state.view, false);
+  populateFilters(); bindEvents(); updateGlobalProgress(); setView(state.view, false);
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
     navigator.serviceWorker.register("service-worker.js", { updateViaCache: "none" })
       .then((registration) => registration.update())

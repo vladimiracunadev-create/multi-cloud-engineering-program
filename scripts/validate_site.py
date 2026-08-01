@@ -47,7 +47,7 @@ def validate() -> list[str]:
                 errors.append(f"{page.relative_to(ROOT)} missing {marker}")
 
     index = (SITE / "index.html").read_text(encoding="utf-8")
-    for marker in ("og:title", "twitter:card", "curriculum-view", "analytics-view", "roadmap-view", "v=2.0.0-r2"):
+    for marker in ("og:title", "twitter:card", "curriculum-view", "analytics-view", "roadmap-view", "load-more", "v=2.0.0-r3"):
         if marker not in index:
             errors.append(f"site/index.html missing {marker}")
     if re.search(r"\b(TODO|TBD|FIXME)\b", index):
@@ -56,9 +56,12 @@ def validate() -> list[str]:
     app = (SITE / "app.js").read_text(encoding="utf-8")
     if 'updateViaCache: "none"' not in app:
         errors.append("site/app.js must bypass HTTP cache when updating the service worker")
+    for marker in ("visibleLessons: 60", "function renderView(view)", "function refreshCurriculum()"):
+        if marker not in app:
+            errors.append(f"site/app.js missing responsive curriculum marker: {marker}")
 
     worker = (SITE / "service-worker.js").read_text(encoding="utf-8")
-    if "multicloud-program-v2.0.0-r2" not in worker:
+    if "multicloud-program-v2.0.0-r3" not in worker:
         errors.append("site/service-worker.js has an obsolete cache version")
     if 'cached || caches.match("./index.html")' in worker:
         errors.append("site/service-worker.js must not return HTML for failed asset requests")

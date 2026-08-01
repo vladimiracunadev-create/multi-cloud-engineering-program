@@ -34,7 +34,7 @@ body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.68 Int
 a { color: var(--cyan); }
 button, input { font: inherit; letter-spacing: 0; }
 
-.doc-topbar { position: sticky; top: 0; z-index: 20; height: 58px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 93%, transparent); backdrop-filter: blur(14px); }
+.doc-topbar { position: sticky; top: 0; z-index: 20; height: 58px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 1px solid var(--line); background: var(--bg); }
 .doc-brand { display: flex; gap: 9px; align-items: center; color: var(--text); text-decoration: none; font-weight: 750; }
 .doc-brand span { color: var(--green); font-size: 20px; }
 .doc-actions { display: flex; gap: 7px; }

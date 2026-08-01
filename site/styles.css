@@ -41,7 +41,7 @@ button, input, select { font: inherit; letter-spacing: 0; }
 button, a { -webkit-tap-highlight-color: transparent; }
 a { color: var(--cyan); }
 
-.app-header { position: sticky; top: 0; z-index: 50; min-height: 64px; display: grid; grid-template-columns: 250px 1fr minmax(340px, auto); align-items: center; gap: 18px; padding: 0 24px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(14px); }
+.app-header { position: sticky; top: 0; z-index: 50; min-height: 64px; display: grid; grid-template-columns: 250px 1fr minmax(340px, auto); align-items: center; gap: 18px; padding: 0 24px; border-bottom: 1px solid var(--line); background: var(--bg); }
 .brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; min-width: 0; }
 .brand-icon { color: var(--green); font-size: 25px; }
 .brand strong, .brand small { display: block; white-space: nowrap; }
@@ -80,7 +80,7 @@ main { min-height: calc(100vh - 64px); }
 .button.primary { border-color: var(--green); background: var(--green); color: #07140d; }
 .button.secondary { background: rgba(18, 27, 22, .84); color: #f1f6f3; }
 .button:hover { filter: brightness(1.08); }
-.hero-progress { position: absolute; z-index: 2; right: 24px; bottom: 22px; width: min(310px, calc(100% - 48px)); padding: 14px; border: 1px solid rgba(255,255,255,.22); background: rgba(12, 18, 14, .88); backdrop-filter: blur(10px); }
+.hero-progress { position: absolute; z-index: 2; right: 24px; bottom: 22px; width: min(310px, calc(100% - 48px)); padding: 14px; border: 1px solid rgba(255,255,255,.22); background: rgba(12, 18, 14, .94); }
 .hero-progress > div { display: flex; justify-content: space-between; color: #c7d0ca; font-size: 11px; }
 .hero-progress strong { color: var(--green); font-size: 17px; }
 .hero-progress progress { width: 100%; height: 6px; margin: 10px 0 5px; border: 0; }
@@ -138,7 +138,7 @@ progress::-moz-progress-bar { background: var(--green); }
 .view-progress strong, .view-progress span { display: block; }
 .view-progress strong { color: var(--green); font-size: 36px; }
 .view-progress span { color: var(--muted); font-size: 10px; }
-.curriculum-toolbar { position: sticky; top: 64px; z-index: 30; display: grid; grid-template-columns: 1fr 1fr 1fr 1.65fr .8fr; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 95%, transparent); backdrop-filter: blur(12px); }
+.curriculum-toolbar { position: sticky; top: 64px; z-index: 30; display: grid; grid-template-columns: 1fr 1fr 1fr 1.65fr .8fr; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--line); background: var(--bg); }
 select { min-width: 0; height: 40px; padding: 0 9px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--text); font-size: 11px; }
 .segmented { display: grid; grid-template-columns: repeat(4, 1fr); }
 .segmented button { min-width: 0; height: 40px; padding: 0 6px; border: 1px solid var(--line); border-right: 0; background: var(--surface); color: var(--muted); cursor: pointer; font-size: 10px; }
@@ -165,6 +165,8 @@ select { min-width: 0; height: 40px; padding: 0 9px; border: 1px solid var(--lin
 .class-actions a, .class-actions button { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 3px; background: var(--surface-2); color: var(--muted); text-decoration: none; cursor: pointer; }
 .class-actions .saved { color: var(--amber); border-color: var(--amber); }
 .empty-state { padding: 80px 0; color: var(--muted); text-align: center; }
+.load-more-wrap { display: flex; justify-content: center; padding: 24px 0 8px; }
+.load-more-wrap .button { min-width: 210px; }
 
 .roadmap-legend { display: flex; flex-wrap: wrap; gap: 18px; padding: 18px 0; color: var(--muted); font-size: 10px; }
 .roadmap-legend span { display: flex; align-items: center; gap: 6px; }
