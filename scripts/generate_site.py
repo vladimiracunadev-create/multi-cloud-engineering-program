@@ -73,7 +73,7 @@ def page_shell(*, title: str, meta: str, body: str, page_type: str, toc: str = "
   <meta property="og:title" content="{escaped_title}">
   <meta property="og:description" content="{escaped_meta}">
   <meta property="og:url" content="{canonical_url}">
-  <meta property="og:image" content="{PAGES_URL}/assets/multicloud-topology.png">
+  <meta property="og:image" content="{PAGES_URL}/assets/og-cover.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="{canonical_url}">
   <link rel="icon" type="image/svg+xml" href="{asset_prefix}assets/icon.svg">

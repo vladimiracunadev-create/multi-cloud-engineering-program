@@ -23,7 +23,8 @@ def validate() -> list[str]:
         SITE / "manifest.webmanifest",
         SITE / "sitemap.xml",
         SITE / "robots.txt",
-        SITE / "assets" / "multicloud-topology.png",
+        SITE / "assets" / "multicloud-topology.webp",
+        SITE / "assets" / "og-cover.jpg",
         SITE / "assets" / "class.css",
         SITE / "assets" / "class.js",
     ]

@@ -12,6 +12,8 @@
   --amber: #e4ad4d;
   --cyan: #62bcc9;
   --coral: #df7b72;
+  --sand: #c3b36a;
+  --violet: #b98ce0;
   --danger: #ee746c;
   --shadow: 0 16px 44px rgba(0, 0, 0, .24);
 }
@@ -30,6 +32,8 @@
   --amber: #9a6718;
   --cyan: #147286;
   --coral: #a44840;
+  --sand: #7a6a1f;
+  --violet: #6f4a9c;
   --danger: #b83934;
   --shadow: 0 14px 36px rgba(32, 50, 40, .10);
 }
@@ -129,7 +133,7 @@ progress::-moz-progress-bar { background: var(--green); }
 .capability-list small { color: var(--muted); font-size: 10px; }
 .capability-list b { font-size: 11px; }
 .capability-color { width: 4px; height: 34px; }
-.capability-color.green { background: var(--green); }.capability-color.cyan { background: var(--cyan); }.capability-color.amber { background: var(--amber); }.capability-color.coral { background: var(--coral); }
+.capability-color.green { background: var(--green); }.capability-color.cyan { background: var(--cyan); }.capability-color.amber { background: var(--amber); }.capability-color.coral { background: var(--coral); }.capability-color.sand { background: var(--sand); }.capability-color.violet { background: var(--violet); }
 
 .view-header { min-height: 180px; display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; padding: 34px 0 28px; border-bottom: 1px solid var(--line); }
 .view-header h1 { margin: 7px 0; font-size: clamp(34px, 5vw, 58px); line-height: 1; }

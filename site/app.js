@@ -19,26 +19,43 @@ const state = {
 };
 
 const partColors = ["#59c88b", "#e4ad4d", "#62bcc9", "#df7b72", "#c3b36a"];
-const stageColors = ["#59c88b", "#e4ad4d", "#62bcc9", "#df7b72", "#c3b36a"];
+// Una entrada por etapa del roadmap: con menos colores que etapas, la última
+// se quedaba sin color.
+const stageColors = ["#59c88b", "#e4ad4d", "#62bcc9", "#df7b72", "#c3b36a", "#b98ce0"];
 const $ = (selector) => document.querySelector(selector);
 
+// Las rutas replican la tabla "Rutas por rol" del README. En Cloud Engineer el
+// "proveedor productivo" cuenta una sola vez: la parte 17 representa la elegida,
+// y 18 o 19 son equivalentes en carga y resultado.
 const routes = [
-  { id: "cloud", title: "Cloud Engineer", parts: ["00", "01", "02", "05", "07", "10", "11", "14"], color: "#59c88b" },
-  { id: "devops", title: "DevOps Engineer", parts: ["00", "05", "06", "07", "08", "10", "11"], color: "#62bcc9" },
-  { id: "platform", title: "Platform Engineer", parts: ["05", "06", "07", "08", "10", "11", "14"], color: "#e4ad4d" },
-  { id: "sre", title: "Site Reliability Engineer", parts: ["00", "05", "06", "08", "10", "12", "14"], color: "#df7b72" },
-  { id: "architect", title: "Cloud Architect", parts: ["01", "02", "03", "04", "09", "11", "12", "13", "14"], color: "#c3b36a" },
+  { id: "cloud", title: "Cloud Engineer", parts: ["00", "01", "02", "03", "04", "05", "06", "07", "10", "17"], color: "#59c88b" },
+  { id: "devops", title: "DevOps / Delivery Engineer", parts: ["00", "05", "06", "07", "08", "09", "10", "21"], color: "#62bcc9" },
+  { id: "platform", title: "Platform Engineer", parts: ["05", "06", "07", "08", "10", "11", "12", "14"], color: "#e4ad4d" },
+  { id: "sre", title: "Site Reliability Engineer", parts: ["00", "06", "08", "10", "12", "21"], color: "#df7b72" },
+  { id: "security", title: "Cloud Security Engineer", parts: ["01", "02", "03", "04", "05", "06", "07", "11", "16", "21"], color: "#b98ce0" },
+  { id: "finops", title: "FinOps Practitioner", parts: ["01", "02", "03", "04", "07", "11", "20"], color: "#c3b36a" },
+  { id: "data", title: "Data / AI Cloud Engineer", parts: ["02", "03", "04", "09", "12", "20"], color: "#7fb2e5" },
+  { id: "architect", title: "Solutions Architect", parts: ["01", "02", "03", "04", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "23"], color: "#e59a6c" },
 ];
 
+// Seis etapas que cubren las 24 partes (00-23). Deben coincidir con la tabla
+// "El recorrido en 6 etapas" del README: si divergen, el portal esconde partes.
 const roadmapStages = [
-  { name: "Base", subtitle: "Comprender antes de aprovisionar", parts: ["00", "01"] },
-  { name: "Proveedores", subtitle: "Tres implementaciones comparables", parts: ["02", "03", "04"] },
-  { name: "Plataforma", subtitle: "Portabilidad y entrega", parts: ["05", "06", "07", "08"] },
-  { name: "Operación", subtitle: "Datos, SRE y gobierno", parts: ["09", "10", "11", "12"] },
-  { name: "Experto", subtitle: "Continuidad y defensa", parts: ["13", "14"] },
+  { name: "Base de ingeniería", subtitle: "Comprender antes de aprovisionar", parts: ["00", "01", "02", "03"] },
+  { name: "Plataformas y automatización", subtitle: "Portabilidad, contenedores e IaC", parts: ["04", "05", "06", "07"] },
+  { name: "Entrega y operación", subtitle: "CI/CD, datos, SRE, seguridad y FinOps", parts: ["08", "09", "10", "11"] },
+  { name: "Arquitectura de sistemas", subtitle: "Distribuidos, requisitos, C4 y ADR", parts: ["12", "13", "14", "15"] },
+  { name: "Producción multi-proveedor", subtitle: "Redes avanzadas y arquitecturas productivas", parts: ["16", "17", "18", "19"] },
+  { name: "Maestría profesional", subtitle: "Datos e IA, incidentes y capstones", parts: ["20", "21", "22", "23"] },
 ];
 
-const capstoneLabels = ["Servicio local", "ADR cloud", "AWS", "Azure", "GCP", "OCI", "Kubernetes", "IaC", "Entrega", "Eventos", "SRE", "Guardrails", "Arquitectura", "DR", "Defensa"];
+// Un rótulo por parte: la línea de tiempo indexa por posición (P00 … P23).
+const capstoneLabels = [
+  "Servicio local", "ADR cloud", "AWS", "Azure", "GCP", "OCI", "Kubernetes", "IaC",
+  "Entrega", "Eventos", "SRE", "Guardrails", "Arquitectura", "DR", "Portafolio", "Requisitos",
+  "Redes y edge", "AWS producción", "Azure producción", "GCP producción", "Datos e IA",
+  "Incidentes", "Especialización", "Defensa final",
+];
 
 function toast(message) {
   const element = $("#toast");
@@ -177,7 +194,7 @@ function renderRoadmap() {
   $("#roadmap").innerHTML = roadmapStages.map((stage, stageIndex) => `<section class="roadmap-stage" style="--stage-color:${stageColors[stageIndex]}"><header><span class="eyebrow">Etapa ${stageIndex + 1}</span><h2>${stage.name}</h2><small>${stage.subtitle}</small></header><div class="roadmap-stage-list">${stage.parts.map((part) => {
     const items = grouped.get(part);
     const done = items.filter((item) => state.done.has(item.id)).length;
-    return `<a class="roadmap-node" href="parts/${part}.html"><span>PARTE ${part}</span><strong>${items[0].part_title}</strong><small>${done}/12 · ${items.reduce((sum, item) => sum + item.estimated_hours, 0)} h</small></a>`;
+    return `<a class="roadmap-node" href="parts/${part}.html"><span>PARTE ${part}</span><strong>${items[0].part_title}</strong><small>${done}/${items.length} · ${items.reduce((sum, item) => sum + item.estimated_hours, 0)} h</small></a>`;
   }).join("")}</div></section>`).join("");
   $("#capstone-timeline").innerHTML = capstoneLabels.map((label, index) => `<div class="timeline-item" style="--timeline-color:${partColors[index % partColors.length]}"><strong>P${String(index).padStart(2, "0")}</strong><span>${label}</span></div>`).join("");
 }
