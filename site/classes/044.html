@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> intermedio · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>messaging</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>service bus, event grid y event hubs</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Repartir el trabajo asíncrono entre los tres servicios de mensajería de Azure a partir de una sola pregunta que casi nunca se hace: ¿el mensaje se consume o se observa? Confundirla lleva a poner órdenes de pedido en un registro de eventos que nunca las borra, sin cola de mensajes fallidos y con un evento envenenado bloqueando una partición entera. La clase 033 dejó el criterio de la entrega y la idempotencia; aquí cambian las piezas y aparecen tres relojes —el bloqueo, la ventana de duplicados y el reintento— que hay que dimensionar juntos.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> service bus, event grid y event hubs con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>flujo-eventos-azure</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Elegir</strong> entre Service Bus, Event Grid y Event Hubs según si el mensaje se consume, se enruta o se observa.</li>
+<li><strong>Dimensionar</strong> la duración del bloqueo frente al tiempo real de proceso y explicar qué ocurre cuando el primero es menor.</li>
+<li><strong>Configurar</strong> el traslado automático a mensajes fallidos y una alerta sobre él, en los tres servicios.</li>
+<li><strong>Distinguir</strong> la detección de duplicados —con ventana acotada— de la idempotencia del manejador.</li>
+<li><strong>Decidir</strong> el número de particiones sabiendo qué se rompe al cambiarlo después.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,28 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>service</code></td>
-<td>Define su papel en <strong>service bus, event grid y event hubs</strong> y cómo observarlo en un sistema real.</td>
+<td><code>bloqueo por inspección</code></td>
+<td>Modo de recepción en el que el mensaje queda reservado un tiempo en vez de borrarse. Equivale al tiempo de invisibilidad de la clase 033 y añade algo que aquel no tiene: <strong>se puede renovar</strong>.</td>
 </tr>
 <tr>
-<td><code>bus</code></td>
-<td>Define su papel en <strong>service bus, event grid y event hubs</strong> y cómo observarlo en un sistema real.</td>
+<td><code>subcola de mensajes fallidos</code></td>
+<td>Destino automático de un mensaje que agota su cuenta de entregas. En Service Bus <strong>existe siempre</strong>, cuelga de la propia entidad y registra el motivo en <code>DeadLetterReason</code>.</td>
 </tr>
 <tr>
-<td><code>event</code></td>
-<td>Define su papel en <strong>service bus, event grid y event hubs</strong> y cómo observarlo en un sistema real.</td>
+<td><code>sesión</code></td>
+<td>Agrupación que garantiza orden dentro de un identificador. Una sesión la bloquea <strong>un único consumidor</strong>, así que una sesión con mucho tráfico serializa todo su trabajo.</td>
 </tr>
 <tr>
-<td><code>grid</code></td>
-<td>Define su papel en <strong>service bus, event grid y event hubs</strong> y cómo observarlo en un sistema real.</td>
+<td><code>detección de duplicados</code></td>
+<td>Descarte de mensajes con el mismo identificador dentro de una <strong>ventana temporal acotada</strong>. Fuera de la ventana no descarta nada: no sustituye a la idempotencia.</td>
 </tr>
 <tr>
-<td><code>event</code></td>
-<td>Define su papel en <strong>service bus, event grid y event hubs</strong> y cómo observarlo en un sistema real.</td>
+<td><code>grupo de consumidores y punto de control</code></td>
+<td>En Event Hubs, la lectura no borra: cada grupo avanza su propio marcador. Si el punto de control se guarda poco, un reinicio reprocesa desde el último guardado.</td>
 </tr>
 <tr>
-<td><code>hubs</code></td>
-<td>Define su papel en <strong>service bus, event grid y event hubs</strong> y cómo observarlo en un sistema real.</td>
+<td><code>unidad de rendimiento</code></td>
+<td>Unidad de capacidad de Event Hubs: ~1 MB/s de entrada y 2 MB/s de salida. El inflado automático <strong>sube y no baja</strong>: lo que escala una prueba de carga se paga todo el mes.</td>
 </tr>
 </tbody>
 </table>
@@ -97,75 +94,347 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Service Bus, Event Grid y Event Hubs&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    P[&quot;un hecho ocurre&quot;] --&gt; Q{&quot;¿el mensaje se consume&lt;br/&gt;o se observa?&quot;}
+    Q --&gt;|&quot;se consume: es trabajo&lt;br/&gt;que alguien debe hacer UNA vez&quot;| SB[&quot;Service Bus&quot;]
+    Q --&gt;|&quot;se observa: muchos lectores,&lt;br/&gt;cada uno a su ritmo&quot;| EH[&quot;Event Hubs&quot;]
+    Q --&gt;|&quot;se enruta: notificar a N destinos&lt;br/&gt;sin orden ni retención&quot;| EG[&quot;Event Grid&quot;]
+    SB --&gt; S1[&quot;bloqueo renovable · sesiones&lt;br/&gt;subcola de fallidos automática&quot;]
+    EH --&gt; S2[&quot;particiones · desplazamiento&lt;br/&gt;la lectura NO borra&quot;]
+    EG --&gt; S3[&quot;envío por HTTP · reintento 24 h&lt;br/&gt;fallidos: hay que configurarlos&quot;]
+    S1 --&gt; I[&quot;idempotencia en el manejador&lt;br/&gt;en los tres casos&quot;]
+    S2 --&gt; I
+    S3 --&gt; I
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
+<h3 id="1-una-pregunta-decide-el-servicio-se-consume-o-se-observa">1. Una pregunta decide el servicio: ¿se consume o se observa?</h3>
+<p>Los tres nombres contienen la palabra «evento» o «bus» y eso lleva a elegir por eufonía. La pregunta que separa de verdad es otra:</p>
+<pre><code class="language-text">¿el mensaje representa TRABAJO que alguien debe hacer exactamente una vez?
+   → Service Bus.  Se consume: al completarlo, desaparece.
+
+¿el mensaje representa un HECHO que varios interesados leen a su ritmo?
+   → Event Hubs.  Se observa: leerlo no lo borra, y otro puede releerlo.
+
+¿el mensaje es una NOTIFICACIÓN que hay que repartir a destinos que no conozco?
+   → Event Grid.  Se enruta: se entrega por HTTP y no se guarda.
+</code></pre>
+<p>La tabla que hace operativa esa elección:</p>
 <table>
 <thead>
 <tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
+<th></th>
+<th>Service Bus</th>
+<th>Event Hubs</th>
+<th>Event Grid</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
+<td>Modelo</td>
+<td>Cola y tema con suscripciones</td>
+<td>Registro con particiones</td>
+<td>Enrutador de sucesos</td>
 </tr>
 <tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
+<td>¿Leer borra?</td>
+<td>Sí, al completar</td>
+<td><strong>No</strong></td>
+<td>No aplica: se envía</td>
 </tr>
 <tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
+<td>Retención</td>
+<td>Hasta completar o caducar</td>
+<td>1-7 días (90 en premium)</td>
+<td>Solo reintentos</td>
 </tr>
 <tr>
+<td>Orden</td>
+<td>Por sesión</td>
+<td><strong>Por partición</strong></td>
+<td>Sin garantía</td>
+</tr>
+<tr>
+<td>Mensajes fallidos</td>
+<td><strong>Automático</strong></td>
+<td>No existe</td>
+<td>Configurable, apagado por defecto</td>
+</tr>
+<tr>
+<td>Tamaño</td>
+<td>256 KB (100 MB en premium)</td>
+<td>1 MB</td>
+<td>1 MB</td>
+</tr>
+<tr>
+<td>Se paga por</td>
+<td>Operación o unidad de mensajería</td>
+<td>Unidad de rendimiento</td>
 <td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
 </tr>
 </tbody>
 </table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<p>La fila de mensajes fallidos es la que más consecuencias tiene. En Service Bus la subcola existe siempre y recoge lo que falla; en Event Hubs <strong>no hay tal cosa</strong>, porque el modelo no es de consumo: un evento que el consumidor no sabe procesar se queda en su sitio y, si el consumidor reintenta desde el mismo desplazamiento, <strong>bloquea la partición entera</strong> — nada posterior se procesa hasta que alguien intervenga. Poner órdenes de pedido en Event Hubs por creer que es «el servicio de eventos» es el error de diseño más caro de esta clase.</p>
+<p>El reparto habitual en una plataforma como CloudShop, escrito para no rediscutirlo:</p>
+<pre><code class="language-text">Service Bus   crear pedido · cobrar · emitir factura · enviar correo
+              trabajo con dueño, con reintentos y con fallo visible
+
+Event Hubs    clics, telemetría de la aplicación, eventos de stock
+              volumen alto, varios consumidores, se puede releer
+
+Event Grid    &quot;se subió un blob&quot; · &quot;se creó un recurso&quot; · &quot;se desplegó&quot;
+              reacción a hechos de la plataforma y notificación a terceros
+</code></pre>
+<p>Y un uso de Event Grid que rentabiliza el trabajo de las clases anteriores: <strong>todos los recursos de Azure emiten eventos</strong>. Un blob nuevo en el contenedor de facturas dispara la función que lo indexa; la creación de un recurso sin etiquetas dispara la corrección de gobierno de la clase 037. Es la vía por la que la plataforma reacciona a sí misma sin sondeos periódicos.</p>
+<h3 id="2-el-bloqueo-el-reloj-que-casi-nunca-se-dimensiona">2. El bloqueo, el reloj que casi nunca se dimensiona</h3>
+<p>Service Bus recibe de dos formas, y solo una es defendible en producción:</p>
+<pre><code class="language-text">recibir y borrar    el mensaje desaparece al entregarse
+                    si el proceso falla después, el trabajo se pierde
+bloqueo por inspección  el mensaje queda reservado; hay que completarlo,
+                    abandonarlo o trasladarlo a fallidos explícitamente
+</code></pre>
+<p>El bloqueo cumple la función del tiempo de invisibilidad de la clase 033 y añade una capacidad que aquel no tiene: <strong>se puede renovar</strong>. Esa diferencia cambia el diseño.</p>
+<p>La duración máxima del bloqueo es de cinco minutos. Si el manejador tarda más y nadie renueva:</p>
+<pre><code class="language-text">t+0:00  se entrega el mensaje, bloqueo de 5 min
+t+5:00  el bloqueo expira; el mensaje vuelve a estar disponible
+t+5:01  OTRO consumidor lo recibe y empieza a procesarlo
+t+6:20  el primero termina y llama a completar
+        → MessageLockLostException
+t+7:40  el segundo también termina
+        → el pedido se ha cobrado dos veces
+</code></pre>
+<p>La secuencia importa porque el error aparece <strong>al final</strong>, cuando el daño ya está hecho. Y el <code>MessageLockLostException</code> en el registro se suele leer como un fallo transitorio del SDK.</p>
+<p>Tres respuestas, de mejor a peor:</p>
+<pre><code class="language-text">1. sacar el trabajo largo del manejador
+   el mensaje dispara el proceso, no lo ejecuta
+2. renovar el bloqueo mientras se trabaja
+   los SDK lo hacen automáticamente SI el hilo no está bloqueado
+3. subir la duración del bloqueo
+   tope de 5 minutos: solo mueve el problema un poco más allá
+</code></pre>
+<p>La segunda tiene una letra pequeña que produce incidentes reproducibles: la renovación automática ocurre en segundo plano y <strong>necesita que el hilo pueda ejecutarse</strong>. Un manejador que bloquea el hilo con una llamada síncrona impide su propia renovación, así que el bloqueo caduca justo en los casos lentos, que son los que más lo necesitan.</p>
+<p>El <strong>traslado automático a fallidos</strong> es la otra mitad, y en Azure viene puesto:</p>
+<pre><code class="language-text">MaxDeliveryCount = 10 por defecto
+al superarlo → subcola de fallidos de la propia entidad
+</code></pre>
+<p>No hay que crear ninguna cola ni configurar ninguna política de reenvío: existe. Y como existe sin que nadie la pida, también se llena sin que nadie la mire. El motivo queda registrado y es la primera cosa que hay que consultar:</p>
+<pre><code class="language-bash">$ az servicebus queue show -g rg-msg --namespace-name sb-cloudshop -n pedidos \
+    --query &quot;countDetails.deadLetterMessageCount&quot; -o tsv
+8412
+</code></pre>
+<pre><code class="language-text">DeadLetterReason
+  MaxDeliveryCountExceeded   el manejador falló 10 veces: mira su excepción
+  TTLExpiredException        caducó sin que nadie lo consumiera
+  HeaderSizeExceeded         propiedades demasiado grandes
+  &lt;motivo propio&gt;            el manejador lo trasladó a propósito
+</code></pre>
+<p>La distinción entre las dos primeras es diagnóstica: la primera es un consumidor que falla, la segunda es un consumidor que <strong>no está</strong>. Y la alerta que hay que tener en los tres servicios es la misma y casi nunca está: <strong>cuenta de mensajes fallidos mayor que cero durante N minutos</strong>. Un sistema asíncrono sano no acumula fallidos; que los acumule en silencio es la forma en que se pierde trabajo sin que nadie reciba un error.</p>
+<h3 id="3-deteccion-de-duplicados-sesiones-y-filtros-lo-que-garantizan-y-lo-que-no">3. Detección de duplicados, sesiones y filtros: lo que garantizan y lo que no</h3>
+<p>La clase 033 separó el duplicado de entrega del fallo de idempotencia. Azure ofrece un mecanismo que parece resolverlo y solo cubre una parte:</p>
+<pre><code class="language-text">detección de duplicados
+  descarta mensajes con el mismo MessageId
+  DENTRO de una ventana temporal
+  por defecto 30 s; hasta 7 días en premium
+</code></pre>
+<p>La ventana es el detalle que decide. Un cliente que reintenta a los 45 segundos con la ventana en 30 <strong>crea un duplicado real</strong>, y el sistema lo entrega dos veces. Además la ventana consume almacenamiento y capacidad: fijarla en siete días para «asegurarse» tiene un precio y sigue sin cubrir el reintento manual de un operador tres semanas después.</p>
+<p>La conclusión es la de la clase 033, reforzada: <strong>la detección de duplicados reduce el ruido; la idempotencia del manejador es la que garantiza corrección</strong>. Un manejador idempotente hace innecesaria la primera; la primera nunca hace innecesario al segundo.</p>
+<pre><code class="language-python">def manejar(mensaje):
+    clave = mensaje.application_properties[b&quot;idempotency-key&quot;].decode()
+    if repositorio.ya_procesado(clave):        # la garantía real
+        return                                  # completar sin reejecutar
+    with repositorio.transaccion():
+        aplicar_efecto(mensaje)
+        repositorio.marcar_procesado(clave)     # en la MISMA transacción
+</code></pre>
+<p>La última línea es la que hace que funcione: marcar y aplicar el efecto en la misma transacción. Marcadas por separado, un fallo entre ambas reproduce exactamente el problema que se quería evitar.</p>
+<p>Las <strong>sesiones</strong> dan orden dentro de un identificador —todos los mensajes de un pedido, en secuencia— y tienen un costo estructural que hay que anticipar: una sesión la bloquea <strong>un único consumidor</strong>, así que dentro de una sesión no hay paralelismo. Si el identificador de sesión es demasiado grueso, se ha construido una cola de un solo hilo:</p>
+<pre><code class="language-text">sesión = idPedido      miles de sesiones, buen reparto            ✓
+sesión = idTienda      una tienda grande serializa todo su trabajo ✗
+sesión = &quot;pedidos&quot;     una sola sesión: concurrencia = 1          ✗✗
+</code></pre>
+<p>Es el mismo razonamiento de la clave de partición de la clase 042: <strong>la unidad de orden es también la unidad de serialización</strong>. Solo se pide orden donde el negocio lo exige, y con el identificador más fino que lo satisfaga.</p>
+<p>Los <strong>temas con suscripciones y filtros</strong> sustituyen al abanico de la clase 033, con dos matices:</p>
+<pre><code class="language-bash">$ az servicebus topic subscription rule create -g rg-msg \
+    --namespace-name sb-cloudshop --topic-name pedidos --subscription-name facturacion \
+    --name solo-pagados --correlation-filter properties.estado=pagado
+</code></pre>
+<p><strong>Primero</strong>: un filtro de correlación —igualdad sobre propiedades— se evalúa mucho más barato que uno con sintaxis SQL. Con volumen alto, la diferencia es de factura.</p>
+<p><strong>Segundo</strong>: una suscripción <strong>sin ninguna regla recibe todo</strong>, y una suscripción creada hoy no recibe lo publicado ayer. La primera produce consumidores que procesan mensajes que no les tocaban; la segunda produce el hueco de datos al añadir un consumidor nuevo, que hay que rellenar a mano si importaba.</p>
+<p>Y una decisión de nivel que se toma tarde y duele: el nivel estándar es multiinquilino, <strong>factura por operación</strong> y puede limitar; el premium reserva unidades de mensajería, da latencia predecible, admite mensajes de 100 MB y es el único que acepta punto de conexión privado. Ese último punto conecta con la clase 039: si la plataforma cerró los accesos públicos, el nivel estándar no puede participar. El salto de precio es considerable, así que conviene decidirlo con el diseño de red delante y no cuando ya no hay alternativa.</p>
+<h3 id="4-event-hubs-particiones-puntos-de-control-y-el-inflado-que-no-desinfla">4. Event Hubs: particiones, puntos de control y el inflado que no desinfla</h3>
+<p>Event Hubs es un registro particionado, no una cola. Las tres consecuencias que definen su operación:</p>
+<pre><code class="language-text">el orden es POR PARTICIÓN, nunca global
+leer NO borra: el consumidor avanza un marcador propio
+cada grupo de consumidores tiene su propio marcador
+</code></pre>
+<p>La <strong>clave de partición</strong> decide a qué partición va cada evento, y por tanto qué queda ordenado respecto a qué. Es la misma decisión de la clase 042 con otro nombre. Y el número de particiones es, en la práctica, una decisión de un solo sentido: cambiarlo <strong>altera a qué partición corresponde cada clave</strong>, así que el orden por clave se rompe en el punto del cambio y los consumidores que dependían de él procesan eventos desordenados durante la transición.</p>
+<pre><code class="language-text">regla útil    particiones ≥ consumidores concurrentes máximos previstos
+              porque una partición la lee UN consumidor por grupo
+              particiones de más: coste de gestión, no de dinero
+              particiones de menos: techo de paralelismo que no se puede subir
+                                    sin romper el orden
+</code></pre>
+<p>El <strong>punto de control</strong> es la otra fuente de incidentes. El consumidor guarda su posición en una cuenta de almacenamiento, y la frecuencia con la que lo hace define cuánto se reprocesa tras un reinicio:</p>
+<pre><code class="language-text">punto de control cada 10.000 eventos, a 30.000 eventos/min
+→ hasta 20 s de eventos reprocesados en cada reinicio
+
+punto de control cada 10.000 eventos, a 500 eventos/min
+→ hasta 20 MINUTOS reprocesados en cada reinicio
+</code></pre>
+<p>La misma configuración produce dos comportamientos incomparables según el caudal. Por eso el punto de control se fija <strong>por tiempo además de por cantidad</strong>, y por eso el consumidor tiene que ser idempotente igual que el de Service Bus: el reprocesamiento no es una anomalía, es el funcionamiento normal tras cualquier reinicio.</p>
+<p>Y un fallo de operación con firma propia: dos instancias del mismo grupo de consumidores compitiendo por la misma partición. La segunda toma el arrendamiento y expulsa a la primera; la primera reintenta y expulsa a la segunda. El resultado es un vaivén de arrendamientos, ningún avance del marcador y un consumo de CPU alto sin trabajo hecho. Se reconoce en el registro por el ciclo continuo de adquisición y pérdida de particiones.</p>
+<p>El <strong>rendimiento</strong> se compra en unidades y ahí está la trampa de costo de esta clase:</p>
+<pre><code class="language-text">1 unidad de rendimiento ≈ 1 MB/s de entrada, 2 MB/s de salida, 1.000 eventos/s
+al superarlo → ServerBusyException, que el SDK reintenta
+inflado automático → SUBE solo hasta el máximo configurado
+                  → y NO BAJA nunca
+</code></pre>
+<p>Una prueba de carga que empuje de 2 a 20 unidades deja el espacio de nombres en 20 hasta que una persona lo baje:</p>
+<p>```text                        USD/mes
+2 unidades de rendimiento       ~44
+20 tras la prueba de carga     ~440</p>
+<pre><code>
+Cuatrocientos dólares al mes por un experimento de veinte minutos, sin ninguna alerta que lo señale. La medida preventiva es fijar el máximo del inflado en un valor que se pueda pagar y revisar el valor actual como parte del cierre de cualquier prueba de carga.
+
+Dos capacidades que conviene conocer porque ahorran trabajo:
+
+**Captura.** Archiva automáticamente en almacenamiento en formato Avro, por ventana de tiempo o de tamaño. Es la forma más barata de tener el flujo en bruto para reprocesar, y encaja con las reglas de ciclo de vida de la clase 041 sin escribir un solo consumidor.
+
+**Compatibilidad con Kafka.** Event Hubs habla el protocolo de Kafka, así que un productor o consumidor existente funciona cambiando la cadena de conexión. Para un programa multinube esto es un dato de arquitectura, no una curiosidad: **el contrato de la aplicación deja de ser específico del proveedor** aunque el servicio lo sea.
+
+### 5. Event Grid: entrega por HTTP, reintentos y el saludo que falla
+
+Event Grid empuja, no se consulta. Eso simplifica el consumidor —una función HTTP y nada más— y traslada al emisor tres responsabilidades que en una cola no existían.
+
+**El saludo de validación.** Antes de entregar nada a un extremo HTTP, Event Grid envía un evento de validación y espera que el extremo devuelva el código recibido. Es la protección contra usar el servicio para inundar a un tercero, y es el fallo de puesta en marcha número uno: la suscripción se crea, no entrega nada y el extremo no registra ningún error porque nunca llegó a llamarse para lo demás.
+
+```python
+if tipo == &quot;Microsoft.EventGrid.SubscriptionValidationEvent&quot;:
+    return {&quot;validationResponse&quot;: datos[&quot;validationCode&quot;]}
+</code></pre>
+<p>Con funciones de Azure o colas como destino, el saludo lo resuelve la plataforma; con un extremo propio, hay que escribirlo.</p>
+<p><strong>El reintento y su final.</strong> Event Grid reintenta con retroceso exponencial hasta 24 horas por defecto. Pasado ese plazo, <strong>descarta el evento</strong>, y el destino de mensajes fallidos está <strong>apagado</strong>:</p>
+<pre><code class="language-bash">$ az eventgrid event-subscription update --name indexar-facturas \
+    --source-resource-id $ST_ID \
+    --deadletter-endpoint &quot;$ST_ID/blobServices/default/containers/eventos-fallidos&quot;
+</code></pre>
+<p>Sin esa línea, un extremo caído durante un día produce pérdida de eventos sin traza. Con ella, los eventos aterrizan en un contenedor con su motivo, y la lección de la clase 041 vuelve a aplicar: ese contenedor necesita su propia regla de ciclo de vida o crece para siempre.</p>
+<p><strong>Ni orden ni unicidad.</strong> Event Grid no garantiza el orden y puede entregar el mismo evento más de una vez. Un manejador que asume orden —«el evento de creación llega antes que el de actualización»— funciona en desarrollo y falla en producción de forma intermitente. La defensa es la misma de todo el resto de la clase: idempotencia, y usar la marca de tiempo o la versión del recurso para descartar lo viejo en vez de confiar en el orden de llegada.</p>
+<p>Un cierre que une las tres piezas. Los tres servicios entregan <strong>al menos una vez</strong>, ninguno entrega exactamente una vez, y los tres exigen lo mismo del manejador:</p>
+<pre><code class="language-text">Service Bus   duplica al expirar un bloqueo o al reintentar el cliente
+Event Hubs    duplica al reprocesar desde el último punto de control
+Event Grid    duplica al reintentar la entrega
+</code></pre>
+<p><strong>La entrega exactamente una vez no se compra: se construye en el manejador.</strong> Es la misma conclusión de la clase 033, y después de tres servicios con tres mecanismos distintos ya no es una recomendación teórica: es la única propiedad que se conserva al cambiar de servicio, y por tanto la única que merece la pena escribir una sola vez y reutilizar.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>service bus, event grid y event hubs</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-03-azure-core-platform/044-service-bus-event-grid-y-event-hubs/lab.py
+<p><strong>CloudShop monta su columna asíncrona en Azure. El equipo elige Event Hubs para todo «porque es el servicio de eventos y escala más». Cinco incidentes en un mes reparten cada flujo donde le corresponde.</strong></p>
+<p>Punto de partida:</p>
+<pre><code class="language-text">eh-cloudshop (Event Hubs, 4 particiones, 2 unidades de rendimiento)
+  pedidos · pagos · telemetria · notificaciones
+todos los consumidores en el mismo grupo, punto de control cada 10.000 eventos
+</code></pre>
+<p><strong>Incidente 1 — una partición deja de avanzar y 12.000 pedidos se detienen.</strong></p>
+<p>Un pedido con un campo nuevo hace fallar al deserializador. El consumidor reintenta desde el mismo desplazamiento, indefinidamente.</p>
+<pre><code class="language-text">partición 2   desplazamiento 4.481.209   sin avanzar desde hace 3 h 40 min
+pedidos detenidos detrás del envenenado   12.184
+</code></pre>
+<p>No hay subcola de fallidos: Event Hubs no la tiene, porque leer no consume. La solución de urgencia es saltar el desplazamiento a mano; la de fondo es mover el flujo:</p>
+<p>```text                      antes            después
+pedidos          Event Hubs        Service Bus (cola con sesiones por idPedido)
+pagos            Event Hubs        Service Bus (tema con suscripciones filtradas)
+telemetria       Event Hubs        Event Hubs                      ← se queda
+notificaciones   Event Hubs        Event Grid (reacción a blob y a estado)</p>
+<pre><code>
+El criterio queda escrito en una línea: **lo que alguien debe hacer una vez va a Service Bus; lo que muchos observan a su ritmo se queda en Event Hubs**.
+
+**Incidente 2 — dos pedidos cobrados dos veces.**
+
+Con la cola ya en Service Bus, el manejador de cobro tarda entre 4 y 7 minutos porque llama a la pasarela y espera la confirmación.
+
+```text
+MessageLockLostException al completar    41 veces en 24 h
+cobros duplicados detectados por conciliación   2
+</code></pre>
+<p>El bloqueo era de cinco minutos y el manejador bloqueaba el hilo con una llamada síncrona, impidiendo su propia renovación. Se corrige por el lado del diseño, no del reloj:</p>
+<p>```text                                antes             después
+trabajo dentro del manejador    llamada de 4-7 min   registrar intención y salir
+cobro efectivo                  en el manejador      proceso propio con reintento
+duración del bloqueo                 5 min              30 s (sobra)
+clave de idempotencia               ninguna          idPedido + intento,
+                                                     marcada en la MISMA transacción
+cobros duplicados                       2                  0</p>
+<pre><code>
+La clave de idempotencia es la que cierra el caso: aunque el mensaje vuelva a entregarse, el efecto no se repite.
+
+**Incidente 3 — 8.412 mensajes fallidos que nadie miró en tres semanas.**
+
+```bash
+$ az servicebus queue show -g rg-msg --namespace-name sb-cloudshop -n facturacion \
+    --query &quot;countDetails.deadLetterMessageCount&quot; -o tsv
+8412
+$ # motivo del primero
+MaxDeliveryCountExceeded · System.NullReferenceException en importe_neto
+</code></pre>
+<p>Un cambio de esquema tres semanas atrás. Cada mensaje se reintentó diez veces y acabó en la subcola, que existía desde el principio y no tenía ninguna alerta.</p>
+<p>```text                                antes          después
+alerta sobre mensajes fallidos       ninguna     &gt; 0 durante 15 min → aviso
+procedimiento de reproceso           ninguno     documentado y ensayado
+validación de esquema en el emisor   no          sí, contrato versionado
+mensajes recuperados                  —          8.412 reprocesados</p>
+<pre><code>
+**Incidente 4 — eventos de facturas perdidos durante un día.**
+
+La función que indexa facturas estuvo caída 26 horas por un despliegue fallido. Al recuperarla, faltan 1.900 documentos.
+
+```bash
+$ az eventgrid event-subscription show --name indexar-facturas \
+    --source-resource-id $ST_ID --query &quot;deadLetterDestination&quot;
+null
+</code></pre>
+<p>Event Grid reintentó 24 horas y descartó el resto. Sin destino de fallidos, no queda rastro. Se configura, y se reconstruye el hueco releyendo el contenedor —posible porque los blobs siguen ahí, no porque el sistema de eventos lo permitiera.</p>
+<p>```text                                antes            después
+destino de mensajes fallidos       ninguno    contenedor eventos-fallidos
+regla de ciclo de vida sobre él        —      borrado a 30 días (clase 041)
+alerta de entregas fallidas           no      &gt; 50 en 10 min → aviso</p>
+<pre><code>
+**Incidente 5 — la factura de Event Hubs se multiplica por diez sin más tráfico.**
+
+```bash
+$ az eventhubs namespace show -g rg-msg -n eh-cloudshop \
+    --query &quot;{tu:sku.capacity,inflar:isAutoInflateEnabled,max:maximumThroughputUnits}&quot; -o tsv
+20   True   20
+</code></pre>
+<p>Veinte unidades de rendimiento con un tráfico que necesita dos. El inflado automático había subido durante una prueba de carga de veinte minutos, tres semanas atrás, y nunca bajó — porque no baja.</p>
+<p>```text                                antes         después
+unidades de rendimiento                20             2
+máximo del inflado automático          20             6
+costo mensual de Event Hubs          ~440 USD       ~44 USD
+revisión tras prueba de carga        ninguna    paso obligatorio del cierre</p>
+<pre><code>
+Y de paso se corrige el punto de control, que con el caudal real de telemetría reprocesaba seis minutos en cada reinicio:
+
+```text
+punto de control   cada 10.000 eventos   →   cada 10.000 eventos o 30 s
+reproceso tras reinicio   ~6 min          →   &lt; 30 s
+</code></pre>
+<p><strong>Resumen de la columna asíncrona:</strong></p>
+<p>```text                                          antes           después
+servicios usados                        1 (para todo)    3, por criterio escrito
+trabajo detenido sin señal              12.184 pedidos          0
+cobros duplicados                             2                 0
+mensajes fallidos sin vigilar             8.412           alertados a 15 min
+eventos perdidos sin rastro               1.900     con destino de fallidos
+unidades de rendimiento pagadas              20                 2
+manejadores idempotentes                    0 de 4            4 de 4
+costo mensual de mensajería               ~465 USD         ~118 USD</p>
+<pre><code>
+**La lección que esta clase traslada al resto de la parte**: los tres servicios entregan al menos una vez y ninguno entrega exactamente una vez. Lo que hace correcto a un sistema asíncrono no es el servicio elegido sino **la propiedad que se escribe en el manejador**, y esa propiedad es la única que sobrevive intacta cuando el servicio cambia — que es exactamente lo que este programa entiende por portabilidad.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-03-azure-core-platform/044-service-bus-event-grid-y-event-hubs/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>messaging</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -203,29 +472,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Una partición deja de avanzar y el trabajo posterior se detiene sin errores visibles</td>
+<td>Un evento envenenado en Event Hubs, que no tiene subcola de mensajes fallidos porque leer no consume</td>
+<td>Usa Service Bus para lo que debe procesarse una vez; en Event Hubs, aparta el evento y avanza el desplazamiento con registro del descarte.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td><code>MessageLockLostException</code> al completar y efectos duplicados</td>
+<td>El manejador tarda más que el bloqueo y bloquea el hilo, impidiendo su propia renovación</td>
+<td>Saca el trabajo largo del manejador, no bloquees el hilo, y aplica una clave de idempotencia en la misma transacción que el efecto.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Miles de mensajes en la subcola de fallidos sin que nadie se entere</td>
+<td>El traslado automático existe desde el principio y no tiene alerta asociada</td>
+<td>Alerta sobre la cuenta de mensajes fallidos mayor que cero y documenta un procedimiento de reproceso ensayado.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Se pierden eventos de Event Grid tras una caída prolongada del destino</td>
+<td>El reintento dura 24 h y el destino de mensajes fallidos está apagado por defecto</td>
+<td>Configura el destino de fallidos, ponle su regla de ciclo de vida y alerta sobre las entregas fallidas.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>La factura de Event Hubs se multiplica sin que el tráfico haya cambiado</td>
+<td>El inflado automático sube y nunca baja, y una prueba de carga dejó el valor alto</td>
+<td>Fija un máximo asumible y revisa las unidades activas como paso obligatorio del cierre de toda prueba de carga.</td>
+</tr>
+<tr>
+<td>Se activa la detección de duplicados y siguen llegando repetidos</td>
+<td>La ventana es acotada —30 s por defecto— y el reintento cae fuera de ella</td>
+<td>Trátala como reducción de ruido: la corrección la garantiza la idempotencia del manejador.</td>
 </tr>
 </tbody>
 </table>
@@ -236,17 +510,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué pregunta separa Service Bus de Event Hubs, y qué ocurre exactamente si se elige mal para un flujo de pedidos?</li>
+<li>Un manejador tarda siete minutos y el bloqueo dura cinco. Describe la secuencia completa hasta el efecto duplicado.</li>
+<li>¿Por qué la detección de duplicados no sustituye a la idempotencia, y qué hace idempotente a un manejador?</li>
+<li>¿Qué se rompe al cambiar el número de particiones de un centro de eventos, y qué regla usarías para elegirlo?</li>
+<li>¿Qué tres cosas hay que configurar en Event Grid que no vienen puestas, y qué se pierde sin cada una?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Azure Architecture Center — Microsoft.</li>
-<li>Azure for Architects — Ritesh Modi.</li>
-<li>Exam Ref AZ-305 — Microsoft Press.</li>
+<li>Microsoft (2025). <em>Compare Azure messaging services</em> — cuándo Service Bus, cuándo Event Grid y cuándo Event Hubs. <a href="https://learn.microsoft.com/en-us/azure/service-bus-messaging/compare-messaging-services">https://learn.microsoft.com/en-us/azure/service-bus-messaging/compare-messaging-services</a></li>
+<li>Microsoft (2025). <em>Service Bus dead-letter queues</em> — traslado automático, motivos y reproceso. <a href="https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues">https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues</a></li>
+<li>Microsoft (2025). <em>Message sessions and duplicate detection</em> — orden por sesión y ventana de duplicados. <a href="https://learn.microsoft.com/en-us/azure/service-bus-messaging/message-sessions">https://learn.microsoft.com/en-us/azure/service-bus-messaging/message-sessions</a></li>
+<li>Microsoft (2025). <em>Event Hubs features</em> — particiones, grupos de consumidores, puntos de control y captura. <a href="https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-features">https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-features</a></li>
+<li>Microsoft (2025). <em>Event Grid delivery and retry</em> — saludo de validación, reintentos y mensajes fallidos. <a href="https://learn.microsoft.com/en-us/azure/event-grid/delivery-and-retry">https://learn.microsoft.com/en-us/azure/event-grid/delivery-and-retry</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -314,7 +590,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-una-pregunta-decide-el-servicio-se-consume-o-se-observa">1. Una pregunta decide el servicio: ¿se consume o se observa?</a><a class="toc-level-3" href="#2-el-bloqueo-el-reloj-que-casi-nunca-se-dimensiona">2. El bloqueo, el reloj que casi nunca se dimensiona</a><a class="toc-level-3" href="#3-deteccion-de-duplicados-sesiones-y-filtros-lo-que-garantizan-y-lo-que-no">3. Detección de duplicados, sesiones y filtros: lo que garantizan y lo que no</a><a class="toc-level-3" href="#4-event-hubs-particiones-puntos-de-control-y-el-inflado-que-no-desinfla">4. Event Hubs: particiones, puntos de control y el inflado que no desinfla</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
