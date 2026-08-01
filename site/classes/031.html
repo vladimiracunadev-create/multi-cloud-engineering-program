@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> intermedio · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>data</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>rds, dynamodb y elasticache: decisión de datos</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Elegir motor de datos a partir de los patrones de acceso, no del catálogo del proveedor. Es la decisión más irreversible de la parte —cambiar de motor con terabytes en producción es una migración, no un ajuste— y la que más determina el coste y la latencia del sistema durante años.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> rds, dynamodb y elasticache: decisión de datos con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>matriz-datos-aws</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Derivar</strong> el modelo de datos desde los patrones de acceso en lugar de normalizar primero y consultar después.</li>
+<li><strong>Distinguir</strong> cuándo una carga necesita transacciones multiclave y cuándo no, con consecuencias de elección.</li>
+<li><strong>Dimensionar</strong> capacidad en DynamoDB y detectar una clave de partición mal elegida antes de que sature.</li>
+<li><strong>Justificar</strong> una caché por el patrón de lectura y explicar sus dos modos de invalidación.</li>
+<li><strong>Calcular</strong> el coste de las tres opciones para una carga concreta y no solo su idoneidad técnica.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,24 +62,24 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>rds</code></td>
-<td>Define su papel en <strong>rds, dynamodb y elasticache: decisión de datos</strong> y cómo observarlo en un sistema real.</td>
+<td><code>patrón de acceso</code></td>
+<td>Consulta concreta que la aplicación hará, con su frecuencia y su latencia exigida. En almacenes no relacionales es la entrada del diseño; enumerarlos mal produce un modelo que no se puede consultar.</td>
 </tr>
 <tr>
-<td><code>dynamodb</code></td>
-<td>Define su papel en <strong>rds, dynamodb y elasticache: decisión de datos</strong> y cómo observarlo en un sistema real.</td>
+<td><code>clave de partición</code></td>
+<td>Atributo que determina en qué partición física vive un elemento. Una clave con pocos valores distintos concentra el tráfico en pocas particiones y produce una partición caliente.</td>
 </tr>
 <tr>
-<td><code>elasticache</code></td>
-<td>Define su papel en <strong>rds, dynamodb y elasticache: decisión de datos</strong> y cómo observarlo en un sistema real.</td>
+<td><code>partición caliente</code></td>
+<td>Partición que recibe una fracción desproporcionada del tráfico y satura antes que el resto. Se manifiesta como limitación de tasa mientras la capacidad agregada parece sobrada.</td>
 </tr>
 <tr>
-<td><code>decisión</code></td>
-<td>Define su papel en <strong>rds, dynamodb y elasticache: decisión de datos</strong> y cómo observarlo en un sistema real.</td>
+<td><code>índice secundario global</code></td>
+<td>Proyección de una tabla con otra clave, que permite consultas por atributos distintos. Tiene su propia capacidad y se actualiza de forma asíncrona: es coherente en último término.</td>
 </tr>
 <tr>
-<td><code>datos</code></td>
-<td>Define su papel en <strong>rds, dynamodb y elasticache: decisión de datos</strong> y cómo observarlo en un sistema real.</td>
+<td><code>invalidación de caché</code></td>
+<td>Mecanismo para que la copia deje de servirse cuando el origen cambia. Los dos modos —caducidad y escritura activa— tienen fallos distintos: datos obsoletos frente a complejidad y acoplamiento.</td>
 </tr>
 </tbody>
 </table>
@@ -93,75 +90,219 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: RDS, DynamoDB y ElastiCache: decisión de datos&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    Q1{{&quot;¿Consultas ad hoc&lt;br/&gt;o conocidas de antemano?&quot;}}
+    Q1 --&gt;|&quot;ad hoc, uniones,&lt;br/&gt;agregaciones&quot;| REL[&quot;Relacional · RDS&quot;]
+    Q1 --&gt;|&quot;conocidas y acotadas&quot;| Q2{{&quot;¿Transacciones sobre\nvarias entidades?&quot;}}
+    Q2 --&gt;|&quot;sí, frecuentes&quot;| REL
+    Q2 --&gt;|&quot;no o puntuales&quot;| Q3{{&quot;¿Escala &gt; 10k ops/s\no crecimiento impredecible?&quot;}}
+    Q3 --&gt;|&quot;sí&quot;| NOSQL[&quot;DynamoDB&quot;]
+    Q3 --&gt;|&quot;no&quot;| REL
+    REL --&gt; C{{&quot;¿lecturas repetidas\nde lo mismo?&quot;}}
+    NOSQL --&gt; C
+    C --&gt;|&quot;sí, ratio &gt; 10:1&quot;| CACHE[&quot;ElastiCache&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
+<h3 id="1-los-patrones-de-acceso-van-primero">1. Los patrones de acceso van primero</h3>
+<p>En un motor relacional se normaliza el modelo y después se consulta como haga falta: el optimizador se encarga. En un almacén de clave-valor no hay optimizador, así que <strong>el modelo debe derivarse de las consultas</strong>.</p>
+<p>La disciplina es enumerar los patrones antes de diseñar nada:</p>
+<pre><code class="language-text">P1  obtener un pedido por su id                        12.000/min   &lt; 10 ms
+P2  listar los pedidos de un cliente, más recientes     3.400/min   &lt; 30 ms
+P3  listar los pedidos de un estado en una fecha           40/min   &lt; 2 s
+P4  total facturado por mes                                 2/día   &lt; 30 s
+</code></pre>
+<p>Con esa lista, la elección se decide sola:</p>
+<ul>
+<li><strong>P1 y P2</strong> son consultas por clave conocida: un almacén de clave-valor las sirve con latencia de un dígito de milisegundos y escala sin límite práctico.</li>
+<li><strong>P3</strong> necesita un índice secundario.</li>
+<li><strong>P4</strong> es una agregación analítica: no pertenece al almacén operativo, y forzarla ahí degrada P1 y P2.</li>
+</ul>
+<p>El error clásico es diseñar el modelo relacional primero, migrarlo tal cual a un almacén no relacional y descubrir que P2 requiere escanear la tabla entera. <strong>Un escaneo completo en un almacén de clave-valor no es una consulta lenta: es una consulta que cuesta dinero proporcional al tamaño y que empeora cada mes.</strong></p>
+<p>Y el criterio inverso también aplica: si los patrones de acceso <strong>no se pueden enumerar</strong> —porque el negocio hace preguntas nuevas cada semana—, un motor relacional es la elección correcta, y no una concesión.</p>
+<h3 id="2-transacciones-que-se-pierde-y-que-cuesta-recuperarlo">2. Transacciones: qué se pierde y qué cuesta recuperarlo</h3>
+<p>Un motor relacional da atomicidad sobre varias tablas con una sola sentencia. En un almacén de clave-valor eso existe pero con límites duros que hay que conocer antes de diseñar:</p>
+<pre><code class="language-text">DynamoDB TransactWriteItems:
+  hasta 100 elementos por transacción
+  máximo 4 MB en total
+  consume el DOBLE de capacidad de escritura
+  no puede abarcar regiones
+</code></pre>
+<p>La consecuencia de diseño: <strong>si la operación central del negocio toca cinco entidades y ocurre miles de veces por segundo, el coste doble y el límite de 100 elementos importan</strong>. Si ocurre decenas de veces por minuto, no.</p>
+<p>La alternativa cuando la transacción no cabe es el patrón de saga: descomponer en pasos con compensación. No es gratis:</p>
+<pre><code class="language-text">transacción     todo o nada, garantizado por el motor
+saga            pasos independientes con compensación explícita
+                → hay estados intermedios visibles
+                → la compensación puede fallar y hay que reintentarla
+                → el código de compensación se ejercita poco y suele estar mal probado
+</code></pre>
+<p>La regla práctica: <strong>elegir saga por diseño, no por descubrir tarde que la transacción no cabía</strong>. Un sistema que necesita compensación en su camino principal está pagando complejidad permanente por una decisión de motor.</p>
+<p>Y una precisión sobre consistencia: DynamoDB ofrece lectura fuertemente consistente en la tabla base —cuesta el doble de capacidad de lectura— pero <strong>los índices secundarios globales son siempre coherentes en último término</strong>. Una escritura seguida de una consulta por índice puede no ver el cambio. Ese retraso es de milisegundos en régimen normal y puede crecer bajo carga.</p>
+<h3 id="3-la-clave-de-particion-decide-si-escala">3. La clave de partición decide si escala</h3>
+<p>DynamoDB reparte los datos por el hash de la clave de partición. Una clave con pocos valores distintos concentra el tráfico:</p>
+<pre><code class="language-text">clave = estado_pedido    (5 valores: nuevo, pagado, enviado, entregado, cancelado)
+  → 5 particiones lógicas para toda la tabla
+  → el 80 % del tráfico va a &quot;nuevo&quot;
+  → esa partición satura mientras la capacidad agregada parece sobrada
+</code></pre>
+<p>El síntoma es característico y desconcierta: <code>ProvisionedThroughputExceededException</code> con la capacidad global muy por debajo del límite. La partición está limitada a <strong>3.000 unidades de lectura y 1.000 de escritura por segundo</strong>, sea cual sea la capacidad total de la tabla.</p>
+<p>Una clave adecuada tiene alta cardinalidad y reparto uniforme:</p>
+<pre><code class="language-text">clave = pedido_id (UUID)          → millones de valores, reparto uniforme  ✓
+clave = cliente_id                → miles de valores, pero un cliente grande
+                                    puede concentrar tráfico              ~
+clave = fecha (2026-08-01)        → todo el tráfico del día en una         ✗
+</code></pre>
+<p>El segundo caso es el más traicionero: funciona en pruebas y falla cuando un cliente crece. La mitigación es <strong>añadir sufijo de dispersión</strong>:</p>
+<pre><code class="language-text">clave = f&quot;{cliente_id}#{hash(pedido_id) % 10}&quot;
+  → reparte cada cliente en 10 particiones
+  → coste: consultar todos los pedidos de un cliente exige 10 consultas
+</code></pre>
+<p>Es un intercambio explícito: se gana reparto y se pierde simplicidad de consulta. Como todo en esta clase, la decisión debe estar escrita.</p>
+<p>Y el modo <strong>bajo demanda</strong> no elimina el problema: escala automáticamente la capacidad total, pero el límite por partición sigue existiendo. Una clave mal elegida satura igual, solo que la factura crece antes de que se note.</p>
+<h3 id="4-cache-cuando-aporta-y-como-se-invalida">4. Caché: cuándo aporta y cómo se invalida</h3>
+<p>Una caché solo aporta si el mismo dato se lee muchas más veces de las que se escribe. El indicador es la relación lectura-escritura:</p>
+<pre><code class="language-text">ratio &lt; 3:1     la caché añade complejidad y poco beneficio
+ratio 10:1      empieza a compensar
+ratio &gt; 100:1   claramente rentable
+</code></pre>
+<p>Y el ahorro se calcula, no se supone:</p>
+<pre><code class="language-text">lecturas/mes                    840.000.000
+tasa de acierto medida                 92 %
+lecturas evitadas al origen     772.800.000
+coste evitado (0,25 USD por millón de lecturas fuertes) = 193 USD/mes
+coste de la caché (cache.r7g.large × 2)                 = 208 USD/mes
+</code></pre>
+<p><strong>No compensa por coste con esos números</strong>; compensa por <strong>latencia</strong>, que es otra justificación válida y que hay que declarar como tal:</p>
+<pre><code class="language-text">latencia desde el origen    8-12 ms
+latencia desde la caché    0,3-0,8 ms
+</code></pre>
+<p>Los dos modos de invalidación tienen fallos distintos:</p>
 <table>
 <thead>
 <tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
+<th>Modo</th>
+<th>Cómo</th>
+<th>Fallo característico</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
+<td><strong>Caducidad</strong></td>
+<td>TTL fijo; se relee al expirar</td>
+<td>Datos obsoletos hasta el TTL</td>
 </tr>
 <tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
+<td><strong>Escritura activa</strong></td>
+<td>La escritura actualiza caché y origen</td>
+<td>Se desincroniza si una de las dos falla</td>
 </tr>
 </tbody>
 </table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<p>El segundo parece mejor y acopla la escritura a la disponibilidad de la caché. Si la caché no responde, ¿falla la escritura o se queda desincronizada? Ninguna respuesta es buena, y por eso <strong>la caducidad suele ser preferible salvo que la obsolescencia sea inaceptable</strong>.</p>
+<p>Hay un tercer fallo que afecta a ambos, la <strong>estampida</strong>: cuando una clave muy consultada caduca, todas las peticiones simultáneas van al origen a la vez. Se mitiga con bloqueo de recálculo o con caducidad aleatorizada —el mismo jitter de la clase 004—.</p>
+<h3 id="5-el-coste-tambien-decide-y-a-veces-al-reves">5. El coste también decide, y a veces al revés</h3>
+<p>Comparar motores solo por idoneidad técnica lleva a decisiones caras. Los tres modelos de precio son estructuralmente distintos:</p>
+<pre><code class="language-text">RDS         por hora de instancia + almacenamiento + E/S
+            → coste fijo, predecible, independiente del tráfico
+
+DynamoDB    por unidades de lectura y escritura consumidas + almacenamiento
+            → coste proporcional al tráfico, cero si no hay uso
+
+ElastiCache por hora de nodo
+            → coste fijo
+</code></pre>
+<p>Para una carga con tráfico muy variable, DynamoDB bajo demanda puede ser mucho más barato:</p>
+<pre><code class="language-text">carga con 2 horas de pico al día y el resto casi inactiva
+RDS db.r6g.xlarge Multi-AZ:   730 h × 0,96 USD          = 700,80 USD/mes
+DynamoDB bajo demanda:
+  escrituras 42 M × 1,25 USD/millón                     =  52,50
+  lecturas  310 M × 0,25 USD/millón                     =  77,50
+  almacenamiento 180 GB × 0,25                          =  45,00
+                                                          --------
+                                                          175,00 USD/mes
+</code></pre>
+<p>Pero con tráfico alto y sostenido se invierte:</p>
+<pre><code class="language-text">tráfico sostenido de 4.000 escrituras/s
+DynamoDB bajo demanda: 10.368 M escrituras × 1,25/millón = 12.960 USD/mes
+DynamoDB aprovisionado con autoescalado                  ≈  2.600 USD/mes
+RDS db.r6g.4xlarge Multi-AZ                              ≈  2.800 USD/mes
+</code></pre>
+<p><strong>Bajo demanda cuesta cinco veces más que aprovisionado con tráfico predecible.</strong> La regla: bajo demanda para tráfico variable o desconocido; aprovisionado con autoescalado cuando el patrón se estabiliza.</p>
+<p>Y una partida que se olvida: en RDS, <strong>la E/S se factura aparte</strong> en algunas clases de almacenamiento. Una consulta sin índice que escanea millones de filas no solo es lenta: aparece en la factura.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>rds, dynamodb y elasticache: decisión de datos</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/lab.py
+<p><strong>CloudShop tiene los pedidos en RDS PostgreSQL. La tabla ha llegado a 180 GB, el p95 de la consulta principal es de 340 ms y la factura de base de datos es de 4.900 USD/mes.</strong> Se evalúa el cambio.</p>
+<p>Primero, los patrones de acceso reales, medidos en 30 días:</p>
+<pre><code class="language-sql">SELECT queryid, calls, mean_exec_time, rows
+FROM pg_stat_statements ORDER BY calls DESC LIMIT 4;
+</code></pre>
+<p>```text                                          llamadas/día   media    filas
+P1  SELECT * FROM pedidos WHERE id = $1          17.280.000    2,1 ms      1
+P2  SELECT * FROM pedidos WHERE cliente_id = $1
+      ORDER BY creado DESC LIMIT 20               4.896.000  312,0 ms     20
+P3  SELECT * FROM pedidos WHERE estado=$1
+      AND creado &gt; $2                                57.600  890,0 ms  ~4000
+P4  agregación mensual por mes                           60  8.400 ms      1</p>
+<pre><code>
+**P2 domina el problema**: 4,9 millones de llamadas diarias a 312 ms. Antes de cambiar de motor se comprueba si es un problema de índice:
+
+```sql
+EXPLAIN (ANALYZE, BUFFERS) SELECT * FROM pedidos
+  WHERE cliente_id = 8241 ORDER BY creado DESC LIMIT 20;
+</code></pre>
+<pre><code class="language-text">Index Scan using idx_pedidos_cliente on pedidos  (cost=0.56..18402.11)
+  Rows Removed by Filter: 0
+  Buffers: shared hit=142 read=8891           ← 8.891 bloques de disco
+  Execution Time: 309.442 ms
+</code></pre>
+<p>El índice existe pero <strong>es solo sobre <code>cliente_id</code></strong>: PostgreSQL lo usa para filtrar y después ordena 12.400 filas para devolver 20. Se prueba un índice compuesto:</p>
+<pre><code class="language-sql">CREATE INDEX CONCURRENTLY idx_pedidos_cliente_creado
+  ON pedidos (cliente_id, creado DESC);
+</code></pre>
+<pre><code class="language-text">Execution Time: 1.284 ms      ← de 312 ms a 1,3 ms
+Buffers: shared hit=24 read=0
+</code></pre>
+<p><strong>Un índice compuesto resolvió el 96 % del problema.</strong> El motor no era el problema: el modelo de índices sí.</p>
+<p>Se reevalúa la situación con ese dato:</p>
+<p>```text                     antes         tras el índice
+p95 global                340 ms          38 ms
+E/S facturada          1,2 TB/mes      0,18 TB/mes
+coste                 4.900 USD       4.130 USD</p>
+<pre><code>
+Ahora sí se compara con la alternativa, con los patrones ya optimizados:
+
+```text                              RDS (con índice)   DynamoDB
+P1 por id                              2,1 ms            3 ms
+P2 por cliente, ordenado               1,3 ms            4 ms   (clave compuesta)
+P3 por estado y fecha                 890 ms           GSI, ~40 ms
+P4 agregación mensual                8.400 ms          NO SOPORTADO
+transacciones multiclave                 sí             límite 100 elementos
+coste mensual estimado             4.130 USD         1.980 USD
+migración                                —          ~3 meses + reescritura
+</code></pre>
+<p><strong>P4 es el bloqueo</strong>: la agregación mensual no existe en DynamoDB sin exportar a otro sistema. Y la migración cuesta tres meses para ahorrar 2.150 USD al mes, con recuperación en 4 meses de trabajo de dos personas.</p>
+<p><strong>Decisión: quedarse en RDS.</strong> Se añaden dos mejoras acotadas:</p>
+<pre><code class="language-text">1. Caché para P1, que es el 78 % del tráfico
+   ratio lectura/escritura medido: 47:1  → compensa
+   tasa de acierto esperada 90 %
+   latencia 2,1 ms → 0,4 ms
+   coste: +104 USD/mes
+
+2. P4 a una réplica de lectura, para que la agregación de 8,4 s
+   deje de competir con el tráfico operativo
+   coste: +380 USD/mes
+</code></pre>
+<p>```text                          inicial    final
+p95                            340 ms     31 ms
+coste                        4.900 USD  4.614 USD
+esfuerzo                         —       2 días</p>
+<pre><code>
+**La lección: se estaba evaluando un cambio de motor de tres meses para resolver un problema que era un índice mal definido.** El análisis de patrones de acceso —que se hizo para elegir motor— acabó descartando el cambio.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>data</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -199,29 +340,29 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Una consulta usa el índice y aun así tarda cientos de milisegundos</td>
+<td>El índice filtra pero no cubre el orden, así que el motor ordena miles de filas</td>
+<td>Índice compuesto que incluya las columnas de ordenación; comprueba con EXPLAIN ANALYZE y los bloques leídos.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>DynamoDB limita la tasa con la capacidad global muy por debajo del límite</td>
+<td>Partición caliente: la clave tiene poca cardinalidad o un valor concentra el tráfico</td>
+<td>Elige una clave de alta cardinalidad o añade sufijo de dispersión, asumiendo el coste de consulta múltiple.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Una escritura seguida de consulta por índice secundario no ve el cambio</td>
+<td>Los índices secundarios globales son coherentes en último término</td>
+<td>Consulta la tabla base cuando necesites leer lo que acabas de escribir.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>El coste de DynamoDB se dispara al estabilizarse el tráfico</td>
+<td>Bajo demanda cuesta varias veces más que aprovisionado con carga predecible</td>
+<td>Cambia a aprovisionado con autoescalado en cuanto el patrón sea estable.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Al caducar una clave muy consultada, el origen recibe una avalancha</td>
+<td>Estampida de caché: todas las peticiones recalculan a la vez</td>
+<td>Caducidad aleatorizada o bloqueo de recálculo, igual que el jitter en los reintentos.</td>
 </tr>
 </tbody>
 </table>
@@ -232,17 +373,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Por qué en un almacén de clave-valor los patrones de acceso van antes que el modelo, y qué pasa si se invierte el orden?</li>
+<li>Una tabla tiene la clave de partición <code>fecha</code>. ¿Qué ocurrirá y por qué el modo bajo demanda no lo resuelve?</li>
+<li>¿Qué le cuesta a una transacción de DynamoDB en capacidad, y cuál es su límite de elementos?</li>
+<li>Con ratio lectura/escritura de 3:1, ¿conviene una caché? ¿Y qué otra justificación podría hacerla válida igualmente?</li>
+<li>¿En qué caso bajo demanda es cinco veces más caro que aprovisionado, y por qué?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>AWS Well-Architected Framework — AWS.</li>
-<li>AWS Cookbook — John Culkin y Mike Zazon.</li>
-<li>Amazon Web Services in Action — Wittig y Wittig.</li>
+<li>AWS (2024). <em>DynamoDB best practices: partition key design</em> — cardinalidad, particiones calientes y dispersión. <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html">https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html</a></li>
+<li>AWS (2024). <em>DynamoDB transactions</em> — límites de elementos, tamaño y consumo de capacidad. <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html">https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html</a></li>
+<li>Kleppmann, M. (2017). <em>Designing Data-Intensive Applications</em>, caps. 2-3 — modelos de datos, índices y motores de almacenamiento.</li>
+<li>PostgreSQL (2024). <em>Using EXPLAIN</em> — lectura de planes y coste de E/S. <a href="https://www.postgresql.org/docs/current/using-explain.html">https://www.postgresql.org/docs/current/using-explain.html</a></li>
+<li>AWS (2024). <em>ElastiCache caching strategies</em> — caducidad, escritura activa y mitigación de estampidas. <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html">https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -310,7 +453,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-los-patrones-de-acceso-van-primero">1. Los patrones de acceso van primero</a><a class="toc-level-3" href="#2-transacciones-que-se-pierde-y-que-cuesta-recuperarlo">2. Transacciones: qué se pierde y qué cuesta recuperarlo</a><a class="toc-level-3" href="#3-la-clave-de-particion-decide-si-escala">3. La clave de partición decide si escala</a><a class="toc-level-3" href="#4-cache-cuando-aporta-y-como-se-invalida">4. Caché: cuándo aporta y cómo se invalida</a><a class="toc-level-3" href="#5-el-coste-tambien-decide-y-a-veces-al-reves">5. El coste también decide, y a veces al revés</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>

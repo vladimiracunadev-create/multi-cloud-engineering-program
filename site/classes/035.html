@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> intermedio · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>security</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>kms, secrets manager, waf y controles de seguridad</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Aplicar defensa en profundidad a la plataforma AWS: cifrado con control de claves propio, secretos que rotan sin desplegar, y filtrado en el borde. La clase 026 cubrió quién puede hacer qué; esta cubre qué ocurre cuando esa barrera falla, que es la única suposición razonable a la hora de diseñar seguridad.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> kms, secrets manager, waf y controles de seguridad con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>controles-aws</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Distinguir</strong> clave gestionada por el proveedor, gestionada por el cliente y material importado, con sus consecuencias.</li>
+<li><strong>Escribir</strong> una política de clave que impida el acceso incluso a quien tenga permisos sobre el recurso cifrado.</li>
+<li><strong>Rotar</strong> un secreto sin desplegar la aplicación, entendiendo la fase de dos versiones.</li>
+<li><strong>Configurar</strong> reglas de borde que corten ataques volumétricos y de aplicación sin bloquear tráfico legítimo.</li>
+<li><strong>Verificar</strong> cada control con prueba negativa, no con inspección de la configuración.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,28 +62,24 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>kms</code></td>
-<td>Define su papel en <strong>kms, secrets manager, waf y controles de seguridad</strong> y cómo observarlo en un sistema real.</td>
+<td><code>cifrado de sobre</code></td>
+<td>Cifrar los datos con una clave de datos y esa clave con una clave maestra. Permite cifrar volúmenes grandes sin llamar al servicio de claves por cada operación y rotar la maestra sin recifrar los datos.</td>
 </tr>
 <tr>
-<td><code>secrets</code></td>
-<td>Define su papel en <strong>kms, secrets manager, waf y controles de seguridad</strong> y cómo observarlo en un sistema real.</td>
+<td><code>política de clave</code></td>
+<td>Documento que gobierna quién puede usar y administrar una clave. Es independiente de los permisos sobre el recurso cifrado: sin acceso a la clave, el acceso al dato no sirve.</td>
 </tr>
 <tr>
-<td><code>manager</code></td>
-<td>Define su papel en <strong>kms, secrets manager, waf y controles de seguridad</strong> y cómo observarlo en un sistema real.</td>
+<td><code>rotación de secretos</code></td>
+<td>Sustitución periódica de una credencial sin intervención humana. Exige una fase en la que dos versiones son válidas, o la rotación corta las conexiones en curso.</td>
 </tr>
 <tr>
-<td><code>waf</code></td>
-<td>Define su papel en <strong>kms, secrets manager, waf y controles de seguridad</strong> y cómo observarlo en un sistema real.</td>
+<td><code>regla gestionada</code></td>
+<td>Conjunto de reglas de filtrado mantenido por el proveedor o un tercero. Ahorra escribirlas y exige medirlas en modo cuenta antes de bloquear, porque generan falsos positivos.</td>
 </tr>
 <tr>
-<td><code>controles</code></td>
-<td>Define su papel en <strong>kms, secrets manager, waf y controles de seguridad</strong> y cómo observarlo en un sistema real.</td>
-</tr>
-<tr>
-<td><code>seguridad</code></td>
-<td>Define su papel en <strong>kms, secrets manager, waf y controles de seguridad</strong> y cómo observarlo en un sistema real.</td>
+<td><code>modo cuenta</code></td>
+<td>Configuración en la que una regla registra las coincidencias sin bloquear. Es el único modo seguro de introducir reglas nuevas en un servicio con tráfico real.</td>
 </tr>
 </tbody>
 </table>
@@ -97,75 +90,254 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: KMS, Secrets Manager, WAF y controles de seguridad&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    U[&quot;tráfico&quot;] --&gt; SH[&quot;Shield · volumétrico&quot;]
+    SH --&gt; WAF[&quot;WAF · reglas de aplicación&lt;br/&gt;modo cuenta primero&quot;]
+    WAF --&gt; ALB[&quot;balanceador&quot;]
+    ALB --&gt; APP[&quot;aplicación&quot;]
+    APP --&gt;|&quot;lee al arrancar\ny en cada rotación&quot;| SM[&quot;Secrets Manager&quot;]
+    SM -.-&gt;|&quot;rota sin desplegar&quot;| DB[(&quot;base de datos&quot;)]
+    APP --&gt; S3[(&quot;S3 cifrado&quot;)]
+    S3 -.-&gt;|&quot;clave de datos&quot;| KMS[&quot;KMS · clave del cliente&quot;]
+    KMS -.-&gt;|&quot;la política de clave\npuede denegar aunque\nel permiso de S3 conceda&quot;| S3
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
+<h3 id="1-tres-tipos-de-clave-tres-niveles-de-control">1. Tres tipos de clave, tres niveles de control</h3>
 <table>
 <thead>
 <tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
+<th>Tipo</th>
+<th>Quién controla</th>
+<th>Se puede</th>
+<th>Coste</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
+<td>Gestionada por AWS</td>
+<td>AWS</td>
+<td>Nada: no se ve ni se audita su uso por separado</td>
+<td>Gratis</td>
 </tr>
 <tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
+<td><strong>Gestionada por el cliente</strong></td>
+<td>Tú</td>
+<td>Política propia, rotación, desactivación, auditoría</td>
+<td>1 USD/mes + uso</td>
 </tr>
 <tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
+<td>Material importado</td>
+<td>Tú, fuera de AWS</td>
+<td>Todo lo anterior más control del material</td>
+<td>1 USD/mes + uso</td>
 </tr>
 </tbody>
 </table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<p>La diferencia práctica entre la primera y la segunda es mayor de lo que sugiere la tabla:</p>
+<pre><code class="language-text">clave gestionada por AWS
+  no puedes escribir su política
+  no puedes desactivarla
+  no puedes impedir que otro principal de la cuenta la use
+  → el cifrado protege del disco físico y de poco más
+
+clave del cliente
+  su política es una segunda barrera independiente de la del recurso
+  se puede desactivar y con ello hacer ilegibles los datos al instante
+  su uso se audita como evento propio
+</code></pre>
+<p>Esa segunda barrera es lo que convierte el cifrado en un control real. Con clave del cliente, alguien con permiso de lectura sobre el bucket <strong>pero sin permiso sobre la clave no puede leer nada</strong>:</p>
+<pre><code class="language-json">{
+  &quot;Sid&quot;: &quot;Solo el rol de la aplicación descifra&quot;,
+  &quot;Effect&quot;: &quot;Allow&quot;,
+  &quot;Principal&quot;: {&quot;AWS&quot;: &quot;arn:aws:iam::123456789012:role/cloudshop-app&quot;},
+  &quot;Action&quot;: [&quot;kms:Decrypt&quot;, &quot;kms:GenerateDataKey&quot;],
+  &quot;Resource&quot;: &quot;*&quot;,
+  &quot;Condition&quot;: {&quot;StringEquals&quot;: {&quot;kms:ViaService&quot;: &quot;s3.sa-east-1.amazonaws.com&quot;}}
+}
+</code></pre>
+<p>La condición <code>kms:ViaService</code> añade una restricción útil: la clave solo se puede usar <strong>a través de S3</strong>, no directamente. Alguien que consiga el permiso no puede descifrar objetos que haya copiado a otro sitio.</p>
+<p>Y el cifrado de sobre explica por qué esto no arruina el rendimiento: KMS no cifra los datos, cifra la <strong>clave de datos</strong> que sí los cifra. Un objeto de 5 GB implica una llamada a KMS, no cinco mil.</p>
+<h3 id="2-rotacion-de-claves-lo-que-rota-y-lo-que-no">2. Rotación de claves: lo que rota y lo que no</h3>
+<p>La rotación automática de una clave de KMS crea material criptográfico nuevo <strong>y conserva el anterior</strong>:</p>
+<pre><code class="language-text">los datos cifrados con el material antiguo NO se recifran
+KMS guarda todas las versiones y usa la correcta al descifrar
+las escrituras nuevas usan el material nuevo
+</code></pre>
+<p>Eso tiene dos consecuencias que sorprenden:</p>
+<ol>
+<li><strong>La rotación no invalida el material antiguo.</strong> Si alguien lo obtuvo, sigue sirviendo para lo cifrado antes. Rotar reduce la exposición futura, no la pasada.</li>
+<li><strong>No hay que hacer nada al rotar.</strong> No hay migración, no hay ventana, no hay recifrado. Por eso activarla no tiene coste operativo y no activarla no tiene excusa.</li>
+</ol>
+<pre><code class="language-bash">$ aws kms enable-key-rotation --key-id 1a2b3c4d --rotation-period-in-days 365
+$ aws kms get-key-rotation-status --key-id 1a2b3c4d --query 'KeyRotationEnabled'
+true
+</code></pre>
+<p>La acción que <strong>sí</strong> invalida el acceso es desactivar la clave:</p>
+<pre><code class="language-bash">$ aws kms disable-key --key-id 1a2b3c4d
+# a partir de aquí, ningún descifrado funciona
+</code></pre>
+<p>Es la respuesta correcta ante un compromiso confirmado, y por eso <strong>la clave debe estar en una cuenta donde el atacante no tenga permisos</strong>. Si la clave y los datos comparten cuenta y credenciales, desactivarla no es una opción disponible durante el incidente.</p>
+<p>Y el borrado de una clave tiene una salvaguarda deliberada: un periodo de espera de entre 7 y 30 días, irreversible después. <strong>Borrar una clave hace ilegibles todos los datos cifrados con ella, para siempre.</strong> No hay recuperación, ni por soporte. Es el equivalente criptográfico de un borrado seguro y hay que tratarlo con el mismo cuidado.</p>
+<h3 id="3-rotar-secretos-sin-cortar-conexiones">3. Rotar secretos sin cortar conexiones</h3>
+<p>Un secreto que rota mal corta las conexiones activas. La estrategia de cuatro pasos existe para evitarlo:</p>
+<pre><code class="language-text">createSecret   genera la credencial nueva, la guarda como AWSPENDING
+setSecret      la aplica en el servicio destino (crea el usuario nuevo)
+testSecret     comprueba que funciona
+finishSecret   mueve la etiqueta AWSCURRENT a la nueva versión
+</code></pre>
+<p>Durante los pasos 1 a 3 <strong>ambas credenciales son válidas</strong>. Esa ventana es lo que permite que las conexiones en curso terminen con la antigua mientras las nuevas usan la nueva.</p>
+<p>La estrategia de <strong>usuario alterno</strong> lo lleva más lejos y es la recomendada para bases de datos:</p>
+<pre><code class="language-text">usuario_a  activo, contraseña vigente
+usuario_b  se rota este; cuando termina, se conmuta la etiqueta
+siguiente rotación: se rota usuario_a
+</code></pre>
+<p>Así nunca se toca la credencial que la aplicación está usando en ese momento.</p>
+<p>El error que anula todo esto: <strong>cachear el secreto indefinidamente en la aplicación</strong>.</p>
+<pre><code class="language-python"># mal: se lee una vez al arrancar y nunca más
+SECRETO = obtener_secreto(&quot;cloudshop/db&quot;)
+
+# bien: caché con caducidad y reintento ante fallo de autenticación
+_cache = {&quot;valor&quot;: None, &quot;expira&quot;: 0}
+def secreto():
+    if time.time() &gt; _cache[&quot;expira&quot;]:
+        _cache.update(valor=obtener_secreto(&quot;cloudshop/db&quot;), expira=time.time() + 300)
+    return _cache[&quot;valor&quot;]
+
+def conectar():
+    try:
+        return db.connect(**secreto())
+    except AuthenticationError:
+        _cache[&quot;expira&quot;] = 0          # forzar relectura: quizá rotó
+        return db.connect(**secreto())
+</code></pre>
+<p>El bloque <code>except</code> es la pieza que hace la rotación transparente: si la autenticación falla, se relee el secreto antes de rendirse. Sin él, la aplicación falla hasta que alguien la reinicie, y la rotación automática se convierte en una fuente de incidentes programados.</p>
+<h3 id="4-filtrado-en-el-borde-medir-antes-de-bloquear">4. Filtrado en el borde: medir antes de bloquear</h3>
+<p>Las reglas gestionadas de WAF cubren categorías conocidas —inyección SQL, cruce de sitios, entradas maliciosas— y <strong>generan falsos positivos con tráfico real</strong>. Activarlas en modo bloqueo directamente es una forma fiable de cortar usuarios legítimos.</p>
+<p>El procedimiento seguro:</p>
+<pre><code class="language-text">1. Añadir la regla en modo cuenta
+2. Observar 7-14 días de tráfico real, incluido un cierre de mes
+3. Revisar las coincidencias: ¿son ataques o tráfico propio?
+4. Excluir las reglas concretas que producen falsos positivos
+5. Pasar a bloqueo
+</code></pre>
+<p>El paso 3 es donde aparecen las sorpresas: un campo de texto libre donde los usuarios escriben comillas o guiones dispara reglas de inyección; una carga de fichero grande dispara reglas de tamaño de cuerpo.</p>
+<pre><code class="language-bash">$ aws wafv2 get-sampled-requests --web-acl-arn $ACL --rule-metric-name AWSManagedRulesCommonRuleSet \
+    --scope REGIONAL --time-window StartTime=...,EndTime=... --max-items 100 \
+  | jq -r '.SampledRequests[] | [.Request.URI, .RuleNameWithinRuleGroup] | @tsv' \
+  | sort | uniq -c | sort -rn | head -5
+</code></pre>
+<p>La regla más útil y la más barata de todas no es de contenido, es de <strong>tasa</strong>:</p>
+<pre><code class="language-json">{
+  &quot;Name&quot;: &quot;limite-por-ip&quot;,
+  &quot;Priority&quot;: 1,
+  &quot;Statement&quot;: {&quot;RateBasedStatement&quot;: {&quot;Limit&quot;: 2000, &quot;AggregateKeyType&quot;: &quot;IP&quot;}},
+  &quot;Action&quot;: {&quot;Block&quot;: {}}
+}
+</code></pre>
+<p>Corta la fuerza bruta y el rastreo agresivo sin necesidad de entender el contenido. Dos matices: la ventana de evaluación es de <strong>5 minutos</strong>, así que un pico corto puede pasar; y agregando por IP se penaliza a redes con NAT compartida —una oficina entera sale por una IP—, para lo que conviene agregar por otra clave, como una cabecera de sesión.</p>
+<p>Y la capa anterior: la protección volumétrica estándar cubre ataques de red sin coste. El nivel avanzado añade respuesta gestionada y <strong>protección de costes frente al escalado provocado por un ataque</strong>, que es un riesgo real: un ataque que no tumba el servicio pero dispara el autoescalado produce una factura, no una caída.</p>
+<h3 id="5-cada-control-necesita-su-prueba-negativa">5. Cada control necesita su prueba negativa</h3>
+<p>Igual que en la clase 025, la configuración no demuestra el efecto. Cada control de esta clase tiene su comprobación:</p>
+<pre><code class="language-bash"># 1. La política de clave deniega a quien no debe
+$ aws s3api get-object --bucket cloudshop-facturas --key f-1042.pdf /tmp/x \
+    --profile rol-sin-permiso-de-clave
+An error occurred (AccessDenied) ... not authorized to perform: kms:Decrypt   ✓
+
+# 2. El secreto rotado sigue funcionando sin desplegar
+$ aws secretsmanager rotate-secret --secret-id cloudshop/db
+$ sleep 60 &amp;&amp; curl -s -o /dev/null -w '%{http_code}\n' https://api.cloudshop.cl/health/ready
+200                                                                            ✓
+
+# 3. La regla de tasa corta el exceso
+$ for i in $(seq 1 2500); do curl -s -o /dev/null https://api.cloudshop.cl/productos; done
+$ curl -s -o /dev/null -w '%{http_code}\n' https://api.cloudshop.cl/productos
+403                                                                            ✓
+
+# 4. El tráfico legítimo NO se bloquea
+$ curl -s -o /dev/null -w '%{http_code}\n' -X POST https://api.cloudshop.cl/opiniones \
+    -d '{&quot;texto&quot;:&quot;El envío llegó rápido; muy bien -- lo recomiendo&quot;}'
+200                                                                            ✓
+</code></pre>
+<p>La cuarta es tan importante como las tres primeras y casi nunca se hace: ese texto contiene <code>--</code> y <code>;</code>, que las reglas de inyección marcan. <strong>Un control que bloquea tráfico legítimo es un incidente igual que uno que deja pasar un ataque</strong>, con la diferencia de que se descubre cuando los usuarios se quejan.</p>
+<p>Y todas deben ser <strong>automáticas y periódicas</strong>. Una política de clave correcta hoy puede quedar anulada mañana por otra concesión; una exclusión de WAF puede volverse innecesaria o insuficiente cuando cambia el tráfico.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>kms, secrets manager, waf y controles de seguridad</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/lab.py
+<p><strong>Una revisión de seguridad de CloudShop encuentra tres huecos: cifrado con clave gestionada por AWS, la contraseña de la base de datos en una variable de entorno desde hace 14 meses, y ninguna protección de aplicación en el borde.</strong></p>
+<p><strong>Hueco 1 — el cifrado no protegía de nada útil.</strong></p>
+<pre><code class="language-bash">$ aws s3api get-bucket-encryption --bucket cloudshop-facturas \
+    --query 'ServerSideEncryptionConfiguration.Rules[0].ApplyServerSideEncryptionByDefault'
+{&quot;SSEAlgorithm&quot;: &quot;AES256&quot;}          # clave gestionada por AWS
+</code></pre>
+<p>Con esa configuración, <strong>cualquiera con <code>s3:GetObject</code> lee los objetos</strong>: no hay segunda barrera. Se migra a clave del cliente:</p>
+<pre><code class="language-bash">$ aws kms create-key --description &quot;cloudshop facturas&quot; --policy file://politica-clave.json
+$ aws s3api put-bucket-encryption --bucket cloudshop-facturas \
+    --server-side-encryption-configuration '{&quot;Rules&quot;:[{
+      &quot;ApplyServerSideEncryptionByDefault&quot;:{&quot;SSEAlgorithm&quot;:&quot;aws:kms&quot;,
+        &quot;KMSMasterKeyID&quot;:&quot;arn:aws:kms:...:key/1a2b3c4d&quot;},
+      &quot;BucketKeyEnabled&quot;:true}]}'
+</code></pre>
+<p><code>BucketKeyEnabled</code> reduce las llamadas a KMS reutilizando una clave a nivel de bucket:</p>
+<pre><code class="language-text">sin clave de bucket: 1 llamada por objeto → 8,4 M llamadas/mes × 0,03/10k = 25,20 USD
+con clave de bucket: ~99 % menos          →                                 0,28 USD
+</code></pre>
+<p>Prueba negativa con un rol que tiene permiso sobre S3 y no sobre la clave:</p>
+<pre><code class="language-text">AccessDenied ... not authorized to perform: kms:Decrypt   ✓
+</code></pre>
+<p><strong>Hueco 2 — la contraseña en variable de entorno.</strong></p>
+<pre><code class="language-bash">$ aws ecs describe-task-definition --task-definition cloudshop-api:41 \
+    --query 'taskDefinition.containerDefinitions[0].environment[?name==`DB_PASSWORD`].name' --output text
+DB_PASSWORD
+</code></pre>
+<p>Una variable de entorno es visible en la definición de tarea, en los logs de despliegue y para cualquiera que pueda describirla. Se migra:</p>
+<pre><code class="language-bash">$ aws secretsmanager create-secret --name cloudshop/db \
+    --secret-string '{&quot;username&quot;:&quot;cloudshop_a&quot;,&quot;password&quot;:&quot;...&quot;}'
+$ aws secretsmanager rotate-secret --secret-id cloudshop/db \
+    --rotation-lambda-arn arn:...:function:SecretsManagerRDSPostgreSQLRotationMultiUser \
+    --rotation-rules AutomaticallyAfterDays=30
+</code></pre>
+<p>La primera rotación <strong>cortó el servicio 4 minutos</strong>. La causa:</p>
+<pre><code class="language-python">SECRETO = obtener_secreto(&quot;cloudshop/db&quot;)   # leído una vez al arrancar
+</code></pre>
+<p>La aplicación cacheaba el secreto indefinidamente. Se corrige con caducidad y relectura ante fallo de autenticación, y se repite la prueba:</p>
+<pre><code class="language-text">rotación #2:  0 s de indisponibilidad, 0 errores    ✓
+</code></pre>
+<p><strong>Hueco 3 — nada en el borde.</strong> Se añaden reglas gestionadas en modo cuenta:</p>
+<pre><code class="language-text">tras 10 días en modo cuenta:
+  coincidencias totales                    18.412
+  ataques reales (inyección, rastreo)      17.903
+  FALSOS POSITIVOS                            509
+</code></pre>
+<p>Los 509 se concentran en un sitio:</p>
+<pre><code class="language-bash">$ aws wafv2 get-sampled-requests ... | jq -r '.SampledRequests[].Request.URI' \
+  | sort | uniq -c | sort -rn | head -2
+    486 /opiniones
+     23 /soporte/adjuntar
+</code></pre>
+<p>Opiniones de clientes con guiones y comillas disparaban <code>SQLi_BODY</code>. Se excluye esa regla <strong>solo para esa ruta</strong>, no globalmente:</p>
+<pre><code class="language-text">scope-down statement: NOT (URI = &quot;/opiniones&quot;)
+→ la regla sigue activa en todo lo demás
+</code></pre>
+<p>Y se añade la regla de tasa, que resultó ser la más efectiva:</p>
+<pre><code class="language-text">límite 2.000 peticiones / 5 min por IP
+bloqueos en la primera semana: 41 IP
+tráfico malicioso cortado: 63 % del total de bloqueos
+</code></pre>
+<p><strong>Resultado, con las cuatro pruebas:</strong></p>
+<p>```text                                      antes    después   prueba
+cifrado con segunda barrera                 no        sí       kms:Decrypt denegado ✓
+secreto en variable de entorno              sí        no       rotación sin caída ✓
+rotación automática                         no        30 días  ejecutada 2 veces ✓
+filtrado de aplicación                      no        sí       exceso bloqueado ✓
+tráfico legítimo con caracteres especiales  n/a       pasa     opinión con -- : 200 ✓
+coste añadido                                —      +38 USD/mes</p>
+<pre><code>
+**Los 509 falsos positivos son el dato que justifica el modo cuenta**: activadas en bloqueo desde el principio, habrían impedido escribir opiniones a 486 clientes sin que nadie relacionara la causa.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>security</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -203,29 +375,29 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>El cifrado está activado y cualquiera con permiso de lectura ve los datos</td>
+<td>Clave gestionada por AWS: no hay política propia que actúe como segunda barrera</td>
+<td>Usa clave del cliente con política que restrinja el descifrado a los roles previstos.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>La primera rotación automática corta el servicio</td>
+<td>La aplicación lee el secreto una vez al arrancar y lo cachea indefinidamente</td>
+<td>Caché con caducidad y relectura ante fallo de autenticación.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Activar reglas de WAF bloquea a usuarios legítimos</td>
+<td>Se pasó a bloqueo sin medir falsos positivos con tráfico real</td>
+<td>Modo cuenta 7-14 días, excluye reglas concretas por ruta y solo entonces bloquea.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>La factura de KMS crece con el volumen de objetos</td>
+<td>Una llamada a KMS por objeto sin clave de bucket</td>
+<td>Activa la clave de bucket: reduce las llamadas en torno al 99 %.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Durante un compromiso no se puede revocar el acceso a los datos</td>
+<td>La clave vive en la misma cuenta que el atacante controla</td>
+<td>Sitúa la clave en una cuenta separada; desactivarla es la palanca de emergencia.</td>
 </tr>
 </tbody>
 </table>
@@ -236,17 +408,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué aporta una clave gestionada por el cliente que una gestionada por AWS no puede aportar?</li>
+<li>¿Recifra la rotación de una clave de KMS los datos existentes? ¿Qué implica eso si el material antiguo se filtró?</li>
+<li>¿Por qué la rotación de secretos necesita una fase con dos versiones válidas?</li>
+<li>¿Qué código debe tener una aplicación para que una rotación automática le resulte transparente?</li>
+<li>¿Por qué una prueba de que el tráfico legítimo pasa es tan necesaria como la de que el ataque se bloquea?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>AWS Well-Architected Framework — AWS.</li>
-<li>AWS Cookbook — John Culkin y Mike Zazon.</li>
-<li>Amazon Web Services in Action — Wittig y Wittig.</li>
+<li>AWS (2024). <em>AWS KMS: key policies</em> — segunda barrera independiente de los permisos sobre el recurso. <a href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html">https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html</a></li>
+<li>AWS (2024). <em>Rotating AWS KMS keys</em> — qué rota, qué se conserva y por qué no hay recifrado. <a href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html">https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html</a></li>
+<li>AWS (2024). <em>Secrets Manager rotation</em> — los cuatro pasos y la estrategia de usuario alterno. <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html">https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html</a></li>
+<li>AWS (2024). <em>AWS WAF managed rule groups</em> — modo cuenta, exclusiones y sentencias de reducción de alcance. <a href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-managed-rule-groups.html">https://docs.aws.amazon.com/waf/latest/developerguide/waf-managed-rule-groups.html</a></li>
+<li>AWS (2024). <em>S3 Bucket Keys</em> — reducción de llamadas a KMS y su efecto en el coste. <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html">https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -314,7 +488,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-tipos-de-clave-tres-niveles-de-control">1. Tres tipos de clave, tres niveles de control</a><a class="toc-level-3" href="#2-rotacion-de-claves-lo-que-rota-y-lo-que-no">2. Rotación de claves: lo que rota y lo que no</a><a class="toc-level-3" href="#3-rotar-secretos-sin-cortar-conexiones">3. Rotar secretos sin cortar conexiones</a><a class="toc-level-3" href="#4-filtrado-en-el-borde-medir-antes-de-bloquear">4. Filtrado en el borde: medir antes de bloquear</a><a class="toc-level-3" href="#5-cada-control-necesita-su-prueba-negativa">5. Cada control necesita su prueba negativa</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
