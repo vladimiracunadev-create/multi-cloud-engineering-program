@@ -8,31 +8,27 @@
 
 ## 🎯 Propósito
 
-Comprender y aplicar **terminal, sistema de archivos, procesos y variables de entorno** dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.
+Dominar la terminal como interfaz primaria de operación cloud: qué es realmente un proceso, cómo el kernel le entrega su entorno, y por qué los descriptores de fichero y las variables de entorno explican la mitad de los incidentes de despliegue. Toda la automatización posterior —contenedores, CI/CD, runbooks— es este modelo repetido a escala.
 
 ## 📚 Resultados de aprendizaje
 
 Al finalizar podrás:
 
-1. **Explicar** terminal, sistema de archivos, procesos y variables de entorno con vocabulario independiente del proveedor.
-2. **Relacionar** sus componentes con el modelo mental de la parte.
-3. **Ejecutar** un laboratorio local determinista y leer su contrato JSON.
-4. **Evaluar** al menos una alternativa y justificar el trade-off elegido.
-5. **Entregar** `bitacora-de-comandos` con evidencia, límites y criterio de reversión.
+1. **Describir** el ciclo `fork` → `exec` → `wait` y qué hereda un proceso hijo de su padre.
+2. **Predecir** qué variables de entorno ve un proceso según cómo se lanzó, y por qué un servicio systemd no ve tu `.bashrc`.
+3. **Redirigir** stdout y stderr por separado y explicar por qué `2>&1 >f` no equivale a `>f 2>&1`.
+4. **Interpretar** un código de salida y una señal de terminación para diagnosticar sin adivinar.
+5. **Componer** una tubería que resuelva un problema real de operación sin scripts intermedios.
 
 ## 🧩 Conceptos centrales
 
 | Concepto | Comprensión verificable |
 |---|---|
-| `terminal` | Define su papel en **terminal, sistema de archivos, procesos y variables de entorno** y cómo observarlo en un sistema real. |
-| `sistema` | Define su papel en **terminal, sistema de archivos, procesos y variables de entorno** y cómo observarlo en un sistema real. |
-| `archivos` | Define su papel en **terminal, sistema de archivos, procesos y variables de entorno** y cómo observarlo en un sistema real. |
-| `procesos` | Define su papel en **terminal, sistema de archivos, procesos y variables de entorno** y cómo observarlo en un sistema real. |
-| `variables` | Define su papel en **terminal, sistema de archivos, procesos y variables de entorno** y cómo observarlo en un sistema real. |
-| `entorno` | Define su papel en **terminal, sistema de archivos, procesos y variables de entorno** y cómo observarlo en un sistema real. |
+| `proceso` | Instancia en ejecución de un programa, con su propio espacio de direcciones, tabla de descriptores y entorno. El kernel lo identifica por PID y lo relaciona con su padre por PPID. |
+| `descriptor de fichero` | Entero que indexa la tabla de ficheros abiertos del proceso. Por convención 0 es stdin, 1 stdout y 2 stderr; el resto se asignan por orden. Redirigir es duplicar entradas de esa tabla, no mover datos. |
+| `variable de entorno` | Par clave-valor copiado del padre al hijo en el momento del `exec`. La copia es unidireccional: un hijo no puede modificar el entorno del padre, lo que explica por qué `cd` debe ser un builtin del shell. |
+| `código de salida` | Entero de 0 a 255 que devuelve un proceso al terminar. 0 significa éxito; 1-125 son errores del programa; 126 y 127 indican no ejecutable y no encontrado; 128+N significa terminado por la señal N. |
+| `señal` | Notificación asíncrona del kernel a un proceso. SIGTERM (15) pide terminar y puede atraparse; SIGKILL (9) no es atrapable. Esa diferencia es la base del apagado ordenado en contenedores. |
 
 ## 🧠 Modelo mental
 
@@ -47,58 +43,147 @@ en un diagrama pero fallan al operar.
 
 ```mermaid
 flowchart LR
-    A["Necesidad y restricciones"] --> B["Diseño: Terminal, sistema de archivos, procesos y variables de entorno"]
-    B --> C["Implementación reproducible"]
-    C --> D["Estado observado"]
-    D --> E{"¿Cumple seguridad, SLO y costo?"}
-    E -- "No" --> B
-    E -- "Sí" --> F["Evidencia y decisión registrada"]
+    S["shell (PID 4210)"] -->|"fork()"| H["hijo: copia del padre<br/>mismo entorno y descriptores"]
+    H -->|"exec()"| P["nuevo programa<br/>conserva PID, descriptores y entorno"]
+    P --> R{{"termina"}}
+    R -->|"exit(0)"| OK["código 0 · éxito"]
+    R -->|"exit(n)"| ERR["código n · error del programa"]
+    R -->|"señal N"| SIG["código 128+N"]
+    OK --> W["shell recoge con wait()"]
+    ERR --> W
+    SIG --> W
 ```
 
 ## 📖 Desarrollo
 
-### 1. Del requisito al mecanismo
+### 1. Un proceso nace por copia y se transforma por reemplazo
 
-Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.
+En UNIX no existe «lanzar un programa» como operación única. Son dos llamadas:
 
-### 2. Fronteras y responsabilidades
+1. **`fork()`** duplica el proceso actual. El hijo recibe una copia del espacio de direcciones, la tabla de descriptores y el entorno. Devuelve 0 en el hijo y el PID del hijo en el padre; ese es el único modo que tiene cada uno de saber quién es.
+2. **`exec()`** reemplaza la imagen del proceso por otro programa **conservando** el PID, los descriptores abiertos y el entorno.
 
-Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.
+```bash
+$ echo $$          # PID del shell actual
+4210
+$ bash -c 'echo $$; echo $PPID'
+4877               # el hijo tiene PID nuevo
+4210               # y recuerda a su padre
+```
 
-### 3. Compensaciones que deben quedar visibles
+La consecuencia práctica aparece en cuanto se automatiza: **un proceso solo puede heredar hacia abajo**. Por eso `cd` no puede ser un binario —cambiaría el directorio de un hijo que muere inmediatamente— y por eso exportar una variable en un script no la deja disponible en la terminal que lo invocó.
 
-| Dimensión | Pregunta de diseño |
-|---|---|
-| Confiabilidad | ¿Qué falla, cómo se detecta y cuánto tarda en recuperarse? |
-| Seguridad | ¿Qué identidad actúa y cuál es el mínimo privilegio necesario? |
-| Costo | ¿Cuál es la unidad de consumo y qué hace crecer la factura? |
-| Operación | ¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor? |
-| Portabilidad | ¿Qué contrato es estándar y qué decisión es específica del proveedor? |
+### 2. El entorno se copia en el exec, no se consulta en vivo
 
-La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.
+El entorno es un vector de cadenas `CLAVE=valor` que se pasa al `exec`. Se copia **una vez**, en ese instante. Un proceso que lleva tres días corriendo tiene el entorno del momento en que arrancó, aunque el fichero de configuración haya cambiado.
+
+```bash
+$ VAR=solo_este_comando env | grep VAR    # prefijo: solo para esa invocación
+VAR=solo_este_comando
+$ VAR=local; env | grep VAR               # sin export: no llega al hijo
+$ export VAR=heredable; env | grep VAR    # con export: sí llega
+VAR=heredable
+```
+
+Esto explica el incidente más repetido en despliegues: **un servicio gestionado por systemd no lee `~/.bashrc` ni `~/.profile`**. Esos ficheros los interpreta el shell al iniciar sesión de forma interactiva, y systemd no arranca un shell de login. El comando funciona a mano y falla como servicio, con la misma imagen y el mismo binario. La variable hay que declararla en la unidad (`Environment=` o `EnvironmentFile=`), y en contenedores en el `ENV` del Dockerfile o el manifiesto.
+
+### 3. Redirección: se duplican descriptores, y el orden importa
+
+`>` no «envía» la salida a ningún sitio: hace que el descriptor 1 apunte al mismo fichero abierto que otro. Como es una asignación secuencial, el orden cambia el resultado:
+
+```bash
+# stderr se copia al destino ACTUAL de stdout (la terminal) y luego stdout va al fichero
+$ comando 2>&1 > salida.log      # errores a la terminal, salida al fichero
+
+# stdout va al fichero y DESPUÉS stderr se copia a ese mismo destino
+$ comando > salida.log 2>&1      # ambos al fichero
+```
+
+Es la causa clásica de un log que «pierde» los errores. En Bash moderno, `&> fichero` hace lo correcto sin ambigüedad.
+
+La separación stdout/stderr no es cosmética: es un **contrato**. stdout lleva el resultado destinado a la siguiente etapa de la tubería; stderr lleva diagnóstico destinado al operador. Un programa que escribe avisos en stdout rompe cualquier tubería que lo consuma.
+
+### 4. Códigos de salida y señales: el lenguaje del diagnóstico
+
+El código de salida es el único canal estructurado que un proceso tiene para decir qué pasó. Sus rangos están convenidos:
+
+| Código | Significado | Aparece cuando |
+|---|---|---|
+| 0 | Éxito | Todo bien |
+| 1-125 | Error del programa | Fallo de lógica o validación |
+| 126 | Encontrado pero no ejecutable | Falta el bit de ejecución |
+| 127 | Orden no encontrada | `PATH` incorrecto — típico en contenedores |
+| 128+N | Terminado por la señal N | 137 = 128+9 (SIGKILL), 143 = 128+15 (SIGTERM) |
+
+**El 137 merece memorizarse**: en Kubernetes casi siempre significa que el contenedor excedió su límite de memoria y el OOM killer lo mató. En la parte 06 aparecerá con ese nombre; aquí ya sabes de dónde sale el número.
+
+La diferencia entre SIGTERM y SIGKILL define el apagado ordenado: el orquestador envía SIGTERM, espera un plazo de gracia (30 s por defecto en Kubernetes) y solo entonces envía SIGKILL. Un proceso que ignora SIGTERM pierde las conexiones en vuelo.
+
+### 5. Tuberías: procesos concurrentes, no secuenciales
+
+`a | b` no ejecuta `a` y después `b`. Arranca **ambos a la vez** y conecta el descriptor 1 de `a` con el 0 de `b` mediante un búfer del kernel de 64 KB. Cuando el búfer se llena, el escritor se bloquea; cuando se vacía, el lector se bloquea. Es control de flujo gratuito, y permite procesar ficheros mayores que la memoria disponible.
+
+```bash
+# Los cinco procesos que más memoria residente consumen
+$ ps -eo pid,rss,comm --sort=-rss | head -6
+
+# Las 10 IP con más peticiones en un log de acceso
+$ awk '{print $1}' access.log | sort | uniq -c | sort -rn | head -10
+```
+
+El código de salida de una tubería es el del **último** comando, lo que oculta fallos intermedios. En scripts de operación esto es una trampa seria:
+
+```bash
+$ false | true; echo $?
+0                              # el fallo desaparece
+$ set -o pipefail
+$ false | true; echo $?
+1                              # ahora se propaga
+```
+
+`set -euo pipefail` al principio de cada script de despliegue evita que un fallo silencioso se declare éxito.
 
 ## 🔬 Ejemplo trabajado
 
-Una plataforma de pedidos necesita aplicar **terminal, sistema de archivos, procesos y variables de entorno**. El equipo registra:
+**Un despliegue de CloudShop funciona a mano y falla como servicio.** El binario es el mismo y la imagen también. El operador ejecuta el diagnóstico en orden:
 
-- demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;
-- SLO mensual de 99,9 % para operaciones de lectura;
-- RPO de 15 minutos y RTO de 60 minutos;
-- datos personales que no pueden salir de la región aprobada;
-- presupuesto inicial de USD 600/mes.
+```bash
+$ ./cloudshop-api
+escuchando en :8080                      # a mano funciona
 
-La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.
+$ sudo systemctl start cloudshop
+$ systemctl show cloudshop -p ExecMainStatus
+ExecMainStatus=127
+```
+
+**127 = orden no encontrada.** No es un fallo de la aplicación: es que algo del `PATH` no está. Se compara el entorno de ambos contextos:
+
+```bash
+$ echo $PATH
+/home/ops/.local/bin:/usr/local/bin:/usr/bin:/bin
+
+$ sudo systemctl show cloudshop -p Environment
+Environment=
+$ sudo systemd-run --quiet --pipe /usr/bin/env | grep ^PATH
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+```
+
+La diferencia es `/home/ops/.local/bin`, que el shell interactivo añade desde `~/.profile` y systemd no. El binario auxiliar que invoca el servicio vive ahí.
+
+Se corrige declarando la dependencia en la unidad, no exportando en un perfil:
+
+```ini
+[Service]
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+ExecStart=/opt/cloudshop/bin/cloudshop-api
+```
+
+```bash
+$ sudo systemctl restart cloudshop; systemctl show cloudshop -p ExecMainStatus
+ExecMainStatus=0
+```
+
+**La lección no es el arreglo sino el método**: el código 127 acotó el problema a resolución de ruta antes de leer una sola línea de la aplicación. Un diagnóstico sin ese dato habría empezado por los logs de la aplicación, donde no había nada que ver.
 
 ## 🧪 Laboratorio guiado
 
@@ -141,11 +226,11 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 
 | Síntoma | Causa probable | Corrección |
 |---|---|---|
-| El diseño enumera servicios pero no requisitos | Se comenzó por el catálogo del proveedor | Reescribe primero escenarios y restricciones medibles. |
-| La demo funciona una vez y se declara lista | Se confundió ejecución con evidencia operacional | Añade repetición, fallo, telemetría y recuperación. |
-| Todo tiene permisos administrativos | El laboratorio heredó credenciales humanas | Usa identidad de workload y prueba explícitamente la denegación. |
-| No se puede explicar la factura | Faltan unidades y ownership de costo | Etiqueta, estima por unidad y define presupuesto o alerta. |
-| La solución se llama multi-cloud pero replica todo | Portabilidad se confundió con duplicación | Define qué riesgo se mitiga y porta solo el contrato necesario. |
+| El comando funciona en la terminal y falla como servicio o en el contenedor | El entorno interactivo carga perfiles que systemd y Docker no leen | Declara las variables en la unidad (`Environment=`) o en el `ENV` de la imagen; nunca dependas de `.bashrc`. |
+| El fichero de log no contiene los errores | Se escribió `2>&1 > f`, que copia stderr al destino anterior de stdout | Usa `> f 2>&1` o `&> f`; el orden de la redirección es una asignación secuencial. |
+| Un script de despliegue termina en éxito pese a que un paso falló | El código de salida de una tubería es solo el del último comando | Empieza los scripts con `set -euo pipefail`. |
+| El contenedor muere con código 137 y no hay error en la aplicación | 128+9: fue SIGKILL, casi siempre el OOM killer por exceder el límite de memoria | Revisa el límite de memoria y el consumo real; el problema es de recursos, no de código. |
+| El servicio pierde peticiones en vuelo en cada despliegue | El proceso no atrapa SIGTERM y se le aplica SIGKILL al agotar el plazo de gracia | Atrapa SIGTERM, deja de aceptar conexiones nuevas y drena las abiertas antes de salir. |
 
 ## 🛡️ Seguridad, ética y costo
 
@@ -156,17 +241,19 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## ❓ Preguntas de comprobación
 
-1. ¿Qué parte del diseño seguiría siendo válida en otro proveedor?
-2. ¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?
-3. ¿Cuál es la unidad de costo y quién puede actuar sobre ella?
-4. ¿Qué permiso puede retirarse sin romper el caso de uso?
-5. ¿Qué evidencia falta para afirmar que esto está listo para producción?
+1. ¿Por qué `cd` tiene que ser un builtin del shell y no puede ser un binario en `/usr/bin`?
+2. Un proceso lleva tres días ejecutándose y alguien cambia una variable en `/etc/environment`. ¿La ve el proceso? ¿Por qué?
+3. ¿Qué diferencia práctica hay entre `comando 2>&1 > f` y `comando > f 2>&1`?
+4. Un contenedor termina con código 143 y otro con 137. ¿Cuál se apagó ordenadamente y cuál no?
+5. ¿Qué añade `set -o pipefail` que `set -e` por sí solo no cubre?
 
 ## 🔗 Referencias
 
-- How Linux Works — Brian Ward.
-- Computer Networking: A Top-Down Approach — Kurose y Ross.
-- Pro Git — Chacon y Straub.
+- The Open Group (2018). *POSIX.1-2017*, System Interfaces: `fork`, `execve`, `wait`. <https://pubs.opengroup.org/onlinepubs/9699919799/functions/fork.html>
+- Kerrisk, M. *signal(7)* — Linux manual pages: catálogo de señales y semántica de SIGTERM y SIGKILL. <https://man7.org/linux/man-pages/man7/signal.7.html>
+- Kerrisk, M. (2010). *The Linux Programming Interface*, caps. 24-27 — creación de procesos y ejecución de programas.
+- systemd (2024). *systemd.exec(5)* — cómo se construye el entorno de un servicio. <https://www.freedesktop.org/software/systemd/man/systemd.exec.html>
+- Ward, B. (2021). *How Linux Works*, 3.ª ed., caps. 1-2 — procesos, dispositivos y arranque.
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

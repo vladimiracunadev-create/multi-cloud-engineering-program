@@ -12,7 +12,7 @@
 
 [![Version](https://img.shields.io/badge/version-2.0.0-e67e22?style=for-the-badge)](CHANGELOG.md)
 [![Clases](https://img.shields.io/badge/clases-288%20·%2024%20partes-7c5cff?style=for-the-badge)](classes/README.md)
-[![Manual](https://img.shields.io/badge/manual-1.220%20páginas-007c83?style=for-the-badge)](site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+[![Manual](https://img.shields.io/badge/manual-1.228%20páginas-007c83?style=for-the-badge)](site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
 [![License](https://img.shields.io/badge/license-MIT-3fb950?style=for-the-badge)](LICENSE)
 
 [🌐 Portal](https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/) ·
@@ -59,7 +59,7 @@ Un currículo **secuencial, basado en libros y orientado a evidencia**: 288 clas
 | 📚 Currículo | 288/288 clases; numeración continua 001–288 en 24 partes |
 | 🏆 Evaluación | 288 rúbricas de clase + criterios transversales + defensa final |
 | 🧪 Práctica | 288 entrypoints ejecutables, evidencia JSON, fallos controlados y cost gates |
-| 📕 Manual | 1.220 páginas generadas desde 607 archivos fuente versionados |
+| 📕 Manual | 1.228 páginas generadas desde 607 archivos fuente versionados |
 | 🖥️ Portal | PWA instalable, buscador, filtros, rutas, progreso local y modo offline |
 | 🏗️ Arquitectura | Requisitos, ADR, C4, sistemas distribuidos, integración, resiliencia y DR |
 | 🔧 Calidad | CI multi-OS/Python, validadores, pruebas, CodeQL, Bandit, pip-audit y Gitleaks |
@@ -158,7 +158,7 @@ El portal se genera desde el mismo catálogo y los mismos Markdown que el manual
 
 ¿Prefieres el curso entero en un solo documento, para leer de corrido o estudiar sin conexión? El manual PDF contiene **todos los contenidos docentes del curso**, no un resumen:
 
-- 📄 **1.220 páginas A4** con índice y marcadores navegables;
+- 📄 **1.228 páginas A4** con índice y marcadores navegables;
 - 📚 siete guías pedagógicas y bibliográficas centrales;
 - 🗂️ 24 introducciones de parte y **288 lecciones completas**;
 - 🏆 **288 evaluaciones** con preguntas, reto, aceptación y escala;

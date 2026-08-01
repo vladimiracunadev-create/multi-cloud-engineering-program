@@ -1,0 +1,63 @@
+{
+  "id": "004",
+  "purpose": "Usar Python y JSON como el pegamento mínimo de la operación cloud: leer una respuesta de API, validar su forma antes de confiar en ella y producir salida estructurada que otro programa pueda consumir. Casi todos los `lab.py` del programa emiten JSON, y casi toda automatización real consiste en encadenar contratos de este tipo.",
+  "outcomes": [
+    "**Distinguir** los tipos de JSON de los de Python y anticipar las conversiones que rompen datos (enteros grandes, `None`, claves no textuales).",
+    "**Explicar** por qué los números en coma flotante de JSON no representan dinero y qué usar en su lugar.",
+    "**Validar** una estructura recibida antes de usarla, en vez de confiar en que la API cumple su documentación.",
+    "**Producir** salida determinista: mismas entradas y misma semilla producen bytes idénticos.",
+    "**Diferenciar** un fallo esperado, que se maneja, de uno inesperado, que debe propagarse con contexto."
+  ],
+  "concepts": [
+    {"term": "serialización", "definition": "Convertir estructuras en memoria a una secuencia de bytes transportable. JSON solo admite seis tipos: objeto, array, cadena, número, booleano y null; todo lo demás debe traducirse explícitamente."},
+    {"term": "contrato de datos", "definition": "Acuerdo explícito sobre qué campos existen, de qué tipo son y cuáles son obligatorios. Sin él, un cambio en el productor rompe al consumidor en producción y no en pruebas."},
+    {"term": "determinismo", "definition": "Propiedad por la que las mismas entradas producen exactamente la misma salida. Exige orden estable de claves, semilla fija en cualquier aleatoriedad y ausencia de marcas de tiempo en la salida comparada."},
+    {"term": "idempotencia", "definition": "Propiedad por la que repetir una operación no cambia el resultado respecto de ejecutarla una vez. Es lo que hace seguro reintentar tras un error de red."},
+    {"term": "excepción", "definition": "Mecanismo para señalar que una operación no puede completarse. Capturar `Exception` de forma genérica convierte un fallo diagnosticable en uno silencioso."}
+  ],
+  "diagram": "flowchart LR\n    API[\"Respuesta HTTP<br/>bytes\"] --> D[\"json.loads()\"]\n    D --> V{{\"¿cumple el contrato?\"}}\n    V -->|\"no\"| E[\"error con contexto:<br/>campo, tipo esperado, recibido\"]\n    V -->|\"sí\"| L[\"lógica de negocio\"]\n    L --> S[\"json.dumps(sort_keys=True)\"]\n    S --> O[\"salida determinista<br/>comparable byte a byte\"]",
+  "foundations": [
+    {
+      "heading": "JSON y Python no comparten sistema de tipos",
+      "body": "El mapeo parece directo hasta que deja de serlo:\n\n| JSON | Python al leer | Trampa |\n|---|---|---|\n| `object` | `dict` | Las claves siempre acaban siendo `str` |\n| `array` | `list` | Las tuplas se serializan como array y vuelven como lista |\n| `number` | `int` o `float` | No hay distinción en JSON: la decide el punto decimal |\n| `true`/`false` | `bool` | — |\n| `null` | `None` | — |\n\nLa conversión **no es reversible**:\n\n```python\n>>> import json\n>>> json.loads(json.dumps({1: \"a\", (2, 3): \"b\"}))\n{'1': 'a', '2, 3': 'b'}          # las claves se volvieron cadenas\n>>> json.loads(json.dumps((1, 2)))\n[1, 2]                            # la tupla ya no es tupla\n```\n\nEn una automatización que lee un estado, lo modifica y lo vuelve a escribir, esto significa que **el ciclo no es una identidad**. Si el consumidor compara claves numéricas, el segundo ciclo falla y el primero no."
+    },
+    {
+      "heading": "Los números de JSON no sirven para dinero",
+      "body": "JSON no define precisión: la mayoría de implementaciones usan IEEE 754 de doble precisión, que es binario. Los decimales que no son suma de potencias de dos no tienen representación exacta:\n\n```python\n>>> 0.1 + 0.2\n0.30000000000000004\n>>> 0.1 + 0.2 == 0.3\nFalse\n```\n\nAplicado a una factura cloud con 43.200 líneas de consumo horario, el error se acumula. La corrección es no usar coma flotante para valores exactos:\n\n```python\n>>> from decimal import Decimal\n>>> Decimal(\"0.1\") + Decimal(\"0.2\") == Decimal(\"0.3\")\nTrue\n```\n\nHay un segundo límite, y es de interoperabilidad: JavaScript representa todos los números como *double*, así que solo garantiza enteros exactos hasta **2⁵³−1 = 9.007.199.254.740.991**. Un identificador de 64 bits enviado como número JSON pierde precisión al pasar por cualquier consumidor JavaScript. Por eso las APIs serias envían los identificadores grandes **como cadena**; en la parte 09 se verá la misma decisión en los sistemas de mensajería."
+    },
+    {
+      "heading": "Validar antes de confiar",
+      "body": "El error de automatización más caro es asumir que la respuesta tiene la forma documentada. Una API puede devolver 200 con un cuerpo distinto del esperado, y el fallo aparece tres capas más abajo, sin contexto:\n\n```python\n# frágil: revienta en otro sitio, con un KeyError sin pistas\ncosto = respuesta[\"data\"][\"billing\"][\"total\"]\n\n# explícito: falla donde está el problema y dice cuál es\ndef leer_costo(respuesta: dict) -> Decimal:\n    for clave in (\"data\", \"billing\"):\n        if clave not in respuesta:\n            raise ValueError(f\"falta '{clave}' en la respuesta; claves: {sorted(respuesta)}\")\n        respuesta = respuesta[clave]\n    bruto = respuesta.get(\"total\")\n    if not isinstance(bruto, str):\n        raise TypeError(f\"'total' debía ser cadena decimal, llegó {type(bruto).__name__}\")\n    return Decimal(bruto)\n```\n\nLa diferencia práctica: el primero produce `KeyError: 'billing'` a las 3 de la madrugada; el segundo dice qué campo falta y qué llegó en su lugar. En un runbook —parte 21— esa distinción es la diferencia entre cinco minutos y dos horas."
+    },
+    {
+      "heading": "Determinismo: la propiedad que hace verificable un laboratorio",
+      "body": "Los 288 laboratorios de este programa emiten un contrato JSON que debe ser **byte a byte idéntico** con la misma semilla. Tres condiciones lo garantizan:\n\n```python\nimport json, random\n\nrandom.seed(42)                       # 1. aleatoriedad reproducible\nresultado = {\"decision\": \"...\", \"evidencia\": [...]}\nprint(json.dumps(resultado,\n                 sort_keys=True,      # 2. orden estable de claves\n                 ensure_ascii=False)) # 3. codificación estable\n```\n\nSin `sort_keys`, Python conserva el orden de inserción y dos ejecuciones que construyen el diccionario por caminos distintos producen bytes distintos con el mismo contenido. Sin semilla, no hay repetición posible.\n\nLo que **nunca** debe entrar en una salida comparada es la hora actual: convierte cualquier comparación en un falso negativo. Si hace falta registrar el instante, va en un fichero aparte o en un campo excluido de la comparación."
+    },
+    {
+      "heading": "Fallos esperados frente a fallos inesperados",
+      "body": "Un error de red al llamar a una API es **esperado**: ocurre, y el código debe reintentar. Un `TypeError` porque una función recibió una lista donde esperaba un diccionario es **inesperado**: es un defecto, y ocultarlo lo hace indetectable.\n\n```python\n# destruye el diagnóstico: cualquier fallo se vuelve None\ntry:\n    datos = pedir(url)\nexcept Exception:\n    datos = None\n\n# maneja lo esperado y deja propagar lo demás\nfor intento in range(5):\n    try:\n        datos = pedir(url)\n        break\n    except (TimeoutError, ConnectionError) as e:\n        espera = 2 ** intento + random.uniform(0, 1)   # 1, 2, 4, 8, 16 s + jitter\n        log.warning(\"intento %d falló (%s); reintento en %.1f s\", intento + 1, e, espera)\n        time.sleep(espera)\nelse:\n    raise RuntimeError(f\"{url} no respondió tras 5 intentos\")\n```\n\nEl retroceso exponencial **con jitter** no es un detalle: sin el término aleatorio, mil clientes que fallan a la vez reintentan a la vez y mantienen caído el servicio que intentan usar. Es el *thundering herd*, y reaparece en las partes 10 y 21."
+    }
+  ],
+  "worked_example": "**Un script de FinOps suma el consumo horario de CloudShop y su total no cuadra con la factura del proveedor.** La diferencia es de 0,37 USD sobre 8.412,55 — pequeña, pero impide cerrar el mes.\n\nEl script original:\n\n```python\ntotal = 0.0\nfor linea in json.loads(respuesta)[\"lineItems\"]:\n    total += linea[\"cost\"]          # cost llega como número JSON\nprint(f\"{total:.2f}\")\n```\n\nReproducción del error con las 720 líneas de un mes:\n\n```python\n>>> valores = [0.0117] * 720           # coste horario de una instancia pequeña\n>>> sum(valores)\n8.423999999999999\n>>> float(Decimal(\"0.0117\") * 720)\n8.424\n```\n\nSobre una línea el error es de 10⁻¹⁶; sobre 43.200 líneas de consumo mensual —60 recursos × 720 horas— el error acumulado alcanza el orden de los céntimos. **No es un fallo del proveedor: es que la suma se hizo en binario.**\n\nCorrección, sumando en decimal y validando el tipo de entrada:\n\n```python\nfrom decimal import Decimal, ROUND_HALF_UP\n\ntotal = Decimal(\"0\")\nfor n, linea in enumerate(json.loads(respuesta)[\"lineItems\"]):\n    bruto = linea[\"cost\"]\n    if isinstance(bruto, float):\n        raise TypeError(f\"línea {n}: 'cost' llegó como float; exige cadena decimal\")\n    total += Decimal(str(bruto))\nprint(total.quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_UP))\n```\n\n```text\n8412.55        # cuadra con la factura\n```\n\nLa comprobación de tipo es deliberada: **convierte un error silencioso de céntimos en un fallo ruidoso en la primera línea**. Si el proveedor cambia el formato y empieza a enviar `cost` como número, el script se para en vez de producir un total plausible pero incorrecto.",
+  "pitfalls": [
+    {"symptom": "Un total monetario difiere en céntimos de la factura oficial", "cause": "Se sumó en coma flotante IEEE 754, que no representa decimales exactos", "fix": "Usa `Decimal` construido desde cadena y redondea solo al final."},
+    {"symptom": "Un identificador de 64 bits llega alterado al frontend", "cause": "JavaScript solo garantiza enteros exactos hasta 2⁵³−1", "fix": "Transporta los identificadores grandes como cadena JSON."},
+    {"symptom": "Dos ejecuciones con la misma semilla producen ficheros distintos", "cause": "El orden de claves depende del orden de inserción, o hay una marca de tiempo en la salida", "fix": "Serializa con `sort_keys=True` y saca la hora de la salida comparada."},
+    {"symptom": "El script falla con `KeyError` en un punto que no tiene relación con la causa", "cause": "Se accedió a campos anidados sin validar la forma recibida", "fix": "Valida presencia y tipo en el borde, y falla con un mensaje que diga qué faltaba."},
+    {"symptom": "Tras un incidente, mil clientes reintentan a la vez y el servicio no levanta", "cause": "Retroceso sin jitter: todos reintentan sincronizados", "fix": "Añade un término aleatorio al retroceso exponencial."}
+  ],
+  "checks": [
+    "¿Por qué `json.loads(json.dumps(d))` puede no devolver `d`? Da dos casos concretos.",
+    "Un endpoint devuelve `\"id\": 9007199254740993`. ¿Qué le ocurre a ese valor en un consumidor JavaScript y cómo se evita?",
+    "¿Qué tres condiciones debe cumplir un laboratorio para que su salida sea comparable byte a byte?",
+    "¿Cuándo es correcto capturar una excepción y cuándo hacerlo oculta un defecto?",
+    "Sin jitter, ¿qué le ocurre a un servicio que se recupera si mil clientes usan el mismo retroceso exponencial?"
+  ],
+  "references": [
+    {"text": "Bray, T., ed. (2017). *RFC 8259: The JavaScript Object Notation (JSON) Data Interchange Format* — sección 6 sobre los límites de precisión numérica.", "url": "https://www.rfc-editor.org/rfc/rfc8259#section-6"},
+    {"text": "IEEE (2019). *Standard for Floating-Point Arithmetic (IEEE 754-2019)*.", "url": "https://doi.org/10.1109/IEEESTD.2019.8766229"},
+    {"text": "Goldberg, D. (1991). *What Every Computer Scientist Should Know About Floating-Point Arithmetic*. ACM Computing Surveys 23(1).", "url": "https://doi.org/10.1145/103162.103163"},
+    {"text": "Python Software Foundation (2024). *decimal — Decimal fixed-point and floating-point arithmetic*.", "url": "https://docs.python.org/3/library/decimal.html"},
+    {"text": "Brooker, M. (2015). *Exponential Backoff and Jitter*. AWS Architecture Blog — datos comparados de las variantes de jitter.", "url": "https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/"}
+  ]
+}

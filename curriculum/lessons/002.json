@@ -1,0 +1,63 @@
+{
+  "id": "002",
+  "purpose": "Dominar la terminal como interfaz primaria de operación cloud: qué es realmente un proceso, cómo el kernel le entrega su entorno, y por qué los descriptores de fichero y las variables de entorno explican la mitad de los incidentes de despliegue. Toda la automatización posterior —contenedores, CI/CD, runbooks— es este modelo repetido a escala.",
+  "outcomes": [
+    "**Describir** el ciclo `fork` → `exec` → `wait` y qué hereda un proceso hijo de su padre.",
+    "**Predecir** qué variables de entorno ve un proceso según cómo se lanzó, y por qué un servicio systemd no ve tu `.bashrc`.",
+    "**Redirigir** stdout y stderr por separado y explicar por qué `2>&1 >f` no equivale a `>f 2>&1`.",
+    "**Interpretar** un código de salida y una señal de terminación para diagnosticar sin adivinar.",
+    "**Componer** una tubería que resuelva un problema real de operación sin scripts intermedios."
+  ],
+  "concepts": [
+    {"term": "proceso", "definition": "Instancia en ejecución de un programa, con su propio espacio de direcciones, tabla de descriptores y entorno. El kernel lo identifica por PID y lo relaciona con su padre por PPID."},
+    {"term": "descriptor de fichero", "definition": "Entero que indexa la tabla de ficheros abiertos del proceso. Por convención 0 es stdin, 1 stdout y 2 stderr; el resto se asignan por orden. Redirigir es duplicar entradas de esa tabla, no mover datos."},
+    {"term": "variable de entorno", "definition": "Par clave-valor copiado del padre al hijo en el momento del `exec`. La copia es unidireccional: un hijo no puede modificar el entorno del padre, lo que explica por qué `cd` debe ser un builtin del shell."},
+    {"term": "código de salida", "definition": "Entero de 0 a 255 que devuelve un proceso al terminar. 0 significa éxito; 1-125 son errores del programa; 126 y 127 indican no ejecutable y no encontrado; 128+N significa terminado por la señal N."},
+    {"term": "señal", "definition": "Notificación asíncrona del kernel a un proceso. SIGTERM (15) pide terminar y puede atraparse; SIGKILL (9) no es atrapable. Esa diferencia es la base del apagado ordenado en contenedores."}
+  ],
+  "diagram": "flowchart LR\n    S[\"shell (PID 4210)\"] -->|\"fork()\"| H[\"hijo: copia del padre<br/>mismo entorno y descriptores\"]\n    H -->|\"exec()\"| P[\"nuevo programa<br/>conserva PID, descriptores y entorno\"]\n    P --> R{{\"termina\"}}\n    R -->|\"exit(0)\"| OK[\"código 0 · éxito\"]\n    R -->|\"exit(n)\"| ERR[\"código n · error del programa\"]\n    R -->|\"señal N\"| SIG[\"código 128+N\"]\n    OK --> W[\"shell recoge con wait()\"]\n    ERR --> W\n    SIG --> W",
+  "foundations": [
+    {
+      "heading": "Un proceso nace por copia y se transforma por reemplazo",
+      "body": "En UNIX no existe «lanzar un programa» como operación única. Son dos llamadas:\n\n1. **`fork()`** duplica el proceso actual. El hijo recibe una copia del espacio de direcciones, la tabla de descriptores y el entorno. Devuelve 0 en el hijo y el PID del hijo en el padre; ese es el único modo que tiene cada uno de saber quién es.\n2. **`exec()`** reemplaza la imagen del proceso por otro programa **conservando** el PID, los descriptores abiertos y el entorno.\n\n```bash\n$ echo $$          # PID del shell actual\n4210\n$ bash -c 'echo $$; echo $PPID'\n4877               # el hijo tiene PID nuevo\n4210               # y recuerda a su padre\n```\n\nLa consecuencia práctica aparece en cuanto se automatiza: **un proceso solo puede heredar hacia abajo**. Por eso `cd` no puede ser un binario —cambiaría el directorio de un hijo que muere inmediatamente— y por eso exportar una variable en un script no la deja disponible en la terminal que lo invocó."
+    },
+    {
+      "heading": "El entorno se copia en el exec, no se consulta en vivo",
+      "body": "El entorno es un vector de cadenas `CLAVE=valor` que se pasa al `exec`. Se copia **una vez**, en ese instante. Un proceso que lleva tres días corriendo tiene el entorno del momento en que arrancó, aunque el fichero de configuración haya cambiado.\n\n```bash\n$ VAR=solo_este_comando env | grep VAR    # prefijo: solo para esa invocación\nVAR=solo_este_comando\n$ VAR=local; env | grep VAR               # sin export: no llega al hijo\n$ export VAR=heredable; env | grep VAR    # con export: sí llega\nVAR=heredable\n```\n\nEsto explica el incidente más repetido en despliegues: **un servicio gestionado por systemd no lee `~/.bashrc` ni `~/.profile`**. Esos ficheros los interpreta el shell al iniciar sesión de forma interactiva, y systemd no arranca un shell de login. El comando funciona a mano y falla como servicio, con la misma imagen y el mismo binario. La variable hay que declararla en la unidad (`Environment=` o `EnvironmentFile=`), y en contenedores en el `ENV` del Dockerfile o el manifiesto."
+    },
+    {
+      "heading": "Redirección: se duplican descriptores, y el orden importa",
+      "body": "`>` no «envía» la salida a ningún sitio: hace que el descriptor 1 apunte al mismo fichero abierto que otro. Como es una asignación secuencial, el orden cambia el resultado:\n\n```bash\n# stderr se copia al destino ACTUAL de stdout (la terminal) y luego stdout va al fichero\n$ comando 2>&1 > salida.log      # errores a la terminal, salida al fichero\n\n# stdout va al fichero y DESPUÉS stderr se copia a ese mismo destino\n$ comando > salida.log 2>&1      # ambos al fichero\n```\n\nEs la causa clásica de un log que «pierde» los errores. En Bash moderno, `&> fichero` hace lo correcto sin ambigüedad.\n\nLa separación stdout/stderr no es cosmética: es un **contrato**. stdout lleva el resultado destinado a la siguiente etapa de la tubería; stderr lleva diagnóstico destinado al operador. Un programa que escribe avisos en stdout rompe cualquier tubería que lo consuma."
+    },
+    {
+      "heading": "Códigos de salida y señales: el lenguaje del diagnóstico",
+      "body": "El código de salida es el único canal estructurado que un proceso tiene para decir qué pasó. Sus rangos están convenidos:\n\n| Código | Significado | Aparece cuando |\n|---|---|---|\n| 0 | Éxito | Todo bien |\n| 1-125 | Error del programa | Fallo de lógica o validación |\n| 126 | Encontrado pero no ejecutable | Falta el bit de ejecución |\n| 127 | Orden no encontrada | `PATH` incorrecto — típico en contenedores |\n| 128+N | Terminado por la señal N | 137 = 128+9 (SIGKILL), 143 = 128+15 (SIGTERM) |\n\n**El 137 merece memorizarse**: en Kubernetes casi siempre significa que el contenedor excedió su límite de memoria y el OOM killer lo mató. En la parte 06 aparecerá con ese nombre; aquí ya sabes de dónde sale el número.\n\nLa diferencia entre SIGTERM y SIGKILL define el apagado ordenado: el orquestador envía SIGTERM, espera un plazo de gracia (30 s por defecto en Kubernetes) y solo entonces envía SIGKILL. Un proceso que ignora SIGTERM pierde las conexiones en vuelo."
+    },
+    {
+      "heading": "Tuberías: procesos concurrentes, no secuenciales",
+      "body": "`a | b` no ejecuta `a` y después `b`. Arranca **ambos a la vez** y conecta el descriptor 1 de `a` con el 0 de `b` mediante un búfer del kernel de 64 KB. Cuando el búfer se llena, el escritor se bloquea; cuando se vacía, el lector se bloquea. Es control de flujo gratuito, y permite procesar ficheros mayores que la memoria disponible.\n\n```bash\n# Los cinco procesos que más memoria residente consumen\n$ ps -eo pid,rss,comm --sort=-rss | head -6\n\n# Las 10 IP con más peticiones en un log de acceso\n$ awk '{print $1}' access.log | sort | uniq -c | sort -rn | head -10\n```\n\nEl código de salida de una tubería es el del **último** comando, lo que oculta fallos intermedios. En scripts de operación esto es una trampa seria:\n\n```bash\n$ false | true; echo $?\n0                              # el fallo desaparece\n$ set -o pipefail\n$ false | true; echo $?\n1                              # ahora se propaga\n```\n\n`set -euo pipefail` al principio de cada script de despliegue evita que un fallo silencioso se declare éxito."
+    }
+  ],
+  "worked_example": "**Un despliegue de CloudShop funciona a mano y falla como servicio.** El binario es el mismo y la imagen también. El operador ejecuta el diagnóstico en orden:\n\n```bash\n$ ./cloudshop-api\nescuchando en :8080                      # a mano funciona\n\n$ sudo systemctl start cloudshop\n$ systemctl show cloudshop -p ExecMainStatus\nExecMainStatus=127\n```\n\n**127 = orden no encontrada.** No es un fallo de la aplicación: es que algo del `PATH` no está. Se compara el entorno de ambos contextos:\n\n```bash\n$ echo $PATH\n/home/ops/.local/bin:/usr/local/bin:/usr/bin:/bin\n\n$ sudo systemctl show cloudshop -p Environment\nEnvironment=\n$ sudo systemd-run --quiet --pipe /usr/bin/env | grep ^PATH\nPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n```\n\nLa diferencia es `/home/ops/.local/bin`, que el shell interactivo añade desde `~/.profile` y systemd no. El binario auxiliar que invoca el servicio vive ahí.\n\nSe corrige declarando la dependencia en la unidad, no exportando en un perfil:\n\n```ini\n[Service]\nEnvironment=\"PATH=/usr/local/bin:/usr/bin:/bin\"\nExecStart=/opt/cloudshop/bin/cloudshop-api\n```\n\n```bash\n$ sudo systemctl restart cloudshop; systemctl show cloudshop -p ExecMainStatus\nExecMainStatus=0\n```\n\n**La lección no es el arreglo sino el método**: el código 127 acotó el problema a resolución de ruta antes de leer una sola línea de la aplicación. Un diagnóstico sin ese dato habría empezado por los logs de la aplicación, donde no había nada que ver.",
+  "pitfalls": [
+    {"symptom": "El comando funciona en la terminal y falla como servicio o en el contenedor", "cause": "El entorno interactivo carga perfiles que systemd y Docker no leen", "fix": "Declara las variables en la unidad (`Environment=`) o en el `ENV` de la imagen; nunca dependas de `.bashrc`."},
+    {"symptom": "El fichero de log no contiene los errores", "cause": "Se escribió `2>&1 > f`, que copia stderr al destino anterior de stdout", "fix": "Usa `> f 2>&1` o `&> f`; el orden de la redirección es una asignación secuencial."},
+    {"symptom": "Un script de despliegue termina en éxito pese a que un paso falló", "cause": "El código de salida de una tubería es solo el del último comando", "fix": "Empieza los scripts con `set -euo pipefail`."},
+    {"symptom": "El contenedor muere con código 137 y no hay error en la aplicación", "cause": "128+9: fue SIGKILL, casi siempre el OOM killer por exceder el límite de memoria", "fix": "Revisa el límite de memoria y el consumo real; el problema es de recursos, no de código."},
+    {"symptom": "El servicio pierde peticiones en vuelo en cada despliegue", "cause": "El proceso no atrapa SIGTERM y se le aplica SIGKILL al agotar el plazo de gracia", "fix": "Atrapa SIGTERM, deja de aceptar conexiones nuevas y drena las abiertas antes de salir."}
+  ],
+  "checks": [
+    "¿Por qué `cd` tiene que ser un builtin del shell y no puede ser un binario en `/usr/bin`?",
+    "Un proceso lleva tres días ejecutándose y alguien cambia una variable en `/etc/environment`. ¿La ve el proceso? ¿Por qué?",
+    "¿Qué diferencia práctica hay entre `comando 2>&1 > f` y `comando > f 2>&1`?",
+    "Un contenedor termina con código 143 y otro con 137. ¿Cuál se apagó ordenadamente y cuál no?",
+    "¿Qué añade `set -o pipefail` que `set -e` por sí solo no cubre?"
+  ],
+  "references": [
+    {"text": "The Open Group (2018). *POSIX.1-2017*, System Interfaces: `fork`, `execve`, `wait`.", "url": "https://pubs.opengroup.org/onlinepubs/9699919799/functions/fork.html"},
+    {"text": "Kerrisk, M. *signal(7)* — Linux manual pages: catálogo de señales y semántica de SIGTERM y SIGKILL.", "url": "https://man7.org/linux/man-pages/man7/signal.7.html"},
+    {"text": "Kerrisk, M. (2010). *The Linux Programming Interface*, caps. 24-27 — creación de procesos y ejecución de programas.", "url": null},
+    {"text": "systemd (2024). *systemd.exec(5)* — cómo se construye el entorno de un servicio.", "url": "https://www.freedesktop.org/software/systemd/man/systemd.exec.html"},
+    {"text": "Ward, B. (2021). *How Linux Works*, 3.ª ed., caps. 1-2 — procesos, dispositivos y arranque.", "url": null}
+  ]
+}

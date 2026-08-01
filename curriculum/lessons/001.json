@@ -1,0 +1,63 @@
+{
+  "id": "001",
+  "purpose": "Construir el modelo mental que sostiene todo el programa: qué ejecuta realmente una máquina, por qué la latencia y no la velocidad del procesador domina el diseño de un sistema distribuido, y qué cambia exactamente cuando ese cómputo se alquila en lugar de comprarse. Sin este modelo, «la nube» se aprende como un catálogo de nombres comerciales que caduca cada dieciocho meses.",
+  "outcomes": [
+    "**Situar** una operación en la jerarquía de memoria y estimar su coste en órdenes de magnitud, de 1 ns a 150 ms.",
+    "**Aplicar** las cinco características esenciales de NIST SP 800-145 para decidir si un servicio es realmente cloud o solo hosting renombrado.",
+    "**Distinguir** IaaS, PaaS y SaaS como fronteras de responsabilidad operativa, no como niveles de comodidad.",
+    "**Calcular** un presupuesto de latencia extremo a extremo y detectar qué componente lo consume.",
+    "**Explicar** por qué la elasticidad cambia la unidad económica de la infraestructura: de activo amortizado a gasto por consumo."
+  ],
+  "concepts": [
+    {"term": "latencia", "definition": "Tiempo entre emitir una petición y recibir la primera respuesta. Está acotada por la velocidad de la luz en fibra (~200.000 km/s), así que ninguna optimización de software reduce el mínimo físico entre dos ciudades."},
+    {"term": "ancho de banda", "definition": "Volumen transferido por unidad de tiempo. Se compra; la latencia no. Añadir ancho de banda no acelera una petición pequeña, solo permite más peticiones simultáneas."},
+    {"term": "elasticidad", "definition": "Capacidad de aprovisionar y liberar recursos en minutos siguiendo la demanda. Es lo que convierte capacidad ociosa en coste evitado; sin ella, la nube es un centro de datos con factura mensual."},
+    {"term": "multi-tenencia", "definition": "Varios clientes compartiendo el mismo hardware con aislamiento lógico. Explica a la vez el precio (se amortiza entre muchos) y la clase de riesgo (vecino ruidoso, escapes del hipervisor)."},
+    {"term": "modelo de servicio", "definition": "Dónde se traza la línea entre lo que administra el proveedor y lo que sigue siendo tuyo. IaaS te deja el sistema operativo; PaaS, el runtime; SaaS, solo los datos y la configuración."}
+  ],
+  "diagram": "flowchart TB\n    subgraph fisico[\"Lo que existe de verdad\"]\n        CPU[\"CPU · registros y caché<br/>1-4 ns\"] --> RAM[\"Memoria principal<br/>~100 ns\"]\n        RAM --> SSD[\"Almacenamiento NVMe<br/>~16 µs\"]\n        SSD --> RED[\"Red del centro de datos<br/>~0,5 ms ida y vuelta\"]\n        RED --> WAN[\"Enlace intercontinental<br/>~150 ms ida y vuelta\"]\n    end\n    subgraph alquiler[\"Lo que se alquila\"]\n        IAAS[\"IaaS · máquina y disco\"] --> PAAS[\"PaaS · runtime gestionado\"]\n        PAAS --> SAAS[\"SaaS · solo datos y configuración\"]\n    end\n    fisico -.->|\"virtualización y<br/>multi-tenencia\"| alquiler",
+  "foundations": [
+    {
+      "heading": "La jerarquía de memoria manda sobre el resto del diseño",
+      "body": "Un procesador moderno ejecuta del orden de 10⁹ instrucciones por segundo y por núcleo, pero pasa la mayor parte del tiempo esperando datos. Los órdenes de magnitud que hay que tener memorizados, popularizados por Jeff Dean en *Latency Numbers Every Programmer Should Know*:\n\n```text\nreferencia a caché L1                    ~1 ns\nreferencia a caché L2                    ~4 ns\nreferencia a memoria principal         ~100 ns   (100x L1)\nlectura aleatoria en SSD NVMe           ~16 µs   (160x RAM)\nida y vuelta dentro del centro de datos ~0,5 ms  (31x SSD)\nbúsqueda en disco mecánico               ~2 ms\nida y vuelta California - Países Bajos  ~150 ms  (300x centro de datos)\n```\n\nEntre el primer y el último renglón hay un factor de **150 millones**. Esto tiene una consecuencia de diseño que se repetirá en las 288 clases: *mover el cómputo hacia los datos casi siempre gana a mover los datos hacia el cómputo*. Cuando en la parte 16 se estudien CDN y edge, y en la parte 12 la colocación de réplicas, la razón será siempre esta tabla."
+    },
+    {
+      "heading": "La latencia tiene un suelo físico y el ancho de banda no",
+      "body": "La luz viaja a 299.792 km/s en el vacío, pero en fibra óptica el índice de refracción la frena a unos **200.000 km/s**. Madrid–Nueva York son 5.760 km en línea recta:\n\n```text\nmínimo teórico ida     = 5.760 km / 200.000 km/s = 28,8 ms\nmínimo teórico ida+vuelta                        = 57,6 ms\nmedido en la práctica                          ~ 85-100 ms\n```\n\nLa diferencia entre 57,6 y ~90 ms son enrutamiento no geodésico, colas en routers y conmutación. Puedes optimizar esa parte; los 57,6 ms no. **Ninguna inversión hace que una petición Madrid–Nueva York baje de ~58 ms.** Por eso la respuesta a un problema de latencia rara vez es un servidor más rápido: es una réplica más cerca, una caché, o menos idas y vueltas.\n\nEl ancho de banda se comporta al revés: es una mercancía que se compra. Duplicar el caudal no acorta una petición de 2 KB, pero permite atender el doble de ellas."
+    },
+    {
+      "heading": "Qué define a la nube según NIST, y qué no",
+      "body": "La definición operativa la fija el **NIST SP 800-145** (Mell y Grance, 2011) con cinco características esenciales. Un servicio que no cumple las cinco es hosting, por mucho que se anuncie como cloud:\n\n| Característica | Prueba concreta |\n|---|---|\n| Autoservicio bajo demanda | ¿Puedes aprovisionar sin abrir un ticket ni hablar con nadie? |\n| Acceso amplio por red | ¿Se consume por protocolos estándar desde cualquier cliente? |\n| Agrupación de recursos | ¿El proveedor reasigna capacidad entre clientes de forma opaca? |\n| Elasticidad rápida | ¿Escala y libera en minutos, no en semanas? |\n| Servicio medido | ¿Se factura por consumo observable y auditable? |\n\nLa quinta es la que más cuesta interiorizar y la que más aparece en la factura: si el recurso se mide, **cada decisión de arquitectura es también una decisión de coste**. Un bucle mal escrito en un centro de datos propio es capacidad desperdiciada; el mismo bucle en cloud es una línea en la factura del mes siguiente."
+    },
+    {
+      "heading": "Los modelos de servicio son fronteras de responsabilidad",
+      "body": "IaaS, PaaS y SaaS no son «niveles de facilidad». Son **dónde se corta la responsabilidad operativa**, y esa línea determina a quién despiertan de madrugada:\n\n| Capa | On-premise | IaaS | PaaS | SaaS |\n|---|---|---|---|---|\n| Datos y acceso | tú | tú | tú | tú |\n| Aplicación | tú | tú | tú | proveedor |\n| Runtime y middleware | tú | tú | proveedor | proveedor |\n| Sistema operativo | tú | tú | proveedor | proveedor |\n| Virtualización, servidores, red física | tú | proveedor | proveedor | proveedor |\n\nObserva la primera fila: **los datos y el control de acceso nunca cambian de dueño**. Ese es el núcleo del modelo de responsabilidad compartida que se estudia en la clase 010, y el origen de la mayoría de incidentes públicos atribuidos a «fallos del proveedor» que en realidad fueron configuraciones del cliente."
+    },
+    {
+      "heading": "Elasticidad: el cambio económico, no el técnico",
+      "body": "La virtualización existe desde los años sesenta (CP-40 de IBM, 1967). Lo que la nube añadió no fue la técnica sino el **modelo económico**: pasar de CAPEX amortizado a OPEX medido.\n\nSupón un servicio con pico de 100 servidores durante 3 horas al día y 20 el resto:\n\n```text\nCompra:  100 servidores × 24 h × 30 días = 72.000 servidor-hora contratadas\nUso real: (100 × 3 + 20 × 21) × 30       = 21.600 servidor-hora útiles\nutilización = 21.600 / 72.000 = 30 %\n```\n\nEn compra pagas el 100 % y usas el 30 %. Con elasticidad pagas cerca del 30 %, a un precio unitario mayor. El punto de equilibrio depende de esa relación, no de la moda: **si tu carga es plana y predecible, comprar suele salir más barato**. Multi-cloud y elasticidad se justifican por requisitos medibles, nunca por defecto."
+    }
+  ],
+  "worked_example": "**CloudShop necesita responder una página de producto en menos de 300 ms al percentil 95.** El equipo desglosa el presupuesto de latencia para un usuario en Santiago de Chile y un despliegue en la región `us-east-1` (Virginia), a unos 7.400 km:\n\n```text\nresolución DNS (con caché fría)               40 ms\nhandshake TLS 1.3 (1 RTT sobre ~120 ms)      120 ms\npetición HTTP ida y vuelta                   120 ms\nconsulta a base de datos en la misma región    8 ms\nrenderizado en servidor                       25 ms\n---------------------------------------------------\ntotal                                        313 ms   ✗ incumple el SLO\n```\n\nEl componente dominante no es la aplicación —33 ms entre consulta y render— sino los **240 ms de red**. Optimizar el código no salva el SLO: aunque el render bajara a 0 ms, quedarían 288 ms.\n\nDos intervenciones sobre la red:\n\n```text\nCDN en Santiago para el HTML (RTT 10 ms)\n  DNS cacheado                    2 ms\n  TLS al borde (1 RTT sobre 10)  10 ms\n  HTTP al borde                  10 ms\n  origen solo para datos (1 RTT)120 ms\n  consulta + render               33 ms\n  ----------------------------------\n  total                         175 ms   ✓ cumple\n```\n\n**La decisión no fue «usar un CDN» sino reconocer que 240 de los 313 ms eran físicos y solo se atacan acercando el punto de terminación.** El coste añadido del borde se justifica contra los 138 ms recuperados; si el SLO hubiera sido 500 ms, el gasto no tendría defensa.",
+  "pitfalls": [
+    {"symptom": "El sistema es lento y se responde comprando instancias más grandes", "cause": "Se confundió latencia con capacidad de cómputo", "fix": "Desglosa el presupuesto de latencia por componente antes de escalar; si domina la red, más CPU no cambia nada."},
+    {"symptom": "«Migramos a la nube» pero la factura supera al centro de datos anterior", "cause": "Se replicó una carga plana sin usar elasticidad", "fix": "Calcula la utilización real; si es estable y alta, la nube solo compensa por otros motivos (alcance, servicios gestionados, continuidad)."},
+    {"symptom": "Se asume que el proveedor protege los datos", "cause": "Se leyó el modelo de servicio como nivel de comodidad y no como frontera de responsabilidad", "fix": "Sitúa cada capa en la tabla de responsabilidad; datos y acceso siguen siendo tuyos en IaaS, PaaS y SaaS."},
+    {"symptom": "Una prueba local va rápida y en producción no", "cause": "En local todo cabe en RAM y la red es de 0 ms", "fix": "Mide con las latencias reales entre zonas y regiones; la jerarquía de memoria del entorno de pruebas no es la de producción."},
+    {"symptom": "Se llama cloud a un servidor alquilado por meses", "cause": "No se aplicaron las cinco características de NIST", "fix": "Comprueba autoservicio, elasticidad y medición; si faltan, las decisiones de coste y escala no aplicarán."}
+  ],
+  "checks": [
+    "¿Cuántos órdenes de magnitud separan una referencia a caché L1 de una ida y vuelta intercontinental, y qué decisión de arquitectura se deriva de esa diferencia?",
+    "Un servicio tarda 400 ms y el equipo propone duplicar la CPU. ¿Qué medición pedirías antes de aprobar el gasto?",
+    "¿Cuál de las cinco características de NIST es la que convierte cada decisión técnica en una decisión de coste, y por qué?",
+    "En un despliegue PaaS, ¿qué sigue siendo responsabilidad tuya y qué pasa a ser del proveedor?",
+    "Una carga usa el 85 % de su capacidad las 24 horas. ¿Qué argumento económico queda a favor de la nube, si es que queda alguno?"
+  ],
+  "references": [
+    {"text": "Mell, P. y Grance, T. (2011). *The NIST Definition of Cloud Computing*, SP 800-145. National Institute of Standards and Technology.", "url": "https://doi.org/10.6028/NIST.SP.800-145"},
+    {"text": "Dean, J. (2009). *Latency Numbers Every Programmer Should Know* — cifras de referencia de la jerarquía de memoria.", "url": "https://static.googleusercontent.com/media/research.google.com/en//people/jeff/stanford-295-talk.pdf"},
+    {"text": "Kurose, J. y Ross, K. (2021). *Computer Networking: A Top-Down Approach*, 8.ª ed., cap. 1.4 — retardo, pérdida y throughput.", "url": null},
+    {"text": "Barroso, L., Hölzle, U. y Ranganathan, P. (2018). *The Datacenter as a Computer*, 3.ª ed. — economía y utilización del centro de datos.", "url": "https://doi.org/10.2200/S00874ED3V01Y201809CAC046"},
+    {"text": "Gray, J. (2008). *Distributed Computing Economics*. ACM Queue 6(3) — por qué conviene mover el cómputo hacia los datos.", "url": "https://doi.org/10.1145/1394127.1394131"}
+  ]
+}
