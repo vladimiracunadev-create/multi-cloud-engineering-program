@@ -1,13 +1,13 @@
-const CACHE = "multicloud-program-v2.0.0-r6";
+const CACHE = "multicloud-program-v2.0.0-r7";
 const NETWORK_TIMEOUT_MS = 3500;
 
 // Shell mínimo para arrancar sin red. Se precachea uno por uno: si alguno
 // falla, la instalación continúa en vez de abortar entera y dejar al portal
 // sin service worker. La topología de 1,7 MB queda fuera a propósito.
 const CORE = [
-  "./", "./index.html", "./styles.css?v=2.0.0-r6", "./app.js?v=2.0.0-r6", "./catalog.json",
-  "./manifest.webmanifest", "./assets/icon.svg", "./assets/class.css?v=2.0.0-r6",
-  "./assets/class.js?v=2.0.0-r6"
+  "./", "./index.html", "./app.js?v=2.0.0-r7", "./catalog.json",
+  "./manifest.webmanifest", "./assets/icon.svg", "./assets/class.css?v=2.0.0-r7",
+  "./assets/class.js?v=2.0.0-r7"
 ];
 
 self.addEventListener("install", (event) => {

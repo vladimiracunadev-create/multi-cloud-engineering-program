@@ -18,7 +18,6 @@ def validate() -> list[str]:
     required = [
         SITE / "index.html",
         SITE / "app.js",
-        SITE / "styles.css",
         SITE / "service-worker.js",
         SITE / "manifest.webmanifest",
         SITE / "sitemap.xml",

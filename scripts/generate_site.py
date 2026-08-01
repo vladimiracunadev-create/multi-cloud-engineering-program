@@ -216,8 +216,27 @@ def part_page(part_id: str, items: list[dict]) -> str:
     )
 
 
+# El portal solo lee estos campos (site/app.js). Publicar el catalogo canonico
+# entero anadia 104 KB sin comprimir de datos que el navegador nunca consulta:
+# books, source_repositories, practice_track, artifact, maturity y part_class.
+# curriculum/catalog.json sigue siendo la fuente completa para el manual, la CLI
+# y las paginas de clase.
+PORTAL_FIELDS = (
+    "id", "number", "title", "slug", "part", "part_slug", "part_title",
+    "level", "estimated_hours", "lab_kind", "keywords", "status",
+)
+
+
+def portal_catalog(catalog: list[dict]) -> list[dict]:
+    return [{key: item[key] for key in PORTAL_FIELDS} for item in catalog]
+
+
 def build() -> None:
     catalog = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+    (SITE / "catalog.json").write_text(
+        json.dumps(portal_catalog(catalog), ensure_ascii=False, separators=(",", ":")),
+        encoding="utf-8",
+    )
     shutil.rmtree(CLASSES_OUT, ignore_errors=True)
     shutil.rmtree(PARTS_OUT, ignore_errors=True)
     CLASSES_OUT.mkdir(parents=True)
