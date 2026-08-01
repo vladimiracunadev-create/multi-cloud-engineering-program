@@ -6,7 +6,7 @@ import json
 import re
 from pathlib import Path
 
-from generate_site import ASSET_VERSION
+from asset_version import ASSET_VERSION
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"

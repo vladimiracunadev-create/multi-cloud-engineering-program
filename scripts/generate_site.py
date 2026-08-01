@@ -10,6 +10,8 @@ from pathlib import Path
 
 import markdown
 
+from asset_version import ASSET_VERSION
+
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 CLASSES_OUT = SITE / "classes"
@@ -17,7 +19,6 @@ PARTS_OUT = SITE / "parts"
 CATALOG_PATH = ROOT / "curriculum" / "catalog.json"
 REPO_URL = "https://github.com/vladimiracunadev-create/multi-cloud-engineering-program"
 PAGES_URL = "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program"
-ASSET_VERSION = "2.0.0-r5"
 
 MD_EXTENSIONS = ["extra", "toc", "sane_lists"]
 

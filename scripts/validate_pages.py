@@ -9,7 +9,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-from generate_site import ASSET_VERSION
+from asset_version import ASSET_VERSION
 
 
 DEFAULT_URL = "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/"
