@@ -8,31 +8,28 @@
 
 ## 🎯 Propósito
 
-Comprender y aplicar **iam, service accounts y workload identity federation** dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.
+Dominar el modelo de identidad de Google Cloud, cuya pieza central no tiene equivalente exacto en las otras dos plataformas: la cuenta de servicio es **a la vez una identidad y un recurso**, así que hay dos preguntas de permiso en vez de una —qué puede hacer y quién puede usarla—. De ahí sale el camino de escalada más habitual de la plataforma, la fuga de credenciales más repetida y la razón por la que aquí el privilegio mínimo se revisa con datos de uso en vez de con criterio.
 
 ## 📚 Resultados de aprendizaje
 
 Al finalizar podrás:
 
-1. **Explicar** iam, service accounts y workload identity federation con vocabulario independiente del proveedor.
-2. **Relacionar** sus componentes con el modelo mental de la parte.
-3. **Ejecutar** un laboratorio local determinista y leer su contrato JSON.
-4. **Evaluar** al menos una alternativa y justificar el trade-off elegido.
-5. **Entregar** `identidad-gcp` con evidencia, límites y criterio de reversión.
+1. **Distinguir** los permisos de una cuenta de servicio de los permisos para suplantarla, y detectar la escalada que produce la segunda.
+2. **Sustituir** claves de cuenta de servicio por identidad adjunta, suplantación y federación de identidad de carga de trabajo.
+3. **Acotar** una federación con una condición de atributo y demostrar con una prueba negativa que la acotación funciona.
+4. **Aplicar** políticas de denegación de IAM y condiciones con caducidad, y saber en qué orden se evalúa todo.
+5. **Reducir** privilegios a partir del uso observado en vez de por estimación.
 
 ## 🧩 Conceptos centrales
 
 | Concepto | Comprensión verificable |
 |---|---|
-| `iam` | Define su papel en **iam, service accounts y workload identity federation** y cómo observarlo en un sistema real. |
-| `service` | Define su papel en **iam, service accounts y workload identity federation** y cómo observarlo en un sistema real. |
-| `accounts` | Define su papel en **iam, service accounts y workload identity federation** y cómo observarlo en un sistema real. |
-| `workload` | Define su papel en **iam, service accounts y workload identity federation** y cómo observarlo en un sistema real. |
-| `identity` | Define su papel en **iam, service accounts y workload identity federation** y cómo observarlo en un sistema real. |
-| `federation` | Define su papel en **iam, service accounts y workload identity federation** y cómo observarlo en un sistema real. |
+| `cuenta de servicio` | Identidad **y recurso** a la vez. Tiene permisos propios sobre otros recursos y una política propia que dice quién puede usarla. Confundir las dos caras es la causa de la escalada más común de la plataforma. |
+| `suplantación` | Obtener un testigo de corta duración de una cuenta de servicio. Sustituye a las claves para personas y para automatización, y deja rastro de **quién** suplantó a quién. |
+| `clave de cuenta de servicio` | Fichero JSON con credenciales de larga duración. Es la fuga más frecuente de Google Cloud: acaba en repositorios, portátiles e imágenes de contenedor. |
+| `rol básico` | `Owner`, `Editor` y `Viewer`. `Editor` permite modificar casi todo en el proyecto, y es lo que las cuentas de servicio por defecto reciben automáticamente. |
+| `condición de atributo` | Filtro sobre las afirmaciones del testigo externo en una federación. Sin ella, **cualquier repositorio del proveedor externo puede obtener credenciales**. |
+| `política de denegación de IAM` | Regla que quita permisos y se evalúa **antes** que las concesiones. Es lo que resta en un modelo aditivo, y convive con las políticas de organización sin sustituirlas. |
 
 ## 🧠 Modelo mental
 
@@ -46,59 +43,455 @@ en un diagrama pero fallan al operar.
 ## 🗺️ Flujo de razonamiento
 
 ```mermaid
-flowchart LR
-    A["Necesidad y restricciones"] --> B["Diseño: IAM, service accounts y Workload Identity Federation"]
-    B --> C["Implementación reproducible"]
-    C --> D["Estado observado"]
-    D --> E{"¿Cumple seguridad, SLO y costo?"}
-    E -- "No" --> B
-    E -- "Sí" --> F["Evidencia y decisión registrada"]
+flowchart TB
+    P["persona o carga de trabajo"] --> Q{"¿cómo obtiene credenciales?"}
+    Q -->|"peor: fichero de larga duración"| K["clave de cuenta de servicio"]
+    Q -->|"cargas dentro de Google Cloud"| A["cuenta de servicio ADJUNTA"]
+    Q -->|"personas y automatización interna"| I["suplantación · testigo corto"]
+    Q -->|"CI externo"| W["federación de identidad<br/>de carga de trabajo"]
+    W --> C{"¿hay condición de atributo?"}
+    C -->|"no"| X["CUALQUIER repositorio<br/>obtiene credenciales"]
+    C -->|"sí"| OK["solo el sujeto declarado"]
+    A --> SA["cuenta de servicio"]
+    I --> SA
+    OK --> SA
+    SA --> D1["qué PUEDE HACER<br/>sus roles sobre recursos"]
+    SA --> D2["quién puede USARLA<br/>su propia política de IAM"]
+    D2 -.->|"serviceAccountTokenCreator<br/>= todos sus permisos"| ESC["escalada"]
 ```
 
 ## 📖 Desarrollo
 
-### 1. Del requisito al mecanismo
+### 1. La cuenta de servicio tiene dos caras y solo se mira una
 
-Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.
+En AWS un rol se asume; en Azure una identidad administrada se asocia a un recurso. En Google Cloud la cuenta de servicio es las dos cosas a la vez, y de ahí sale casi todo lo interesante de esta clase:
 
-### 2. Fronteras y responsabilidades
+```text
+cara 1 · es una IDENTIDAD
+  tiene una dirección: despliegue@cls-tienda-prod.iam.gserviceaccount.com
+  tiene roles sobre otros recursos: qué PUEDE HACER
 
-Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.
+cara 2 · es un RECURSO
+  tiene su propia política de IAM: quién puede USARLA
+```
 
-### 3. Compensaciones que deben quedar visibles
+La revisión de permisos habitual mira la primera cara —qué roles tiene cada persona— y se salta la segunda. Y la segunda es la que concede de verdad:
 
-| Dimensión | Pregunta de diseño |
-|---|---|
-| Confiabilidad | ¿Qué falla, cómo se detecta y cuánto tarda en recuperarse? |
-| Seguridad | ¿Qué identidad actúa y cuál es el mínimo privilegio necesario? |
-| Costo | ¿Cuál es la unidad de consumo y qué hace crecer la factura? |
-| Operación | ¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor? |
-| Portabilidad | ¿Qué contrato es estándar y qué decisión es específica del proveedor? |
+```bash
+$ gcloud projects get-iam-policy cls-tienda-prod-euw1-01 \
+    --flatten="bindings[].members" --filter="bindings.members:ana@cloudshop.example" \
+    --format="value(bindings.role)"
+roles/viewer
+```
 
-La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.
+Parece que Ana solo puede leer. Pero:
+
+```bash
+$ gcloud iam service-accounts get-iam-policy \
+    despliegue@cls-tienda-prod-euw1-01.iam.gserviceaccount.com \
+    --format="value(bindings.role,bindings.members)"
+roles/iam.serviceAccountTokenCreator   user:ana@cloudshop.example
+```
+
+```bash
+$ gcloud storage ls --impersonate-service-account \
+    despliegue@cls-tienda-prod-euw1-01.iam.gserviceaccount.com
+# lista todo lo que puede la cuenta de despliegue, que tiene roles/editor
+```
+
+**Ana tiene, en la práctica, los permisos de la cuenta de despliegue.** Su rol propio es irrelevante. Los dos permisos que producen esto:
+
+```text
+roles/iam.serviceAccountTokenCreator   genera testigos: acceso completo a la cuenta
+roles/iam.serviceAccountUser           permite ADJUNTARLA a un recurso nuevo
+                                       → crear una máquina con esa cuenta y
+                                         ejecutar código con sus permisos
+```
+
+El segundo es más sutil y no menos potente: quien puede crear una máquina virtual y adjuntarle una cuenta de servicio privilegiada puede ejecutar lo que quiera con esos permisos. Por eso `serviceAccountUser` sobre una cuenta con `Editor` **equivale a `Editor`**.
+
+La regla operativa que se deduce, y que cambia cómo se audita:
+
+```text
+el permiso efectivo de una persona es la UNIÓN de:
+  sus propios roles
+  + los roles de TODA cuenta de servicio que pueda suplantar o adjuntar
+  + (recursivamente) las que esas cuentas puedan suplantar a su vez
+```
+
+La palabra «recursivamente» no es teórica: una cadena de dos saltos —Ana suplanta a la cuenta A, que puede suplantar a la cuenta B, que es `Owner`— es un camino real y ninguna revisión que mire una sola tabla lo encuentra. La herramienta que lo resuelve es el analizador de políticas, que responde a la pregunta inversa: quién puede llegar a este recurso, por cualquier camino.
+
+```bash
+$ gcloud asset analyze-iam-policy --organization=$ORG_ID \
+    --analyze-service-account-impersonation \
+    --identity="user:ana@cloudshop.example"
+```
+
+### 2. Las cuentas por defecto ya vienen con Editor
+
+Este es el hecho más importante de la clase para una organización recién abierta, porque el riesgo está puesto de fábrica.
+
+Al habilitar Compute Engine o App Engine, el proyecto recibe **cuentas de servicio por defecto** y —salvo que se impida— se les concede automáticamente `roles/editor` sobre el proyecto:
+
+```bash
+$ gcloud projects get-iam-policy cls-tienda-prod-euw1-01 \
+    --flatten="bindings[].members" --filter="bindings.role:roles/editor" \
+    --format="value(bindings.members)"
+serviceAccount:418293047512-compute@developer.gserviceaccount.com
+```
+
+Y esa cuenta es la que se adjunta por omisión a cualquier máquina virtual creada sin especificar otra. Es decir:
+
+```text
+cualquier máquina creada sin pensar
+  → ejecuta con una identidad que puede modificar casi todo el proyecto
+  → una dependencia comprometida en esa máquina hereda ese poder
+  → y el servicio de metadatos entrega el testigo sin pedir nada
+```
+
+La comprobación desde dentro de la máquina, que conviene hacer una vez para entender la magnitud:
+
+```bash
+$ curl -s -H "Metadata-Flavor: Google" \
+    "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/email"
+418293047512-compute@developer.gserviceaccount.com
+```
+
+Las dos medidas, en este orden:
+
+```bash
+# 1. que las cuentas por defecto dejen de recibir Editor automáticamente
+$ gcloud resource-manager org-policies enable-enforce \
+    constraints/iam.automaticIamGrantsForDefaultServiceAccounts --organization $ORG_ID
+
+# 2. una cuenta dedicada por carga de trabajo, con los roles mínimos
+$ gcloud iam service-accounts create sa-tienda-web --project cls-tienda-prod-euw1-01
+$ gcloud projects add-iam-policy-binding cls-tienda-prod-euw1-01 \
+    --member "serviceAccount:sa-tienda-web@cls-tienda-prod-euw1-01.iam.gserviceaccount.com" \
+    --role roles/secretmanager.secretAccessor --condition=None
+```
+
+Y hay una complicación heredada que confunde a quien depura permisos en máquinas antiguas: los **ámbitos de acceso**. Son un mecanismo previo a IAM que sigue existiendo en Compute Engine, y el permiso efectivo de una máquina es la **intersección** de ambos:
+
+```text
+permiso efectivo = roles de la cuenta de servicio  ∩  ámbitos de la máquina
+```
+
+Eso produce el desconcierto clásico: la cuenta tiene el rol, la llamada falla, y añadir más roles no cambia nada porque el ámbito no lo incluye. La guía vigente es fijar el ámbito en `cloud-platform` y controlar exclusivamente con IAM, que es donde hay granularidad y auditoría:
+
+```bash
+$ gcloud compute instances create web-01 --zone europe-west1-b \
+    --service-account sa-tienda-web@cls-tienda-prod-euw1-01.iam.gserviceaccount.com \
+    --scopes cloud-platform
+```
+
+Y los **roles básicos** merecen una frase propia. `Editor` incluye modificar prácticamente cualquier recurso del proyecto; `Owner` añade gestionar los permisos, que es lo que convierte cualquier acceso en permanente. Ninguno de los tres debería aparecer en una concesión nueva. Su equivalente correcto son los roles predefinidos —hay cientos, muy específicos— y, cuando ninguno encaja, un rol personalizado:
+
+```bash
+$ gcloud iam roles create tiendaOperador --organization $ORG_ID \
+    --permissions run.services.get,run.services.update,logging.logEntries.list \
+    --stage GA
+```
+
+### 3. Las claves: por qué desaparecen y por qué no
+
+Una clave de cuenta de servicio es un fichero JSON con una credencial que **no caduca**. Es la fuga de credenciales más frecuente de Google Cloud, y no por descuido excepcional: es que resulta cómoda.
+
+```json
+{"type": "service_account", "project_id": "cls-tienda-prod-euw1-01",
+ "private_key_id": "…", "private_key": "-----BEGIN PRIVATE KEY-----\n…",
+ "client_email": "despliegue@cls-tienda-prod-euw1-01.iam.gserviceaccount.com"}
+```
+
+Cuatro sitios donde acaban, en orden de frecuencia: un repositorio, la máquina de alguien, una imagen de contenedor y un gestor de secretos de otro sistema desde el que se copia a mano.
+
+Las cuatro alternativas, por caso de uso, ordenadas de mejor a peor:
+
+```text
+carga dentro de Google Cloud     cuenta de servicio ADJUNTA al recurso
+                                 no hay credencial: el servicio de metadatos
+                                 entrega un testigo corto
+persona                          suplantación con el propio inicio de sesión
+                                 gcloud --impersonate-service-account
+CI externo o nube ajena          federación de identidad de carga de trabajo
+caso sin alternativa             clave, con caducidad y rotación automatizada
+                                 y con la justificación escrita
+```
+
+La suplantación para personas cambia además lo que dice la auditoría, que es la mitad del valor:
+
+```text
+con clave         el registro dice: actuó despliegue@…
+                  quién la usó: se desconoce
+con suplantación  el registro dice: ana@cloudshop.example actuó
+                  COMO despliegue@…
+```
+
+La primera forma hace imposible responder «quién hizo esto» durante un incidente. La segunda lo responde sola.
+
+```bash
+$ gcloud config set auth/impersonate_service_account \
+    despliegue@cls-tienda-prod-euw1-01.iam.gserviceaccount.com
+$ gcloud storage ls gs://cls-tienda-facturas
+```
+
+Y el interruptor que hace que todo lo anterior se cumpla de verdad, en lugar de quedarse en una recomendación:
+
+```bash
+$ gcloud resource-manager org-policies enable-enforce \
+    constraints/iam.disableServiceAccountKeyCreation --organization $ORG_ID
+```
+
+Con él activo, la vía cómoda deja de existir y los equipos adoptan las otras tres. Sin él, siempre habrá un caso urgente que justifique una clave más. Es el mismo argumento de la clase 046 sobre por qué una directiva vale más que una norma: **el control que no se puede saltar no depende de la disciplina de nadie**.
+
+Y para las claves que ya están en circulación, el inventario primero y la prueba negativa después:
+
+```bash
+$ gcloud asset search-all-resources --scope organizations/$ORG_ID \
+    --asset-types iam.googleapis.com/ServiceAccountKey \
+    --query "NOT name:*/keys/system-managed*" --format="value(name)" | wc -l
+14
+```
+
+Las gestionadas por el sistema se excluyen del recuento porque son internas y rotan solas. Las catorce restantes son las creadas por personas, y cada una necesita un destino: sustituirla, o quedar documentada con responsable y fecha.
+
+### 4. Federación: la tercera vez que aparece la misma condición
+
+La federación de identidad de carga de trabajo permite que un sistema externo —una canalización de GitHub, una carga en otra nube, un servidor propio— obtenga credenciales sin ninguna clave. Es el mismo contrato de las clases 026 y 038, así que aquí interesa **lo que cambia y lo que no**.
+
+Lo que no cambia: la pieza crítica sigue siendo acotar quién puede usarla.
+
+```bash
+$ gcloud iam workload-identity-pools create cls-ci --location global \
+    --display-name "CI de CloudShop"
+
+$ gcloud iam workload-identity-pools providers create-oidc github \
+    --workload-identity-pool cls-ci --location global \
+    --issuer-uri "https://token.actions.githubusercontent.com" \
+    --attribute-mapping "google.subject=assertion.sub,\
+attribute.repository=assertion.repository,\
+attribute.ref=assertion.ref" \
+    --attribute-condition "assertion.repository == 'cloudshop/tienda' && \
+assertion.ref == 'refs/heads/main'"
+```
+
+**Sin `--attribute-condition`, cualquier repositorio de GitHub del mundo puede obtener credenciales de tu organización.** Es exactamente el mismo fallo que en AWS con un `sub` sin acotar y en Azure con un `subject` vacío, y es la tercera confirmación del mismo contrato: la parte peligrosa de una federación nunca es el emisor, es **el sujeto**.
+
+Lo que sí cambia es la forma de conceder, que aquí es más expresiva. En vez de asociar la federación a una única identidad, se conceden roles a un **conjunto de principales**:
+
+```bash
+$ gcloud iam service-accounts add-iam-policy-binding \
+    despliegue@cls-tienda-prod-euw1-01.iam.gserviceaccount.com \
+    --role roles/iam.workloadIdentityUser \
+    --member "principalSet://iam.googleapis.com/projects/$NUM/locations/global/\
+workloadIdentityPools/cls-ci/attribute.repository/cloudshop/tienda"
+```
+
+Ese formato permite conceder por atributo —todo lo que venga de un repositorio, o de una rama— sin enumerar identidades una a una. Es cómodo y es la misma cuerda de la que colgarse: un `principalSet` con un atributo demasiado amplio concede a más de lo previsto.
+
+Y la prueba negativa, que es la única evidencia aceptable y ya se ha ejecutado en tres plataformas:
+
+```text
+desde otro repositorio                    permiso denegado    ✓
+desde cloudshop/tienda, rama de trabajo   permiso denegado    ✓
+desde cloudshop/tienda, rama main         testigo emitido     ✓
+```
+
+Dos mecanismos más completan el modelo, y conviene situarlos:
+
+**Condiciones en las concesiones.** Una concesión puede llevar una expresión que la limite en el tiempo o por nombre de recurso. Es el privilegio mínimo **en el tiempo** de la clase 038, más simple que la activación con aprobación de allí y suficiente para un acceso temporal:
+
+```bash
+$ gcloud projects add-iam-policy-binding cls-tienda-prod-euw1-01 \
+    --member "user:ana@cloudshop.example" --role roles/run.admin \
+    --condition "expression=request.time < timestamp('2026-08-15T00:00:00Z'),\
+title=incidente-4821,description=acceso temporal"
+```
+
+La concesión **caduca sola**. Eso elimina la deuda de accesos que nadie retira, que es de donde salen la mitad de los permisos excesivos de cualquier organización con dos años de vida.
+
+**Políticas de denegación.** Se evalúan **antes** que las concesiones y ganan siempre, y se adjuntan a la organización, la carpeta o el proyecto:
+
+```text
+orden de evaluación
+  1. políticas de denegación   ¿hay una regla que quite este permiso? → fin
+  2. concesiones               ¿hay alguna que lo dé? → permitido
+  3. políticas de organización ¿la configuración resultante está permitida?
+```
+
+Son la pieza que faltaba para acotar un rol amplio sin rehacerlo: negar `iam.serviceAccounts.getAccessToken` sobre las cuentas de producción a todo el mundo salvo a un grupo, por ejemplo. Y conviven con las políticas de organización sin sustituirlas, porque responden preguntas distintas: la denegación dice **qué permisos no tienes**; la política de organización dice **qué configuraciones no son válidas**, tengas el permiso que tengas.
+
+### 5. Reducir privilegios con datos en vez de con criterio
+
+Todas las plataformas del programa han pedido privilegio mínimo y ninguna ha ofrecido hasta ahora una forma no subjetiva de conseguirlo. Aquí sí la hay, y merece ser el cierre de la clase porque cambia la conversación.
+
+El recomendador observa el uso real de los últimos 90 días y propone el rol ajustado:
+
+```bash
+$ gcloud recommender recommendations list \
+    --project cls-tienda-prod-euw1-01 --location global \
+    --recommender google.iam.policy.Recommender \
+    --format "table(content.overview.member, content.overview.removedRole,
+                    content.overview.addedRole)"
+```
+
+```text
+miembro                       rol retirado    rol propuesto
+sa-tienda-web@…               roles/editor    roles/run.invoker
+                                              roles/secretmanager.secretAccessor
+sa-informes@…                 roles/editor    roles/bigquery.dataViewer
+user:carlos@cloudshop.example roles/owner     roles/viewer
+```
+
+Esto convierte una discusión —«¿de verdad necesitas Editor?»— en un dato: durante 90 días esa identidad usó tres permisos de los cientos que tenía. Y tiene dos límites que hay que decir en voz alta para no crear una falsa confianza:
+
+```text
+1. una acción que solo ocurre una vez al trimestre no aparece en 90 días
+   → aplicar la recomendación puede romper el cierre anual
+2. mide lo USADO, no lo NECESARIO
+   → un permiso usado por error sigue apareciendo como usado
+```
+
+La forma responsable de aplicarlo es por pasos y con vuelta atrás preparada:
+
+```text
+1. aplicar en no producción y observar dos semanas
+2. en producción, empezar por identidades de carga de trabajo
+   (su comportamiento es más predecible que el de las personas)
+3. conservar el permiso para procesos periódicos conocidos aunque
+   no aparezcan en la ventana
+4. registrar los errores de permiso en un panel: son la señal
+   de que se recortó de más, y aparecen en minutos
+```
+
+El punto 4 es el que hace segura la operación. Un `PERMISSION_DENIED` es visible, inmediato y reversible; un permiso de más es invisible durante años. **La asimetría favorece recortar**, y esa es la razón por la que conviene hacerlo con datos y no esperar a tener certeza.
+
+Y para diagnosticar un acceso denegado concreto, el orden que acota el problema, con la misma estructura de las clases 038 y 026:
+
+```bash
+# 1. ¿por qué se deniega ESTA llamada a ESTE recurso para ESTA identidad?
+$ gcloud policy-intelligence troubleshoot-policy iam \
+    --principal-email sa-tienda-web@cls-tienda-prod-euw1-01.iam.gserviceaccount.com \
+    --resource-name //storage.googleapis.com/projects/_/buckets/cls-tienda-facturas \
+    --permission storage.objects.get
+```
+
+La respuesta indica si falta la concesión, si hay una política de denegación que gana o si una condición no se cumple. Y si nada de eso explica el fallo, el error no es de IAM: es de una política de organización, y el mensaje lo dirá con otro texto. Tres plataformas, tres vocabularios y **la misma pregunta**: ¿en qué sistema está la regla que me impide esto?
 
 ## 🔬 Ejemplo trabajado
 
-Una plataforma de pedidos necesita aplicar **iam, service accounts y workload identity federation**. El equipo registra:
+**CloudShop configura la identidad de su plataforma en Google Cloud. Llega con el contrato de las clases 026 y 038 y lo aplica en un día. Después aparecen cuatro cosas que ese contrato no cubría, y tres de ellas son la misma pieza vista desde ángulos distintos: la cuenta de servicio como recurso.**
 
-- demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;
-- SLO mensual de 99,9 % para operaciones de lectura;
-- RPO de 15 minutos y RTO de 60 minutos;
-- datos personales que no pueden salir de la región aprobada;
-- presupuesto inicial de USD 600/mes.
+**Hallazgo 1 — todas las máquinas ejecutan con Editor.**
 
-La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.
+La revisión inicial de permisos sobre el proyecto de tienda:
+
+```bash
+$ gcloud projects get-iam-policy cls-tienda-prod-euw1-01 \
+    --flatten="bindings[].members" --filter="bindings.role:roles/editor" \
+    --format="value(bindings.members)"
+serviceAccount:418293047512-compute@developer.gserviceaccount.com
+```
+
+Seis máquinas y dos grupos de instancias usaban esa cuenta por omisión. Cualquier dependencia comprometida en cualquiera de ellas podía leer todos los secretos del proyecto, modificar la base de datos y crear recursos.
+
+```text                                        antes           después
+cuentas con roles/editor                        2                0
+cuentas de servicio dedicadas                   0                7
+roles por carga de trabajo                  editor      3,1 roles de media
+concesiones automáticas por defecto        activas    desactivadas por política
+ámbito de acceso de las máquinas          heredado      cloud-platform + IAM
+```
+
+**Hallazgo 2 — Ana era «Viewer» y podía desplegar en producción.**
+
+Una auditoría de accesos cruzada con el analizador de políticas:
+
+```bash
+$ gcloud asset analyze-iam-policy --organization=$ORG_ID \
+    --analyze-service-account-impersonation \
+    --identity="user:ana@cloudshop.example" --format="value(…)"
+ana@cloudshop.example → despliegue@cls-tienda-prod (tokenCreator)
+                      → despliegue tiene roles/editor
+```
+
+El rol propio de Ana era `roles/viewer`. Su permiso efectivo era `Editor` sobre producción, por un camino que ninguna tabla de roles de usuario mostraba. Y no era un caso aislado:
+
+```text                                        antes         después
+personas con acceso efectivo a producción       11              3
+caminos de suplantación no previstos             7              0
+concesiones de tokenCreator                     11    3, con caducidad de 8 h
+revisión de permisos                    tabla de roles   analizador de políticas
+```
+
+La corrección de fondo no fue quitar permisos: fue **cambiar qué se revisa**. Una revisión que mira solo los roles directos no puede encontrar esto.
+
+**Hallazgo 3 — catorce claves, una en un repositorio público.**
+
+```bash
+$ gcloud asset search-all-resources --scope organizations/$ORG_ID \
+    --asset-types iam.googleapis.com/ServiceAccountKey \
+    --query "NOT name:*/keys/system-managed*" --format="value(name)" | wc -l
+14
+```
+
+Una de ellas apareció en un repositorio público de un antiguo becario, con la cuenta `informes@`, que tenía `roles/bigquery.dataViewer` sobre el conjunto de datos de ventas. Estuvo accesible cuatro meses.
+
+La migración, por casos de uso y en este orden:
+
+```text                            antes              después
+canalizaciones de CI            5 claves      federación con condición de atributo
+cargas en Compute y Cloud Run   6 claves      cuenta de servicio adjunta
+herramientas de personas        3 claves      suplantación con el propio acceso
+claves restantes                  14                    0
+creación de claves nuevas      permitida      bloqueada por política
+```
+
+Y la prueba negativa de la federación, la tercera vez que se ejecuta la misma prueba en este programa:
+
+```text
+desde otro repositorio                       permiso denegado    ✓
+desde cloudshop/tienda, rama de trabajo      permiso denegado    ✓
+desde cloudshop/tienda, rama main            testigo emitido     ✓
+```
+
+**Hallazgo 4 — el recomendador dice que sobra el 96 % de los permisos.**
+
+Tras 90 días de operación con las cuentas dedicadas ya creadas:
+
+```text
+identidad             permisos concedidos   usados en 90 días
+sa-tienda-web                    412                7
+sa-procesador                    412               11
+sa-informes                      189                4
+```
+
+Las recomendaciones se aplican por pasos, empezando por las cuentas de carga de trabajo, y con el panel de errores de permiso vigilando:
+
+```text                            antes        después
+permisos concedidos (suma)        1.013            34
+errores PERMISSION_DENIED
+  en las 2 semanas siguientes        —              3
+de los cuales, recortes de más     —      2, restaurados en 20 min
+el tercero                         —      un proceso trimestral no visible
+                                          en la ventana de 90 días
+```
+
+El tercero es el interesante y confirma el límite que había que declarar: un cierre trimestral no aparece en una ventana de noventa días. Se restauró su permiso con una condición que lo limita a los cinco primeros días de cada trimestre.
+
+**Resumen del modelo de identidad:**
+
+```text                                          antes         después
+cuentas con rol básico                            2               0
+claves de cuenta de servicio                     14               0
+personas con acceso efectivo a producción        11               3
+caminos de suplantación no previstos              7               0
+permisos concedidos (suma de las tres cuentas) 1.013              34
+concesiones con caducidad                         0               6
+prueba negativa de la federación                 no        sí, tres casos
+```
+
+**La lección que esta clase traslada al resto de la parte 04**: el contrato de identidad de las partes 02 y 03 se reutilizó entero —sin secretos, federación acotada por sujeto, privilegio mínimo, prueba negativa— y aun así hubo cuatro hallazgos, porque **la cuenta de servicio es un recurso además de una identidad y eso duplica las preguntas de permiso**. Una auditoría que mire solo quién tiene qué rol es correcta y está incompleta: en Google Cloud hay que preguntar además a quién puede suplantar cada quien, y responderlo requiere una herramienta, no una hoja de cálculo.
 
 ## 🧪 Laboratorio guiado
 
@@ -141,11 +534,12 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 
 | Síntoma | Causa probable | Corrección |
 |---|---|---|
-| El diseño enumera servicios pero no requisitos | Se comenzó por el catálogo del proveedor | Reescribe primero escenarios y restricciones medibles. |
-| La demo funciona una vez y se declara lista | Se confundió ejecución con evidencia operacional | Añade repetición, fallo, telemetría y recuperación. |
-| Todo tiene permisos administrativos | El laboratorio heredó credenciales humanas | Usa identidad de workload y prueba explícitamente la denegación. |
-| No se puede explicar la factura | Faltan unidades y ownership de costo | Etiqueta, estima por unidad y define presupuesto o alerta. |
-| La solución se llama multi-cloud pero replica todo | Portabilidad se confundió con duplicación | Define qué riesgo se mitiga y porta solo el contrato necesario. |
+| Una persona con rol de solo lectura despliega en producción | Tiene permiso para suplantar o adjuntar una cuenta de servicio privilegiada | Audita con el analizador de políticas incluyendo suplantación, y limita `serviceAccountTokenCreator` y `serviceAccountUser` con concesiones caducas. |
+| Una máquina virtual puede modificar casi todo el proyecto | Usa la cuenta de servicio por defecto, que recibe `roles/editor` automáticamente | Desactiva las concesiones automáticas por política y crea una cuenta dedicada por carga con roles mínimos. |
+| La cuenta tiene el rol correcto y la llamada sigue fallando en una máquina antigua | Los ámbitos de acceso de Compute Engine intersecan con IAM y no incluyen esa API | Fija el ámbito en `cloud-platform` y controla exclusivamente con roles de IAM. |
+| Una credencial filtrada sigue siendo válida meses después | Es una clave de cuenta de servicio, que no caduca | Sustituye por identidad adjunta, suplantación o federación, y bloquea la creación de claves con una política de organización. |
+| Un repositorio ajeno obtiene credenciales de la organización | El proveedor de identidad federada no tiene condición de atributo | Acota con `--attribute-condition` sobre repositorio y rama, y verifica con las tres pruebas negativas. |
+| Aplicar las recomendaciones de privilegio rompe un proceso trimestral | El recomendador observa 90 días y un proceso trimestral puede no aparecer | Conserva los permisos de procesos periódicos conocidos, vigila los errores de permiso y restaura con una concesión condicionada a su ventana. |
 
 ## 🛡️ Seguridad, ética y costo
 
@@ -156,17 +550,19 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## ❓ Preguntas de comprobación
 
-1. ¿Qué parte del diseño seguiría siendo válida en otro proveedor?
-2. ¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?
-3. ¿Cuál es la unidad de costo y quién puede actuar sobre ella?
-4. ¿Qué permiso puede retirarse sin romper el caso de uso?
-5. ¿Qué evidencia falta para afirmar que esto está listo para producción?
+1. ¿Cuáles son las dos caras de una cuenta de servicio y qué pregunta se salta una auditoría que solo mira los roles de las personas?
+2. ¿Por qué `serviceAccountUser` sobre una cuenta con `Editor` equivale a tener `Editor`?
+3. ¿Qué se concede automáticamente al habilitar Compute Engine y cómo se impide?
+4. Enumera las cuatro alternativas a una clave de cuenta de servicio y en qué caso corresponde cada una.
+5. ¿En qué orden se evalúan las políticas de denegación, las concesiones y las políticas de organización?
 
 ## 🔗 Referencias
 
-- Google Cloud Architecture Framework — Google.
-- Official Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan.
-- Data Engineering with Google Cloud Platform — Adi Wijaya.
+- Google Cloud (2025). *Service accounts overview* — identidad y recurso, suplantación y adjunción. <https://cloud.google.com/iam/docs/service-account-overview>
+- Google Cloud (2025). *Best practices for using service accounts* — claves, alternativas y cuentas por defecto. <https://cloud.google.com/iam/docs/best-practices-service-accounts>
+- Google Cloud (2025). *Workload Identity Federation* — grupos, proveedores, mapeo y condición de atributo. <https://cloud.google.com/iam/docs/workload-identity-federation>
+- Google Cloud (2025). *IAM deny policies* — reglas de denegación y orden de evaluación. <https://cloud.google.com/iam/docs/deny-overview>
+- Google Cloud (2025). *Role recommendations* — reducción de privilegios a partir del uso observado y sus límites. <https://cloud.google.com/policy-intelligence/docs/role-recommendations-overview>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---
