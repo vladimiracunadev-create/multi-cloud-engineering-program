@@ -21,8 +21,42 @@ SECTIONS = [
 ]
 
 
+def authored_lessons(errors: list[str]) -> set[str]:
+    """Check curriculum/lessons/*.json parses and only uses known fields.
+
+    CI never runs generate_course.py — the generated READMEs are committed — so
+    a malformed lesson file would otherwise pass every check while its content
+    silently failed to reach the curriculum.
+    """
+    folder = ROOT / "curriculum" / "lessons"
+    if not folder.is_dir():
+        return set()
+    known = {
+        "id", "purpose", "outcomes", "concepts", "diagram", "foundations",
+        "worked_example", "pitfalls", "checks", "references",
+    }
+    ids: set[str] = set()
+    for path in sorted(folder.glob("*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            errors.append(f"curriculum/lessons/{path.name}: invalid JSON ({exc})")
+            continue
+        unknown = set(data) - known
+        if unknown:
+            errors.append(f"curriculum/lessons/{path.name}: unknown keys {sorted(unknown)}")
+        if data.get("id") != path.stem:
+            errors.append(f"curriculum/lessons/{path.name}: id does not match the file name")
+        for ref in data.get("references", []):
+            if not ref.get("text"):
+                errors.append(f"curriculum/lessons/{path.name}: a reference has no text")
+        ids.add(path.stem)
+    return ids
+
+
 def validate(strict: bool = False) -> list[str]:
     errors: list[str] = []
+    written = authored_lessons(errors)
     catalog_path = ROOT / "curriculum" / "catalog.json"
     if not catalog_path.exists():
         return ["missing curriculum/catalog.json"]
@@ -50,6 +84,20 @@ def validate(strict: bool = False) -> list[str]:
         for section in SECTIONS:
             if section not in readme:
                 errors.append(f"{item['id']}: missing section {section}")
+        if item["id"] in written:
+            # El README está commiteado, así que hay que comprobar que se
+            # regeneró después de escribir el contenido: si no, el curso
+            # publicaría la plantilla mientras el JSON dice otra cosa.
+            data = json.loads(
+                (ROOT / "curriculum" / "lessons" / f"{item['id']}.json").read_text(encoding="utf-8")
+            )
+            for heading in (f["heading"] for f in data.get("foundations", [])):
+                if heading not in readme:
+                    errors.append(
+                        f"{item['id']}: README no incluye «{heading}»; "
+                        "ejecuta scripts/generate_course.py"
+                    )
+                    break
         yaml_text = (folder / "lesson.yaml").read_text(encoding="utf-8")
         if f"id: '{item['id']}'" not in yaml_text:
             errors.append(f"{item['id']}: lesson.yaml id mismatch")
@@ -99,7 +147,11 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("Repository valid: 288 lessons, 24 parts, class contracts complete.")
+    escritas = len(list((ROOT / "curriculum" / "lessons").glob("*.json")))
+    print(
+        f"Repository valid: 288 lessons, 24 parts, class contracts complete "
+        f"({escritas}/288 con contenido propio)."
+    )
     return 0
 
 

@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> inicial-intermedio · <strong>Horas estimadas:</strong> 8<br>
 <strong>Laboratorio:</strong> <code>capstone</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>proyecto: decisión de migración sustentada con adr</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Cerrar la parte produciendo el artefacto que la sostiene: un registro de decisión de arquitectura que integra todo lo anterior —definición, topología, modelo de servicio, identidad, responsabilidad, coste y capacidad— en un documento que alguien pueda cuestionar dentro de tres años. Un ADR no documenta lo decidido: documenta <strong>por qué</strong>, y sobre todo qué se descartó y bajo qué condición habría que revisarlo.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> proyecto: decisión de migración sustentada con adr con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>adr-de-migracion</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Escribir</strong> un ADR con contexto, opciones evaluadas, decisión, consecuencias y criterio de revisión.</li>
+<li><strong>Justificar</strong> el descarte de al menos una alternativa con datos y no con preferencia.</li>
+<li><strong>Declarar</strong> las consecuencias negativas de la opción elegida con la misma claridad que las positivas.</li>
+<li><strong>Definir</strong> la condición observable que obligaría a reabrir la decisión.</li>
+<li><strong>Distinguir</strong> una decisión reversible de una que no lo es, y ajustar el rigor del proceso a esa diferencia.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,24 +62,24 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>proyecto</code></td>
-<td>Define su papel en <strong>proyecto: decisión de migración sustentada con adr</strong> y cómo observarlo en un sistema real.</td>
+<td><code>ADR</code></td>
+<td>Documento breve e inmutable que registra una decisión de arquitectura con su contexto y consecuencias. Se numera, se versiona junto al código y no se edita: se sustituye por otro que lo supersede.</td>
 </tr>
 <tr>
-<td><code>decisión</code></td>
-<td>Define su papel en <strong>proyecto: decisión de migración sustentada con adr</strong> y cómo observarlo en un sistema real.</td>
+<td><code>estado del ADR</code></td>
+<td>Propuesto, aceptado, rechazado, obsoleto o superseded. La cadena de estados es lo que permite reconstruir la evolución del razonamiento, no solo el resultado final.</td>
 </tr>
 <tr>
-<td><code>migración</code></td>
-<td>Define su papel en <strong>proyecto: decisión de migración sustentada con adr</strong> y cómo observarlo en un sistema real.</td>
+<td><code>decisión irreversible</code></td>
+<td>Aquella cuyo coste de deshacer es un múltiplo del de tomarla. Merece más análisis, más consenso y una condición de revisión explícita; las reversibles merecen lo contrario.</td>
 </tr>
 <tr>
-<td><code>sustentada</code></td>
-<td>Define su papel en <strong>proyecto: decisión de migración sustentada con adr</strong> y cómo observarlo en un sistema real.</td>
+<td><code>consecuencia</code></td>
+<td>Lo que la decisión hace cierto a partir de ahora, tanto favorable como desfavorable. Un ADR sin consecuencias negativas no fue escrito con honestidad.</td>
 </tr>
 <tr>
-<td><code>adr</code></td>
-<td>Define su papel en <strong>proyecto: decisión de migración sustentada con adr</strong> y cómo observarlo en un sistema real.</td>
+<td><code>condición de revisión</code></td>
+<td>Hecho observable y medible que obligaría a reabrir la decisión. Convierte un documento estático en un compromiso vivo.</td>
 </tr>
 </tbody>
 </table>
@@ -93,72 +90,233 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Proyecto: decisión de migración sustentada con ADR&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    C[&quot;Contexto: fuerzas y restricciones&quot;] --&gt; O[&quot;Opciones evaluadas&lt;br/&gt;con datos comparables&quot;]
+    O --&gt; D[&quot;Decisión y su razón&quot;]
+    D --&gt; CP[&quot;Consecuencias positivas&quot;]
+    D --&gt; CN[&quot;Consecuencias NEGATIVAS&lt;br/&gt;lo que empeora&quot;]
+    D --&gt; CR[&quot;Condición de revisión&lt;br/&gt;hecho observable&quot;]
+    CR -.-&gt;|&quot;se cumple&quot;| N[&quot;Nuevo ADR que&lt;br/&gt;supersede a este&quot;]
+    N -.-&gt;|&quot;el original NO se edita&quot;| D
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
+<h3 id="1-un-adr-registra-el-razonamiento-no-el-resultado">1. Un ADR registra el razonamiento, no el resultado</h3>
+<p>Dentro de tres años nadie recordará por qué se eligió aquello, y la persona que lo decidió probablemente ya no esté. Lo que se pierde no es la decisión —esa está en el código— sino <strong>las restricciones que la hicieron razonable</strong>.</p>
+<p>Sin ese registro ocurren dos patologías simétricas:</p>
+<ol>
+<li><strong>Se revierte una buena decisión</strong> porque su motivo ya no es visible. Alguien ve una elección que hoy parece subóptima y la cambia, sin saber que respondía a una restricción que sigue vigente.</li>
+<li><strong>Se mantiene una mala decisión</strong> porque nadie sabe si aún aplica. La restricción desapareció hace dos años y el diseño sigue pagándola.</li>
+</ol>
+<p>La estructura mínima, en el formato de Nygard:</p>
+<pre><code class="language-markdown"># ADR-0012: Base de datos gestionada multi-zona para pedidos
+
+**Estado:** Aceptado · 2026-08-01
+**Decide:** equipo de plataforma · **Acepta el riesgo:** dirección de tecnología
+
+## Contexto
+[Las fuerzas en juego, con números. No la solución.]
+
+## Opciones consideradas
+[Al menos dos alternativas reales, comparadas con los mismos criterios.]
+
+## Decisión
+[Qué se elige y por qué, ligado a los datos del contexto.]
+
+## Consecuencias
+[Positivas y NEGATIVAS. Sin las segundas no es honesto.]
+
+## Condición de revisión
+[Hecho observable que obligaría a reabrir esto.]
+</code></pre>
+<p>Dos reglas que lo mantienen útil: <strong>vive junto al código</strong>, no en una wiki que se abandona; y <strong>no se edita</strong>. Si la decisión cambia, se escribe otro ADR que la supersede y se enlazan. El historial de razonamiento es el valor, y editar lo destruye.</p>
+<h3 id="2-el-contexto-va-con-numeros-y-sin-solucion-dentro">2. El contexto va con números y sin solución dentro</h3>
+<p>El error más común es escribir la solución en el contexto: «Necesitamos una base de datos gestionada multi-zona porque…». Eso no es contexto, es la decisión disfrazada, y elimina la posibilidad de evaluar alternativas.</p>
+<p>El contexto debe enumerar <strong>fuerzas medibles</strong>:</p>
+<pre><code class="language-markdown">## Contexto
+
+- La plataforma sirve 980.000 pedidos/mes con crecimiento del 18 % anual.
+- Requisito de disponibilidad: 99,95 % mensual → 21,6 min de caída permitida.
+- Requisito de recuperación: RTO 60 min, RPO 15 min.
+- Presupuesto de infraestructura: ≤ 0,018 USD por pedido.
+- El equipo son 4 personas sin especialista en bases de datos.
+- Restricción legal: los datos personales no salen del territorio nacional.
+- La región disponible tiene 3 zonas.
+</code></pre>
+<p>Siete fuerzas, todas verificables, ninguna sugiere una solución. Con este contexto <strong>otra persona podría llegar a una decisión distinta y defenderla</strong>, que es exactamente la prueba de que el contexto está bien escrito.</p>
+<p>La quinta línea merece comentario: las restricciones de equipo son tan legítimas como las técnicas y casi nunca se escriben. «No tenemos especialista en bases de datos» descarta razonablemente opciones que exigirían operarla, y omitirlo hace que la decisión parezca arbitraria a quien lea el documento después.</p>
+<p>Y conviene distinguir en el contexto lo que es <strong>dato</strong> de lo que es <strong>supuesto</strong>. El crecimiento del 18 % anual es una proyección, no un hecho; marcarlo como supuesto permite que la condición de revisión lo vigile.</p>
+<h3 id="3-las-opciones-se-comparan-con-los-mismos-criterios">3. Las opciones se comparan con los mismos criterios</h3>
+<p>Un ADR con una sola opción no es una decisión: es un anuncio. Y con opciones evaluadas por criterios distintos, la comparación no significa nada.</p>
+<p>La tabla que hace verificable la elección:</p>
+<pre><code class="language-markdown">## Opciones consideradas
+
+| Criterio | A: gestionada multi-zona | B: autogestionada en VM | C: gestionada una zona |
+|---|---|---|---|
+| Disponibilidad | 99,995 % | 99,5 % | 99,9 % |
+| ¿Cumple 99,95 %? | Sí | No | No |
+| RPO | 5 min | según operación | 5 min |
+| Coste mensual | 4.900 USD | 3.100 USD | 3.400 USD |
+| Coste por pedido | 0,0050 | 0,0032 | 0,0035 |
+| Carga operativa | Baja | **Alta: parcheo y réplica** | Baja |
+| Personal necesario | 0,2 FTE | **1,0 FTE** | 0,2 FTE |
+| Coste real con personal | 4.900 | **3.100 + 5.200 = 8.300** | 3.400 |
+</code></pre>
+<p>Las dos últimas filas son las que cambian el resultado y las que casi nunca se incluyen. La opción B parece <strong>la más barata</strong> por infraestructura y es <strong>la más cara</strong> en total, porque exige una persona dedicada. Sin esa fila, el ADR habría elegido mal y con apariencia de rigor.</p>
+<p>El criterio de descarte debe ser explícito y ligado al contexto:</p>
+<pre><code class="language-markdown">- **B se descarta** por dos motivos independientes: no alcanza el requisito de
+  disponibilidad (99,5 % frente a 99,95 %) y exige 1,0 FTE que el equipo de
+  4 personas no tiene.
+- **C se descarta** por disponibilidad (99,9 % → 43 min/mes frente a 21,6 permitidos),
+  pese a ser 1.500 USD/mes más barata.
+</code></pre>
+<p>Cada descarte cita el número del contexto que lo justifica. Eso es lo que permite que dentro de tres años alguien compruebe si el motivo sigue vigente.</p>
+<h3 id="4-las-consecuencias-negativas-son-la-parte-honesta">4. Las consecuencias negativas son la parte honesta</h3>
+<p>Un ADR que solo enumera ventajas describe una compra, no una decisión. Toda elección de arquitectura empeora algo, y escribirlo tiene dos efectos prácticos: obliga a mirarlo antes de comprometerse, y evita que en el futuro se presente como un fallo lo que fue una elección consciente.</p>
+<pre><code class="language-markdown">## Consecuencias
+
+### Positivas
+- Disponibilidad de 99,995 %, con margen sobre el requisito.
+- RPO de 5 min frente a los 15 exigidos.
+- El parcheo del motor deja de consumir tiempo del equipo.
+
+### Negativas
+- **Coste por pedido de 0,0050 USD frente a 0,0035 de la opción C**: 43 % más
+  caro por un requisito de disponibilidad que ninguna medición de negocio ha
+  validado todavía.
+- **Bloqueo de proveedor medio**: la conmutación automática y el punto de
+  recuperación son propietarios. Migrar exigiría rediseñar la continuidad.
+- **Pérdida de control sobre la ventana de parcheo**: se elige el intervalo,
+  no la versión ni la fecha exacta.
+- **El operador del proveedor tiene acceso técnico a los datos**, acotado por
+  contrato pero real. Aceptado por dirección de tecnología.
+</code></pre>
+<p>La primera consecuencia negativa es la más valiosa del documento: <strong>admite que el requisito que justifica el sobrecoste no está validado</strong>. Eso convierte una suposición invisible en algo que alguien puede refutar con datos, y es justo lo que la condición de revisión debe vigilar.</p>
+<p>La cuarta muestra otro patrón útil: nombrar un riesgo residual <strong>y quién lo acepta</strong>. Sin la segunda parte, el riesgo queda huérfano, que es como acaban la mayoría.</p>
+<h3 id="5-ajustar-el-rigor-a-la-reversibilidad">5. Ajustar el rigor a la reversibilidad</h3>
+<p>No todas las decisiones merecen el mismo proceso. Bezos las clasificó en dos tipos y la distinción es operativamente útil:</p>
 <table>
 <thead>
 <tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
+<th>Tipo</th>
+<th>Coste de deshacer</th>
+<th>Proceso adecuado</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
+<td><strong>Reversible</strong></td>
+<td>Bajo, días</td>
+<td>Decide rápido, prueba, corrige</td>
 </tr>
 <tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
+<td><strong>Irreversible</strong></td>
+<td>Alto o destructivo</td>
+<td>ADR completo, consenso, condición de revisión</td>
 </tr>
 </tbody>
 </table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<p>Ejemplos del programa, con su coste real de reversión:</p>
+<pre><code class="language-text">reversible      elegir una biblioteca de registro          horas
+reversible      umbrales del autoescalado                  minutos
+semi            modelo de servicio: contenedor o función   semanas
+IRREVERSIBLE    esquema y particionado de datos            meses + ventana
+IRREVERSIBLE    formato de identificadores públicos        rompe a terceros
+IRREVERSIBLE    región donde residen los datos             coste de egreso + legal
+</code></pre>
+<p>Aplicar el proceso pesado a una decisión reversible es la forma más común de que un equipo se vuelva lento sin ganar nada. Aplicar el ligero a una irreversible es cómo se acumulan las restricciones que dentro de dos años nadie puede quitar.</p>
+<p>La <strong>condición de revisión</strong> es lo que mantiene vivo el ADR, y debe ser observable:</p>
+<pre><code class="language-markdown">## Condición de revisión
+
+Esta decisión se reabre si ocurre cualquiera de:
+
+1. El coste de la base de datos supera el 35 % de la factura total.
+2. Se mide durante dos trimestres que la disponibilidad real del negocio no
+   se ve afectada por caídas menores de 40 min/mes (invalidaría el requisito
+   que justifica el sobrecoste).
+3. El volumen supera 5 M de pedidos/mes, donde el particionado obliga a
+   revisar el modelo de datos completo.
+</code></pre>
+<p>Cada condición es un número comprobable, no una impresión. La segunda es la más valiosa: <strong>describe cómo se demostraría que la propia decisión fue innecesariamente cara</strong>, que es la prueba definitiva de que el ADR se escribió con honestidad.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>proyecto: decisión de migración sustentada con adr</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>ADR-0012 de CloudShop, escrito con todo lo acumulado en la parte 01.</strong></p>
+<pre><code class="language-markdown"># ADR-0012: Base de datos gestionada multi-zona para pedidos
+
+**Estado:** Aceptado · 2026-08-01
+**Supersede:** ninguno · **Superseded por:** —
+**Decide:** equipo de plataforma · **Acepta el riesgo:** dirección de tecnología
+
+## Contexto
+
+- 980.000 pedidos/mes, crecimiento proyectado del 18 % anual [SUPUESTO].
+- Disponibilidad exigida 99,95 % mensual → 21,6 min de caída permitida [DATO].
+- RTO 60 min, RPO 15 min, del plan de continuidad vigente [DATO].
+- Presupuesto ≤ 0,018 USD/pedido; hoy el total es 0,0177 [DATO].
+- Equipo de 4 personas, sin especialista en bases de datos [DATO].
+- Datos personales con residencia nacional obligatoria [DATO, legal].
+- La región disponible tiene 3 zonas [DATO].
+
+## Opciones consideradas
+
+| Criterio | A: gestionada multi-zona | B: autogestionada | C: gestionada 1 zona |
+|---|---|---|---|
+| Disponibilidad | 99,995 % | 99,5 % | 99,9 % |
+| Caída mensual | 1,3 min | 3,6 h | 43 min |
+| ¿Cumple 21,6 min? | Sí | No | **No** |
+| RPO | 5 min | variable | 5 min |
+| Infraestructura | 4.900 USD | 3.100 USD | 3.400 USD |
+| Personal | 0,2 FTE | 1,0 FTE (5.200 USD) | 0,2 FTE |
+| **Coste total** | **4.900** | **8.300** | 3.400 |
+
+**B se descarta** por dos motivos independientes: incumple la disponibilidad
+(3,6 h frente a 21,6 min) y exige 1,0 FTE inexistente. Es además la más cara
+en total pese a ser la más barata en infraestructura.
+
+**C se descarta** solo por disponibilidad: 43 min/mes frente a 21,6 permitidos.
+Es 1.500 USD/mes más barata y sería la elección si el requisito cambiara.
+
+## Decisión
+
+Se adopta **A**: base de datos gestionada con réplica síncrona entre dos zonas
+y recuperación a un instante activada.
+
+Coste unitario resultante: 4.900 / 980.000 = 0,0050 USD/pedido; el total sube
+de 0,0177 a 0,0192 USD/pedido, **por encima del presupuesto de 0,018**. Se
+compensa con la optimización de transferencia identificada en la clase 011
+(−2.300 USD/mes), que deja el unitario en 0,0169. Ambas acciones van juntas.
+
+## Consecuencias
+
+### Positivas
+- 1,3 min/mes de caída frente a 21,6 permitidos.
+- RPO de 5 min frente a 15 exigidos.
+- El parcheo del motor sale del trabajo del equipo (≈ 0,8 FTE liberados).
+
+### Negativas
+- **43 % más cara que C** por un requisito de disponibilidad que ninguna
+  medición de impacto de negocio ha validado.
+- **Bloqueo medio**: conmutación y punto de recuperación son propietarios.
+  Coste de salida estimado: 3.780 USD de egreso + ~35.000 de rediseño.
+- Se elige la ventana de parcheo, no la versión ni la fecha.
+- El operador del proveedor tiene acceso técnico a los datos, acotado por
+  contrato. Riesgo aceptado por dirección de tecnología.
+- **No sobrevive a un fallo regional completo.** Aceptado: la continuidad
+  regional no es requisito hoy.
+
+## Condición de revisión
+
+1. El coste de la base supera el 35 % de la factura total.
+2. Dos trimestres consecutivos sin impacto de negocio atribuible a caídas
+   menores de 40 min/mes → invalidaría el requisito y haría preferible C.
+3. El volumen supera 5 M pedidos/mes → obliga a revisar el particionado.
+4. Aparece requisito de continuidad regional → reabre con opción multi-región.
+
+## Verificación
+
+- [ ] Restauración probada con RTO medido, trimestral (clase 019).
+- [ ] Alerta si la retención baja de 7 días o se desactiva el punto de recuperación.
+- [ ] Revisión de las condiciones 1 y 2 en el comité trimestral de arquitectura.
+</code></pre>
+<p><strong>Lo que hace útil a este ADR</strong> no es la decisión —A era razonablemente evidente— sino tres cosas que un documento típico omite: la fila de personal que invierte el orden de coste de B, la admisión de que el requisito que justifica el sobrecoste no está validado, y una condición de revisión que describe <strong>cómo se demostraría que la decisión fue innecesariamente cara</strong>.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-01-cloud-principles-strategy-adoption/024-proyecto-decision-de-migracion-sustentada-con-adr/lab.py
@@ -199,29 +357,29 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Se revierte una decisión y se rompe algo que nadie sabía que dependía de ella</td>
+<td>El ADR no registró la restricción que la hacía razonable</td>
+<td>Escribe el contexto con fuerzas medibles; el código dice qué se hizo, el ADR por qué.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>El ADR presenta una sola opción y parece una decisión</td>
+<td>Es un anuncio: sin alternativas comparadas no hay razonamiento verificable</td>
+<td>Evalúa al menos dos opciones reales con los mismos criterios y cita el número que descarta cada una.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>La opción más barata en infraestructura resulta la más cara en total</td>
+<td>No se incluyó el coste de personal en la comparación</td>
+<td>Añade carga operativa y FTE necesarios como criterio; suele invertir el orden.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Años después nadie sabe si la decisión sigue siendo válida</td>
+<td>No hay condición de revisión observable</td>
+<td>Define hechos medibles que obliguen a reabrir, incluido uno que demostraría que fue innecesaria.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Un equipo se vuelve lento decidiendo cosas triviales</td>
+<td>Se aplica el proceso de decisión irreversible a decisiones reversibles</td>
+<td>Clasifica por coste de deshacer: reversible se decide rápido y se corrige; irreversible merece el ADR completo.</td>
 </tr>
 </tbody>
 </table>
@@ -232,17 +390,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Por qué un ADR no se edita cuando la decisión cambia, y qué se hace en su lugar?</li>
+<li>¿Cómo distingues un contexto bien escrito de uno que ya contiene la solución?</li>
+<li>¿Qué criterio incluido en la comparación invirtió el orden de coste entre las opciones A y B?</li>
+<li>¿Qué le falta a un ADR que solo enumera consecuencias positivas?</li>
+<li>Escribe una condición de revisión que demostraría que la decisión tomada fue innecesariamente cara.</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Cloud Strategy — Gregor Hohpe.</li>
-<li>Cloud FinOps — Storment y Fuller.</li>
-<li>Accelerate — Forsgren, Humble y Kim.</li>
+<li>Nygard, M. (2011). <em>Documenting Architecture Decisions</em> — formato original de los ADR. <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions">https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions</a></li>
+<li>Keeling, M. y Runde, J. (2017). <em>Share the Load: Distribute Design Authority with Architecture Decision Records</em>. Agile Alliance. <a href="https://www.agilealliance.org/resources/experience-reports/distribute-design-authority-with-architecture-decision-records/">https://www.agilealliance.org/resources/experience-reports/distribute-design-authority-with-architecture-decision-records/</a></li>
+<li>Bezos, J. (2016). <em>Letter to Shareholders</em> — decisiones de tipo 1 y tipo 2 según su reversibilidad. <a href="https://www.sec.gov/Archives/edgar/data/1018724/000119312516530910/d168744dex991.htm">https://www.sec.gov/Archives/edgar/data/1018724/000119312516530910/d168744dex991.htm</a></li>
+<li>Ford, N., Parsons, R. y Kua, P. (2017). <em>Building Evolutionary Architectures</em>, cap. 2 — funciones de aptitud y decisiones con condición de revisión.</li>
+<li>Richards, M. y Ford, N. (2020). <em>Fundamentals of Software Architecture</em>, cap. 19 — registro y comunicación de decisiones.</li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -310,7 +470,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-un-adr-registra-el-razonamiento-no-el-resultado">1. Un ADR registra el razonamiento, no el resultado</a><a class="toc-level-3" href="#2-el-contexto-va-con-numeros-y-sin-solucion-dentro">2. El contexto va con números y sin solución dentro</a><a class="toc-level-3" href="#3-las-opciones-se-comparan-con-los-mismos-criterios">3. Las opciones se comparan con los mismos criterios</a><a class="toc-level-3" href="#4-las-consecuencias-negativas-son-la-parte-honesta">4. Las consecuencias negativas son la parte honesta</a><a class="toc-level-3" href="#5-ajustar-el-rigor-a-la-reversibilidad">5. Ajustar el rigor a la reversibilidad</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>

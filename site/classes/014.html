@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> inicial-intermedio · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>architecture</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>regiones, zonas de disponibilidad, puntos de presencia y edge</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Entender la geografía de una nube como una jerarquía de dominios de fallo con latencias y precios distintos entre niveles. Colocar un componente en el nivel equivocado produce o bien una factura de transferencia inesperada, o bien un sistema que cae entero cuando falla un edificio. Esta clase fija el vocabulario y la aritmética que usarán las partes 13, 16 y 17.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> regiones, zonas de disponibilidad, puntos de presencia y edge con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>mapa-de-topologia</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Distinguir</strong> región, zona de disponibilidad y punto de presencia por su dominio de fallo, su latencia y su precio de transferencia.</li>
+<li><strong>Calcular</strong> la disponibilidad compuesta de un despliegue en una, dos y tres zonas.</li>
+<li><strong>Anticipar</strong> el coste de transferencia de un diseño antes de desplegarlo, sabiendo qué cruces se cobran.</li>
+<li><strong>Justificar</strong> cuándo el edge aporta y cuándo solo añade complejidad.</li>
+<li><strong>Reconocer</strong> que las zonas son etiquetas por cuenta y qué implica al comparar despliegues entre cuentas.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,28 +62,24 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>regiones</code></td>
-<td>Define su papel en <strong>regiones, zonas de disponibilidad, puntos de presencia y edge</strong> y cómo observarlo en un sistema real.</td>
+<td><code>región</code></td>
+<td>Área geográfica con varias zonas independientes. Es la unidad de soberanía del dato y de aislamiento de servicios: un fallo regional es el mayor dominio de fallo que un proveedor reconoce.</td>
 </tr>
 <tr>
-<td><code>zonas</code></td>
-<td>Define su papel en <strong>regiones, zonas de disponibilidad, puntos de presencia y edge</strong> y cómo observarlo en un sistema real.</td>
+<td><code>zona de disponibilidad</code></td>
+<td>Uno o más centros de datos con energía, refrigeración y red independientes dentro de una región, separados kilómetros pero conectados con latencia de un dígito de milisegundos.</td>
 </tr>
 <tr>
-<td><code>disponibilidad</code></td>
-<td>Define su papel en <strong>regiones, zonas de disponibilidad, puntos de presencia y edge</strong> y cómo observarlo en un sistema real.</td>
+<td><code>punto de presencia</code></td>
+<td>Ubicación de borde que termina conexiones y sirve contenido cacheado cerca del usuario. No ejecuta tu aplicación completa: reduce el RTT del primer tramo.</td>
 </tr>
 <tr>
-<td><code>puntos</code></td>
-<td>Define su papel en <strong>regiones, zonas de disponibilidad, puntos de presencia y edge</strong> y cómo observarlo en un sistema real.</td>
+<td><code>dominio de fallo</code></td>
+<td>Conjunto de componentes que caen juntos. El diseño consiste en elegir qué comparte dominio y qué no, porque redundancia dentro del mismo dominio no es redundancia.</td>
 </tr>
 <tr>
-<td><code>presencia</code></td>
-<td>Define su papel en <strong>regiones, zonas de disponibilidad, puntos de presencia y edge</strong> y cómo observarlo en un sistema real.</td>
-</tr>
-<tr>
-<td><code>edge</code></td>
-<td>Define su papel en <strong>regiones, zonas de disponibilidad, puntos de presencia y edge</strong> y cómo observarlo en un sistema real.</td>
+<td><code>transferencia de salida</code></td>
+<td>Tráfico que sale hacia otra zona, región o internet. Es asimétrico: la entrada suele ser gratis y la salida se cobra, lo que convierte la topología en una decisión de coste.</td>
 </tr>
 </tbody>
 </table>
@@ -97,72 +90,185 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Regiones, zonas de disponibilidad, puntos de presencia y edge&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    subgraph reg[&quot;Región · dominio de fallo mayor&quot;]
+        subgraph az1[&quot;Zona A&quot;]
+            A1[&quot;cómputo&quot;] --- D1[(&quot;réplica primaria&quot;)]
+        end
+        subgraph az2[&quot;Zona B&quot;]
+            A2[&quot;cómputo&quot;] --- D2[(&quot;réplica secundaria&quot;)]
+        end
+        subgraph az3[&quot;Zona C&quot;]
+            A3[&quot;cómputo&quot;] --- D3[(&quot;testigo&quot;)]
+        end
+    end
+    POP[&quot;Puntos de presencia&lt;br/&gt;decenas por continente&quot;] --&gt;|&quot;RTT 5-20 ms&quot;| reg
+    U[&quot;usuarios&quot;] --&gt; POP
+    az1 &lt;--&gt;|&quot;&lt; 2 ms · se cobra&quot;| az2
+    reg &lt;--&gt;|&quot;decenas de ms · se cobra más&quot;| reg2[&quot;Otra región&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
+<h3 id="1-tres-niveles-tres-ordenes-de-magnitud">1. Tres niveles, tres órdenes de magnitud</h3>
+<p>La jerarquía no es organizativa: cada salto cambia latencia, dominio de fallo y precio en un orden de magnitud.</p>
 <table>
 <thead>
 <tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
+<th>Nivel</th>
+<th>Latencia entre pares</th>
+<th>Cae junto por</th>
+<th>Transferencia</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
+<td>Dentro de una zona</td>
+<td>&lt; 0,5 ms</td>
+<td>Rack, sala</td>
+<td>Normalmente gratis</td>
 </tr>
 <tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
+<td>Entre zonas de una región</td>
+<td>0,5-2 ms</td>
+<td>Desastre regional</td>
+<td>Se cobra, precio bajo</td>
 </tr>
 <tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
+<td>Entre regiones</td>
+<td>10-150 ms</td>
+<td>Nada común</td>
+<td>Se cobra, precio alto</td>
 </tr>
 <tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
+<td>Punto de presencia a usuario</td>
+<td>5-20 ms</td>
+<td>Un PoP concreto</td>
+<td>Salida a internet, el más caro</td>
 </tr>
 </tbody>
 </table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<p>La fila de zonas es la que sostiene la alta disponibilidad: <strong>2 ms es lo bastante bajo para replicar de forma síncrona</strong> una base de datos, y lo bastante independiente para que un incendio, un corte eléctrico o una inundación no alcancen a las dos. Ese es exactamente el punto de equilibrio que buscan los proveedores al situarlas: suficientemente lejos para no compartir riesgo físico, suficientemente cerca para no romper la replicación síncrona.</p>
+<p>Entre regiones, los 10-150 ms hacen inviable la replicación síncrona: cada escritura pagaría el RTT completo. Por eso la replicación entre regiones es <strong>asíncrona</strong>, y por eso siempre tiene un RPO mayor que cero. No es una limitación del producto: es la velocidad de la luz de la clase 001 aplicada al diseño de datos.</p>
+<h3 id="2-disponibilidad-compuesta-la-aritmetica-de-las-zonas">2. Disponibilidad compuesta: la aritmética de las zonas</h3>
+<p>Si un componente tiene disponibilidad <em>a</em> y se despliegan <em>n</em> copias en dominios de fallo <strong>independientes</strong>, la disponibilidad del conjunto es:</p>
+<pre><code class="language-text">A(n) = 1 − (1 − a)ⁿ
+</code></pre>
+<p>Con una disponibilidad por zona de 99,5 %:</p>
+<pre><code class="language-text">1 zona:  1 − 0,005¹ = 99,5 %      → 3,6 h de caída al mes
+2 zonas: 1 − 0,005² = 99,9975 %   → 1,1 min
+3 zonas: 1 − 0,005³ = 99,999988 % → 0,3 s
+</code></pre>
+<p>El salto de una a dos zonas divide la indisponibilidad por 200. El de dos a tres, por otras 200 — pero en términos absolutos pasa de 1,1 minutos a 0,3 segundos, una mejora que casi ningún negocio percibe. <strong>La tercera zona rara vez se justifica por disponibilidad</strong>; se justifica por quórum, que es otra cosa: los sistemas de consenso necesitan mayoría, y con dos zonas no hay mayoría posible si cae una.</p>
+<p>Y la fórmula tiene una condición que se incumple a diario: <strong>exige independencia</strong>. Tres réplicas de cómputo en tres zonas, todas apuntando a una única base de datos en la zona A, tienen la disponibilidad de la zona A. La redundancia se calcula sobre el componente menos redundante, no sobre el más visible.</p>
+<pre><code class="language-text">cómputo 3 zonas (99,999988 %) × base de datos 1 zona (99,5 %) = 99,5 %
+</code></pre>
+<p>El cómputo redundante <strong>no aporta nada</strong> mientras la base sea única. Es el error de diseño más común de esta parte.</p>
+<h3 id="3-la-transferencia-es-asimetrica-y-decide-topologias">3. La transferencia es asimétrica y decide topologías</h3>
+<p>El precio de mover un byte depende de qué frontera cruza, y la asimetría entrada/salida moldea las arquitecturas más de lo que se suele reconocer:</p>
+<table>
+<thead>
+<tr>
+<th>Cruce</th>
+<th>Precio orientativo por GB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entrada desde internet</td>
+<td>0,00 USD</td>
+</tr>
+<tr>
+<td>Dentro de la misma zona</td>
+<td>0,00 USD</td>
+</tr>
+<tr>
+<td>Entre zonas de una región</td>
+<td>~0,01 USD (cada sentido)</td>
+</tr>
+<tr>
+<td>Entre regiones</td>
+<td>0,02-0,09 USD</td>
+</tr>
+<tr>
+<td>Salida a internet</td>
+<td>0,05-0,12 USD</td>
+</tr>
+<tr>
+<td>Salida vía CDN</td>
+<td>0,02-0,085 USD</td>
+</tr>
+</tbody>
+</table>
+<p>Dos consecuencias prácticas:</p>
+<p><strong>El tráfico entre zonas se cobra en ambos sentidos.</strong> Un diseño que reparte peticiones aleatoriamente entre tres zonas hace que dos tercios de las llamadas internas crucen zona. Con 40 TB mensuales de tráfico interno:</p>
+<pre><code class="language-text">reparto aleatorio: 2/3 × 40 TB × 2 sentidos × 0,01 USD/GB = 546 USD/mes
+afinidad de zona:  ~5 % cruza zona                        =  41 USD/mes
+</code></pre>
+<p>La <strong>afinidad de zona</strong> —que una petición se resuelva dentro de la zona donde entró— ahorra un orden de magnitud, a cambio de complicar el balanceo y de perder algo de uniformidad de carga. Es una decisión, no una optimización obvia.</p>
+<p><strong>La salida a internet es el precio más alto y el menos vigilado.</strong> Un servicio que devuelve respuestas de 200 KB en lugar de 20 KB multiplica por diez la partida más cara de la factura. Comprimir y paginar no son solo mejoras de latencia.</p>
+<h3 id="4-edge-para-que-sirve-y-para-que-no">4. Edge: para qué sirve y para qué no</h3>
+<p>Un punto de presencia reduce el RTT del primer tramo, y eso solo ayuda si el RTT es el componente dominante. Con lo visto en la clase 006, la petición en frío cuesta unos 4 RTT.</p>
+<p><strong>Sirve para</strong>: contenido estático cacheable, terminación de TLS cerca del usuario, absorción de picos y de ataques volumétricos, y lógica de borde muy corta —reescrituras, redirecciones, comprobación de un token—.</p>
+<p><strong>No sirve para</strong>: reducir el tiempo de una consulta a la base de datos, ni para nada que necesite estado consistente, ni cuando la respuesta es personalizada y no cacheable. En esos casos el borde <strong>añade un salto</strong> y empeora la latencia.</p>
+<pre><code class="language-text">sin edge:  usuario ──90 ms── origen                    = 4 × 90  = 360 ms
+con edge:  usuario ──10 ms── PoP ──80 ms── origen
+  contenido cacheado en el PoP:  4 × 10               =  40 ms   ✓
+  contenido NO cacheable:        3 × 10 + 1 × 90 + 10 = 130 ms   ✓ (aún mejor: TLS al borde)
+  respuesta dinámica sin reutilizar conexión al origen: puede superar los 360 ms  ✗
+</code></pre>
+<p>La tercera línea es la que sorprende: el edge mejora incluso contenido dinámico <strong>si mantiene conexiones calientes hacia el origen</strong>, porque ahorra el establecimiento TCP y TLS. Si no las mantiene, añade un tramo y no ahorra nada. Por eso el <code>origin shielding</code> no es un extra: es lo que hace que el borde funcione para contenido no cacheable.</p>
+<h3 id="5-las-zonas-son-etiquetas-por-cuenta">5. Las zonas son etiquetas por cuenta</h3>
+<p>Un detalle operativo que produce errores difíciles de diagnosticar: en varios proveedores, el nombre de zona que ves —<code>us-east-1a</code>— <strong>está mapeado de forma distinta en cada cuenta</strong>. La <code>us-east-1a</code> de tu cuenta y la de otra pueden ser centros de datos físicos diferentes.</p>
+<p>El mapeo se hizo para repartir la carga: si todos los clientes eligen «la primera zona», la primera zona física se satura. Aleatorizar la correspondencia por cuenta distribuye esa preferencia.</p>
+<p>Las consecuencias:</p>
+<ol>
+<li><strong>Comparar despliegues entre cuentas por nombre de zona no tiene sentido.</strong> «Ambos están en <code>1a</code>» no significa que compartan riesgo ni que estén cerca.</li>
+<li><strong>Colocar recursos de dos cuentas en la misma zona física</strong> —para latencia o para coste de transferencia— exige el identificador estable de zona (<code>use1-az4</code>), no el nombre.</li>
+<li><strong>Un incidente que el proveedor comunica por zona física</strong> afecta a nombres distintos según la cuenta.</li>
+</ol>
+<p>Además, no todas las regiones tienen el mismo número de zonas —las hay con 3 y con 6— ni todos los servicios están en todas ellas. Diseñar «para tres zonas» y desplegar en una región de dos rompe el supuesto de disponibilidad calculado antes, sin ningún aviso.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>regiones, zonas de disponibilidad, puntos de presencia y edge</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>CloudShop debe elegir topología para su plataforma de pedidos con dos requisitos: 99,95 % mensual y RPO de 15 minutos.</strong> Se evalúan tres opciones con la misma aritmética.</p>
+<p>Disponibilidad objetivo traducida a tiempo:</p>
+<pre><code class="language-text">99,95 % mensual → 0,0005 × 30 × 24 × 60 = 21,6 min de caída permitida
+</code></pre>
+<p><strong>Opción 1 — una zona.</strong> Con 99,5 % por zona:</p>
+<pre><code class="language-text">A = 99,5 %  →  3,6 h/mes    ✗ incumple por un factor de 10
+</code></pre>
+<p><strong>Opción 2 — dos zonas, base de datos con réplica síncrona.</strong></p>
+<pre><code class="language-text">cómputo:  1 − 0,005² = 99,9975 %
+base de datos síncrona entre zonas (latencia 1,4 ms medida)
+A compuesta ≈ 99,995 %  →  1,3 min/mes    ✓ cumple con holgura
+RPO = 0 (síncrona)                         ✓
+</code></pre>
+<p>Coste de transferencia entre zonas, con 40 TB mensuales de tráfico interno:</p>
+<pre><code class="language-text">sin afinidad: 2/3 × 40.000 GB × 2 × 0,01 = 533 USD/mes
+con afinidad de zona: ~5 %               =  40 USD/mes
+</code></pre>
+<p><strong>Opción 3 — dos regiones, réplica asíncrona.</strong></p>
+<pre><code class="language-text">A ≈ 99,999 %                               ✓
+RPO: retraso de replicación medido, p95 = 4,2 min   ✓ dentro de los 15
+transferencia entre regiones: 40 TB × 0,02 = 800 USD/mes
+coste de capacidad duplicada:            ≈ 6.500 USD/mes
+</code></pre>
+<p>Comparación final contra los requisitos:</p>
+<p>```text                    disponib.   RPO      sobrecoste/mes   ¿cumple?
+Opción 1 · 1 zona          99,5 %    0        —                ✗
+Opción 2 · 2 zonas        99,995 %   0        40 USD           ✓
+Opción 3 · 2 regiones     99,999 %   4,2 min  7.300 USD        ✓</p>
+<pre><code>
+**Se elige la opción 2.** La 3 cumple mejor y cuesta 180 veces más; la mejora de 1,3 min a 0,3 min mensuales no la percibe ningún cliente y el requisito es 21,6.
+
+Antes de cerrar se verifica el error clásico —redundancia sobre el componente menos redundante—:
+
+```bash
+$ aws rds describe-db-instances --query 'DBInstances[0].[MultiAZ,AvailabilityZone,SecondaryAvailabilityZone]'
+[true, &quot;us-east-1a&quot;, &quot;us-east-1c&quot;]        # la base SÍ cruza zona
+$ aws ec2 describe-availability-zones --query 'AvailabilityZones[].[ZoneName,ZoneId]' --output text
+us-east-1a  use1-az4
+us-east-1c  use1-az6                       # zonas físicas distintas: independientes
+</code></pre>
+<p>Se registra el identificador estable, no el nombre, porque <strong>el nombre no es comparable entre cuentas</strong>.</p>
+<p>Límite explícito declarado en el ADR: la opción 2 <strong>no sobrevive a un fallo regional completo</strong>. Ese riesgo se acepta conscientemente; si el negocio cambia el requisito a continuidad regional, la decisión se revisa y el sobrecoste de 7.300 USD/mes pasa a estar justificado. Escribirlo evita que dentro de un año alguien descubra el límite durante un incidente.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-01-cloud-principles-strategy-adoption/014-regiones-zonas-de-disponibilidad-puntos-de-presencia-y-edge/lab.py
@@ -203,29 +309,29 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Se despliega cómputo en tres zonas y el sistema cae igual cuando falla una</td>
+<td>La base de datos seguía en una sola zona: la disponibilidad la fija el componente menos redundante</td>
+<td>Calcula la disponibilidad compuesta de la cadena completa, no del componente más visible.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Aparece una partida de transferencia inesperada de cientos de dólares</td>
+<td>El tráfico interno cruza zonas y se cobra en ambos sentidos</td>
+<td>Aplica afinidad de zona para el tráfico este-oeste y mide qué fracción cruza.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Se añade un CDN y la latencia de las respuestas dinámicas empeora</td>
+<td>El borde añade un salto y no mantenía conexiones calientes al origen</td>
+<td>Activa origin shielding y conexiones persistentes, o no pases el tráfico dinámico por el borde.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Dos cuentas creen estar en la misma zona y no lo están</td>
+<td>El nombre de zona se mapea distinto por cuenta</td>
+<td>Usa el identificador estable de zona para cualquier comparación o colocación entre cuentas.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Un diseño calculado para tres zonas se despliega en una región que solo tiene dos</td>
+<td>Se asumió un número de zonas uniforme entre regiones</td>
+<td>Verifica zonas disponibles y servicios ofrecidos por región antes de fijar el modelo de disponibilidad.</td>
 </tr>
 </tbody>
 </table>
@@ -236,17 +342,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>Con 99,5 % por zona, ¿cuánta indisponibilidad mensual queda con una, dos y tres zonas? ¿Qué justifica la tercera?</li>
+<li>Tres réplicas de cómputo en tres zonas contra una base de datos en una sola. ¿Cuál es la disponibilidad del conjunto?</li>
+<li>¿Por qué la replicación entre regiones es asíncrona y qué implica eso para el RPO?</li>
+<li>¿En qué caso concreto un punto de presencia empeora la latencia de una respuesta dinámica?</li>
+<li>¿Por qué no puedes comparar la zona <code>1a</code> de dos cuentas distintas, y qué identificador sí es comparable?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Cloud Strategy — Gregor Hohpe.</li>
-<li>Cloud FinOps — Storment y Fuller.</li>
-<li>Accelerate — Forsgren, Humble y Kim.</li>
+<li>AWS (2024). <em>Regions, Availability Zones, and Local Zones</em> — identificadores estables de zona y su mapeo por cuenta. <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html</a></li>
+<li>Microsoft (2024). <em>Azure regions and availability zones</em> — modelo de zonas y servicios con soporte por región. <a href="https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview">https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview</a></li>
+<li>Google Cloud (2024). <em>Geography and regions</em> — jerarquía región/zona y ubicación de recursos. <a href="https://cloud.google.com/docs/geography-and-regions">https://cloud.google.com/docs/geography-and-regions</a></li>
+<li>Beyer, B. et al., eds. (2016). <em>Site Reliability Engineering</em>, cap. 22 «Addressing Cascading Failures» — independencia de dominios de fallo. <a href="https://sre.google/sre-book/addressing-cascading-failures/">https://sre.google/sre-book/addressing-cascading-failures/</a></li>
+<li>Brewer, E. (2012). <em>CAP Twelve Years Later: How the Rules Have Changed</em>. IEEE Computer 45(2) — por qué la latencia entre regiones fuerza replicación asíncrona. <a href="https://doi.org/10.1109/MC.2012.37">https://doi.org/10.1109/MC.2012.37</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -314,7 +422,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-niveles-tres-ordenes-de-magnitud">1. Tres niveles, tres órdenes de magnitud</a><a class="toc-level-3" href="#2-disponibilidad-compuesta-la-aritmetica-de-las-zonas">2. Disponibilidad compuesta: la aritmética de las zonas</a><a class="toc-level-3" href="#3-la-transferencia-es-asimetrica-y-decide-topologias">3. La transferencia es asimétrica y decide topologías</a><a class="toc-level-3" href="#4-edge-para-que-sirve-y-para-que-no">4. Edge: para qué sirve y para qué no</a><a class="toc-level-3" href="#5-las-zonas-son-etiquetas-por-cuenta">5. Las zonas son etiquetas por cuenta</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>

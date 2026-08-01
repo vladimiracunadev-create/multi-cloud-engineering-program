@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> inicial-intermedio · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>finops</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>tco, costos variables, unit economics y finops</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Construir un caso de coste total defendible ante alguien que sabe de finanzas, no solo de infraestructura. La clase 011 dio la unidad de coste; aquí se añade lo que un TCO honesto incluye y casi ningún cálculo de migración recoge: personal, licencias, amortización pendiente, coste de salida y el valor temporal del dinero.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> tco, costos variables, unit economics y finops con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>caso-tco</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Enumerar</strong> las partidas de un TCO que no aparecen en la factura y estimarlas con órdenes de magnitud.</li>
+<li><strong>Calcular</strong> el valor actual neto de una migración y explicar por qué comparar totales sin descontar engaña.</li>
+<li><strong>Distinguir</strong> coste hundido de coste evitable y por qué el hardware ya comprado no debe entrar en la decisión.</li>
+<li><strong>Construir</strong> un modelo de coste unitario que muestre si la escala mejora la economía o solo la traslada.</li>
+<li><strong>Presentar</strong> el caso con supuestos explícitos y análisis de sensibilidad sobre los dos que más pesan.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,28 +62,24 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>tco</code></td>
-<td>Define su papel en <strong>tco, costos variables, unit economics y finops</strong> y cómo observarlo en un sistema real.</td>
+<td><code>TCO</code></td>
+<td>Coste total de propiedad: todo lo que cuesta operar una capacidad durante su vida útil, no solo lo que se factura. Incluye personal, licencias, espacio, energía, riesgo y coste de oportunidad.</td>
 </tr>
 <tr>
-<td><code>costos</code></td>
-<td>Define su papel en <strong>tco, costos variables, unit economics y finops</strong> y cómo observarlo en un sistema real.</td>
+<td><code>coste hundido</code></td>
+<td>Gasto ya realizado e irrecuperable. Es irrelevante para decidir el futuro: incluirlo en la comparación es la falacia del coste hundido, y produce decisiones de mantener sistemas solo porque ya se pagaron.</td>
 </tr>
 <tr>
-<td><code>variables</code></td>
-<td>Define su papel en <strong>tco, costos variables, unit economics y finops</strong> y cómo observarlo en un sistema real.</td>
+<td><code>valor actual neto</code></td>
+<td>Suma de flujos futuros descontados a una tasa que refleja el coste del capital. Permite comparar alternativas cuyos gastos ocurren en momentos distintos, que es siempre el caso en una migración.</td>
 </tr>
 <tr>
-<td><code>unit</code></td>
-<td>Define su papel en <strong>tco, costos variables, unit economics y finops</strong> y cómo observarlo en un sistema real.</td>
+<td><code>unit economics</code></td>
+<td>Coste e ingreso por unidad de negocio. Es lo que revela si crecer mejora o empeora el margen, algo que el total absoluto oculta por completo.</td>
 </tr>
 <tr>
-<td><code>economics</code></td>
-<td>Define su papel en <strong>tco, costos variables, unit economics y finops</strong> y cómo observarlo en un sistema real.</td>
-</tr>
-<tr>
-<td><code>finops</code></td>
-<td>Define su papel en <strong>tco, costos variables, unit economics y finops</strong> y cómo observarlo en un sistema real.</td>
+<td><code>coste de salida</code></td>
+<td>Lo que costaría deshacer la decisión: egreso de datos, reescritura, formación y tiempo. Rara vez se calcula y es lo que convierte una decisión reversible en una irreversible.</td>
 </tr>
 </tbody>
 </table>
@@ -98,71 +91,233 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
 <pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: TCO, costos variables, unit economics y FinOps&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+    F[&quot;Factura del proveedor&quot;] --&gt; T[&quot;TCO&quot;]
+    P[&quot;Personal: operación,&lt;br/&gt;guardias, formación&quot;] --&gt; T
+    L[&quot;Licencias y soporte&quot;] --&gt; T
+    E[&quot;Espacio, energía,&lt;br/&gt;refrigeración&quot;] --&gt; T
+    R[&quot;Riesgo: caídas,&lt;br/&gt;brechas, cumplimiento&quot;] --&gt; T
+    S[&quot;Coste de salida&lt;br/&gt;si hay que deshacer&quot;] --&gt; T
+    T --&gt; VAN{{&quot;descontar a&lt;br/&gt;coste de capital&quot;}}
+    VAN --&gt; D[&quot;Decisión comparable&lt;br/&gt;entre alternativas&quot;]
+    H[&quot;Hardware ya comprado&quot;] -.-&gt;|&quot;coste HUNDIDO:&lt;br/&gt;NO entra&quot;| X[&quot; &quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
+<h3 id="1-lo-que-la-factura-no-incluye-suele-ser-la-mitad">1. Lo que la factura no incluye suele ser la mitad</h3>
+<p>Un TCO que solo suma la factura del proveedor subestima sistemáticamente ambos lados de la comparación. Las partidas ausentes, con órdenes de magnitud orientativos:</p>
 <table>
 <thead>
 <tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
+<th>Partida</th>
+<th>En centro de datos propio</th>
+<th>En nube</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
+<td>Infraestructura</td>
+<td>CAPEX amortizado a 3-5 años</td>
+<td>Factura mensual</td>
 </tr>
 <tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
+<td><strong>Personal de operación</strong></td>
+<td>1 persona por ~100-200 servidores</td>
+<td>Menor, pero no cero</td>
 </tr>
 <tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
+<td><strong>Guardias</strong></td>
+<td>Rotación completa 24×7</td>
+<td>Rotación completa 24×7</td>
 </tr>
 <tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
+<td>Licencias de virtualización</td>
+<td>Significativas</td>
+<td>Incluidas o distintas</td>
 </tr>
 <tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
+<td>Espacio, energía, refrigeración</td>
+<td>Directo</td>
+<td>Dentro del precio</td>
+</tr>
+<tr>
+<td>Renovación de hardware</td>
+<td>Ciclo de 4-5 años</td>
+<td>No aplica</td>
+</tr>
+<tr>
+<td><strong>Sobreaprovisionamiento</strong></td>
+<td>Se compra para el pico</td>
+<td>Se paga el consumo</td>
+</tr>
+<tr>
+<td><strong>Formación</strong></td>
+<td>Menor, tecnología estable</td>
+<td><strong>Alta y recurrente</strong></td>
+</tr>
+<tr>
+<td>Coste de salida</td>
+<td>Bajo</td>
+<td>Medio-alto</td>
 </tr>
 </tbody>
 </table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
-<h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>tco, costos variables, unit economics y finops</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p>Dos filas merecen atención porque suelen decidir el resultado:</p>
+<p><strong>Personal.</strong> Es habitual que sea la mayor partida del centro de datos propio y la más ignorada. Una persona dedicada cuesta, con cargas, del orden de 40.000-90.000 USD anuales según el mercado; tres personas superan a mucha infraestructura. La nube reduce esa partida pero <strong>no la elimina</strong>: cambia parcheo de sistemas operativos por gestión de identidades, políticas y costes.</p>
+<p><strong>Formación.</strong> Es la que se olvida en la dirección contraria. Un equipo que domina VMware necesita meses para operar con soltura en un hiperescalar, y el coste no es solo el curso: es la productividad reducida durante la transición y los errores del periodo de aprendizaje.</p>
+<h3 id="2-el-hardware-ya-comprado-no-entra-en-la-decision">2. El hardware ya comprado no entra en la decisión</h3>
+<p>La objeción más frecuente contra una migración es «acabamos de invertir 400.000 USD en servidores». Es la <strong>falacia del coste hundido</strong>: ese dinero ya se gastó y no se recupera decidas lo que decidas.</p>
+<p>Lo que sí entra es lo <strong>evitable</strong>:</p>
+<pre><code class="language-text">NO entra (hundido):
+  compra del hardware ya pagada           400.000 USD
+
+SÍ entra (evitable si migras):
+  soporte y mantenimiento restantes        38.000 USD/año
+  energía y espacio                        22.000 USD/año
+  renovación prevista en 2028             180.000 USD
+  valor de reventa hoy                      60.000 USD (ingreso)
+</code></pre>
+<p>La pregunta correcta no es «¿amortizamos lo comprado?» sino <strong>«a partir de hoy, ¿qué alternativa cuesta menos?»</strong>. Si operar lo existente cuesta 60.000 USD anuales evitables y la nube cuesta 45.000, migrar ahorra 15.000 al año <strong>por mucho que se hayan pagado 400.000 el año pasado</strong>.</p>
+<p>Hay dos matices legítimos que no son la falacia:</p>
+<ol>
+<li><strong>El valor de reventa sí entra</strong>, como ingreso, y desaparece con el tiempo: un servidor de tres años vale bastante menos que uno de uno.</li>
+<li><strong>Un contrato con penalización por cancelación anticipada</strong> es coste evitable de la opción de migrar, no coste hundido. Hay que incluirlo.</li>
+</ol>
+<p>La distinción es la que permite tener una conversación financiera en vez de una emocional.</p>
+<h3 id="3-descontar-100000-hoy-no-son-100000-dentro-de-tres-anos">3. Descontar: 100.000 hoy no son 100.000 dentro de tres años</h3>
+<p>Una migración concentra gastos al principio y ahorros después. Comparar los totales sin descontar favorece artificialmente a la alternativa que gasta tarde.</p>
+<pre><code class="language-text">VAN = Σ  flujo_t / (1 + r)^t
+</code></pre>
+<p>Con una tasa de descuento del 10 % —el coste del capital de la organización— y un horizonte de 5 años:</p>
+<pre><code class="language-text">año   flujo neto      factor      valor actual
+ 0    −250.000        1,000       −250.000     migración e implantación
+ 1     +85.000        0,909        +77.273
+ 2     +92.000        0,826        +76.033
+ 3     +99.000        0,751        +74.380
+ 4    +106.000        0,683        +72.395
+ 5    +113.000        0,621        +70.156
+                                  ----------
+                             VAN = +120.237 USD
+</code></pre>
+<p>Sin descontar, la suma sería +245.000. Con descuento, +120.237: <strong>el descuento se come la mitad del beneficio aparente</strong>, porque los ahorros llegan tarde y el gasto es inmediato.</p>
+<p>Dos métricas complementarias que la dirección suele pedir:</p>
+<pre><code class="language-text">periodo de recuperación simple: 250.000 / 85.000 ≈ 2,9 años
+tasa interna de retorno (TIR):  ≈ 24 %
+</code></pre>
+<p>Si la TIR supera el coste de capital, el proyecto crea valor. Con 24 % frente a 10 %, lo crea con holgura — <strong>siempre que los ahorros proyectados se materialicen</strong>, que es donde entra el análisis de sensibilidad.</p>
+<h3 id="4-unit-economics-la-escala-puede-empeorar-el-margen">4. Unit economics: la escala puede empeorar el margen</h3>
+<p>El total absoluto oculta si el negocio mejora al crecer. La descomposición mínima:</p>
+<pre><code class="language-text">margen unitario = ingreso por unidad − coste por unidad
+</code></pre>
+<p>Con los datos de una plataforma real:</p>
+<p>```text                     mes 1        mes 6        mes 12
+pedidos                  620.000      980.000    1.740.000
+coste de infraestructura  12.400       17.360       26.100
+coste unitario            0,0200       0,0177       0,0150
+ingreso por pedido        0,4200       0,4100       0,3900
+margen unitario           0,4000       0,3923       0,3750</p>
+<pre><code>
+El coste unitario **baja** un 25 %: hay economía de escala. Pero el margen unitario también baja, porque el ingreso por pedido cae más rápido que el coste. **La infraestructura mejora y el negocio empeora**, y solo se ve con las dos series juntas.
+
+El patrón contrario también existe y es más peligroso: un coste unitario que sube con el volumen indica que algo escala peor que linealmente —normalmente el término de coherencia de la clase 016, o transferencia entre zonas que crece con el cuadrado de los nodos—.
+
+Tres preguntas que el modelo debe responder:
+
+1. ¿El coste unitario baja, sube o se mantiene al crecer?
+2. ¿Qué partida domina, y cambia esa dominancia con la escala?
+3. ¿A qué volumen el coste unitario deja de bajar? Es el punto donde la arquitectura actual agota su economía.
+
+### 5. Supuestos explícitos y sensibilidad sobre los dos que más pesan
+
+Un TCO sin supuestos declarados no es defendible: cualquiera puede rehacerlo con otros números y llegar a la conclusión contraria. La disciplina mínima es listar los supuestos y probar cuánto aguanta la conclusión.
+
+```text
+supuestos del modelo
+  crecimiento de volumen         +18 % anual
+  reducción de personal           1,5 personas
+  utilización media               58 %
+  tasa de descuento               10 %
+  horizonte                       5 años
+  inflación de precios cloud       0 % (los proveedores tienden a bajar)
+</code></pre>
+<p>El análisis de sensibilidad se hace sobre <strong>los dos supuestos con más peso</strong>, no sobre todos:</p>
+<p>```text                          VAN a 5 años
+caso base                        +120.237
+crecimiento +9 % en vez de +18 %  +71.400
+sin reducción de personal          −18.900   ← cambia el signo
+utilización 40 % en vez de 58 %   +148.000   (más ahorro por elasticidad)
+descuento 15 %                     +82.100</p>
+<pre><code>
+**El caso depende críticamente de un supuesto: la reducción de 1,5 personas.** Si no ocurre, el proyecto destruye valor. Eso convierte una decisión técnica en una decisión organizativa, y es exactamente lo que la dirección necesita saber antes de aprobar.
+
+Declararlo tiene una ventaja adicional: convierte el supuesto en un **compromiso verificable**. Si a los doce meses el personal no se ha reducido, no hay que esperar cinco años para saber que el caso no se cumple.
+
+## 🔬 Ejemplo trabajado
+
+**CloudShop evalúa migrar su plataforma del centro de datos actual. El equipo de infraestructura presenta un ahorro del 60 % comparando la factura estimada con el gasto en hardware.** Se rehace el cálculo completo.
+
+**Cálculo original presentado:**
+
+```text
+amortización de hardware      95.000 USD/año
+factura cloud estimada        38.000 USD/año
+&quot;ahorro&quot;                      57.000 USD/año (60 %)
+</code></pre>
+<p><strong>Errores detectados:</strong> incluye coste hundido, omite personal en ambos lados, ignora licencias, no descuenta y no contempla el coste de salida.</p>
+<p><strong>TCO reconstruido, solo con costes evitables desde hoy:</strong></p>
+<p>```text                                    actual      cloud
+soporte y mantenimiento de hardware       38.000          0
+energía, espacio, refrigeración           22.000          0
+licencias de virtualización               31.000          0
+personal de operación (3,0 → 1,5 FTE)    186.000     93.000
+factura del proveedor                          0     38.000
+sobreaprovisionamiento (util. 30 %)   ya incluido    evitado
+formación primer año                           0     24.000
+                                        --------   --------
+coste anual evitable                     277.000    155.000
+ahorro anual                                       122.000</p>
+<pre><code>
+Más del doble del ahorro que se presentaba —y **por razones distintas**: no viene del hardware sino del personal y las licencias.
+
+**Costes de una sola vez:**
+
+```text
+migración e implantación (6 meses, 2 personas)   140.000
+doble ejecución durante la transición             46.000
+reescritura de dos componentes acoplados          64.000
+valor de reventa del hardware                    −60.000
+                                                 -------
+inversión neta inicial                           190.000
+</code></pre>
+<p><strong>Valor actual neto a 5 años, descontando al 10 %:</strong></p>
+<pre><code class="language-text">año 0   −190.000   × 1,000 = −190.000
+año 1   +122.000   × 0,909 = +110.909
+año 2   +122.000   × 0,826 = +100.826
+año 3   +122.000   × 0,751 =  +91.660
+año 4   +122.000   × 0,683 =  +83.327
+año 5   +122.000   × 0,621 =  +75.752
+                              --------
+                        VAN = +272.474 USD     TIR ≈ 56 %
+                        recuperación ≈ 1,6 años
+</code></pre>
+<p><strong>Sensibilidad sobre los dos supuestos dominantes:</strong></p>
+<p>```text                                          VAN
+caso base                                   +272.474
+personal NO baja de 3,0 a 1,5 FTE            −80.100   ← el caso se cae
+migración cuesta el doble (280.000)         +182.474
+factura cloud un 40 % mayor (53.200)        +214.800
+ambos adversos: sin reducción y +40 % factura −137.700</p>
+<pre><code>
+**El proyecto depende de una sola variable: la reducción de personal.** No de la factura, no del coste de migración. Esa es la conclusión que debe llevarse la dirección, y no aparecía en ninguna parte del cálculo original.
+
+Se declara además el **coste de salida**, que nadie había estimado:
+
+```text
+egreso de 42 TB a 0,09 USD/GB                   3.780 USD
+reescritura de adaptadores propietarios        ~35.000 USD
+reformación del equipo                         ~20.000 USD
+coste de deshacer la decisión                  ~59.000 USD
+</code></pre>
+<p><strong>Recomendación registrada:</strong> migrar, condicionado a un plan explícito de recolocación de 1,5 personas, con revisión a los 12 meses. Si a esa fecha el personal no se ha reducido, el caso se reevalúa con el coste de salida ya calculado sobre la mesa.</p>
+<p>La diferencia entre el primer cálculo y este no es la cifra: es que el segundo <strong>dice de qué depende</strong>.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-01-cloud-principles-strategy-adoption/020-tco-costos-variables-unit-economics-y-finops/lab.py
@@ -203,29 +358,29 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Se rechaza una migración porque «acabamos de comprar el hardware»</td>
+<td>Falacia del coste hundido: el gasto ya realizado no se recupera con ninguna decisión</td>
+<td>Compara solo costes evitables desde hoy; incluye la reventa como ingreso, no la compra como coste.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>El ahorro proyectado nunca aparece en las cuentas</td>
+<td>El caso dependía de una reducción de personal que no se ejecutó</td>
+<td>Declara los supuestos organizativos como compromisos verificables con fecha de revisión.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Dos alternativas parecen equivalentes y una es claramente peor</td>
+<td>Se compararon totales sin descontar, favoreciendo a la que gasta más tarde</td>
+<td>Calcula el VAN con la tasa de coste de capital de la organización.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>El volumen crece, la factura crece y nadie sabe si eso es bueno</td>
+<td>No hay unit economics: falta el coste por unidad junto al ingreso por unidad</td>
+<td>Sigue las dos series juntas; el coste unitario puede bajar mientras el margen empeora.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Deshacer una decisión resulta imposible por su coste</td>
+<td>El coste de salida nunca se estimó, así que la decisión era irreversible sin saberlo</td>
+<td>Calcula egreso, reescritura y reformación al decidir, no cuando quieras salir.</td>
 </tr>
 </tbody>
 </table>
@@ -236,17 +391,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>Se compraron servidores por 400.000 USD el año pasado. ¿Qué parte de esa cifra entra en la decisión de migrar y cuál no?</li>
+<li>¿Por qué comparar el total sin descontar favorece a la alternativa que concentra el gasto al final?</li>
+<li>El coste unitario baja un 25 % y el margen unitario también baja. ¿Qué está ocurriendo y por qué el total lo oculta?</li>
+<li>¿Sobre qué supuestos conviene hacer el análisis de sensibilidad y cómo se eligen?</li>
+<li>Nombra tres partidas de un TCO que no aparecen en ninguna factura y afectan a ambos lados de la comparación.</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Cloud Strategy — Gregor Hohpe.</li>
-<li>Cloud FinOps — Storment y Fuller.</li>
-<li>Accelerate — Forsgren, Humble y Kim.</li>
+<li>Storment, J. R. y Fuller, M. (2023). <em>Cloud FinOps</em>, 2.ª ed., caps. 4-6 — modelo de coste unitario y previsión.</li>
+<li>FinOps Foundation (2024). <em>Unit Economics</em> — definición y construcción de métricas por unidad de negocio. <a href="https://www.finops.org/framework/capabilities/unit-economics/">https://www.finops.org/framework/capabilities/unit-economics/</a></li>
+<li>Brealey, R., Myers, S. y Allen, F. (2020). <em>Principles of Corporate Finance</em>, 13.ª ed., caps. 2-6 — VAN, TIR y costes hundidos.</li>
+<li>Hohpe, G. (2020). <em>Cloud Strategy</em>, cap. sobre economía — por qué el ahorro de la nube rara vez viene de donde se anuncia.</li>
+<li>Barroso, L., Hölzle, U. y Ranganathan, P. (2018). <em>The Datacenter as a Computer</em>, 3.ª ed., cap. 6 — TCO de un centro de datos. <a href="https://doi.org/10.2200/S00874ED3V01Y201809CAC046">https://doi.org/10.2200/S00874ED3V01Y201809CAC046</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -314,7 +471,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-lo-que-la-factura-no-incluye-suele-ser-la-mitad">1. Lo que la factura no incluye suele ser la mitad</a><a class="toc-level-3" href="#2-el-hardware-ya-comprado-no-entra-en-la-decision">2. El hardware ya comprado no entra en la decisión</a><a class="toc-level-3" href="#3-descontar-100000-hoy-no-son-100000-dentro-de-tres-anos">3. Descontar: 100.000 hoy no son 100.000 dentro de tres años</a><a class="toc-level-3" href="#4-unit-economics-la-escala-puede-empeorar-el-margen">4. Unit economics: la escala puede empeorar el margen</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>

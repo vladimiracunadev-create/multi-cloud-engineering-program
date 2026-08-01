@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> inicial-intermedio · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>security</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>modelo de responsabilidad compartida por servicio</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Convertir el modelo de responsabilidad compartida de un diagrama de márketing en una matriz operativa por servicio, con controles nombrados y un responsable por cada uno. La clase 010 estableció el principio; aquí se aplica servicio a servicio, que es donde aparecen las zonas grises que nadie reclama hasta que hay un incidente.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> modelo de responsabilidad compartida por servicio con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>raci-de-controles</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Construir</strong> una matriz RACI de controles para un servicio concreto, distinguiendo quién ejecuta y quién responde.</li>
+<li><strong>Localizar</strong> las zonas grises —controles que ambas partes creen del otro— antes de que las encuentre un auditor.</li>
+<li><strong>Comparar</strong> el reparto real entre una base de datos autogestionada y una gestionada, con el detalle de qué se hereda.</li>
+<li><strong>Interpretar</strong> un informe de cumplimiento del proveedor sabiendo qué controles deja explícitamente al cliente.</li>
+<li><strong>Verificar</strong> un control heredado en vez de asumirlo, distinguiendo evidencia de declaración.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,20 +62,24 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>modelo</code></td>
-<td>Define su papel en <strong>modelo de responsabilidad compartida por servicio</strong> y cómo observarlo en un sistema real.</td>
+<td><code>control heredado</code></td>
+<td>Control que el proveedor ejecuta y del que obtienes el beneficio sin implementarlo. Se hereda el control, no la responsabilidad de comprobar que aplica a tu configuración.</td>
 </tr>
 <tr>
-<td><code>responsabilidad</code></td>
-<td>Define su papel en <strong>modelo de responsabilidad compartida por servicio</strong> y cómo observarlo en un sistema real.</td>
+<td><code>control compartido</code></td>
+<td>Control en el que ambas partes hacen algo distinto sobre la misma capa. El parcheo en IaaS es el ejemplo canónico: el proveedor parchea el hipervisor y tú el sistema operativo huésped.</td>
 </tr>
 <tr>
-<td><code>compartida</code></td>
-<td>Define su papel en <strong>modelo de responsabilidad compartida por servicio</strong> y cómo observarlo en un sistema real.</td>
+<td><code>zona gris</code></td>
+<td>Control que ninguna de las dos partes ejecuta porque cada una supone que lo hace la otra. Es donde se concentran los hallazgos de auditoría y los incidentes evitables.</td>
 </tr>
 <tr>
-<td><code>servicio</code></td>
-<td>Define su papel en <strong>modelo de responsabilidad compartida por servicio</strong> y cómo observarlo en un sistema real.</td>
+<td><code>RACI</code></td>
+<td>Reparto de un control en cuatro papeles: quién lo ejecuta, quién responde por él, a quién se consulta y a quién se informa. La distinción entre ejecutar y responder es la que evita las zonas grises.</td>
+</tr>
+<tr>
+<td><code>informe de cumplimiento</code></td>
+<td>Auditoría independiente sobre los controles del proveedor. Su sección de controles complementarios del usuario enumera lo que deja explícitamente a tu cargo, y es la parte que casi nadie lee.</td>
 </tr>
 </tbody>
 </table>
@@ -89,72 +90,243 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Modelo de responsabilidad compartida por servicio&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    subgraph S[&quot;Un servicio concreto&quot;]
+        C1[&quot;Control: cifrado en reposo&quot;]
+        C2[&quot;Control: parcheo&quot;]
+        C3[&quot;Control: copia de seguridad&quot;]
+        C4[&quot;Control: acceso a los datos&quot;]
+    end
+    C1 --&gt; H[&quot;Heredado&lt;br/&gt;el proveedor lo ejecuta&quot;]
+    C2 --&gt; CO[&quot;Compartido&lt;br/&gt;cada uno una capa&quot;]
+    C3 --&gt; V{{&quot;¿activado por defecto?&quot;}}
+    C4 --&gt; T[&quot;Tuyo siempre&quot;]
+    V --&gt;|&quot;no&quot;| G[&quot;ZONA GRIS&lt;br/&gt;existe la función,&lt;br/&gt;nadie la encendió&quot;]
+    V --&gt;|&quot;sí, con retención X&quot;| OK[&quot;Heredado, con límite&lt;br/&gt;que hay que verificar&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
+<h3 id="1-tres-clases-de-control-no-dos">1. Tres clases de control, no dos</h3>
+<p>La presentación habitual reparte los controles en dos columnas y esa simplificación es la que crea las zonas grises. En la práctica hay tres clases:</p>
 <table>
 <thead>
 <tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
+<th>Clase</th>
+<th>Quién ejecuta</th>
+<th>Tu obligación</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
+<td><strong>Heredado</strong></td>
+<td>Solo el proveedor</td>
+<td>Verificar que aplica a tu configuración y obtener la evidencia</td>
 </tr>
 <tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
+<td><strong>Compartido</strong></td>
+<td>Ambos, en capas distintas</td>
+<td>Ejecutar tu capa y saber dónde está la frontera</td>
 </tr>
 <tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
+<td><strong>Propio</strong></td>
+<td>Solo tú</td>
+<td>Todo</td>
 </tr>
 </tbody>
 </table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<p>La columna derecha de la primera fila es la que se ignora. Heredar la seguridad física del centro de datos no exime de comprobar que la región que usas está incluida en el informe de cumplimiento; heredar el cifrado de disco no exime de comprobar que está activado en <strong>tu</strong> recurso.</p>
+<p>El ejemplo canónico de control <strong>compartido</strong> es el parcheo en IaaS:</p>
+<pre><code class="language-text">hipervisor y firmware  → proveedor, sin aviso ni ventana que tú controles
+sistema operativo      → tú
+bibliotecas del sistema→ tú
+runtime del lenguaje   → tú
+dependencias de la app → tú
+</code></pre>
+<p>Una vulnerabilidad en el hipervisor la resuelve el proveedor y puede implicar un reinicio de tu instancia con preaviso corto. Una en <code>glibc</code> es tuya, aunque el sistema operativo venga de una imagen del proveedor. <strong>La frontera es el hipervisor, no la imagen.</strong></p>
+<h3 id="2-autogestionado-frente-a-gestionado-que-cambia-de-verdad">2. Autogestionado frente a gestionado: qué cambia de verdad</h3>
+<p>Comparar una base de datos instalada por ti con una gestionada, control a control, revela que el reparto no se mueve en bloque:</p>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>En una VM</th>
+<th>Servicio gestionado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parche del motor</td>
+<td>Tú</td>
+<td>Proveedor, en ventana que <strong>tú eliges</strong></td>
+</tr>
+<tr>
+<td>Cifrado en reposo</td>
+<td>Tú lo configuras</td>
+<td>Heredado, pero <strong>tú lo activas</strong></td>
+</tr>
+<tr>
+<td>Copia de seguridad</td>
+<td>Tú</td>
+<td>Proveedor ejecuta, <strong>tú fijas retención</strong></td>
+</tr>
+<tr>
+<td>Prueba de restauración</td>
+<td>Tú</td>
+<td><strong>Tú</strong> — nunca la hace el proveedor</td>
+</tr>
+<tr>
+<td>Réplica entre zonas</td>
+<td>Tú</td>
+<td>Proveedor, <strong>si lo activas</strong></td>
+</tr>
+<tr>
+<td>Esquema y consultas</td>
+<td>Tú</td>
+<td>Tú</td>
+</tr>
+<tr>
+<td>Permisos de acceso</td>
+<td>Tú</td>
+<td>Tú</td>
+</tr>
+<tr>
+<td>Clasificación del dato</td>
+<td>Tú</td>
+<td>Tú</td>
+</tr>
+</tbody>
+</table>
+<p>Dos filas concentran casi todos los incidentes:</p>
+<p><strong>La prueba de restauración nunca es del proveedor.</strong> Que exista una copia no demuestra que se pueda restaurar, ni cuánto tarda. Una copia sin restauración probada es una suposición, y el momento de descubrirlo no puede ser el incidente. Es el control que más se hereda por error.</p>
+<p><strong>Casi todo lo gestionado depende de que lo actives.</strong> Cifrado, réplica, retención extendida, registro de auditoría: el proveedor los ofrece, no los impone. La diferencia entre «el servicio soporta X» y «mi instancia tiene X activado» es exactamente el espacio donde vive la zona gris.</p>
+<p>Y hay un control que <strong>empeora</strong> al pasar a gestionado: el acceso del operador del proveedor a los datos. Es un riesgo aceptable y contractualmente acotado, pero existe y hay que nombrarlo en el análisis, no descubrirlo en una auditoría.</p>
+<h3 id="3-raci-separar-quien-ejecuta-de-quien-responde">3. RACI: separar quién ejecuta de quién responde</h3>
+<p>La distinción entre <strong>ejecutar</strong> y <strong>responder</strong> es la que cierra las zonas grises. Un control puede ejecutarlo el proveedor y seguir siendo tu responsabilidad ante el regulador y ante tus clientes.</p>
+<p>Para la copia de seguridad de una base de datos gestionada:</p>
+<table>
+<thead>
+<tr>
+<th>Actividad</th>
+<th>Ejecuta</th>
+<th>Responde</th>
+<th>Evidencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tomar la copia</td>
+<td>Proveedor</td>
+<td><strong>Cliente</strong></td>
+<td>Registro de instantáneas</td>
+</tr>
+<tr>
+<td>Fijar la retención</td>
+<td>Cliente</td>
+<td>Cliente</td>
+<td>Configuración versionada</td>
+</tr>
+<tr>
+<td>Cifrar la copia</td>
+<td>Proveedor</td>
+<td>Cliente</td>
+<td>Atributo del recurso</td>
+</tr>
+<tr>
+<td>Probar la restauración</td>
+<td><strong>Cliente</strong></td>
+<td>Cliente</td>
+<td>Informe con RTO medido</td>
+</tr>
+<tr>
+<td>Verificar la integridad</td>
+<td>Cliente</td>
+<td>Cliente</td>
+<td>Suma de comprobación tras restaurar</td>
+</tr>
+</tbody>
+</table>
+<p>La columna «Responde» es <strong>siempre el cliente</strong>. Eso no es una carga retórica: significa que ante un fallo de copia no puedes trasladar la consecuencia al proveedor más allá del crédito del SLA, como se calculó en la clase 010.</p>
+<p>La columna «Evidencia» es la que convierte la matriz en algo auditable. Un control sin evidencia es una intención: «el proveedor hace copias» no es evidencia; el identificador de la última instantánea y la fecha de la última restauración probada sí lo son.</p>
+<p>Hacer esta tabla para los cinco o seis servicios principales de una plataforma lleva unas horas y localiza las zonas grises <strong>antes</strong> de que las encuentre un auditor o un incidente.</p>
+<h3 id="4-leer-un-informe-de-cumplimiento-por-su-ultima-seccion">4. Leer un informe de cumplimiento por su última sección</h3>
+<p>Los informes de auditoría del proveedor —SOC 2 Tipo II, ISO 27001, y equivalentes— se usan mal: se archivan como prueba de que «el proveedor es seguro». Lo que contienen es más útil y más incómodo.</p>
+<p>Qué mirar, en orden:</p>
+<ol>
+<li><strong>Alcance</strong>: qué servicios y qué regiones cubre. Un servicio nuevo o una región recién abierta pueden estar fuera, y entonces no hay nada heredado.</li>
+<li><strong>Periodo</strong>: los informes Tipo II cubren un intervalo pasado, típicamente 6 o 12 meses. Un informe cerrado hace ocho meses no dice nada de lo ocurrido después.</li>
+<li><strong>Excepciones</strong>: controles con desviaciones detectadas durante la auditoría, y qué se hizo.</li>
+<li><strong>Controles complementarios del usuario</strong>: <strong>la sección decisiva</strong>. Enumera lo que el proveedor deja explícitamente a tu cargo para que sus controles funcionen.</li>
+</ol>
+<p>La cuarta sección suele contener afirmaciones muy concretas: que configures el cifrado, que gestiones el ciclo de vida de las credenciales, que revises los permisos, que actives el registro. Son exactamente los controles que después aparecen como hallazgos.</p>
+<p><strong>Un informe del proveedor no te certifica.</strong> Si tu organización necesita cumplir una norma, necesitas tu propia auditoría; el informe del proveedor cubre su parte del reparto y <strong>por eso incluye la lista de lo que espera de ti</strong>.</p>
+<h3 id="5-verificar-lo-heredado-en-vez-de-asumirlo">5. Verificar lo heredado en vez de asumirlo</h3>
+<p>Heredar un control no exime de comprobar que aplica. La diferencia entre declaración y evidencia:</p>
+<pre><code class="language-bash"># Declaración: la documentación dice que el servicio soporta cifrado
+# Evidencia: mi recurso concreto lo tiene activado
+$ aws rds describe-db-instances --db-instance-identifier cloudshop-prod \
+    --query 'DBInstances[0].[StorageEncrypted,KmsKeyId,BackupRetentionPeriod,MultiAZ]'
+[true, &quot;arn:aws:kms:...:key/1a2b3c&quot;, 7, true]
+</code></pre>
+<p>Cuatro comprobaciones en una línea, y cada una podría haber sido <code>false</code> sin que nada fallara visiblemente. La retención de 7 días es un dato, no una validación: hay que contrastarla con el requisito. Si el requisito legal es 30 días, el control heredado <strong>no cumple</strong> aunque esté activado.</p>
+<p>El patrón general, aplicable a cualquier control heredado:</p>
+<pre><code class="language-text">1. ¿Qué afirma el proveedor?          documentación e informe de cumplimiento
+2. ¿Aplica a mi recurso?              consulta al plano de control
+3. ¿Cumple mi requisito concreto?     comparación con el número exigido
+4. ¿Cómo lo demuestro dentro de un año? evidencia versionada y automatizada
+</code></pre>
+<p>El paso 4 es el que separa una comprobación puntual de un control: si la verificación no está automatizada, dentro de seis meses nadie sabrá si sigue siendo cierta. Convertir estas comprobaciones en pruebas que fallan el despliegue —lo que en la parte 11 será política como código— es lo que hace que un control heredado sea auditable de forma continua y no una foto de un día.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>modelo de responsabilidad compartida por servicio</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>Una auditoría de CloudShop devuelve un hallazgo: «no se evidencia la capacidad de restauración de la base de datos de pedidos».</strong> El equipo responde que el proveedor hace copias automáticas. Se construye la matriz para verlo.</p>
+<p>Estado declarado frente a estado verificado:</p>
+<pre><code class="language-bash">$ aws rds describe-db-instances --db-instance-identifier cloudshop-prod \
+    --query 'DBInstances[0].[BackupRetentionPeriod,PreferredBackupWindow,StorageEncrypted]'
+[7, &quot;07:00-07:30&quot;, true]
+$ aws rds describe-db-snapshots --db-instance-identifier cloudshop-prod \
+    --snapshot-type automated --query 'length(DBSnapshots)'
+7
+</code></pre>
+<p>Las copias existen. El hallazgo no era ese:</p>
+<p>```text                                 ejecuta      responde   evidencia disponible
+tomar la copia                       proveedor    cliente    ✓ 7 instantáneas
+cifrar la copia                      proveedor    cliente    ✓ StorageEncrypted
+fijar retención                      cliente      cliente    ✓ 7 días
+PROBAR LA RESTAURACIÓN               cliente      cliente    ✗ nunca se hizo
+verificar integridad tras restaurar  cliente      cliente    ✗</p>
+<pre><code>
+**Dos zonas grises.** El equipo heredó «copia de seguridad» completo cuando solo se heredaban dos de sus cinco actividades.
+
+Se ejecuta la restauración por primera vez, en una cuenta de no producción:
+
+```bash
+$ aws rds restore-db-instance-from-db-snapshot \
+    --db-instance-identifier cloudshop-restore-test \
+    --db-snapshot-identifier rds:cloudshop-prod-2026-08-01-07-05
+$ time aws rds wait db-instance-available --db-instance-identifier cloudshop-restore-test
+real    38m12s
+</code></pre>
+<pre><code class="language-text">RTO comprometido en el plan de continuidad     60 min
+RTO medido en la restauración                  38 min  ✓ cumple
+RPO implícito (copia diaria a las 07:00)    hasta 24 h
+RPO comprometido                               15 min  ✗ INCUMPLE
+</code></pre>
+<p><strong>El segundo hallazgo aparece al medir, no al auditar.</strong> La retención de 7 días cumple el requisito de conservación, pero una copia diaria da un RPO de hasta 24 horas frente a los 15 minutos comprometidos. Nadie lo había notado porque la copia existía y se asumió que eso resolvía el requisito.</p>
+<p>Se verifica la integridad, no solo la disponibilidad:</p>
+<pre><code class="language-sql">-- en el original
+SELECT count(*), sum(total) FROM pedidos WHERE creado &lt; '2026-08-01 07:00';
+ 1284471 | 48219338.55
+-- en la restaurada
+ 1284471 | 48219338.55        ✓ coincide
+</code></pre>
+<p>Correcciones, separando qué es de cada quién:</p>
+<pre><code class="language-text">RPO      activar recuperación a un instante (heredado, hay que ACTIVARLO)
+         → RPO efectivo: 5 min                              ✓
+prueba   restauración trimestral automatizada en no producción
+         con comparación de recuento y sumas                ✓ cliente
+evidencia informe versionado con RTO y RPO medidos          ✓ cliente
+control  regla que falla el despliegue si un recurso productivo
+         no tiene recuperación a un instante activada       ✓ cliente
+</code></pre>
+<p>La última línea es la que convierte el arreglo en un control: sin ella, el próximo recurso que alguien cree volverá a nacer sin la función activada.</p>
+<p><strong>La lección: se heredaba el mecanismo y se creía heredar el resultado.</strong> El proveedor toma copias; que esas copias satisfagan tu RPO y sean restaurables es una afirmación tuya que exige evidencia tuya.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-01-cloud-principles-strategy-adoption/019-modelo-de-responsabilidad-compartida-por-servicio/lab.py
@@ -195,29 +367,29 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Una auditoría rechaza la copia de seguridad pese a existir instantáneas</td>
+<td>Nunca se probó la restauración: el proveedor toma la copia, el cliente demuestra que sirve</td>
+<td>Automatiza una restauración periódica con verificación de integridad y RTO medido.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>El RPO real es de 24 h aunque el plan comprometa 15 min</td>
+<td>Se asumió que existir copia equivale a cumplir el RPO</td>
+<td>Activa recuperación a un instante y mide el RPO efectivo, no la frecuencia de la copia.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Un recurso nuevo nace sin cifrado ni réplica</td>
+<td>Las funciones gestionadas se ofrecen, no se imponen, y no había control que lo exigiera</td>
+<td>Convierte la comprobación en política como código que falle el despliegue.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Se presenta el informe de cumplimiento del proveedor como prueba propia</td>
+<td>El informe cubre la parte del proveedor y enumera lo que deja al cliente</td>
+<td>Lee la sección de controles complementarios del usuario: es tu lista de tareas.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Se hereda un control de una región o servicio que el informe no cubre</td>
+<td>No se revisó el alcance ni el periodo del informe</td>
+<td>Comprueba servicios, regiones y ventana temporal antes de dar por heredado un control.</td>
 </tr>
 </tbody>
 </table>
@@ -228,17 +400,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué diferencia hay entre control heredado, compartido y propio, y qué obligación te queda en el primero?</li>
+<li>En una base de datos gestionada, ¿qué actividad de la copia de seguridad nunca ejecuta el proveedor?</li>
+<li>¿Por qué la columna «Responde» de la matriz RACI es siempre el cliente, y qué consecuencia práctica tiene?</li>
+<li>¿Cuál es la sección más útil de un informe de cumplimiento del proveedor y por qué?</li>
+<li>Un servicio soporta cifrado en reposo. ¿Qué te falta comprobar antes de darlo por heredado?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Cloud Strategy — Gregor Hohpe.</li>
-<li>Cloud FinOps — Storment y Fuller.</li>
-<li>Accelerate — Forsgren, Humble y Kim.</li>
+<li>AWS (2024). <em>Shared Responsibility Model</em> — controles heredados, compartidos y propios del cliente. <a href="https://aws.amazon.com/compliance/shared-responsibility-model/">https://aws.amazon.com/compliance/shared-responsibility-model/</a></li>
+<li>Microsoft (2024). <em>Shared responsibility in the cloud</em> — reparto por modelo de servicio con tabla de controles. <a href="https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility">https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility</a></li>
+<li>Cloud Security Alliance (2024). <em>Cloud Controls Matrix</em> — catálogo de controles con reparto proveedor/cliente. <a href="https://cloudsecurityalliance.org/research/cloud-controls-matrix">https://cloudsecurityalliance.org/research/cloud-controls-matrix</a></li>
+<li>AICPA (2017). <em>SOC 2 Trust Services Criteria</em> — estructura del informe y controles complementarios del usuario. <a href="https://www.aicpa-cima.com/resources/landing/system-and-organization-controls-soc-suite-of-services">https://www.aicpa-cima.com/resources/landing/system-and-organization-controls-soc-suite-of-services</a></li>
+<li>Dotson, C. (2023). <em>Practical Cloud Security</em>, 2.ª ed., cap. 1 — construir la matriz de responsabilidad servicio a servicio.</li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -306,7 +480,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-clases-de-control-no-dos">1. Tres clases de control, no dos</a><a class="toc-level-3" href="#2-autogestionado-frente-a-gestionado-que-cambia-de-verdad">2. Autogestionado frente a gestionado: qué cambia de verdad</a><a class="toc-level-3" href="#3-raci-separar-quien-ejecuta-de-quien-responde">3. RACI: separar quién ejecuta de quién responde</a><a class="toc-level-3" href="#4-leer-un-informe-de-cumplimiento-por-su-ultima-seccion">4. Leer un informe de cumplimiento por su última sección</a><a class="toc-level-3" href="#5-verificar-lo-heredado-en-vez-de-asumirlo">5. Verificar lo heredado en vez de asumirlo</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
