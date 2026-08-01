@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "manual": "output/pdf/multi-cloud-engineering-manual-v2.0.pdf",
-  "page_count": 1410,
+  "page_count": 1427,
   "part_count": 24,
   "class_count": 288,
   "assessment_count": 288,
   "source_file_count": 607,
-  "source_sha256": "a033d95cb2765743f9fb6c65bed998f2ed531b9da18d9a0dfc9f60de35126300",
-  "pdf_sha256": "645df3eb523d4901c09b0736b0b78e9373edf916dca83936dd51eb0c7f330afc"
+  "source_sha256": "49dbd65f3b0d3660e24dc9e806d0c6f65683224e96200f4b0cd5e19f3c853744",
+  "pdf_sha256": "9dae34f49de63ccb349d2f0e8223501b3a78af0338b35444dd6c1366ea3c9531"
 }
