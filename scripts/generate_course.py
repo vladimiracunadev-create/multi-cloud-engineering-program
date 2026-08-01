@@ -13,6 +13,7 @@ import unicodedata
 from pathlib import Path
 
 from course_data import LAB_EXPECTATIONS, PARTS
+from lesson_content import content as authored_content
 
 ROOT = Path(__file__).resolve().parents[1]
 CLASSES = ROOT / "classes"
@@ -68,70 +69,7 @@ def build_catalog() -> list[dict]:
     return catalog
 
 
-def lesson_readme(item: dict, part: dict, previous: dict | None, following: dict | None) -> str:
-    concept_rows = "\n".join(
-        f"| `{concept}` | Define su papel en **{item['title'].lower()}** y cómo observarlo en un sistema real. |"
-        for concept in item["keywords"]
-    )
-    books = "\n".join(f"- {book}." for book in item["books"])
-    prev_link = "Inicio del programa" if previous is None else f"[← Clase anterior](../../part-{previous['part']}-{previous['part_slug']}/{previous['id']}-{previous['slug']}/README.md)"
-    next_link = "Fin del programa" if following is None else f"[Clase siguiente →](../../part-{following['part']}-{following['part_slug']}/{following['id']}-{following['slug']}/README.md)"
-    expected = LAB_EXPECTATIONS[item["lab_kind"]]
-    return f"""# {item['id']} — {item['title']}
-
-> {prev_link} · [Índice de la parte](../README.md) · {next_link}
-
-**Parte:** {item['part']} — {item['part_title']}<br>
-**Nivel:** {item['level']} · **Horas estimadas:** {item['estimated_hours']}<br>
-**Laboratorio:** `{item['lab_kind']}` · **Estado:** `{item['status']}`
-
-## 🎯 Propósito
-
-Comprender y aplicar **{item['title'].lower()}** dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.
-
-## 📚 Resultados de aprendizaje
-
-Al finalizar podrás:
-
-1. **Explicar** {item['title'].lower()} con vocabulario independiente del proveedor.
-2. **Relacionar** sus componentes con el modelo mental de la parte.
-3. **Ejecutar** un laboratorio local determinista y leer su contrato JSON.
-4. **Evaluar** al menos una alternativa y justificar el trade-off elegido.
-5. **Entregar** `{item['artifact']}` con evidencia, límites y criterio de reversión.
-
-## 🧩 Conceptos centrales
-
-| Concepto | Comprensión verificable |
-|---|---|
-{concept_rows}
-
-## 🧠 Modelo mental
-
-{part['model']}
-
-Aplicado a esta clase, separa siempre cuatro planos: **intención** (qué necesita el usuario),
-**configuración** (qué declaramos), **estado observado** (qué existe de verdad) y
-**evidencia** (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
-en un diagrama pero fallan al operar.
-
-## 🗺️ Flujo de razonamiento
-
-```mermaid
-flowchart LR
-    A["Necesidad y restricciones"] --> B["Diseño: {item['title']}"]
-    B --> C["Implementación reproducible"]
-    C --> D["Estado observado"]
-    D --> E{{"¿Cumple seguridad, SLO y costo?"}}
-    E -- "No" --> B
-    E -- "Sí" --> F["Evidencia y decisión registrada"]
-```
-
-## 📖 Desarrollo
-
-### 1. Del requisito al mecanismo
+FALLBACK_DEVELOPMENT = """### 1. Del requisito al mecanismo
 
 Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
 con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
@@ -157,22 +95,152 @@ no tiene dueño, el diseño todavía está incompleto.
 
 La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
 cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.
+respuesta a incidentes."""
+
+FALLBACK_PITFALLS = [
+    ("El diseño enumera servicios pero no requisitos", "Se comenzó por el catálogo del proveedor", "Reescribe primero escenarios y restricciones medibles."),
+    ("La demo funciona una vez y se declara lista", "Se confundió ejecución con evidencia operacional", "Añade repetición, fallo, telemetría y recuperación."),
+    ("Todo tiene permisos administrativos", "El laboratorio heredó credenciales humanas", "Usa identidad de workload y prueba explícitamente la denegación."),
+    ("No se puede explicar la factura", "Faltan unidades y ownership de costo", "Etiqueta, estima por unidad y define presupuesto o alerta."),
+    ("La solución se llama multi-cloud pero replica todo", "Portabilidad se confundió con duplicación", "Define qué riesgo se mitiga y porta solo el contrato necesario."),
+]
+
+FALLBACK_CHECKS = [
+    "¿Qué parte del diseño seguiría siendo válida en otro proveedor?",
+    "¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?",
+    "¿Cuál es la unidad de costo y quién puede actuar sobre ella?",
+    "¿Qué permiso puede retirarse sin romper el caso de uso?",
+    "¿Qué evidencia falta para afirmar que esto está listo para producción?",
+]
+
+
+def lesson_readme(item: dict, part: dict, previous: dict | None, following: dict | None) -> str:
+    written = authored_content(item["id"])
+
+    if written.get("concepts"):
+        concept_rows = "\n".join(
+            f"| `{c['term']}` | {c['definition']} |" for c in written["concepts"]
+        )
+    else:
+        concept_rows = "\n".join(
+            f"| `{concept}` | Define su papel en **{item['title'].lower()}** y cómo observarlo en un sistema real. |"
+            for concept in item["keywords"]
+        )
+
+    if written.get("references"):
+        books = "\n".join(
+            f"- {r['text']}" + (f" <{r['url']}>" if r.get("url") else "")
+            for r in written["references"]
+        )
+    else:
+        books = "\n".join(f"- {book}." for book in item["books"])
+
+    purpose = written.get("purpose") or (
+        f"Comprender y aplicar **{item['title'].lower()}** dentro de una plataforma cloud realista,\n"
+        "produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,\n"
+        "costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,\n"
+        "seleccionar una solución proporcional y demostrar qué ocurrió."
+    )
+
+    if written.get("outcomes"):
+        outcomes = "\n".join(f"{i}. {o}" for i, o in enumerate(written["outcomes"], 1))
+    else:
+        outcomes = "\n".join([
+            f"1. **Explicar** {item['title'].lower()} con vocabulario independiente del proveedor.",
+            "2. **Relacionar** sus componentes con el modelo mental de la parte.",
+            "3. **Ejecutar** un laboratorio local determinista y leer su contrato JSON.",
+            "4. **Evaluar** al menos una alternativa y justificar el trade-off elegido.",
+            f"5. **Entregar** `{item['artifact']}` con evidencia, límites y criterio de reversión.",
+        ])
+
+    diagram = written.get("diagram") or (
+        f'flowchart LR\n'
+        f'    A["Necesidad y restricciones"] --> B["Diseño: {item["title"]}"]\n'
+        f'    B --> C["Implementación reproducible"]\n'
+        f'    C --> D["Estado observado"]\n'
+        f'    D --> E{{"¿Cumple seguridad, SLO y costo?"}}\n'
+        f'    E -- "No" --> B\n'
+        f'    E -- "Sí" --> F["Evidencia y decisión registrada"]'
+    )
+
+    if written.get("foundations"):
+        development = "\n\n".join(
+            f"### {i}. {f['heading']}\n\n{f['body'].strip()}"
+            for i, f in enumerate(written["foundations"], 1)
+        )
+    else:
+        development = FALLBACK_DEVELOPMENT
+
+    worked = written.get("worked_example") or (
+        f"Una plataforma de pedidos necesita aplicar **{item['title'].lower()}**. El equipo registra:\n\n"
+        "- demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;\n"
+        "- SLO mensual de 99,9 % para operaciones de lectura;\n"
+        "- RPO de 15 minutos y RTO de 60 minutos;\n"
+        "- datos personales que no pueden salir de la región aprobada;\n"
+        "- presupuesto inicial de USD 600/mes.\n\n"
+        "La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.\n"
+        "Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga\n"
+        "telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es \"usar servicio X\",\n"
+        "sino una cadena trazable: requisito → mecanismo → prueba → señal → límite."
+    )
+
+    rows = written.get("pitfalls")
+    pitfall_rows = "\n".join(
+        f"| {p['symptom']} | {p['cause']} | {p['fix']} |" for p in rows
+    ) if rows else "\n".join(f"| {s} | {c} | {f} |" for s, c, f in FALLBACK_PITFALLS)
+
+    checks = "\n".join(
+        f"{i}. {q}" for i, q in enumerate(written.get("checks") or FALLBACK_CHECKS, 1)
+    )
+    prev_link = "Inicio del programa" if previous is None else f"[← Clase anterior](../../part-{previous['part']}-{previous['part_slug']}/{previous['id']}-{previous['slug']}/README.md)"
+    next_link = "Fin del programa" if following is None else f"[Clase siguiente →](../../part-{following['part']}-{following['part_slug']}/{following['id']}-{following['slug']}/README.md)"
+    expected = LAB_EXPECTATIONS[item["lab_kind"]]
+    return f"""# {item['id']} — {item['title']}
+
+> {prev_link} · [Índice de la parte](../README.md) · {next_link}
+
+**Parte:** {item['part']} — {item['part_title']}<br>
+**Nivel:** {item['level']} · **Horas estimadas:** {item['estimated_hours']}<br>
+**Laboratorio:** `{item['lab_kind']}` · **Estado:** `{item['status']}`
+
+## 🎯 Propósito
+
+{purpose}
+
+## 📚 Resultados de aprendizaje
+
+Al finalizar podrás:
+
+{outcomes}
+
+## 🧩 Conceptos centrales
+
+| Concepto | Comprensión verificable |
+|---|---|
+{concept_rows}
+
+## 🧠 Modelo mental
+
+{part['model']}
+
+Aplicado a esta clase, separa siempre cuatro planos: **intención** (qué necesita el usuario),
+**configuración** (qué declaramos), **estado observado** (qué existe de verdad) y
+**evidencia** (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
+en un diagrama pero fallan al operar.
+
+## 🗺️ Flujo de razonamiento
+
+```mermaid
+{diagram}
+```
+
+## 📖 Desarrollo
+
+{development}
 
 ## 🔬 Ejemplo trabajado
 
-Una plataforma de pedidos necesita aplicar **{item['title'].lower()}**. El equipo registra:
-
-- demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;
-- SLO mensual de 99,9 % para operaciones de lectura;
-- RPO de 15 minutos y RTO de 60 minutos;
-- datos personales que no pueden salir de la región aprobada;
-- presupuesto inicial de USD 600/mes.
-
-La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.
+{worked}
 
 ## 🧪 Laboratorio guiado
 
@@ -215,11 +283,7 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 
 | Síntoma | Causa probable | Corrección |
 |---|---|---|
-| El diseño enumera servicios pero no requisitos | Se comenzó por el catálogo del proveedor | Reescribe primero escenarios y restricciones medibles. |
-| La demo funciona una vez y se declara lista | Se confundió ejecución con evidencia operacional | Añade repetición, fallo, telemetría y recuperación. |
-| Todo tiene permisos administrativos | El laboratorio heredó credenciales humanas | Usa identidad de workload y prueba explícitamente la denegación. |
-| No se puede explicar la factura | Faltan unidades y ownership de costo | Etiqueta, estima por unidad y define presupuesto o alerta. |
-| La solución se llama multi-cloud pero replica todo | Portabilidad se confundió con duplicación | Define qué riesgo se mitiga y porta solo el contrato necesario. |
+{pitfall_rows}
 
 ## 🛡️ Seguridad, ética y costo
 
@@ -230,11 +294,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## ❓ Preguntas de comprobación
 
-1. ¿Qué parte del diseño seguiría siendo válida en otro proveedor?
-2. ¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?
-3. ¿Cuál es la unidad de costo y quién puede actuar sobre ella?
-4. ¿Qué permiso puede retirarse sin romper el caso de uso?
-5. ¿Qué evidencia falta para afirmar que esto está listo para producción?
+{checks}
 
 ## 🔗 Referencias
 
