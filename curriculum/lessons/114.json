@@ -1,0 +1,118 @@
+{
+  "id": "114",
+  "purpose": "Pasar de la cola —que entrega y borra— al registro ordenado que **conserva**, donde cada consumidor lleva su propia posición y puede volver atrás. Ese cambio resuelve tres cosas que la clase 113 no podía: varios consumidores independientes del mismo hecho, releer el pasado y reconstruir estado desde cero. Y trae dos decisiones que se toman al crear y no se deshacen: **cuántas particiones y qué clave las elige**, que juntas deciden el paralelismo máximo, el orden y dónde aparecerá la partición caliente.",
+  "outcomes": [
+    "**Distinguir** cuándo hace falta un registro conservado y cuándo basta una cola.",
+    "**Elegir** número de particiones y clave, entendiendo lo que fijan para siempre.",
+    "**Razonar** sobre grupos de consumidores, reparto y lo que cuesta un rebalanceo.",
+    "**Gestionar** la posición de lectura sin perder ni repetir rangos enteros.",
+    "**Usar** retención y compactación para reconstruir estado."
+  ],
+  "concepts": [
+    {
+      "term": "registro conservado",
+      "definition": "Secuencia ordenada e inmutable de mensajes que no se borran al leerse. Cada consumidor avanza por su cuenta."
+    },
+    {
+      "term": "partición",
+      "definition": "Subsecuencia ordenada del tema. Es a la vez la unidad de paralelismo y la única dentro de la cual hay orden."
+    },
+    {
+      "term": "posición de lectura",
+      "definition": "Índice del último mensaje procesado por un grupo. Confirmarla mal salta o repite rangos enteros, no un mensaje."
+    },
+    {
+      "term": "grupo de consumidores",
+      "definition": "Conjunto que se reparte las particiones. Ninguna partición la leen dos miembros a la vez, así que el paralelismo máximo es el número de particiones."
+    },
+    {
+      "term": "rebalanceo",
+      "definition": "Reparto de particiones cuando entra o sale un miembro. Durante él el consumo se detiene y suele haber reproceso."
+    },
+    {
+      "term": "compactación por clave",
+      "definition": "Conservar solo el último valor de cada clave. Convierte el registro en una fotografía reconstruible del estado actual."
+    }
+  ],
+  "diagram": "flowchart TB\n    P[\"productor\"] --> K{\"clave\"}\n    K --> P0[\"partición 0\\norden garantizado\"]\n    K --> P1[\"partición 1\"]\n    K --> P2[\"partición 2\"]\n    P0 --> G1[\"grupo A · pedidos\"]\n    P1 --> G1\n    P2 --> G1\n    P0 --> G2[\"grupo B · analítica\"]\n    P1 --> G2\n    P2 --> G2\n    G1 -.->|\"su propia posición\"| O1[\"puede releer\"]\n    G2 -.->|\"posición distinta\"| O2[\"puede empezar del principio\"]\n    K -.->|\"clave con mucho tráfico\"| H[\"partición caliente · 110\"]\n    P2 --> R[\"retención + compactación:\\nreconstruir estado\"]",
+  "foundations": [
+    {
+      "heading": "Conservar cambia lo que se puede hacer",
+      "body": "La diferencia con la clase 113 es una sola y tiene muchas consecuencias:\n\n```text\nCOLA       se entrega y se borra\n           un mensaje, un consumidor\n           lo procesado ya no existe\n\nREGISTRO   se escribe y se conserva\n           cada consumidor lleva su posición\n           lo procesado sigue ahí\n```\n\nY lo que eso permite:\n\n```text\nvarios consumidores independientes del mismo hecho\n  facturación, analítica, notificación, búsqueda\n  → y añadir uno nuevo no afecta a los demás\n\nreleer\n  un consumidor con un defecto reprocesa desde una posición anterior\n  → sin pedir nada al productor\n\nempezar del principio\n  un servicio nuevo reconstruye su estado leyendo el histórico\n  → esto es lo que no se puede hacer con una cola\n```\n\nY el criterio para elegir uno u otro:\n\n```text\ncola      trabajo que alguien tiene que hacer una vez\n          «envía este correo», «cobra este pedido»\nregistro  hecho que ya ocurrió y que interesa a varios\n          «el pedido 1421 pasó a pagado»\n```\n\nLa distinción se nota en el nombre del mensaje: **un imperativo va a una cola; un hecho en pasado va a un registro**.\n\nY lo que cuesta conservar:\n\n```text\nel almacenamiento se paga por el periodo de retención\nlos mensajes viejos siguen ahí cuando el código ya cambió\n  → un consumidor debe poder leer formatos anteriores\n  → es la convivencia N/N+1 de la clase 102, aplicada a los datos\nborrar un dato concreto es difícil: el registro es inmutable\n  → y hay requisitos legales que lo exigen (clase 112)\n```\n\nLa última línea tiene dos respuestas conocidas: **compactar con una marca de borrado por clave**, o guardar los datos personales fuera del registro y publicar solo referencias. La segunda es la que menos disgustos da."
+    },
+    {
+      "heading": "Particiones: paralelismo y orden a la vez",
+      "body": "La partición es la pieza central y hace dos trabajos que conviene ver separados:\n\n```text\nes la unidad de ORDEN         dentro de una partición hay orden total\n                              entre particiones no hay ninguno\nes la unidad de PARALELISMO   cada partición la lee un solo miembro del grupo\n                              → paralelismo máximo = número de particiones\n```\n\nY de ahí sale la primera decisión irreversible en la práctica:\n\n```text\n¿cuántas particiones?\n  pocas     techo de paralelismo bajo\n  muchas    más metadatos, más ficheros, rebalanceos más lentos\n            y más coste por partición en los servicios administrados\n```\n\nY por qué aumentar el número después es un problema:\n\n```text\npartición = f(clave) mod N\n\nsi N cambia, la misma clave pasa a otra partición\n→ los mensajes viejos de esa clave están en la partición vieja\n→ y el orden por clave, que era la garantía, se rompe en la frontera\n```\n\nAsí que ampliar es posible y **no conserva la garantía de orden para las claves ya existentes**. Es la ley 14 en su forma más limpia: una decisión de creación con consecuencias que no se pueden deshacer sin migrar.\n\nLa regla práctica al dimensionar:\n\n```text\nparticiones ≥ consumidores máximos previstos\ny con margen: 2 a 3 veces el paralelismo actual\npero no cientos «por si acaso»\n```\n\n**La clave**, que es la segunda decisión y hereda todo lo de la clase 110:\n\n```text\nmisma clave → misma partición → orden garantizado entre esos mensajes\n\nclave = identificador de pedido    orden por pedido, reparto bueno\nclave = país                       5 valores → 5 particiones útiles\nclave = nula (reparto rotatorio)   máximo reparto, ningún orden\n```\n\nY la partición caliente vuelve exactamente igual que en la clase 110: **una clave con mucho tráfico satura su partición mientras las demás están ociosas**, y no se puede repartir porque repartirla rompería el orden que justificaba la clave.\n\n```text\nsi una clave concentra demasiado tráfico:\n  ¿de verdad necesita orden esa clave?\n    no  → quítale la clave y reparte\n    sí  → hay un límite físico, y hay que reducir el trabajo por mensaje\n```"
+    },
+    {
+      "heading": "Grupos, rebalanceo y posición",
+      "body": "**El grupo de consumidores** reparte las particiones entre sus miembros:\n\n```text\n12 particiones, 4 consumidores    → 3 particiones cada uno\n12 particiones, 12 consumidores   → 1 cada uno\n12 particiones, 20 consumidores   → 8 CONSUMIDORES OCIOSOS\n```\n\nLa tercera línea es la que sorprende a quien viene de las colas: **añadir consumidores por encima del número de particiones no aumenta nada**. El autoescalado por retraso tiene ahí su techo, y hay que declararlo.\n\n**El rebalanceo** ocurre cuando entra o sale un miembro, y su coste es real:\n\n```text\nse detiene el consumo de todo el grupo\nse reparte de nuevo\ncada consumidor empieza desde la última posición confirmada\n  → lo procesado y no confirmado se REPITE\n```\n\nY el error más frecuente es provocarlo sin querer:\n\n```text\nel consumidor tarda más de lo permitido entre lecturas\n→ el coordinador lo da por muerto\n→ rebalanceo\n→ el consumidor vuelve y provoca otro rebalanceo\n→ y en ese bucle el grupo no avanza\n```\n\nLo que lo corrige:\n\n```text\nleer lotes más pequeños, para volver antes a pedir\nseparar el latido del proceso, si el cliente lo permite\nsubir el tiempo máximo entre lecturas al p99 real del proceso\ny usar reparto incremental, que no detiene a todo el grupo\n```\n\n**La posición de lectura.** Aquí la diferencia con una cola es importante y peligrosa: no se confirma un mensaje, **se confirma una posición**, y todo lo anterior queda dado por hecho.\n\n```text\nconfirmar ANTES de procesar   si falla, se saltan mensajes: se PIERDEN\nconfirmar DESPUÉS de procesar si falla, se repite el lote: al menos una vez\nconfirmar cada mensaje        seguro y lento\nconfirmar por lotes           rápido, y repite el lote entero al fallar\n```\n\nY el caso que rompe a mucha gente: **procesar en paralelo dentro de un lote y confirmar la posición mayor**. Si el mensaje 7 falla y el 9 va bien, confirmar 9 da por hecho el 7.\n\n```text\nsi se procesa en paralelo, la posición confirmable es\nla del último mensaje SIN huecos anteriores\n```\n\nY la señal de estado, que aquí tiene dos formas y hay que mirar las dos:\n\n```text\nretraso en mensajes    cuántos faltan por leer\nretraso en tiempo      cuánto hace que se produjo el que se está leyendo\n```\n\nLa segunda es la que se compara con lo que el negocio tolera; la primera dice si se está recuperando."
+    },
+    {
+      "heading": "Retención, compactación y reconstrucción",
+      "body": "La retención es lo que convierte el registro en algo más que un transporte.\n\n```text\npor tiempo    conserva N días\npor tamaño    conserva N GB por partición\npermanente    con almacenamiento por capas, el histórico completo\n```\n\nY lo que la retención permite, que es lo que justifica todo el modelo:\n\n```text\nun consumidor con un defecto retrocede su posición y reprocesa\nun servicio nuevo empieza en el principio y construye su estado\nun incidente se investiga leyendo lo que pasó de verdad\n```\n\nY la advertencia correspondiente: **la retención es también el plazo de recuperación**. Si se conservan tres días y un defecto se descubre a los cinco, no hay nada que reprocesar.\n\n```text\nretención ≥ tiempo típico hasta descubrir un defecto\n→ en la práctica, 7 días es poco y 30 suele ser suficiente\n```\n\n**La compactación por clave** es distinta de la retención por tiempo y resuelve otro problema:\n\n```text\nconserva el ÚLTIMO mensaje de cada clave, para siempre\ndescarta los anteriores\n\n→ el tema deja de ser un histórico y pasa a ser una fotografía\n→ leerlo entero reconstruye el estado actual de todas las claves\n```\n\nY para qué sirve de verdad:\n\n```text\nreconstruir un caché tras perderlo (clase 111)\ndar estado inicial a un servicio nuevo sin consultar a la base\nmantener una copia local de una tabla de referencia\n```\n\nY el detalle imprescindible: **para borrar una clave se publica un mensaje con valor vacío**. Sin eso, una clave borrada en el origen vive para siempre en el tema compactado.\n\nY dos cosas que conviene no mezclar:\n\n```text\ntema de HECHOS       histórico, retención por tiempo, no compactar\n                     «el pedido 1421 pasó a pagado»\ntema de ESTADO       compactado, última versión por clave\n                     «el pedido 1421 está así»\n```\n\nMezclarlas es un error frecuente: compactar un tema de hechos **borra historia** que alguien necesitaba.\n\nY un último aviso sobre los reintentos, que enlaza con la clase 113: **reintentar un mensaje fuera del registro rompe el orden**. Si el mensaje 5 falla y se manda a una cola de reintentos mientras el 6 y el 7 se procesan, se ha perdido la garantía que justificaba la partición. Las dos salidas honestas:\n\n```text\ndetenerse en el fallo y no avanzar esa partición\n  → conserva el orden y bloquea a los de detrás\nenviar a un tema de reintentos y ACEPTAR que se pierde el orden\n  → hay que declararlo, no descubrirlo\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ está justificado por qué esto es un registro y no una cola\n☐ el número de particiones cubre el paralelismo máximo previsto\n☐ está entendido que ampliar particiones rompe el orden por clave\n☐ la clave reparte y no concentra tráfico en una partición\n☐ el máximo de consumidores útiles está declarado y no se escala más allá\n☐ el tiempo máximo entre lecturas es mayor que el p99 de proceso\n☐ la posición se confirma después de procesar y sin huecos\n☐ se vigilan retraso en mensajes y retraso en tiempo\n☐ la retención cubre el tiempo típico hasta descubrir un defecto\n☐ los temas de hechos no están compactados\n☐ el borrado por clave publica un mensaje vacío\n☐ está declarado si los reintentos rompen el orden\n```\n\nY el cierre que enlaza con la clase siguiente: si varios sistemas leen los mismos hechos, el formato de esos hechos es un contrato entre equipos que no se ven. Cómo se define, cómo se cambia sin romper a quien lee el histórico y quién es su dueño es la materia de la clase 115."
+    }
+  ],
+  "worked_example": "**CloudShop publica los hechos de pedido en un registro conservado para que tres equipos los consuman por su cuenta. El diseño inicial es razonable y contiene dos decisiones de creación que costarán una migración.**\n\n**Por qué un registro y no una cola.**\n\n```text\nconsumidores del mismo hecho          facturación, analítica, búsqueda\ncon una cola                          3 colas, y el productor tiene que\n                                      publicar en las tres\nañadir un cuarto consumidor           tocar al productor\nreprocesar tras un defecto            pedir al productor que reenvíe\n```\n\nY con registro, los cuatro problemas desaparecen: el productor publica una vez y cada consumidor avanza a su ritmo.\n\n**Decisión 1: seis particiones. Se queda corta a los cinco meses.**\n\n```text\nal diseñar                    1.200 mensajes/s, 4 consumidores\nparticiones elegidas          6\nmes 5                         4.900 mensajes/s\nconsumidores necesarios       11\nconsumidores útiles           6   ← techo\nconsumidores ociosos          5\nretraso en tiempo             de 2 s a 4 min 20 s\n```\n\nY al ampliar a 24 particiones apareció lo del apartado segundo:\n\n```text\nmensajes de un mismo pedido antes de ampliar    en la partición 3\nmensajes del mismo pedido después              en la partición 17\nventana en la que el orden por pedido no está garantizado\n                                                la retención: 30 días\ncasos de orden invertido detectados             41\n```\n\nLa migración honesta consistió en publicar en un tema nuevo con 24 particiones, consumir de los dos durante treinta días y retirar el viejo. **Doce minutos de decisión inicial, cinco semanas de migración.**\n\n**Decisión 2: la clave. La primera fue el país.**\n\n```text\nclave = país\nvalores distintos                     190\nparticiones que reciben tráfico        6\ntráfico de España                     61 % del total\ncarga de la partición de España       61 %\ncarga de la partición menos usada    0,4 %\nretraso de la partición de España    9 min\nretraso del resto                    < 1 s\n```\n\nEs la partición caliente de la clase 110, en otro sistema y con el mismo diagnóstico. Y la pregunta del apartado segundo, respondida:\n\n```text\n¿necesita orden el conjunto de un país?    no\n¿qué necesita orden?                       los mensajes de un mismo pedido\n→ clave = identificador de pedido\n```\n\n```text                                    clave=país     clave=pedido\nparticiones con tráfico                     6             24\ndesviación entre la más y la menos cargada  ×150          ×1,3\nretraso máximo                              9 min         2 s\ncasos de orden invertido                    0             0\n```\n\n**El bucle de rebalanceo, que paralizó el consumo 40 minutos.**\n\n```text\n02:10  un consumidor tarda 6 min en un lote (una dependencia lenta)\n02:15  el coordinador lo da por muerto: tiempo máximo entre lecturas, 5 min\n02:15  rebalanceo; el grupo se detiene\n02:16  el consumidor vuelve → otro rebalanceo\n02:16  … se repite\n02:50  se detecta y se corrige a mano\n```\n\n```text                                    antes             después\ntamaño del lote                          500 mensajes      50 mensajes\ntiempo de proceso por lote, p99          6 min             38 s\ntiempo máximo entre lecturas             5 min             5 min\nreparto                                  detiene el grupo  incremental\nrebalanceos por semana                   14                0-1\nminutos de consumo detenido por semana   47                < 1\n```\n\n**El error de posición que perdió 9.000 mensajes.**\n\nUn consumidor procesaba el lote en paralelo con veinte hilos y confirmaba la posición mayor al terminar:\n\n```text\nlote de 500, mensajes 12.000 a 12.499\nel mensaje 12.203 falla y se registra el error\nel resto termina bien\nse confirma la posición 12.499\n→ el 12.203 nunca se procesa y nadie vuelve a él\n```\n\n```text\nmensajes perdidos así en 3 semanas                 9.140\ndetectado por    un descuadre en facturación de 21.400 €\ncorrección       confirmar la posición del último SIN huecos anteriores\nmensajes perdidos tras la corrección                   0\nreproceso        se retrocedió la posición 3 semanas y se repitió\n                 → posible SOLO porque la retención era de 30 días\n```\n\nLa última línea es el argumento del apartado cuarto: **con siete días de retención, esos 21.400 € no se habrían podido recuperar**.\n\n**La compactación, para reconstruir el caché de la clase 111.**\n\nEl caché portante de la clase 111 tardaba catorce minutos en recalentarse contra la base de datos. Con un tema de estado compactado:\n\n```text                                    desde la base    desde el tema compactado\ntiempo de recalentamiento               14 min            1 min 50 s\ncarga sobre la base durante el proceso  12.000/s          0\ntamaño del tema (2,1 M de productos)      —               3,4 GB\n```\n\nY el fallo que se cometió al montarlo: **se compactó también el tema de hechos**.\n\n```text\nhechos conservados antes de compactar        4.100 millones\ndespués                                      2,1 millones (uno por pedido)\nhistórico perdido                            todo lo intermedio\nrecuperado desde                             la zona bruta del lago (clase 112)\n```\n\nSe recuperó porque la zona bruta existía. **Sin ella, el histórico de pedidos se habría perdido de forma irreversible.**\n\n**A los ocho meses.**\n\n```text                                          inicio        final\nconsumidores independientes                       3             6\nparticiones                                       6            24\nclave                                          país         pedido\ndesviación de carga entre particiones          ×150           ×1,3\nretraso en tiempo, p99                       4 min 20 s       1,8 s\nrebalanceos por semana                           14            0-1\nmensajes perdidos por confirmación con huecos  9.140            0\nretención                                     30 días        30 días\ntemas de hechos compactados por error             1             0\nrecalentamiento del caché                     14 min         1 min 50 s\n```\n\n**La lección que esta clase traslada a la parte 09**: los dos problemas caros —ampliar particiones y cambiar la clave— **no fueron fallos de operación ni de código**. Fueron dos decisiones tomadas en la primera media hora de diseño, cuando el sistema tenía la cuarta parte del tráfico, y ninguna de las dos se podía deshacer sin migrar. Es la tercera confirmación seguida de la predicción de la clase 108, y ya se puede afinar: en los sistemas con estado, **las decisiones baratas de tomar son las caras de cambiar, y se toman antes de tener datos para tomarlas bien**.",
+  "pitfalls": [
+    {
+      "symptom": "Añadir consumidores no mejora el retraso",
+      "cause": "Ya hay tantos consumidores como particiones; el resto están ociosos",
+      "fix": "Declara el máximo útil, no escales por encima, y dimensiona las particiones con margen desde el principio."
+    },
+    {
+      "symptom": "El orden por clave se rompe tras ampliar particiones",
+      "cause": "La asignación de clave a partición depende del número de particiones",
+      "fix": "Publica en un tema nuevo con el tamaño correcto y consume de los dos durante la retención; ampliar en sitio no conserva la garantía."
+    },
+    {
+      "symptom": "Una partición acumula retraso y las demás están ociosas",
+      "cause": "La clave concentra el tráfico, como en la clase 110",
+      "fix": "Elige una clave con reparto real; si la que concentra no necesita orden, quítale la clave."
+    },
+    {
+      "symptom": "El grupo entra en un bucle de rebalanceos y no avanza",
+      "cause": "El proceso de un lote dura más que el tiempo máximo entre lecturas",
+      "fix": "Reduce el tamaño del lote, ajusta el tiempo máximo al percentil 99 real y usa reparto incremental."
+    },
+    {
+      "symptom": "Se pierden mensajes sin ningún error",
+      "cause": "Se confirmó una posición por delante de un mensaje que falló",
+      "fix": "Confirma la posición del último mensaje sin huecos anteriores, nunca la mayor del lote."
+    },
+    {
+      "symptom": "Se pierde histórico que alguien necesitaba",
+      "cause": "Se compactó un tema de hechos, que conserva solo el último por clave",
+      "fix": "Separa temas de hechos (retención por tiempo) de temas de estado (compactados) y no mezcles las políticas."
+    }
+  ],
+  "checks": [
+    "¿Qué tres cosas permite un registro conservado que una cola no permite?",
+    "¿Por qué el número de particiones limita el paralelismo y por qué ampliarlo rompe el orden por clave?",
+    "¿Qué ocurre durante un rebalanceo y cómo se evita un bucle de rebalanceos?",
+    "¿Qué posición se puede confirmar si se procesa un lote en paralelo?",
+    "¿Para qué sirve la compactación por clave y qué tema no debe compactarse nunca?"
+  ],
+  "references": [
+    {
+      "text": "Apache Kafka (2025). *Design: topics, partitions and consumer groups* — orden por partición y reparto del grupo.",
+      "url": "https://kafka.apache.org/documentation/#design"
+    },
+    {
+      "text": "Apache Kafka (2025). *Log compaction* — retención por clave y borrado con mensaje vacío.",
+      "url": "https://kafka.apache.org/documentation/#compaction"
+    },
+    {
+      "text": "Google Cloud (2025). *Pub/Sub: ordering keys and message retention* — orden por clave y relectura.",
+      "url": "https://cloud.google.com/pubsub/docs/ordering"
+    },
+    {
+      "text": "AWS (2025). *Kinesis Data Streams: shards and resharding* — paralelismo por fragmento y coste de reparticionar.",
+      "url": "https://docs.aws.amazon.com/streams/latest/dev/kinesis-using-sdk-java-resharding.html"
+    },
+    {
+      "text": "Kleppmann, M. (2017). *Designing Data-Intensive Applications*, cap. 11 — registros, posiciones y reproceso.",
+      "url": "https://dataintensive.net/"
+    }
+  ]
+}
