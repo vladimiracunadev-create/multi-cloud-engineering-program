@@ -1,0 +1,118 @@
+{
+  "id": "205",
+  "purpose": "Publicar una aplicación web en AWS eligiendo entre el camino gestionado y el montado a mano, y entender qué se gana y qué se pierde con cada uno. La clase compara Amplify Hosting con el montaje S3 + CloudFront pieza a pieza, fija los valores por defecto que hay que cambiar para producción —que son más de los que parece—, y trata los tres asuntos que rompen estos despliegues: el enrutado de aplicaciones de una sola página, la invalidación de caché en cada publicación y el acceso al bucket.",
+  "outcomes": [
+    "**Elegir** entre alojamiento gestionado y montaje propio con criterios claros.",
+    "**Configurar** S3 y CloudFront con los valores correctos para producción.",
+    "**Resolver** el enrutado de una aplicación de una sola página sin romper los 404 reales.",
+    "**Publicar** sin invalidaciones masivas, usando huellas en los nombres.",
+    "**Cerrar** el acceso al origen para que solo la distribución pueda leerlo."
+  ],
+  "concepts": [
+    {
+      "term": "Amplify Hosting",
+      "definition": "Servicio gestionado que construye y publica una aplicación web desde un repositorio, con distribución incluida."
+    },
+    {
+      "term": "distribución",
+      "definition": "Recurso de CloudFront que sirve el contenido desde el borde y define caché, orígenes y comportamiento."
+    },
+    {
+      "term": "control de acceso al origen",
+      "definition": "Mecanismo por el que solo la distribución puede leer el bucket, que queda privado."
+    },
+    {
+      "term": "comportamiento de caché",
+      "definition": "Regla por patrón de ruta que fija clave de caché, validez y política de origen."
+    },
+    {
+      "term": "función de borde",
+      "definition": "Código ligero que se ejecuta en el borde para reescribir peticiones o añadir cabeceras."
+    },
+    {
+      "term": "huella en el nombre",
+      "definition": "Sufijo derivado del contenido que hace innecesaria la invalidación al publicar."
+    }
+  ],
+  "diagram": "flowchart TB\n    D{\"¿qué hace falta?\"}\n    D -->|\"rápido, sin operar,\\nramas de vista previa\"| A[\"AMPLIFY HOSTING\"]\n    D -->|\"control fino de caché,\\nmúltiples orígenes,\\nWAF y políticas propias\"| S[\"S3 + CLOUDFRONT\"]\n    S --> S1[\"bucket PRIVADO\\nsin sitio web estático\"]\n    S1 --> S2[\"control de acceso\\nal origen\"]\n    S --> S3[\"comportamientos\\npor patrón de ruta\"]\n    S3 --> S4[\"/assets/* → 1 año\\ninmutable, con huella\"]\n    S3 --> S5[\"/index.html → corto\\ncon revalidación\"]\n    S3 --> S6[\"/api/* → sin caché,\\notro origen\"]\n    S --> S7[\"404 → /index.html\\nSOLO para rutas\\nde la aplicación\"]\n    P[\"publicar\"] --> P1[\"subir con huella\"]\n    P1 --> P2[\"subir index.html\\nal final\"]\n    P2 --> P3[\"invalidar SOLO\\n/index.html\"]",
+  "foundations": [
+    {
+      "heading": "Gestionado o montado a mano",
+      "body": "Las dos opciones sirven para lo mismo y se diferencian en control y en operación.\n\n```text\nAMPLIFY HOSTING\n  construye desde el repositorio y publica\n  da   ramas de vista previa por cada propuesta de cambio\n       certificado y dominio gestionados\n       reversión a una publicación anterior\n       reescrituras y redirecciones por configuración\n       distribución por debajo, sin gestionarla\n  no da\n       control fino de la clave de caché por ruta\n       comportamientos con orígenes distintos\n       políticas de origen propias\n       WAF con reglas propias en muchos casos\n       acceso a los registros de la distribución\n\nS3 + CLOUDFRONT MONTADO\n  da   control total: comportamientos, claves, políticas,\n       WAF, registros, varios orígenes\n  cuesta\n       montarlo y mantenerlo\n       y aprender los valores por defecto que hay que cambiar\n```\n\nY el criterio:\n\n```text\n¿el sitio es estático o casi, y no hay requisitos de caché\n ni de seguridad especiales?\n  → Amplify; se monta en una tarde y se opera solo\n\n¿hay API en el mismo dominio, varias rutas con caché\n distinta, WAF propio o necesidad de registros?\n  → S3 + CloudFront\n\n¿el equipo ya opera CloudFront para otras cosas?\n  → montarlo, por coherencia\n```\n\nY una vía intermedia que funciona bien:\n\n```text\nAmplify para las ramas de vista previa (donde su valor es\nmayor y los requisitos son bajos)\nS3 + CloudFront para producción\n→ y así se tiene rapidez donde importa la velocidad y\n  control donde importa el control\n```\n\nY la advertencia de coste que aparece con Amplify:\n\n```text\nfactura por minuto de construcción y por gigabyte servido\n→ con muchas ramas de vista previa y construcciones\n  frecuentes, la partida de construcción sube deprisa\n→ y las vistas previa no caducan solas               ley 25\n```"
+    },
+    {
+      "heading": "Los valores por defecto que hay que cambiar",
+      "body": "Montar S3 + CloudFront con los valores por defecto produce algo que funciona y no es apto para producción. Esta es la lista.\n\n```text\nEL BUCKET\n  ✗ por defecto   se tiende a activar «alojamiento de sitio\n                  web estático» y hacerlo público\n  ✓ correcto      bucket PRIVADO, sin alojamiento estático,\n                  accesible solo por control de acceso al\n                  origen desde la distribución\n  por qué         un bucket público es alcanzable saltándose\n                  la distribución: sin WAF, sin registros,\n                  sin caché y pagando salida  clases 189, 200\n\n  ✓ además        bloqueo de acceso público activado\n  ✓               cifrado en reposo\n  ✓               versionado, para poder revertir una\n                  publicación\n\nLA DISTRIBUCIÓN\n  ✗ por defecto   política de caché heredada que reenvía\n                  cabeceras y cookies innecesarias\n  ✓ correcto      política que NO incluye cookies ni\n                  cabeceras salvo las que varían   clase 197\n\n  ✗ por defecto   un solo comportamiento para todo\n  ✓ correcto      comportamientos por patrón de ruta\n\n  ✗ por defecto   HTTP permitido\n  ✓ correcto      redirección a HTTPS y versión mínima de TLS\n\n  ✗ por defecto   sin cabeceras de seguridad\n  ✓ correcto      política de cabeceras de respuesta\n\n  ✗ por defecto   sin compresión negociada en algunos casos\n  ✓ correcto      compresión activada\n\n  ✗ por defecto   registros desactivados\n  ✓ correcto      registros a un bucket propio, con caducidad\n```\n\nY los comportamientos que hay que definir, con sus valores:\n\n```text\n/assets/*   o /_next/static/*  (recursos con huella)\n  validez           1 año, inmutable\n  clave de caché    solo la ruta\n  → nunca se invalidan: cambian de nombre       clase 197\n\n/index.html  y las rutas de la aplicación\n  validez           0 o muy corta, con revalidación\n  → es el único fichero que hay que invalidar al publicar\n\n/api/*\n  otro origen (API Gateway o balanceador)\n  sin caché, reenviando las cabeceras necesarias\n  → tener la API en el mismo dominio evita CORS y cookies\n    de terceros\n\n/media/*  (imágenes subidas)\n  validez media, con nombre versionado si se pueden\n  reemplazar\n```\n\nY una decisión de arquitectura que ahorra problemas:\n\n```text\nservir la aplicación y la API bajo el MISMO dominio, con\ncomportamientos distintos\n→ sin CORS, sin cookies de terceros y con una sola\n  distribución que registrar y proteger\n```"
+    },
+    {
+      "heading": "Las tres cosas que rompen",
+      "body": "**1 · El enrutado de una aplicación de una sola página.**\n\n```text\nEL PROBLEMA\n  la aplicación tiene rutas como /pedidos/4471\n  ese objeto NO existe en el bucket\n  → S3 devuelve 404 y el usuario ve un error al recargar o\n    al entrar por un enlace directo\n\nLA SOLUCIÓN HABITUAL, Y SU DEFECTO\n  configurar «404 → /index.html con código 200»\n  funciona… y convierte TODOS los 404 en 200\n  → incluidos los de recursos que faltan de verdad\n  → los buscadores indexan páginas inexistentes\n  → y los errores de despliegue se vuelven invisibles\n                                                   ley 13\n\nLA SOLUCIÓN CORRECTA\n  una función de borde que reescribe la petición a\n  /index.html SOLO si la ruta no tiene extensión de fichero\n  → /pedidos/4471   → index.html, 200\n  → /assets/x.js    → 404 real si no existe\n  → y para rutas conocidas de la aplicación, mejor aún:\n    lista explícita\n```\n\n**2 · La invalidación en cada publicación.**\n\n```text\nEL ANTIPATRÓN\n  publicar y ejecutar «invalidar /*»\n  → tira toda la caché en cada despliegue\n  → avalancha contra el origen                   clase 197\n  → y por encima de cierto número, las invalidaciones se\n    facturan\n\nEL PATRÓN CORRECTO\n  1  construir con huella en el nombre de cada recurso\n     app.7f3a91.js, estilos.2b91cd.css\n  2  subir los recursos nuevos PRIMERO\n  3  subir index.html AL FINAL\n     → así nunca hay un index que apunte a algo que aún no\n       está\n  4  invalidar SOLO /index.html (y las rutas HTML)\n  5  no borrar los recursos antiguos de inmediato\n     → los usuarios con la página abierta siguen pidiéndolos\n     → borrarlos con una regla de caducidad de 30 días\n```\n\nY el fallo clásico que evita el paso 5:\n\n```text\npublicar y borrar lo antiguo a la vez\n→ quien tenía la aplicación abierta pide un recurso que ya\n  no existe y la página se rompe hasta recargar\n```\n\n**3 · El acceso al bucket.**\n\n```text\nCON CONTROL DE ACCESO AL ORIGEN\n  la distribución firma sus peticiones al bucket\n  la política del bucket permite SOLO a esa distribución\n  el bucket no tiene acceso público\n  → y el contenido solo se puede obtener por la\n    distribución, con su WAF, sus registros y su caché\n\nLO QUE HAY QUE COMPROBAR, NO SUPONER\n  intentar leer un objeto directamente por la URL del bucket\n  → debe fallar                                     ley 22\n```\n\nY el fallo de configuración que deja el hueco:\n\n```text\ndejar activado el alojamiento de sitio web estático del\nbucket «por si acaso»\n→ expone un punto de entrada alternativo, público y sin\n  control                                        clase 189\n```"
+    },
+    {
+      "heading": "Publicar y operar",
+      "body": "**La canalización de publicación**, que debe hacer lo mismo siempre:\n\n```text\n1  construir, con huella en los nombres\n2  autenticarse sin secretos                       clase 206\n3  subir recursos nuevos\n4  subir HTML\n5  invalidar solo HTML\n6  comprobar que el sitio responde y sirve la versión nueva\n7  y si no, revertir\n```\n\nY la reversión, que hay que tener resuelta antes de necesitarla:\n\n```text\ncon versionado del bucket y huellas\n  revertir = volver a subir el index.html anterior e\n  invalidarlo\n  → los recursos antiguos siguen ahí (por eso no se borran)\n  → tiempo de reversión: segundos\n\nsin huellas ni versionado\n  → reconstruir y volver a publicar: minutos u horas\n```\n\n**Lo que hay que vigilar:**\n\n```text\ntasa de aciertos por comportamiento, no global  clase 197\nerrores 4xx y 5xx desde el origen\nbytes servidos desde el borde y desde el origen\nlatencia en el borde, por región\ncertificado: días hasta caducar y días desde la renovación\n                                                clase 196\ny el coste: peticiones, transferencia e invalidaciones\n```\n\nY dos alertas que evitan sorpresas:\n\n```text\n«la tasa de aciertos ha caído más de 10 puntos»\n  → suele significar que alguien cambió la clave de caché\n    o que se está invalidando de más\n\n«hay peticiones directas al bucket»\n  → si el control de acceso al origen está bien, deben ser\n    cero; cualquier cosa distinta es un hueco\n```\n\nY una nota sobre el dominio y el certificado:\n\n```text\nel certificado de una distribución de CloudFront debe estar\nen la región us-east-1, independientemente de dónde esté\ntodo lo demás\n→ es una de esas particularidades que cuestan una tarde la\n  primera vez\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ la elección entre gestionado y montado está justificada\n☐ el bucket es privado y sin alojamiento estático activado\n☐ el acceso solo es posible por la distribución, comprobado\n☐ hay bloqueo de acceso público y versionado\n☐ hay comportamientos por patrón de ruta\n☐ la clave de caché no incluye cookies ni cabeceras\n  innecesarias\n☐ los recursos llevan huella y validez de un año\n☐ el HTML tiene validez corta\n☐ el enrutado de la aplicación no convierte todos los 404\n  en 200\n☐ la publicación sube HTML al final e invalida solo HTML\n☐ los recursos antiguos caducan a 30 días, no se borran\n☐ hay redirección a HTTPS y cabeceras de seguridad\n☐ los registros están activados con caducidad\n☐ la reversión está probada y tarda segundos\n☐ hay alerta si aparecen peticiones directas al bucket\n```\n\nY el cierre que enlaza con la clase siguiente: la canalización que publica necesita permisos en AWS, y el modo habitual de dárselos —una clave de acceso guardada como secreto— es exactamente lo que este programa lleva desaconsejando desde la parte 11. Federación desde el repositorio, sin secretos, es la materia de la clase 206."
+    }
+  ],
+  "worked_example": "**CloudShop publica su tienda web. Lo que sigue es la comparación de las dos opciones con cifras, el montaje que eligieron, y los tres problemas que aparecieron —dos de ellos por valores por defecto.**\n\n**La comparación, hecha con datos:**\n\n```text\nrequisitos\n  la tienda y la API deben estar bajo el mismo dominio\n  WAF con reglas propias                          clase 209\n  registros de la distribución para análisis de coste\n  caché distinta por ruta: 4 comportamientos\n  ramas de vista previa para cada propuesta de cambio\n\nAmplify\n  cubre    ramas de vista previa, certificado, reversión\n  no cubre WAF propio, registros, comportamientos por ruta\n           y otro origen para /api/*\n\ndecisión\n  producción            S3 + CloudFront montado\n  vistas previa         Amplify, con caducidad automática a\n                        los 14 días\n  motivo de la caducidad   las ramas de vista previa no se\n                        borran solas y facturan       ley 25\n```\n\n**El montaje.**\n\n```text\nbucket\n  privado, sin alojamiento estático\n  bloqueo de acceso público activado\n  versionado activado\n  cifrado con clave gestionada\n  regla de caducidad: versiones antiguas a 30 días\n\ndistribución\n  origen 1   el bucket, con control de acceso al origen\n  origen 2   API Gateway, para /api/*             clase 207\n  TLS mínimo 1.2, redirección a HTTPS\n  compresión activada\n  registros a un bucket propio, caducidad de 90 días\n  WAF asociado                                    clase 209\n\ncomportamientos\n  /assets/*      caché 1 año, inmutable; clave = ruta\n  /media/*       caché 7 días; clave = ruta\n  /api/*         sin caché; origen 2; reenvía\n                 Authorization y Content-Type\n  por defecto    caché 0 con revalidación; función de borde\n                 de enrutado\n```\n\n**Problema 1 · Todos los 404 devolvían 200.**\n\n```text\nmontaje inicial\n  página de error personalizada: 404 → /index.html con 200\n  funcionaba: las rutas de la aplicación cargaban bien\n\nlo que se descubrió tres semanas después\n  · un despliegue subió el HTML sin uno de los recursos\n    el navegador pidió /assets/app.9c2f1a.js\n    la distribución devolvió index.html con código 200\n    el navegador intentó ejecutar HTML como JavaScript\n    → pantalla en blanco, sin ningún error en los paneles\n    → la tasa de errores era del 0 %                ley 13\n\n  · el buscador había indexado 1.900 rutas inexistentes\n    generadas por enlaces rotos de una campaña\n\ncorrección\n  función de borde con esta lógica\n    si la ruta contiene un punto (tiene extensión) → pasa\n      tal cual; si no existe, 404 real\n    si no → reescribe a /index.html, código 200\n\n  y una alerta nueva\n    «peticiones a /assets/* que devuelven 404»\n    → habría detectado el despliegue incompleto en 30 s\n```\n\n**Problema 2 · La invalidación masiva en cada publicación.**\n\n```text\nla canalización hacía\n  aws s3 sync ... --delete\n  aws cloudfront create-invalidation --paths \"/*\"\n\nefectos medidos\n  tasa de aciertos tras cada publicación   97 % → 12 %\n  tiempo en recuperarla                    ~40 min\n  peticiones al origen en ese periodo      ×31\n  y dos veces, con despliegues en hora punta, el origen se\n    saturó                                       clase 197\n  invalidaciones facturadas al mes         1.100 rutas\n\ny el efecto del --delete\n  los recursos antiguos se borraban al publicar\n  → quien tenía la tienda abierta veía la página romperse\n  → 3 incidentes reportados por atención al cliente,\n    clasificados como «error del navegador»\n\ncorrección\n  construcción con huella en todos los recursos\n  publicación en tres pasos\n    1  subir /assets/* nuevos (sin borrar)\n    2  subir HTML\n    3  invalidar solo /index.html y /\n  recursos antiguos: regla de caducidad a 30 días\n\nresultado\n  tasa de aciertos tras publicar    97 % → 96,4 %\n  invalidaciones al mes             1.100 → 62\n  incidentes por publicación             3 → 0\n  tiempo de publicación             4 min → 1 min\n```\n\n**Problema 3 · El bucket seguía siendo alcanzable.**\n\n```text\nla prueba negativa, ejecutada en la revisión de seguridad\n  pedir un objeto por la URL directa del bucket\n  → FUNCIONÓ\n\ncausa\n  el alojamiento de sitio web estático se había activado\n  durante el montaje inicial y no se desactivó\n  la política del bucket tenía una regla antigua que\n  permitía lectura pública, añadida «para probar»  ley 25\n\nqué implicaba\n  se podía descargar todo el contenido saltándose\n    el WAF\n    los registros\n    la caché → pagando salida a precio de S3   clase 200\n  y en los registros del bucket aparecían 41.000 peticiones\n    al mes por esa vía, de rastreadores\n\ncorrección\n  alojamiento estático desactivado\n  política del bucket reducida al control de acceso al\n    origen\n  bloqueo de acceso público activado\n  alerta: «peticiones directas al bucket > 0»\n  y la prueba negativa añadida al calendario trimestral\n```\n\n**La reversión, probada:**\n\n```text\nensayo\n  publicar una versión con un fallo evidente\n  revertir subiendo el index.html anterior desde el\n  versionado e invalidándolo\n\n  tiempo medido                          38 s\n  recursos antiguos disponibles          sí (no se borran)\n  usuarios afectados durante la reversión  los que cargaron\n                                         en esos 38 s\n```\n\n**El resultado, tres meses después:**\n\n```text                                        antes     después\ntasa de aciertos en régimen                 97 %       97,4 %\ntasa de aciertos tras publicar              12 %       96,4 %\ninvalidaciones al mes                      1.100          62\npeticiones directas al bucket            41.000/mes        0\n404 reales que se veían como 200            todos          0\ntiempo de reversión                     reconstruir      38 s\nincidentes por publicación                   3/trim         0\ncoste mensual de la distribución         1.240 €       890 €\n```\n\n**La lección que esta clase deja**: dos de los tres problemas venían de **valores por defecto que funcionaban**: convertir los 404 en 200 hacía que las rutas de la aplicación cargasen, y el alojamiento estático del bucket hacía que el contenido se sirviera. Los dos escondían algo: un despliegue incompleto que no generaba ningún error y cuarenta y un mil peticiones al mes por un camino sin WAF ni registros. Y el tercero —invalidar todo en cada publicación— **costaba cuarenta minutos de caché fría por despliegue** y se resolvió cambiando el orden de tres comandos.",
+  "pitfalls": [
+    {
+      "symptom": "Los errores 404 reales se ven como respuestas correctas",
+      "cause": "La página de error personalizada convierte todos los 404 en 200 con index.html",
+      "fix": "Reescribe a index.html solo las rutas sin extensión, con una función de borde, y alerta sobre 404 en recursos."
+    },
+    {
+      "symptom": "La tasa de aciertos se hunde tras cada publicación",
+      "cause": "Se invalida con comodín en cada despliegue",
+      "fix": "Construye con huella en los nombres, sube el HTML al final e invalida solo el HTML."
+    },
+    {
+      "symptom": "La página se rompe para quien la tenía abierta al publicar",
+      "cause": "Se borran los recursos antiguos al sincronizar",
+      "fix": "No borres al publicar; retira los recursos viejos con una regla de caducidad a 30 días."
+    },
+    {
+      "symptom": "Se puede descargar el contenido saltándose la distribución",
+      "cause": "El bucket tiene alojamiento estático o una política pública heredada de las pruebas",
+      "fix": "Bucket privado con control de acceso al origen, bloqueo de acceso público, y prueba negativa que compruebe que la URL directa falla."
+    },
+    {
+      "symptom": "La factura de construcción sube sin control",
+      "cause": "Las ramas de vista previa no caducan y siguen construyendo",
+      "fix": "Pon caducidad automática a las vistas previa; lo provisional sin fecha se queda para siempre."
+    },
+    {
+      "symptom": "El certificado no se puede asociar a la distribución",
+      "cause": "Se emitió en una región distinta de us-east-1",
+      "fix": "Emite el certificado de una distribución de CloudFront en us-east-1, aunque el resto del sistema esté en otra región."
+    }
+  ],
+  "checks": [
+    "¿En qué casos compensa el alojamiento gestionado y en cuáles el montaje propio?",
+    "¿Qué valores por defecto del bucket y de la distribución hay que cambiar para producción?",
+    "¿Cuál es el defecto de resolver el enrutado con la página de error 404?",
+    "¿Qué cinco pasos evitan invalidar la caché entera en cada publicación?",
+    "¿Qué prueba negativa comprueba que el bucket está realmente cerrado?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2025). *Amplify Hosting user guide*.",
+      "url": "https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html"
+    },
+    {
+      "text": "AWS (2025). *Restricting access to an Amazon S3 origin (origin access control)*.",
+      "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html"
+    },
+    {
+      "text": "AWS (2025). *CloudFront cache policies and cache key*.",
+      "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html"
+    },
+    {
+      "text": "AWS (2025). *CloudFront Functions*.",
+      "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-functions.html"
+    },
+    {
+      "text": "AWS (2025). *Blocking public access to your Amazon S3 storage*.",
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html"
+    }
+  ]
+}
