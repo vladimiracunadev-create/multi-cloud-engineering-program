@@ -1,0 +1,118 @@
+{
+  "id": "212",
+  "purpose": "Ejecutar contenedores en AWS sin gestionar servidores, con las decisiones que separan un despliegue que funciona de uno que aguanta. La clase cubre el registro de imágenes y su higiene, la elección entre capacidad gestionada y máquinas propias, la configuración de servicio y balanceador que evita cortar peticiones, y el escalado: **por qué la señal correcta casi nunca es la CPU y por qué el escalado siempre llega tarde al pico**.",
+  "outcomes": [
+    "**Publicar** imágenes con exploración, inmutabilidad y caducidad.",
+    "**Elegir** entre capacidad gestionada y máquinas propias con cifras.",
+    "**Configurar** servicio, comprobaciones y drenaje sin cortar peticiones.",
+    "**Escalar** con la señal correcta y con margen para el retraso.",
+    "**Dimensionar** CPU y memoria midiendo, no copiando."
+  ],
+  "concepts": [
+    {
+      "term": "registro de imágenes",
+      "definition": "Almacén de imágenes de contenedor, con exploración de vulnerabilidades y reglas de caducidad."
+    },
+    {
+      "term": "etiqueta inmutable",
+      "definition": "Etiqueta que no se puede sobrescribir. Evita que 'la misma versión' cambie de contenido."
+    },
+    {
+      "term": "definición de tarea",
+      "definition": "Declaración de qué imagen, con qué recursos, permisos y variables se ejecuta."
+    },
+    {
+      "term": "capacidad gestionada",
+      "definition": "Ejecución sin administrar instancias. Se paga por recursos pedidos y por tiempo."
+    },
+    {
+      "term": "drenaje de destino",
+      "definition": "Tiempo que el balanceador deja terminar las peticiones en curso antes de retirar una tarea."
+    },
+    {
+      "term": "retraso de escalado",
+      "definition": "Suma de detección, decisión y arranque. Es lo que hay que cubrir con margen."
+    }
+  ],
+  "diagram": "flowchart TB\n    B[\"construcción\"] --> R[\"REGISTRO\\netiqueta inmutable\\n= huella del contenido\"]\n    R --> R1[\"exploración al subir\\ny CONTINUA\"]\n    R --> R2[\"caducidad:\\nsin ella crece sin fin\"]\n    R --> S[\"servicio\"]\n    S --> S1[\"capacidad gestionada\\no máquinas propias\"]\n    S --> S2[\"comprobación de salud\\ncon periodo de gracia\"]\n    S --> S3[\"drenaje > plazo\\nmás largo\"]\n    S --> S4[\"parada elegante:\\natender la señal\"]\n    S --> E[\"ESCALADO\"]\n    E --> E1[\"¿CPU?\\ncasi nunca\"]\n    E --> E2[\"peticiones por tarea\\no profundidad de cola\"]\n    E --> E3[\"retraso = detección\\n+ decisión + arranque\"]\n    E3 --> E4[\"margen que lo cubra\"]",
+  "foundations": [
+    {
+      "heading": "El registro y la higiene de imágenes",
+      "body": "El registro parece un detalle y produce dos problemas caros: imágenes que cambian bajo el mismo nombre y crecimiento sin límite.\n\n```text\nETIQUETAS INMUTABLES\n  ✗ etiqueta «latest» o «v1.4» sobrescribible\n    → dos despliegues con la misma etiqueta ejecutan cosas\n      distintas\n    → y revertir no lleva a lo que había\n  ✓ etiqueta = huella del contenido, o versión inmutable\n    → la etiqueta identifica un contenido exacto\n    → y el despliegue referencia la huella, no la etiqueta\n                                                clase 106\n\nEXPLORACIÓN\n  al subir: bloquea lo que tenga vulnerabilidades graves\n  CONTINUA: una imagen desplegada hace tres meses puede\n    tener hoy una vulnerabilidad conocida\n  → sin exploración continua, solo se examina lo nuevo\n                                                   ley 13\n\nCADUCIDAD\n  reglas: conservar las N últimas de cada rama, borrar las\n  demás; borrar las sin etiqueta a los pocos días\n  → sin reglas, el registro crece indefinidamente y factura\n  → y las imágenes viejas con vulnerabilidades siguen ahí\n    disponibles                                    ley 25\n```\n\nY dos decisiones sobre la imagen misma:\n\n```text\nTAMAÑO\n  imagen base mínima, construcción en varias etapas\n  → el tiempo de arranque depende de la descarga\n  → 800 MB frente a 90 MB son segundos en cada arranque,\n    y eso se paga en cada escalado\n\nSIN SECRETOS DENTRO\n  las variables con secretos se inyectan en ejecución desde\n  el gestor de secretos, no se construyen dentro\n  → una imagen se puede descargar y examinar\n```\n\nY el permiso que hay que separar y casi nunca se separa:\n\n```text\nROL DE EJECUCIÓN     el que usa el agente para descargar la\n                     imagen y escribir registros\nROL DE LA TAREA      el que usa TU código para llamar a\n                     servicios\n→ mezclarlos da al código permisos de infraestructura\n                                                clase 134\n```"
+    },
+    {
+      "heading": "Capacidad: gestionada o propia",
+      "body": "La elección entre ejecutar sin administrar instancias o gestionarlas se decide con cifras, no con preferencia.\n\n```text\nCAPACIDAD GESTIONADA (Fargate)\n  + sin instancias que parchear, escalar ni vigilar\n  + aislamiento por tarea\n  + se paga por lo pedido, por segundo\n  − precio por unidad de recurso mayor\n  − tamaños en combinaciones fijas: pedir 1 vCPU y 2 GB\n    puede obligar a pagar más\n  − arranque algo más lento\n  − sin acceso al anfitrión: agentes especiales, GPU o\n    almacenamiento local quedan limitados\n\nMÁQUINAS PROPIAS\n  + más barato por unidad, sobre todo con compromisos o\n    capacidad sobrante                          clase 143\n  + control del anfitrión\n  − hay que parchear, escalar y vigilar el conjunto\n  − el empaquetado deja hueco desperdiciado\n  − y ese trabajo consume capacidad del equipo     ley 23\n```\n\nY el cálculo honesto:\n\n```text\nel ahorro por unidad de las máquinas propias solo se\nrealiza si el empaquetado es alto\n  utilización real típica de un conjunto mal empaquetado\n  35-50 %\n  → a esa utilización, la capacidad gestionada suele salir\n    igual o más barata\n\nregla práctica\n  empieza con capacidad gestionada\n  mide utilización y coste durante meses\n  pasa a máquinas propias solo si el volumen es alto,\n    estable y hay quien lo opere\n```\n\nY el modo intermedio que suele ganar:\n\n```text\ncapacidad gestionada para lo variable y lo poco usado\nmáquinas propias con compromiso para la base estable\n→ y el reparto se decide con el histórico, no a ojo\n                                                clase 143\n```\n\nY una nota sobre el precio por interrupción:\n\n```text\nla capacidad interrumpible es mucho más barata y puede\nretirarse con poco aviso\n→ vale para trabajo por lotes y para parte de la capacidad\n  de servicios tolerantes\n→ nunca para el 100 % de un servicio con usuarios\n```"
+    },
+    {
+      "heading": "Servicio y balanceador sin cortar peticiones",
+      "body": "La configuración por defecto de un servicio detrás de un balanceador **corta peticiones en cada despliegue**. Estos son los parámetros que lo evitan.\n\n```text\nCOMPROBACIÓN DE SALUD, con dos puntos       clase 196\n  /vivo    ¿el proceso está en pie?      → reinicio\n  /listo   ¿puede atender ahora?         → recibir tráfico\n  y /listo NO depende de dependencias blandas\n\nPERIODO DE GRACIA AL ARRANCAR\n  tiempo antes de empezar a evaluar la salud\n  ✗ demasiado corto → la tarea se mata mientras arranca,\n    y entra en un bucle de reinicios\n  ✓ mayor que el arranque real medido, con margen\n\nDRENAJE DE DESTINO\n  ✗ por defecto suele ser corto\n  ✓ mayor que el plazo más largo de las peticiones\n  → si no, cada despliegue corta lo que estaba en curso\n\nPARADA ELEGANTE\n  la aplicación debe ATENDER la señal de terminación\n    dejar de aceptar nuevas\n    terminar las que tiene\n    cerrar conexiones\n  ✗ si no la atiende, se la mata al agotar el plazo\n  → y ese plazo debe superar la petición más larga\n\nORDEN CORRECTO EN UN DESPLIEGUE\n  1  arranca la tarea nueva\n  2  pasa /listo\n  3  el balanceador la registra\n  4  el balanceador quita la vieja del reparto\n  5  DRENAJE\n  6  señal de terminación a la vieja\n  7  parada elegante\n```\n\nY los parámetros de despliegue del servicio:\n\n```text\nPORCENTAJE MÍNIMO SANO   100 %  → nunca menos capacidad de\n                                   la nominal\nPORCENTAJE MÁXIMO        200 %  → permite arrancar las\n                                   nuevas antes de retirar\n                                   las viejas\n→ con mínimo 100 y máximo 200 el despliegue no reduce\n  capacidad en ningún momento\n→ con los valores por defecto (50/200 en algunos casos) se\n  puede quedar a la mitad durante el despliegue\n\nCIRCUITO DE DESPLIEGUE\n  si las tareas nuevas no llegan a estar sanas, el servicio\n  vuelve solo a la versión anterior\n  → hay que activarlo; no viene activado\n```\n\nY una decisión sobre el tipo de balanceador:\n\n```text\nde aplicación (capa 7)   rutas, cabeceras, reintentos\nde red (capa 4)          latencia mínima, IP fija, otros\n                         protocolos\n→ y la elección es la misma discusión de la clase 196\n```"
+    },
+    {
+      "heading": "Escalar con la señal correcta",
+      "body": "El escalado automático por CPU es el valor por defecto y casi nunca es lo correcto.\n\n```text\nPOR QUÉ LA CPU FALLA COMO SEÑAL\n  la mayoría de los servicios de aplicación esperan a la\n  red y a la base, no calculan\n  → una tarea saturada de peticiones en espera puede tener\n    la CPU al 30 %\n  → es exactamente el caso de la clase 186: el recurso\n    saturado era el grupo de conexiones\n\nLAS SEÑALES QUE SÍ FUNCIONAN\n  peticiones por tarea (del balanceador)\n    → directa, y fácil de fijar con una prueba de carga\n  latencia p99 del destino\n    → escalar antes de incumplir el objetivo\n  profundidad de cola por consumidor\n    → para trabajadores asíncronos               clase 210\n  concurrencia en vuelo\n    → la mejor medida de saturación real\n\n  y la CPU, solo si el servicio de verdad calcula\n```\n\n**El retraso de escalado**, que es lo que hace que llegue tarde:\n\n```text\ndetección de la métrica         30-120 s\ndecisión y disparo              30-60 s\narranque de la tarea            20-90 s (descarga + arranque)\npaso de la comprobación         10-60 s\n───────────────────────────────────────\nTOTAL típico                    1,5 a 5 minutos\n\n→ un pico que sube en 60 segundos NO lo cubre el escalado\n→ hay que llegar al pico con capacidad ya presente\n```\n\nY de ahí salen tres decisiones:\n\n```text\n1  MARGEN QUE CUBRA EL RETRASO\n   capacidad base = pico previsible × (1 + tasa de subida ×\n   retraso)\n   → o dicho simple: no ir al límite\n\n2  ESCALADO PROGRAMADO para lo previsible\n   la campaña empieza a las 11:00 → subir a las 10:30\n   → es más fiable que reaccionar\n\n3  SUBIR RÁPIDO, BAJAR DESPACIO\n   escalar hacia arriba con umbral bajo y sin espera\n   escalar hacia abajo con espera de varios minutos\n   → evita oscilar, y bajar de más cuesta más que subir de\n     más\n```\n\n**El dimensionado de CPU y memoria**, que se copia y debería medirse:\n\n```text\nlo que ocurre al copiar el valor de otro servicio\n  memoria de más   se paga y no se usa\n  memoria de menos   el proceso muere sin aviso claro\n  CPU de menos     latencia alta con «CPU al 100 %», que en\n                   contenedores puede ser estrangulamiento\n                   por cuota, no falta real de máquina\n\ncómo se decide\n  ejecutar la carga real y observar uso de CPU, memoria\n  máxima y estrangulamiento\n  fijar memoria por encima del pico observado con margen\n  y la CPU según la latencia objetivo, no según el uso medio\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ las etiquetas del registro son inmutables\n☐ el despliegue referencia la huella, no la etiqueta\n☐ hay exploración al subir y continua\n☐ el registro tiene reglas de caducidad\n☐ la imagen es mínima y no contiene secretos\n☐ el rol de ejecución y el de la tarea están separados\n☐ la elección de capacidad se justificó con utilización y\n  coste\n☐ hay puntos separados de vivo y de listo\n☐ el periodo de gracia supera el arranque medido\n☐ el drenaje supera el plazo más largo\n☐ la aplicación atiende la señal de terminación\n☐ mínimo sano 100 % y máximo 200 %\n☐ el circuito de despliegue está activado\n☐ la señal de escalado no es la CPU salvo que corresponda\n☐ el margen cubre el retraso de escalado, medido\n☐ hay escalado programado para lo previsible\n☐ CPU y memoria se fijaron midiendo\n```\n\nY el cierre que enlaza con la clase siguiente: cuando los contenedores dejan de ser unos pocos servicios y pasan a ser una plataforma con muchos equipos, la orquestación gestionada se queda corta y aparece Kubernetes con sus propios problemas. Es la materia de la clase 213."
+    }
+  ],
+  "worked_example": "**CloudShop mueve tres servicios a contenedores. Lo que sigue es el despliegue que cortaba peticiones, el escalado que llegaba tarde a cada campaña, y la comparación de coste que cambió la decisión de capacidad.**\n\n**Problema 1 · Cada despliegue cortaba peticiones.**\n\n```text\nsíntoma   en cada despliegue, entre 200 y 400 peticiones\n          fallaban con error de conexión\n          duraba unos 40 segundos\n          se había normalizado: «se despliega de madrugada»\n\ndiagnóstico, parámetro a parámetro\n  drenaje de destino                   30 s (por defecto)\n  plazo más largo de petición          45 s (exportaciones)\n  → las peticiones de más de 30 s se cortaban\n\n  parada elegante\n  → la aplicación NO atendía la señal de terminación\n  → se la mataba al agotar el plazo, con peticiones vivas\n\n  porcentaje mínimo sano               50 %\n  → durante el despliegue el servicio operaba con la mitad\n    de tareas\n  → y en hora punta eso bastaba para saturar el resto\n\n  periodo de gracia                    30 s\n  arranque real medido                 52 s\n  → las tareas nuevas se mataban por «no sanas» antes de\n    terminar de arrancar\n  → el servicio entraba en bucle y el despliegue tardaba\n    12 minutos\n\ncorrección\n  drenaje                              60 s\n  plazo de parada                      70 s\n  parada elegante implementada: deja de aceptar, termina lo\n    que tiene, cierra\n  mínimo sano                          100 %\n  máximo                               200 %\n  periodo de gracia                    120 s\n  circuito de despliegue               activado\n\nresultado\n  peticiones cortadas por despliegue     300 → 0\n  duración del despliegue             12 min → 3 min\n  despliegues en horario laboral         no → sí\n```\n\n**Problema 2 · El escalado llegaba tarde.**\n\n```text\nconfiguración inicial\n  señal          CPU media > 70 %\n  mínimo         4 tareas\n  máximo         40\n\nlo que pasaba en cada campaña\n  11:00  arranca la promoción; el tráfico ×18 en 90 s\n  11:00  latencia p99 sube de 180 ms a 4.100 ms\n  11:00  CPU de las tareas: 38 %       ← no dispara nada\n  11:03  la latencia dispara alertas\n  11:04  alguien escala a mano\n  11:09  capacidad suficiente\n\n  9 minutos de degradación en cada campaña\n\ndiagnóstico\n  el servicio esperaba a la base y al servicio de precios\n  → la CPU nunca subía\n  → el recurso saturado era la concurrencia y las\n    conexiones                                  clase 186\n\ncorrección\n  1  SEÑAL\n     peticiones por tarea, del balanceador\n     umbral fijado con prueba de carga: el codo estaba en\n     240 peticiones/min por tarea → objetivo 160\n\n  2  RETRASO MEDIDO\n     detección                         60 s\n     decisión                          40 s\n     arranque + descarga de imagen     52 s\n     comprobación de salud             25 s\n     ────────────────────────────────────\n     total                           3 min 17 s\n\n     y la imagen se redujo de 740 MB a 110 MB\n     → arranque 52 s → 21 s\n     → total 2 min 46 s\n\n  3  MARGEN\n     el tráfico sube ×18 en 90 s\n     → el escalado no puede cubrirlo\n     → capacidad base subida para absorber los primeros\n       3 minutos\n\n  4  ESCALADO PROGRAMADO\n     las campañas tienen hora conocida\n     → subir a 26 tareas a las 10:30\n     → y volver a la política automática a las 13:00\n\n  5  SUBIR RÁPIDO, BAJAR DESPACIO\n     subida sin espera; bajada con 10 min de espera\n\nresultado en la campaña siguiente\n  p99 máximo                       4.100 ms → 310 ms\n  minutos de degradación                9 → 0\n  intervenciones manuales                1 → 0\n  coste del escalado programado    +14 €/campaña\n```\n\n**La decisión de capacidad, revisada con datos.**\n\n```text\nse empezó con capacidad gestionada; a los 5 meses se\nplanteó pasar a máquinas propias «porque es más barato»\n\nlos datos\n  coste actual con capacidad gestionada     3.180 €/mes\n  recursos pedidos                          124 vCPU · 248 GB\n  utilización media real                    31 %\n\n  estimación con máquinas propias\n    instancias necesarias con empaquetado del 65 %\n      → 9 instancias grandes            1.940 €/mes\n    con compromiso de 1 año             1.360 €/mes\n    parcheado, escalado del conjunto,\n      vigilancia                        ~2,5 días-persona/mes\n\n  y el cálculo honesto\n    ahorro bruto                          1.820 €/mes\n    coste del trabajo (2,5 días × ~450 €) 1.125 €/mes\n    ahorro neto                             695 €/mes\n\ndecisión\n  NO migrar todavía\n  motivo   695 €/mes no compensa añadir un conjunto de\n           instancias que parchear a un equipo de 6\n                                                   ley 23\n  qué la reabriría\n           si el gasto supera 6.000 €/mes\n           o si aparece una carga con GPU o con requisitos\n           de anfitrión                          clase 190\n\ny lo que sí se hizo, que dio más\n  ajustar los tamaños pedidos, que estaban copiados\n    servicio A   2 vCPU / 4 GB → 0,5 vCPU / 2 GB\n    servicio B   2 vCPU / 4 GB → 1 vCPU / 2 GB\n    servicio C   4 vCPU / 8 GB → 2 vCPU / 4 GB\n  utilización media                      31 % → 62 %\n  coste                            3.180 € → 1.710 €\n```\n\nY el detalle de cómo se fijaron esos tamaños:\n\n```text\nse ejecutó la carga real durante una semana midiendo\n  uso de CPU p95, memoria máxima y estrangulamiento por\n  cuota\n\n  servicio A   CPU p95 0,21 vCPU · memoria máx 1,3 GB\n               estrangulamiento 0 %\n  servicio C   CPU p95 1,7 vCPU · memoria máx 3,1 GB\n               estrangulamiento 4 % con 2 vCPU\n               → se dejó en 2 vCPU: el 4 % ocurría en el\n                 arranque, no en régimen\n```\n\n**La higiene del registro, que nadie había mirado:**\n\n```text\nimágenes almacenadas                              8.410\n  con etiqueta                                    1.240\n  SIN etiqueta (capas huérfanas)                  7.170\ntamaño                                             2,1 TB\ncoste                                            210 €/mes\netiquetas mutables                                  sí\nexploración                                     al subir\nexploración continua                                no\n\ntras aplicar reglas\n  conservar las 10 últimas por rama, borrar el resto\n  borrar sin etiqueta a los 7 días\n  etiquetas inmutables, con huella del contenido\n  exploración continua activada\n\n  imágenes                                8.410 → 310\n  tamaño                                  2,1 TB → 74 GB\n  coste                                   210 € → 8 €\n\ny la exploración continua encontró\n  3 imágenes en producción con vulnerabilidades graves\n  publicadas DESPUÉS de su construcción\n  → la más antigua llevaba 4 meses desplegada    ley 13\n```\n\n**El resultado:**\n\n```text                                        antes     después\npeticiones cortadas por despliegue           300           0\nduración del despliegue                   12 min       3 min\nminutos de degradación por campaña             9           0\nutilización de recursos                     31 %        62 %\ncoste de cómputo                         3.180 €     1.710 €\ncoste del registro                         210 €         8 €\nimágenes con vulnerabilidad grave en\n  producción                                   3           0\n```\n\n**La lección que esta clase deja**: el despliegue cortaba peticiones por **cuatro parámetros por defecto a la vez** —drenaje corto, sin parada elegante, mínimo sano al 50 % y gracia menor que el arranque—, y ninguno era un error de diseño. El escalado llegaba tarde porque **la señal era la CPU en un servicio que espera a la red**, y la mejora mayor no fue cambiar la señal sino **reducir la imagen de 740 a 110 MB**. Y el ahorro que se buscaba en el tipo de capacidad estaba en realidad en **los tamaños pedidos, que estaban copiados de otro servicio**.",
+  "pitfalls": [
+    {
+      "symptom": "Cada despliegue corta peticiones en curso",
+      "cause": "Drenaje menor que el plazo más largo y la aplicación no atiende la señal de terminación",
+      "fix": "Aumenta el drenaje por encima de la petición más larga e implementa la parada elegante."
+    },
+    {
+      "symptom": "Las tareas nuevas entran en bucle de reinicio",
+      "cause": "El periodo de gracia es menor que el tiempo real de arranque",
+      "fix": "Mide el arranque y fija el periodo de gracia con margen sobre él."
+    },
+    {
+      "symptom": "El servicio pierde capacidad durante los despliegues",
+      "cause": "El porcentaje mínimo sano permite bajar del cien por cien",
+      "fix": "Fija mínimo sano 100 % y máximo 200 %, y activa el circuito de despliegue."
+    },
+    {
+      "symptom": "El escalado no reacciona aunque la latencia se dispare",
+      "cause": "La señal es la CPU y el servicio espera a la red, no calcula",
+      "fix": "Escala por peticiones por tarea, latencia o profundidad de cola, con el umbral fijado en una prueba de carga."
+    },
+    {
+      "symptom": "El escalado llega tarde a cada pico",
+      "cause": "El retraso de detección, decisión y arranque no está cubierto por margen",
+      "fix": "Mide el retraso, reduce el tamaño de la imagen, deja margen de capacidad y programa la subida para los picos previsibles."
+    },
+    {
+      "symptom": "Una imagen desplegada hace meses tiene vulnerabilidades conocidas",
+      "cause": "Solo hay exploración al subir, y las etiquetas son mutables",
+      "fix": "Activa exploración continua, usa etiquetas inmutables con huella y aplica reglas de caducidad al registro."
+    }
+  ],
+  "checks": [
+    "¿Por qué las etiquetas mutables impiden revertir con seguridad?",
+    "¿Qué condiciones deben cumplirse para que las máquinas propias salgan realmente más baratas?",
+    "¿Cuál es el orden correcto de un despliegue sin cortar peticiones?",
+    "¿Por qué la CPU suele ser mala señal de escalado y cuáles funcionan mejor?",
+    "¿Qué compone el retraso de escalado y cómo se compensa?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2025). *Amazon ECR: image tag mutability and lifecycle policies*.",
+      "url": "https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html"
+    },
+    {
+      "text": "AWS (2025). *Amazon ECS deployment types and circuit breaker*.",
+      "url": "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html"
+    },
+    {
+      "text": "AWS (2025). *Application Load Balancer: deregistration delay*.",
+      "url": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html"
+    },
+    {
+      "text": "AWS (2025). *Service auto scaling for Amazon ECS*.",
+      "url": "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html"
+    },
+    {
+      "text": "AWS (2025). *AWS Fargate pricing and task sizing*.",
+      "url": "https://aws.amazon.com/fargate/pricing/"
+    }
+  ]
+}
