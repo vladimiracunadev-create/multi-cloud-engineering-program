@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>serverless</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>sam, lambda, api gateway y despliegue serverless</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Construir y desplegar una aplicación sin servidores en AWS con las decisiones que separan un prototipo de algo que aguanta producción. La clase cubre la definición como código con SAM, la configuración de funciones que de verdad importa —memoria, concurrencia, plazos y arranque en frío—, la elección de pasarela y su coste, y los tres asuntos que rompen estos sistemas: <strong>la concurrencia que agota la base, el reintento que duplica y el despliegue que no se puede revertir</strong>.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> sam, lambda, api gateway y despliegue serverless con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>aws-serverless-api</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Definir</strong> una aplicación sin servidores como código, con entornos separados.</li>
+<li><strong>Dimensionar</strong> memoria, concurrencia y plazos con criterio y no por defecto.</li>
+<li><strong>Elegir</strong> el tipo de pasarela por coste y por lo que necesitas de ella.</li>
+<li><strong>Controlar</strong> el arranque en frío y decidir cuándo pagar por evitarlo.</li>
+<li><strong>Desplegar</strong> de forma escalonada, con reversión automática.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,28 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>sam</code></td>
-<td>Define su papel en <strong>sam, lambda, api gateway y despliegue serverless</strong> y cómo observarlo en un sistema real.</td>
+<td><code>SAM</code></td>
+<td>Extensión de CloudFormation que declara funciones, APIs y tablas con menos texto y despliega con un solo comando.</td>
 </tr>
 <tr>
-<td><code>lambda</code></td>
-<td>Define su papel en <strong>sam, lambda, api gateway y despliegue serverless</strong> y cómo observarlo en un sistema real.</td>
+<td><code>concurrencia reservada</code></td>
+<td>Máximo de ejecuciones simultáneas de una función. Es a la vez un límite y una reserva de la cuota de la cuenta.</td>
 </tr>
 <tr>
-<td><code>api</code></td>
-<td>Define su papel en <strong>sam, lambda, api gateway y despliegue serverless</strong> y cómo observarlo en un sistema real.</td>
+<td><code>concurrencia aprovisionada</code></td>
+<td>Instancias mantenidas calientes. Elimina el arranque en frío y se paga por hora.</td>
 </tr>
 <tr>
-<td><code>gateway</code></td>
-<td>Define su papel en <strong>sam, lambda, api gateway y despliegue serverless</strong> y cómo observarlo en un sistema real.</td>
+<td><code>arranque en frío</code></td>
+<td>Retraso al crear un entorno de ejecución nuevo. Afecta a los percentiles altos, no a la media.</td>
 </tr>
 <tr>
-<td><code>despliegue</code></td>
-<td>Define su papel en <strong>sam, lambda, api gateway y despliegue serverless</strong> y cómo observarlo en un sistema real.</td>
+<td><code>alias y versión</code></td>
+<td>Puntero estable a una versión concreta de la función. Es lo que permite desplazar tráfico y revertir.</td>
 </tr>
 <tr>
-<td><code>serverless</code></td>
-<td>Define su papel en <strong>sam, lambda, api gateway y despliegue serverless</strong> y cómo observarlo en un sistema real.</td>
+<td><code>despliegue escalonado</code></td>
+<td>Desplazamiento progresivo del tráfico al alias nuevo, con alarmas que lo revierten solo.</td>
 </tr>
 </tbody>
 </table>
@@ -97,75 +94,470 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: SAM, Lambda, API Gateway y despliegue serverless&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    C[&quot;cliente&quot;] --&gt; G{&quot;pasarela&quot;}
+    G --&gt;|&quot;barata, HTTP,\nJWT integrado&quot;| H[&quot;API HTTP&quot;]
+    G --&gt;|&quot;WAF, claves de uso,\ntransformaciones,\nautorizador propio&quot;| R[&quot;API REST&quot;]
+    H --&gt; F[&quot;función&quot;]
+    R --&gt; F
+    F --&gt; M[&quot;memoria = CPU\n← medir, no adivinar&quot;]
+    F --&gt; K[&quot;CONCURRENCIA\nreservada&quot;]
+    K --&gt; K1[&quot;protege la cuota\nde la cuenta&quot;]
+    K --&gt; K2[&quot;protege la BASE\n← el fallo clásico&quot;]
+    F --&gt; P[&quot;plazos ordenados\ncliente &gt; pasarela &gt; función&quot;]
+    F --&gt; A[&quot;alias + versión&quot;]
+    A --&gt; D[&quot;despliegue escalonado\ncon alarma que revierte&quot;]
+    F --&gt; I[&quot;IDEMPOTENCIA\nporque hay reintentos&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-definir-como-codigo-con-entornos">1. Definir como código, con entornos</h3>
+<p>Una plantilla de SAM declara funciones, rutas, permisos y recursos con mucho menos texto que la plantilla equivalente, y se despliega con un comando.</p>
+<pre><code class="language-text">LO QUE UNA PLANTILLA DEBE TENER DESDE EL PRINCIPIO
+  parámetros por entorno, sin valores incrustados
+  nombres derivados del entorno, no fijos
+  permisos por función, no un rol compartido
+  etiquetas obligatorias: dueño, entorno, servicio  clase 142
+  y ninguna referencia a recursos creados a mano
+</code></pre>
+<p>Y los errores de estructura que se pagan pronto:</p>
+<pre><code class="language-text">✗ UNA PILA GIGANTE con todo
+  → cada despliegue toca todo; un fallo bloquea la pila
+  → y las pilas tienen límites de recursos
+
+✓ PILAS POR CICLO DE VIDA
+  lo que cambia a diario   funciones y API
+  lo que cambia poco       tablas, buckets, colas
+  → y las tablas de datos NUNCA en la misma pila que el
+    código: un borrado de pila no debe poder llevarse los
+    datos
+
+✗ EL MISMO ROL PARA TODAS LAS FUNCIONES
+  → una función comprometida alcanza todo         clase 189
+
+✓ UN ROL POR FUNCIÓN, con permisos sobre los recursos
+  concretos que usa
+</code></pre>
+<p>Y la política de borrado, que casi nadie configura y que evita desastres:</p>
+<pre><code class="language-text">los recursos con datos llevan política de retención
+  → al borrar la pila, la tabla y el bucket SOBREVIVEN
+→ sin esto, un `delete-stack` equivocado en la cuenta
+  equivocada borra los datos                       clase 166
+</code></pre>
+<p><strong>Los entornos</strong>, que se hacen con cuentas y no con prefijos:</p>
+<pre><code class="language-text">cuenta de desarrollo · preproducción · producción
+→ la separación por cuenta es la única que impide de verdad
+  que un despliegue de preproducción toque producción
+                                                 clase 169
+→ dentro de cada cuenta, una pila por servicio
+</code></pre>
+<p>Y el desarrollo local, que ahorra mucho tiempo y engaña en una cosa:</p>
+<pre><code class="language-text">la emulación local sirve para la lógica
+no reproduce
+  latencias reales, límites de concurrencia, permisos,
+  arranques en frío ni el comportamiento de la pasarela
+→ las pruebas que importan se hacen en un entorno real,
+  aunque sea efímero                              clase 104
+</code></pre>
+<h3 id="2-memoria-concurrencia-y-plazos">2. Memoria, concurrencia y plazos</h3>
+<p>Tres ajustes que vienen con valores por defecto y que deciden coste, latencia y estabilidad.</p>
+<p><strong>La memoria, que es en realidad la CPU:</strong></p>
+<pre><code class="language-text">en Lambda, la CPU asignada es proporcional a la memoria
+→ más memoria puede salir MÁS BARATO, porque la función
+  termina antes
+
+cómo se decide
+  medir la misma carga con 512, 1.024, 1.792 y 3.008 MB
+  y comparar duración × precio
+  → hay un mínimo de coste, y casi nunca está en el valor
+    por defecto
+
+típicamente
+  funciones de cálculo         se benefician mucho
+  funciones de espera de red   no; la CPU no acelera esperar
+</code></pre>
+<p><strong>La concurrencia</strong>, que es donde se rompen estos sistemas:</p>
+<pre><code class="language-text">EL FALLO CLÁSICO
+  una función sin límite de concurrencia escala a miles de
+  ejecuciones simultáneas
+  cada una abre una conexión a la base relacional
+  → la base agota sus conexiones y CAE
+  → y con ella, todo lo demás que la usa
+
+Y es exactamente el problema de la clase 186
+  el recurso saturado no es la función: es la base
+
+LAS CORRECCIONES
+  concurrencia reservada por función
+    = número de conexiones que la base puede dar / conexiones
+      por ejecución
+  y un intermediario de conexiones (RDS Proxy) si la base
+    es relacional
+  → o una base pensada para esto                  clase 208
+</code></pre>
+<p>Y el otro efecto de la concurrencia reservada:</p>
+<pre><code class="language-text">la cuota de concurrencia es DE LA CUENTA, compartida
+→ una función que se dispara consume la cuota y las demás
+  empiezan a ser rechazadas
+→ reservar concurrencia a las funciones críticas es
+  reservarles capacidad, no solo limitarlas
+</code></pre>
+<p><strong>Los plazos</strong>, con la misma regla de la clase 196:</p>
+<pre><code class="language-text">cliente &gt; pasarela &gt; función &gt; llamadas de la función
+
+y dos particularidades
+  la API HTTP y la REST tienen un plazo máximo propio
+    → si la función tarda más, la pasarela corta y la
+      función SIGUE ejecutándose y facturando
+  el plazo por defecto de una función es bajo, y el máximo
+    es alto
+    → poner el máximo «por si acaso» significa pagar
+      15 minutos de una función colgada
+
+regla   plazo = p99 esperado × 2 o 3, nunca el máximo
+</code></pre>
+<p>Y una consecuencia que sorprende:</p>
+<pre><code class="language-text">una función con plazo de 15 min que se queda esperando una
+dependencia caída
+  consume concurrencia durante 15 minutos por invocación
+  → agota la cuota y tumba lo demás
+→ el plazo corto es un mecanismo de contención  clase 153
+</code></pre>
+<h3 id="3-pasarela-arranque-en-frio-y-coste">3. Pasarela, arranque en frío y coste</h3>
+<p><strong>La elección de pasarela</strong>, que tiene consecuencias de coste importantes:</p>
+<pre><code class="language-text">API HTTP
+  más barata (del orden de un tercio)
+  menor latencia añadida
+  autorizador de testigo integrado                clase 209
+  CORS por configuración
+  NO tiene   claves de uso y planes, transformaciones de
+             petición y respuesta, WAF directo en algunos
+             casos, caché integrada
+
+API REST
+  todo lo anterior
+  autorizadores propios
+  WAF asociado
+  caché de respuestas
+  y despliegues por etapa con variables
+
+FUNCIÓN CON URL DIRECTA
+  sin pasarela; la más barata y la más limitada
+  → útil para webhooks internos, no para una API pública
+
+BALANCEADOR DE APLICACIÓN → función
+  útil si ya hay balanceador y se quiere una sola entrada
+</code></pre>
+<p>Y el criterio:</p>
+<pre><code class="language-text">empieza por API HTTP
+pasa a REST solo si necesitas algo de su lista
+→ y si la aplicación va detrás de CloudFront, muchas de
+  esas necesidades (WAF, caché) se resuelven ahí
+                                                 clase 205
+</code></pre>
+<p><strong>El arranque en frío</strong>, que se exagera y a la vez se ignora donde importa:</p>
+<pre><code class="language-text">QUÉ ES
+  crear un entorno de ejecución nuevo: descargar el
+  paquete, arrancar el intérprete, ejecutar el código de
+  inicialización
+
+CUÁNTO
+  lenguajes interpretados y paquetes pequeños  100-400 ms
+  máquinas virtuales de lenguajes con arranque
+    pesado                                     0,5-3 s
+  con conexión a una red virtual, hoy, poco más
+  y el código de inicialización propio, lo que tarde
+
+A QUIÉN AFECTA
+  a los percentiles altos, no a la media
+  → con 100 peticiones/s, casi todo va caliente
+  → con 1 petición cada 5 minutos, casi todo va frío
+</code></pre>
+<p>Y las correcciones, por orden de coste:</p>
+<pre><code class="language-text">1  REDUCIR EL PAQUETE                            gratis
+   quitar dependencias, empaquetar solo lo necesario
+
+2  MOVER TRABAJO FUERA DE LA INICIALIZACIÓN      gratis
+   → pero reutilizar conexiones ENTRE invocaciones sí va
+     en la inicialización: se crean una vez
+
+3  ELEGIR UN TIEMPO DE EJECUCIÓN LIGERO          gratis
+
+4  CONCURRENCIA APROVISIONADA                    se paga
+   instancias calientes permanentes
+   → tiene sentido en el camino crítico con tráfico
+     irregular
+   → y se puede programar por horas
+
+5  MANTENER CALIENTE CON INVOCACIONES PERIÓDICAS
+   → truco antiguo, poco fiable con concurrencia; evitarlo
+</code></pre>
+<p><strong>El coste</strong>, que se estima mal siempre en la misma dirección:</p>
+<pre><code class="language-text">lo que se cuenta   invocaciones y duración
+lo que se olvida
+  peticiones de la pasarela            ← suele ser mayor
+  transferencia de datos
+  registros: ingesta y almacenamiento  ← el sorprendente
+  llamadas a otros servicios por petición
+  concurrencia aprovisionada, por hora
+
+→ en sistemas de mucho tráfico y poca duración, la pasarela
+  y los registros pueden superar al cómputo
+</code></pre>
+<h3 id="4-desplegar-revertir-y-ser-idempotente">4. Desplegar, revertir y ser idempotente</h3>
+<p><strong>El despliegue escalonado</strong>, que SAM da hecho y casi nadie activa:</p>
+<pre><code class="language-text">versión + alias
+  cada despliegue publica una VERSIÓN inmutable
+  el alias apunta a una versión
+  → el tráfico va al alias
+
+desplazamiento progresivo
+  10 % durante 5 min, luego 100 %
+  o lineal: 10 % cada minuto
+
+alarmas asociadas
+  si la tasa de error o la latencia superan el umbral
+  durante el desplazamiento, el alias VUELVE solo a la
+  versión anterior
+  → reversión automática, sin nadie mirando      clase 102
+
+comprobación previa y posterior
+  funciones que validan antes de desplazar y después
+</code></pre>
+<p>Y lo que hay que tener en cuenta al revertir:</p>
+<pre><code class="language-text">revertir el código es inmediato
+revertir un cambio de ESQUEMA de datos, no
+→ los cambios de datos siguen la regla de expandir y
+  contraer, con el código tolerando ambas formas
+                                                 clase 188
+</code></pre>
+<p><strong>La idempotencia</strong>, que en este entorno no es opcional:</p>
+<pre><code class="language-text">POR QUÉ HAY REINTENTOS SIEMPRE
+  invocación asíncrona: reintenta 2 veces por defecto
+  desde una cola: reintenta hasta agotar y va a la cola de
+    fallidos                                     clase 210
+  desde un flujo de eventos: reprocesa el lote entero si
+    falla un elemento
+  el cliente reintenta ante un plazo vencido
+
+→ toda función con efecto debe ser idempotente  clase 117
+</code></pre>
+<p>Y el mecanismo:</p>
+<pre><code class="language-text">clave de idempotencia por operación
+  del mensaje, de la cabecera del cliente, o derivada del
+  contenido
+registro de claves procesadas, con caducidad
+y la comprobación ANTES del efecto, con escritura
+  condicionada                                   clase 149
+</code></pre>
+<p><strong>Lo que hay que vigilar:</strong></p>
+<pre><code class="language-text">invocaciones, errores y duración por función
+EJECUCIONES RECHAZADAS por límite de concurrencia
+  → señal de que la reserva es corta o algo se disparó
+concurrencia usada frente a la reservada
+mensajes en la cola de fallidos, y su antigüedad ley 13
+plazos vencidos, separados de los errores
+y el coste por función, no solo el total
+</code></pre>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ la plantilla no tiene valores incrustados por entorno
+☐ los datos están en pilas separadas del código
+☐ los recursos con datos tienen política de retención
+☐ hay un rol por función, con permisos concretos
+☐ la memoria se eligió midiendo, no por defecto
+☐ hay concurrencia reservada en las funciones que tocan
+  bases con conexiones limitadas
+☐ los plazos son múltiplos del p99, no el máximo
+☐ los plazos están ordenados cliente &gt; pasarela &gt; función
+☐ la pasarela elegida corresponde a lo que se necesita
+☐ el arranque en frío se midió antes de pagar por evitarlo
+☐ el despliegue es escalonado con alarma y reversión
+  automática
+☐ toda función con efecto es idempotente
+☐ hay alerta de ejecuciones rechazadas y de cola de
+  fallidos
+☐ el coste incluye pasarela, transferencia y registros
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: una función que escala a miles de ejecuciones necesita un almacén que escale igual, y eso cambia por completo cómo se diseña el modelo de datos. DynamoDB por patrones de acceso es la materia de la clase 208.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>sam, lambda, api gateway y despliegue serverless</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-17-aws-production-architecture/207-sam-lambda-api-gateway-y-despliegue-serverless/lab.py
+<p><strong>CloudShop pasa su API de pedidos a funciones. Lo que sigue es el incidente del primer día de campaña, las cinco correcciones que salieron, y el análisis de coste que reveló dónde estaba el dinero de verdad.</strong></p>
+<p><strong>El montaje inicial, con valores por defecto:</strong></p>
+<pre><code class="language-text">API REST → 14 funciones
+memoria                        128 MB (por defecto)
+plazo                          30 s
+concurrencia                   sin límite
+base                           PostgreSQL gestionada,
+                               máximo 400 conexiones
+despliegue                     directo, sin alias
+funciona en pruebas            perfectamente
+</code></pre>
+<p><strong>El incidente del primer día de campaña.</strong></p>
+<pre><code class="language-text">11:02   arranca la campaña; el tráfico se multiplica por 22
+11:04   la base de datos deja de aceptar conexiones
+11:04   CUANTO usa la base falla, incluidos el panel
+        interno y los informes
+11:31   se identifica la causa
+12:20   servicio restablecido
+
+qué pasó
+  las funciones escalaron a 3.100 ejecuciones simultáneas
+  cada una abría su propia conexión
+  3.100 &gt; 400
+  → la base agotó conexiones y empezó a rechazar
+  → las funciones fallaban, el cliente reintentaba, y los
+    reintentos abrían más conexiones                clase 186
+
+y un efecto secundario
+  las 3.100 ejecuciones consumieron la cuota de concurrencia
+  de la CUENTA
+  → funciones de otros servicios empezaron a ser rechazadas
+  → incluida la que procesa los correos de confirmación
+</code></pre>
+<p><strong>Las cinco correcciones.</strong></p>
+<pre><code class="language-text">1  CONCURRENCIA RESERVADA, calculada
+   conexiones disponibles para la API        320
+   conexiones por ejecución                    1
+   margen                                    20 %
+   → concurrencia reservada de las funciones que tocan la
+     base: 256 en total, repartida
+       crear pedido        120
+       consultar pedido     80
+       modificar pedido     40
+       resto                16
+   y las funciones que NO tocan la base quedan sin reserva
+
+   efecto   por encima de 256, las peticiones se rechazan
+            con 429 rápido, en vez de tumbar la base
+            → rechazar pronto es mejor que encolar
+                                                clase 186
+
+2  INTERMEDIARIO DE CONEXIONES
+   se añadió un proxy de base de datos
+   → 3.100 ejecuciones comparten 180 conexiones reales
+   → la concurrencia reservada se pudo subir a 900
+   coste    +140 €/mes
+
+3  PLAZOS ORDENADOS Y CORTOS
+   antes   cliente 60 s · pasarela 29 s · función 30 s
+   → la pasarela cortaba a los 29 s y la función seguía
+     ejecutándose 1 s más, facturando y ocupando
+     concurrencia
+   después cliente 12 s · pasarela 10 s · función 8 s
+           llamadas de la función: 3 s
+
+   efecto durante una degradación de la pasarela de pago
+     antes    cada invocación ocupaba 30 s de concurrencia
+     después  8 s
+     → la cuota aguanta 3,7 veces más tiempo
+
+4  MEMORIA, MEDIDA
+   la función de crear pedido, con la misma carga
+
+     memoria   duración   coste relativo
+      128 MB    3.900 ms       1,00
+      512 MB    1.010 ms       1,04
+    1.024 MB      520 ms       1,07
+    1.792 MB      340 ms       1,22
+
+   → el mínimo estaba en 128 MB por poco, pero la latencia
+     era inaceptable
+   → se eligió 1.024 MB: 7 % más caro y 7,5 veces más rápido
+   → y el p99 de la API bajó de 4,2 s a 0,7 s
+
+   y la función de generar informes, de cálculo puro
+      128 MB   48 s   1,00
+    3.008 MB    2,4 s  0,52
+   → más memoria, la MITAD de coste
+
+5  DESPLIEGUE ESCALONADO
+   alias y versiones
+   desplazamiento 10 % durante 5 min, luego 100 %
+   alarmas: tasa de error &gt; 1 % o p99 &gt; 1,5 s
+   reversión automática
+
+   en los 8 meses siguientes
+     despliegues                              186
+     revertidos automáticamente                 7
+     tiempo medio de reversión               2 min
+     incidentes causados por despliegue          0
+</code></pre>
+<p><strong>La idempotencia, que faltaba.</strong></p>
+<pre><code class="language-text">en el incidente, los reintentos del cliente crearon pedidos
+duplicados
+  pedidos duplicados detectados                      64
+  cobrados dos veces                                 11
+
+corrección
+  la petición de crear pedido lleva una clave de
+  idempotencia generada por el cliente
+  la función escribe con condición «si no existe esa clave»
+  → un reintento devuelve el pedido original, no crea otro
+
+y la prueba negativa
+  enviar la misma petición 50 veces en paralelo
+  → 1 pedido creado, 49 respuestas idénticas       ✓
+</code></pre>
+<p><strong>El análisis de coste, que dio la sorpresa.</strong></p>
+<pre><code class="language-text">estimación inicial del equipo
+  cómputo de funciones                         340 €/mes
+  «lo demás es despreciable»
+
+factura real del primer mes completo
+  cómputo de funciones                         410 €
+  peticiones de API Gateway (REST)             890 €   ←
+  registros: ingesta                           620 €   ←
+  registros: almacenamiento                    180 €
+  transferencia                                210 €
+  proxy de base de datos                       140 €
+  ─────────────────────────────────────────────────
+  total                                      2.450 €
+
+  → el cómputo era el 17 % de la factura
+</code></pre>
+<p>Y las tres correcciones de coste:</p>
+<pre><code class="language-text">PASARELA
+  se revisó qué se usaba de la API REST
+    claves de uso        no
+    transformaciones     no
+    caché                no (la hace CloudFront)  clase 205
+    WAF                  sí → pero se puede poner en
+                         CloudFront
+  → migración a API HTTP
+  890 € → 310 €
+
+REGISTROS
+  las funciones registraban cada petición completa, con
+  cuerpo
+  → nivel de registro por entorno; en producción solo
+    errores y muestreo del 1 % de las peticiones correctas
+  → caducidad de 14 días en lugar de indefinida
+  620 € → 95 €;  almacenamiento 180 € → 25 €
+
+TRANSFERENCIA
+  las respuestas incluían campos que el cliente no usaba
+  210 € → 120 €
+
+total                              2.450 € → 1.100 €
+</code></pre>
+<p><strong>El resultado, seis meses después:</strong></p>
+<p>```text                                        antes     después
+p99 de la API                              4,2 s       0,7 s
+caídas de la base por agotamiento         1 (campaña)      0
+pedidos duplicados                           64           0
+despliegues revertidos a mano                 3           0
+  (automáticos)                               —           7
+coste mensual                            2.450 €     1.100 €
+  proporción de cómputo                     17 %        37 %
+ejecuciones rechazadas en pico              n/a      412/día
+  → a propósito: mejor rechazar que tumbar la base</p>
+<pre><code>
+**La lección que esta clase deja**: el sistema funcionaba perfectamente en pruebas y **cayó en cuatro minutos** el día de campaña, porque el recurso saturado no era la función sino las conexiones de la base —el mismo problema de la clase 186, con otra tecnología—. Y del análisis de coste salió lo que la hipótesis de la parte anticipaba: **el cómputo era el 17 % de la factura**, y las dos partidas mayores eran la pasarela y los registros, ninguna de las cuales se había estimado.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-17-aws-production-architecture/207-sam-lambda-api-gateway-y-despliegue-serverless/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>serverless</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -203,29 +595,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>La base de datos cae en cuanto hay un pico de tráfico</td>
+<td>Las funciones escalan sin límite y cada ejecución abre una conexión</td>
+<td>Calcula y aplica concurrencia reservada según las conexiones disponibles, y usa un intermediario de conexiones.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Una función descontrolada afecta a servicios que no tienen nada que ver</td>
+<td>La cuota de concurrencia es de la cuenta y se consume entera</td>
+<td>Reserva concurrencia a las funciones críticas; reservar es también proteger su capacidad.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Se factura tiempo de funciones que ya nadie está esperando</td>
+<td>El plazo de la función es mayor que el de la pasarela, o se puso el máximo por si acaso</td>
+<td>Ordena los plazos cliente &gt; pasarela &gt; función y fija el de la función en dos o tres veces el p99.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Se crean registros duplicados tras un pico o un fallo</td>
+<td>La función no es idempotente y algo la reintenta</td>
+<td>Clave de idempotencia por operación y escritura condicionada antes del efecto.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Un despliegue defectuoso llega a todo el tráfico</td>
+<td>Se despliega sin alias ni desplazamiento progresivo</td>
+<td>Publica versiones, desplaza tráfico por porcentaje y asocia alarmas que reviertan solas.</td>
+</tr>
+<tr>
+<td>La factura triplica la estimación</td>
+<td>Solo se estimó el cómputo; la pasarela y los registros suelen pesar más</td>
+<td>Estima peticiones de pasarela, transferencia e ingesta de registros; ajusta nivel de registro y caducidad por entorno.</td>
 </tr>
 </tbody>
 </table>
@@ -236,18 +633,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Por qué más memoria puede salir más barato en una función?</li>
+<li>¿Cómo se calcula la concurrencia reservada de una función que usa una base relacional?</li>
+<li>¿Qué ocurre si el plazo de la función supera el de la pasarela?</li>
+<li>¿Cuándo compensa pagar concurrencia aprovisionada?</li>
+<li>¿Qué partidas de coste se olvidan al estimar una aplicación sin servidores?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>AWS Well-Architected Framework — AWS.</li>
-<li>AWS Cookbook — Culkin y Zazon.</li>
-<li>Serverless Architectures on AWS — Peter Sbarski.</li>
-<li>Cloud FinOps — Storment y Fuller.</li>
+<li>AWS (2025). <em>Serverless Application Model developer guide</em>. <a href="https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html">https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html</a></li>
+<li>AWS (2025). <em>Lambda function scaling and reserved concurrency</em>. <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-concurrency.html">https://docs.aws.amazon.com/lambda/latest/dg/lambda-concurrency.html</a></li>
+<li>AWS (2025). <em>Choosing between HTTP APIs and REST APIs</em>. <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html">https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html</a></li>
+<li>AWS (2025). <em>Operating Lambda: performance optimization and cold starts</em>. <a href="https://aws.amazon.com/blogs/compute/operating-lambda-performance-optimization-part-1/">https://aws.amazon.com/blogs/compute/operating-lambda-performance-optimization-part-1/</a></li>
+<li>AWS (2025). <em>Amazon RDS Proxy</em> — agrupación de conexiones para funciones. <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html">https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -315,7 +713,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-definir-como-codigo-con-entornos">1. Definir como código, con entornos</a><a class="toc-level-3" href="#2-memoria-concurrencia-y-plazos">2. Memoria, concurrencia y plazos</a><a class="toc-level-3" href="#3-pasarela-arranque-en-frio-y-coste">3. Pasarela, arranque en frío y coste</a><a class="toc-level-3" href="#4-desplegar-revertir-y-ser-idempotente">4. Desplegar, revertir y ser idempotente</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
