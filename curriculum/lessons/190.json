@@ -1,0 +1,122 @@
+{
+  "id": "190",
+  "purpose": "Dejar por escrito las decisiones de arquitectura de forma que sirvan años después, y comprobarlas automáticamente para que no se erosionen. La clase da el formato de registro de decisión que funciona —premisas y alternativas descartadas, no justificaciones—, define las funciones de aptitud como pruebas ejecutables de propiedades arquitectónicas, y aborda de frente el motivo por el que ambas cosas suelen fracasar: **si estorban más de lo que ayudan, se rodean**.",
+  "outcomes": [
+    "**Escribir** un registro de decisión con premisas, alternativas y coste de cambio.",
+    "**Distinguir** qué decisiones merecen registro y cuáles no.",
+    "**Implementar** funciones de aptitud que fallen la canalización.",
+    "**Elegir** qué propiedades se comprueban automáticamente y cuáles no.",
+    "**Evitar** que el registro y las comprobaciones se conviertan en trámite."
+  ],
+  "concepts": [
+    {
+      "term": "registro de decisión (ADR)",
+      "definition": "Documento corto que fija una decisión con su contexto, alternativas descartadas y consecuencias."
+    },
+    {
+      "term": "premisa",
+      "definition": "Lo que se creía cierto al decidir. Cuando cambia, la decisión se revisa; sin premisas escritas, no hay forma de saberlo."
+    },
+    {
+      "term": "función de aptitud",
+      "definition": "Comprobación ejecutable de una propiedad arquitectónica: dependencias, latencia, alcance, cobertura."
+    },
+    {
+      "term": "erosión arquitectónica",
+      "definition": "Deriva entre la arquitectura decidida y la construida. Ocurre por acumulación de excepciones pequeñas."
+    },
+    {
+      "term": "decisión superada",
+      "definition": "La que fue correcta y dejó de serlo. Se marca como tal, no se borra."
+    },
+    {
+      "term": "gobierno útil",
+      "definition": "El que ayuda a decidir más rápido. El que solo pide papeles se rodea."
+    },
+    {
+      "term": "carril fácil",
+      "definition": "Camino por defecto que cumple lo decidido sin esfuerzo. Es lo que hace innecesario vigilar."
+    }
+  ],
+  "diagram": "flowchart TB\n    D{\"¿merece registro?\"}\n    D -->|\"cara de cambiar\\no discutida\"| A[\"REGISTRO DE DECISIÓN\"]\n    D -->|\"reversible y obvia\"| N[\"no\"]\n    A --> A1[\"contexto y PREMISAS\"]\n    A --> A2[\"alternativas DESCARTADAS\\ny por qué\"]\n    A --> A3[\"consecuencias, buenas\\ny malas\"]\n    A --> A4[\"coste de cambio\"]\n    A --> A5[\"qué la reabriría\"]\n    A5 --> R[\"revisión cuando\\ncambia una premisa\"]\n    F[\"FUNCIÓN DE APTITUD\"] --> F1[\"dependencias permitidas\"]\n    F --> F2[\"latencia y tamaño\"]\n    F --> F3[\"alcance y permisos\"]\n    F --> F4[\"un escritor por dato\"]\n    F1 --> C[\"falla la canalización\"]\n    C --> E{\"¿estorba más\\nde lo que ayuda?\"}\n    E -->|sí| X[\"se rodea · ley 16\"]\n    E -->|no| K[\"carril fácil\"]",
+  "foundations": [
+    {
+      "heading": "El registro de decisión que sirve",
+      "body": "Un registro de decisión útil se lee dentro de tres años, por alguien que no estaba, y le permite entender **si la decisión sigue siendo correcta**. Eso exige una forma concreta.\n\n```text\nTÍTULO      una frase que diga la decisión, no el tema\n            «Un escritor por dato en el módulo de precios»\n            no «Arquitectura de precios»\n\nESTADO      propuesta · aceptada · superada por [otra]\n\nCONTEXTO Y PREMISAS\n            qué se sabía, con cifras\n            «el catálogo cambia 1 vez/mes y los precios 9»\n            ← esto es lo que hará revisable la decisión\n\nDECISIÓN    en imperativo, sin adornos\n\nALTERNATIVAS DESCARTADAS\n            cada una, con el motivo del descarte\n            ← la parte más valiosa y la que más se omite\n\nCONSECUENCIAS\n            lo bueno Y lo malo que se acepta\n\nCOSTE DE CAMBIO\n            qué costaría revertirla dentro de un año  clase 181\n\nQUÉ LA REABRIRÍA\n            la señal concreta que obliga a revisarla\n```\n\nY los dos campos que separan un registro útil de uno decorativo:\n\n```text\nPREMISAS\n  sin ellas no se puede saber si la decisión caducó\n  «decidimos X porque el tráfico era 900/s» permite ver que\n  a 5.000/s hay que rediscutirlo\n\nALTERNATIVAS DESCARTADAS\n  evitan que alguien vuelva a proponer lo mismo dentro de\n  dos años y se pierda un mes\n  y si la alternativa se descartó por una premisa que ya no\n  se cumple, se recupera sola\n```\n\n**Qué merece registro y qué no:**\n\n```text\nSÍ\n  lo caro de cambiar                              clase 181\n  lo que se discutió y hubo desacuerdo\n  lo que sorprendería a alguien de fuera\n  lo que se decidió NO hacer\n  las amenazas aceptadas                          clase 189\n  las cesiones entre atributos de calidad\n\nNO\n  lo reversible y obvio\n  lo que el código ya dice\n  lo que solo tiene una opción razonable\n```\n\nY el error de proceso que arruina el registro:\n\n```text\nescribirlo DESPUÉS de decidir, para cumplir\n→ sale una justificación, no un registro\n→ y las alternativas descartadas se inventan\n\nescribirlo ANTES, como borrador, y usarlo para decidir\n→ el propio ejercicio de escribir las alternativas cambia\n  decisiones\n```\n\nY una decisión que casi nunca se registra y siempre hace falta:\n\n```text\nla que se toma y resulta EQUIVOCADA\n  se marca como superada, se enlaza la nueva y se escribe\n  qué premisa falló\n→ borrarla pierde la información más útil del archivo\n```"
+    },
+    {
+      "heading": "Funciones de aptitud",
+      "body": "Una decisión escrita se erosiona: nadie la incumple de golpe, se incumple una excepción cada vez. Las funciones de aptitud la convierten en algo que falla solo.\n\n```text\nQUÉ ES\n  una comprobación ejecutable de una propiedad arquitectónica\n  que corre en la canalización y falla el cambio\n\nQUÉ NO ES\n  una prueba unitaria (que comprueba comportamiento)\n  un panel (que informa y nadie mira)              ley 15\n```\n\n**Las que más valor dan**, agrupadas por lo que protegen:\n\n```text\nFRONTERAS Y DEPENDENCIAS                            clase 183\n  ningún módulo importa el interior de otro\n  ninguna consulta cruza esquemas\n  el grafo de dependencias no tiene ciclos\n  ningún módulo depende de más de N módulos\n\nDATOS                                                 ley 21\n  cada tabla tiene exactamente un escritor\n  ningún esquema nuevo sin dueño declarado\n  ningún campo de PII sin clasificación\n\nRENDIMIENTO                                         clase 186\n  el p99 del flujo crítico no supera X en la prueba\n  ninguna operación hace más de N llamadas de red\n  ninguna consulta sin índice sobre tablas grandes\n\nSEGURIDAD                                           clase 189\n  ninguna identidad con permisos comodín\n  ningún almacén público\n  ninguna credencial de larga duración\n  ningún recurso sin etiqueta de dueño\n\nOPERACIÓN\n  todo servicio expone las cuatro señales           clase 121\n  toda alerta tiene procedimiento enlazado          clase 125\n  todo servicio nuevo tiene objetivo declarado\n\nCONTRATOS                                           clase 188\n  ningún cambio rompe las expectativas declaradas\n  todo esquema de evento es compatible hacia delante\n```\n\nY las tres propiedades de una función de aptitud que funciona:\n\n```text\n1. FALLA, no informa\n   un panel en verde no impide nada\n\n2. ES RÁPIDA\n   si tarda 20 minutos, alguien la desactivará\n\n3. TIENE SALIDA DECLARADA\n   una excepción con motivo, dueño y fecha\n   → sin salida, la gente rodea la comprobación   ley 16\n   → con salida registrada, las excepciones se pueden contar\n```\n\nY la métrica que dice si el sistema de comprobaciones está sano:\n\n```text\nnúmero de excepciones vivas, y su antigüedad\n  → si crece siempre, la regla está mal calibrada\n  → si hay excepciones de más de un año, o se arreglan o\n    la regla se retira                             clase 170\n```"
+    },
+    {
+      "heading": "Por qué esto fracasa, y cómo evitarlo",
+      "body": "Registros de decisión y funciones de aptitud fracasan por el mismo mecanismo que los controles de la parte 14, y conviene decirlo antes de implantarlos:\n\n```text\nsi cuesta más rellenar el registro que tomar la decisión,\nse rellena después y mal\n\nsi la comprobación bloquea sin explicar cómo cumplirla,\nse busca la forma de saltársela\n\nsi el órgano que revisa tarda dos semanas, la gente decide\ny pide perdón                                        ley 16\n```\n\n**Lo que hace que funcione**, en cinco puntos:\n\n```text\n1. EL CARRIL FÁCIL CUMPLE SOLO                     clase 171\n   la plantilla de servicio nuevo ya trae señales, objetivo,\n   etiquetas, identidad mínima\n   → así la comprobación casi nunca falla, y cuando falla\n     señala algo real\n\n2. LA COMPROBACIÓN DICE CÓMO ARREGLARLO\n   mensaje con el motivo, el enlace a la decisión y el\n   comando o el cambio concreto\n\n3. REGISTRO CORTO Y EN EL REPOSITORIO\n   una página, junto al código, en el mismo cambio\n   → no en una herramienta aparte que nadie abre\n\n4. LA REVISIÓN ES SÍNCRONA Y CORTA\n   30 minutos con las personas que deciden, no un comité\n   que se reúne cada quince días                   clase 191\n\n5. SE RETIRAN REGLAS\n   una regla que genera excepciones constantes está mal\n   → retirarla es una decisión legítima, y se registra\n```\n\nY una comprobación honesta que conviene hacer cada seis meses:\n\n```text\n¿cuántos registros se han leído en el último año?\n  → si la respuesta es «ninguno», el formato o el sitio\n    están mal\n  → los registros útiles se leen cuando alguien propone algo\n    parecido, y eso ocurre\n\n¿cuántas veces una función de aptitud paró algo que era\nun problema real?\n  → si nunca, o la regla sobra o el carril ya lo impide\n```\n\nY la relación con lo aprendido en la parte 14:\n\n```text\nun gobierno de decisiones es un control\ny un control que estorba se rodea\n→ la diferencia entre gobierno útil e inútil no está en las\n  reglas, está en si el camino que las cumple es el más fácil\n```"
+    },
+    {
+      "heading": "Mantener vivo el archivo",
+      "body": "Un archivo de decisiones crece y, sin cuidado, se vuelve inutilizable por acumulación.\n\n```text\nORGANIZACIÓN QUE FUNCIONA\n  numeración correlativa, sin carpetas por tema\n  índice con título y estado, generado automáticamente\n  enlaces entre decisiones relacionadas y superadas\n  búsqueda por texto: es como se usa de verdad\n\nLO QUE NO FUNCIONA\n  reorganizar por categorías\n  borrar las superadas\n  editar una decisión pasada en vez de superarla\n```\n\nY el ciclo de revisión, que es lo que evita el archivo muerto:\n\n```text\nse revisa una decisión cuando\n  cambia una de sus premisas               ← el disparador real\n  alguien propone lo que ya se descartó\n  una función de aptitud falla repetidamente\n  llega la fecha escrita en «qué la reabriría»\n\nno se revisa «periódicamente todas»\n→ eso produce reuniones sin objeto\n```\n\nY una práctica que este programa ha usado en todas sus partes:\n\n```text\nescribir lo que se espera que ocurra, y volver a corregirlo\ncon evidencia\n→ aplicado a decisiones: anotar qué se espera que pase tras\n  la decisión, y a los seis meses comparar\n→ es la única forma de mejorar el criterio, y casi nadie\n  lo hace\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ cada decisión cara de cambiar tiene registro\n☐ el registro incluye premisas con cifras\n☐ incluye alternativas descartadas con su motivo\n☐ incluye consecuencias malas, no solo buenas\n☐ incluye coste de cambio y qué la reabriría\n☐ se escribió antes de decidir, no después\n☐ las decisiones erróneas están marcadas como superadas\n☐ las propiedades importantes tienen función de aptitud\n☐ las comprobaciones fallan, no informan\n☐ cada comprobación dice cómo cumplirla\n☐ hay salida declarada con dueño y fecha\n☐ se cuentan las excepciones vivas y su antigüedad\n☐ el carril por defecto cumple sin esfuerzo\n☐ se han retirado reglas que no aportaban\n```\n\nY el cierre que enlaza con la clase siguiente: las decisiones registradas hay que defenderlas ante quien las paga, quien las opera y quien las sufre, y cada uno pregunta cosas distintas. Comunicar arquitectura a esas audiencias es la materia de la clase 191."
+    }
+  ],
+  "worked_example": "**El equipo de reservas implanta registro de decisiones y funciones de aptitud. Lo que sigue son dos registros reales —uno de ellos superado a los ocho meses—, las once funciones que montaron, y el motivo por el que tres se retiraron.**\n\n**Registro 007 · Un escritor por dato en precios**\n\n```text\nESTADO      aceptada · 2024-03-11\n\nCONTEXTO Y PREMISAS\n  los precios se guardan en la tabla de catálogo\n  precios cambia 9 veces al mes; catálogo, 1\n  el 64 % de los cambios de catálogo son en realidad\n    cambios de precio\n  3 incidentes de «precio incorrecto» sin causa conocida\n  volumen: 4,1 M de registros de catálogo\n\nDECISIÓN\n  el precio sale de la tabla de catálogo a un almacén propio\n  del servicio de precios, que es su único escritor\n  catálogo recibe los cambios por evento\n\nALTERNATIVAS DESCARTADAS\n  1 dejarlo donde está y añadir validación\n    → no resuelve el acoplamiento; lo hace más lento de\n      descubrir\n  2 vista materializada en catálogo\n    → sigue habiendo dos escritores durante la transición,\n      y la transición no termina nunca\n  3 sacar precios a servicio pero compartiendo la tabla\n    → monolito distribuido                         clase 184\n\nCONSECUENCIAS\n  buenas   precios se despliega sin bloquear a catálogo;\n           desaparece el acoplamiento por datos\n  malas    una llamada más en el flujo de reserva (+1,4 ms);\n           consistencia eventual del precio en catálogo\n           (≤ 10 min, aceptado por revenue)\n\nCOSTE DE CAMBIO\n  alto. Volver atrás exige migrar el dato de nuevo: ~4 semanas\n\nQUÉ LA REABRIRÍA\n  si los cambios de precio bajan por debajo de 2/mes\n  si el retraso de propagación resulta inaceptable para\n    revenue\n```\n\nY lo que este registro evitó nueve meses después:\n\n```text\nun ingeniero nuevo propuso «simplificar» volviendo a guardar\nel precio en catálogo\n→ el registro 007 estaba enlazado desde el módulo\n→ la discusión duró 10 minutos en vez de dos semanas\n```\n\n**Registro 011 · Réplica de lectura para el panel de ocupación**\n\n```text\nESTADO      SUPERADA por 019 · 2024-11-04\n\nCONTEXTO Y PREMISAS (marzo 2024)\n  el panel de ocupación hace 40 consultas pesadas/min\n  la base primaria está al 71 % de utilización\n  el panel lo usan 12 personas de operaciones\n  presupuesto disponible: sí\n\nDECISIÓN\n  añadir una réplica de lectura dedicada al panel\n\nALTERNATIVAS DESCARTADAS\n  1 caché de 60 s → «los datos deben ser exactos»  ← premisa\n  2 vista materializada → complejidad de refresco\n\nCONSECUENCIAS\n  +410 €/mes; retraso de réplica de 200-900 ms\n```\n\nY por qué se superó:\n\n```text\nQUÉ FALLÓ (registrado en el 019)\n  la premisa «los datos deben ser exactos» nunca se comprobó\n  con nadie\n  al preguntar a las 12 personas en octubre: ninguna\n  necesitaba exactitud al segundo; la decisión de negocio\n  que tomaban con ese panel era de turno, no de minuto\n\nDECISIÓN NUEVA (019)\n  caché de 30 s con la antigüedad mostrada en pantalla\n\nEFECTO\n  réplica retirada          -410 €/mes\n  carga en el primario      -18 %\n  quejas por el panel       de 9/mes a 0             clase 187\n\nLECCIÓN REGISTRADA\n  la premisa venía de una suposición del equipo técnico,\n  no de una pregunta a los usuarios\n  → desde entonces, toda premisa sobre lo que «necesita»\n    alguien lleva el nombre de quien lo dijo\n```\n\n**Las once funciones de aptitud, y qué encontró cada una.**\n\n```text\nregla                                    fallos    resultado\n────────────────────────────────────────────────────────────\n1  ninguna consulta cruza esquemas         17     todas reales\n   → 17 consultas cruzadas acumuladas en 2 años   clase 183\n\n2  cada tabla tiene un solo escritor         4     todas reales\n   → incluida una que nadie conocía\n\n3  sin permisos comodín en identidades       9     8 reales\n\n4  sin credenciales de larga duración        6     todas reales\n\n5  todo recurso con etiqueta de dueño       23     todas reales\n\n6  todo servicio expone las 4 señales        3     reales\n\n7  toda alerta con procedimiento enlazado   11     reales\n\n8  ninguna operación > 6 llamadas de red     2     1 real,\n                                                   1 excepción\n\n9  el p99 del flujo crítico < 500 ms         0     nunca falló\n   → RETIRADA: la prueba de carga ya lo cubre y esta\n     duplicaba 9 min de canalización\n\n10 ningún fichero de más de 800 líneas      41     0 reales\n   → RETIRADA: medía tamaño, no acoplamiento; 41 excepciones\n     en 3 meses                                      ley 17\n\n11 el grafo de módulos sin ciclos            1     real\n```\n\nY las tres reglas retiradas o corregidas:\n\n```text\nRETIRADA 9    nunca falló y costaba 9 min por cambio\nRETIRADA 10   41 excepciones y ningún problema real detectado\n              → la regla medía lo fácil de medir      ley 17\nCORREGIDA 3   generaba 1 falso positivo de cada 9 por un\n              patrón legítimo; se ajustó el patrón\n```\n\n**El dato que decidió si el sistema estaba sano, a los seis meses:**\n\n```text\nexcepciones vivas                                     14\n  con dueño y fecha                                   14\n  vencidas y sin renovar                               2  → arregladas\n  de más de 6 meses                                    0\n\nregistros de decisión escritos                        23\nregistros consultados al menos una vez                17\ndiscusiones cerradas citando un registro               6\ndecisiones superadas                                   3\n\nfunciones que pararon un problema real                 9 de 11\ntiempo añadido a la canalización                   2,4 min\n```\n\nY la comprobación que evitó que esto se volviera trámite:\n\n```text\nel carril fácil se ajustó tres veces\n  la plantilla de servicio nuevo pasó a traer etiquetas,\n  señales, objetivo y alerta con procedimiento\n  → los fallos de las reglas 5, 6 y 7 en servicios NUEVOS\n    bajaron a cero\n  → los que siguen fallando son servicios antiguos, que es\n    exactamente lo que se quiere ver\n```\n\n**La lección que esta clase deja**: de las once funciones de aptitud, **dos se retiraron y una de ellas —el límite de tamaño de fichero— había generado cuarenta y una excepciones sin detectar un solo problema real**, que es el ejemplo perfecto de optimizar la medida en lugar del objetivo. Y del archivo de decisiones, la entrada más valiosa fue **la que se superó**: no porque la decisión fuera mala, sino porque dejó escrito que su premisa central nunca se había comprobado con nadie.",
+  "pitfalls": [
+    {
+      "symptom": "Los registros de decisión no ayudan a nadie tres años después",
+      "cause": "No incluyen premisas, así que no se puede saber si la decisión caducó",
+      "fix": "Escribe el contexto con cifras concretas y añade qué señal reabriría la decisión."
+    },
+    {
+      "symptom": "Se vuelve a proponer una opción que ya se había descartado",
+      "cause": "No se registraron las alternativas ni el motivo del descarte",
+      "fix": "Incluye siempre las alternativas descartadas con su razón; si el motivo era una premisa que ya no se cumple, la opción vuelve legítimamente."
+    },
+    {
+      "symptom": "El registro suena a justificación",
+      "cause": "Se escribió después de decidir, para cumplir",
+      "fix": "Redáctalo como borrador antes de decidir y úsalo para decidir; el propio ejercicio cambia decisiones."
+    },
+    {
+      "symptom": "La arquitectura decidida se erosiona sin que nadie la incumpla de golpe",
+      "cause": "No hay comprobación automática de las propiedades importantes",
+      "fix": "Convierte las decisiones estructurales en funciones de aptitud que fallen la canalización."
+    },
+    {
+      "symptom": "Una comprobación acumula decenas de excepciones y no encuentra problemas",
+      "cause": "Mide algo fácil de medir en lugar de la propiedad que importa",
+      "fix": "Cuenta excepciones vivas y su antigüedad; retira la regla si no detecta problemas reales."
+    },
+    {
+      "symptom": "La gente rodea el gobierno de decisiones",
+      "cause": "Cuesta más que decidir, bloquea sin explicar y la revisión tarda semanas",
+      "fix": "Haz que el carril por defecto cumpla solo, que el mensaje diga cómo arreglarlo, y revisa en sesiones cortas y síncronas."
+    }
+  ],
+  "checks": [
+    "¿Qué dos campos separan un registro de decisión útil de uno decorativo?",
+    "¿Por qué conviene escribir el registro antes de decidir?",
+    "¿Qué tres propiedades tiene una función de aptitud que funciona?",
+    "¿Qué indica que una regla está mal calibrada?",
+    "¿Qué hace innecesario vigilar el cumplimiento de una decisión?"
+  ],
+  "references": [
+    {
+      "text": "Nygard, M. (2011). *Documenting architecture decisions*.",
+      "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions"
+    },
+    {
+      "text": "Ford, N., Parsons, R. y Kua, P. (2017). *Building Evolutionary Architectures* — funciones de aptitud.",
+      "url": "https://www.oreilly.com/library/view/building-evolutionary-architectures/9781491986356/"
+    },
+    {
+      "text": "ThoughtWorks (2025). *Technology Radar: lightweight ADRs*.",
+      "url": "https://www.thoughtworks.com/radar/techniques/lightweight-architecture-decision-records"
+    },
+    {
+      "text": "ArchUnit (2025). *Testing architecture rules in the build*.",
+      "url": "https://www.archunit.org/"
+    },
+    {
+      "text": "Open Policy Agent (2025). *Policy as code* — comprobaciones ejecutables en la canalización.",
+      "url": "https://www.openpolicyagent.org/docs/latest/"
+    }
+  ]
+}
