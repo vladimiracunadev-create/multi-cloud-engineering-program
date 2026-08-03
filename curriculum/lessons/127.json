@@ -1,0 +1,118 @@
+{
+  "id": "127",
+  "purpose": "Organizar lo que pasa entre que suena la alerta y que el sistema vuelve a funcionar, y lo que pasa después. La clase defiende cuatro cosas concretas: **declarar pronto**, porque declarar es barato y no declarar es caro; **mitigar antes que diagnosticar**, porque entender la causa puede llevar horas y el usuario está sufriendo ahora; **un cambio cada vez, anunciado**, que es la regla que separa un incidente ordenado de uno que se alarga solo; y una revisión posterior que busca por qué el sistema lo permitió, no quién lo hizo.",
+  "outcomes": [
+    "**Declarar** un incidente con criterios escritos y sin pedir permiso.",
+    "**Repartir** los papeles, incluido cuando los asume una sola persona.",
+    "**Mitigar** con el catálogo de acciones construido en las partes anteriores.",
+    "**Comunicar** dentro y fuera con una cadencia fija.",
+    "**Convertir** la revisión posterior en cambios que se completan."
+  ],
+  "concepts": [
+    {
+      "term": "declaración",
+      "definition": "Acto explícito de decir que hay un incidente. Abre el canal, los papeles y el registro; cualquiera puede hacerlo."
+    },
+    {
+      "term": "mando del incidente",
+      "definition": "Quien coordina, decide y mantiene el orden. No es quien arregla ni tiene por qué ser quien más sabe."
+    },
+    {
+      "term": "mitigación",
+      "definition": "Acción que reduce el daño sin explicar la causa. Es siempre lo primero."
+    },
+    {
+      "term": "un cambio cada vez",
+      "definition": "Regla de oro durante un incidente: una modificación, anunciada, con forma de deshacerla, antes de la siguiente."
+    },
+    {
+      "term": "cronología",
+      "definition": "Registro de qué se supo, qué se hizo y cuándo. Se escribe durante, no después, porque después nadie lo recuerda."
+    },
+    {
+      "term": "revisión sin culpa",
+      "definition": "Análisis que busca por qué el sistema permitió el fallo. Si acaba en «alguien se equivocó», no ha terminado."
+    }
+  ],
+  "diagram": "flowchart TB\n    A[\"alerta o aviso\"] --> D{\"¿afecta a usuarios\\no puede afectar pronto?\"}\n    D -->|\"sí\"| DEC[\"DECLARAR\\ncualquiera puede\"]\n    D -->|\"duda\"| DEC\n    DEC --> S[\"gravedad por impacto\"]\n    DEC --> R[\"papeles: mando · resolución\\ncomunicación · cronología\"]\n    R --> M[\"MITIGAR primero\"]\n    M --> M1[\"revertir · 102\"]\n    M --> M2[\"apagar interruptor · 105\"]\n    M --> M3[\"escalar o limitar · 118\"]\n    M --> M4[\"degradar o conmutar\"]\n    M --> C{\"¿mitigado?\"}\n    C -->|\"no\"| U[\"UN cambio cada vez,\\nanunciado y reversible\"]\n    U --> C\n    C -->|\"sí\"| K[\"comunicar y cerrar\"]\n    K --> P[\"revisión sin culpa:\\n¿por qué lo permitió el sistema?\"]",
+  "foundations": [
+    {
+      "heading": "Declarar pronto",
+      "body": "El error más común no es gestionar mal un incidente: es **no llamarlo incidente** hasta que lleva cuarenta minutos.\n\n```text\ncoste de declarar y que no fuera nada\n  quince minutos de tres personas y un mensaje diciendo que ya está\n\ncoste de no declarar y que sí lo fuera\n  nadie coordina, nadie avisa fuera, nadie apunta nada\n  y la información se pierde para la revisión posterior\n```\n\nY de ahí tres reglas:\n\n```text\n1. cualquiera puede declarar, sin pedir permiso a nadie\n2. ante la duda, se declara\n3. cerrar un incidente que no era nada NO se penaliza ni se comenta\n```\n\nLa tercera es la que hace posibles las dos primeras.\n\n**La gravedad** se define por impacto, y con tres niveles basta:\n\n```text\nALTA    afecta a la mayoría de usuarios o al flujo principal, o hay\n        pérdida de datos, o hay un problema de seguridad\n        → respuesta inmediata, a cualquier hora, con comunicación externa\n\nMEDIA   afecta a una funcionalidad secundaria o a un grupo de usuarios,\n        o hay degradación clara\n        → respuesta en horas, en horario laboral ampliado\n\nBAJA    impacto pequeño o potencial, con margen\n        → tarea priorizada\n```\n\nY dos precisiones que evitan discusiones:\n\n```text\nla gravedad se puede subir y bajar durante el incidente\nse define por IMPACTO, no por nerviosismo ni por quién reclama\n```\n\nY una advertencia que viene de la clase 107: **redefinir qué cuenta como incidente es la forma más fácil de mejorar las cifras sin mejorar nada**. Los criterios se escriben una vez y cambiarlos es un cambio, no una interpretación.\n\nY lo que la declaración pone en marcha, que debe ser automático y no una lista que alguien recuerda:\n\n```text\nun canal dedicado, con nombre del incidente\nel registro abierto, con marcas de tiempo\naviso a los papeles necesarios\ny un documento donde va todo\n```"
+    },
+    {
+      "heading": "Papeles, y los dos fallos que evitan",
+      "body": "```text\nMANDO           coordina, decide, reparte y mantiene el foco\n                NO arregla; si se pone a arreglar, deja de coordinar\nRESOLUCIÓN      quien investiga y aplica cambios\nCOMUNICACIÓN    informa dentro y fuera con cadencia fija\nCRONOLOGÍA      escribe qué se supo, qué se hizo y cuándo\n```\n\nY los papeles existen para evitar dos fallos concretos, que son los que alargan los incidentes:\n\n```text\nTODOS EXCAVANDO EN EL MISMO SITIO\n  seis personas mirando la misma gráfica y nadie mirando las otras cinco\n  → el mando reparte hipótesis: «tú mira la base, tú los despliegues»\n\nNADIE HABLA CON EL EXTERIOR\n  el equipo trabaja bien y soporte, comercio y clientes no saben nada\n  → y a los veinte minutos llegan interrupciones que roban atención\n```\n\nY dos precisiones prácticas:\n\n```text\nel mando NO es quien más sabe\n  quien más sabe suele ser quien mejor resuelve, y ese es otro papel\nen un incidente pequeño una persona asume todos los papeles\n  y lo dice en voz alta: «asumo mando y resolución»\n  → lo peligroso no es acumular papeles, es que nadie sepa quién los tiene\n```\n\nY la regla que más incidentes ha salvado, y que hay que enunciar sin matices:\n\n```text\nUN CAMBIO CADA VEZ\n  se anuncia en el canal antes de hacerlo\n  se sabe cómo deshacerlo\n  se espera a ver el efecto\n  y solo entonces viene el siguiente\n```\n\nEl motivo es que, con tres cambios simultáneos, **si el sistema mejora nadie sabe por cuál, y si empeora tampoco**. Y en un incidente hay prisa, que es exactamente cuando esto se incumple.\n\nY su corolario: **nada se toca fuera del canal**. Un cambio hecho en silencio por alguien que quería ayudar es la causa de una parte considerable de los incidentes que se alargan.\n\nY el relevo, para los largos:\n\n```text\nse traspasa explícitamente: estado, hipótesis descartadas, cambios hechos,\nqué está en marcha y qué se ha comunicado\ny quien entra repite en voz alta lo que ha entendido\n```"
+    },
+    {
+      "heading": "Mitigar primero",
+      "body": "La tentación durante un incidente es entender qué pasa. Y entender puede llevar horas mientras el usuario sufre.\n\n```text\nprimero   que deje de doler\ndespués   por qué dolía\n```\n\nY eso es viable porque las partes anteriores han construido un catálogo de mitigaciones que no requieren saber la causa:\n\n```text\nrevertir al artefacto anterior                       clase 102\napagar un interruptor de funcionalidad               clase 105\nrevertir la confirmación del entorno                 clase 103\nescalar el servicio o el consumidor                  clases 113, 117\nlimitar el ritmo de un cliente concreto              clase 118\ndegradar: servir del caché, quitar una sección       clases 111, 124\nconmutar a otra réplica o región                     clase 109\ndetener un proceso por lotes que compite             clase 117\nvaciar o desviar una cola                            clase 113\n```\n\nY la pregunta que ordena la elección, que es la de la clase 121:\n\n```text\n¿qué cambió en los últimos treinta minutos?\n  → si hay un cambio reciente, revertirlo es la primera hipótesis\n  → y es la mitigación más rápida y más segura que existe\n```\n\nY la excepción que hay que tener presente, de la clase 102: **revertir no sirve si se cruzó el punto de no retorno**. Ahí la mitigación es apagar, no volver atrás.\n\nY dos trampas frecuentes:\n\n```text\n«ya casi lo tengo»           lleva 40 minutos y hay una reversión\n                             disponible desde el minuto 3\nreiniciar sin mirar          a veces mitiga y destruye la evidencia:\n                             capturar antes lo que se pueda\n```\n\nLa segunda merece un procedimiento: **antes de reiniciar, guardar lo que se perderá** —volcado de memoria, estado de las colas, últimas trazas—. Cuesta un minuto y es la diferencia entre poder explicarlo después o no.\n\n**Y el cierre del incidente**, que también se declara:\n\n```text\nMITIGADO      el usuario ya no sufre; puede que la causa siga ahí\nRESUELTO      la causa está corregida\nCERRADO       hecha la revisión y creadas las acciones\n```\n\nY se comunica el paso a mitigado, no el paso a resuelto: **lo que importa fuera es que ya funciona**."
+    },
+    {
+      "heading": "Comunicar, y revisar sin culpa",
+      "body": "**Fuera.** La comunicación externa tiene tres reglas y se incumplen las tres:\n\n```text\n1. CADENCIA FIJA, aunque no haya novedades\n   cada 30 minutos en gravedad alta\n   «seguimos investigando, próxima actualización a las 11:30»\n   → el silencio se interpreta siempre como abandono\n\n2. NUNCA prometer una hora de resolución\n   se promete la hora de la SIGUIENTE actualización, que sí se controla\n\n3. DECIR EL IMPACTO en términos del usuario\n   «no se pueden completar pedidos», no «el servicio de pagos devuelve 503»\n```\n\nY el contenido de cada mensaje:\n\n```text\nqué está afectado, en términos de lo que la gente no puede hacer\ndesde cuándo\nqué se sabe y qué no\nsi hay alternativa\ncuándo será la próxima actualización\n```\n\n**Dentro.** Un canal por incidente, y una disciplina:\n\n```text\ntodo cambio se anuncia antes\nlas decisiones se escriben, no solo se dicen\nlas hipótesis descartadas se apuntan, para que nadie las repita\ny las conversaciones paralelas vuelven al canal\n```\n\n**La revisión posterior**, que es donde el incidente se convierte en algo útil.\n\nLa regla que la define: **buscar por qué el sistema lo permitió**.\n\n```text\nsi la conclusión es «alguien se equivocó», la revisión no ha terminado\n\n¿por qué era posible hacer eso?\n¿por qué no lo detectó nada?\n¿por qué tardó tanto en detectarse?\n¿por qué la mitigación tardó lo que tardó?\n¿qué hizo que fuera difícil de diagnosticar?\n```\n\nY no por bondad: **si se busca culpable, la gente deja de contar lo que pasó**, y sin información no hay corrección posible. Es una decisión práctica antes que ética.\n\nY el contenido mínimo:\n\n```text\ncronología con marcas de tiempo\nimpacto medido: usuarios, duración, presupuesto de error consumido\ncómo se detectó   ← y si fue por un cliente, eso es un hallazgo\nqué se intentó y qué no funcionó\nacciones, con dueño y fecha\n```\n\nY la única medida honesta del proceso de revisión:\n\n```text\nproporción de acciones completadas en plazo\n  < 50 %  las revisiones son teatro\n```\n\nY tres tipos de acción, en orden de valor:\n\n```text\n1. que no pueda volver a ocurrir      lo mejor, y lo más caro\n2. que se detecte en un minuto        casi siempre lo más rentable\n3. que se mitigue más rápido          procedimiento, automatización\n```\n\nY la pregunta obligatoria de la clase 125: **¿qué alerta debería haber sonado y no sonó?**\n\nY la lista de comprobación de la clase:\n\n```text\n☐ los criterios de declaración y gravedad están escritos\n☐ cualquiera puede declarar y nadie es penalizado por hacerlo\n☐ declarar abre canal, registro y papeles de forma automática\n☐ los papeles se anuncian en voz alta, aunque los asuma una persona\n☐ el mando coordina y no arregla\n☐ un cambio cada vez, anunciado y reversible\n☐ nada se toca fuera del canal\n☐ existe catálogo de mitigaciones que no requieren saber la causa\n☐ se captura evidencia antes de reiniciar\n☐ comunicación externa con cadencia fija y sin prometer horas de resolución\n☐ el relevo se traspasa explícitamente\n☐ la revisión pregunta por qué el sistema lo permitió\n☐ se mide la proporción de acciones completadas en plazo\n```\n\nY el cierre que enlaza con la clase siguiente: la mitad de las acciones de una revisión son procedimientos que alguien tendrá que ejecutar de madrugada. Cómo se escriben para que sirvan, y cuáles conviene automatizar del todo, es la materia de la clase 128."
+    }
+  ],
+  "worked_example": "**CloudShop tenía incidentes sin proceso: se resolvían en un canal general, sin papeles y sin registro. El ejercicio compara dos incidentes casi idénticos, separados por cinco meses y por la implantación del proceso.**\n\n**Incidente A, antes del proceso. Duración: 2 h 51.**\n\n```text\n09:14  suben los errores del flujo de compra\n09:14  tres personas empiezan a mirar por su cuenta\n09:21  alguien pregunta en el canal general si le pasa a alguien más\n09:29  se reconoce que «esto es gordo»; no se declara nada formalmente\n09:31  alguien reinicia el servicio de precios (sin anunciarlo)\n09:33  alguien sube las réplicas del catálogo (sin anunciarlo)\n09:34  alguien revierte un despliegue de la mañana (sin anunciarlo)\n09:38  el sistema mejora un poco; nadie sabe por cuál de los tres\n09:41  empeora otra vez\n10:05  soporte lleva 50 min recibiendo llamadas sin información\n10:12  comercio interrumpe al equipo por chat para preguntar\n10:40  se descubre que el reinicio de las 09:31 borró un caché caliente\n       y añadió carga a la base\n11:30  se identifica la causa real: un cambio de interruptor a las 09:10\n12:05  mitigado\n\ncómo se detectó                    por la subida de errores, mirando\ncambios simultáneos sin anunciar               3\ncomunicación externa                      ninguna hasta las 10:40\ncronología                             reconstruida después, incompleta\nrevisión posterior                     una reunión de 30 min, 4 acciones\nacciones completadas a los 3 meses          1 de 4\n```\n\n**Lo que se implantó.**\n\n```text\ncriterios de declaración y tres niveles de gravedad, escritos\ndeclaración con un comando que abre canal, documento y avisa\ncuatro papeles, anunciados en voz alta\nregla de un cambio cada vez\ncatálogo de mitigaciones con enlaces directos\nplantilla de comunicación externa con cadencia de 30 min\nrevisión sin culpa obligatoria en gravedad alta y media\n```\n\n**Incidente B, cinco meses después. Mismo tipo de fallo. Duración: 19 minutos.**\n\n```text\n14:02  alerta de ritmo de consumo del presupuesto (clase 126)\n14:03  declarado por quien estaba de guardia; gravedad alta\n14:03  canal abierto, documento creado, avisos enviados\n14:04  «asumo mando y comunicación; X en resolución»\n14:05  primera pregunta: ¿qué cambió en los últimos 30 min?\n       → la línea de cambios muestra un interruptor al 100 % a las 13:58\n14:06  anuncio: «voy a revertir el interruptor recomendaciones-v4»\n14:07  revertido\n14:09  errores bajando; se confirma\n14:12  primera comunicación externa, con impacto y próxima actualización\n14:21  mitigado y comunicado\n\ncambios aplicados                                  1\ncambios sin anunciar                               0\ntiempo hasta la primera hipótesis                  3 min\ntiempo hasta la mitigación                        18 min\ncomunicación externa                        a los 10 min, y al cierre\ncronología                                escrita durante, completa\n```\n\n**La comparación.**\n\n```text                                    incidente A     incidente B\ntiempo hasta declarar                       nunca            1 min\ntiempo hasta la primera hipótesis           2 h 16           3 min\ncambios simultáneos                            3                1\ncambios sin anunciar                           3                0\nprimera comunicación externa                1 h 26           10 min\ninterrupciones al equipo desde fuera           11               0\nduración total                              2 h 51           19 min\npresupuesto de error consumido                84 %            9 %\n```\n\nY la parte del ahorro atribuible a cada cosa, según la revisión:\n\n```text\npreguntar primero qué cambió                  ~2 h\nun cambio cada vez (evitó el reinicio dañino) ~35 min\ncomunicación con cadencia                     evitó 11 interrupciones\n```\n\n**El incidente que no se declaró, y que enseñó por qué la regla 2 importa.**\n\n```text\nmes 3   una persona duda si declarar por una degradación del 4 %\n        decide no declarar «por no molestar»\n        3 h 20 después es una caída total\n        presupuesto consumido: 100 % en un solo suceso\n```\n\nY la corrección no fue reprender a nadie, sino cambiar el sistema:\n\n```text\nse midió cuántos incidentes se declaraban y resultaban ser nada\n  antes de la medida:     0\n  objetivo declarado:     que hubiera algunos\n  a los 6 meses:          7 de 34 declaraciones fueron falsas alarmas\n```\n\n**Siete falsas alarmas se consideran una señal buena**, no un problema: significa que la gente declara ante la duda. Y desde entonces no ha vuelto a haber una degradación de tres horas sin declarar.\n\n**Las revisiones y sus acciones.**\n\n```text                                          antes         después\nrevisiones hechas                          2 de 14        27 de 27\nacciones creadas                                8             94\nacciones con dueño y fecha                   2 de 8       94 de 94\ncompletadas en plazo                         1 de 8        79 de 94  (84 %)\nrevisiones que concluían «error humano»      2 de 2         0 de 27\n```\n\nY el reparto de las noventa y cuatro acciones por tipo:\n\n```text\nque no pueda volver a ocurrir                  21\nque se detecte en un minuto                    48   ← 40 alertas nuevas\nque se mitigue más rápido                      25\n```\n\nCuarenta y ocho de noventa y cuatro fueron **detección**, y salieron de la pregunta obligatoria: *¿qué alerta debería haber sonado?*\n\n**A los seis meses.**\n\n```text                                          antes         después\nincidentes declarados                        14 (informal)     34\nde ellos, falsas alarmas                          0             7\ntiempo medio hasta declarar                   41 min          2 min\ntiempo medio hasta mitigar                    1 h 52         14 min\ncambios simultáneos por incidente               2,4            1,0\nincidentes con comunicación externa           3 de 14        27 de 27\ninterrupciones al equipo durante incidentes   11 / incidente   0,3\nrevisiones con acciones y dueño               2 de 14        27 de 27\nacciones completadas en plazo                  13 %            84 %\n```\n\n**La lección que esta clase traslada a la parte 10**: el tiempo de mitigación pasó de 1 h 52 a 14 minutos y **nada de esa mejora vino de resolver más rápido**. Vino de declarar antes, de preguntar primero qué había cambiado y de aplicar un cambio cada vez en lugar de tres. Y el dato que más dice sobre el proceso es el que parece un fallo: **siete de treinta y cuatro declaraciones no eran nada**, y esa proporción es exactamente lo que garantiza que no se repita la degradación de tres horas que nadie se atrevió a declarar.",
+  "pitfalls": [
+    {
+      "symptom": "Los incidentes tardan mucho en reconocerse como tales",
+      "cause": "Declarar se percibe como molestar o como admitir un fallo",
+      "fix": "Cualquiera puede declarar, ante la duda se declara, y las falsas alarmas no se penalizan ni se comentan."
+    },
+    {
+      "symptom": "El sistema mejora y nadie sabe por qué",
+      "cause": "Se aplicaron varios cambios a la vez sin anunciarlos",
+      "fix": "Un cambio cada vez, anunciado en el canal, con forma de deshacerlo, y nada se toca fuera del canal."
+    },
+    {
+      "symptom": "El equipo trabaja bien y recibe interrupciones constantes desde fuera",
+      "cause": "No hay papel de comunicación ni cadencia fija",
+      "fix": "Asigna comunicación desde el principio y publica actualizaciones cada 30 minutos aunque no haya novedades."
+    },
+    {
+      "symptom": "Se dedica una hora a entender la causa mientras los usuarios sufren",
+      "cause": "Se diagnostica antes de mitigar",
+      "fix": "Mitiga con el catálogo que no requiere saber la causa, empezando por revertir el cambio más reciente."
+    },
+    {
+      "symptom": "Después del incidente no se puede explicar qué pasó",
+      "cause": "La cronología se intentó reconstruir al día siguiente, y se reinició sin capturar evidencia",
+      "fix": "Papel de cronología escribiendo durante, y captura de estado antes de reiniciar nada."
+    },
+    {
+      "symptom": "Las revisiones no cambian nada",
+      "cause": "Las acciones no tienen dueño ni fecha, o la conclusión fue que alguien se equivocó",
+      "fix": "Pregunta por qué el sistema lo permitió, asigna dueño y fecha a cada acción y mide la proporción completada en plazo."
+    }
+  ],
+  "checks": [
+    "¿Por qué declarar pronto sale más barato que no declarar, y qué regla lo hace posible?",
+    "¿Qué dos fallos concretos evitan los papeles durante un incidente?",
+    "¿Por qué se mitiga antes de diagnosticar y con qué catálogo?",
+    "¿Qué se promete en una comunicación externa y qué no se promete nunca?",
+    "¿Cuál es la única medida honesta de que las revisiones sirven para algo?"
+  ],
+  "references": [
+    {
+      "text": "Google SRE (2025). *Managing incidents* — papeles, mando y separación entre coordinar y resolver.",
+      "url": "https://sre.google/sre-book/managing-incidents/"
+    },
+    {
+      "text": "Google SRE (2025). *Postmortem culture: learning from failure* — revisión sin culpa y acciones.",
+      "url": "https://sre.google/sre-book/postmortem-culture/"
+    },
+    {
+      "text": "PagerDuty (2025). *Incident response documentation* — severidad, comunicación y relevos.",
+      "url": "https://response.pagerduty.com/"
+    },
+    {
+      "text": "Allspaw, J. (2012). *Blameless postmortems and a just culture* — por qué buscar culpables destruye la información.",
+      "url": "https://www.etsy.com/codeascraft/blameless-postmortems/"
+    },
+    {
+      "text": "Atlassian (2025). *Incident communication best practices* — cadencia fija y contenido de las actualizaciones.",
+      "url": "https://www.atlassian.com/incident-management/incident-communication"
+    }
+  ]
+}
