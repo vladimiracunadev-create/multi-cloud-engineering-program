@@ -1,0 +1,118 @@
+{
+  "id": "194",
+  "purpose": "Entender por dónde va cada paquete y por qué, que es la pregunta que nadie sabe contestar durante los incidentes de red. La clase explica cómo se elige una ruta —longitud de prefijo primero, y solo después las preferencias—, qué es BGP y qué garantiza realmente, cómo se propagan las rutas entre la nube y la red corporativa, y por qué el mecanismo que anuncia una ruta es también el que la retira mal.",
+  "outcomes": [
+    "**Predecir** qué ruta elegirá un paquete dadas varias opciones.",
+    "**Explicar** qué decide BGP y qué no.",
+    "**Controlar** la propagación de rutas entre nube y red corporativa.",
+    "**Diagnosticar** los fallos de encaminamiento más comunes.",
+    "**Diseñar** la salida y la vuelta del tráfico de forma simétrica."
+  ],
+  "concepts": [
+    {
+      "term": "prefijo más específico",
+      "definition": "La ruta con máscara más larga gana siempre, antes que cualquier preferencia."
+    },
+    {
+      "term": "BGP",
+      "definition": "Protocolo con el que dos redes se anuncian qué prefijos alcanzan. Es de política, no de rendimiento."
+    },
+    {
+      "term": "sistema autónomo (AS)",
+      "definition": "Conjunto de redes bajo una misma política de encaminamiento, identificado por un número."
+    },
+    {
+      "term": "propagación",
+      "definition": "Difusión de una ruta aprendida hacia otras tablas. Lo que se propaga sin control acaba donde no debe."
+    },
+    {
+      "term": "asimetría",
+      "definition": "Que la ida y la vuelta usen caminos distintos. Rompe cortafuegos con estado y balanceadores."
+    },
+    {
+      "term": "agujero negro",
+      "definition": "Ruta que atrae tráfico hacia un destino que no lo entrega. Peor que no tener ruta."
+    }
+  ],
+  "diagram": "flowchart TB\n    P[\"llega un paquete\\ndestino 10.0.5.20\"] --> M1{\"rutas que contienen\\nel destino\"}\n    M1 --> M2[\"10.0.0.0/8 → A\"]\n    M1 --> M3[\"10.0.0.0/16 → B\"]\n    M1 --> M4[\"10.0.5.0/24 → C\"]\n    M4 --> W[\"GANA /24\\nel más específico,\\nsiempre\"]\n    W --> E{\"¿empate en\\nlongitud?\"}\n    E -->|sí| E1[\"1 · ruta estática o local\"]\n    E1 --> E2[\"2 · preferencia local BGP\"]\n    E2 --> E3[\"3 · camino de AS más corto\"]\n    E3 --> E4[\"4 · desempates finos\"]\n    S[\"simetría\"] --> S1[\"ida y vuelta\\npor el mismo camino\"]\n    S1 --> S2[\"si no: cortafuegos\\ncon estado descarta\"]",
+  "foundations": [
+    {
+      "heading": "Cómo se elige una ruta",
+      "body": "La causa número uno de confusión en redes es creer que la métrica o la preferencia deciden. **No deciden mientras haya una ruta más específica.**\n\n```text\nORDEN DE DECISIÓN\n\n1. LONGITUD DE PREFIJO — el más específico gana\n   destino 10.0.5.20\n     10.0.0.0/8    → pasarela A\n     10.0.0.0/16   → pasarela B\n     10.0.5.0/24   → pasarela C     ← GANA\n\n   y gana aunque A tenga mejor métrica, mejor preferencia\n   o menos saltos\n\n2. SOLO SI EMPATAN EN LONGITUD, se aplican preferencias\n```\n\nY de aquí sale el ataque y el error más frecuentes:\n\n```text\nanunciar un /24 dentro del /16 de otro DESVÍA su tráfico\n→ es el mecanismo de los secuestros de ruta en internet\n→ y también el de «alguien añadió una ruta a mano y ahora\n  el tráfico va por el sitio equivocado»\n```\n\nY el orden de desempate, simplificado a lo que se usa:\n\n```text\ncuando dos rutas tienen la MISMA longitud\n  1  origen: local o estática antes que aprendida\n  2  preferencia local (política propia: por dónde salir)\n  3  camino de AS más corto\n  4  origen del anuncio, coste interno, y desempates finos\n```\n\nY las dos rutas especiales que conviene tener claras:\n\n```text\n0.0.0.0/0        por defecto; la menos específica de todas\n                 → es la que se usa cuando nada más encaja\n\nruta a agujero negro\n                 apunta a ninguna parte a propósito\n                 → útil para bloquear un rango\n                 → peligrosa si se propaga por error\n```\n\nY una comprobación práctica que resuelve la mitad de los incidentes:\n\n```text\nno preguntes «¿hay conectividad?»\npregunta «¿qué ruta coincide con este destino, en ESTA tabla?»\n→ y luego la misma pregunta en la tabla de VUELTA\n```"
+    },
+    {
+      "heading": "BGP: qué garantiza y qué no",
+      "body": "BGP es el protocolo con el que dos redes se dicen qué prefijos alcanzan. Es lo que conecta internet y lo que conecta la nube con la red corporativa.\n\n```text\nQUÉ HACE\n  anunciar prefijos y aprender los del vecino\n  aplicar POLÍTICA: qué anuncio, qué acepto, qué prefiero\n  detectar que un vecino dejó de estar y retirar sus rutas\n\nQUÉ NO HACE\n  no mide latencia ni ancho de banda\n  no elige el camino «más rápido»\n  no valida que quien anuncia un prefijo sea su dueño\n  no garantiza simetría\n```\n\nY la consecuencia práctica más importante:\n\n```text\nBGP es un protocolo de POLÍTICA, no de rendimiento\n→ «el camino de AS más corto» no es el más rápido\n→ y la mayoría de los problemas de latencia entre redes no\n  se arreglan tocando BGP\n```\n\n**Los conceptos que hacen falta**, sin más:\n\n```text\nAS                 conjunto de redes con política común\n                   → cada nube tiene el suyo; tu red\n                     corporativa puede tener uno privado\n\nSESIÓN             la conversación entre dos vecinos\n                   → si cae, se retiran TODAS sus rutas\n\nANUNCIO            «yo alcanzo este prefijo»\nRETIRADA           «ya no lo alcanzo»\n\nPREFERENCIA LOCAL  qué salida prefiero YO   (entrante para mí)\nPREPENDIENTE       repetir mi AS para parecer peor\n                   → forma torpe pero habitual de influir en\n                     cómo entra el tráfico\n```\n\nY la asimetría del control, que es lo que más cuesta entender:\n\n```text\ncontrolas bien POR DÓNDE SALES     (preferencia local)\ncontrolas mal POR DÓNDE ENTRAS     (depende del otro)\n\n→ para influir en la entrada solo puedes hacerte parecer peor\n  o anunciar prefijos más específicos por el camino que\n  prefieres\n```\n\n**Lo que se rompe con BGP en la nube**, que es casi siempre lo mismo:\n\n```text\nLÍMITES DE PREFIJOS\n  las pasarelas de nube aceptan un máximo (100, 200, 1.000)\n  → si la corporativa anuncia 1.400 rutas, la sesión se CAE\n  → y se cae entera, no parcialmente\n  → solución: resumir en el origen                clase 193\n\nANUNCIO DEMASIADO AMPLIO\n  anunciar 0.0.0.0/0 desde la corporativa hacia la nube\n  → toda la salida a internet pasa por la corporativa\n  → a veces se quiere; casi siempre es un accidente\n\nLA SESIÓN SE RESTABLECE Y TARDA\n  al recuperarse, reaprender miles de rutas lleva segundos\n  o minutos, y durante ese tiempo hay agujeros\n```"
+    },
+    {
+      "heading": "Propagación entre nube y corporativa",
+      "body": "En la nube, las tablas de rutas son objetos que se asocian a subredes, y la propagación se activa o desactiva por decisión, no por protocolo.\n\n```text\nLO QUE HAY QUE DECIDIR EXPLÍCITAMENTE\n  qué prefijos anuncia la nube a la corporativa\n  qué prefijos acepta la nube de la corporativa\n  qué tablas reciben las rutas aprendidas\n  qué subredes usan qué tabla\n```\n\nY el error de diseño más común:\n\n```text\npropagar todo a todas las tablas «para que funcione»\n→ y entonces la subred de datos aprende la ruta a internet,\n  o preproducción alcanza producción                clase 189\n→ la propagación es un control de alcance, no una comodidad\n```\n\n**Los patrones que funcionan:**\n\n```text\nAISLAMIENTO POR TABLA\n  una tabla por función: pública, privada, datos\n  → datos NO recibe la ruta por defecto a internet\n  → y por tanto no puede sacar nada, aunque quiera\n\nSALIDA CENTRALIZADA\n  todo el tráfico saliente pasa por una red de inspección\n  → ruta 0.0.0.0/0 hacia el cortafuegos central\n  → permite registrar y controlar la salida     clase 200\n\nRUTA MÁS ESPECÍFICA PARA EXCEPCIONES\n  la excepción se implementa con un prefijo más largo\n  → y por eso funciona sin tocar lo demás\n```\n\n**La simetría**, que rompe cosas de forma difícil de diagnosticar:\n\n```text\nSI LA IDA Y LA VUELTA VAN POR CAMINOS DISTINTOS\n  un cortafuegos con estado ve la respuesta sin haber visto\n  la petición → la descarta\n  el resultado: conexiones que se establecen y se cuelgan,\n  o que funcionan en un sentido\n\nCUÁNDO OCURRE\n  dos túneles activos con políticas distintas en cada extremo\n  una ruta más específica añadida en un solo sentido\n  traducción de direcciones en un lado y no en el otro\n  varias pasarelas NAT con reparto distinto\n```\n\nY la comprobación:\n\n```text\ntraza el camino en los DOS sentidos, no en uno\n→ y compara las tablas de rutas de ambos extremos\n```\n\nY tres diagnósticos frecuentes con su firma:\n\n```text\nSÍNTOMA                          CAUSA HABITUAL\nfunciona en un sentido           asimetría + cortafuegos con\n                                 estado\nfunciona a ratos                 dos rutas iguales, reparto\n                                 por flujo, una rota\ndeja de funcionar de golpe y     sesión BGP caída por exceso\ntodo a la vez                    de prefijos\nalcanza un rango que no debería  propagación a una tabla que\n                                 no tocaba\nse pierde tráfico en silencio    ruta a agujero negro\n                                 propagada           ley 13\n```"
+    },
+    {
+      "heading": "Operar el encaminamiento",
+      "body": "El encaminamiento es una de las pocas cosas cuyo fallo se manifiesta en todas partes a la vez, y por eso merece disciplina operativa propia.\n\n```text\nLO QUE HAY QUE VIGILAR\n  estado de cada sesión BGP, y su antigüedad        ley 13\n  número de prefijos recibidos, contra el límite\n  cambios en las rutas anunciadas y aprendidas\n  aparición de rutas más específicas inesperadas\n  asimetría en los caminos de ida y vuelta\n```\n\nY la alerta que más incidentes evita:\n\n```text\n«el número de prefijos recibidos está al 80 % del límite»\n→ porque al 100 % la sesión se cae ENTERA y de golpe\n→ y esa caída no avisa antes\n```\n\n**Los cambios de encaminamiento**, que merecen tratamiento especial:\n\n```text\nUN CAMBIO DE RUTA AFECTA A CUANTO PASA POR AHÍ\n  no hay despliegue escalonado natural\n  → se hace en ventana, con vuelta atrás preparada\n  → y con alguien mirando en los dos extremos\n\nY LA VUELTA ATRÁS TIENE QUE ESTAR PROBADA\n  quitar una ruta es fácil; volver a poner el estado exacto\n  anterior, no tanto\n  → guardar la configuración previa, no describirla\n```\n\nY una regla que se aprende cara:\n\n```text\nlas rutas añadidas «temporalmente» a mano no se quitan\n→ y aparecen dos años después como causa de un incidente\n→ toda ruta manual con fecha y dueño, o no se pone   ley 20\n```\n\n**Lo que hay que documentar** y casi nunca está:\n\n```text\nqué prefijos anuncia cada extremo, y por qué\nqué se acepta y qué se filtra\nqué tabla usa cada subred\nqué rutas son manuales, quién las puso y hasta cuándo\ncuál es el camino esperado para los flujos principales\n  → sin esto, nadie sabe si lo que ve es correcto\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ está documentado qué anuncia y qué acepta cada extremo\n☐ los anuncios están resumidos y por debajo del límite\n☐ hay alerta al 80 % del límite de prefijos\n☐ hay alerta de sesión caída y de antigüedad de la ruta\n☐ cada tabla de rutas tiene una función clara\n☐ la subred de datos no recibe ruta por defecto a internet\n☐ el camino de ida y el de vuelta se han trazado\n☐ no hay rutas manuales sin dueño ni fecha\n☐ los cambios de ruta tienen ventana y vuelta atrás guardada\n☐ está escrito el camino esperado de los flujos principales\n```\n\nY el cierre que enlaza con la clase siguiente: saber por dónde va un paquete supone conocer la dirección de destino, y esa casi nunca se escribe: se resuelve por nombre. Cómo funciona esa resolución, y por qué es la primera sospechosa en tantos incidentes, es la materia de la clase 195."
+    }
+  ],
+  "worked_example": "**CloudShop conecta su red corporativa con tres nubes. Lo que sigue son tres incidentes de encaminamiento del mismo año, con su diagnóstico, y el rediseño que los cerró.**\n\n**Incidente 1 · «Todo dejó de funcionar a la vez», marzo.**\n\n```text\nsíntoma   a las 11:14, toda la conectividad entre la nube\n          principal y la corporativa dejó de funcionar\n          simultáneamente\n          nada se había desplegado\n\nprimera hipótesis   corte del enlace dedicado\n          → descartada: el enlace estaba activo\n\ndiagnóstico\n  la sesión BGP hacia la pasarela de nube estaba caída\n  motivo: prefijos recibidos 1.043, límite de la pasarela 1.000\n  a las 11:14, el equipo de red corporativa había añadido una\n  sede nueva → 61 prefijos más\n  → se superó el límite y la sesión se cerró ENTERA\n\nlo que lo hizo confuso\n  el enlace físico estaba bien\n  el panel de red decía «enlace activo»\n  la sesión BGP no estaba vigilada\n\ncorrección inmediata   resumir los prefijos de las sedes\n  1.043 rutas → 31 rutas resumidas\n\ncorrección de fondo\n  alerta al 80 % del límite\n  alerta de sesión caída, con 60 s de umbral\n  resumen obligatorio en el origen                clase 193\n\ntiempo hasta restablecer                          2 h 40\n  de las cuales, hasta identificar la causa        2 h 05\n```\n\nY la observación del análisis posterior:\n\n```text\nel dato que resolvía el incidente —número de prefijos\nrecibidos— existía y se podía consultar en un comando\nnadie lo miraba, y no había alerta                    ley 15\n```\n\n**Incidente 2 · «Funciona en un sentido», junio.**\n\n```text\nsíntoma   el servicio de informes en la nube podía consultar\n          la base corporativa, pero las respuestas no llegaban\n          las conexiones se establecían y se colgaban a los\n          30 s (plazo del cliente)\n\ndiagnóstico\n  había DOS caminos entre nube y corporativa\n    el enlace dedicado principal\n    un túnel de respaldo, activo\n  la ida usaba el enlace dedicado (más específico desde la\n    nube)\n  la vuelta usaba el túnel (preferencia local en la\n    corporativa)\n  el cortafuegos corporativo, con estado, veía la respuesta\n    sin haber visto la petición → la descartaba\n\ncausa raíz\n  dos semanas antes, alguien había subido la preferencia\n  local del túnel «para probar el respaldo» y no lo revirtió\n  → ruta manual sin dueño ni fecha                    ley 20\n\ncorrección\n  preferencia alineada en los dos extremos\n  el túnel de respaldo pasa a estar en espera, no activo\n  comprobación periódica de simetría en los 6 flujos\n    principales\n```\n\n**Incidente 3 · «Pérdida silenciosa hacia un rango», septiembre.**\n\n```text\nsíntoma   un 4 % de las peticiones al servicio de inventario\n          fallaban por plazo vencido; el resto funcionaba\n          duró 11 días antes de detectarse\n\ndiagnóstico\n  el inventario tiene 3 réplicas, en 10.0.132.0/24,\n  10.0.133.0/24 y 10.0.134.0/24\n  alguien había creado una ruta a agujero negro para\n  10.0.134.0/24 durante una migración de agosto\n  la ruta se propagó a la tabla de la subred de aplicación\n  → un tercio del tráfico caía en el agujero\n  → pero el reparto reintentaba, así que solo fallaba el\n    4 % final\n\npor qué tardó 11 días\n  la tasa de error global era del 0,3 %, por debajo del\n  umbral de alerta\n  y el panel de disponibilidad seguía en verde       ley 13\n\ncorrección\n  ruta retirada\n  toda ruta a agujero negro exige etiqueta con dueño y fecha\n  función de aptitud: ninguna ruta manual sin fecha de\n    caducidad                                       clase 190\n  alerta por tasa de error POR DESTINO, no solo global\n```\n\n**El rediseño que salió de los tres incidentes.**\n\n```text\nTABLAS DE RUTAS POR FUNCIÓN\n  pública      0.0.0.0/0 → pasarela de internet\n  aplicación   0.0.0.0/0 → cortafuegos central\n               10.64.0.0/12 → pasarela corporativa\n  datos        SIN 0.0.0.0/0     ← no puede salir\n               solo prefijos de aplicación y puntos privados\n  puntos priv. solo lo necesario\n\nefecto medido en el modelo de amenazas\n  destinos alcanzables desde la subred de datos\n    antes    cualquiera de internet\n    después  4 prefijos internos\n  → la prueba negativa de «sacar datos a un destino no\n    declarado» pasó de fallar a rechazar          clase 189\n```\n\n```text\nANUNCIOS Y FILTROS, DOCUMENTADOS\n  la nube anuncia a la corporativa\n    10.0.0.0/12   eu-west-1, resumido\n    10.16.0.0/12  eu-central-1, resumido\n    → 2 prefijos, no 340\n\n  la nube ACEPTA de la corporativa\n    10.64.0.0/12 y nada más\n    → filtro explícito; 0.0.0.0/0 rechazado\n    → antes se aceptaba todo, y en 2023 la corporativa\n      anunció por error una ruta por defecto que desvió\n      toda la salida a internet durante 40 minutos\n```\n\n```text\nVIGILANCIA\n  sesión BGP: estado y antigüedad                    ley 13\n  prefijos recibidos: alerta al 80 % del límite\n  cambios en rutas anunciadas y aprendidas: alerta\n  rutas manuales sin fecha: función de aptitud, 0 permitidas\n  simetría de los 6 flujos principales: comprobación semanal\n  tasa de error por destino, no solo global\n```\n\n**El documento de caminos esperados**, que no existía y resolvió el cuarto incidente en once minutos:\n\n```text\nflujo                         camino esperado\napp → base corporativa        enlace dedicado, ida y vuelta\napp → internet                cortafuegos central → NAT\ndatos → puntos privados       sin salir de la red\ninformes → base corporativa   enlace dedicado, ida y vuelta\nnube A → nube B               interconexión directa, no por\n                              la corporativa\nsocios → nosotros             solo por el balanceador público\n```\n\nY el resultado del año siguiente:\n\n```text                                    antes      después\nincidentes de encaminamiento                 3            1\ntiempo medio hasta identificar causa      1 h 50      11 min\nprefijos anunciados a la corporativa        340            2\nprefijos aceptados de la corporativa      1.043           31\nrutas manuales sin dueño                     17            0\nflujos con camino documentado                 0            6\n```\n\n**La lección que esta clase deja**: los tres incidentes tuvieron causas distintas —un límite de prefijos, una preferencia que alguien cambió para probar, y una ruta a agujero negro de una migración— pero **los tres se diagnosticaron lento por lo mismo**: nadie había escrito cuál era el camino esperado, así que no había forma de saber si lo que se veía estaba mal. Y el tercero duró once días porque **el error se repartía entre tres réplicas y quedaba por debajo del umbral global**.",
+  "pitfalls": [
+    {
+      "symptom": "El tráfico va por un camino que la métrica no explica",
+      "cause": "Existe una ruta más específica que gana antes de que se apliquen las preferencias",
+      "fix": "Busca siempre primero la ruta con prefijo más largo que coincide con el destino, en la tabla concreta que aplica."
+    },
+    {
+      "symptom": "Toda la conectividad cae a la vez sin que nadie despliegue nada",
+      "cause": "La sesión BGP superó el límite de prefijos y se cerró entera",
+      "fix": "Resume en el origen y alerta al 80 % del límite; vigila también estado y antigüedad de la sesión."
+    },
+    {
+      "symptom": "Las conexiones se establecen y se cuelgan, o funcionan en un solo sentido",
+      "cause": "Asimetría de camino con un cortafuegos con estado en medio",
+      "fix": "Traza ida y vuelta, alinea preferencias en ambos extremos y comprueba la simetría de los flujos principales periódicamente."
+    },
+    {
+      "symptom": "Una subred alcanza destinos que no debería",
+      "cause": "Se propagaron las rutas a todas las tablas para que funcionara",
+      "fix": "Usa una tabla por función y trata la propagación como control de alcance: la subred de datos no recibe ruta por defecto."
+    },
+    {
+      "symptom": "Se pierde una fracción del tráfico sin errores visibles",
+      "cause": "Una ruta a agujero negro propagada, con reintentos que enmascaran el fallo",
+      "fix": "Prohíbe rutas manuales sin dueño y fecha, y alerta por tasa de error por destino además de la global."
+    },
+    {
+      "symptom": "Nadie sabe si el camino que se observa es el correcto",
+      "cause": "No está escrito el camino esperado de los flujos principales",
+      "fix": "Documenta qué anuncia y acepta cada extremo, qué tabla usa cada subred y el camino esperado de cada flujo."
+    }
+  ],
+  "checks": [
+    "¿Qué decide primero al elegir una ruta, y por qué las preferencias casi nunca importan?",
+    "¿Qué garantiza BGP y qué no garantiza?",
+    "¿Por qué se controla mal por dónde entra el tráfico?",
+    "¿Qué ocurre cuando se supera el límite de prefijos de una pasarela?",
+    "¿Qué documento hace que un incidente de encaminamiento se diagnostique en minutos?"
+  ],
+  "references": [
+    {
+      "text": "RFC 4271 — A Border Gateway Protocol 4 (BGP-4).",
+      "url": "https://www.rfc-editor.org/rfc/rfc4271"
+    },
+    {
+      "text": "AWS (2025). *Route tables and route priority in VPC*.",
+      "url": "https://docs.aws.amazon.com/vpc/latest/userguide/VpcSubnetRouting.html"
+    },
+    {
+      "text": "Microsoft (2025). *Virtual network traffic routing*.",
+      "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview"
+    },
+    {
+      "text": "Google Cloud (2025). *Routes and routing order*.",
+      "url": "https://cloud.google.com/vpc/docs/routes"
+    },
+    {
+      "text": "Cloudflare (2025). *What is BGP? Route leaks and hijacks*.",
+      "url": "https://www.cloudflare.com/learning/security/glossary/bgp-hijacking/"
+    }
+  ]
+}
