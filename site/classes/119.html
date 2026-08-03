@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>orchestration</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>workflows y orquestación durable</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Ejecutar la secuencia con compensaciones de la clase 116 en un sitio donde <strong>el estado sobrevive a la muerte del proceso</strong>, donde esperar treinta días es una instrucción normal y donde se puede preguntar en qué paso va cada instancia. La clase explica el mecanismo que lo hace posible —volver a ejecutar el código contra un historial grabado—, la restricción severa que ese mecanismo impone —el código tiene que ser determinista— y el problema operativo que nadie anuncia: <strong>cómo se despliega una versión nueva cuando hay diez mil instancias a medias</strong>.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> workflows y orquestación durable con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>workflow-durable</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Reconocer</strong> los procesos que no caben en una petición ni en una función.</li>
+<li><strong>Explicar</strong> la reejecución contra historial y por qué obliga al determinismo.</li>
+<li><strong>Separar</strong> lo que va en la orquestación de lo que va en las actividades.</li>
+<li><strong>Desplegar</strong> cambios sin romper las instancias en curso.</li>
+<li><strong>Elegir</strong> entre motor durable, máquina de estados declarativa y cola con estado propio.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,16 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>workflows</code></td>
-<td>Define su papel en <strong>workflows y orquestación durable</strong> y cómo observarlo en un sistema real.</td>
+<td><code>orquestación durable</code></td>
+<td>Motor que graba el resultado de cada paso y reconstruye la ejecución tras un fallo, continuando donde iba.</td>
 </tr>
 <tr>
-<td><code>orquestación</code></td>
-<td>Define su papel en <strong>workflows y orquestación durable</strong> y cómo observarlo en un sistema real.</td>
+<td><code>reejecución contra historial</code></td>
+<td>Al reanudar, el código se ejecuta de nuevo desde el principio, pero cada paso ya grabado devuelve su resultado guardado en vez de ejecutarse.</td>
 </tr>
 <tr>
-<td><code>durable</code></td>
-<td>Define su papel en <strong>workflows y orquestación durable</strong> y cómo observarlo en un sistema real.</td>
+<td><code>determinismo</code></td>
+<td>Que el mismo código con el mismo historial tome siempre las mismas decisiones. Sin él, la reejecución diverge y la instancia se rompe.</td>
+</tr>
+<tr>
+<td><code>actividad</code></td>
+<td>Unidad que sí produce efectos: llama, escribe, cobra. Se reintenta, así que debe ser idempotente.</td>
+</tr>
+<tr>
+<td><code>temporizador durable</code></td>
+<td>Espera que sobrevive a reinicios y despliegues. Permite «espera 30 días» sin ningún proceso vivo mientras tanto.</td>
+</tr>
+<tr>
+<td><code>reinicio como instancia nueva</code></td>
+<td>Cerrar la instancia actual y abrir otra con el estado resumido, para que el historial no crezca sin fin.</td>
 </tr>
 </tbody>
 </table>
@@ -85,75 +94,348 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Workflows y orquestación durable&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    W[&quot;código de la orquestación\nDETERMINISTA&quot;] --&gt; H[(&quot;historial grabado&quot;)]
+    W --&gt; A1[&quot;actividad: reservar&quot;]
+    W --&gt; A2[&quot;actividad: cobrar&quot;]
+    W --&gt; T[&quot;temporizador durable\n30 días&quot;]
+    W --&gt; S[&quot;esperar señal externa&quot;]
+    A1 --&gt;|&quot;resultado&quot;| H
+    A2 --&gt;|&quot;resultado&quot;| H
+    X[&quot;proceso muere&quot;] --&gt; R[&quot;reejecución:\ncada paso ya grabado\ndevuelve lo guardado&quot;]
+    H --&gt; R
+    R --&gt; C[&quot;continúa donde iba&quot;]
+    W -.-&gt;|&quot;prohibido&quot;| P[&quot;hora actual · azar\nllamadas directas\nestado externo&quot;]
+    H --&gt; V{&quot;despliegue con\ninstancias vivas&quot;}
+    V --&gt;|&quot;código cambiado&quot;| E[&quot;divergencia:\nramas por versión\no tipo nuevo&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-que-no-cabe-en-ningun-sitio-de-los-anteriores">1. Qué no cabe en ningún sitio de los anteriores</h3>
+<p>La clase 116 dejó una secuencia con compensaciones y plazos. Y hay tres razones por las que no cabe donde hemos ejecutado cosas hasta ahora:</p>
+<pre><code class="language-text">DURA MÁS QUE UN PROCESO
+  «esperar 30 días a que expire la devolución»
+  → no cabe en una petición ni en una función (clase 117)
+
+TIENE QUE SOBREVIVIR A CUALQUIER COSA
+  despliegues, reinicios, caídas de la máquina
+  → el estado no puede estar en memoria
+
+HAY QUE PODER PREGUNTARLE
+  «¿en qué paso va el pedido 1421 y por qué lleva ahí 3 horas?»
+  → es la pregunta que la clase 115 dejó sin responder
+</code></pre>
+<p>Lo que se hace normalmente sin un motor —y funciona hasta cierto tamaño— es una máquina de estados propia:</p>
+<pre><code class="language-text">tabla con el estado de cada instancia
+un proceso que la lee y avanza los que toca
+colas para cada paso
+temporizadores con filas de «hacer a partir de las …»
+</code></pre>
+<p>Y conviene decir con claridad que <strong>eso está bien</strong> para procesos de dos o tres pasos. Lo que pasa cuando crece:</p>
+<pre><code class="language-text">cada paso nuevo añade estados, transiciones y casos de fallo
+las compensaciones multiplican las transiciones
+nadie puede leer el proceso completo: está repartido en seis consumidores
+y los plazos hay que implementarlos a mano, uno a uno
+</code></pre>
+<p>El motor durable resuelve eso permitiendo <strong>escribir el proceso como código secuencial</strong>:</p>
+<pre><code class="language-python">def pedido(id):
+    reserva = actividad(reservar, id)
+    try:
+        pago = actividad(cobrar, id)
+    except Exception:
+        actividad(liberar_reserva, reserva)
+        return &quot;cancelado_por_pago&quot;
+    actividad(crear_envio, id)
+    actividad(notificar, id)
+    esperar(dias=30)                      # temporizador durable
+    if not senal_recibida(&quot;devolucion&quot;):
+        actividad(cerrar_pedido, id)
+</code></pre>
+<p>Y lo notable de ese código es lo que <strong>no</strong> tiene: no hay tabla de estado, ni reintentos, ni recuperación tras reinicio, ni gestión de temporizadores. Todo eso lo aporta el motor. La línea de los treinta días no mantiene nada vivo: el proceso se despierta cuando toca.</p>
+<h3 id="2-como-funciona-y-que-prohibe">2. Cómo funciona, y qué prohíbe</h3>
+<p>El mecanismo es sencillo de enunciar y tiene una consecuencia grande.</p>
+<pre><code class="language-text">cada vez que la orquestación llama a una actividad:
+  el motor comprueba si ya está en el historial
+    sí  → devuelve el resultado grabado, sin ejecutar nada
+    no  → la ejecuta y graba el resultado
+
+al reanudar tras un fallo:
+  el código se ejecuta DESDE EL PRINCIPIO
+  y todos los pasos ya grabados se resuelven al instante
+  hasta llegar al punto donde se quedó
+</code></pre>
+<p>De ahí sale la restricción central:</p>
+<pre><code class="language-text">el código de la orquestación tiene que ser DETERMINISTA
+
+porque se ejecuta muchas veces y debe tomar SIEMPRE
+las mismas decisiones en el mismo orden
+</code></pre>
+<p>Y la lista de lo prohibido dentro de la orquestación:</p>
+<pre><code class="language-text">la hora actual                 → usar el reloj del motor
+números aleatorios             → pedirlos como actividad, o al motor
+identificadores generados      → igual
+leer un fichero, una base o
+  llamar a una API             → eso es una actividad
+variables globales o estado
+  del proceso                  → no sobreviven y no se reproducen
+recorrer un diccionario sin
+  orden garantizado            → el orden puede cambiar entre ejecuciones
+hilos y concurrencia propia    → usar los mecanismos del motor
+</code></pre>
+<p>El caso del recorrido desordenado es el que más sorprende y el que más cuesta diagnosticar, porque <strong>falla de forma intermitente y solo tras un reinicio</strong>.</p>
+<p>Y la regla mental que resume todo:</p>
+<pre><code class="language-text">la orquestación DECIDE; las actividades HACEN
+si algo puede dar un resultado distinto dos veces, es una actividad
+</code></pre>
+<p><strong>Las actividades</strong>, que es donde vive todo lo de las clases anteriores:</p>
+<pre><code class="language-text">se reintentan según la política que se les fije
+  → espera creciente, variación y límite: clase 113
+se entregan al menos una vez
+  → tienen que ser idempotentes: clase 116
+tienen su propio plazo
+  → y hay dos plazos distintos: el de una ejecución y el del conjunto
+     de intentos
+</code></pre>
+<p>Y el latido para las largas: una actividad que tarda veinte minutos debe informar de que sigue viva, o el motor la dará por muerta y la reintentará —el mismo mecanismo, y el mismo error, que el tiempo de invisibilidad de la clase 113—.</p>
+<p>Y dos límites que hay que respetar por diseño:</p>
+<pre><code class="language-text">el historial crece con cada paso
+  → procesos con millones de iteraciones: reiniciar como instancia nueva
+los argumentos y resultados viajan y se graban
+  → no pasar objetos grandes: pasar referencias al almacenamiento
+</code></pre>
+<h3 id="3-desplegar-con-instancias-a-medias">3. Desplegar con instancias a medias</h3>
+<p>Este es el problema operativo específico de este modelo, y el que más disgustos da.</p>
+<pre><code class="language-text">hay 40.000 instancias en curso, algunas empezadas hace 3 semanas
+se despliega código nuevo
+una instancia vieja se reanuda y se reejecuta con el CÓDIGO NUEVO
+contra un historial creado por el CÓDIGO VIEJO
+→ si las decisiones no coinciden, la instancia se rompe
+</code></pre>
+<p>Qué cambios son seguros y cuáles no:</p>
+<pre><code class="language-text">SEGURO
+  cambiar el interior de una actividad
+  cambiar la política de reintentos
+  añadir pasos DESPUÉS del punto donde están todas las instancias vivas
+
+PELIGROSO
+  añadir, quitar o reordenar llamadas a actividades
+  cambiar una condición que decide qué actividad se llama
+  cambiar la duración de un temporizador ya programado
+  cambiar el nombre o la firma de una actividad
+</code></pre>
+<p>Las dos técnicas para hacerlo bien:</p>
+<pre><code class="language-text">1. RAMAS POR VERSIÓN EN EL CÓDIGO
+   version = obtener_version(&quot;anadir-verificacion&quot;, por_defecto=1, maxima=2)
+   if version &gt;= 2:
+       actividad(verificar_fraude, id)
+   → las instancias viejas siguen por la rama 1; las nuevas, por la 2
+   → y las ramas viejas se limpian cuando ya no queda ninguna instancia
+
+2. TIPO NUEVO Y VACIADO
+   se publica «pedido-v2» y las instancias nuevas van ahí
+   «pedido-v1» deja de recibir instancias y se apaga cuando se vacía
+   → más limpio y obliga a mantener dos durante el vaciado
+</code></pre>
+<p>La primera es cómoda y <strong>deja restos</strong>: sin limpieza, el código acumula ramas de versiones que ya no existen. Conviene medirlo:</p>
+<pre><code class="language-text">instancias vivas por versión de cada rama
+→ si una rama lleva meses sin instancias, se borra
+</code></pre>
+<p>Y la segunda es la que conviene cuando el cambio es grande, y encaja con lo que la clase 106 llamó contrato de versiones: <strong>dos vivas, y vaciado con plazo</strong>.</p>
+<p>Y una precaución que evita el peor caso: <strong>desplegar primero a un entorno con instancias reales de larga duración</strong> y comprobar que se reanudan. Un entorno vacío no detecta ninguno de estos errores, porque no hay historial contra el que divergir.</p>
+<p>Y qué hacer cuando una instancia ya se rompió:</p>
+<pre><code class="language-text">reiniciarla desde un punto anterior del historial
+terminarla y crear una nueva con el estado que se pueda recuperar
+y en ambos casos: la lista de las rotas tiene que ser visible
+</code></pre>
+<h3 id="4-operar-elegir-y-no-pasarse">4. Operar, elegir y no pasarse</h3>
+<p><strong>Lo que se gana en visibilidad</strong>, que es la respuesta a la pregunta que la clase 115 dejó abierta:</p>
+<pre><code class="language-text">¿en qué paso está el pedido 1421?          consulta directa
+¿cuánto lleva ahí?                          en el historial
+¿qué actividad falló y cuántas veces?       en el historial
+¿qué instancias llevan más de N horas?      consulta por estado y tiempo
+¿cuántas esperan una señal que no llega?    consulta
+</code></pre>
+<p>Y las alertas que hacen falta, que son las de siempre con otro nombre:</p>
+<pre><code class="language-text">instancias en curso por encima de su duración esperada
+instancias con actividades que agotaron reintentos
+instancias terminadas por error, por tipo
+antigüedad de la instancia más vieja de cada tipo
+cola de tareas del motor sin trabajadores que la atiendan   ← ley 13
+</code></pre>
+<p>La última es el modo de fallo silencioso característico: <strong>si no hay trabajadores atendiendo una cola de tareas, las instancias no fallan: se quedan quietas</strong>.</p>
+<p><strong>Los tres modelos</strong>, para elegir con criterio:</p>
+<pre><code class="language-text">MOTOR DURABLE CON CÓDIGO
+  + el proceso se lee como código; pruebas normales; lógica compleja
+  − hay que operar el motor y respetar el determinismo
+  encaja  procesos largos, con compensaciones y ramas
+
+MÁQUINA DE ESTADOS DECLARATIVA (del proveedor)
+  + gestionada, integrada con el resto de servicios, visual
+  − la lógica se escribe en un lenguaje de expresiones limitado
+  − probar en local es incómodo y las condiciones complejas se vuelven ilegibles
+  encaja  secuencias de pasos con poca lógica y mucha integración
+
+COLA CON ESTADO PROPIO
+  + nada que operar de más; todo el mundo lo entiende
+  − cada paso y cada compensación se implementan a mano
+  encaja  procesos de 2 o 3 pasos sin espera larga
+</code></pre>
+<p>Y el error de diseño más común una vez se tiene el motor: <strong>meterlo todo dentro</strong>.</p>
+<pre><code class="language-text">no es para           una petición síncrona de 80 ms
+                     un cálculo puro
+                     reemplazar toda cola de la clase 113
+es para              procesos de negocio con pasos, esperas y vuelta atrás
+</code></pre>
+<p>Y conviene recordar que <strong>el motor no elimina ninguna de las obligaciones anteriores</strong>: las actividades siguen necesitando idempotencia, los efectos externos siguen necesitando clave, y las compensaciones siguen sin ser vueltas atrás.</p>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ el proceso justifica un motor: dura, espera o compensa
+☐ la orquestación no usa reloj, azar, entrada/salida ni estado del proceso
+☐ ningún recorrido depende de un orden no garantizado
+☐ todas las actividades son idempotentes
+☐ las actividades largas envían latido
+☐ no viajan objetos grandes: van referencias
+☐ los procesos con muchas iteraciones reinician como instancia nueva
+☐ los cambios de código usan ramas por versión o tipo nuevo con vaciado
+☐ las ramas de versión sin instancias vivas se limpian
+☐ el despliegue se prueba contra instancias reales de larga duración
+☐ hay alerta por cola de tareas sin trabajadores
+☐ las instancias rotas o atascadas son visibles y tienen procedimiento
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: con esto está completo el material de la parte 09. La clase 120 monta el sistema de pedidos entero sobre lo construido y, sobre todo, <strong>califica la hipótesis escrita en la clase 108</strong>: cuántos de los ocho mecanismos de la parte 08 sobrevivieron al contacto con el estado, y si la ley dominante fue la que se predijo.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>workflows y orquestación durable</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-09-data-messaging-serverless-integration/119-workflows-y-orquestacion-durable/lab.py
+<p><strong>CloudShop lleva la secuencia de pedido de la clase 116 a un motor durable. Lo que se gana está claro desde la primera semana; lo interesante son los tres problemas propios del modelo, que ninguna clase anterior podía anticipar.</strong></p>
+<p><strong>Punto de partida: la máquina de estados propia.</strong></p>
+<pre><code class="language-text">estados en la tabla                                     14
+transiciones implementadas                              41
+consumidores que participaban                            6
+líneas de código de coordinación                     2.900
+lugares donde estaba escrito el proceso completo         0
+tiempo para añadir un paso nuevo                    3 semanas
+instancias atascadas detectadas por clientes         31 / mes
+</code></pre>
+<p>La quinta línea es la que dolía: <strong>el proceso no estaba escrito en ningún sitio</strong>; había que reconstruirlo leyendo seis consumidores.</p>
+<p>Con el motor:</p>
+<p>```text                                    máquina propia    motor durable
+líneas de coordinación                      2.900              310
+sitios donde se lee el proceso completo         0                1
+tiempo para añadir un paso                 3 semanas          2 días
+temporizadores implementados a mano             4                0
+reintentos implementados a mano                11                0
+instancias atascadas detectadas por clientes  31 / mes           0
+                                                         (las detecta la alerta)</p>
+<pre><code>
+**Problema 1: el error de determinismo que solo aparecía tras un reinicio.**
+
+```text
+síntoma    tras cada despliegue, entre 20 y 60 instancias se rompían
+           con «divergencia de historial»
+frecuencia intermitente; no se reproducía en pruebas
+semanas hasta encontrarlo                                     3
+</code></pre>
+<p>La causa era una línea inocente en la orquestación:</p>
+<pre><code class="language-python">for sku, cantidad in lineas.items():        # orden no garantizado
+    actividad(reservar, sku, cantidad)
+</code></pre>
+<p>Al reejecutar, el diccionario se recorría en otro orden y las actividades no coincidían con el historial.</p>
+<p>```text                                          antes         después
+recorrido                            diccionario     lista ordenada por sku
+instancias rotas por despliegue            20-60            0</p>
+<pre><code>
+Y se añadió lo que lo habría detectado antes: **una comprobación automática que reejecuta historiales reales contra el código nuevo** en la canalización.
+
+```text
+historiales guardados para la prueba                       500
+divergencias detectadas antes de desplegar, en 6 meses       7
+de ellas, que habrían roto instancias en producción          7
+</code></pre>
+<p><strong>Problema 2: el despliegue que rompió 8.400 instancias.</strong></p>
+<pre><code class="language-text">cambio     añadir un paso de verificación de fraude entre reservar y cobrar
+desplegado sin ramas por versión
+instancias vivas en ese momento                        11.200
+instancias que ya habían pasado por «reservar»          8.400
+→ al reejecutarse, esperaban «cobrar» y encontraron «verificar»
+instancias rotas                                        8.400
+tiempo de recuperación                                  6 h 20
+cómo se recuperaron       reinicio desde un punto anterior del historial
+pedidos afectados que hubo que revisar a mano              212
+</code></pre>
+<p>La corrección y su efecto en los cambios siguientes:</p>
+<p>```text                                          antes         después
+técnica de cambio                          desplegar       ramas por versión
+prueba con instancias de larga duración        no             sí
+instancias rotas por despliegue en 6 meses    8.400            0
+ramas de versión acumuladas                     —              9
+ramas limpiadas al vaciarse                     —              6</p>
+<pre><code>
+La penúltima fila es el resto que deja la técnica: **nueve ramas de compatibilidad en el código**, de las que seis ya se pudieron borrar por no quedar instancias.
+
+**Problema 3: el proceso de treinta días y el historial que crecía.**
+
+El seguimiento de la ventana de devolución se implementó como un bucle que comprobaba cada hora:
+
+```text
+iteraciones en 30 días                                    720
+eventos de historial por instancia                      ~2.900
+tamaño del historial                                     1,4 MB
+instancias vivas simultáneas                            94.000
+almacenamiento del motor                                  131 GB
+tiempo de reejecución de una instancia vieja               11 s
+</code></pre>
+<p>Once segundos para reanudar una instancia. La corrección fue doble:</p>
+<pre><code class="language-text">un temporizador durable de 30 días en vez de 720 comprobaciones
+y reinicio como instancia nueva para los procesos de suscripción,
+  que sí son indefinidos
+</code></pre>
+<p>```text                                    bucle horario    temporizador
+eventos de historial por instancia          ~2.900             9
+tamaño del historial                        1,4 MB           4 KB
+almacenamiento del motor                    131 GB          0,4 GB
+tiempo de reanudación                        11 s          40 ms</p>
+<pre><code>
+**El fallo silencioso que costó cuatro horas.**
+
+```text
+02:10  se despliega un cambio en la configuración de los trabajadores
+02:10  los trabajadores de la cola «pedidos-actividades» no arrancan
+02:10  las instancias NO fallan: se quedan esperando
+06:20  un cliente pregunta por un pedido de las 02:15
+instancias detenidas                                     4.180
+alertas que se dispararon                                    0
+</code></pre>
+<p>Es la ley 13 en su undécima aparición en este programa, ahora en el motor: <strong>una cola de tareas sin trabajadores no produce ningún error</strong>.</p>
+<p>```text                                          antes         después
+alerta por cola sin trabajadores                no             sí
+alerta por antigüedad de la instancia más vieja no             sí
+tiempo de detección de un caso igual         4 h 10          2 min</p>
+<pre><code>
+**La visibilidad, medida contra la clase 115.**
+
+```text                                    coreografía      motor durable
+responder «¿dónde está el pedido 1421?»      40 s            2 s
+equipos a consultar                            0              0
+saber por qué lleva 3 h parado          reconstruir traza   en el historial
+saber cuántos hay parados ahora          no era posible      consulta
+reanudar uno concreto                    no era posible      un comando
+</code></pre>
+<p><strong>A los ocho meses.</strong></p>
+<p>```text                                          antes         después
+líneas de coordinación                        2.900           310
+tiempo para añadir un paso                  3 semanas       2 días
+instancias atascadas detectadas por clientes  31 / mes          0
+instancias rotas por despliegue            8.400 (una vez)     0
+divergencias detectadas antes de desplegar       —          7 / 6 meses
+almacenamiento del motor                      131 GB        0,4 GB
+tiempo de reanudación de una instancia          11 s         40 ms
+detección de trabajadores caídos              4 h 10         2 min
+compensaciones automáticas correctas            —          1.397 de 1.412</p>
+<pre><code>
+**La lección que esta clase traslada a la parte 09**: el motor eliminó dos mil seiscientas líneas de coordinación y respondió por construcción la pregunta que la coreografía no podía responder. Y a cambio impuso **una restricción que no existe en ninguna otra parte de este programa**: el código de la orquestación no puede consultar la hora, ni sortear, ni recorrer un diccionario. Los dos incidentes caros —tres semanas de diagnóstico y ocho mil cuatrocientas instancias rotas— fueron las dos formas de saltarse esa restricción sin darse cuenta.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-09-data-messaging-serverless-integration/119-workflows-y-orquestacion-durable/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>orchestration</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -191,29 +473,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Algunas instancias se rompen tras cada despliegue y no se reproduce en pruebas</td>
+<td>La orquestación no es determinista: recorridos sin orden, reloj o azar dentro del código</td>
+<td>Saca todo lo no determinista a actividades, ordena los recorridos y reejecuta historiales reales contra el código nuevo en la canalización.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Un cambio de código rompe miles de instancias en curso</td>
+<td>Se añadió o reordenó una llamada a actividad sin proteger a las instancias vivas</td>
+<td>Usa ramas por versión o publica un tipo nuevo y vacía el antiguo; prueba contra instancias reales de larga duración.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>El almacenamiento del motor crece y reanudar tarda segundos</td>
+<td>El historial acumula miles de eventos por instancia, normalmente por bucles de comprobación</td>
+<td>Sustituye los bucles por temporizadores durables y reinicia como instancia nueva los procesos indefinidos.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Las instancias dejan de avanzar sin que nada falle</td>
+<td>Ley 13: una cola de tareas sin trabajadores no produce error</td>
+<td>Alerta por cola sin trabajadores y por antigüedad de la instancia más vieja de cada tipo.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Una actividad larga se ejecuta dos veces</td>
+<td>El motor la dio por muerta al no recibir señal de vida, igual que el tiempo de invisibilidad de la clase 113</td>
+<td>Envía latido desde las actividades largas y hazlas idempotentes.</td>
+</tr>
+<tr>
+<td>El motor acaba conteniendo procesos que no lo necesitan</td>
+<td>Se usa para todo una vez está disponible</td>
+<td>Resérvalo para procesos con esperas, compensaciones o duración larga; lo de dos pasos sigue estando bien en una cola.</td>
 </tr>
 </tbody>
 </table>
@@ -224,17 +511,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué mecanismo permite que una instancia sobreviva a la muerte del proceso?</li>
+<li>¿Por qué la orquestación debe ser determinista y qué está prohibido dentro de ella?</li>
+<li>¿Qué cambios de código son seguros con instancias en curso y cuáles no?</li>
+<li>¿Qué dos técnicas permiten desplegar sin romper instancias vivas y qué resto deja cada una?</li>
+<li>¿Cuándo basta una cola con estado propio en vez de un motor durable?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Designing Data-Intensive Applications — Martin Kleppmann.</li>
-<li>Enterprise Integration Patterns — Hohpe y Woolf.</li>
-<li>Building Event-Driven Microservices — Adam Bellemare.</li>
+<li>Temporal (2025). <em>Workflow determinism and versioning</em> — reejecución, restricciones y ramas por versión. <a href="https://docs.temporal.io/workflows">https://docs.temporal.io/workflows</a></li>
+<li>Azure (2025). <em>Durable Functions: orchestrator code constraints</em> — qué no se puede hacer en el código de orquestación. <a href="https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-code-constraints">https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-code-constraints</a></li>
+<li>AWS (2025). <em>Step Functions: standard and express workflows</em> — máquina de estados declarativa y sus límites. <a href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-standard-vs-express.html">https://docs.aws.amazon.com/step-functions/latest/dg/concepts-standard-vs-express.html</a></li>
+<li>Google Cloud (2025). <em>Workflows: syntax and error handling</em> — pasos, reintentos y compensación declarativa. <a href="https://cloud.google.com/workflows/docs/reference/syntax">https://cloud.google.com/workflows/docs/reference/syntax</a></li>
+<li>Richardson, C. (2025). <em>Orchestration-based saga</em> — cuándo centralizar la secuencia y sus compensaciones. <a href="https://microservices.io/patterns/data/saga.html">https://microservices.io/patterns/data/saga.html</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -302,7 +591,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-que-no-cabe-en-ningun-sitio-de-los-anteriores">1. Qué no cabe en ningún sitio de los anteriores</a><a class="toc-level-3" href="#2-como-funciona-y-que-prohibe">2. Cómo funciona, y qué prohíbe</a><a class="toc-level-3" href="#3-desplegar-con-instancias-a-medias">3. Desplegar con instancias a medias</a><a class="toc-level-3" href="#4-operar-elegir-y-no-pasarse">4. Operar, elegir y no pasarse</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
