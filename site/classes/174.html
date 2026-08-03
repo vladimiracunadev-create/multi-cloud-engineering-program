@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> experto-frontera · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>security</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>arquitectura de seguridad cloud empresarial</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Organizar la seguridad cuando deja de ser un conjunto de controles y pasa a ser una arquitectura con decisiones propias, unas cuantas de ellas irreversibles. La clase ordena las capacidades como hizo la 171 con la plataforma, desarrolla lo que la parte 11 no cubrió —<strong>la función de detección y respuesta</strong>, con su propio problema de ruido— y trata el incidente de seguridad como lo que es: <strong>distinto de uno de disponibilidad</strong>, porque hay que preservar evidencia, hay obligaciones que cumplir y <strong>quien está dentro puede estar leyendo el canal donde se coordina la respuesta</strong>.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> arquitectura de seguridad cloud empresarial con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>security-reference-architecture</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Ordenar</strong> la seguridad como capacidades con nivel, y distinguir huecos de equipo de huecos de plataforma.</li>
+<li><strong>Montar</strong> la detección sin repetir el problema de ruido de la parte 11.</li>
+<li><strong>Gestionar</strong> un incidente de seguridad con sus diferencias respecto de uno de disponibilidad.</li>
+<li><strong>Fijar</strong> las decisiones de arquitectura de seguridad que no se pueden deshacer.</li>
+<li><strong>Medir</strong> la seguridad por alcance y por tiempos, no por recuento de hallazgos.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,20 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>arquitectura</code></td>
-<td>Define su papel en <strong>arquitectura de seguridad cloud empresarial</strong> y cómo observarlo en un sistema real.</td>
+<td><code>mapa de capacidades de seguridad</code></td>
+<td>Identidad, secretos, red, protección del dato, cadena de suministro, postura, detección y respuesta, con su nivel por servicio.</td>
 </tr>
 <tr>
-<td><code>seguridad</code></td>
-<td>Define su papel en <strong>arquitectura de seguridad cloud empresarial</strong> y cómo observarlo en un sistema real.</td>
+<td><code>detección</code></td>
+<td>Función que observa señales y decide qué merece respuesta. Su fallo característico es el mismo de la parte 10: demasiadas alertas.</td>
 </tr>
 <tr>
-<td><code>cloud</code></td>
-<td>Define su papel en <strong>arquitectura de seguridad cloud empresarial</strong> y cómo observarlo en un sistema real.</td>
+<td><code>contención frente a erradicación</code></td>
+<td>Cortar el daño ahora frente a expulsar al atacante del todo. Actuar pronto puede avisarle; esperar cuesta datos.</td>
 </tr>
 <tr>
-<td><code>empresarial</code></td>
-<td>Define su papel en <strong>arquitectura de seguridad cloud empresarial</strong> y cómo observarlo en un sistema real.</td>
+<td><code>canal fuera de banda</code></td>
+<td>Medio de coordinación independiente de los sistemas posiblemente comprometidos. Sin él, la respuesta se coordina delante del atacante.</td>
+</tr>
+<tr>
+<td><code>preservación de evidencia</code></td>
+<td>Conservar el estado antes de tocarlo. Reiniciar destruye lo que permite entender el alcance.</td>
+</tr>
+<tr>
+<td><code>decisión irreversible de seguridad</code></td>
+<td>Dónde vive la identidad, dónde están las fronteras y cómo se cifra. Cambiarlas después es un proyecto.</td>
 </tr>
 </tbody>
 </table>
@@ -89,72 +94,443 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Arquitectura de seguridad cloud empresarial&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    M[&quot;capacidades&quot;] --&gt; M1[&quot;identidad · 159&quot;]
+    M --&gt; M2[&quot;secretos · 137&quot;]
+    M --&gt; M3[&quot;red y salida · 135&quot;]
+    M --&gt; M4[&quot;protección del dato · 136, 141&quot;]
+    M --&gt; M5[&quot;cadena de suministro · 138&quot;]
+    M --&gt; M6[&quot;postura · 139&quot;]
+    M --&gt; M7[&quot;DETECCIÓN&quot;]
+    M --&gt; M8[&quot;RESPUESTA&quot;]
+    M7 --&gt; S[&quot;señales: auditoría, identidad,\nsalida, postura, vulnerabilidades&quot;]
+    S --&gt; F{&quot;embudo, como en 138&quot;}
+    F --&gt;|&quot;sin embudo&quot;| N[&quot;miles de alertas · ley 15&quot;]
+    F --&gt;|&quot;con embudo&quot;| A[&quot;pocas y accionables · 125&quot;]
+    M8 --&gt; I{&quot;incidente de seguridad&quot;}
+    I --&gt; I1[&quot;preservar evidencia\nANTES de tocar&quot;]
+    I --&gt; I2[&quot;canal fuera de banda&quot;]
+    I --&gt; I3[&quot;contener o erradicar&quot;]
+    I --&gt; I4[&quot;obligaciones de aviso · 141&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-capacidades-y-donde-estan-los-huecos">1. Capacidades, y dónde están los huecos</h3>
+<p>A escala, la seguridad se gobierna igual que la plataforma: <strong>como capacidades con nivel</strong>, no como una lista de herramientas.</p>
+<pre><code class="language-text">capacidad                        de dónde viene        nivel típico
+identidad de personas y cargas   clases 133, 159
+secretos y credenciales          clase 137
+red, segmentación y salida       clase 135
+protección del dato              clases 136, 141
+cadena de suministro             clases 067, 138
+postura y política               clases 139, 170
+DETECCIÓN                        esta clase
+RESPUESTA                        esta clase y la 127
+</code></pre>
+<p>Y el mismo hallazgo que la clase 173:</p>
+<pre><code class="language-text">un hueco en pocos servicios      → acompañamiento a esos equipos
+un hueco en la mayoría           → falta una capacidad de plataforma
+                                   clase 171
+</code></pre>
+<p>Y las dos últimas son las que la parte 11 no desarrolló, porque a pequeña escala se resuelven con la operación normal y a esta ya no.</p>
+<p><strong>Las decisiones de arquitectura</strong>, que conviene tomar una vez y bien, porque son irreversibles —ley 14—:</p>
+<pre><code class="language-text">DÓNDE VIVE LA IDENTIDAD
+  un proveedor de identidad, y quién confía en él        clase 159
+  → cambiarlo después toca a todo lo que autentica
+
+DÓNDE ESTÁN LAS FRONTERAS DE CONFIANZA
+  cuentas, entornos, redes, inquilinos                   clases 140, 169
+  → mover una frontera es mover lo que contiene
+
+EL MODELO DE CIFRADO
+  qué se cifra, con qué claves, quién puede usarlas y quién
+  administrarlas                                         clase 136
+  → y el ámbito de las claves: global, por región, por cliente
+
+EL MODELO DE REGISTRO Y EVIDENCIA
+  qué se registra, dónde se guarda, quién no puede tocarlo
+  y cuánto se conserva                                   clase 141
+  → si se decide tarde, faltará justo lo que haría falta
+    para investigar el primer incidente
+
+EL MODELO DE SEGMENTACIÓN
+  denegación por defecto, control de salida y sus excepciones
+                                                         clase 135
+</code></pre>
+<p>Y las cinco tienen la misma propiedad: <strong>decidirlas mal cuesta un proyecto; no decidirlas cuesta más</strong>, porque cada equipo improvisa la suya.</p>
+<p>Y el reparto entre lo central y lo de cada equipo:</p>
+<pre><code class="language-text">CENTRAL     las cinco decisiones anteriores
+            las capacidades comunes
+            la detección y la respuesta
+            y las políticas del nivel 1                  clase 170
+
+DE CADA EQUIPO
+            la seguridad de su propio código y su modelo de amenazas
+                                                         clase 140
+            los permisos concretos de sus cargas
+            y las respuestas a los hallazgos de sus servicios
+</code></pre>
+<h3 id="2-deteccion-sin-ahogarse">2. Detección sin ahogarse</h3>
+<p>La función de detección observa señales y decide qué merece una respuesta. Y su fallo característico es exactamente el de la parte 10:</p>
+<pre><code class="language-text">se conectan todas las fuentes disponibles
+se activan todas las reglas del catálogo
+→ miles de alertas al día
+→ y a los tres meses nadie las mira                      ley 15
+</code></pre>
+<p>Las señales que de verdad producen detecciones, ordenadas por rendimiento:</p>
+<pre><code class="language-text">IDENTIDAD
+  accesos desde sitios o a horas inusuales
+  uso de credenciales que llevaban meses sin usarse
+  concesiones de permisos amplios                        clase 134
+  y uso del acceso de emergencia
+  → es la fuente con mejor relación entre señal y ruido
+
+SALIDA DE DATOS
+  destinos nuevos, volumen anómalo por carga             clase 135
+  → detecta extracción de datos, que es el objetivo final
+
+AUDITORÍA DE LA NUBE
+  cambios en políticas, en registro, en claves y en copias
+  → lo que un atacante toca para asentarse                clase 141
+
+POSTURA
+  cambios de configuración que abren algo                 clase 139
+
+CADENA DE SUMINISTRO
+  paquetes nuevos, cambios de origen                      clase 138
+
+Y EL SISTEMA MISMO
+  errores de autenticación, patrones en la puerta de entrada
+                                                          clase 118
+</code></pre>
+<p>Y el embudo, que es el mismo método de la clase 138:</p>
+<pre><code class="language-text">¿es plausible en NUESTRO entorno?
+¿afecta a algo expuesto o crítico?
+¿tiene una acción concreta asociada?
+¿tiene dueño al que enviarla?                             clase 139
+→ y lo que no supere las cuatro no es una alerta: es un registro
+</code></pre>
+<p>Y las dos reglas que este programa lleva aplicando y que aquí valen igual:</p>
+<pre><code class="language-text">alertar por lo que exige actuar, no por lo que es interesante
+                                                          clase 125
+y medir la proporción accionable, no el número de reglas
+</code></pre>
+<p>Y una advertencia sobre las líneas base: <strong>lo anómalo solo se puede detectar si se sabe qué es normal</strong>, y eso exige un periodo de observación y revisión periódica. Un sistema de detección estrenado el mismo día que la carga produce ruido durante semanas.</p>
+<p>Y la comprobación que la ley 22 exige:</p>
+<pre><code class="language-text">simular la acción que se quiere detectar y comprobar que salta
+  crear una identidad con permisos amplios
+  sacar datos a un destino nuevo
+  desactivar un registro
+→ trimestral, y en TODAS las cuentas                       clase 164
+</code></pre>
+<h3 id="3-el-incidente-de-seguridad-es-distinto">3. El incidente de seguridad es distinto</h3>
+<p>Comparte el proceso de la clase 127 —declarar, papeles, un cambio cada vez, comunicación— y <strong>tiene cuatro diferencias que cambian las decisiones</strong>:</p>
+<pre><code class="language-text">1. HAY QUE PRESERVAR EVIDENCIA ANTES DE TOCAR
+   reiniciar destruye la memoria; borrar destruye el rastro
+   → capturar primero: memoria, discos, registros, estado de red
+   → y anotar quién tomó qué y cuándo
+
+2. QUIEN ESTÁ DENTRO PUEDE ESTAR LEYENDO
+   el canal de incidentes, el correo, el repositorio, el sistema
+   de tareas
+   → hace falta un canal FUERA DE BANDA acordado de antemano
+   → y no se discute el alcance en el canal habitual hasta saber
+     que no está comprometido
+
+3. CONTENER PRONTO PUEDE AVISARLE
+   si se corta su acceso, sabe que se le ha visto y puede acelerar
+   o borrar rastros
+   → y esperar cuesta datos
+   → la decisión es de negocio y de riesgo, no técnica, y se toma
+     con quien pueda tomarla
+
+4. HAY OBLIGACIONES CON PLAZO
+   avisos a autoridades y a clientes, con plazos legales
+                                                          clase 141
+   → y el reloj empieza cuando se conoce, no cuando se termina
+     de investigar
+</code></pre>
+<p>Y la segunda merece énfasis porque casi nadie la prevé:</p>
+<pre><code class="language-text">el canal fuera de banda
+  acordado ANTES, con instrucciones de cómo llegar a él
+  independiente del proveedor de identidad corporativo
+  y con la lista de quién debe estar
+→ y probado, porque si se estrena durante el incidente,
+  no funcionará                                            ley 22
+</code></pre>
+<p>Y los papeles, que amplían los de la clase 127:</p>
+<pre><code class="language-text">mando del incidente                       igual que en la 127
+responsable técnico de la investigación
+responsable de comunicación interna y externa
+responsable legal y de cumplimiento        ← nuevo
+responsable de evidencia                   ← nuevo
+</code></pre>
+<p>Y el orden de trabajo, que conviene tener escrito:</p>
+<pre><code class="language-text">1. confirmar que es un incidente de seguridad
+2. abrir canal fuera de banda
+3. preservar evidencia
+4. acotar el alcance: ¿qué credenciales, qué datos, desde cuándo?
+5. decidir contención, con quien deba decidirlo
+6. contener: rotar, revocar, aislar                       clases 133, 137
+7. erradicar y recuperar
+8. cumplir las obligaciones de aviso
+9. revisar, con la disciplina de la clase 127
+</code></pre>
+<p>Y el paso 4 es el que decide todo lo demás, y el que exige haber preparado el registro de auditoría:</p>
+<pre><code class="language-text">¿qué pudo hacer con esa credencial?                       clase 133
+¿qué hizo, según el registro?
+¿pudo obtener otra?
+→ y si el registro no cubre el periodo, esa pregunta no tiene respuesta
+</code></pre>
+<h3 id="4-prioridad-medida-y-ejercicios">4. Prioridad, medida y ejercicios</h3>
+<p><strong>La priorización</strong> de lo que se atiende, con honestidad:</p>
+<pre><code class="language-text">mal   por lo que aparece en las noticias
+      → produce trabajo urgente sobre amenazas que no aplican
+
+bien  por lo que se explota de verdad Y aplica a este entorno
+      catálogos de explotación observada                   clase 138
+      técnicas conocidas de movimiento lateral             clase 133
+      y las cadenas del propio modelo de amenazas          clase 140
+</code></pre>
+<p>Y el filtro que más reduce:</p>
+<pre><code class="language-text">¿esta técnica es posible en NUESTRO entorno?
+  → muchas no lo son porque una decisión de arquitectura las impide
+  → y saberlo evita trabajo, y también evita creerse a salvo
+    de las que sí lo son
+</code></pre>
+<p><strong>Las medidas</strong>, que a escala hay que elegir con cuidado porque la ley 17 acecha:</p>
+<pre><code class="language-text">mal   número de vulnerabilidades, número de alertas,
+      número de políticas, número de certificaciones
+      → suben o bajan sin que el riesgo cambie
+
+bien  ALCANCE desde cada punto de entrada                  clase 133
+      accesos permanentes a lo sensible                    clase 134
+      credenciales de larga duración que quedan            clase 137
+      antigüedad del hallazgo más viejo que supera el embudo  clase 138
+      caminos hasta objetivos críticos                     clase 140
+      tiempo hasta detectar y hasta contener
+      proporción de alertas accionables                    clase 125
+      cobertura del mapa de capacidades
+      y ejercicios ejecutados                              ley 22
+</code></pre>
+<p>Y las dos de tiempo son las que mejor resumen la función de detección y respuesta:</p>
+<pre><code class="language-text">tiempo hasta detectar     de la acción del atacante al aviso
+tiempo hasta contener     del aviso a cortar su acceso
+→ y las dos se miden en los ejercicios, porque en incidentes reales
+  hay muy pocos datos
+</code></pre>
+<p><strong>Los ejercicios</strong>, que son la aplicación de la ley 22 a esta materia:</p>
+<pre><code class="language-text">DE MESA
+  se plantea un escenario y el equipo dice qué haría
+  barato, y encuentra huecos de proceso y de responsabilidad
+
+TÉCNICO CONTROLADO
+  se ejecuta una técnica concreta en un entorno acotado
+  y se comprueba si se detecta y en cuánto
+
+DE EQUIPO CONTRARIO
+  alguien intenta alcanzar un objetivo declarado, con reglas
+  y con alguien que sabe que ocurre
+  → el más caro y el que más enseña
+  → y su valor está en el informe conjunto, no en si «ganó» alguien
+</code></pre>
+<p>Y lo que hay que exigir a cualquiera de los tres:</p>
+<pre><code class="language-text">objetivo declarado, reglas escritas y alguien que puede pararlo
+y un informe que produzca acciones con dueño y fecha      clase 127
+</code></pre>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ las cinco decisiones de arquitectura están tomadas y escritas
+☐ hay mapa de capacidades con nivel por servicio
+☐ los huecos comunes se resuelven con capacidad de plataforma
+☐ las alertas de seguridad pasan por un embudo y tienen dueño
+☐ se mide la proporción accionable, no el número de reglas
+☐ hay línea base antes de alertar por lo anómalo
+☐ se simula trimestralmente lo que se quiere detectar
+☐ existe canal fuera de banda acordado y probado
+☐ hay procedimiento de preservación de evidencia
+☐ los papeles incluyen evidencia y cumplimiento
+☐ la decisión de contener frente a observar la toma quien debe
+☐ el registro de auditoría cubre el periodo necesario para investigar
+☐ se prioriza por explotación real y por aplicabilidad
+☐ se miden alcance y tiempos, no recuentos
+☐ hay ejercicios de los tres tipos, con acciones
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: todo lo anterior vale para cualquier carga. Las de inteligencia artificial añaden exigencias propias —volúmenes de datos, hardware escaso y caro, y preguntas sobre de dónde salen los datos— y son la materia de la clase 175.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>arquitectura de seguridad cloud empresarial</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>CloudShop monta la función de detección y respuesta con sesenta equipos. El ejercicio empieza con doce mil alertas al mes y termina con un incidente real en el que lo primero que hizo el equipo fue abrir un canal que no había usado nunca.</strong></p>
+<p><strong>El punto de partida de la detección.</strong></p>
+<pre><code class="language-text">fuentes conectadas                                            14
+reglas activas                                               780
+alertas al mes                                            12.400
+alertas atendidas                                            310
+alertas que produjeron una acción                             19
+proporción accionable                                       0,15 %
+personas dedicadas                                             2
+</code></pre>
+<p><strong>Diecinueve acciones de doce mil cuatrocientas alertas.</strong> Es la ley 15, y con dos personas la única salida era ignorar el 97,5 %.</p>
+<p><strong>El embudo, aplicado.</strong></p>
+<pre><code class="language-text">alertas al mes                                            12.400
+plausibles en este entorno                                 2.100
+  → 10.300 eran de técnicas imposibles aquí: sistemas que no
+    usamos, protocolos desactivados, servicios inexistentes
+sobre algo expuesto o crítico                                640
+con acción concreta asociada                                 210
+con dueño identificable                                      190
+</code></pre>
+<p>Y las reglas correspondientes:</p>
+<p>```text                                          antes         después
+reglas activas                                 780            240
+fuentes conectadas                              14              9
+  → 5 no habían producido ninguna detección útil en 12 meses
+alertas al mes                              12.400            190
+proporción accionable                        0,15 %            41 %
+acciones al mes                                 19             78</p>
+<pre><code>
+Y las fuentes que quedaron, ordenadas por lo que aportaron:
+
+```text
+identidad                            51 % de las detecciones útiles
+salida de datos                      19 %
+auditoría de la nube                 14 %
+postura                               9 %
+cadena de suministro                  4 %
+otras                                 3 %
+</code></pre>
+<p><strong>La mitad de las detecciones útiles venían de identidad</strong>, que es también la fuente más barata de conectar.</p>
+<p><strong>Las líneas base, y las seis semanas de ruido.</strong></p>
+<pre><code class="language-text">al activar la detección de accesos anómalos
+  semana 1   410 alertas; todas normales
+             → nadie sabía qué era normal
+  semanas 2-6  periodo de observación, sin alertar
+  semana 7   se activó con la línea base aprendida
+             alertas semanales                                 6
+             de ellas, reales                                  2
+</code></pre>
+<p>Y una comprobación que se añadió tras eso:</p>
+<pre><code class="language-text">cuando se despliega un servicio nuevo, su detección entra en
+observación 4 semanas antes de alertar
+→ y mientras tanto, sus señales se registran pero no despiertan
+  a nadie
+</code></pre>
+<p><strong>La comprobación de que la detección detecta.</strong></p>
+<pre><code class="language-text">simulaciones trimestrales, ejecutadas en las 176 cuentas
+
+  crear una identidad con permisos amplios     detectada en  3 min
+  usar una credencial dormida 6 meses          detectada en  8 min
+  sacar 2 GB a un destino nuevo                detectada en 14 min
+  desactivar un registro de auditoría          NO DETECTADA  ← 1.ª vez
+  usar el acceso de emergencia                 detectada en  1 min
+  crear un almacén público                     detectada en  6 min
+</code></pre>
+<p>Y la que falló:</p>
+<pre><code class="language-text">desactivar el registro de auditoría estaba impedido por política
+en el nivel 1                                              clase 170
+pero en 6 cuentas heredadas la política no estaba activa   clase 169
+→ y en esas 6, la acción era posible y NO se detectaba
+→ corregido, y añadido a las pruebas negativas de todas las cuentas
+</code></pre>
+<p><strong>El incidente real.</strong></p>
+<pre><code class="language-text">14:02  alerta: una credencial de una carga se usa desde una dirección
+       nunca vista, fuera del horario de esa carga
+14:04  se confirma que es un incidente de seguridad
+14:05  se abre el canal fuera de banda
+       → primera vez que se usaba; dos personas no sabían cómo entrar
+       → 11 minutos de retraso
+14:16  preservación de evidencia: instantáneas de los discos,
+       volcado de memoria del proceso, exportación de registros
+14:31  acotación del alcance con el registro de auditoría
+       ¿qué podía hacer?      leer un almacén de documentos
+       ¿qué hizo?             listó y descargó 41 objetos
+       ¿pudo obtener otra credencial?   NO         ← clase 133
+14:48  decisión de contener, tomada por quien correspondía
+14:52  credencial revocada; identidad rotada
+15:10  origen encontrado: la credencial estaba en un registro de
+       una herramienta interna que la mostraba          clase 137
+16:30  aviso a los clientes cuyos documentos se habían descargado
+       → 3 clientes; dentro del plazo legal              clase 141
+
+tiempo hasta detectar                                      ~7 min
+tiempo hasta contener                                      50 min
+datos afectados                              41 documentos, 3 clientes
+credenciales adicionales obtenidas                              0
+</code></pre>
+<p>Y las tres cosas que funcionaron y las tres que no:</p>
+<pre><code class="language-text">FUNCIONÓ
+  la detección: 7 minutos desde el primer uso
+  la respuesta a «¿pudo obtener otra credencial?»: no,
+    gracias al trabajo de la clase 133
+  y el registro de auditoría cubría el periodo
+
+NO FUNCIONÓ
+  el canal fuera de banda: nunca se había usado           ley 22
+  la preservación de evidencia: no había procedimiento y
+    se improvisó; se perdió el estado de red
+  y la credencial estaba visible en una herramienta interna
+    que ya se había señalado en la clase 137 y no se había corregido
+    en ese componente
+</code></pre>
+<p>```text                                          antes         después
+canal fuera de banda probado                    no        trimestral
+personas que saben llegar a él                  4 de 11       11 de 11
+procedimiento de evidencia                      no             sí
+  con lista de qué capturar y en qué orden
+componentes que muestran credenciales            1              0</p>
+<pre><code>
+**Los ejercicios.**
+
+```text
+de mesa, trimestrales                                          4
+  hallazgos                                                   23
+  de ellos, de proceso o de responsabilidad                    19
+
+técnicos controlados, trimestrales                             4
+  técnicas probadas                                           18
+  detectadas                                                  14
+  no detectadas                                                4  → reglas nuevas
+
+de equipo contrario, anual                                     1
+  objetivo declarado   «llegar a los datos de un cliente
+                        desde una posición de empleado»
+  resultado            no lo consiguió; llegó hasta un almacén
+                       interno sin datos personales
+  hallazgos                                                   11
+  de ellos, corregidos en el trimestre                        10
+</code></pre>
+<p>Y el hallazgo del ejercicio anual que más valió:</p>
+<pre><code class="language-text">el equipo defensor tardó 2 h 40 en darse cuenta
+y la señal que lo delató no fue ninguna de las reglas:
+fue un aumento del volumen de salida de una carga        clase 135
+→ se convirtió en regla, con línea base por carga
+</code></pre>
+<p><strong>Las medidas, cambiadas.</strong></p>
+<p>```text                                          antes         después
+lo que se publicaba              nº de vulnerabilidades, nº de alertas
+lo que se publica ahora
+  alcance desde cada punto de entrada          2 de 6 puntos → 0
+  accesos permanentes a lo sensible                 19 → 0
+  credenciales de larga duración                    14 → 0
+  antigüedad del hallazgo más viejo del embudo   19 meses → 5 días
+  caminos hasta objetivos críticos                  14 → 2
+  tiempo hasta detectar (ejercicios)             no se medía → 9 min
+  tiempo hasta contener (ejercicios)             no se medía → 24 min
+  proporción de alertas accionables               0,15 % → 41 %
+  ejercicios ejecutados al año                      0 → 9</p>
+<pre><code>
+**A los doce meses.**
+
+```text                                          antes         después
+reglas de detección                            780            240
+alertas al mes                              12.400            190
+proporción accionable                        0,15 %           41 %
+acciones al mes                                 19             78
+fuentes conectadas                              14              9
+simulaciones de detección                     no había     trimestral
+técnicas no detectadas al simular                —          4 de 18 → 0
+canal fuera de banda probado                    no        trimestral
+procedimiento de evidencia                      no             sí
+ejercicios al año                                0              9
+cuentas donde la política del nivel 1 faltaba    6              0
+</code></pre>
+<p><strong>La lección que esta clase traslada a la parte 14</strong>: de doce mil cuatrocientas alertas al mes, <strong>diez mil trescientas eran de técnicas imposibles en este entorno</strong>, y el embudo que las eliminó multiplicó por cuatro las acciones reales con las mismas dos personas. Y en el incidente real la detección funcionó en siete minutos y lo que falló fue lo que nunca se había ejecutado: <strong>el canal fuera de banda tardó once minutos en abrirse porque dos de las once personas no sabían cómo entrar</strong>, que es la ley 22 en el peor momento posible.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-14-advanced-platform-capstones-career/174-arquitectura-de-seguridad-cloud-empresarial/lab.py
@@ -195,29 +571,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Miles de alertas de seguridad al mes y casi ninguna acción</td>
+<td>Se activaron todas las reglas del catálogo sin filtrar por lo que es posible en este entorno</td>
+<td>Embudo: plausible aquí, sobre algo expuesto, con acción concreta y con dueño; y mide la proporción accionable.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Una detección nueva produce ruido durante semanas</td>
+<td>No hay línea base: nadie sabe qué es normal</td>
+<td>Periodo de observación antes de alertar, también para cada servicio nuevo.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Se descubre que una técnica no se detectaba en algunas cuentas</td>
+<td>La política o la regla no estaban activas en todas</td>
+<td>Simula trimestralmente lo que quieres detectar, en todas las cuentas y clústeres.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Durante un incidente se coordina la respuesta donde el atacante puede leerla</td>
+<td>No hay canal fuera de banda, o nunca se ha usado</td>
+<td>Acuérdalo antes, con instrucciones y lista de participantes, y pruébalo cada trimestre.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Se reinicia el sistema y se pierde la posibilidad de saber el alcance</td>
+<td>No hay procedimiento de preservación de evidencia</td>
+<td>Captura memoria, discos, registros y estado de red antes de tocar nada, con registro de quién tomó qué.</td>
+</tr>
+<tr>
+<td>Se publica el número de vulnerabilidades como medida de seguridad</td>
+<td>Ley 17: sube y baja sin que el riesgo cambie</td>
+<td>Publica alcance por punto de entrada, accesos permanentes, caminos a objetivos críticos y tiempos hasta detectar y contener.</td>
 </tr>
 </tbody>
 </table>
@@ -228,17 +609,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Cuáles son las cinco decisiones de arquitectura de seguridad que no se pueden deshacer?</li>
+<li>¿Qué fuente de señales aporta más detecciones útiles y por qué?</li>
+<li>¿Cuáles son las cuatro diferencias de un incidente de seguridad respecto de uno de disponibilidad?</li>
+<li>¿Por qué contener pronto no siempre es la mejor decisión, y quién decide?</li>
+<li>¿Qué se mide en lugar del número de vulnerabilidades o de alertas?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Team Topologies — Skelton y Pais.</li>
-<li>Accelerate — Forsgren, Humble y Kim.</li>
-<li>Fundamentals of Software Architecture — Richards y Ford.</li>
+<li>NIST (2012). <em>SP 800-61: computer security incident handling guide</em> — fases, evidencia y comunicación. <a href="https://csrc.nist.gov/pubs/sp/800/61/r2/final">https://csrc.nist.gov/pubs/sp/800/61/r2/final</a></li>
+<li>MITRE (2025). <em>ATT&amp;CK and detection engineering</em> — priorizar por técnicas reales y aplicables. <a href="https://attack.mitre.org/">https://attack.mitre.org/</a></li>
+<li>Google (2025). <em>Autonomic security operations</em> — detección con embudo y medida de la proporción accionable. <a href="https://cloud.google.com/blog/products/identity-security">https://cloud.google.com/blog/products/identity-security</a></li>
+<li>SANS (2025). <em>Incident response and out-of-band communications</em> — canal fuera de banda y preservación de evidencia. <a href="https://www.sans.org/white-papers/">https://www.sans.org/white-papers/</a></li>
+<li>CISA (2025). <em>Cloud security technical reference architecture</em> — decisiones de arquitectura y capacidades. <a href="https://www.cisa.gov/resources-tools/resources/cloud-security-technical-reference-architecture">https://www.cisa.gov/resources-tools/resources/cloud-security-technical-reference-architecture</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -306,7 +689,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-capacidades-y-donde-estan-los-huecos">1. Capacidades, y dónde están los huecos</a><a class="toc-level-3" href="#2-deteccion-sin-ahogarse">2. Detección sin ahogarse</a><a class="toc-level-3" href="#3-el-incidente-de-seguridad-es-distinto">3. El incidente de seguridad es distinto</a><a class="toc-level-3" href="#4-prioridad-medida-y-ejercicios">4. Prioridad, medida y ejercicios</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
