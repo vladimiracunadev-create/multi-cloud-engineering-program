@@ -1,0 +1,118 @@
+{
+  "id": "186",
+  "purpose": "Entender por qué un sistema al 70 % de uso responde bien y al 85 % deja de responder, y poder predecirlo antes de que ocurra. La clase da la teoría de colas mínima que hace falta —ley de Little, la curva de espera frente a utilización y por qué la variabilidad la empeora—, explica la diferencia entre modelo cerrado y abierto en las pruebas de carga, y convierte todo eso en decisiones de capacidad, plazos y concurrencia que se pueden escribir en un diseño.",
+  "outcomes": [
+    "**Aplicar** la ley de Little para relacionar concurrencia, caudal y latencia.",
+    "**Explicar** por qué la latencia se dispara cerca de la saturación.",
+    "**Medir** el codo con una prueba de modelo abierto y datos realistas.",
+    "**Dimensionar** grupos de conexiones, hilos y plazos con criterio.",
+    "**Decidir** el margen de capacidad con una cifra y no con una costumbre."
+  ],
+  "concepts": [
+    {
+      "term": "ley de Little",
+      "definition": "L = λ × W. La concurrencia media es el caudal por el tiempo medio en el sistema. Se cumple siempre, sin supuestos."
+    },
+    {
+      "term": "utilización (ρ)",
+      "definition": "Fracción del tiempo que el recurso está ocupado. La espera crece como 1/(1-ρ)."
+    },
+    {
+      "term": "codo",
+      "definition": "Zona de utilización donde la latencia empieza a crecer sin control. Suele estar entre 0,6 y 0,8, no en 0,95."
+    },
+    {
+      "term": "variabilidad",
+      "definition": "Dispersión de llegadas y de servicio. Duplicar la variabilidad duplica la espera a la misma utilización."
+    },
+    {
+      "term": "modelo abierto",
+      "definition": "Prueba en la que las llegadas no dependen de las respuestas. Es la única que reproduce un pico real."
+    },
+    {
+      "term": "modelo cerrado",
+      "definition": "Prueba con N usuarios virtuales que esperan la respuesta. Se autolimita y oculta la saturación."
+    }
+  ],
+  "diagram": "flowchart TB\n    L[\"ley de Little\\nL = λ × W\"] --> L1[\"concurrencia = caudal × latencia\"]\n    L1 --> U[\"utilización ρ = λ / μ\"]\n    U --> C[\"espera ≈ ρ / (1-ρ)\"]\n    C --> C1[\"ρ = 0,5 → espera ×1\"]\n    C --> C2[\"ρ = 0,8 → espera ×4\"]\n    C --> C3[\"ρ = 0,9 → espera ×9\"]\n    C --> C4[\"ρ = 0,95 → espera ×19\"]\n    V[\"variabilidad\"] --> C\n    V --> V1[\"llegadas a ráfagas\\ny servicios desiguales\\nMULTIPLICAN la espera\"]\n    C --> M[\"medir el codo\\nMODELO ABIERTO\"]\n    M --> D[\"decisiones:\\nmargen, concurrencia,\\nplazos, cola\"]",
+  "foundations": [
+    {
+      "heading": "Ley de Little, que se cumple siempre",
+      "body": "La única fórmula de esta clase que no tiene supuestos:\n\n```text\nL = λ × W\n\n  L   elementos en el sistema (concurrencia media)\n  λ   caudal (llegadas por segundo, en régimen estable)\n  W   tiempo medio en el sistema (latencia)\n```\n\nY su utilidad práctica es que despeja incógnitas que nadie suele calcular:\n\n```text\n¿cuántas conexiones a la base necesito?\n  λ = 400 consultas/s, W = 25 ms\n  L = 400 × 0,025 = 10 conexiones en uso de media\n  → el grupo de 200 conexiones no hacía falta\n  → y era la causa de la saturación de la base\n\n¿cuántos hilos necesita el servicio?\n  λ = 1.200 pet/s, W = 80 ms\n  L = 96 peticiones simultáneas\n\n¿qué latencia implica mi límite de concurrencia?\n  L = 50 (límite del grupo), λ = 1.000/s\n  W = 50 / 1.000 = 50 ms\n  → si el trabajo real tarda 80 ms, el caudal máximo es 625/s\n    y por encima se forma cola, haga lo que haga el escalado\n```\n\nY la lectura que más decisiones cambia:\n\n```text\nsi la latencia sube y el caudal se mantiene, la concurrencia\nSUBE proporcionalmente\n→ y los grupos de conexiones, hilos y sockets se agotan\n→ por eso una dependencia lenta agota recursos aguas arriba\n  aunque no falle nada                                clase 185\n```\n\nY una aplicación al revés, útil para dimensionar colas:\n\n```text\nsi el consumidor procesa 200 msg/s y llegan 250/s\n  la cola crece 50/s, indefinidamente\n  → el retraso no se estabiliza; no es un pico, es un déficit\n  → y el tiempo de recuperación tras un pico de N mensajes\n    es N / (capacidad - llegada)                     clase 117\n```"
+    },
+    {
+      "heading": "Por qué la latencia se dispara",
+      "body": "La intuición dice que un sistema al 90 % de uso va «un poco peor» que al 45 %. La realidad es otra.\n\n```text\nutilización ρ = λ / μ    (llegadas / capacidad de servicio)\n\nespera en cola ≈ (ρ / (1 - ρ)) × tiempo de servicio\n\n  ρ = 0,50   espera ≈ 1,0 × servicio\n  ρ = 0,70   espera ≈ 2,3 ×\n  ρ = 0,80   espera ≈ 4,0 ×\n  ρ = 0,90   espera ≈ 9,0 ×\n  ρ = 0,95   espera ≈ 19,0 ×\n  ρ = 0,99   espera ≈ 99,0 ×\n```\n\nY la consecuencia operativa:\n\n```text\nde 0,50 a 0,70 de utilización, la latencia poco más que dobla\nde 0,90 a 0,95, se dobla otra vez\n→ el sistema no se degrada linealmente: cae por un acantilado\n→ y el panel de CPU al 85 % parece «margen» y no lo es\n```\n\n**La variabilidad**, que es lo que hace que el codo llegue antes de lo que dice la fórmula:\n\n```text\nla fórmula anterior supone llegadas y servicios «medios»\nen la realidad\n  las llegadas vienen a ráfagas (no son uniformes)\n  los tiempos de servicio son desiguales (una consulta pesada\n    entre mil ligeras)\n\ny la espera crece con la SUMA de las dos variabilidades\n  → duplicar la variabilidad duplica la espera a la misma\n    utilización\n```\n\nY de ahí salen tres decisiones de diseño concretas:\n\n```text\n1. SEPARAR TRABAJOS DESIGUALES\n   una cola para lo corto y otra para lo largo\n   → una petición de 2 s detrás de la cual esperan 200 de 20 ms\n     arruina el percentil de todas                  clase 152\n\n2. SUAVIZAR LAS LLEGADAS\n   limitación de ritmo y encolado deliberado\n   → una ráfaga admitida es una ráfaga que se paga en p99\n\n3. NO APUNTAR A UTILIZACIÓN ALTA\n   el objetivo razonable está en 0,6-0,7 para servicio\n   interactivo, no en 0,9\n   → 0,9 es para trabajo por lotes, donde la espera no importa\n```\n\nY el efecto que explica los incidentes más confusos:\n\n```text\nfallo en cascada por cola\n  el servicio se ralentiza → sube la concurrencia (Little)\n  → se agotan hilos o conexiones → suben los plazos vencidos\n  → los clientes reintentan → sube λ\n  → el sistema entra en una realimentación que no sale sola\n\n→ y por eso el remedio es RECHAZAR pronto, no esperar más\n```"
+    },
+    {
+      "heading": "Medir el codo: abierto frente a cerrado",
+      "body": "La prueba de carga habitual miente, y miente siempre en la misma dirección: hacia el optimismo.\n\n```text\nMODELO CERRADO\n  N usuarios virtuales; cada uno envía, ESPERA la respuesta,\n  y envía otra\n  → si el sistema se ralentiza, el generador envía menos\n  → la carga se autolimita\n  → nunca se ve la saturación\n  → sirve para simular usuarios con pensamiento, no picos\n\nMODELO ABIERTO\n  las llegadas ocurren a un ritmo dado, respondan o no\n  → si el sistema se ralentiza, la cola crece, como en la vida\n  → es el único que encuentra el codo\n```\n\nY la diferencia medida, que suele ser de varios múltiplos:\n\n```text\nen la clase 179, el codo medido con modelo abierto estaba en\n1.850 peticiones/s; la prueba cerrada anterior decía 6.000\n```\n\n**Cómo medir bien**, en seis puntos:\n\n```text\n1. modelo abierto, con ritmo creciente en escalones\n2. datos realistas: el catálogo entero, no 1.000 filas\n   → la clase 179 tuvo un incidente por probar con 1.000\n3. mezcla de operaciones realista, con su proporción\n4. con los cachés en estado realista (fríos y calientes)\n5. midiendo en el BORDE, no en el servidor          clase 126\n6. registrando percentiles, no medias\n```\n\nY qué buscar en el resultado:\n\n```text\nel punto donde el p99 empieza a crecer más rápido que el p50\n  → ese es el codo, y suele estar bastante por debajo del\n    punto donde suben los errores\n\nel caudal máximo sostenible\n  → no el pico instantáneo\n\nqué recurso se agota primero\n  → CPU, memoria, conexiones, hilos, ancho de banda, IOPS\n  → casi nunca es la CPU\n```\n\nY el error de interpretación más común:\n\n```text\n«aguantó 3.000/s»\n→ ¿con qué latencia? ¿durante cuánto tiempo? ¿con qué mezcla?\n→ un caudal sin latencia asociada no es un dato\n```"
+    },
+    {
+      "heading": "De la cola a las decisiones",
+      "body": "Todo lo anterior sirve si se traduce en números que van al diseño.\n\n**Margen de capacidad:**\n\n```text\nobjetivo de utilización en servicio interactivo   0,6 - 0,7\ny el margen debe cubrir\n  el tiempo que tarda el escalado en reaccionar     clase 129\n  la pérdida de una zona (si son 3, cada una al 66 % máximo)\n  el crecimiento hasta la próxima revisión\n\nregla práctica con 3 zonas\n  utilización máxima por zona = 0,66 × 0,7 ≈ 0,46\n  → parece bajo, y es lo que permite perder una zona sin\n    cruzar el codo\n```\n\n**Concurrencia y grupos:**\n\n```text\ntamaño del grupo de conexiones = L calculado con Little,\n  más un margen pequeño\n→ un grupo demasiado GRANDE no protege: traslada la\n  saturación a la base\n→ un grupo pequeño con cola corta y rechazo rápido protege\n\nlímite de concurrencia por servicio\n  → es la forma más simple de mamparo               clase 153\n```\n\n**Plazos, que son decisiones de cola:**\n\n```text\nun plazo largo mantiene ocupada la concurrencia\n  plazo de 30 s con W real de 200 ms = 150 veces el trabajo\n  → en saturación, los hilos se llenan de peticiones muertas\n\nregla   plazo ≈ p99 esperado × 3, no más\n        y con presupuesto de plazo que se propaga     clase 121\n        → si al llamado le quedan 40 ms, que no empiece\n```\n\n**Rechazo y degradación:**\n\n```text\nen saturación, rechazar rápido es mejor que encolar\n  → devuelve error o respuesta degradada en milisegundos\n  → mantiene la latencia de los que sí se atienden\n\ny la señal para rechazar no es la CPU: es la longitud de cola\ny el tiempo de espera en ella\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ está calculada la concurrencia con la ley de Little\n☐ los grupos de conexiones se dimensionaron con ese cálculo\n☐ el objetivo de utilización está entre 0,6 y 0,7, no en 0,9\n☐ el margen cubre la pérdida de una zona\n☐ el codo se midió con modelo abierto\n☐ la prueba usó volumen y mezcla realistas\n☐ se midió en el borde y por percentiles\n☐ se sabe qué recurso se agota primero\n☐ los trabajos largos y cortos no comparten cola\n☐ los plazos son múltiplos pequeños del p99 esperado\n☐ hay rechazo rápido, y su señal es la cola, no la CPU\n```\n\nY el cierre que enlaza con la clase siguiente: la teoría de colas describe un sistema que responde a tiempo. Qué significa que responda **lo correcto** cuando hay varias copias del dato, y qué hay que renunciar a cambio, es la materia de la clase 187."
+    }
+  ],
+  "worked_example": "**El servicio de búsqueda de la clase 184 se cae en cada campaña pese a tener CPU de sobra. Lo que sigue es el diagnóstico con la ley de Little, la medición del codo con modelo abierto —que dio la tercera parte de lo que decía la prueba anterior— y las cinco decisiones que salieron.**\n\n**El síntoma:**\n\n```text\nen campaña, a partir de ~1.900 búsquedas/s\n  p50 pasa de 60 ms a 90 ms          ← poco\n  p99 pasa de 180 ms a 4.200 ms      ← acantilado\n  CPU de las instancias                       48 %\n  memoria                                     51 %\n  errores                                     0,02 %\n\n«hay CPU de sobra, no entiendo qué pasa»\n```\n\n**Diagnóstico con la ley de Little.**\n\n```text\nen régimen normal\n  λ = 900 búsquedas/s\n  W = 60 ms\n  L = 900 × 0,060 = 54 peticiones simultáneas\n\nen campaña, antes del acantilado\n  λ = 1.850/s\n  W = 90 ms\n  L = 1.850 × 0,090 = 166 simultáneas\n\ny el límite real del servicio\n  grupo de conexiones al almacén         200\n  hilos de trabajo                       200\n  → a 166 ya se está al 83 % del grupo\n```\n\nY entonces la utilización del recurso que importa:\n\n```text\nel recurso saturado NO era la CPU: era el grupo de conexiones\n\nρ del grupo a 1.850/s                 0,83\nespera esperada ≈ 0,83/(1-0,83)       ×4,9 sobre el servicio\n→ y a 2.100/s, ρ = 0,94 → ×15,7\n\n→ eso explica el p99 de 4.200 ms con CPU al 48 %\n```\n\n**La variabilidad, que era la mitad del problema.**\n\n```text\nal separar las búsquedas por tipo\n  búsqueda por ciudad y fechas       92 % · 40 ms de media\n  búsqueda con filtros múltiples      7 % · 210 ms\n  búsqueda sin filtros («todo»)       1 % · 1.900 ms\n\nel 1 % de consultas largas ocupaba\n  1.850 × 0,01 × 1,9 = 35 conexiones de las 200\n  → el 17,5 % del grupo para el 1 % del tráfico\n\ny peor: bloqueaban la cola de las cortas\n```\n\n**La medición del codo, hecha dos veces.**\n\n```text\nPRUEBA ANTERIOR (modelo cerrado, 500 usuarios virtuales)\n  resultado   «aguanta 6.000/s»\n  por qué mentía\n    los usuarios virtuales esperaban la respuesta\n    al ralentizarse el sistema, enviaban menos\n    la carga real nunca superó 2.400/s efectivos\n    y la latencia media reportada era 200 ms, sin percentiles\n\nPRUEBA NUEVA (modelo abierto, escalones de 200/s cada 3 min)\n  datos       catálogo completo, 4,1 M de registros\n  mezcla      92/7/1 como en producción\n  caché       precalentado al 60 %, como en un pico real\n  medida      en el borde, p50/p95/p99\n\n  1.200/s     p50 58 ms   p99 165 ms    ρ grupo 0,42\n  1.600/s     p50 62 ms   p99 210 ms    ρ grupo 0,58\n  1.850/s     p50 90 ms   p99 480 ms    ρ grupo 0,83   ← codo\n  2.100/s     p50 140 ms  p99 4.200 ms  ρ grupo 0,94\n  2.400/s     p50 900 ms  p99 timeout   ρ grupo 1,00\n\n  codo real                    ~1.750/s\n  lo que decía la prueba vieja  6.000/s\n  factor de error               ×3,4\n```\n\n**Las cinco decisiones.**\n\n```text\n1  SEPARAR COLAS POR TIPO DE TRABAJO\n   grupo de 160 conexiones para búsquedas cortas\n   grupo de 24 para filtros múltiples\n   grupo de 6 para búsquedas sin filtros, con cola propia\n   efecto   el 1 % pesado deja de arruinar el p99 del 92 %\n   coste    0 €\n\n2  REDIMENSIONAR EL GRUPO CON LITTLE, NO A OJO\n   objetivo   ρ ≤ 0,65 a 2.500/s con W de 60 ms\n   L = 2.500 × 0,060 = 150\n   grupo = 150 / 0,65 ≈ 230\n   pero el almacén solo admite 250 conexiones en total\n   → decisión: 230 no cabe con 3 réplicas del servicio\n   → se añade una réplica de lectura y se reparte\n\n3  PLAZOS PROPORCIONALES\n   antes    plazo único de 30 s\n   después  cortas 400 ms, filtros 900 ms, sin filtros 5 s\n   razón    30 s con W de 60 ms ocupaba una conexión 500 veces\n            el trabajo útil durante la saturación\n   efecto   en el pico, las conexiones dejan de llenarse de\n            peticiones muertas\n\n4  RECHAZO RÁPIDO POR LONGITUD DE COLA\n   señal    espera en cola > 150 ms, no CPU\n   acción   responder con resultados cacheados o error 503\n            con reintento sugerido\n   efecto   el p99 de los atendidos se mantiene bajo 500 ms\n\n5  MARGEN DE CAPACIDAD CON CRITERIO\n   pico observado                     1.850/s\n   crecimiento previsto a 12 meses    +35 %  → 2.500/s\n   objetivo de utilización            0,65\n   pérdida de una zona de tres        capacidad × 0,66\n   capacidad necesaria = 2.500 / (0,65 × 0,66) ≈ 5.830/s\n   → 4 réplicas por zona en lugar de 3\n   coste                              +680 €/mes\n```\n\n**El resultado, en la campaña siguiente:**\n\n```text                                antes        después\npico atendido                     1.850/s      3.100/s\np50 en el pico                     90 ms        61 ms\np99 en el pico                  4.200 ms       290 ms\nCPU en el pico                      48 %         44 %\nρ del grupo de conexiones           0,94         0,61\npeticiones rechazadas               0 %          0,4 %  ← a propósito\nincidentes de búsqueda en campaña      3            0\n```\n\nY la línea que resume el diagnóstico:\n\n```text\nel sistema no tenía un problema de capacidad de cómputo\ntenía un problema de COLA, y el panel de CPU no podía verlo\n```\n\n**Lo que se descubrió por el camino y no se buscaba:**\n\n```text\nla búsqueda «sin filtros» la generaba un enlace de una campaña\nde marketing de 2022 que seguía activo en un correo antiguo\n→ 18 peticiones/s de un enlace que nadie mantenía    ley 20\n→ al retirarlo, el 1 % pesado bajó al 0,3 %\n```\n\n**La lección que esta clase deja**: el servicio se caía con la CPU al 48 % porque el recurso saturado era el grupo de conexiones, y la relación entre concurrencia, caudal y latencia **se podía calcular con una multiplicación** antes de tocar nada. Y la prueba de carga que decía «aguanta 6.000/s» no estaba mal ejecutada: **estaba midiendo otra cosa**, porque el modelo cerrado se autolimita y nunca llega al codo.",
+  "pitfalls": [
+    {
+      "symptom": "El sistema se cae con la CPU al 50 %",
+      "cause": "El recurso saturado es otro: conexiones, hilos, IOPS o ancho de banda",
+      "fix": "Calcula la concurrencia con la ley de Little y mide la utilización del recurso que realmente limita."
+    },
+    {
+      "symptom": "La latencia se dispara sin que suba mucho el tráfico",
+      "cause": "El sistema entró en la zona de utilización alta, donde la espera crece como 1/(1-ρ)",
+      "fix": "Fija el objetivo de utilización entre 0,6 y 0,7 y dimensiona el margen para perder una zona."
+    },
+    {
+      "symptom": "El p99 es pésimo aunque el p50 esté bien",
+      "cause": "Trabajos largos y cortos comparten la misma cola",
+      "fix": "Separa colas y grupos por tipo de trabajo, con límites propios."
+    },
+    {
+      "symptom": "La prueba de carga dice que aguanta el triple de lo que aguanta",
+      "cause": "Modelo cerrado: los usuarios virtuales esperan la respuesta y la carga se autolimita",
+      "fix": "Mide con modelo abierto, volumen y mezcla realistas, en el borde y por percentiles."
+    },
+    {
+      "symptom": "En saturación los hilos se llenan de peticiones que ya no interesan a nadie",
+      "cause": "Plazos muy largos comparados con el trabajo útil",
+      "fix": "Plazo del orden de tres veces el p99 esperado, con presupuesto de plazo propagado."
+    },
+    {
+      "symptom": "Un pico deja al sistema en un bucle del que no sale solo",
+      "cause": "Realimentación: cola, plazos vencidos y reintentos suben el caudal",
+      "fix": "Rechaza rápido usando la longitud de cola como señal, y limita los reintentos con retroceso."
+    }
+  ],
+  "checks": [
+    "¿Qué relaciona la ley de Little y para qué sirve al dimensionar un grupo de conexiones?",
+    "¿Por qué la espera crece de forma no lineal con la utilización?",
+    "¿Cómo afecta la variabilidad a la latencia a igual utilización?",
+    "¿Por qué una prueba de modelo cerrado no encuentra el codo?",
+    "¿Qué señal debe disparar el rechazo rápido y por qué no la CPU?"
+  ],
+  "references": [
+    {
+      "text": "Little, J. D. C. (1961). *A proof for the queuing formula L = λW*.",
+      "url": "https://pubsonline.informs.org/doi/10.1287/opre.9.3.383"
+    },
+    {
+      "text": "Gunther, N. (2007). *Guerrilla Capacity Planning* — utilización, escalabilidad y sus límites.",
+      "url": "https://link.springer.com/book/10.1007/978-3-540-31010-5"
+    },
+    {
+      "text": "Schroeder, B., Wierman, A. y Harchol-Balter, M. (2006). *Open versus closed: a cautionary tale*.",
+      "url": "https://www.usenix.org/legacy/event/nsdi06/tech/schroeder.html"
+    },
+    {
+      "text": "Harchol-Balter, M. (2013). *Performance Modeling and Design of Computer Systems* — colas y variabilidad.",
+      "url": "https://www.cambridge.org/core/books/performance-modeling-and-design-of-computer-systems/8E5B6F1D9E2E1E4B2A4C0B9B1B0E3E0D"
+    },
+    {
+      "text": "Google (2016). *SRE Book: addressing cascading failures* — realimentación, rechazo y plazos.",
+      "url": "https://sre.google/sre-book/addressing-cascading-failures/"
+    }
+  ]
+}
