@@ -1,0 +1,118 @@
+{
+  "id": "210",
+  "purpose": "Procesar trabajo fuera de la petición sin perder mensajes, sin duplicar efectos y sin quedarse con una cola de fallidos que nadie mira. La clase distingue el bus de eventos de la cola por lo que cada uno resuelve, fija los parámetros que de verdad importan —visibilidad, reintentos, lotes—, y desarrolla las dos cosas que este programa lleva señalando desde la parte 09: **la idempotencia no es opcional y la cola de fallidos sin alerta ni procedimiento de reproceso es una pérdida de datos en diferido**.",
+  "outcomes": [
+    "**Elegir** entre bus de eventos, cola y flujo según lo que haga falta.",
+    "**Configurar** visibilidad, reintentos y lotes de forma coherente.",
+    "**Implementar** idempotencia con clave y escritura condicionada.",
+    "**Operar** la cola de fallidos con alerta, diagnóstico y reproceso.",
+    "**Evitar** los tres fallos que arruinan estos sistemas."
+  ],
+  "concepts": [
+    {
+      "term": "bus de eventos",
+      "definition": "Encaminador que entrega un evento a varios destinos según reglas de contenido. Uno a muchos."
+    },
+    {
+      "term": "cola",
+      "definition": "Almacén de mensajes con un consumidor lógico, entrega al menos una vez y control de visibilidad."
+    },
+    {
+      "term": "tiempo de visibilidad",
+      "definition": "Plazo durante el que un mensaje tomado no se entrega a otro consumidor. Debe superar el tiempo de proceso."
+    },
+    {
+      "term": "cola de fallidos",
+      "definition": "Destino de los mensajes que agotaron sus reintentos. Sin alerta ni reproceso, es una papelera."
+    },
+    {
+      "term": "idempotencia",
+      "definition": "Que procesar el mismo mensaje dos veces produzca el mismo resultado que procesarlo una."
+    },
+    {
+      "term": "fallo parcial de lote",
+      "definition": "Informar de qué elementos del lote fallaron para que solo esos se reintenten."
+    }
+  ],
+  "diagram": "flowchart TB\n    P[\"productor\"] --> B[\"BUS DE EVENTOS\\nuno a muchos,\\nreglas por contenido\"]\n    B --> Q1[\"cola A\"]\n    B --> Q2[\"cola B\"]\n    B --> F1[\"función C\"]\n    Q1 --> C[\"consumidor\"]\n    C --> I{\"¿ya procesado\\nesta clave?\"}\n    I -->|sí| S[\"devolver el mismo\\nresultado, sin efecto\"]\n    I -->|no| E[\"procesar y registrar\\nla clave, condicionado\"]\n    C -->|\"falla N veces\"| D[\"COLA DE FALLIDOS\"]\n    D --> A1[\"ALERTA por número\\nY por ANTIGÜEDAD\"]\n    D --> A2[\"diagnóstico:\\n¿veneno o dependencia?\"]\n    D --> A3[\"REPROCESO probado\"]\n    V[\"visibilidad\"] --> V1[\"> tiempo de proceso\\nsi no, DUPLICADOS\"]",
+  "foundations": [
+    {
+      "heading": "Bus, cola y flujo: qué resuelve cada uno",
+      "body": "Los tres transportan mensajes y no son intercambiables.\n\n```text\nBUS DE EVENTOS (EventBridge)\n  encamina un evento a VARIOS destinos según reglas sobre\n  su contenido\n  + desacopla al productor de sus consumidores: añadir un\n    consumidor no toca al productor              clase 148\n  + reglas declarativas, archivo y reproducción\n  + integración con eventos del propio proveedor\n  − no garantiza orden\n  − sin control fino de reintentos por consumidor\n\nCOLA (SQS)\n  almacena mensajes para UN consumidor lógico\n  + control de visibilidad, reintentos y cola de fallidos\n  + amortigua picos: el consumidor va a su ritmo\n  + variante ordenada con agrupación por clave\n  − uno a uno; para varios consumidores hacen falta varias\n    colas\n\nFLUJO (Kinesis)\n  registro ordenado por partición, con varios lectores\n  independientes y reproducción por posición\n  + orden dentro de la partición y reproceso desde un punto\n  − capacidad por fragmento; el reparto se decide con la\n    clave                                        clase 116\n```\n\nY el patrón que combina bien y es el habitual:\n\n```text\nproductor → BUS → regla → COLA → función\n\npor qué la cola en medio y no la función directamente\n  amortigua picos: la función consume a su ritmo\n  da reintentos controlados y cola de fallidos\n  y protege a la base de la concurrencia         clase 207\n\n→ conectar el bus directamente a la función pierde las tres\n```\n\nY la decisión sobre el contenido del mensaje:\n\n```text\nHECHO CON DATOS   «pedido confirmado» + los datos\n  + el consumidor no necesita llamar de vuelta\n  − el mensaje envejece; hay que versionarlo   clase 188\n\nSOLO REFERENCIA   «pedido 4471 confirmado»\n  + mensaje pequeño y siempre válido\n  − cada consumidor llama al productor: N llamadas más\n  − y si el productor está caído, no se puede procesar\n\n→ en general, HECHO CON LOS DATOS que el consumidor\n  necesita, versionado y con esquema validado en el\n  productor                                     clase 188\n```"
+    },
+    {
+      "heading": "Los parámetros que importan",
+      "body": "Los valores por defecto de una cola producen duplicados y pérdidas. Estos son los que hay que decidir.\n\n```text\nTIEMPO DE VISIBILIDAD\n  cuánto tiempo un mensaje tomado queda invisible\n\n  REGLA   visibilidad > tiempo máximo de proceso\n          típicamente 6 veces el plazo de la función\n\n  si es MENOR que el proceso\n    el mensaje reaparece mientras aún se está procesando\n    → otro consumidor lo coge\n    → DOS ejecuciones del mismo mensaje\n    → y el síntoma es «duplicados aleatorios bajo carga»\n\nRECUENTO MÁXIMO DE RECEPCIONES\n  cuántas veces se reintenta antes de ir a la cola de\n  fallidos\n  demasiado bajo   un fallo transitorio pierde el mensaje\n  demasiado alto   un mensaje venenoso bloquea durante horas\n  típico   3 a 5\n\nTAMAÑO DE LOTE\n  cuántos mensajes recibe la función por invocación\n  lote grande   más eficiente, menos invocaciones\n  lote grande   y un fallo reintenta EL LOTE ENTERO\n  → salvo que se informe de fallo parcial\n\nFALLO PARCIAL DE LOTE\n  la función devuelve qué identificadores fallaron\n  → solo esos se reintentan\n  → SIN esto, un mensaje malo en un lote de 10 hace que\n    los 9 buenos se reprocesen una y otra vez\n  → y si no son idempotentes, se duplican nueve efectos\n\nRETENCIÓN\n  cuánto vive un mensaje en la cola: hasta 14 días\n  → y en la cola de fallidos conviene el máximo, para tener\n    tiempo de reprocesar\n\nESPERA LARGA\n  el consumidor espera si no hay mensajes\n  → menos peticiones vacías, menos coste y menos latencia\n  → debería estar siempre activada\n```\n\nY una relación que hay que respetar:\n\n```text\nvisibilidad ≥ plazo de la función × tamaño de lote\n→ porque la función procesa el lote entero dentro de un\n  solo tiempo de visibilidad\n```\n\nY el orden, cuando hace falta:\n\n```text\nla cola ordenada garantiza orden DENTRO de un grupo\n  → el grupo es la clave: cliente, pedido, cuenta\n  → y limita el caudal por grupo\n\ny la pregunta previa\n  ¿de verdad hace falta orden, o basta con que las\n  operaciones sean conmutativas?              clase 203\n  → «−1 unidad» no necesita orden; «stock = 4», sí\n```"
+    },
+    {
+      "heading": "Idempotencia, en concreto",
+      "body": "Con entrega al menos una vez, reintentos y lotes, **el mismo mensaje se procesará dos veces**. No es una posibilidad remota: ocurre.\n\n```text\nDE DÓNDE VIENEN LOS DUPLICADOS\n  visibilidad menor que el proceso\n  reintento tras un plazo vencido en el que el trabajo sí\n    se hizo\n  lote reintegrado entero por un solo elemento fallido\n  el productor que reintenta al no recibir confirmación\n  y el reproceso desde la cola de fallidos\n```\n\n**El mecanismo**, en tres piezas:\n\n```text\n1  CLAVE DE IDEMPOTENCIA\n   identificador del mensaje, o del suceso de negocio\n   → nunca generada por el consumidor\n   → y debe ser la misma en el reintento: si el productor\n     genera una nueva cada vez, no sirve de nada\n\n2  REGISTRO DE CLAVES PROCESADAS\n   tabla con la clave, el resultado y una caducidad\n   → la caducidad debe superar la retención de la cola\n\n3  ESCRITURA CONDICIONADA, antes del efecto\n   «inserta esta clave si no existe»\n   si falla la condición → ya se procesó: devolver el\n   resultado guardado\n   si tiene éxito → procesar\n```\n\nY el detalle que decide si funciona:\n\n```text\n¿QUÉ PASA SI EL PROCESO FALLA DESPUÉS DE REGISTRAR LA\nCLAVE?\n  el mensaje se reintenta, ve la clave y no hace nada\n  → el efecto NUNCA se produce\n\n→ por eso el registro se hace en tres estados\n    EN CURSO   con caducidad corta\n    HECHO      con el resultado\n    y si un reintento encuentra EN CURSO caducado, lo\n    reclama\n```\n\nY la alternativa que evita todo esto cuando se puede:\n\n```text\nOPERACIONES NATURALMENTE IDEMPOTENTES\n  «poner el estado a ENVIADO» lo es\n  «incrementar el contador» no lo es\n  «insertar con clave única del negocio» lo es\n\n→ modelar la operación como asignación en vez de como\n  incremento resuelve el problema sin infraestructura\n                                                clase 149\n```\n\nY la prueba que hay que ejecutar:\n\n```text\nenviar el mismo mensaje 50 veces en paralelo\n→ un solo efecto, 50 respuestas idénticas         ley 22\n```"
+    },
+    {
+      "heading": "La cola de fallidos, operada de verdad",
+      "body": "La cola de fallidos se configura y luego se olvida. Este programa la ha visto llena y sin mirar en la clase 120 y en la 132.\n\n```text\nLO QUE PASA SI NADIE LA MIRA\n  los mensajes caducan a los 14 días\n  → pérdida de datos silenciosa                    ley 13\n  → y cuando se descubre, ya no se pueden recuperar\n```\n\n**Lo que hace falta**, en cuatro piezas:\n\n```text\n1  ALERTA POR NÚMERO Y POR ANTIGÜEDAD\n   «hay mensajes» es la alerta obvia\n   «hay un mensaje de más de 1 hora» es la que sirve\n   → la antigüedad detecta el goteo que el número esconde\n\n2  DIAGNÓSTICO: ¿por qué está ahí?\n   VENENO       el mensaje es incorrecto y fallará siempre\n     → esquema inválido, campo que falta, dato imposible\n     → reprocesarlo no sirve; hay que corregir o descartar\n   DEPENDENCIA  el mensaje es correcto y algo estaba caído\n     → reprocesar funciona\n   CÓDIGO       un fallo de la función\n     → corregir y reprocesar\n\n   → y para distinguirlos hay que guardar el motivo del\n     fallo con el mensaje\n\n3  REPROCESO PROBADO\n   un procedimiento —no un comando improvisado— que\n     mueve mensajes de la cola de fallidos a la principal\n     con límite de ritmo, para no tumbar lo que se\n       recuperó\n     y con posibilidad de reprocesar uno solo\n   → y probado antes de necesitarlo                ley 22\n\n4  DESCARTE EXPLÍCITO\n   los mensajes veneno se descartan a propósito, con\n   registro de quién y por qué\n   → no se dejan caducar\n```\n\nY una advertencia sobre el reproceso masivo:\n\n```text\nreprocesar 40.000 mensajes de golpe\n  → dispara la concurrencia\n  → tumba la base                                clase 207\n  → y genera una segunda tanda de fallidos\n\n→ reproceso con límite de ritmo, y por lotes\n```\n\n**Los tres fallos que arruinan estos sistemas**, resumidos:\n\n```text\n1  visibilidad menor que el proceso  → duplicados\n2  sin idempotencia                  → duplicados con efecto\n3  cola de fallidos sin alerta ni    → pérdida silenciosa\n   reproceso\n```\n\n**Lo que hay que vigilar:**\n\n```text\nantigüedad del mensaje más viejo en la cola  ← la clave\nprofundidad de la cola y su tendencia\nmensajes en la cola de fallidos, y su antigüedad\ninvocaciones fallidas del consumidor\nrecepciones repetidas del mismo mensaje\n  → señal directa de visibilidad mal puesta\ny el retraso entre que ocurre el hecho y se procesa\n  → es la medida que le importa al negocio\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ el bus se usa para uno a muchos y la cola para amortiguar\n☐ hay cola entre el bus y la función, no conexión directa\n☐ los eventos son hechos con datos, versionados y validados\n☐ la visibilidad supera el proceso máximo por lote\n☐ el recuento de reintentos está decidido, no por defecto\n☐ el fallo parcial de lote está activado\n☐ la espera larga está activada\n☐ toda operación con efecto es idempotente\n☐ la clave de idempotencia la genera el productor\n☐ el registro de claves distingue en curso de hecho\n☐ hay alerta por antigüedad en la cola de fallidos\n☐ se guarda el motivo del fallo con el mensaje\n☐ el procedimiento de reproceso existe y se ha ejecutado\n☐ el reproceso tiene límite de ritmo\n☐ los mensajes veneno se descartan con registro\n```\n\nY el cierre que enlaza con la clase siguiente: con la API, el almacén, la seguridad y el proceso asíncrono en pie, falta saber qué está pasando cuando algo va mal. Observabilidad en AWS, definida como código, es la materia de la clase 211."
+    }
+  ],
+  "worked_example": "**CloudShop procesa la confirmación de pedidos de forma asíncrona. Lo que sigue son los duplicados que aparecieron bajo carga, la cola de fallidos con 41.000 mensajes que nadie miraba, y el reproceso que tumbó la base la primera vez.**\n\n**El montaje inicial:**\n\n```text\nfunción de crear pedido → bus de eventos\n  regla «pedido.confirmado» → función de correo\n  regla «pedido.confirmado» → función de inventario\n  regla «pedido.confirmado» → función de facturación\n\ntodo conectado directamente del bus a las funciones\nsin colas en medio\nsin idempotencia\ncola de fallidos configurada en las funciones asíncronas\n```\n\n**Problema 1 · Correos duplicados bajo carga.**\n\n```text\nsíntoma   en campaña, algunos clientes recibían 2 y hasta 3\n          correos de confirmación\n          en tráfico normal, nunca\n\ndiagnóstico\n  la invocación asíncrona desde el bus reintenta 2 veces\n  ante error\n  bajo carga, la función de correo superaba su plazo por\n  la latencia del proveedor de correo\n  → el envío SÍ se había hecho; el plazo venció al esperar\n    la respuesta\n  → el bus reintentaba, y se enviaba otra vez\n\n  correos duplicados en la campaña                   1.840\n  quejas recibidas                                      61\n\ncorrección\n  1  cola entre el bus y cada función\n     → amortigua, y da control de reintentos propio\n  2  idempotencia con el identificador del evento\n  3  el plazo de la función subido a 3 × el p99 del\n     proveedor, y el envío marcado como hecho ANTES de\n     esperar la confirmación final\n```\n\n**Problema 2 · Duplicados aleatorios en inventario.**\n\n```text\nsíntoma   tras añadir las colas, aparecieron descuentos de\n          stock duplicados, sin patrón claro\n\ndiagnóstico\n  tiempo de visibilidad de la cola          30 s (por defecto)\n  plazo de la función                       25 s\n  tamaño de lote                            10 mensajes\n  tiempo real de proceso del lote           hasta 90 s\n\n  → el lote tardaba más que la visibilidad\n  → los mensajes reaparecían mientras se procesaban\n  → otro consumidor los tomaba\n\n  la relación que se había incumplido\n    visibilidad ≥ plazo × tamaño de lote\n    30 s  <  25 s × 10\n\ncorrección\n  visibilidad                              300 s\n  tamaño de lote                            10\n  plazo de la función                       25 s\n  y fallo parcial de lote activado\n\n  y la señal que lo habría detectado antes\n    «recepciones repetidas del mismo mensaje»\n    → estaba disponible y nadie la miraba          ley 15\n```\n\nY el efecto del fallo parcial de lote:\n\n```text\nantes   1 mensaje malo en un lote de 10\n        → el lote entero se reintentaba\n        → 9 mensajes buenos reprocesados hasta 5 veces\n        → 45 efectos duplicados por cada mensaje malo\ndespués → solo el malo se reintenta\n```\n\n**Problema 3 · La cola de fallidos con 41.000 mensajes.**\n\n```text\nse descubrió al revisar el coste de almacenamiento de colas\n\n  mensajes en la cola de fallidos de facturación     41.200\n  el más antiguo                                  13 días\n  → 14 días es la retención: a la mañana siguiente\n    empezaban a caducar\n\n  alerta configurada   «número de mensajes > 0»\n  → sí existía\n  → salía a un canal creado en 2023, sin suscriptores\n                                          ley 15, clase 194\n\n  qué eran los 41.200\n    38.900  fallos de un periodo de 4 horas en que el\n            servicio de facturación estuvo caído\n            → mensajes CORRECTOS, reprocesables\n     2.180  mensajes con un campo nuevo que la función\n            antigua no entendía\n            → veneno por versión de esquema      clase 188\n       120  mensajes con importe negativo, de un error de\n            un integrador\n            → veneno real\n```\n\n**El reproceso, que salió mal la primera vez.**\n\n```text\nprimer intento\n  se movieron los 41.200 mensajes a la cola principal de\n  golpe\n\n  a los 40 segundos\n    la función de facturación escaló a 2.800 ejecuciones\n    la base de datos agotó conexiones           clase 207\n    → cayó facturación Y el resto de servicios que usan\n      esa base\n    → y 9.400 mensajes volvieron a la cola de fallidos\n\n  duración del incidente                          38 min\n\nsegundo intento, con procedimiento\n  concurrencia reservada de la función           40\n  reproceso por lotes de 500, con espera entre lotes\n  ritmo efectivo                            ~120 mensajes/s\n  duración                                        6 min\n  fallos                                             0\n\ny los venenos\n  2.180 de esquema  → la función se actualizó primero para\n                      tolerar el campo nuevo, y luego se\n                      reprocesaron\n    120 de importe  → descartados con registro de quién y\n                      por qué; y se avisó al integrador\n```\n\n**Lo que quedó montado.**\n\n```text\nARQUITECTURA\n  productor → bus → regla → COLA → función\n  una cola por consumidor, con su cola de fallidos\n\nPARÁMETROS, por consumidor\n  consumidor    visibilidad  lote  reintentos  plazo\n  correo           180 s      5        3        30 s\n  inventario       300 s     10        5        25 s\n  facturación      600 s     10        5        50 s\n  todos con espera larga y fallo parcial activados\n\nIDEMPOTENCIA\n  tabla de claves procesadas, con estados EN CURSO y HECHO\n  clave = identificador del evento, generado por el\n    productor\n  caducidad de la clave: 21 días (> 14 de retención)\n  escritura condicionada antes del efecto\n\n  prueba negativa\n    mismo mensaje 50 veces en paralelo → 1 efecto      ✓\n\nCOLA DE FALLIDOS\n  retención al máximo: 14 días\n  motivo del fallo guardado como atributo del mensaje\n  ALERTAS\n    «hay mensajes con más de 1 hora»    → canal de guardia\n    «el más antiguo supera 7 días»      → escalado\n    → la de antigüedad es la que sirve; la de número se\n      dispara con un solo mensaje transitorio\n  panel con desglose por motivo\n\n  PROCEDIMIENTO DE REPROCESO\n    escrito, con límite de ritmo y por lotes\n    con opción de reprocesar un mensaje concreto\n    ejecutado por alguien que no lo escribió       ley 22\n    → en el primer ensayo, 3 de 9 pasos necesitaron\n      aclaración\n    tiempo de reproceso de 10.000 mensajes         2 min\n```\n\n**El resultado, seis meses después:**\n\n```text                                        antes     después\ncorreos duplicados por campaña             1.840           0\ndescuentos de stock duplicados               340           0\nmensajes en cola de fallidos           41.200 (max)   máx. 92\nantigüedad máxima en cola de fallidos     13 días      41 min\nmensajes caducados y perdidos          casi 41.200         0\nreprocesos ejecutados                          1           7\n  que causaron incidente                       1           0\nmensajes descartados con registro               0         214\n```\n\n**La lección que esta clase deja**: los duplicados no eran aleatorios: eran **visibilidad menor que el proceso del lote**, una relación aritmética que se puede comprobar antes de desplegar. La cola de fallidos tenía cuarenta y un mil mensajes correctos **a un día de caducar**, con una alerta que existía y salía a un canal sin nadie. Y el reproceso, hecho sin procedimiento, **tumbó la base y generó nueve mil cuatrocientos fallidos nuevos**: la recuperación se convirtió en el segundo incidente.",
+  "pitfalls": [
+    {
+      "symptom": "Aparecen duplicados solo bajo carga",
+      "cause": "El tiempo de visibilidad es menor que el proceso del lote y el mensaje reaparece mientras se procesa",
+      "fix": "Fija visibilidad mayor que plazo por tamaño de lote y vigila las recepciones repetidas del mismo mensaje."
+    },
+    {
+      "symptom": "Un mensaje incorrecto provoca decenas de efectos duplicados",
+      "cause": "El lote entero se reintegra por un solo elemento fallido",
+      "fix": "Activa el informe de fallo parcial de lote para que solo se reintenten los elementos que fallaron."
+    },
+    {
+      "symptom": "Se pierden mensajes sin que nadie se entere",
+      "cause": "La cola de fallidos caduca a los 14 días y su alerta va a un canal sin nadie",
+      "fix": "Alerta por antigüedad además de por número, dirígela a un canal con guardia y comprueba que llega."
+    },
+    {
+      "symptom": "El reproceso masivo provoca un segundo incidente",
+      "cause": "Se devolvieron todos los mensajes de golpe y la concurrencia tumbó la base",
+      "fix": "Reprocesa por lotes con límite de ritmo y concurrencia reservada, siguiendo un procedimiento probado."
+    },
+    {
+      "symptom": "Reprocesar no arregla nada para parte de los mensajes",
+      "cause": "Son mensajes veneno: esquema inválido o datos imposibles",
+      "fix": "Guarda el motivo del fallo, distingue veneno de dependencia, corrige el consumidor antes de reprocesar y descarta lo irreparable con registro."
+    },
+    {
+      "symptom": "El efecto nunca llega a producirse pese a los reintentos",
+      "cause": "Se registró la clave de idempotencia y el proceso falló después",
+      "fix": "Registra en dos estados, en curso con caducidad y hecho con resultado, y permite reclamar los en curso caducados."
+    }
+  ],
+  "checks": [
+    "¿Qué resuelve el bus que no resuelve la cola, y por qué conviene poner una cola en medio?",
+    "¿Qué relación deben cumplir visibilidad, plazo y tamaño de lote?",
+    "¿Qué aporta informar del fallo parcial de un lote?",
+    "¿Por qué la alerta por antigüedad es mejor que la de número en la cola de fallidos?",
+    "¿Cómo se distingue un mensaje veneno de uno que falló por una dependencia caída?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2025). *Amazon SQS: visibility timeout and dead-letter queues*.",
+      "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html"
+    },
+    {
+      "text": "AWS (2025). *Lambda event source mapping: partial batch responses*.",
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html"
+    },
+    {
+      "text": "AWS (2025). *Amazon EventBridge: rules, archives and replay*.",
+      "url": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html"
+    },
+    {
+      "text": "AWS (2025). *Powertools for AWS Lambda: idempotency*.",
+      "url": "https://docs.powertools.aws.dev/lambda/python/latest/utilities/idempotency/"
+    },
+    {
+      "text": "Hohpe, G. y Woolf, B. (2003). *Enterprise Integration Patterns* — canal de mensajes inválidos y reintentos.",
+      "url": "https://www.enterpriseintegrationpatterns.com/"
+    }
+  ]
+}
