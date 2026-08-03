@@ -450,7 +450,7 @@ instancias detenidas                                     4.180
 alertas que se dispararon                                    0
 ```
 
-Es la ley 13 en su undécima aparición en este programa, ahora en el motor: **una cola de tareas sin trabajadores no produce ningún error**.
+Es la ley 13 otra vez, ahora en el motor: **una cola de tareas sin trabajadores no produce ningún error**.
 
 ```text                                          antes         después
 alerta por cola sin trabajadores                no             sí
