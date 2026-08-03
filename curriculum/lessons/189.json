@@ -1,0 +1,118 @@
+{
+  "id": "189",
+  "purpose": "Modelar amenazas de forma que produzca decisiones y no un documento, y traducir «confianza cero» de eslogan a arquitectura concreta. La clase da el método de modelado en cuatro preguntas, la clasificación que evita olvidar categorías enteras, y la parte que casi siempre falta: **decidir qué amenazas se aceptan sin mitigar, por escrito y con nombre**, porque un modelo que mitiga todo no se ha usado nunca.",
+  "outcomes": [
+    "**Modelar** amenazas con las cuatro preguntas y un diagrama de flujo de datos.",
+    "**Clasificar** amenazas por categoría para no olvidar familias enteras.",
+    "**Traducir** confianza cero en decisiones de identidad, red y datos.",
+    "**Priorizar** por alcance y no por probabilidad estimada a ojo.",
+    "**Aceptar** amenazas por escrito, con nombre, riesgo y fecha de revisión."
+  ],
+  "concepts": [
+    {
+      "term": "modelado de amenazas",
+      "definition": "Ejercicio estructurado para responder qué puede salir mal y qué se hace al respecto, antes de construir."
+    },
+    {
+      "term": "frontera de confianza",
+      "definition": "Línea que cruza un dato al pasar a un ámbito con distinto nivel de confianza. Es donde se validan cosas."
+    },
+    {
+      "term": "STRIDE",
+      "definition": "Clasificación de amenazas: suplantación, manipulación, repudio, revelación, denegación y elevación."
+    },
+    {
+      "term": "confianza cero",
+      "definition": "Ninguna petición se confía por su origen de red: se autentica, se autoriza y se registra siempre."
+    },
+    {
+      "term": "alcance",
+      "definition": "Lo que se puede tocar desde un punto comprometido. Es la medida que ordena la prioridad."
+    },
+    {
+      "term": "amenaza aceptada",
+      "definition": "La que se decide no mitigar, con motivo, quien la acepta y fecha de revisión."
+    }
+  ],
+  "diagram": "flowchart TB\n    Q1[\"1 · ¿en qué estamos\\ntrabajando?\"] --> D[\"diagrama de flujo de datos\\ncon FRONTERAS de confianza\"]\n    D --> Q2[\"2 · ¿qué puede salir mal?\"]\n    Q2 --> S[\"STRIDE por elemento\\ny por flujo\"]\n    S --> Q3[\"3 · ¿qué hacemos?\"]\n    Q3 --> M1[\"mitigar\"]\n    Q3 --> M2[\"trasladar\"]\n    Q3 --> M3[\"eliminar la función\"]\n    Q3 --> M4[\"ACEPTAR\\ncon nombre y fecha\"]\n    M1 --> Q4[\"4 · ¿lo hicimos bien?\"]\n    M4 --> Q4\n    Q4 --> V[\"prueba negativa\\npor cada mitigación\"]\n    P[\"prioridad\"] --> P1[\"por ALCANCE medido,\\nno por probabilidad\\nestimada a ojo\"]",
+  "foundations": [
+    {
+      "heading": "Las cuatro preguntas",
+      "body": "El modelado de amenazas se convierte en burocracia cuando se plantea como un formulario. Planteado como cuatro preguntas, cabe en una sesión de dos horas y produce decisiones.\n\n```text\n1. ¿EN QUÉ ESTAMOS TRABAJANDO?\n   un diagrama de flujo de datos, no de componentes\n   → qué datos, por dónde viajan, dónde se guardan, quién\n     los toca\n   → y sobre todo: DÓNDE ESTÁN LAS FRONTERAS DE CONFIANZA\n\n2. ¿QUÉ PUEDE SALIR MAL?\n   por elemento y por flujo, con una clasificación que evite\n   olvidar familias enteras\n\n3. ¿QUÉ VAMOS A HACER?\n   mitigar · trasladar · eliminar la función · ACEPTAR\n\n4. ¿LO HICIMOS BIEN?\n   una prueba negativa por cada mitigación         ley 22\n```\n\nY la pregunta 1 merece detalle porque de ella depende todo:\n\n```text\nLA FRONTERA DE CONFIANZA está donde cambia quién puede\nhacer qué\n\n  internet → borde                 la más evidente\n  borde → servicio interno\n  servicio → base de datos\n  cuenta de producción → cuenta de datos\n  código propio → biblioteca de terceros\n  persona → sistema (consola, acceso temporal)\n  canalización → producción      ← la más olvidada  clase 108\n  proveedor externo → nuestro sistema (webhook)  ← olvidada también\n```\n\nY el hallazgo de la clase 182 vuelve aquí:\n\n```text\nel webhook de la pasarela era un punto de ENTRADA externo\nno dibujado\n→ y por tanto no estaba en ningún modelo de amenazas\n→ lo que no está en el diagrama no se analiza\n```\n\nY una regla sobre cuándo hacerlo:\n\n```text\nal diseñar, no al terminar\n→ un modelo de amenazas después de construir produce una\n  lista de cosas caras de arreglar\n\ny se revisa cuando\n  aparece un punto de entrada nuevo\n  cambia quién puede escribir un dato\n  se integra un tercero\n  se cruza una frontera nueva de cuenta o de región\n```"
+    },
+    {
+      "heading": "Qué puede salir mal, sin olvidar categorías",
+      "body": "Preguntar «qué puede salir mal» sin estructura produce siempre las mismas tres respuestas. Una clasificación fuerza a recorrer todas las familias:\n\n```text\nS  SUPLANTACIÓN        alguien se hace pasar por otro\n   contramedida        autenticación fuerte, credenciales de\n                       corta vida, identidad de carga    clase 134\n\nT  MANIPULACIÓN        alguien altera datos o código\n   contramedida        integridad, firma, permisos de escritura,\n                       artefactos firmados               clase 106\n\nR  REPUDIO             alguien niega haber hecho algo\n   contramedida        registro de auditoría inalterable  clase 141\n\nI  REVELACIÓN          alguien ve lo que no debe\n   contramedida        cifrado, permisos, minimización de datos\n\nD  DENEGACIÓN          alguien impide el servicio\n   contramedida        límites, cuotas, aislamiento       clase 186\n\nE  ELEVACIÓN           alguien obtiene más permisos\n   contramedida        privilegio mínimo, separación de\n                       ámbitos, sin permisos comodín      clase 134\n```\n\nY el modo práctico de aplicarlo sin que dure una semana:\n\n```text\nrecorre los FLUJOS, no los componentes\npor cada flujo que cruza una frontera, pregunta las seis\ny apunta solo las que sean plausibles en ESTE sistema\n\n→ un flujo interno entre dos módulos del mismo despliegue\n  casi nunca merece las seis\n→ un flujo que cruza de internet, siempre\n```\n\nY las amenazas que este programa ha visto materializarse y que casi nunca aparecen en los modelos:\n\n```text\nla canalización como vector                          clase 108\n  un cambio en la definición del despliegue llega a producción\n  sin revisión\n\nla credencial de larga duración compartida           clase 179\n  cuatro servicios usando la misma clave de tres años\n\nel trabajo programado sin dueño                        ley 20\n  con permisos amplios y sin nadie que lo mire\n\nel acceso de emergencia                              clase 179\n  que existe, nadie prueba, y a veces no funciona\n\nel dato copiado a un entorno inferior\n  la copia de producción en preproducción, sin ofuscar\n\nel proveedor externo que llama de vuelta\n  webhooks sin verificación de firma\n```\n\nY una prioridad que ordena mejor que la probabilidad:\n\n```text\nno preguntes «¿qué probabilidad tiene?» — nadie lo sabe\npregunta «¿HASTA DÓNDE SE LLEGA desde aquí?»\n\n→ el alcance se mide, la probabilidad se inventa    clase 133\n→ y reducir alcance protege contra amenazas que no se\n  han imaginado\n```"
+    },
+    {
+      "heading": "Confianza cero, en concreto",
+      "body": "«Confianza cero» se vende como un producto y es una decisión de arquitectura. Su contenido real cabe en cinco reglas:\n\n```text\n1. LA RED NO AUTORIZA\n   estar dentro no da permiso\n   → toda petición se autentica y se autoriza, también las\n     internas\n   → la red sigue importando, pero como contención, no como\n     autorización                                    clase 135\n\n2. IDENTIDAD DE CARGA, NO CREDENCIAL GUARDADA\n   cada servicio tiene identidad propia, de corta vida\n   → sin claves estáticas compartidas               clase 159\n\n3. PERMISO MÍNIMO Y ESPECÍFICO\n   por recurso y por acción; sin comodines\n   → y revisado con permisos concedidos y no usados  clase 134\n\n4. CUANTO OCURRE SE REGISTRA Y ES ATRIBUIBLE\n   quién, qué, cuándo, desde dónde\n   → y el registro va a una cuenta donde el comprometido no\n     puede borrarlo                                  clase 141\n\n5. VERIFICACIÓN CONTINUA\n   el permiso no es permanente: caduca, se renueva y se revisa\n   → acceso temporal con aprobación y caducidad\n```\n\nY lo que confianza cero **no** es:\n\n```text\nno es «quitar la red privada»\n  → la segmentación sigue reduciendo alcance\nno es un producto que se compra\nno es aplicable de golpe a todo\n  → se aplica primero donde el alcance es mayor\n```\n\nY el orden práctico de adopción, por retorno:\n\n```text\n1. eliminar credenciales de larga duración\n2. identidad por carga y por consumidor            clase 188\n3. autorización en cada salto, no solo en el borde\n4. registro atribuible fuera del alcance del comprometido\n5. segmentación por alcance, empezando por los datos\n6. acceso humano temporal y aprobado\n```\n\nY la comprobación que dice si está de verdad implantado:\n\n```text\ntoma la credencial de un servicio cualquiera y pregunta\n  ¿a cuántos recursos llega?\n  ¿cuánto dura?\n  ¿queda registrado su uso en un sitio que ese servicio no\n    puede tocar?\n→ si la respuesta a la primera es «a casi todo», lo demás\n  da igual\n```"
+    },
+    {
+      "heading": "Lo que se acepta sin mitigar",
+      "body": "Un modelo de amenazas donde todo está mitigado no se ha usado: se ha escrito para pasar una revisión.\n\n```text\nLAS CUATRO RESPUESTAS POSIBLES\n  MITIGAR      añadir un control\n  TRASLADAR    contrato, seguro, proveedor\n  ELIMINAR     quitar la función que crea la amenaza\n               ← la más infravalorada\n  ACEPTAR      no hacer nada, a propósito\n```\n\nY «eliminar» merece atención porque resuelve más de lo que parece:\n\n```text\n¿hace falta guardar este dato?          → si no, no se guarda\n¿hace falta que este servicio escriba?  → si no, se le quita\n¿hace falta exponer este endpoint?      → si no, se retira\n→ el dato que no existe no se filtra                  ley 20\n```\n\n**La aceptación, escrita:**\n\n```text\nqué amenaza\nqué pasaría si se materializa, en términos de negocio\npor qué no se mitiga (coste, complejidad, no compensa)\nquién la acepta, con nombre y cargo\nen qué fecha se revisa\nqué señal la convertiría en prioritaria\n```\n\nY la última línea es la que hace útil la aceptación:\n\n```text\n«se acepta mientras el negocio de empresa sea < 15 % de los\n ingresos»\n→ convierte una decisión estática en una que se revisa sola\n```\n\n**Comprobar que las mitigaciones funcionan**, que es la pregunta 4 y la que más se salta:\n\n```text\npor cada mitigación, una prueba negativa\n  ¿se puede llegar a producción desde un entorno inferior?\n  ¿se puede sacar un dato a un destino no declarado?\n  ¿se puede desactivar el registro?\n  ¿se puede usar una credencial fuera de su ámbito?\n  ¿se detecta la técnica que decimos detectar?    clase 174\n\ny la evidencia del programa: en la clase 179, de 10 pruebas\nde seguridad, 3 fallaron; todas correspondían a controles\ndocumentados como implantados                        ley 22\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ hay diagrama de flujo de datos, no de componentes\n☐ las fronteras de confianza están dibujadas\n☐ están incluidas la canalización y los webhooks externos\n☐ cada flujo que cruza frontera se ha recorrido con las seis\n  categorías\n☐ la prioridad se fijó por alcance medido\n☐ cada amenaza tiene una de las cuatro respuestas\n☐ se consideró eliminar la función, no solo mitigar\n☐ las aceptadas tienen nombre, motivo, fecha y señal de revisión\n☐ cada mitigación tiene una prueba negativa\n☐ las pruebas se han ejecutado, no razonado\n☐ ninguna credencial de servicio llega «a casi todo»\n```\n\nY el cierre que enlaza con la clase siguiente: todas las decisiones de esta parte —fronteras, consistencia, contratos, amenazas aceptadas— necesitan quedar escritas de forma que se puedan revisar y hacer cumplir. Registrarlas y comprobarlas automáticamente es la materia de la clase 190."
+    }
+  ],
+  "worked_example": "**El equipo de reservas hace el modelo de amenazas antes de construir. Lo que sigue es la sesión de dos horas: el diagrama con fronteras, las diecinueve amenazas encontradas, las cinco que se aceptaron por escrito y las tres pruebas negativas que fallaron.**\n\n**El diagrama de flujo de datos, con fronteras:**\n\n```mermaid\nflowchart LR\n    U[\"usuario\"] -->|\"datos personales,\\ntarjeta\"| B{\"frontera 1\\ninternet → borde\"}\n    B --> API[\"API de reservas\"]\n    API --> F2{\"frontera 2\\nservicio → datos\"}\n    F2 --> DB[(\"reservas\\nPII + estado\")]\n    API --> F3{\"frontera 3\\nnosotros → pasarela\"}\n    F3 --> PAY[\"pasarela de pago\"]\n    PAY -->|\"webhook\"| F4{\"frontera 4\\ntercero → nosotros\"}\n    F4 --> API\n    PIPE[\"canalización\"] --> F5{\"frontera 5\\nCI → producción\"}\n    F5 --> API\n    ADMIN[\"persona de guardia\"] --> F6{\"frontera 6\\nhumano → sistema\"}\n    F6 --> DB\n    API --> F7{\"frontera 7\\nproducción → analítica\"}\n    F7 --> BQ[(\"almacén analítico\")]\n```\n\nY la observación de la sesión:\n\n```text\nlas fronteras 4, 5 y 7 no estaban en el diagrama de\narquitectura original\n→ y de las 19 amenazas encontradas, 8 estaban en esas tres\n```\n\n**Las diecinueve amenazas, por frontera y categoría.**\n\n```text\nFRONTERA 1 · internet → borde\n  S1  robo de sesión por testigo sin caducidad     MITIGAR\n  D1  saturación de búsqueda desde una IP          MITIGAR\n  I1  enumeración de reservas por identificador     MITIGAR\n      secuencial\n  T1  manipulación de precio en la petición         MITIGAR\n\nFRONTERA 2 · servicio → datos\n  E1  la credencial de la API permite leer TODAS    MITIGAR\n      las tablas, incluidas las de consentimientos\n  I2  copia de producción en preproducción sin      MITIGAR\n      ofuscar\n  R1  no se puede saber qué servicio hizo un        MITIGAR\n      cambio concreto\n\nFRONTERA 3 · nosotros → pasarela\n  I3  datos de tarjeta en nuestros registros        ELIMINAR\n  D2  la pasarela responde lento y agota hilos      MITIGAR\n\nFRONTERA 4 · pasarela → nosotros (webhook)   ← no estaba\n  S2  cualquiera puede llamar al webhook            MITIGAR\n      haciéndose pasar por la pasarela\n  T2  reproducción de un webhook antiguo            MITIGAR\n  D3  ausencia de webhooks sin detección            MITIGAR\n\nFRONTERA 5 · canalización → producción       ← no estaba\n  E2  quien modifica la definición del despliegue   MITIGAR\n      cambia producción sin revisión\n  T3  artefacto sustituido entre construcción y     MITIGAR\n      despliegue\n  S3  credencial de despliegue de larga duración    MITIGAR\n\nFRONTERA 6 · humano → sistema\n  E3  acceso permanente de guardia a la base        MITIGAR\n  R2  consulta directa sin registro atribuible      MITIGAR\n\nFRONTERA 7 · producción → analítica          ← no estaba\n  I4  el almacén analítico contiene PII completa    MITIGAR\n      y lo consultan 40 personas\n  I5  exportación a hoja de cálculo sin control      ACEPTAR\n```\n\n**La prioridad, por alcance medido:**\n\n```text\namenaza  alcance desde el punto comprometido\nE1       11 tablas, incluidas consentimientos y pagos   ← máximo\nE2       cualquier cambio en producción                 ← máximo\nI4       PII de 2,3 M de clientes                        ← máximo\nS3       despliegue en 4 servicios\nE3       lectura y escritura en toda la base\nS2       creación de reservas confirmadas falsas\n...\nD1       degradación de búsqueda                         ← bajo\n```\n\nY la decisión de orden que salió de ahí:\n\n```text\nse empieza por E1, E2 e I4, no por las más «probables»\nmotivo   el alcance se mide; la probabilidad se inventa\n```\n\n**Las mitigaciones más significativas:**\n\n```text\nE1  la API pasa a tener 3 identidades, una por módulo\n    reservas   → tablas de reservas e inventario\n    contacto   → esquema de contacto\n    consent.   → solo lectura, y escritura solo desde legal\n    alcance    de 11 tablas a 4                       clase 183\n\nE2  la definición del despliegue exige 2 revisiones y firma\n    la identidad de la canalización no puede modificar\n      políticas ni identidades\n    despliegue solo desde artefacto firmado          clase 106\n\nI4  el almacén analítico deja de recibir PII completa\n    identificador seudonimizado, sin nombre ni correo\n    la reidentificación exige una petición con aprobación\n    consultantes con acceso a PII    de 40 a 3\n\nI3  ELIMINAR: nunca se reciben datos de tarjeta\n    el formulario de pago es de la pasarela; nosotros\n    recibimos un testigo\n    → la amenaza desaparece, no se mitiga\n\nS2  verificación de firma del webhook + marca de tiempo\n    con ventana de 5 min\nT2  identificador de suceso único con registro de vistos\nD3  alerta de ausencia de webhooks                      ley 13\n```\n\n**Las cinco amenazas aceptadas, por escrito:**\n\n```text\nI5  exportación a hoja de cálculo desde el panel interno\n    si ocurre   un empleado se lleva datos agregados sin PII\n    por qué no  el control de exportación cuesta 3 semanas y\n                bloquea el trabajo de negocio\n    acepta      dirección de datos, María Alonso\n    revisa      en 6 meses\n    señal       si el panel llega a mostrar PII, deja de\n                aceptarse\n\nD1  saturación de búsqueda desde muchas IP distintas\n    mitigado parcialmente con límite por IP; el ataque\n    distribuido no\n    por qué no  el servicio de protección cuesta 900 €/mes;\n                la búsqueda degradada no impide reservar\n    acepta      dirección de tecnología\n    revisa      si hay un incidente real\n\nR3  los registros de la aplicación se conservan 90 días,\n    no 365\n    por qué no  coste de almacenamiento\n    acepta      dirección de tecnología\n    señal       si aparece requisito de auditoría, cambia\n\nS4  el socio C sigue usando una credencial de larga duración\n    por qué no  su plataforma no soporta rotación automática\n    acepta      dirección de alianzas, con nombre\n    revisa      trimestral; alcance limitado a 2 endpoints\n    señal       si su volumen supera el 10 % del tráfico\n\nT4  no se firma el contenido de los eventos internos\n    por qué no  viajan por un canal privado y el coste de\n                verificación en cada consumidor no compensa\n    acepta      arquitectura\n    señal       si un consumidor externo llega a leerlos\n```\n\nY la observación sobre esta lista:\n\n```text\ncinco amenazas aceptadas de diecinueve\n→ un modelo con cero aceptadas habría sido señal de que\n  nadie lo miró con intención de decidir\n```\n\n**Las pruebas negativas: 14 ejecutadas, 3 fallaron.**\n\n```text\n✓  llegar a producción desde preproducción            bloqueado\n✓  desplegar artefacto sin firmar                     rechazado\n✓  usar credencial de reservas sobre consentimientos  denegado\n✓  desactivar el registro de auditoría                rechazado\n✗  llamar al webhook sin firma válida\n   → la verificación estaba implementada y DESACTIVADA por\n     una variable de entorno puesta en pruebas y nunca\n     revertida\n✓  reproducir un webhook antiguo                      rechazado\n✓  enumerar reservas por identificador                identificadores\n                                                      opacos\n✗  sacar datos a un destino externo no declarado\n   → no había control de salida en la subred nueva  clase 135\n✓  acceso temporal caduca en 60 min                   sí\n✓  usar acceso de emergencia                          corregido\n                                                      desde 179\n✗  consultar la base como persona sin registro atribuible\n   → el acceso por el túnel administrativo no registraba\n     la identidad de la persona, solo la del túnel\n✓  simular exfiltración de PII → detectada            9 min\n✓  identidad de canalización modificando una política rechazado\n✓  copia de producción en preproducción               ofuscada\n```\n\nY lo que enseñaron los tres fallos:\n\n```text\nlos tres controles estaban DOCUMENTADOS como implantados\ndos de los tres estaban implementados y desactivados\ny el tercero se implantó en una subred y no en la nueva\n→ ninguno se habría detectado revisando la documentación\n                                                       ley 22\n```\n\n**La lección que esta clase deja**: de las diecinueve amenazas, **ocho estaban en las tres fronteras que no aparecían en el diagrama de arquitectura** —el webhook del proveedor, la canalización y el flujo hacia analítica—. La amenaza más grave se resolvió **eliminando la función**: al no recibir nunca datos de tarjeta, la categoría entera desapareció. Y de catorce pruebas, tres fallaron sobre controles que constaban como implantados.",
+  "pitfalls": [
+    {
+      "symptom": "El modelo de amenazas no encuentra nada relevante",
+      "cause": "Se dibujaron componentes en vez de flujos de datos y no se marcaron las fronteras de confianza",
+      "fix": "Haz un diagrama de flujo de datos, marca cada frontera e incluye canalización, webhooks de terceros y salidas hacia analítica."
+    },
+    {
+      "symptom": "Se priorizan amenazas poco importantes",
+      "cause": "Se ordenó por probabilidad estimada a ojo",
+      "fix": "Ordena por alcance medido desde cada punto comprometido; reducir alcance protege también de lo que no se imaginó."
+    },
+    {
+      "symptom": "El documento de amenazas no tiene ninguna aceptada",
+      "cause": "Se escribió para pasar una revisión, no para decidir",
+      "fix": "Acepta explícitamente lo que no compensa mitigar, con motivo, nombre, fecha y señal que lo reabra."
+    },
+    {
+      "symptom": "Un control documentado como implantado no funciona",
+      "cause": "Nunca se probó; a veces está implementado y desactivado por configuración",
+      "fix": "Una prueba negativa por mitigación, ejecutada en el entorno real y repetida periódicamente."
+    },
+    {
+      "symptom": "Confianza cero se quedó en comprar un producto",
+      "cause": "Se confundió el eslogan con las decisiones de identidad, permiso y registro",
+      "fix": "Aplica las cinco reglas por orden de retorno y comprueba a cuántos recursos llega la credencial de un servicio cualquiera."
+    },
+    {
+      "symptom": "Una categoría entera de riesgo no aparece en el análisis",
+      "cause": "Se preguntó «qué puede salir mal» sin clasificación",
+      "fix": "Recorre las seis categorías por cada flujo que cruce una frontera de confianza."
+    }
+  ],
+  "checks": [
+    "¿Cuáles son las cuatro preguntas del modelado de amenazas y cuál se salta más?",
+    "¿Qué fronteras de confianza suelen faltar en los diagramas?",
+    "¿Por qué se prioriza por alcance y no por probabilidad?",
+    "¿Qué cinco decisiones concretas contiene «confianza cero»?",
+    "¿Qué debe incluir una amenaza aceptada para ser útil?"
+  ],
+  "references": [
+    {
+      "text": "Shostack, A. (2014). *Threat Modeling: Designing for Security*.",
+      "url": "https://shostack.org/books/threat-modeling-book"
+    },
+    {
+      "text": "Threat Modeling Manifesto (2020) — las cuatro preguntas.",
+      "url": "https://www.threatmodelingmanifesto.org/"
+    },
+    {
+      "text": "NIST SP 800-207 (2020). *Zero Trust Architecture*.",
+      "url": "https://csrc.nist.gov/pubs/sp/800/207/final"
+    },
+    {
+      "text": "Microsoft (2025). *STRIDE threat model*.",
+      "url": "https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats"
+    },
+    {
+      "text": "Google (2024). *BeyondProd* — confianza cero aplicada a cargas y canalizaciones.",
+      "url": "https://cloud.google.com/docs/security/beyondprod"
+    }
+  ]
+}
