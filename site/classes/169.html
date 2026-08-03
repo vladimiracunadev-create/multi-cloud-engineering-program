@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> experto-frontera · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>governance</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>landing zones empresariales y vending de cuentas</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Llevar la base de la clase 144 a una escala donde ya no se puede crear una cuenta a mano. La clase convierte la creación en un servicio de autoservicio que entrega una cuenta completa en minutos, y sostiene la condición sin la cual nada de esto existe: <strong>que sea la única forma de crear una cuenta</strong>. Después trata los dos problemas que solo aparecen con muchos equipos: <strong>un control correcto para el 90 % bloquea al 10 % restante</strong>, y <strong>las cuentas creadas hace dos años no tienen la base de hoy</strong>, que no se arregla con un proyecto de migración sino con un bucle.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> landing zones empresariales y vending de cuentas con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>landing-zone-empresarial</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Convertir</strong> la creación de cuentas en un servicio de autoservicio.</li>
+<li><strong>Impedir</strong> que exista otra forma de crear una cuenta.</li>
+<li><strong>Diseñar</strong> la jerarquía sabiendo que reorganizarla después duele.</li>
+<li><strong>Gestionar</strong> las excepciones para que nadie tenga que rodear un control.</li>
+<li><strong>Mantener</strong> al día las cuentas antiguas sin migraciones puntuales.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,24 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>landing</code></td>
-<td>Define su papel en <strong>landing zones empresariales y vending de cuentas</strong> y cómo observarlo en un sistema real.</td>
+<td><code>servicio de creación</code></td>
+<td>Autoservicio que entrega una cuenta configurada: identidad, red, controles, registro, presupuesto, etiquetas y ficha en el catálogo.</td>
 </tr>
 <tr>
-<td><code>zones</code></td>
-<td>Define su papel en <strong>landing zones empresariales y vending de cuentas</strong> y cómo observarlo en un sistema real.</td>
+<td><code>vía única</code></td>
+<td>Propiedad de que no exista otra forma de crear una cuenta. Sin ella, la base no cubre lo que no pasó por ahí.</td>
 </tr>
 <tr>
-<td><code>empresariales</code></td>
-<td>Define su papel en <strong>landing zones empresariales y vending de cuentas</strong> y cómo observarlo en un sistema real.</td>
+<td><code>jerarquía</code></td>
+<td>Árbol de la organización donde se anclan los controles. Es una decisión de creación y reorganizarla mueve todo lo que cuelga.</td>
 </tr>
 <tr>
-<td><code>vending</code></td>
-<td>Define su papel en <strong>landing zones empresariales y vending de cuentas</strong> y cómo observarlo en un sistema real.</td>
+<td><code>excepción con caducidad</code></td>
+<td>Permiso explícito para saltarse un control, con motivo, responsable y fecha que revoca.</td>
 </tr>
 <tr>
-<td><code>cuentas</code></td>
-<td>Define su papel en <strong>landing zones empresariales y vending de cuentas</strong> y cómo observarlo en un sistema real.</td>
+<td><code>deriva de base</code></td>
+<td>Diferencia entre la configuración con la que se creó una cuenta y la vigente. Crece con el tiempo y con el número de cuentas.</td>
+</tr>
+<tr>
+<td><code>cierre de cuenta</code></td>
+<td>Proceso de retirar una cuenta que ya no hace falta. Sin él, el inventario solo crece.</td>
 </tr>
 </tbody>
 </table>
@@ -93,75 +94,389 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Landing zones empresariales y vending de cuentas&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    P[&quot;petición de cuenta&quot;] --&gt; V[&quot;SERVICIO DE CREACIÓN&quot;]
+    V --&gt; V1[&quot;identidad conectada · 159&quot;]
+    V --&gt; V2[&quot;rango de red del plan · 160&quot;]
+    V --&gt; V3[&quot;controles preventivos · 139&quot;]
+    V --&gt; V4[&quot;registro y auditoría enrutados&quot;]
+    V --&gt; V5[&quot;presupuesto y etiquetas · 142&quot;]
+    V --&gt; V6[&quot;ficha en el catálogo · 095&quot;]
+    V --&gt; V7[&quot;dueño y fecha de revisión&quot;]
+    X[&quot;crear cuenta por otra vía&quot;] -.-&gt;|&quot;prohibido por política&quot;| V
+    V --&gt; L[&quot;bucle que mantiene la base\nen TODAS las cuentas · 103&quot;]
+    L --&gt; D{&quot;¿cumple la base vigente?&quot;}
+    D --&gt;|&quot;no&quot;| R[&quot;se corrige sola&quot;]
+    E[&quot;control que bloquea\nal 10 %&quot;] --&gt; Q{&quot;¿hay vía de excepción?&quot;}
+    Q --&gt;|&quot;no&quot;| B[&quot;lo rodean · ley 16&quot;]
+    Q --&gt;|&quot;sí, con caducidad&quot;| OK[&quot;el control sobrevive&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-la-cuenta-como-unidad-y-su-servicio">1. La cuenta como unidad, y su servicio</h3>
+<p>A escala, la cuenta o proyecto deja de ser un contenedor y pasa a ser <strong>la unidad de aislamiento y de trabajo</strong>:</p>
+<pre><code class="language-text">es la frontera más fuerte que existe                    clase 133
+es donde se ancla el presupuesto                        clase 142
+es donde se aplican los controles preventivos           clase 139
+y es el radio de daño de casi cualquier error
+</code></pre>
+<p>Y con decenas de equipos, crearlas a mano deja de ser viable:</p>
+<pre><code class="language-text">60 equipos × 3 entornos                        180 cuentas
+cada una con identidad, red, controles, registro, presupuesto
+y etiquetas
+→ a mano, cada una es medio día y ninguna queda igual que otra
+</code></pre>
+<p>De ahí el servicio de creación, que debe entregar una cuenta <strong>completa</strong>:</p>
+<pre><code class="language-text">IDENTIDAD conectada al proveedor corporativo             clase 159
+  con los grupos del equipo ya asignados
+RANGO DE RED asignado del plan central                   clase 160
+  y sin posibilidad de elegirlo
+CONTROLES PREVENTIVOS de la organización                 clase 139
+  regiones, registro que no se desactiva, borrado de copias
+REGISTRO Y AUDITORÍA enrutados a la cuenta central       clase 141
+PRESUPUESTO con aviso por previsión                      clase 142
+ETIQUETAS obligatorias ya puestas
+FICHA EN EL CATÁLOGO con dueño y equipo                  clase 095
+Y FECHA DE REVISIÓN
+</code></pre>
+<p>Y la propiedad que decide si todo lo anterior sirve para algo:</p>
+<pre><code class="language-text">QUE SEA LA ÚNICA FORMA DE CREAR UNA CUENTA
+→ si alguien puede crear una desde la consola, esa cuenta no tiene
+  nada de lo anterior
+→ y será una de las nueve que la clase 139 encontró fuera de
+  todo inventario
+</code></pre>
+<p>Y se consigue con un control preventivo, no con una norma:</p>
+<pre><code class="language-text">solo la identidad del servicio de creación puede crear cuentas
+y esa identidad la usa el flujo, no una persona                clase 098
+</code></pre>
+<p>Y el tiempo de entrega, que decide la adopción según la clase 106:</p>
+<pre><code class="language-text">por debajo de 30 minutos     se usa
+varios días                  la gente pide favores y aparecen atajos
+</code></pre>
+<h3 id="2-la-jerarquia-que-se-decide-una-vez">2. La jerarquía, que se decide una vez</h3>
+<p>Los controles se anclan en un árbol, y <strong>la forma de ese árbol es una decisión de creación</strong> —ley 14—: reorganizarla mueve todo lo que cuelga, con sus políticas y sus permisos.</p>
+<p>Los criterios que compiten:</p>
+<pre><code class="language-text">POR ENTORNO        producción arriba, el resto abajo
+  + los controles duros se aplican a una rama entera
+  − los equipos quedan repartidos
+
+POR UNIDAD DE NEGOCIO
+  + el presupuesto y la responsabilidad coinciden con el árbol
+  − y las reorganizaciones de la empresa obligan a mover ramas
+
+POR NIVEL DE EXIGENCIA
+  regulado, interno, experimentación
+  + los controles corresponden al riesgo
+  − hay que decidir dónde encaja cada carga
+</code></pre>
+<p>Y el diseño que suele aguantar mejor combina dos niveles:</p>
+<pre><code class="language-text">nivel 1   por exigencia: regulado / normal / experimentación
+nivel 2   por entorno: producción / preproducción / desarrollo
+nivel 3   por equipo o dominio
+</code></pre>
+<p>Y tres reglas prácticas:</p>
+<pre><code class="language-text">DEJAR HUECO
+  ramas vacías previstas para lo que vendrá: adquisiciones,
+  una unidad nueva, un nivel de exigencia distinto
+
+NO REFLEJAR EL ORGANIGRAMA
+  cambia más deprisa que la infraestructura
+  → mejor por dominio o por exigencia, que son más estables
+
+POCOS NIVELES
+  cada nivel es un sitio más donde puede haber una política
+  → y calcular el efecto combinado se vuelve difícil     clase 159
+</code></pre>
+<p>Y una cuenta especial que conviene prever desde el principio:</p>
+<pre><code class="language-text">CUENTA DE SEGURIDAD Y AUDITORÍA
+  recibe los registros de todas las demás
+  y nadie de las demás puede escribir en ella             clase 134
+  → con su propio acceso de emergencia
+</code></pre>
+<p>Y el tamaño de cuenta, que es la otra decisión:</p>
+<pre><code class="language-text">una por equipo y entorno         lo habitual; equilibrio razonable
+una por carga y entorno          aislamiento máximo, muchas cuentas
+una por inquilino                solo si el aislamiento lo exige
+                                                        clase 154
+</code></pre>
+<p>Y el compromiso, que es el de la clase 148 aplicado aquí: <strong>más cuentas es menos radio de daño y más cosas que operar</strong>.</p>
+<h3 id="3-controles-y-excepciones">3. Controles y excepciones</h3>
+<p>Aquí aparece el problema propio de la escala, y es la ley 16:</p>
+<pre><code class="language-text">un control correcto para el 90 % de los equipos
+bloquea al 10 % restante
+y ese 10 % tiene un motivo legítimo
+</code></pre>
+<p>Y sin salida, ocurre lo previsible:</p>
+<pre><code class="language-text">piden una cuenta «especial» fuera del servicio de creación
+o consiguen que alguien les quite el control «temporalmente»
+o montan lo que necesitan en una cuenta que ya tenían
+→ y el control deja de existir para ellos, sin que nadie lo sepa
+</code></pre>
+<p>Y la corrección es tener <strong>vía de excepción</strong>, con la disciplina que este programa lleva usando desde la clase 046:</p>
+<pre><code class="language-text">se pide con un motivo escrito
+la aprueba alguien con autoridad para asumir ese riesgo
+tiene CADUCIDAD, y la caducidad revoca de verdad
+queda registrada y es visible
+y se revisa: si la misma excepción se pide diez veces,
+  el control está mal diseñado, no los equipos
+</code></pre>
+<p>Y la última línea es la que hace que el sistema mejore:</p>
+<pre><code class="language-text">excepciones por control, ordenadas
+  → las tres primeras dicen qué hay que cambiar
+</code></pre>
+<p>Y el reparto entre preventivo y detectivo a escala, que es el de la clase 139:</p>
+<pre><code class="language-text">PREVENTIVO   lo que nunca debe ocurrir, y son POCAS reglas
+  → cuantas más haya, más excepciones y más rodeos
+  → cinco o diez, no cien
+
+DETECTIVO    todo lo demás, con línea base y prioridad por exposición
+</code></pre>
+<p>Y una advertencia sobre la tentación de la escala:</p>
+<pre><code class="language-text">con sesenta equipos, la reacción natural es añadir controles
+→ y cada control nuevo tiene un coste que se multiplica por sesenta
+→ la pregunta antes de añadir uno: ¿qué incidente concreto evita?
+</code></pre>
+<p>Y el gobierno del propio conjunto de controles:</p>
+<pre><code class="language-text">cada control tiene dueño, motivo y fecha de revisión
+y se retira el que no haya detectado ni impedido nada en un año
+→ es la misma higiene que las reglas de la clase 139
+</code></pre>
+<h3 id="4-cuentas-viejas-y-cuentas-muertas">4. Cuentas viejas y cuentas muertas</h3>
+<p><strong>La deriva de base</strong> es el problema que aparece al segundo año:</p>
+<pre><code class="language-text">las cuentas creadas en enero tienen la base de enero
+las de hoy tienen la de hoy
+y entre medias hay quince cambios de política
+→ tres generaciones de cuentas conviviendo
+</code></pre>
+<p>Y la respuesta equivocada es un proyecto de actualización:</p>
+<pre><code class="language-text">«vamos a actualizar las 180 cuentas»
+→ dura meses, y al terminar la base ya ha cambiado otra vez
+</code></pre>
+<p>Y la correcta es la de la clase 103, aplicada a las cuentas:</p>
+<pre><code class="language-text">UN BUCLE QUE APLICA LA BASE VIGENTE A TODAS, CONTINUAMENTE
+  la base se declara en un repositorio
+  y un proceso la reconcilia en cada cuenta
+→ una cuenta creada hace dos años converge sola
+→ y un cambio de base llega a las 180 sin proyecto
+</code></pre>
+<p>Y con ello vienen las mismas obligaciones que la clase 103 impuso:</p>
+<pre><code class="language-text">alerta por ANTIGÜEDAD de la última reconciliación, por cuenta   ley 13
+comprobación del RESULTADO, no solo del estado del bucle        clase 164
+y campos que el bucle no debe tocar, declarados
+</code></pre>
+<p><strong>El cierre de cuentas</strong>, que es la ley 20 a escala:</p>
+<pre><code class="language-text">sin proceso de cierre, el inventario solo crece
+y aparecen las cuentas sin dueño que la clase 139 encontró
+</code></pre>
+<p>Y lo que hace falta:</p>
+<pre><code class="language-text">cada cuenta tiene dueño y fecha de revisión desde su creación
+revisión periódica: ¿sigue haciendo falta? ¿quién responde por ella?
+y un proceso de cierre con pasos claros
+  avisar, marcar, esperar, exportar lo que haya que conservar,
+  y cerrar
+</code></pre>
+<p>Y las cifras que se vigilan en una organización con muchas cuentas:</p>
+<pre><code class="language-text">cuentas creadas por el servicio frente a cuentas existentes
+cuentas sin dueño o con dueño inexistente
+cuentas sin actividad en 90 días
+cuentas con la base desactualizada, y desde cuándo
+excepciones vivas, por control y por antigüedad
+tiempo de entrega de una cuenta nueva
+y cuentas cerradas al año
+</code></pre>
+<p>La última suele ser cero, y ese es el problema: <strong>una organización que nunca cierra cuentas está acumulando riesgo y coste a la vez</strong>.</p>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ existe un servicio de creación que entrega la cuenta completa
+☐ es la única forma de crear una cuenta, impedida por política
+☐ entrega en menos de 30 minutos
+☐ la jerarquía tiene pocos niveles y hueco previsto
+☐ hay cuenta de seguridad y auditoría a la que nadie más escribe
+☐ los controles preventivos son pocos y cada uno tiene motivo
+☐ existe vía de excepción con caducidad que revoca
+☐ se revisan las excepciones más pedidas para corregir el control
+☐ un bucle mantiene la base vigente en todas las cuentas
+☐ hay alerta por antigüedad de reconciliación por cuenta
+☐ se comprueba el resultado, no solo el estado del bucle
+☐ cada cuenta tiene dueño y fecha de revisión
+☐ existe proceso de cierre y se ejecuta
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: con cientos de cuentas y decenas de equipos, las políticas dejan de poder decidirse en un solo sitio. Cómo se reparte esa autoridad sin perder las garantías, y cómo se comprueba a esa escala, es la materia de la clase 170.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>landing zones empresariales y vending de cuentas</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-14-advanced-platform-capstones-career/169-landing-zones-empresariales-y-vending-de-cuentas/lab.py
+<p><strong>CloudShop pasa de 9 equipos a 60 tras dos adquisiciones. La base de la clase 144 funcionaba con 21 cuentas; con 180 deja de funcionar, y el ejercicio consiste en descubrir por dónde se rompe.</strong></p>
+<p><strong>La situación a los seis meses del crecimiento.</strong></p>
+<pre><code class="language-text">cuentas                                                      214
+creadas por el proceso establecido                           132
+creadas por otra vía                                          82
+  → adquisiciones                                             47
+  → creadas desde la consola por equipos con permiso          35
+
+tiempo de entrega de una cuenta                          6 días
+peticiones pendientes                                         31
+cuentas sin dueño identificable                               29
+cuentas con la base completa                             81 de 214
+</code></pre>
+<p><strong>Ochenta y dos cuentas fuera del proceso</strong>, y treinta y cinco de ellas creadas por gente que simplemente tenía el permiso.</p>
+<p><strong>Corrección 1: la vía única.</strong></p>
+<p>```text                                          antes         después
+quién puede crear cuentas              35 identidades   1 (el servicio)
+cómo se impide                          norma escrita   control preventivo
+cuentas creadas fuera del servicio     35 en 6 meses          0</p>
+<pre><code>
+Y el efecto secundario que hubo que atender de inmediato:
+
+```text
+al cortar la vía alternativa, las peticiones se acumularon
+peticiones pendientes la primera semana                       44
+→ y esa cola es exactamente lo que hace que la gente busque atajos
+</code></pre>
+<p><strong>Corrección 2: el tiempo de entrega.</strong></p>
+<pre><code class="language-text">desglose de los 6 días
+  aprobación del responsable de área                    2,5 días
+  asignación de rango de red, a mano                    1,5 días
+  aplicación de la base, a mano                         1 día
+  alta en el catálogo y presupuesto                     1 día
+</code></pre>
+<p>```text                                          antes         después
+aprobación                              persona, 2,5 días  automática si
+                                                           el equipo existe
+                                                           en el catálogo
+rango de red                            a mano          del plan, automático
+base                                    a mano          declarada y aplicada
+catálogo y presupuesto                  a mano          creados por el servicio</p>
+<p>tiempo de entrega                        6 días            18 min
+peticiones pendientes                       31                 0
+cuentas creadas fuera del servicio      35 / 6 meses           0</p>
+<pre><code>
+Y la aprobación humana se conservó solo donde aporta:
+
+```text
+cuenta de desarrollo o preproducción      automática
+cuenta de producción                      aprobación del dueño del área
+cuenta en la rama regulada                aprobación adicional
+</code></pre>
+<p><strong>Corrección 3: las 82 cuentas que ya existían.</strong></p>
+<p>El primer plan fue un proyecto de actualización:</p>
+<pre><code class="language-text">estimación                                            4 meses
+cuentas por semana                                          5
+problema   al terminar, la base habría cambiado 6 veces más
+</code></pre>
+<p>Y se sustituyó por el bucle del apartado cuarto:</p>
+<pre><code class="language-text">la base se declaró en un repositorio
+y un proceso la reconcilia en todas las cuentas cada 6 h
+
+semana 1   se aplicó en modo aviso
+           diferencias detectadas                         3.140
+           de ellas, en cuentas heredadas                 2.610
+semana 2   se corrigieron las que no rompían nada
+semana 4   se pasó a aplicar
+cuentas con la base vigente                     81 de 214 → 214 de 214
+tiempo total                                            5 semanas
+</code></pre>
+<p>Y los quince cambios de base posteriores llegaron solos:</p>
+<pre><code class="language-text">cambios de base en 8 meses                                   15
+proyectos de actualización                                    0
+tiempo hasta que un cambio llega a todas las cuentas       &lt; 6 h
+</code></pre>
+<p>Y la alerta obligatoria, que encontró lo previsible:</p>
+<pre><code class="language-text">cuentas sin reconciliar en más de 24 h, detectadas             7
+  de ellas, por permisos caducados                             4
+  de ellas, por una cuenta suspendida por facturación          2
+  de ellas, por una cuenta que ya no existía                   1
+</code></pre>
+<p><strong>Las excepciones, y el control mal diseñado.</strong></p>
+<pre><code class="language-text">excepciones solicitadas en 8 meses                            94
+por control
+  regiones autorizadas                                        41   ← destaca
+  tipos de instancia permitidos                               22
+  acceso público de almacenes                                  9
+  otros                                                       22
+</code></pre>
+<p>Y las cuarenta y una de regiones se investigaron según la regla del apartado tercero:</p>
+<pre><code class="language-text">motivo real   38 de las 41 eran equipos que necesitaban una región
+              concreta para latencia, ya autorizada para otros
+causa         la lista de regiones se había fijado hace dos años
+              y no se había revisado
+corrección    se ampliaron las regiones autorizadas de 4 a 7
+excepciones de ese control después                           0-1 / mes
+</code></pre>
+<p><strong>El control estaba mal, no los equipos</strong>, y la cifra de excepciones lo dijo.</p>
+<p>```text                                          antes         después
+excepciones vivas                               94             19
+con motivo, responsable y caducidad         41 de 94       19 de 19
+caducadas y aún activas                         23              0
+controles revisados por exceso de excepciones    0              3
+controles preventivos totales                   31             12
+  → se retiraron 19 que no habían impedido nada en un año</p>
+<pre><code>
+**La jerarquía, rehecha una vez.**
+
+```text
+jerarquía inicial   por unidad de negocio, 5 niveles
+problema            dos reorganizaciones de la empresa en 18 meses
+                    obligaron a mover ramas enteras
+                    cada movimiento cambiaba qué políticas aplicaban
+                    y hubo 2 incidentes por permisos que dejaron
+                    de heredarse
+
+jerarquía nueva     nivel 1: exigencia (regulado / normal / pruebas)
+                    nivel 2: entorno
+                    nivel 3: dominio
+                    3 niveles, con 4 ramas vacías previstas
+
+movimientos de rama tras el cambio, en 12 meses                0
+  → dos reorganizaciones más de la empresa, sin efecto en el árbol
+</code></pre>
+<p>Y el coste de haberla rehecho:</p>
+<pre><code class="language-text">cuentas movidas                                             214
+duración                                                3 semanas
+incidentes durante el cambio                                  2
+→ y es la ley 14: se hizo una vez y dolió; hacerlo cada año
+  no sería viable
+</code></pre>
+<p><strong>El cierre de cuentas.</strong></p>
+<p>```text                                          antes         después
+cuentas con dueño                          185 de 214     214 de 214
+con fecha de revisión                            0            214
+revisión anual                                  no             sí
+cuentas sin actividad en 90 días                 31             4
+cuentas cerradas en 12 meses                      0             38
+coste mensual liberado                            —        2.900 €</p>
+<pre><code>
+Y el proceso de cierre, que hubo que escribir:
+
+```text
+avisar al dueño y al área                          30 días
+marcar como pendiente de cierre, sin crear nada nuevo
+exportar lo que haya que conservar                 clase 141
+suspender                                          14 días
+cerrar
+
+cuentas reactivadas tras el aviso                         6 de 44
+  → las 6 tenían uso real que nadie había registrado
+</code></pre>
+<p><strong>A los doce meses.</strong></p>
+<p>```text                                          antes         después
+cuentas                                        214            176
+creadas fuera del servicio                      82              0
+tiempo de entrega                            6 días         18 min
+peticiones pendientes                           31              0
+cuentas con la base vigente                 81 de 214    176 de 176
+tiempo de propagación de un cambio de base   proyecto         &lt; 6 h
+controles preventivos                           31             12
+excepciones vivas                               94             19
+caducadas y activas                             23              0
+cuentas con dueño y fecha de revisión           0 %          100 %
+cuentas cerradas                                 0             38
+niveles de jerarquía                             5              3</p>
+<pre><code>
+**La lección que esta clase abre para la parte 14**: treinta y cinco cuentas se habían creado fuera del proceso **no por rebeldía, sino porque el proceso tardaba seis días**, y al cortar la vía alternativa sin arreglar el plazo la cola creció de inmediato. Y cuarenta y una de las noventa y cuatro excepciones pedían lo mismo: **el control de regiones llevaba dos años sin revisarse y bloqueaba a treinta y ocho equipos con un motivo legítimo**. A escala, un control mal calibrado no se discute: se rodea.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-14-advanced-platform-capstones-career/169-landing-zones-empresariales-y-vending-de-cuentas/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>governance</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -199,29 +514,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Aparecen cuentas que no tienen ninguno de los controles</td>
+<td>El proceso de creación no es la única vía</td>
+<td>Impide por política que nadie salvo el servicio de creación pueda crear cuentas, y arregla a la vez el plazo de entrega.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>La gente busca atajos para conseguir una cuenta</td>
+<td>Ley 16: el camino oficial tarda días</td>
+<td>Entrega en menos de 30 minutos, con aprobación humana solo donde aporta.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Conviven varias generaciones de cuentas con bases distintas</td>
+<td>La base se aplicó al crear y nunca más</td>
+<td>Un bucle que reconcilia la base vigente en todas las cuentas, con alerta por antigüedad y comprobación del resultado.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Un control acumula decenas de excepciones</td>
+<td>El control está mal calibrado, no los equipos</td>
+<td>Ordena las excepciones por control y corrige los tres primeros; y revisa las caducidades para que revoquen de verdad.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Reorganizar la empresa obliga a mover ramas y rompe permisos</td>
+<td>La jerarquía refleja el organigrama, que cambia más deprisa</td>
+<td>Organiza por exigencia, entorno y dominio, con pocos niveles y ramas vacías previstas.</td>
+</tr>
+<tr>
+<td>El número de cuentas solo crece</td>
+<td>Ley 20: no hay dueño, ni revisión, ni proceso de cierre</td>
+<td>Dueño y fecha de revisión desde la creación, revisión periódica y un proceso de cierre que se ejecute.</td>
 </tr>
 </tbody>
 </table>
@@ -232,17 +552,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué debe entregar un servicio de creación de cuentas y cuál es su propiedad imprescindible?</li>
+<li>¿Por qué la jerarquía no debe reflejar el organigrama?</li>
+<li>¿Qué ocurre cuando un control correcto para la mayoría bloquea a una minoría con motivo?</li>
+<li>¿Por qué actualizar las cuentas antiguas con un proyecto no funciona?</li>
+<li>¿Qué indica que una organización nunca cierra cuentas?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Team Topologies — Skelton y Pais.</li>
-<li>Accelerate — Forsgren, Humble y Kim.</li>
-<li>Fundamentals of Software Architecture — Richards y Ford.</li>
+<li>AWS (2025). <em>Account vending and Control Tower</em> — creación automatizada con base aplicada. <a href="https://docs.aws.amazon.com/controltower/latest/userguide/what-is-control-tower.html">https://docs.aws.amazon.com/controltower/latest/userguide/what-is-control-tower.html</a></li>
+<li>Google Cloud (2025). <em>Resource hierarchy and project factory</em> — jerarquía, herencia de políticas y creación automatizada. <a href="https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy">https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy</a></li>
+<li>Microsoft (2025). <em>Enterprise-scale landing zones</em> — áreas de diseño y jerarquía de grupos de administración. <a href="https://learn.microsoft.com/azure/cloud-adoption-framework/ready/enterprise-scale/">https://learn.microsoft.com/azure/cloud-adoption-framework/ready/enterprise-scale/</a></li>
+<li>CIS (2025). <em>Foundations benchmarks</em> — controles mínimos aplicables a toda cuenta. <a href="https://www.cisecurity.org/cis-benchmarks">https://www.cisecurity.org/cis-benchmarks</a></li>
+<li>FinOps Foundation (2025). <em>Account structure and allocation</em> — la cuenta como unidad de atribución. <a href="https://www.finops.org/framework/capabilities/allocation/">https://www.finops.org/framework/capabilities/allocation/</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -310,7 +632,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-cuenta-como-unidad-y-su-servicio">1. La cuenta como unidad, y su servicio</a><a class="toc-level-3" href="#2-la-jerarquia-que-se-decide-una-vez">2. La jerarquía, que se decide una vez</a><a class="toc-level-3" href="#3-controles-y-excepciones">3. Controles y excepciones</a><a class="toc-level-3" href="#4-cuentas-viejas-y-cuentas-muertas">4. Cuentas viejas y cuentas muertas</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
