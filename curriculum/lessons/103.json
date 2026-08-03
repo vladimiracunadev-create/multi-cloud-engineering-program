@@ -1,0 +1,118 @@
+{
+  "id": "103",
+  "purpose": "Poner en marcha el bucle continuo que la parte 06 predijo y que la parte 07 no llegó a construir: un agente dentro del entorno que compara sin parar lo declarado con lo real y corrige la diferencia. La clase muestra lo que ese bucle resuelve —la canalización deja de tener credenciales del clúster, y la deriva deja de acumularse— y, con el mismo detalle, **lo que rompe si se activa sin decidir antes qué campos no le pertenecen**.",
+  "outcomes": [
+    "**Explicar** en qué cambia el modelo cuando el agente tira en vez de que la canalización empuje.",
+    "**Organizar** los repositorios de código y de entorno, y qué confirmación despliega.",
+    "**Delimitar** qué campos gobierna el bucle y cuáles debe ignorar.",
+    "**Promocionar** un cambio entre entornos con evidencia y sin reconstruir el artefacto.",
+    "**Reconocer** los modos de fallo propios del bucle, empezando por el silencioso."
+  ],
+  "concepts": [
+    {
+      "term": "reconciliación continua",
+      "definition": "Un agente compara periódicamente el estado declarado con el real y aplica la diferencia. No es un despliegue: es un bucle que no termina."
+    },
+    {
+      "term": "modelo de tirar",
+      "definition": "El agente vive dentro del entorno y lee el repositorio. La canalización deja de necesitar credenciales del clúster."
+    },
+    {
+      "term": "repositorio de entorno",
+      "definition": "Repositorio separado que declara qué versión corre en cada entorno. La confirmación que lo modifica es la que despliega."
+    },
+    {
+      "term": "propiedad de campo",
+      "definition": "Decisión explícita sobre qué partes de un recurso gobierna el bucle. Sin ella, el bucle pelea con los autoescaladores y los operadores."
+    },
+    {
+      "term": "poda",
+      "definition": "Borrar lo que existe en el entorno y no está declarado. Es lo que cierra el círculo de la ley 13, y también lo más peligroso del bucle."
+    },
+    {
+      "term": "ondas de sincronización",
+      "definition": "Orden explícito de aplicación cuando unos recursos dependen de otros. Sin ellas el bucle converge igual, pero con errores transitorios ruidosos."
+    }
+  ],
+  "diagram": "flowchart TB\n    DEV[\"cambio de código\"] --> CI[\"canalización:\\nconstruye, verifica, firma\"]\n    CI --> ART[\"artefacto inmutable\\nhuella · 099\"]\n    CI --> PR[\"confirmación en el\\nrepositorio de ENTORNO\"]\n    PR --> REPO[(\"declarado\")]\n    REPO -->|\"el agente LEE\"| AG[\"agente dentro del entorno\"]\n    AG --> CMP{\"¿declarado = real?\"}\n    CMP -->|\"sí\"| W[\"esperar\"]\n    CMP -->|\"no\"| OWN{\"¿el campo es MÍO?\"}\n    OWN -->|\"no · réplicas del autoescalador\"| IGN[\"ignorar\"]\n    OWN -->|\"sí\"| APL[\"aplicar y registrar\"]\n    W --> CMP\n    CI -.->|\"YA NO tiene\"| CRED[\"credenciales del clúster\"]",
+  "foundations": [
+    {
+      "heading": "Qué cambia cuando el agente tira",
+      "body": "Hasta aquí, la canalización se conectaba al entorno y aplicaba. Eso obliga a que la canalización tenga credenciales con permiso para modificar producción, y la clase 098 ya explicó lo que eso significa: **quien controla el flujo controla el entorno**.\n\nEl cambio del modelo:\n\n```text\nEMPUJAR                              TIRAR\ncanalización → entorno               entorno → repositorio\nnecesita credenciales del clúster    no las necesita\ndespliega cuando se ejecuta          reconcilia sin parar\nla deriva se acumula                 la deriva se corrige\nsi el flujo no corre, no pasa nada   si el bucle no corre, tampoco (ley 13)\n```\n\nY las tres consecuencias que importan, en orden de valor:\n\n```text\n1. la canalización pierde el permiso más peligroso que tenía\n   → deja de ser el objetivo que la clase 098 describió\n\n2. la deriva deja de acumularse\n   → la clase 090 la detectaba una vez al día; aquí se corrige sola\n\n3. el estado del entorno es legible sin entrar en él\n   → lo declarado está en un repositorio, con historial y revisión\n```\n\nY una consecuencia menos citada y muy útil en la práctica: **reconstruir un entorno entero pasa a ser apuntar un agente nuevo al mismo repositorio**. Es la recuperación que la clase 088 pedía, sin procedimiento aparte.\n\nY lo que **no** cambia, para no venderlo de más:\n\n```text\nno reduce los defectos del cambio        eso siguen siendo las pruebas\nno sustituye la estrategia de la 102     el bucle aplica; el escalonado decide\nno resuelve los secretos                 ver el apartado cuarto\nno impide que alguien modifique a mano   lo detecta y lo revierte, que no es lo mismo\n```\n\nLa última línea es importante: el bucle **no bloquea** el cambio manual. Lo deshace unos minutos después. Y eso es una mejora enorme frente a que se quede, y a la vez un problema nuevo, que es el del apartado tercero."
+    },
+    {
+      "heading": "Dos repositorios, y qué confirmación despliega",
+      "body": "La separación que hace funcionar esto es sencilla de enunciar y se equivoca a menudo:\n\n```text\nrepositorio de CÓDIGO      lo que se construye\n                           su confirmación produce un artefacto, no un despliegue\n\nrepositorio de ENTORNO     qué versión corre en cada entorno\n                           su confirmación SÍ despliega\n```\n\nY con esa separación, promocionar entre entornos deja de reconstruir nada —la regla de la clase 099— y pasa a ser un cambio de una línea:\n\n```text\nentornos/pre/tienda.yaml:  image: registro/tienda@sha256:9f2c…\nentornos/pro/tienda.yaml:  image: registro/tienda@sha256:9f2c…   ← misma huella\n```\n\nY el detalle que evita el fallo más común: **por huella, no por etiqueta móvil**. Una etiqueta como `v2.3` puede reapuntarse; la huella no. Si el repositorio de entorno declara una etiqueta móvil, el bucle no puede saber si hay deriva, porque lo declarado no identifica un artefacto.\n\nLa estructura que sostiene esto sin duplicar todo tres veces es la de la clase 083:\n\n```text\nbase/                    lo común\nentornos/dev/            lo que cambia en dev\nentornos/pre/\nentornos/pro/\n```\n\nY una decisión organizativa que decide la fricción diaria: **quién aprueba cada entorno**.\n\n```text\ndev   confirmación directa, sin revisión\npre   automática al pasar las puertas de la clase 100\npro   revisión de una persona del equipo dueño (catálogo, clase 095)\n```\n\nY el registro que esto produce sin esfuerzo adicional, que es lo que la clase 090 tenía que reconstruir a mano:\n\n```bash\n$ git log --oneline entornos/pro/tienda.yaml\na91c4e2  promociona tienda a sha256:9f2c…   (aprobó: equipo-pedidos)\n7b30f18  revierte a sha256:41ab…           (incidente INC-2291)\n```\n\nY una precaución sobre las ondas de sincronización: cuando unos recursos dependen de otros —espacio de nombres antes que lo que contiene, definición de recurso antes que su instancia—, el bucle acaba convergiendo igual a base de reintentos, pero produce errores transitorios que se confunden con fallos reales. Declarar el orden es barato y limpia el ruido."
+    },
+    {
+      "heading": "Qué campos NO son del bucle",
+      "body": "Este es el apartado que la clase 096 anticipó al escribir la lista de lo que el bucle no debe revertir, y es donde fallan casi todas las adopciones.\n\nEl bucle compara lo declarado con lo real. Pero en un entorno vivo **hay cosas reales que nadie declaró y que están bien**:\n\n```text\nnúmero de réplicas          lo fija el autoescalador (clase 078)\n                            declarar 3 y que el bucle lo devuelva a 3\n                            cada dos minutos anula el autoescalado\n\netiquetas y anotaciones     las añaden operadores y mallas de servicio\ninyectadas\n\ncertificados renovados      los rota un operador\n\ncampos rellenados por       direcciones asignadas, identificadores generados\nel propio sistema\n```\n\nY el síntoma cuando esto no se decide es característico: **el bucle informa de deriva permanente y nadie la mira**, que es la ley 15 otra vez —una señal que siempre está encendida deja de ser señal—.\n\nLa corrección es declarar la propiedad de cada campo:\n\n```yaml\n# el bucle gobierna todo el recurso MENOS las réplicas\nignoreDifferences:\n  - group: apps\n    kind: Deployment\n    jsonPointers: [\"/spec/replicas\"]\n```\n\nY la regla general que ordena la decisión:\n\n```text\nsi otro controlador escribe ese campo por diseño → no es del bucle\nsi lo escribió una persona a mano                → sí es del bucle\n```\n\nY la segunda línea es la que da valor: la corrección automática de lo que alguien tocó a mano es exactamente lo que la clase 090 no podía hacer.\n\n**La poda**, que es lo que cierra el círculo. Sin ella, borrar algo del repositorio no lo borra del entorno, y la ley 13 vuelve: un recurso que se quitó de lo declarado sigue corriendo y nadie da error.\n\n```text\nsin poda   el entorno acumula lo que ya nadie declara\ncon poda   lo declarado es la verdad completa\n```\n\nY a la vez es lo más peligroso del bucle, porque un error en el repositorio se convierte en un borrado:\n\n```text\nun fichero mal movido en una confirmación\n→ el bucle interpreta que esos recursos ya no se declaran\n→ y los borra\n```\n\nLas tres protecciones, y conviene tener las tres:\n\n```text\nfinalizadores y anotación de no-podar en lo que no debe borrarse nunca\n  → bases de datos, volúmenes persistentes, espacios de nombres\numbral de seguridad: si la diferencia supera un porcentaje, parar y avisar\npoda manual en producción durante la adopción, automática después\n```\n\nY el modo de fallo silencioso que hay que vigilar desde el primer día, porque es el de siempre:\n\n```text\nel agente deja de sincronizar —permisos caducados, repositorio inaccesible—\n→ no da error: deja de haber cambios\n→ y el entorno parece estable cuando en realidad está congelado\n```\n\nLa comprobación que lo detecta es la de la clase 090: **alertar por antigüedad de la última reconciliación correcta**, no por fallo.\n\n```promql\ntime() - max(argocd_app_reconcile_timestamp) > 1800\n```"
+    },
+    {
+      "heading": "Secretos, incidentes y lo que el bucle no debe deshacer",
+      "body": "Dos problemas prácticos que deciden si esto sobrevive al primer mes.\n\n**Secretos.** Si lo declarado vive en un repositorio, un secreto en lo declarado es un secreto en el repositorio, y la ley 11 dice lo que pasa entonces. Las dos salidas honestas:\n\n```text\ncifrado en el repositorio      el fichero está cifrado; el agente descifra\n                              con una clave del entorno\n                              → simple, y rotar exige recifrar\n\nreferencia externa            el repositorio declara DÓNDE está el secreto,\n                              y un operador lo trae del almacén (clases 046, 054)\n                              → el secreto nunca entra en el repositorio\n```\n\nLa segunda es la que encaja con todo lo anterior de este programa, porque conserva la propiedad de la clase 054: **el secreto se resuelve con la identidad de la carga, no con una clave guardada**.\n\n```yaml\n# lo que SÍ entra en el repositorio\nspec:\n  secretStoreRef: { name: almacen-pro }\n  data:\n    - secretKey: cadena-conexion\n      remoteRef: { key: pedidos/base-datos }\n```\n\n**Incidentes.** Aquí está la tensión que la clase 096 previó. Durante un incidente alguien cambia algo a mano para parar la hemorragia, y el bucle lo revierte a los dos minutos.\n\nLa respuesta mala y la buena:\n\n```text\nmala   desactivar el bucle durante el incidente\n       → y olvidarse de volver a activarlo (ley 13 y ley 16 a la vez)\n\nbuena  que el cambio de emergencia sea una confirmación\n       → con revisión posterior en vez de previa, y aviso automático\n```\n\nY para que la buena sea viable, el camino de emergencia tiene que ser **más rápido que tocar a mano**, no más lento; si no, nadie lo usa. Eso significa: rama directa, sin aprobación, sincronización inmediata y un aviso al canal del equipo.\n\nY conviene medir si funciona:\n\n```text\ncambios de emergencia por confirmación        11\ncambios a mano en el entorno                   2   ← si sube, el camino es lento\nbucles desactivados y no reactivados           0   ← si no es cero, hay un problema\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ la canalización ya no tiene credenciales de escritura en el entorno\n☐ repositorio de entorno separado, y su confirmación es la que despliega\n☐ se declara la huella del artefacto, no una etiqueta móvil\n☐ los campos de otros controladores están excluidos del bucle\n☐ la poda está activa, con protecciones sobre lo que no debe borrarse\n☐ hay umbral de seguridad que para la poda si la diferencia es grande\n☐ alerta por ANTIGÜEDAD de la última reconciliación, no por fallo\n☐ los secretos se resuelven por referencia, no se guardan en el repositorio\n☐ el camino de emergencia es una confirmación y es más rápido que tocar a mano\n☐ se mide cuántos cambios manuales quedan y cuántos bucles se desactivaron\n```\n\nY el cierre que enlaza con la clase siguiente: con lo declarado en un repositorio y un agente que lo materializa, crear un entorno completo deja de ser un proyecto y pasa a ser una confirmación. Qué se puede hacer con eso —y qué cuesta— es la materia de la clase 104."
+    }
+  ],
+  "worked_example": "**CloudShop lleva los quince servicios al modelo de tirar. La parte 06 predijo que un bucle continuo resolvería la deriva; la parte 07 solo construyó detección programada. Este ejercicio es la primera vez que el bucle existe, y lo interesante son los tres problemas que aparecen y que la detección no tenía.**\n\n**Punto de partida.**\n\n```text\ndespliegue           la canalización se conecta al clúster y aplica\ncredenciales         un rol con permiso de escritura en los tres entornos,\n                     guardado en la canalización\nderiva               detectada una vez al día (clase 090); 2 cambios manuales/mes\nreconstruir entorno  procedimiento de 4 páginas, probado una vez\n```\n\n**Semana 1: el bucle se activa en dev y aparece deriva permanente.**\n\n```text\nrecursos declarados                       412\nmarcados como derivados en la primera hora 209\n```\n\nDoscientos nueve de cuatrocientos doce. Al mirarlos, ninguno era un cambio manual:\n\n```text\nréplicas fijadas por el autoescalador            61\nanotaciones inyectadas por la malla de servicio  88\ncampos rellenados por el propio sistema          47\ncambios manuales reales                          13\n```\n\nCon el 51 % de los recursos siempre en rojo, la señal no sirve —ley 15, séptima aparición—. Se declaró la propiedad de campo:\n\n```text                                          derivados\nsin excluir nada                                    209\nexcluyendo réplicas                                 148\nexcluyendo anotaciones inyectadas                    60\nexcluyendo campos del sistema                        13\n```\n\nTrece, y los trece eran cambios manuales reales. El bucle los corrigió, y de los trece hubo **uno que no debía corregirse**: un límite de memoria subido a mano durante un incidente tres semanas antes, que nadie había llevado al repositorio. Se llevó al repositorio antes de que el bucle lo revirtiera.\n\n**Semana 3: la poda borra un espacio de nombres en preproducción.**\n\nUna confirmación movió un directorio y el bucle interpretó que sesenta recursos ya no se declaraban.\n\n```text\nrecursos borrados                60\ntiempo hasta detectarlo           4 min\ntiempo hasta restaurarlo         11 min   ← revirtiendo la confirmación\ndatos perdidos                    0\n```\n\nLos once minutos de restauración son, en realidad, el argumento **a favor** del modelo: se restauró revirtiendo una confirmación, sin procedimiento. Pero podía haber pasado en producción, y ahí sí había volúmenes. Se añadieron las tres protecciones:\n\n```text\numbral de seguridad: la poda se detiene si afecta a más del 10 % de recursos\nanotación de no-podar en volúmenes, bases de datos y espacios de nombres\npoda manual en producción durante los tres primeros meses\n```\n\nEl umbral se activó dos veces en seis meses; **las dos eran errores de confirmación**, no cambios intencionados.\n\n**Semana 5: el bucle de un servicio lleva nueve días sin sincronizar y nadie lo sabe.**\n\nEl testigo de acceso al repositorio había caducado. El estado del servicio no era «error»: era «desconocido», y el panel lo pintaba en gris.\n\n```text\ndías sin reconciliar               9\nconfirmaciones sin aplicar         6\nqué mostraba el panel        sincronizado (con la última información conocida)\n```\n\nEs la ley 13 por séptima vez en este programa, y en su forma más pura: **el bucle que no corre no da error**. La alerta que lo detecta no mira fallos, mira antigüedad:\n\n```promql\ntime() - max by (app) (argocd_app_reconcile_timestamp) > 1800\n```\n\nDesde entonces, tres detecciones más: dos permisos caducados y un repositorio renombrado.\n\n**Semana 8: el primer incidente con el bucle activo.**\n\nAlguien subió las réplicas a mano para absorber un pico. El bucle no las tocó —estaban excluidas— pero el cambio siguiente sí fue a mano: un límite de memoria. El bucle lo revirtió en dos minutos, en mitad del incidente.\n\n```text\nreacción inicial propuesta   desactivar el bucle durante incidentes\ndecisión tomada              camino de emergencia por confirmación\n```\n\nY el camino se diseñó con el criterio del apartado cuarto —más rápido que tocar a mano—:\n\n```text                                     tiempo hasta que surte efecto\ntocar a mano en el clúster                          40 s\nconfirmación de emergencia (sin aprobación,\nsincronización inmediata, aviso al canal)           95 s\n```\n\nNoventa y cinco segundos frente a cuarenta. Se aceptó, y se midió el uso:\n\n```text                                    mes 1    mes 6\ncambios de emergencia por confirmación       4       11\ncambios a mano en el clúster                 3        0\nbucles desactivados por un incidente         1        0\n```\n\nEl único bucle desactivado, el del mes 1, estuvo apagado **seis días** después del incidente.\n\n**La canalización pierde el permiso.**\n\n```text                                          antes         después\ncredenciales de escritura en el clúster    en la canalización   ninguna\nlo que la canalización puede hacer         desplegar en pro   confirmar en\n                                                              el repositorio\nquien aprueba producción                   nadie              equipo dueño (095)\n```\n\nY el efecto sobre la clase 098: el flujo más peligroso del inventario dejó de serlo.\n\n**A los seis meses.**\n\n```text                                          antes         después\nrecursos en deriva permanente                    —        13 → 0-2\ntiempo hasta corregir un cambio manual        1 día        2 min\ncambios manuales en el entorno              2 / mes       0 / mes\ncredenciales de clúster en la canalización     sí           no\nreconstruir un entorno completo           4 páginas    apuntar un agente\nprueba de reconstrucción                  1 vez         cada despliegue de dev\nbucles parados sin que nadie lo supiera       —      4 detectados por antigüedad\npodas detenidas por el umbral                 —        2, ambas errores\n```\n\n**La lección que esta clase traslada al resto de la parte 08**: el bucle hizo lo que la parte 06 predijo —la deriva pasó de un día a dos minutos, y los cambios manuales a cero—, y a cambio trajo tres problemas que la detección programada no tenía: **deriva permanente por campos ajenos, borrados por poda y un bucle parado que no da error**. Los tres tienen la misma forma que ya conocemos: el primero es la ley 15, el tercero es la ley 13, y el segundo es la ley 14 —una decisión automática sobre lo que existe o no existe, tomada a partir de una confirmación equivocada—.",
+  "pitfalls": [
+    {
+      "symptom": "La mitad de los recursos aparecen en deriva permanente y nadie mira el panel",
+      "cause": "El bucle compara campos que escriben otros controladores por diseño",
+      "fix": "Declara la propiedad de campo y excluye réplicas del autoescalador, anotaciones inyectadas y campos rellenados por el sistema."
+    },
+    {
+      "symptom": "Una confirmación mal hecha borra recursos del entorno",
+      "cause": "La poda interpreta que lo que ya no se declara debe desaparecer",
+      "fix": "Umbral de seguridad por porcentaje, anotación de no-podar en volúmenes y bases de datos, y poda manual en producción durante la adopción."
+    },
+    {
+      "symptom": "Un servicio lleva días sin recibir cambios y el panel lo muestra bien",
+      "cause": "Ley 13: el agente dejó de sincronizar y eso no produce error",
+      "fix": "Alerta por antigüedad de la última reconciliación correcta, no por fallo."
+    },
+    {
+      "symptom": "Durante un incidente alguien desactiva el bucle y no vuelve a activarse",
+      "cause": "El camino de emergencia por confirmación es más lento que tocar a mano",
+      "fix": "Haz el camino de emergencia rápido —sin aprobación, sincronización inmediata, aviso automático— y mide cuántos bucles quedan desactivados."
+    },
+    {
+      "symptom": "El bucle no detecta que se ha desplegado otra versión",
+      "cause": "Lo declarado usa una etiqueta móvil, que no identifica un artefacto",
+      "fix": "Declara la huella del artefacto, como exige la inmutabilidad de la clase 099."
+    },
+    {
+      "symptom": "Hay secretos en el repositorio de entorno",
+      "cause": "Lo declarado incluye el valor en vez de una referencia",
+      "fix": "Declara dónde está el secreto y deja que un operador lo resuelva con la identidad de la carga."
+    }
+  ],
+  "checks": [
+    "¿Qué permiso pierde la canalización al pasar al modelo de tirar y por qué importa?",
+    "¿Qué diferencia hay entre el repositorio de código y el de entorno, y cuál despliega?",
+    "¿Qué campos no debe gobernar el bucle y qué pasa si no se excluyen?",
+    "¿Por qué la poda es a la vez necesaria y peligrosa, y con qué tres protecciones se usa?",
+    "¿Por qué la alerta del bucle mira la antigüedad de la reconciliación y no los fallos?"
+  ],
+  "references": [
+    {
+      "text": "OpenGitOps (2025). *GitOps principles* — declarativo, versionado, extraído automáticamente y reconciliado de forma continua.",
+      "url": "https://opengitops.dev/"
+    },
+    {
+      "text": "Argo CD (2025). *Diffing customization and resource pruning* — propiedad de campo, exclusiones y protecciones de poda.",
+      "url": "https://argo-cd.readthedocs.io/en/stable/user-guide/diffing/"
+    },
+    {
+      "text": "Flux (2025). *Bootstrap and reconciliation* — agente dentro del clúster, intervalos y estado de sincronización.",
+      "url": "https://fluxcd.io/flux/installation/bootstrap/"
+    },
+    {
+      "text": "External Secrets Operator (2025). *SecretStore and ExternalSecret* — declarar la referencia sin guardar el valor.",
+      "url": "https://external-secrets.io/latest/introduction/overview/"
+    },
+    {
+      "text": "CNCF (2025). *GitOps working group: multi-environment promotion* — repositorio de entorno y promoción por huella.",
+      "url": "https://github.com/cncf/tag-app-delivery"
+    }
+  ]
+}
