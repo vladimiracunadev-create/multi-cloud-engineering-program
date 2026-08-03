@@ -1,0 +1,118 @@
+{
+  "id": "181",
+  "purpose": "Separar tres cosas que casi siempre llegan mezcladas en la misma frase: lo que el sistema debe hacer, lo que lo condiciona sin negociación posible, y lo bien que debe hacerlo. La distinción no es académica: los requisitos funcionales casi nunca deciden la arquitectura, las restricciones la limitan antes de empezar, y los atributos de calidad son los que la determinan y los que se pagan todos los meses.",
+  "outcomes": [
+    "**Distinguir** requisito funcional, restricción y atributo de calidad.",
+    "**Escribir** atributos de calidad como escenarios medibles y no como adjetivos.",
+    "**Detectar** las restricciones reales, incluidas las que nadie declara.",
+    "**Resolver** los conflictos entre atributos diciendo cuál cede.",
+    "**Priorizar** por coste de cambio y no por importancia declarada."
+  ],
+  "concepts": [
+    {
+      "term": "requisito funcional",
+      "definition": "Lo que el sistema debe hacer. Casi cualquier arquitectura razonable puede cumplirlo."
+    },
+    {
+      "term": "restricción",
+      "definition": "Decisión ya tomada que no se puede cambiar: legal, contractual, de plazo, de plantilla o técnica heredada."
+    },
+    {
+      "term": "atributo de calidad",
+      "definition": "Lo bien que el sistema debe hacer lo que hace. Es lo que decide la arquitectura."
+    },
+    {
+      "term": "escenario de calidad",
+      "definition": "Forma medible de un atributo: estímulo, fuente, entorno, respuesta y medida de respuesta."
+    },
+    {
+      "term": "conflicto entre atributos",
+      "definition": "Situación en que mejorar uno empeora otro. Se resuelve diciendo cuál cede y cuánto."
+    },
+    {
+      "term": "coste de cambio",
+      "definition": "Lo que costaría revertir una decisión más tarde. Es el criterio de prioridad, no la importancia declarada."
+    }
+  ],
+  "diagram": "flowchart TB\n    E[\"lo que llega en una frase\"] --> F[\"REQUISITO FUNCIONAL\\nqué debe hacer\"]\n    E --> R[\"RESTRICCIÓN\\nqué no se puede cambiar\"]\n    E --> Q[\"ATRIBUTO DE CALIDAD\\nlo bien que debe hacerlo\"]\n    F --> F1[\"casi cualquier arquitectura\\nrazonable lo cumple\"]\n    R --> R1[\"legal · contractual · plazo\\nplantilla · heredado\"]\n    R --> R2[\"reduce el espacio\\nANTES de diseñar\"]\n    Q --> Q1[\"escenario medible\\nestímulo → respuesta → medida\"]\n    Q1 --> C{\"¿conflicto con otro\\natributo?\"}\n    C -->|sí| C1[\"decir cuál cede\\ny cuánto\"]\n    C -->|no| C2[\"probablemente uno\\nde los dos no es real\"]\n    C1 --> P[\"priorizar por\\nCOSTE DE CAMBIO\"]",
+  "foundations": [
+    {
+      "heading": "Las tres cosas que llegan mezcladas",
+      "body": "Una frase típica de arranque de proyecto contiene las tres, sin marcarlas:\n\n```text\n«necesitamos un sistema de reservas rápido, que aguante el Black\n Friday, en Azure porque ya tenemos el acuerdo, y para septiembre»\n\n  sistema de reservas           REQUISITO FUNCIONAL\n  rápido                        atributo de calidad, sin medir\n  que aguante el Black Friday   atributo de calidad, sin medir\n  en Azure, acuerdo firmado     RESTRICCIÓN\n  para septiembre               RESTRICCIÓN\n```\n\nY la observación que ordena todo lo demás:\n\n```text\nel requisito funcional casi nunca decide la arquitectura\n→ «reservar una habitación» se puede hacer con un monolito,\n  con veinte servicios o con una hoja de cálculo\n\nlo que decide la arquitectura es\n  cuántas reservas por segundo en el pico\n  cuánto puede tardar\n  cuánto puede estar caído\n  cuánto cuesta cambiarlo dentro de dos años\n```\n\n**Las restricciones** merecen atención aparte porque reducen el espacio de diseño antes de empezar y porque la mitad no se declaran:\n\n```text\nDECLARADAS\n  proveedor por contrato\n  región por normativa                                  clase 177\n  plazo con fecha externa (campaña, ley, cliente)\n  presupuesto anual\n\nNO DECLARADAS, y suelen pesar más\n  el equipo son cuatro personas y dos se van en marzo\n  nadie ha operado nunca una base distribuida\n  el sistema heredado de facturación no se puede tocar\n  hay una guardia y no habrá una segunda\n  la organización no aprueba nada en agosto\n```\n\nY la regla práctica:\n\n```text\nuna restricción no se discute: se comprueba que es real\n→ «tiene que ser Azure» → ¿contrato o costumbre?\n→ «para septiembre» → ¿qué pasa el 1 de octubre si no está?\n\nsi la respuesta es «nada en concreto», no era una restricción\n```\n\nY el error simétrico, más caro: **tratar como negociable algo que no lo es**. Un plazo legal o un requisito de residencia no cede porque el diseño sea elegante."
+    },
+    {
+      "heading": "Atributos de calidad: del adjetivo al escenario",
+      "body": "«Rápido», «escalable», «seguro» y «fiable» no son requisitos: son adjetivos. Un adjetivo no se puede cumplir ni incumplir, y por eso siempre se da por cumplido.\n\nLa forma útil es el **escenario**, con seis partes:\n\n```text\nFUENTE       quién o qué provoca el estímulo\nESTÍMULO     qué ocurre\nENTORNO      en qué condiciones (normal, pico, degradado)\nARTEFACTO    sobre qué parte del sistema\nRESPUESTA    qué debe hacer el sistema\nMEDIDA       con qué número se comprueba\n```\n\nY el mismo requisito, antes y después:\n\n```text\nANTES   «el buscador tiene que ser rápido»\n\nDESPUÉS\n  fuente      un usuario final desde la aplicación móvil\n  estímulo    busca disponibilidad por ciudad y fechas\n  entorno     pico de campaña, 3.000 búsquedas por segundo\n  artefacto   servicio de búsqueda y su almacén\n  respuesta   devuelve resultados o un mensaje de degradación\n  medida      p99 ≤ 400 ms medido en el borde; sin errores 5xx\n              por encima del 0,1 %\n```\n\nY la diferencia práctica es que el segundo se puede probar, incumplir y discutir. El primero no.\n\n**Los atributos que más decisiones cambian**, y por qué:\n\n```text\nMODIFICABILIDAD    lo que cuesta cambiar algo\n  → es el único que se paga TODOS los meses\n  → y el único que nadie escribe como escenario\n  escenario: «añadir un método de pago nuevo debe poder hacerlo\n              un equipo sin tocar el servicio de reservas, en\n              menos de 5 días, sin coordinar despliegues»\n\nDISPONIBILIDAD     cuánto puede estar caído, y cuánto se pierde\n  → tiene techo por dependencias                       clase 185\n\nRENDIMIENTO        latencia, caudal y su comportamiento cerca\n                   del codo                            clase 186\n\nSEGURIDAD          alcance desde cada punto de entrada  clase 133\n\nOBSERVABILIDAD     cuánto se tarda en saber qué pasa\n  escenario: «ante una subida de errores, un ingeniero de guardia\n              debe poder identificar el servicio y el cambio\n              responsable en menos de 10 minutos, sin acceso\n              a producción»\n\nOPERABILIDAD       cuánto cuesta operarlo con la plantilla real\nCOSTE              coste por unidad de negocio          clase 142\n```\n\nY dos escenarios que casi nunca se escriben y que este programa ha demostrado que importan:\n\n```text\nRECUPERABILIDAD  «tras un borrado accidental de la tabla de\n                  reservas, restaurar con pérdida ≤ 5 min y\n                  servicio recuperado en ≤ 1 h, MEDIDO»  clase 166\n\nDIAGNOSTICABILIDAD «un procedimiento de incidente debe poder\n                  ejecutarlo alguien que no lo escribió»  ley 22\n```"
+    },
+    {
+      "heading": "Los conflictos, y quién cede",
+      "body": "Los atributos de calidad se estorban entre sí. Un documento que los lista todos como «altos» no ha decidido nada.\n\nLos conflictos que aparecen siempre:\n\n```text\nDISPONIBILIDAD × CONSISTENCIA\n  bajo partición hay que elegir                        clase 187\n  → decidir POR OPERACIÓN, no para el sistema entero\n\nRENDIMIENTO × MODIFICABILIDAD\n  cada capa de indirección cuesta latencia\n  cada atajo cuesta cambio futuro\n\nSEGURIDAD × OPERABILIDAD\n  cada control añade fricción; la fricción se rodea    ley 16\n\nCOSTE × DISPONIBILIDAD\n  la segunda región cuesta aunque no se use            clase 164\n\nRENDIMIENTO × COSTE\n  el codo se aleja pagando                             clase 129\n\nMODIFICABILIDAD × PLAZO\n  el atajo entrega en septiembre y se paga en marzo\n```\n\nY la forma de resolverlos que evita la discusión infinita:\n\n```text\n1. escribir los dos escenarios en conflicto, medidos\n2. decir cuál cede y CUÁNTO cede, con número\n3. decir quién lo decide, con nombre\n4. y en qué condición se revisa\n\nejemplo\n  «la disponibilidad del catálogo cede a favor del coste:\n   99,5 % en lugar de 99,9 %, sin segunda región. Lo acepta\n   la dirección de producto. Se revisa si el catálogo pasa a\n   soportar reservas directas.»\n```\n\nY una prueba de si el conflicto es real:\n\n```text\nsi nadie cede, uno de los dos atributos no era real\n→ o bien nadie ha medido lo que cuesta el que se declara alto\n```\n\nY la asimetría que conviene tener presente:\n\n```text\nlos atributos que se incumplen ruidosamente (latencia, caídas)\nse corrigen pronto porque duelen\nlos que se incumplen en silencio (modificabilidad, recuperabilidad,\ndiagnosticabilidad) se descubren años después           ley 13\n→ por eso hay que escribir escenarios precisamente de esos\n```"
+    },
+    {
+      "heading": "Priorizar por coste de cambio",
+      "body": "La priorización habitual —importancia declarada— produce documentos donde todo es crítico. La priorización útil usa otro eje:\n\n```text\n¿cuánto cuesta cambiar esta decisión dentro de un año?\n\nCARO DE CAMBIAR, decidir con cuidado y pronto\n  modelo de datos y quién escribe cada dato            ley 21\n  clave de partición                                    clase 114\n  frontera entre módulos o servicios                    clase 183\n  modelo de consistencia por operación                  clase 187\n  dominio de identidad                                  clase 159\n  jerarquía de cuentas                                  clase 169\n  contrato público de la API                            clase 188\n\nBARATO DE CAMBIAR, decidir después y con datos\n  tamaño de instancia\n  lenguaje de un servicio interno\n  proveedor de correo\n  biblioteca de registro\n  umbral de una alerta\n```\n\nY la regla que se deriva:\n\n```text\ndecide pronto y con cuidado lo caro de cambiar\ndecide tarde y con medidas lo barato\n→ y no gastes la discusión al revés, que es lo habitual\n```\n\n**El documento mínimo de requisitos** que hace falta antes de diseñar, y que cabe en dos páginas:\n\n```text\n1. qué hace el sistema, en una lista corta\n2. restricciones comprobadas, con la evidencia de que lo son\n3. cinco a ocho escenarios de calidad medibles\n   incluidos uno de modificabilidad y uno de recuperabilidad\n4. conflictos declarados, con quién cede y cuánto\n5. decisiones caras de cambiar, marcadas\n6. lo que NO va a hacer el sistema\n```\n\nY el punto 6 es el más útil y el que más se omite:\n\n```text\ndecir lo que el sistema no hará evita\n  el atributo de calidad que aparece en el mes seis\n  la integración que nadie pidió y todos asumieron\n  y la discusión de alcance sin árbitro\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ cada frase del encargo está clasificada en una de las tres\n☐ cada restricción se ha comprobado: contrato, ley o fecha real\n☐ están las restricciones no declaradas: plantilla, guardia, heredado\n☐ ningún atributo de calidad es un adjetivo\n☐ cada escenario tiene medida, punto de medida y entorno\n☐ hay un escenario de modificabilidad\n☐ hay uno de recuperabilidad y uno de diagnosticabilidad\n☐ los conflictos dicen cuál cede, cuánto y quién lo acepta\n☐ las decisiones caras de cambiar están marcadas\n☐ está escrito lo que el sistema NO va a hacer\n```\n\nY el cierre que enlaza con la clase siguiente: con requisitos, restricciones y atributos escritos, hace falta una forma de dibujar el sistema que sirva para discutirlos sin ahogarse en detalle. Es la materia de la clase 182."
+    }
+  ],
+  "worked_example": "**Un equipo recibe el encargo de rehacer el sistema de reservas. Lo que sigue es la conversación de arranque, la clasificación de cada frase, los escenarios que salieron y los dos conflictos que hubo que resolver.**\n\n**Lo que dijo negocio, literalmente, en la reunión de arranque:**\n\n```text\n1. «queremos que la gente pueda reservar y modificar sin llamar»\n2. «tiene que ser rápido, la web actual es lentísima»\n3. «no se puede caer en Black Friday como el año pasado»\n4. «seguro, que estamos con datos de tarjetas»\n5. «tiene que estar en octubre por la campaña de invierno»\n6. «usad Azure, tenemos compromiso de consumo hasta 2028»\n7. «que sea escalable, para crecer»\n8. «y que podamos añadir productos nuevos rápido»\n```\n\n**La clasificación:**\n\n```text\n1  funcional        reservar y modificar en autoservicio\n2  calidad          rendimiento, sin medir\n3  calidad          disponibilidad en pico, sin medir\n4  calidad          seguridad, sin medir\n5  restricción      fecha externa — se comprueba\n6  restricción      contractual — se comprueba\n7  ruido            «escalable» sin cifra no dice nada\n8  calidad          modificabilidad — la más importante y la\n                    que iban a olvidar\n```\n\n**Comprobación de las restricciones**, que cambió una de las dos:\n\n```text\n5  «octubre por la campaña»\n   ¿qué pasa el 1 de noviembre si no está?\n   → la campaña se lanza igual con el sistema actual, pero se\n     pierde la promoción cruzada: unos 190.000 € de margen\n   → ES una restricción real, con coste conocido\n\n6  «Azure hasta 2028»\n   → contrato con compromiso de consumo, penalización si no se\n     alcanza. Real y no negociable.\n   → efecto: descarta comparar proveedores; NO descarta que\n     el equipo diseñe portable donde salga barato    clase 158\n```\n\nY dos restricciones no declaradas que aparecieron al preguntar:\n\n```text\n  el equipo son 5 personas, y 2 están al 50 % en el heredado\n  no hay guardia nocturna y no la va a haber este año\n  → esto elimina de la mesa cualquier diseño que exija\n    intervención humana de madrugada\n```\n\n**Los siete escenarios que se escribieron.**\n\n```text\nQA-1  RENDIMIENTO\n  un usuario móvil busca disponibilidad, en pico de campaña\n  (3.000 búsquedas/s), y recibe resultados\n  medida   p99 ≤ 400 ms en el borde; errores 5xx ≤ 0,1 %\n\nQA-2  DISPONIBILIDAD\n  el flujo de reserva sigue aceptando reservas durante el pico\n  aunque el servicio de recomendaciones esté caído\n  medida   99,9 % mensual sobre el flujo de reserva;\n           las recomendaciones son dependencia blanda\n\nQA-3  MODIFICABILIDAD\n  producto quiere añadir un método de pago nuevo\n  medida   un equipo lo entrega en ≤ 5 días laborables, sin\n           modificar el servicio de reservas y sin coordinar\n           despliegue con otros equipos\n\nQA-4  SEGURIDAD\n  un atacante obtiene la credencial del servicio de búsqueda\n  medida   alcance limitado al índice de búsqueda; sin acceso\n           a datos de pago ni a la base de reservas;\n           detectado en ≤ 15 min\n\nQA-5  RECUPERABILIDAD\n  un despliegue borra por error la tabla de reservas\n  medida   restaurar con pérdida ≤ 5 min y servicio en ≤ 1 h,\n           MEDIDO en un ensayo antes de salir a producción\n\nQA-6  DIAGNOSTICABILIDAD\n  suben los errores en el flujo de pago un martes a las 03:00\n  medida   el ingeniero de guardia identifica servicio y cambio\n           responsable en ≤ 10 min, desde el móvil, sin acceso\n           de escritura a producción\n\nQA-7  COSTE\n  el tráfico crece un 40 % en campaña\n  medida   el coste por reserva no sube más de un 10 %\n```\n\nY dos observaciones sobre esta lista:\n\n```text\nQA-3 no lo pidió nadie con esas palabras: salió de «añadir\n  productos nuevos rápido», que es la frase que más arquitectura\n  decide y la que menos se escribe\n\nQA-6 salió de la restricción no declarada: sin guardia nocturna,\n  el diagnóstico tiene que ser posible desde el móvil, y eso\n  condiciona la telemetría desde el primer día        clase 121\n```\n\n**Los dos conflictos, resueltos con nombre y número.**\n\n```text\nCONFLICTO 1   QA-1 (p99 ≤ 400 ms) × QA-3 (modificabilidad)\n\n  el camino rápido sería una consulta que junta reservas,\n  precios y disponibilidad en una sola base\n  el camino modificable separa los tres, y añade una llamada\n\n  cede   QA-1, de 400 a 500 ms de p99\n  motivo el usuario no distingue 400 de 500; el equipo sí\n         distingue 5 días de 6 semanas para añadir un producto\n  acepta la dirección de producto\n  revisa si la medida en el borde supera 700 ms\n\nCONFLICTO 2   QA-2 (99,9 %) × QA-7 (coste por reserva)\n\n  99,9 % en el flujo de reserva exigía segunda región activa\n  el cálculo de dependencias daba un techo de 99,82 %  clase 185\n\n  cede   QA-2, de 99,9 % a 99,7 %, con segunda región en frío\n         y conmutación ensayada\n  motivo la segunda región activa costaba 6.400 €/mes para\n         ganar 0,2 puntos; el coste de la indisponibilidad\n         medido en el histórico era de 1.900 €/mes\n  acepta la dirección de tecnología\n  revisa si el negocio de empresa (contratos con penalización)\n         supera el 15 % de los ingresos\n```\n\n**Las decisiones marcadas como caras de cambiar:**\n\n```text\nquién escribe la reserva                        ← una sola cosa\nclave de partición de reservas                  ← fecha + destino\nfrontera entre reservas, precios y catálogo\nconsistencia del inventario                     ← fuerte al reservar\ncontrato público de la API móvil\n```\n\nY **lo que el sistema no va a hacer**, escrito para evitar la discusión del mes seis:\n\n```text\nno sustituye a facturación, que sigue en el heredado\nno gestiona la atención al cliente\nno soporta reservas de grupo (más de 9 habitaciones)\nno tiene aplicación de escritorio propia\nno se internacionaliza más allá de ES y PT en esta fase\n```\n\n**La lección que esta clase deja para la siguiente**: de las ocho frases del encargo, una era funcional, dos eran restricciones, cuatro eran adjetivos que hubo que convertir en escenarios y una —«escalable»— no significaba nada. Y el escenario que más condicionó el diseño, QA-3, **no lo pidió nadie con esas palabras**: se dedujo de una frase suelta al final de la reunión.",
+  "pitfalls": [
+    {
+      "symptom": "El documento de requisitos no ayuda a decidir nada",
+      "cause": "Solo contiene requisitos funcionales, que casi cualquier arquitectura cumple",
+      "fix": "Añade escenarios de calidad medibles; son los que deciden la arquitectura."
+    },
+    {
+      "symptom": "Todos los atributos figuran como «altos» y no se puede diseñar",
+      "cause": "No se declararon los conflictos ni quién cede",
+      "fix": "Escribe los pares en conflicto, di cuál cede, cuánto, quién lo acepta y cuándo se revisa."
+    },
+    {
+      "symptom": "Una supuesta restricción resulta ser una costumbre",
+      "cause": "No se comprobó si era contractual, legal o de fecha real",
+      "fix": "Pregunta qué ocurre si se incumple; si la respuesta es «nada en concreto», no era una restricción."
+    },
+    {
+      "symptom": "El diseño exige intervención humana de madrugada y no hay quien la haga",
+      "cause": "Se ignoraron las restricciones no declaradas: plantilla, guardia, heredado",
+      "fix": "Levanta explícitamente equipo, turnos y sistemas intocables antes de diseñar."
+    },
+    {
+      "symptom": "A los dos años cada cambio pequeño cuesta semanas",
+      "cause": "No se escribió ningún escenario de modificabilidad",
+      "fix": "Escribe uno con verbo, plazo y sin coordinación entre equipos, y prioriza por coste de cambio."
+    },
+    {
+      "symptom": "En el mes seis aparece un alcance que nadie había acordado",
+      "cause": "No se escribió lo que el sistema no iba a hacer",
+      "fix": "Incluye la lista de exclusiones en el documento de requisitos."
+    }
+  ],
+  "checks": [
+    "¿Por qué los requisitos funcionales casi nunca deciden la arquitectura?",
+    "¿Cómo se comprueba que una restricción es real?",
+    "¿Qué seis partes tiene un escenario de calidad?",
+    "¿Qué atributo se paga todos los meses y casi nunca se escribe?",
+    "¿Por qué se prioriza por coste de cambio y no por importancia declarada?"
+  ],
+  "references": [
+    {
+      "text": "Bass, L., Clements, P. y Kazman, R. (2021). *Software Architecture in Practice*, 4.ª ed. — escenarios de atributos de calidad.",
+      "url": "https://www.oreilly.com/library/view/software-architecture-in/9780136886051/"
+    },
+    {
+      "text": "SEI (2006). *Quality Attribute Workshops*, 3.ª ed.",
+      "url": "https://insights.sei.cmu.edu/library/quality-attribute-workshops-qaws-third-edition/"
+    },
+    {
+      "text": "Ford, N., Parsons, R. y Kua, P. (2017). *Building Evolutionary Architectures* — características arquitectónicas y su priorización.",
+      "url": "https://www.oreilly.com/library/view/building-evolutionary-architectures/9781491986356/"
+    },
+    {
+      "text": "ISO/IEC 25010 — modelo de calidad de producto software.",
+      "url": "https://www.iso.org/standard/78176.html"
+    },
+    {
+      "text": "AWS (2025). *Well-Architected Framework* — atributos y compromisos entre pilares.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html"
+    }
+  ]
+}
