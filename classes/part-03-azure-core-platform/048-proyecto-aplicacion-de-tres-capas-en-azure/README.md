@@ -309,7 +309,7 @@ base de datos aprovisionada frente a elástica    390            390
 pasarela de aplicación con WAF                   185            185
 telemetría en plan de análisis para todo         276            110   (045)
 planes de Defender en todo                       230             96   (046)
-cómputo, red, mensajería y almacenamiento        308            308
+cómputo, red, mensajería y almacenamiento        308            159
 escalado automático de Cosmos mal dimensionado    —              —    (042)
                                               ───────       ───────
                                                 1.389           940
