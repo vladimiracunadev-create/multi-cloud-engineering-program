@@ -1,0 +1,118 @@
+{
+  "id": "197",
+  "purpose": "Servir desde el borde lo que no hace falta calcular otra vez, que es la palanca más grande que existe sobre latencia y coste de salida a la vez. La clase explica qué determina de verdad la tasa de aciertos —la clave de caché, no el producto—, cómo se invalida sin tirar el origen, qué es y para qué sirve el escudo de origen, y dónde tiene sentido ejecutar código en el borde y dónde es una complicación cara.",
+  "outcomes": [
+    "**Diseñar** la clave de caché para maximizar aciertos sin servir contenido incorrecto.",
+    "**Elegir** los tiempos de validez y la revalidación adecuados a cada contenido.",
+    "**Invalidar** sin provocar una avalancha contra el origen.",
+    "**Aplicar** el escudo de origen y medir lo que ahorra.",
+    "**Decidir** qué ejecutar en el borde y qué no."
+  ],
+  "concepts": [
+    {
+      "term": "clave de caché",
+      "definition": "Conjunto de elementos de la petición que identifican una entrada. Determina la tasa de aciertos más que ningún otro factor."
+    },
+    {
+      "term": "tasa de aciertos",
+      "definition": "Proporción de peticiones servidas sin ir al origen. Se mide por ruta, no en global."
+    },
+    {
+      "term": "revalidación",
+      "definition": "Preguntar al origen si el contenido cambió sin volver a descargarlo, usando validadores."
+    },
+    {
+      "term": "contenido rancio",
+      "definition": "Servir una copia vencida mientras se refresca o cuando el origen falla. Convierte una caída en una degradación."
+    },
+    {
+      "term": "escudo de origen",
+      "definition": "Capa intermedia que concentra los fallos de caché de todos los nodos y protege al origen."
+    },
+    {
+      "term": "avalancha",
+      "definition": "Muchas peticiones simultáneas al origen tras una invalidación o un vencimiento común."
+    }
+  ],
+  "diagram": "flowchart TB\n    C[\"cliente\"] --> E[\"nodo de borde\"]\n    E -->|\"acierto\"| R1[\"responde en ms,\\nsin coste de salida\\ndel origen\"]\n    E -->|\"fallo\"| S[\"ESCUDO DE ORIGEN\\nconcentra los fallos\"]\n    S -->|\"acierto\"| R2[\"responde sin\\ntocar el origen\"]\n    S -->|\"fallo\"| O[\"origen\"]\n    K[\"clave de caché\"] --> K1[\"ruta + método\"]\n    K --> K2[\"¿qué parámetros?\\n← normalizar\"]\n    K --> K3[\"¿qué cabeceras?\\n← cada una DIVIDE\"]\n    K --> K4[\"¿cookies?\\n← casi nunca\"]\n    V[\"vencimiento\"] --> V1[\"inmutable: 1 año\\n+ nombre con huella\"]\n    V --> V2[\"semiestático:\\ncorto + revalidar\"]\n    V --> V3[\"rancio mientras\\nrefresca / si hay error\"]",
+  "foundations": [
+    {
+      "heading": "La clave de caché lo decide casi todo",
+      "body": "La tasa de aciertos no depende del producto: depende de **cuántas entradas distintas se generan para el mismo contenido**.\n\n```text\nCADA ELEMENTO QUE ENTRA EN LA CLAVE MULTIPLICA LAS ENTRADAS\n\n  ruta                                  1 entrada\n  + 3 valores de idioma                 3\n  + 4 valores de moneda                12\n  + cabecera de agente de usuario     ×miles   ← desastre\n  + cookie de sesión                  ×usuarios ← desastre\n```\n\nY los errores que hunden la tasa de aciertos, por frecuencia:\n\n```text\n1. INCLUIR TODOS LOS PARÁMETROS DE CONSULTA\n   ?id=7&utm_source=correo&fbclid=xyz\n   → los de seguimiento crean una entrada por usuario\n   solución   lista de parámetros que SÍ entran; el resto\n              se ignora o se elimina\n\n2. INCLUIR COOKIES\n   una cookie de sesión o de analítica en la clave hace la\n   caché inútil\n   solución   no incluir cookies salvo en rutas concretas\n\n3. INCLUIR EL AGENTE DE USUARIO\n   miles de variantes\n   solución   si hay que variar por dispositivo, usar una\n              clasificación de 2-3 valores, no la cabecera\n\n4. NO NORMALIZAR\n   /producto?a=1&b=2 y /producto?b=2&a=1 son la misma cosa\n   solución   ordenar y normalizar antes de construir la\n              clave\n```\n\nY el error simétrico, que es peor:\n\n```text\nCLAVE DEMASIADO CORTA\n  no incluir el idioma cuando el contenido varía por idioma\n  → se sirve contenido incorrecto a alguien\n  → y se sirve DESDE CACHÉ, así que dura hasta que vence\n\n→ el mecanismo correcto es declarar la variación en la\n  respuesta, para que la caché sepa qué diferencia\n```\n\nY la medida que hay que mirar:\n\n```text\ntasa de aciertos POR RUTA, no global\n  la global la domina lo estático y esconde el problema\n  → una ruta con 12 % de aciertos y mucho tráfico es donde\n    está el dinero\n\ny además: bytes servidos desde el borde frente a bytes desde\nel origen\n  → es lo que se traduce directamente en coste de salida\n                                                  clase 168\n```"
+    },
+    {
+      "heading": "Vencimiento, revalidación y contenido rancio",
+      "body": "Hay tres decisiones distintas y suelen confundirse en un solo número.\n\n```text\n1. CUÁNTO PUEDE SERVIRSE SIN PREGUNTAR      (validez)\n2. QUÉ HACER CUANDO VENCE                   (revalidar)\n3. QUÉ HACER SI EL ORIGEN NO RESPONDE       (rancio)\n```\n\n**El patrón por tipo de contenido:**\n\n```text\nINMUTABLE (recursos con huella en el nombre)\n  app.7f3a91.js\n  validez   1 año, e inmutable\n  cambio    nombre nuevo; no hay que invalidar nada\n  → es la forma más eficaz y la más infrautilizada\n\nSEMIESTÁTICO (páginas, listados, imágenes de producto)\n  validez   corta (30-300 s)\n  y además  rancio mientras refresca\n  → el usuario nunca espera al origen\n\nPERSONALIZADO\n  no se cachea en el borde, o se cachea la parte común y se\n  compone\n  → separar la página en trozos cacheables y trozos propios\n\nAPI DE LECTURA\n  validez corta con revalidación por validador\n  → respuesta 304 sin cuerpo: ahorra ancho de banda aunque\n    no ahorre latencia\n\nAPI DE ESCRITURA\n  nunca\n```\n\n**Contenido rancio**, que es la función más valiosa y la menos configurada:\n\n```text\nRANCIO MIENTRAS REFRESCA\n  al vencer, se sirve la copia vieja INMEDIATAMENTE y se\n  refresca por detrás\n  → el usuario nunca paga la latencia del origen\n  → y desaparece la avalancha por vencimiento simultáneo\n\nRANCIO SI HAY ERROR\n  si el origen devuelve error o no responde, se sirve la\n  copia vieja\n  → convierte una caída del origen en contenido con unos\n    minutos de antigüedad\n  → esto es lo que hace que la caída no se note      clase 185\n```\n\nY el dato que justifica configurarlo:\n\n```text\nun origen caído 20 minutos con rancio-si-error activo y\nvalidez de 5 minutos\n  → los usuarios ven contenido de hasta 25 minutos de\n    antigüedad\n  → en vez de una página de error\n```\n\n**La avalancha**, que es el fallo característico de las cachés:\n\n```text\nCÓMO OCURRE\n  todo se cachea a la vez (tras un despliegue o una\n  invalidación) y vence a la vez\n  → miles de peticiones simultáneas al origen\n  → el origen cae, y al recuperarse vuelve a pasar\n\nCÓMO SE EVITA\n  rancio mientras refresca\n  colapso de peticiones: una sola petición al origen por\n    clave; las demás esperan esa\n  dispersión del vencimiento: validez ± un porcentaje al azar\n  y no invalidar todo a la vez               ← ver abajo\n```"
+    },
+    {
+      "heading": "Invalidar y proteger el origen",
+      "body": "**La invalidación** es la operación más peligrosa de una caché.\n\n```text\nPOR PREFIJO O COMODÍN\n  /productos/*\n  → invalida miles de entradas de golpe\n  → todas las peticiones siguientes van al origen\n  → es la causa de la avalancha de la clase 111\n\nPOR ETIQUETA\n  cada respuesta lleva etiquetas: producto:7, categoría:3\n  al cambiar el producto 7 se invalida solo lo suyo\n  → es el mecanismo correcto y hay que diseñarlo desde el\n    principio\n\nPOR NOMBRE NUEVO (versionado)\n  no se invalida nada: el recurso nuevo tiene otro nombre\n  → cero riesgo; es lo mejor cuando se puede\n```\n\nY las reglas de operación:\n\n```text\nuna invalidación masiva se hace con el origen preparado\n  → o escalonada, por lotes\n  → nunca en hora punta\ny se mide el efecto en la carga del origen\n```\n\n**El escudo de origen**, que resuelve un problema concreto:\n\n```text\nSIN ESCUDO\n  200 nodos de borde; cada uno falla su caché por separado\n  → hasta 200 peticiones al origen por el mismo objeto\n\nCON ESCUDO\n  los fallos de todos los nodos van a una capa intermedia\n  → el origen ve 1 petición por objeto\n\nEFECTO TÍPICO\n  reducción del tráfico al origen entre 3× y 10×\n  y mejora de la tasa de aciertos global, porque el escudo\n  acumula lo que cada nodo individualmente no vería\n```\n\nY dónde ponerlo:\n\n```text\ncerca del origen, no cerca de los usuarios\n→ y si hay varias regiones de origen, un escudo por región\n```\n\n**Lo que se ahorra**, que es la justificación de todo el capítulo:\n\n```text\nCADA ACIERTO EN EL BORDE\n  no consume cómputo del origen\n  no consume ancho de banda de salida del origen  ← el caro\n  responde en 5-30 ms en vez de 80-300 ms\n\ny el coste de salida desde el borde suele ser la mitad o\nmenos que desde el origen\n→ subir 10 puntos la tasa de aciertos en la ruta de más\n  tráfico suele valer más que cualquier optimización de\n  código                                          clase 168\n```"
+    },
+    {
+      "heading": "Cómputo en el borde: cuándo sí",
+      "body": "Ejecutar código en los nodos de borde permite decidir cosas antes de llegar al origen. Es útil en un conjunto de casos concreto y una mala idea fuera de él.\n\n```text\nDONDE SÍ COMPENSA\n  reescribir rutas y normalizar la clave de caché\n  redirigir por país, idioma o dispositivo\n  autenticar o rechazar antes de llegar al origen\n  componer una página con trozos cacheados\n  pruebas A/B decidiendo la variante en el borde\n  firmar o validar testigos de acceso a contenido\n  añadir cabeceras de seguridad\n\nDONDE NO\n  lógica de negocio con estado\n  acceso a base de datos\n  procesos largos\n  cualquier cosa que necesite consistencia fuerte\n```\n\nY las limitaciones que hay que conocer antes de empezar:\n\n```text\ntiempo de ejecución muy corto (milisegundos)\nmemoria pequeña\nsin estado compartido fiable entre nodos\nlatencia alta hacia cualquier base de datos central\ndepuración difícil: cientos de nodos\ndespliegue global que tarda minutos en propagarse\n```\n\nY la advertencia operativa:\n\n```text\nun error en el código de borde afecta a CUANTO tráfico pasa a\nla vez, y no hay despliegue escalonado natural\n→ desplegar por porcentaje de tráfico si el producto lo\n  permite, y tener vuelta atrás rápida    clase 102\n```\n\nY una decisión de diseño que evita mucho trabajo:\n\n```text\nlo que se pueda resolver con configuración de caché, no se\nresuelve con código en el borde\n→ normalizar parámetros, variar por idioma y añadir\n  cabeceras suelen ser configuración\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ la tasa de aciertos se mide por ruta, no en global\n☐ los parámetros de seguimiento no entran en la clave\n☐ no hay cookies en la clave salvo en rutas concretas\n☐ los parámetros se normalizan y se ordenan\n☐ la variación por idioma o dispositivo está declarada\n☐ los recursos versionados usan huella en el nombre y validez\n  larga\n☐ está activado rancio mientras refresca\n☐ está activado rancio si hay error\n☐ hay colapso de peticiones por clave\n☐ el vencimiento está disperso\n☐ la invalidación es por etiqueta, no por comodín\n☐ hay escudo de origen y se ha medido lo que ahorra\n☐ se miden bytes servidos desde el borde y desde el origen\n☐ el código de borde no hace lógica de negocio con estado\n```\n\nY el cierre que enlaza con la clase siguiente: el borde resuelve el tráfico que viene de internet, pero buena parte del tráfico de una empresa va contra su propia red. Conectar la nube con los centros de datos —túneles, enlaces dedicados y su operación— es la materia de la clase 198."
+    }
+  ],
+  "worked_example": "**CloudShop tiene una tasa de aciertos global del 71 % y una factura de salida de 14.200 €/mes. Lo que sigue es el análisis por ruta, los cuatro cambios de clave de caché, y el resultado a los tres meses.**\n\n**Lo que decía el panel:**\n\n```text\ntasa de aciertos global                         71 %\n«está bien, la mayoría se sirve del borde»\n```\n\n**Lo que decía el desglose por ruta:**\n\n```text\nruta                    peticiones/día   aciertos   bytes al origen\n/estáticos/*                12,4 M         99,4 %      1,2 %\n/imagenes/producto/*         8,1 M         96,1 %      6,4 %\n/api/catalogo/listado        4,7 M          8,2 %     41,3 %  ←\n/producto/{id}               3,2 M         34,0 %     22,7 %  ←\n/api/precios/{id}            2,9 M          0 %       11,8 %\n/buscar                      1,1 M          0 %        9,3 %\nresto                        0,8 M         62 %        7,3 %\n```\n\nY la lectura:\n\n```text\nel 71 % global lo produce lo estático, que ya estaba resuelto\nlas dos rutas que generan el 64 % del tráfico al origen\ntienen tasas del 8 % y del 34 %\n→ ahí está el dinero y la latencia\n```\n\n**Diagnóstico de /api/catalogo/listado: 8,2 % de aciertos.**\n\n```text\nla clave incluía\n  ruta\n  TODOS los parámetros de consulta\n  cabecera de agente de usuario\n  cookie de sesión\n\nlo que eso producía\n  parámetros reales que cambian el contenido        3\n    categoria, pagina, orden\n  parámetros de seguimiento que llegaban           11\n    utm_source, utm_medium, utm_campaign, fbclid, gclid…\n  variantes de agente de usuario observadas    ~14.000\n  cookies de sesión                          1 por usuario\n\n→ entradas distintas para el mismo contenido: prácticamente\n  una por petición\n→ por eso el 8,2 %, que venía de recargas inmediatas\n```\n\n**Los cuatro cambios.**\n\n```text\nCAMBIO 1 · lista blanca de parámetros\n  entran   categoria, pagina, orden\n  se ignoran los 11 de seguimiento y cualquiera nuevo\n  además   se ordenan alfabéticamente antes de la clave\n\nCAMBIO 2 · fuera el agente de usuario\n  el contenido no variaba por dispositivo en esta ruta\n  → eliminado de la clave\n\nCAMBIO 3 · fuera las cookies\n  el listado no es personalizado\n  la personalización (los 3 productos recomendados) se\n  extrajo a una llamada aparte que no se cachea\n  → la página común se cachea; la parte propia, no\n\nCAMBIO 4 · validez y rancio\n  validez              60 s\n  rancio mientras refresca   600 s\n  rancio si hay error      86.400 s (1 día)\n  dispersión del vencimiento  ±15 %\n  colapso de peticiones    activado\n```\n\nY el resultado de esa ruta:\n\n```text                                    antes      después\ntasa de aciertos                       8,2 %       94,1 %\np50 de la ruta                        112 ms         9 ms\np99 de la ruta                        890 ms        38 ms\npeticiones/día al origen              4,31 M       0,28 M\n```\n\n**Diagnóstico de /producto/{id}: 34 % de aciertos.**\n\n```text\ncausa    invalidación por comodín\n         cada cambio de precio invalidaba /producto/*\n         y los precios cambian 11 veces al mes… por producto\n         → en la práctica, invalidaciones masivas casi diarias\n\ny el efecto secundario\n  tras cada invalidación, avalancha contra el origen\n  → 3 incidentes de latencia en el año coincidían con\n    invalidaciones                                clase 111\n\ncorrección\n  etiquetado de respuestas: producto:{id}, categoria:{id}\n  invalidación por etiqueta: cambiar el producto 4471\n  invalida solo lo suyo\n  y la invalidación por comodín se desactivó por política\n\nresultado                              antes      después\ntasa de aciertos                        34 %        88 %\nentradas invalidadas por cambio     ~310.000           4\navalanchas contra el origen           3/año           0\n```\n\n**El escudo de origen.**\n\n```text\nantes   214 nodos de borde, cada uno fallando por su cuenta\n        peticiones al origen por objeto nuevo: hasta 190\n\ndespués escudo en la región del origen\n        peticiones al origen por objeto nuevo: 1\n\nefecto medido\n  peticiones/s al origen en el pico     3.100  →  410\n  ancho de banda de salida del origen   -78 %\n  y un efecto no previsto: la tasa de aciertos global subió\n    2,3 puntos más, porque el escudo acumula lo que un nodo\n    con poco tráfico nunca llegaría a cachear\n```\n\n**Las dos rutas que no se cachearon, y por qué:**\n\n```text\n/api/precios/{id}\n  se evaluó y se descartó cachear en el borde\n  motivo   el precio ya se cachea 15 min en la aplicación\n           (clase 187) y el volumen al origen es pequeño\n  además   una caché más añade otra capa donde el precio\n           puede quedarse viejo, y ya hay una decisión de\n           consistencia tomada\n\n/buscar\n  las consultas son casi únicas: la tasa de aciertos\n  estimada era del 4 %\n  → no compensa\n```\n\nY esa segunda decisión merece nota:\n\n```text\nse midió antes de configurar\n→ configurar caché en una ruta con 4 % de aciertos añade\n  complejidad y no ahorra nada\n```\n\n**El cómputo en el borde, donde se usó y donde no:**\n\n```text\nSÍ\n  normalización de parámetros y de mayúsculas en la ruta\n  redirección por país a la tienda correspondiente\n  validación del testigo firmado para descargas privadas\n    → rechaza el 100 % de las peticiones sin testigo válido\n      sin tocar el origen\n  cabeceras de seguridad\n\nNO\n  se propuso mover el cálculo de recomendaciones al borde\n  → necesitaba consultar un almacén central en cada petición\n  → la latencia hacia el almacén desde un nodo lejano era\n    de 90-140 ms, peor que ir al origen\n  → descartado, con el registro correspondiente  clase 190\n```\n\n**El resultado global, a los tres meses:**\n\n```text                                        antes     después\ntasa de aciertos global                     71 %       97,2 %\ntasa de aciertos de /api/catalogo/listado  8,2 %       94,1 %\ntasa de aciertos de /producto/{id}          34 %         88 %\npeticiones/s al origen en el pico          3.100         410\np50 del listado en el borde               112 ms        9 ms\ncoste de salida                        14.200 €/mes  4.900 €/mes\ncoste de cómputo del origen             -3.400 €/mes (2 zonas\n                                        menos de instancias)\navalanchas                                 3/año           0\n```\n\nY el detalle que resume el capítulo:\n\n```text\ndel ahorro de 9.300 €/mes, la mayor parte vino de un cambio\nque no tocó ni una línea de código de la aplicación:\ndejar de incluir en la clave once parámetros de seguimiento,\nel agente de usuario y una cookie\n```\n\n**La lección que esta clase deja**: la tasa de aciertos global del 71 % **escondía dos rutas al 8 % y al 34 %** que generaban el 64 % del tráfico al origen, y ninguna de las dos tenía un problema de producto: una tenía la clave de caché mal construida y la otra se invalidaba con comodín. Y el mayor ahorro del año se consiguió **quitando cosas de la clave**, no añadiendo capacidad.",
+  "pitfalls": [
+    {
+      "symptom": "La tasa de aciertos es alta en global y el origen recibe mucho tráfico",
+      "cause": "La global la domina el contenido estático y esconde rutas con tasas bajas",
+      "fix": "Mide aciertos y bytes al origen por ruta, y ataca las rutas con más tráfico y peor tasa."
+    },
+    {
+      "symptom": "Casi cada petición genera una entrada nueva",
+      "cause": "La clave incluye parámetros de seguimiento, cookies o el agente de usuario",
+      "fix": "Usa lista blanca de parámetros, normaliza y ordena, y saca cookies y agente de usuario de la clave."
+    },
+    {
+      "symptom": "Se sirve contenido incorrecto a algunos usuarios",
+      "cause": "La clave es demasiado corta y no distingue una variación real",
+      "fix": "Declara la variación en la respuesta para que la caché sepa qué diferencia, en vez de ampliar la clave a ciegas."
+    },
+    {
+      "symptom": "Tras cada invalidación el origen se satura",
+      "cause": "Invalidación por comodín y vencimiento simultáneo",
+      "fix": "Invalida por etiqueta, activa rancio mientras refresca, colapso de peticiones y dispersión del vencimiento."
+    },
+    {
+      "symptom": "Una caída del origen se ve como página de error",
+      "cause": "No está activado servir contenido rancio si hay error",
+      "fix": "Configura rancio si hay error con una ventana amplia; convierte la caída en contenido con algo de antigüedad."
+    },
+    {
+      "symptom": "El código en el borde resulta más lento que ir al origen",
+      "cause": "Necesita consultar un almacén central en cada petición",
+      "fix": "Reserva el borde para decisiones sin estado; lo que dependa de datos centrales, déjalo en el origen."
+    }
+  ],
+  "checks": [
+    "¿Qué factor determina la tasa de aciertos más que ningún otro?",
+    "¿Cómo se sirve contenido que varía por idioma sin destrozar la caché?",
+    "¿Qué diferencia hay entre rancio mientras refresca y rancio si hay error?",
+    "¿Por qué la invalidación por comodín provoca avalanchas y qué la sustituye?",
+    "¿Qué problema concreto resuelve el escudo de origen?"
+  ],
+  "references": [
+    {
+      "text": "RFC 9111 — HTTP caching.",
+      "url": "https://www.rfc-editor.org/rfc/rfc9111"
+    },
+    {
+      "text": "RFC 5861 — HTTP cache-control extensions for stale content.",
+      "url": "https://www.rfc-editor.org/rfc/rfc5861"
+    },
+    {
+      "text": "AWS (2025). *CloudFront: cache key and origin shield*.",
+      "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/understanding-the-cache-key.html"
+    },
+    {
+      "text": "Fastly (2025). *Purging with surrogate keys*.",
+      "url": "https://docs.fastly.com/en/guides/working-with-surrogate-keys"
+    },
+    {
+      "text": "Cloudflare (2025). *Cloudflare Workers: what edge compute is good for*.",
+      "url": "https://developers.cloudflare.com/workers/"
+    }
+  ]
+}
