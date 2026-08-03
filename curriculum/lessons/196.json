@@ -1,0 +1,118 @@
+{
+  "id": "196",
+  "purpose": "Elegir y operar el punto de entrada del tráfico: qué reparte, en qué capa, con qué algoritmo, y cómo termina el cifrado. La clase separa balanceo de capa 4 y de capa 7 por lo que cada uno puede y no puede hacer, revisa los algoritmos de reparto con la evidencia de la clase 186 sobre por qué el rotatorio es mala idea, y trata la gestión de certificados como lo que en la práctica es: **la causa recurrente de caídas totales y previsibles**.",
+  "outcomes": [
+    "**Elegir** entre balanceo de capa 4 y de capa 7 según lo que haga falta.",
+    "**Seleccionar** el algoritmo de reparto y las comprobaciones de salud.",
+    "**Decidir** dónde termina TLS y qué se cifra por dentro.",
+    "**Automatizar** la emisión y renovación de certificados sin sorpresas.",
+    "**Diagnosticar** los fallos típicos de balanceador y de certificado."
+  ],
+  "concepts": [
+    {
+      "term": "capa 4",
+      "definition": "Reparto por dirección y puerto, sin ver el contenido. Rápido, transparente y ciego."
+    },
+    {
+      "term": "capa 7",
+      "definition": "Reparto entendiendo el protocolo: rutas, cabeceras, reintentos. Más capaz y más caro."
+    },
+    {
+      "term": "comprobación de salud",
+      "definition": "Sonda periódica que decide si un destino recibe tráfico. Determina cuánto tarda en salir uno roto."
+    },
+    {
+      "term": "drenaje de conexiones",
+      "definition": "Dejar terminar lo que está en curso antes de retirar un destino."
+    },
+    {
+      "term": "terminación TLS",
+      "definition": "Punto donde se descifra el tráfico. Decide qué ve cada capa y qué hay que cifrar por dentro."
+    },
+    {
+      "term": "SNI",
+      "definition": "Extensión que indica el nombre solicitado antes de descifrar. Permite varios certificados en una IP."
+    }
+  ],
+  "diagram": "flowchart TB\n    T[\"tráfico entrante\"] --> L{\"¿qué hace falta?\"}\n    L -->|\"solo repartir,\\ncualquier protocolo,\\nIP de origen visible\"| L4[\"CAPA 4\\nrápido, transparente\"]\n    L -->|\"rutas, cabeceras,\\nreintentos, TLS,\\nWAF\"| L7[\"CAPA 7\\nentiende el protocolo\"]\n    L4 --> A[\"algoritmo de reparto\"]\n    L7 --> A\n    A --> A1[\"rotatorio\\n← ignora la lentitud\"]\n    A --> A2[\"menos conexiones\\nen vuelo · MEJOR\"]\n    A --> A3[\"menor latencia\\nobservada\"]\n    A --> A4[\"consistente por clave\\nsi hay estado o caché\"]\n    H[\"comprobación de salud\"] --> H1[\"¿superficial o profunda?\"]\n    H --> H2[\"umbrales de salida\\ny de vuelta\"]\n    C[\"certificados\"] --> C1[\"emisión y renovación\\nautomáticas\"]\n    C --> C2[\"ALERTA por caducidad\\ny por antigüedad\"]\n    C --> C3[\"CAA y cadena\\ncompleta\"]",
+  "foundations": [
+    {
+      "heading": "Capa 4 y capa 7",
+      "body": "La elección no es de gusto: cada capa puede cosas que la otra no.\n\n```text\nCAPA 4  (transporte)\n  ve   dirección y puerto\n  no ve  rutas, cabeceras, cuerpo\n  hace   reparte conexiones a destinos\n\n  a favor\n    latencia mínima; apenas añade nada\n    funciona con cualquier protocolo, no solo HTTP\n    puede preservar la dirección de origen del cliente\n    escala a millones de conexiones\n  en contra\n    no puede reintentar una petición fallida\n    no distingue una ruta de otra\n    no termina TLS (salvo modos específicos)\n    su comprobación de salud es superficial\n\nCAPA 7  (aplicación)\n  ve   ruta, cabeceras, método, cuerpo\n  hace   enruta por contenido, reintenta, reescribe,\n         termina TLS, aplica límites y filtros\n\n  a favor\n    reparto por ruta o cabecera → despliegues escalonados\n    reintento de peticiones idempotentes\n    plazos por ruta\n    terminación TLS y certificados centralizados\n    filtrado de aplicación\n  en contra\n    añade latencia (0,3-2 ms típicos)\n    es un punto que hay que dimensionar y operar\n    ve el tráfico en claro → decisión de seguridad\n```\n\nY la regla de elección:\n\n```text\n¿necesitas decidir según el CONTENIDO de la petición?\n  sí   capa 7\n  no   capa 4, y te ahorras latencia y complejidad\n\n¿el protocolo no es HTTP?\n  capa 4, salvo que el producto entienda ese protocolo\n```\n\nY la combinación habitual, que resuelve casi todo:\n\n```text\ninternet → capa 4 (entrada, IP fija, escala)\n         → capa 7 (rutas, TLS, reintentos)\n         → servicios\n\n→ y la IP fija del capa 4 es la que se pone en las listas\n  de permitidos de terceros                        clase 193\n```"
+    },
+    {
+      "heading": "Reparto y comprobaciones de salud",
+      "body": "El algoritmo de reparto por defecto suele ser el rotatorio, y suele ser el peor.\n\n```text\nROTATORIO\n  una conexión a cada destino, por turno\n  problema   ignora que un destino esté lento\n  → una instancia degradada recibe la misma carga que una\n    sana, y arruina el percentil de todos      clases 152, 186\n\nMENOS CONEXIONES EN VUELO\n  al destino con menos peticiones activas\n  → un destino lento acumula peticiones y deja de recibir\n  → es el que mejor se comporta ante degradación\n  → suele ser la elección correcta por defecto\n\nMENOR LATENCIA OBSERVADA\n  usa la latencia medida reciente\n  → bueno, pero puede oscilar si la ventana es corta\n\nCONSISTENTE POR CLAVE (hash)\n  la misma clave va siempre al mismo destino\n  → necesario con caché local o estado por sesión\n  → usar variante con anillo para que al perder un destino\n    solo se reubique su parte, no todo\n\nPESOS\n  para instancias de tamaño distinto o para desplazar\n  tráfico progresivamente                          clase 102\n```\n\n**Las comprobaciones de salud**, que deciden cuánto tarda en salir un destino roto:\n\n```text\nSUPERFICIAL   «¿responde el puerto?» o «¿devuelve 200 en /?»\n  ventaja   barata\n  problema  un proceso vivo con la base caída pasa la prueba\n\nPROFUNDA      comprueba las dependencias críticas\n  ventaja   detecta el destino inútil\n  problema  si la dependencia común cae, TODOS fallan la\n            comprobación y el servicio desaparece entero\n\nLA PRÁCTICA QUE FUNCIONA\n  dos puntos distintos\n    /vivo    ¿el proceso está vivo?     → reinicio\n    /listo   ¿puede atender ahora?      → reparto\n  y /listo NO debe depender de dependencias blandas\n```\n\nY los parámetros que importan más de lo que parece:\n\n```text\nintervalo × fallos para salir = tiempo hasta dejar de recibir\n  10 s × 3 = 30 s de tráfico enviado a un destino roto\n\ny para volver, más estricto que para salir\n  2 fallos para salir, 5 aciertos para volver\n  → evita el destino que entra y sale sin parar\n```\n\nY dos comportamientos que hay que configurar siempre:\n\n```text\nDRENAJE DE CONEXIONES\n  al retirar un destino, dejar terminar lo que está en curso\n  → sin esto, cada despliegue corta peticiones vivas\n  → y el plazo de drenaje debe superar el plazo más largo\n    de las peticiones                              clase 186\n\nEXPULSIÓN DE ATÍPICOS\n  retirar temporalmente un destino que devuelve errores,\n  aunque su comprobación de salud pase\n  → cubre el fallo gris que la sonda no ve       clase 185\n```"
+    },
+    {
+      "heading": "TLS: dónde termina y qué se cifra dentro",
+      "body": "Decidir dónde se descifra el tráfico es una decisión de arquitectura con consecuencias de seguridad, latencia y diagnóstico.\n\n```text\nTERMINACIÓN EN EL BORDE\n  el balanceador descifra; hacia dentro va en claro\n  + certificados en un sitio; menos carga; se puede enrutar\n    por contenido\n  − el tráfico interno viaja sin cifrar\n\nTERMINACIÓN EN EL BORDE Y RECIFRADO\n  descifra, decide, y vuelve a cifrar hacia el destino\n  + lo mejor de los dos, y es lo habitual hoy\n  − doble coste de cifrado\n\nPASO DIRECTO\n  el balanceador no descifra; el destino termina TLS\n  + confidencialidad extremo a extremo\n  − no se puede enrutar por ruta ni cabecera; el certificado\n    vive en cada destino\n\nTLS MUTUO\n  ambos extremos presentan certificado\n  → identidad de carga sin credenciales           clase 201\n```\n\nY la decisión práctica:\n\n```text\nen la nube, terminar en el borde y RECIFRAR hacia dentro es\nla opción por defecto razonable\n→ y el cifrado interno deja de ser opcional en cuanto el\n  tráfico cruza una frontera de confianza          clase 189\n```\n\n**Los certificados**, que causan caídas totales con una regularidad notable:\n\n```text\nPOR QUÉ CAEN\n  caducan; el aviso llegó a un buzón que nadie lee   ley 15\n  la renovación automática falla en silencio         ley 13\n  falta un eslabón de la cadena y unos clientes fallan\n    y otros no\n  el certificado no cubre el nombre exacto solicitado\n  se renovó en un sitio y no en los otros tres\n```\n\nY las reglas que evitan casi todas:\n\n```text\n1  EMISIÓN Y RENOVACIÓN AUTOMÁTICAS\n   sin intervención humana; con protocolo estándar\n\n2  ALERTA POR ANTIGÜEDAD, NO SOLO POR CADUCIDAD    ley 13\n   «este certificado no se ha renovado en X días»\n   → detecta la automatización rota ANTES de caducar\n\n3  ALERTA A 30, 14 Y 7 DÍAS, a un canal con guardia\n\n4  INVENTARIO DE TODOS los certificados\n   incluidos los de dispositivos, agentes y llamadas\n   salientes\n   → los que no están en el balanceador son los que caducan\n\n5  CADENA COMPLETA SERVIDA\n   comprobado desde un cliente sin almacén completo\n\n6  REGISTRO CAA en el dominio                    clase 195\n\n7  PRUEBA NEGATIVA: adelantar el reloj o usar un\n   certificado caducado y comprobar que la alerta salta\n                                                    ley 22\n```\n\nY el caso que más se olvida:\n\n```text\nlos certificados de CLIENTE que usamos para llamar a\nterceros\n→ no están en ningún balanceador\n→ nadie los vigila\n→ y su caducidad rompe una integración concreta, no la web\n```"
+    },
+    {
+      "heading": "Diagnóstico y operación",
+      "body": "Los fallos de balanceador tienen firmas reconocibles, y saberlas ahorra horas.\n\n```text\nSÍNTOMA                             CAUSA HABITUAL\nerrores 502 intermitentes           destino que cierra la\n                                    conexión antes que el\n                                    balanceador; plazos mal\n                                    alineados\n\nerrores 504                         el destino no responde a\n                                    tiempo; plazo del\n                                    balanceador menor que el\n                                    trabajo real\n\ntodos los destinos «no sanos»       la comprobación es\na la vez                            profunda y cayó la\n                                    dependencia común\n\nun destino recibe más carga         reparto consistente por\nque los demás                       clave con clave sesgada\n\nel p99 empeora y el p50 no          un destino degradado que\n                                    sigue recibiendo\n                                    (rotatorio)\n\ncada despliegue corta peticiones    sin drenaje de conexiones\n\nfunciona en unos clientes y no      cadena de certificado\nen otros                            incompleta\n\nfalla solo el primer intento        el destino nuevo aún no\ntras escalar                        pasó la comprobación\n```\n\nY una regla de coherencia que evita los dos primeros:\n\n```text\nplazo del cliente > plazo del balanceador > plazo del destino\n  y el de conexión inactiva del destino MAYOR que el del\n  balanceador\n→ si el destino cierra antes, el balanceador reutiliza una\n  conexión muerta y devuelve 502\n```\n\n**Lo que hay que vigilar** en el punto de entrada:\n\n```text\npeticiones por segundo y por código de estado\nlatencia por percentil, medida AQUÍ (es el borde) clase 126\ndestinos sanos frente a configurados               ley 13\nconexiones activas y en cola\nreintentos y expulsiones de atípicos\ncertificados: días hasta caducar y días desde la última\n  renovación\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ la capa elegida corresponde a lo que hay que decidir\n☐ el algoritmo no es rotatorio en servicios con latencia\n  variable\n☐ hay puntos separados de vivo y de listo\n☐ /listo no depende de dependencias blandas\n☐ el tiempo hasta retirar un destino roto está calculado\n☐ volver es más estricto que salir\n☐ hay drenaje de conexiones, mayor que el plazo más largo\n☐ hay expulsión de atípicos para el fallo gris\n☐ los plazos están ordenados cliente > balanceador > destino\n☐ TLS termina donde se decidió, y hacia dentro va cifrado\n☐ la emisión y renovación de certificados son automáticas\n☐ hay alerta por antigüedad de renovación, no solo por\n  caducidad\n☐ el inventario incluye los certificados de cliente\n☐ la cadena completa se sirve y se ha comprobado\n```\n\nY el cierre que enlaza con la clase siguiente: el punto de entrada reparte lo que le llega, pero lo más barato es que buena parte del tráfico no llegue nunca hasta él. Distribución de contenido, caché en el borde y cómputo en el borde es la materia de la clase 197."
+    }
+  ],
+  "worked_example": "**CloudShop revisa su punto de entrada tras dos caídas totales por certificado y un problema de percentiles que llevaba meses. Lo que sigue es el diagnóstico de los tres, y el rediseño con sus cifras.**\n\n**Caída total 1 · certificado caducado, febrero.**\n\n```text\nsíntoma   a las 03:12, todo el tráfico público empezó a\n          fallar con error de certificado\n          duración: 1 h 47\n\ndiagnóstico\n  el certificado comodín *.cloudshop.com caducó\n  la renovación automática existía y llevaba 71 días\n  fallando en silencio\n  motivo del fallo: la validación por DNS requería un\n  registro TXT que se borró al reorganizar la zona en\n  noviembre\n\npor qué nadie lo supo\n  la alerta de caducidad estaba configurada a 7 días\n  y salía a un canal de correo que se creó en 2022 y no\n  tenía suscriptores                        ley 15, clase 194\n\ncoste     1 h 47 de caída total; 2.100 pedidos perdidos\n```\n\n**Caída total 2 · el certificado renovado en un sitio, mayo.**\n\n```text\nsíntoma   el 30 % de las peticiones fallaban por certificado,\n          y el resto no\n\ndiagnóstico\n  había 4 puntos de entrada: 2 balanceadores públicos, una\n  distribución de contenido y una pasarela de API\n  la renovación automática cubría los 2 balanceadores\n  la pasarela de API tenía el certificado subido a mano en\n  2023\n  → caducó, y el 30 % del tráfico pasaba por ahí\n\nel hallazgo del inventario posterior\n  certificados en uso              31\n  bajo renovación automática       12\n  subidos a mano                   19\n  de ellos, de CLIENTE (para llamar a terceros)     6\n  → los 6 no estaban en ningún inventario\n```\n\n**El problema de percentiles, diagnosticado en junio.**\n\n```text\nsíntoma   desde hacía meses, el p99 del listado era de\n          2.100 ms mientras el p50 estaba en 70 ms\n          se atribuía a «consultas pesadas»\n\ndiagnóstico\n  el algoritmo de reparto era rotatorio\n  una de las 12 instancias tenía un disco degradado y\n  respondía 40 veces más lento\n  su comprobación de salud (200 en /) pasaba perfectamente\n  → recibía 1 de cada 12 peticiones y arruinaba el p99\n\ncomprobación\n  al retirar esa instancia a mano, el p99 bajó a 240 ms\n  en 4 minutos\n\ny cuánto llevaba así\n  se revisó el histórico: el patrón aparecía desde marzo\n  → 3 meses                                       ley 13\n```\n\n**El rediseño del punto de entrada.**\n\n```text\nARQUITECTURA\n  internet\n    → balanceador de capa 4, IP fija     ← lista de permitidos\n      de socios\n      → balanceador de capa 7\n        · terminación TLS y recifrado hacia dentro\n        · enrutado por ruta (api, web, estáticos)\n        · reintento de GET idempotentes, máximo 1\n        · plazo por ruta\n        → servicios\n\nmotivo de la capa 4 delante\n  las direcciones públicas quedan fijas y pocas\n  → renumerar el capa 7 no obliga a tocar listas de terceros\n                                                  clase 193\n```\n\n```text\nREPARTO Y SALUD\n  algoritmo        menos conexiones en vuelo\n                   (antes: rotatorio)\n  /vivo            proceso arriba\n  /listo           puede atender: comprueba la base y el\n                   caché propio, NO el servicio de\n                   recomendaciones (blanda)\n  salir            2 fallos × 5 s = 10 s\n  volver           5 aciertos × 5 s = 25 s\n  drenaje          45 s (plazo más largo: 30 s)\n  expulsión de     5xx > 5 % en 30 s → fuera 30 s\n  atípicos         ← esto es lo que cubre el fallo gris\n```\n\nY el efecto del cambio de algoritmo, medido:\n\n```text                                       antes     después\np50 del listado                            70 ms      68 ms\np99 del listado                         2.100 ms     235 ms\ndestinos degradados detectados                0/mes    1,3/mes\ntiempo hasta retirar uno degradado        manual       35 s\n```\n\nY la observación importante:\n\n```text\nel cambio no fue de capacidad ni de código\nfue dejar de repartir por turnos y añadir expulsión de\natípicos\n→ el problema llevaba 3 meses y costaba 0 € arreglarlo\n```\n\n```text\nCERTIFICADOS\n  inventario completo, generado del estado real         31\n  bajo renovación automática                            31\n    → incluidos los 6 de cliente hacia terceros\n\n  alertas\n    caducidad a 30, 14 y 7 días → canal de guardia\n    ANTIGÜEDAD: «sin renovar desde hace más de 45 días»\n      → esta es la que habría detectado el fallo de febrero\n        26 días antes de la caída\n    validación de la cadena completa, semanal, desde un\n      cliente con almacén mínimo\n\n  registro CAA con dos autoridades                clase 195\n\n  prueba negativa trimestral\n    romper a propósito la validación de un certificado de\n    prueba y comprobar que la alerta de antigüedad salta\n    → primera ejecución: la alerta salió a un canal\n      equivocado; corregido                        ley 22\n```\n\n```text\nPLAZOS, ORDENADOS\n  cliente móvil            10 s\n  balanceador capa 7        8 s\n  servicio                  6 s\n  conexión inactiva del servicio   75 s\n  conexión inactiva del balanceador 60 s   ← menor, a propósito\n\n  antes: el servicio cerraba a los 30 s y el balanceador\n  mantenía 60 s → 502 intermitentes, ~180/día\n  después: 502 intermitentes, 2/día\n```\n\n**El resultado del año siguiente:**\n\n```text                                        antes     después\ncaídas totales por certificado                 2           0\ncertificados sin renovación automática        19           0\ncertificados fuera de inventario               6           0\np99 del listado                          2.100 ms      235 ms\n502 intermitentes al día                     180           2\ndestinos degradados retirados solos            no      35 s\npeticiones cortadas por despliegue          ~400           0\n```\n\n**La lección que esta clase deja**: las dos caídas totales del año fueron **por certificado, y ninguna por caducidad sorpresa**: la renovación automática llevaba 71 días rota en un caso y no cubría un cuarto punto de entrada en el otro. La alerta que las habría evitado no es la de caducidad —que existía— sino **la de antigüedad de la renovación**. Y el problema de percentiles llevaba tres meses, costaba cero euros y se resolvió **dejando de repartir por turnos**.",
+  "pitfalls": [
+    {
+      "symptom": "El p99 es pésimo mientras el p50 está bien",
+      "cause": "Reparto rotatorio: una instancia degradada recibe la misma carga que las sanas",
+      "fix": "Reparte por menor número de conexiones en vuelo y añade expulsión de atípicos por tasa de error."
+    },
+    {
+      "symptom": "Todos los destinos aparecen como no sanos a la vez",
+      "cause": "La comprobación de disponibilidad es profunda y cayó una dependencia común",
+      "fix": "Separa /vivo de /listo y haz que /listo no dependa de dependencias blandas."
+    },
+    {
+      "symptom": "Errores 502 intermitentes sin causa aparente",
+      "cause": "El destino cierra las conexiones inactivas antes que el balanceador y este reutiliza una conexión muerta",
+      "fix": "Ordena los plazos cliente > balanceador > destino y haz que el destino mantenga la conexión inactiva más tiempo que el balanceador."
+    },
+    {
+      "symptom": "Cada despliegue corta peticiones en curso",
+      "cause": "No hay drenaje de conexiones o su plazo es menor que el de las peticiones largas",
+      "fix": "Configura drenaje con margen sobre el plazo más largo del servicio."
+    },
+    {
+      "symptom": "Un certificado caduca pese a tener renovación automática",
+      "cause": "La automatización llevaba semanas fallando en silencio",
+      "fix": "Alerta por antigüedad de la última renovación, no solo por caducidad, y prueba periódicamente que la alerta salta."
+    },
+    {
+      "symptom": "Solo falla una integración concreta con un tercero",
+      "cause": "Caducó un certificado de cliente que no está en ningún balanceador ni inventario",
+      "fix": "Inventaría todos los certificados, incluidos los de cliente y los de agentes, y ponlos bajo renovación automática."
+    }
+  ],
+  "checks": [
+    "¿Qué puede hacer un balanceador de capa 7 que uno de capa 4 no?",
+    "¿Por qué el reparto rotatorio empeora los percentiles?",
+    "¿Qué diferencia hay entre el punto de vivo y el de listo?",
+    "¿En qué orden deben estar los plazos y qué pasa si se invierten?",
+    "¿Qué alerta detecta una renovación automática rota antes de que caduque el certificado?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2025). *Elastic Load Balancing: types, health checks and connection draining*.",
+      "url": "https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-load-balancing.html"
+    },
+    {
+      "text": "Envoy (2025). *Load balancing and outlier detection*.",
+      "url": "https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/overview"
+    },
+    {
+      "text": "RFC 8555 — Automatic Certificate Management Environment (ACME).",
+      "url": "https://www.rfc-editor.org/rfc/rfc8555"
+    },
+    {
+      "text": "Mozilla (2025). *Server side TLS configuration guidelines*.",
+      "url": "https://wiki.mozilla.org/Security/Server_Side_TLS"
+    },
+    {
+      "text": "Google (2016). *SRE Book: load balancing at the frontend*.",
+      "url": "https://sre.google/sre-book/load-balancing-frontend/"
+    }
+  ]
+}
