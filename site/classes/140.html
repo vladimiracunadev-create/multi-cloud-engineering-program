@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>security</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>threat modeling con stride y attack paths</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Añadir lo que ninguna herramienta de las clases anteriores puede hacer: preguntarse <strong>qué intentaría alguien contra este sistema en concreto</strong>. La clase da una estructura que evita que la conversación dependa de la imaginación de quien esté en la sala —una lista de comprobación aplicada a cada frontera de confianza— y le suma el razonamiento que de verdad refleja cómo ocurren los ataques: <strong>seguir cadenas</strong>, porque tres hallazgos de gravedad baja encadenados producen un compromiso grave, y la gravedad no se suma.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> threat modeling con stride y attack paths con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>modelo-amenazas</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Dibujar</strong> flujos de datos y marcar las fronteras de confianza, que es donde está casi todo.</li>
+<li><strong>Aplicar</strong> una lista de comprobación de amenazas a cada elemento y cada flujo.</li>
+<li><strong>Construir</strong> cadenas de ataque desde cada punto de entrada hasta lo que importa.</li>
+<li><strong>Priorizar</strong> por existencia y longitud de camino, no por gravedad individual.</li>
+<li><strong>Convertir</strong> el ejercicio en cambios con dueño y en detecciones nuevas.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,24 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>threat</code></td>
-<td>Define su papel en <strong>threat modeling con stride y attack paths</strong> y cómo observarlo en un sistema real.</td>
+<td><code>frontera de confianza</code></td>
+<td>Punto donde el dato o el control pasa de un dominio a otro con distinto nivel de confianza. Es donde se concentran las vulnerabilidades.</td>
 </tr>
 <tr>
-<td><code>modeling</code></td>
-<td>Define su papel en <strong>threat modeling con stride y attack paths</strong> y cómo observarlo en un sistema real.</td>
+<td><code>lista de comprobación de amenazas</code></td>
+<td>Conjunto fijo de categorías que se aplica a cada elemento para no depender de que alguien se acuerde.</td>
 </tr>
 <tr>
-<td><code>stride</code></td>
-<td>Define su papel en <strong>threat modeling con stride y attack paths</strong> y cómo observarlo en un sistema real.</td>
+<td><code>cadena de ataque</code></td>
+<td>Secuencia de pasos desde un punto de entrada hasta un objetivo. Es como ocurren los compromisos reales.</td>
 </tr>
 <tr>
-<td><code>attack</code></td>
-<td>Define su papel en <strong>threat modeling con stride y attack paths</strong> y cómo observarlo en un sistema real.</td>
+<td><code>composición de gravedad</code></td>
+<td>Que varios hallazgos leves encadenados produzcan uno grave. La gravedad individual no lo refleja.</td>
 </tr>
 <tr>
-<td><code>paths</code></td>
-<td>Define su papel en <strong>threat modeling con stride y attack paths</strong> y cómo observarlo en un sistema real.</td>
+<td><code>supuesto</code></td>
+<td>Afirmación de la que depende la seguridad del diseño y que se da por cierta. Cada uno es un riesgo si deja de cumplirse.</td>
+</tr>
+<tr>
+<td><code>cobertura del modelo</code></td>
+<td>Proporción de incidentes reales que el modelo había previsto. Es la única forma de saber si el ejercicio sirve.</td>
 </tr>
 </tbody>
 </table>
@@ -93,75 +94,352 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Threat modeling con STRIDE y attack paths&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    A[&quot;1 · ¿qué estamos construyendo?&quot;] --&gt; B[&quot;flujo de datos\ny FRONTERAS de confianza&quot;]
+    B --&gt; C[&quot;2 · ¿qué puede salir mal?&quot;]
+    C --&gt; C1[&quot;suplantar identidad&quot;]
+    C --&gt; C2[&quot;alterar datos&quot;]
+    C --&gt; C3[&quot;negar haberlo hecho&quot;]
+    C --&gt; C4[&quot;revelar información&quot;]
+    C --&gt; C5[&quot;denegar servicio&quot;]
+    C --&gt; C6[&quot;elevar privilegios&quot;]
+    C --&gt; D[&quot;CADENAS: entrada → credencial\n→ lateral → objetivo&quot;]
+    D --&gt; E{&quot;¿existe camino\na algo que importa?&quot;}
+    E --&gt;|&quot;sí&quot;| F[&quot;prioridad por longitud\ny número de caminos&quot;]
+    E --&gt;|&quot;no&quot;| G[&quot;registrar el supuesto\nque lo impide&quot;]
+    F --&gt; H[&quot;3 · cambios con dueño\n+ detecciones nuevas&quot;]
+    H --&gt; I[&quot;4 · ¿acertamos?\ncobertura frente a incidentes&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-cuatro-preguntas-y-un-dibujo">1. Cuatro preguntas y un dibujo</h3>
+<p>El ejercicio entero cabe en cuatro preguntas, y conviene no complicarlo más:</p>
+<pre><code class="language-text">1. ¿QUÉ ESTAMOS CONSTRUYENDO?
+2. ¿QUÉ PUEDE SALIR MAL?
+3. ¿QUÉ VAMOS A HACER AL RESPECTO?
+4. ¿LO HICIMOS BIEN?
+</code></pre>
+<p>La cuarta es la que casi nadie responde, y la única que dice si el ejercicio sirve para algo.</p>
+<p><strong>Cuándo hacerlo</strong>, porque hacerlo para todo es la forma de no hacerlo para nada:</p>
+<pre><code class="language-text">sí   un sistema nuevo
+     una frontera de confianza nueva: un integrador, un canal, un tercero
+     algo que toque dinero, datos personales o autenticación
+     un cambio de arquitectura importante
+no   cada cambio pequeño
+     lo que no cruza ninguna frontera nueva
+</code></pre>
+<p><strong>El dibujo</strong> es lo que hace posible la segunda pregunta, y su valor no está en las cajas:</p>
+<pre><code class="language-text">se dibujan     los flujos de datos entre elementos
+               dónde se almacena qué
+               quién ejecuta cada parte
+se marcan      las FRONTERAS DE CONFIANZA
+</code></pre>
+<p>Y las fronteras habituales, que son las que hay que buscar:</p>
+<pre><code class="language-text">internet ←→ tu sistema
+un cliente ←→ tu API                          clase 118
+un servicio ←→ otro servicio                  clase 135
+la aplicación ←→ la base de datos             clase 109
+tu sistema ←→ un tercero                      clase 137
+un entorno inferior ←→ producción             clase 133
+una persona ←→ una herramienta interna
+el proceso de construcción ←→ producción      clase 098
+</code></pre>
+<p>Y la razón de centrarse en ellas:</p>
+<pre><code class="language-text">casi todas las vulnerabilidades viven en una frontera
+porque es donde cambia quién controla el dato o la ejecución
+</code></pre>
+<p><strong>Los supuestos</strong>, que es la parte del dibujo que más rinde y que casi nunca se escribe:</p>
+<pre><code class="language-text">«el tráfico interno está autenticado»
+«este servicio solo lo llama la puerta de entrada»
+«los datos de este campo ya vienen validados»
+«el proveedor valida la firma del aviso que nos envía»
+</code></pre>
+<p>Cada supuesto es un riesgo si deja de cumplirse, y <strong>escribirlos convierte una suposición en algo comprobable</strong>. En la práctica, una parte de los hallazgos del ejercicio consiste en descubrir que un supuesto nunca fue cierto.</p>
+<h3 id="2-una-lista-para-no-depender-de-la-inspiracion">2. Una lista para no depender de la inspiración</h3>
+<p>«¿Qué puede salir mal?» respondido de memoria produce lo que a cada uno le preocupa. Una lista fija fuerza cobertura. Las seis categorías clásicas, con dónde se resuelve cada una en este programa:</p>
+<pre><code class="language-text">SUPLANTAR IDENTIDAD
+  ¿cómo sabe este elemento quién le llama?
+  → identidad de carga, autenticación mutua      clases 133, 135, 137
+
+ALTERAR DATOS
+  ¿puede alguien modificar el dato en tránsito, en reposo o el artefacto?
+  → cifrado en tránsito, firma, validación de entrada   clases 067, 136
+
+NEGAR HABERLO HECHO
+  ¿queda constancia de quién hizo qué, y es inalterable?
+  → registro de auditoría inmutable y sin identidades compartidas
+                                                  clases 134, 112
+
+REVELAR INFORMACIÓN
+  ¿qué información sale por errores, registros, respuestas o salida de red?
+  → depuración de registros, control de salida    clases 122, 135
+
+DENEGAR SERVICIO
+  ¿qué operación es cara y quién puede pedirla muchas veces?
+  → límites por cliente, descarte, cuotas         clases 118, 130
+
+ELEVAR PRIVILEGIOS
+  ¿desde aquí se puede conseguir más de lo que corresponde?
+  → privilegio mínimo, fronteras de permisos      clase 134
+</code></pre>
+<p>Y la forma práctica de aplicarla, que evita las sesiones interminables:</p>
+<pre><code class="language-text">para cada FLUJO que cruza una frontera, se recorren las seis
+se anota solo lo que no esté ya resuelto y sea plausible
+y se pasa al siguiente
+</code></pre>
+<p>Y tres preguntas transversales que producen más hallazgos que las seis categorías juntas:</p>
+<pre><code class="language-text">¿qué pasa si este elemento está comprometido?
+¿qué pasa si el dato de entrada es malicioso en vez de erróneo?
+¿qué pasa si esta llamada se repite mil veces o llega dos veces?
+</code></pre>
+<p>La tercera enlaza directamente con la clase 116: <strong>repetir es un caso de uso del atacante, no solo un accidente de la red</strong>.</p>
+<p>Y una advertencia sobre la dinámica de la sesión, que decide su calidad:</p>
+<pre><code class="language-text">en la sala hacen falta quienes construyeron el sistema
+no es una auditoría: quien la dirige hace preguntas, no acusaciones
+se acota a 90 minutos y un ámbito concreto
+y se sale con una lista de cambios, no con un documento
+</code></pre>
+<h3 id="3-pensar-en-cadenas">3. Pensar en cadenas</h3>
+<p>La lista anterior enumera amenazas por elemento. Los ataques reales <strong>no ocurren por elemento</strong>: ocurren siguiendo una cadena.</p>
+<pre><code class="language-text">entrada  →  credencial  →  movimiento lateral  →  objetivo
+</code></pre>
+<p>Y de ahí sale la observación central de este apartado:</p>
+<pre><code class="language-text">LA GRAVEDAD NO SE SUMA
+
+tres hallazgos individuales de gravedad baja
+encadenados producen un compromiso grave
+y cada uno, por separado, estaba correctamente clasificado como bajo
+</code></pre>
+<p>Por eso hay que recorrer los caminos, no la lista. El método es el ejercicio de la clase 133, hecho con detalle:</p>
+<pre><code class="language-text">1. enumerar los puntos de entrada plausibles
+2. desde cada uno, ¿qué se puede obtener?
+3. con eso, ¿a qué se puede llegar?
+4. repetir hasta que no haya paso nuevo
+5. marcar los caminos que terminan en algo que importa
+</code></pre>
+<p>Y qué es «algo que importa» hay que escribirlo antes, o el ejercicio no termina:</p>
+<pre><code class="language-text">datos personales de clientes
+la capacidad de mover dinero
+la capacidad de desplegar código                clase 098
+el registro de auditoría
+las copias de seguridad
+las claves                                      clase 136
+</code></pre>
+<p>Y la priorización, que es más útil que multiplicar probabilidad por impacto:</p>
+<pre><code class="language-text">¿EXISTE un camino?                    sí o no; ya es una respuesta
+¿cuántos pasos tiene?                 cuanto más corto, peor
+¿cuántos caminos distintos llevan
+  al mismo objetivo?                  muchos caminos = un solo control
+                                      no lo va a arreglar
+¿qué paso aparece en más caminos?     ese es el que hay que cortar primero
+</code></pre>
+<p>La última pregunta es la que da el mayor rendimiento: <strong>suele haber un paso que aparece en la mayoría de los caminos</strong>, y cortarlo elimina familias enteras.</p>
+<p>Y los pasos que aparecen una y otra vez en este programa:</p>
+<pre><code class="language-text">una credencial permite obtener otra              clase 133
+un entorno inferior alcanza producción           clase 133
+una identidad puede modificar sus propios permisos  clase 134
+un servicio comprometido alcanza a los demás     clase 135
+la canalización puede desplegar sin revisión     clase 098
+</code></pre>
+<p>Y una nota sobre las herramientas: hay productos que calculan estos caminos automáticamente sobre la configuración real. Sirven, y <strong>no sustituyen al ejercicio</strong>, porque no conocen la lógica de negocio ni los supuestos: una herramienta no sabe que ese campo lo rellena un tercero.</p>
+<h3 id="4-que-sirva-para-algo">4. Que sirva para algo</h3>
+<p><strong>La tercera pregunta</strong> —qué vamos a hacer— tiene cuatro respuestas posibles, y todas son legítimas menos la ausencia:</p>
+<pre><code class="language-text">CORREGIR       cambiar el diseño o añadir un control
+TRANSFERIR     que lo asuma un tercero, con contrato
+ACEPTAR        con nombre, motivo y fecha de revisión
+ELIMINAR       quitar la funcionalidad o el dato que crea el riesgo
+</code></pre>
+<p>La cuarta se olvida y suele ser la mejor: <strong>el dato que no se guarda no se puede filtrar</strong>. Buena parte de los hallazgos sobre datos personales se resuelven no recogiéndolos, no guardándolos tanto tiempo o guardando una referencia en lugar del valor.</p>
+<p>Y el resultado del ejercicio tiene que ser accionable, no documental:</p>
+<pre><code class="language-text">mal   un documento de veinte páginas que nadie vuelve a abrir
+bien  una lista de cambios con dueño y fecha
+      + detecciones nuevas para lo que no se pueda prevenir
+      + supuestos escritos, con quién los verifica
+      + un diagrama de una página que se mantiene
+</code></pre>
+<p>La segunda línea enlaza con la parte 10: <strong>lo que no se puede impedir, se detecta</strong>, y ese es el origen de alertas que ninguna otra actividad produce.</p>
+<p><strong>La cuarta pregunta</strong> —¿lo hicimos bien?— se responde con el tiempo y con datos:</p>
+<pre><code class="language-text">incidentes ocurridos que el modelo había previsto
+incidentes ocurridos que NO estaban en el modelo   ← lo importante
+supuestos que resultaron falsos
+cambios propuestos que se completaron
+</code></pre>
+<p>Y la segunda línea es la que mejora el ejercicio siguiente: <strong>cada incidente no previsto señala una categoría que la lista no cubrió o una frontera que no se dibujó</strong>.</p>
+<p>Y cuándo repetirlo:</p>
+<pre><code class="language-text">al cambiar la arquitectura
+al añadir una frontera nueva
+al empezar a tratar una categoría de dato nueva
+tras un incidente que no estaba previsto
+y si nada de lo anterior ocurre, una vez al año
+</code></pre>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ el ámbito está acotado y hay un dibujo de una página
+☐ las fronteras de confianza están marcadas explícitamente
+☐ los supuestos están escritos y asignados a alguien que los verifique
+☐ se ha recorrido la lista de categorías por cada flujo que cruza frontera
+☐ se han preguntado las tres transversales, incluida la de repetir
+☐ se han construido cadenas desde cada punto de entrada
+☐ está escrito qué se considera «algo que importa»
+☐ se ha identificado el paso que aparece en más caminos
+☐ cada hallazgo tiene una de las cuatro respuestas, no ninguna
+☐ hay detecciones nuevas para lo que no se puede prevenir
+☐ se mide la cobertura frente a los incidentes reales
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: varios de los hallazgos de esta clase se refieren a datos personales, a dónde pueden estar y a quién puede verlos. Esas restricciones no las decide la ingeniería, y demostrar que se cumplen es un trabajo propio, que es la materia de la clase 141.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>threat modeling con stride y attack paths</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-11-security-governance-finops/140-threat-modeling-con-stride-y-attack-paths/lab.py
+<p><strong>CloudShop modela el flujo de pago antes de integrar un segundo proveedor. La sesión dura noventa minutos y produce nueve hallazgos; el ejercicio de cadenas, hecho aparte, produce uno más grave que los nueve juntos.</strong></p>
+<p><strong>El dibujo y sus fronteras.</strong></p>
+<pre><code class="language-text">fronteras identificadas                                        8
+  navegador ←→ puerta de entrada
+  puerta ←→ servicio de pedidos
+  pedidos ←→ base de datos
+  pedidos ←→ cola de eventos
+  motor durable ←→ proveedor de pago A
+  motor durable ←→ proveedor de pago B (nueva)
+  proveedor B ←→ nuestro receptor de avisos (nueva)
+  herramienta interna de soporte ←→ datos de pedidos
+</code></pre>
+<p>Las dos nuevas son las que motivaban la sesión. <strong>La octava no estaba en el diagrama original</strong> y apareció al preguntar quién más toca estos datos.</p>
+<p><strong>Los supuestos escritos, y los dos que eran falsos.</strong></p>
+<pre><code class="language-text">1. «el tráfico entre servicios está autenticado»           cierto (clase 135)
+2. «el receptor de avisos valida la firma del proveedor»   FALSO
+3. «los importes vienen validados por el proveedor»        parcialmente falso
+4. «solo soporte accede a la herramienta interna»          FALSO: 11 personas
+                                                           con acceso, 4 sin
+                                                           necesitarlo
+5. «un aviso repetido no produce efecto»                   cierto (clase 116)
+</code></pre>
+<p>El supuesto 2 es el hallazgo más directo de la sesión:</p>
+<pre><code class="language-text">el receptor de avisos aceptaba cualquier petición con el formato correcto
+→ cualquiera que conociera la URL podía marcar un pedido como pagado
+tiempo que llevaba así                    desde la integración: 14 meses
+explotado                                 no, según los registros
+</code></pre>
+<p><strong>La lista aplicada a las dos fronteras nuevas.</strong></p>
+<pre><code class="language-text">SUPLANTAR
+  el receptor no verifica quién envía        ← hallazgo, arriba
+  nosotros hacia el proveedor B: clave estática compartida por 3 cargas
+    → una identidad por carga                clase 137
+
+ALTERAR
+  el aviso viaja firmado y no se comprueba   ← el mismo hallazgo
+  el importe se toma del aviso y no se contrasta con el pedido
+    → hallazgo: contrastar siempre contra lo esperado
+
+NEGAR HABERLO HECHO
+  la herramienta de soporte permite cambiar el estado de un pedido
+  sin registrar quién                       ← hallazgo
+
+REVELAR INFORMACIÓN
+  el error del receptor devolvía el mensaje del proveedor completo
+    → incluía identificadores internos       ← hallazgo
+  la herramienta de soporte muestra la clave de integración (clase 137)
+
+DENEGAR SERVICIO
+  el receptor no tiene límite de ritmo       ← hallazgo
+  cada aviso dispara una consulta cara al motor durable
+
+ELEVAR PRIVILEGIOS
+  la identidad del receptor puede escribir en la cola de eventos
+  de CUALQUIER tipo, no solo de pago         ← hallazgo
+</code></pre>
+<p><strong>Nueve hallazgos</strong>, todos con dueño y fecha. Y las tres preguntas transversales añadieron dos más:</p>
+<pre><code class="language-text">«¿y si el aviso llega dos veces?»       cubierto (clase 116)
+«¿y si llega mil veces?»                no cubierto → límite añadido
+«¿y si el dato es malicioso?»           el campo de referencia se
+                                        concatenaba en una consulta
+                                        → hallazgo grave
+</code></pre>
+<p><strong>El ejercicio de cadenas, hecho aparte.</strong></p>
+<p>Se definió primero qué importa:</p>
+<pre><code class="language-text">datos personales de clientes · mover dinero · desplegar código ·
+registro de auditoría · copias · claves
+</code></pre>
+<p>Y se recorrieron los caminos desde cada punto de entrada. El más corto hasta «mover dinero»:</p>
+<pre><code class="language-text">paso 1  la herramienta interna de soporte está expuesta a la red
+        corporativa, sin autenticación de segundo factor
+        gravedad individual: MEDIA
+
+paso 2  la herramienta muestra la clave de integración del proveedor B
+        gravedad individual: BAJA (era «solo lectura de configuración»)
+
+paso 3  esa clave permite emitir devoluciones en el proveedor B
+        gravedad individual: BAJA (la clave se consideraba «de consulta»)
+
+→ CADENA: acceso corporativo → clave → devoluciones a cuentas arbitrarias
+→ gravedad de la cadena: CRÍTICA
+</code></pre>
+<p>Tres hallazgos clasificados como medio, bajo y bajo. <strong>Ninguna herramienta de las clases 138 o 139 los habría relacionado</strong>, y los tres estaban correctamente clasificados por separado.</p>
+<p>Y el paso que aparecía en más caminos:</p>
+<pre><code class="language-text">caminos construidos hasta objetivos que importan                 14
+caminos que pasaban por la herramienta de soporte                 9
+caminos que pasaban por «una credencial da otra»                 11
+</code></pre>
+<pre><code class="language-text">cortar el acceso amplio a la herramienta de soporte     elimina 9 caminos
+ocultar credenciales en las herramientas internas       elimina 11
+→ dos cambios eliminan 12 de los 14 caminos
+</code></pre>
+<p><strong>Lo que se hizo con los hallazgos.</strong></p>
+<pre><code class="language-text">CORREGIR    validación de firma en el receptor
+            contraste del importe contra el pedido
+            límite de ritmo en el receptor
+            identidad por carga hacia el proveedor B
+            permisos del receptor acotados a un tipo de evento
+            consulta parametrizada en el campo de referencia
+            segundo factor y permisos mínimos en la herramienta de soporte
+            ocultación de credenciales en herramientas internas
+
+ELIMINAR    el mensaje del proveedor deja de devolverse al cliente
+            la herramienta de soporte deja de mostrar la configuración
+              completa: solo los campos que soporte necesita
+
+ACEPTAR     el proveedor A no admite identidad federada
+            → clave estática rotada cada 30 días, con nombre y revisión
+              semestral
+
+DETECTAR    alerta por avisos con firma inválida
+            alerta por devoluciones fuera del horario habitual
+            alerta por acceso a la herramienta de soporte desde fuera
+              del horario
+</code></pre>
+<p>Las cuatro detecciones <strong>no existían y ninguna otra actividad las habría producido</strong>.</p>
+<p><strong>La cuarta pregunta, respondida a los doce meses.</strong></p>
+<pre><code class="language-text">incidentes de seguridad en el periodo                             3
+  previstos en el modelo                                          2
+    → un intento de aviso falsificado, bloqueado por la validación
+    → un pico de avisos, contenido por el límite
+  NO previstos                                                    1
+    → un empleado con acceso legítimo exportó datos de clientes
+      antes de irse
+
+supuestos verificados                                         5 de 5
+supuestos que resultaron falsos                                   2
+cambios propuestos completados                              14 de 15
+</code></pre>
+<p>Y el incidente no previsto señaló una categoría que la lista no cubría bien: <strong>el uso legítimo con intención maliciosa</strong>. Se añadió una pregunta a la lista para las revisiones siguientes:</p>
+<pre><code class="language-text">«¿qué puede hacer con esto alguien que TIENE acceso legítimo
+ y quiere hacer daño, y cómo nos enteraríamos?»
+</code></pre>
+<p>Y esa pregunta, aplicada al resto del sistema, produjo once hallazgos más y tres detecciones nuevas por volumen de exportación.</p>
+<p><strong>El resultado del ejercicio.</strong></p>
+<p>```text                                          antes         después
+fronteras de confianza documentadas              0              8
+supuestos escritos                               0              5
+de ellos, falsos al comprobarlos                 —              2
+hallazgos del ejercicio                          —             11
+cadenas hasta objetivos críticos                14            2
+pasos que aparecían en más de la mitad
+de los caminos                                   2              0
+detecciones nuevas                               0              7
+incidentes previstos por el modelo               —          2 de 3</p>
+<pre><code>
+**La lección que esta clase traslada a la parte 11**: la sesión estructurada encontró nueve problemas reales, uno de ellos con catorce meses de antigüedad —cualquiera que conociera una dirección podía marcar pedidos como pagados—. Y el hallazgo más grave no lo produjo la lista de amenazas, sino **seguir una cadena de tres hallazgos que estaban correctamente clasificados como medio, bajo y bajo**. Ninguna herramienta los relacionó, y dos cambios eliminaron doce de los catorce caminos: cortar el paso que se repetía en casi todos.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-11-security-governance-finops/140-threat-modeling-con-stride-y-attack-paths/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>security</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -199,29 +477,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>La sesión produce las amenazas que preocupan a quien más habla</td>
+<td>Se responde de memoria en vez de recorrer una lista fija</td>
+<td>Aplica las seis categorías a cada flujo que cruza una frontera, más las tres preguntas transversales.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>El ejercicio termina en un documento que nadie vuelve a abrir</td>
+<td>El resultado no son cambios con dueño</td>
+<td>Sal con una lista de cambios con dueño y fecha, detecciones nuevas y un diagrama de una página que se mantenga.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Tres hallazgos leves acaban produciendo un compromiso grave</td>
+<td>La gravedad individual no compone; nadie recorrió las cadenas</td>
+<td>Construye caminos desde cada punto de entrada hasta lo que importa y corta el paso que aparece en más caminos.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>La seguridad del diseño depende de algo que nunca fue cierto</td>
+<td>Los supuestos no se escribieron ni se verificaron</td>
+<td>Escribe cada supuesto, asígnalo a alguien y compruébalo; suelen ser una fuente directa de hallazgos.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Se modela todo y no se modela nada a tiempo</td>
+<td>Ámbito sin acotar</td>
+<td>Reserva el ejercicio para sistemas nuevos, fronteras nuevas y lo que toque dinero, datos personales o autenticación.</td>
+</tr>
+<tr>
+<td>Ocurren incidentes que el modelo no contemplaba y nadie revisa el método</td>
+<td>No se responde la cuarta pregunta</td>
+<td>Mide cuántos incidentes estaban previstos y usa los que no lo estaban para añadir categorías o fronteras.</td>
 </tr>
 </tbody>
 </table>
@@ -232,17 +515,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Por qué el valor del diagrama está en las fronteras y no en los elementos?</li>
+<li>¿Qué aporta una lista fija de categorías frente a preguntar qué puede salir mal?</li>
+<li>¿Por qué la gravedad individual no basta y qué se hace en su lugar?</li>
+<li>¿Qué cuatro respuestas puede tener un hallazgo, y cuál se olvida más?</li>
+<li>¿Cómo se sabe si el ejercicio sirvió para algo?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Practical Cloud Security — Chris Dotson.</li>
-<li>Cloud Security Handbook — Eyal Estrin.</li>
-<li>Cloud FinOps — Storment y Fuller.</li>
+<li>Shostack, A. (2014). <em>Threat Modeling: Designing for Security</em> — las cuatro preguntas y la aplicación de la lista por elemento. <a href="https://shostack.org/books/threat-modeling-book">https://shostack.org/books/threat-modeling-book</a></li>
+<li>Microsoft (2025). <em>STRIDE threat categories</em> — definición de las seis categorías y su uso. <a href="https://learn.microsoft.com/azure/security/develop/threat-modeling-tool-threats">https://learn.microsoft.com/azure/security/develop/threat-modeling-tool-threats</a></li>
+<li>OWASP (2025). <em>Threat modeling process</em> — alcance, dinámica de la sesión y resultados accionables. <a href="https://owasp.org/www-community/Threat_Modeling_Process">https://owasp.org/www-community/Threat_Modeling_Process</a></li>
+<li>MITRE (2025). <em>ATT&amp;CK: tactics and techniques</em> — pasos reales de una cadena de ataque. <a href="https://attack.mitre.org/">https://attack.mitre.org/</a></li>
+<li>Threat Modeling Manifesto (2025). <em>Values and principles</em> — por qué el resultado importa más que el documento. <a href="https://www.threatmodelingmanifesto.org/">https://www.threatmodelingmanifesto.org/</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -310,7 +595,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-cuatro-preguntas-y-un-dibujo">1. Cuatro preguntas y un dibujo</a><a class="toc-level-3" href="#2-una-lista-para-no-depender-de-la-inspiracion">2. Una lista para no depender de la inspiración</a><a class="toc-level-3" href="#3-pensar-en-cadenas">3. Pensar en cadenas</a><a class="toc-level-3" href="#4-que-sirva-para-algo">4. Que sirva para algo</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
