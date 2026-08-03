@@ -1,0 +1,118 @@
+{
+  "id": "111",
+  "purpose": "Poner un caché delante de lo que la clase 110 dejó sin resolver —el elemento genuinamente popular— y hacerlo entendiendo las tres cosas que casi nunca se dicen: que la proporción de aciertos no mide nada por sí sola, que **invalidar es el problema difícil y tiene una solución sencilla que casi nadie usa**, y que un caché del que el sistema no puede prescindir ha dejado de ser una optimización para convertirse en una dependencia con requisito de disponibilidad.",
+  "outcomes": [
+    "**Decidir** qué cachear a partir del coste de los fallos, no de la proporción de aciertos.",
+    "**Elegir** el patrón de lectura y escritura, y saber qué garantiza cada uno.",
+    "**Invalidar** con claves versionadas en vez de perseguir cada ruta de escritura.",
+    "**Prevenir** avalancha, penetración y arranque en frío.",
+    "**Distinguir** un caché que optimiza de uno del que el sistema depende."
+  ],
+  "concepts": [
+    {
+      "term": "caché aparte",
+      "definition": "La aplicación consulta el caché, y si falla, lee el origen y guarda. El patrón más común y el que deja más decisiones en manos de quien escribe el código."
+    },
+    {
+      "term": "clave versionada",
+      "definition": "Incluir en la clave un número que cambia al modificar el dato. Invalidar deja de ser borrar: el valor viejo simplemente deja de consultarse."
+    },
+    {
+      "term": "avalancha",
+      "definition": "Muchas peticiones fallan a la vez sobre la misma clave —normalmente al caducar— y todas van al origen simultáneamente."
+    },
+    {
+      "term": "penetración",
+      "definition": "Peticiones por claves que no existen: nunca aciertan y siempre llegan al origen. Es el patrón que un atacante usa para saltarse el caché."
+    },
+    {
+      "term": "ventana de desfase",
+      "definition": "Tiempo máximo durante el que se puede servir un valor viejo. Con varias capas, se suman."
+    },
+    {
+      "term": "caché portante",
+      "definition": "Caché sin el cual el origen no aguanta el tráfico. Deja de ser una optimización y pasa a necesitar disponibilidad, réplica y plan de recuperación."
+    }
+  ],
+  "diagram": "flowchart TB\n    C[\"cliente\"] --> L1[\"caché del navegador\"]\n    L1 --> L2[\"caché de borde\"]\n    L2 --> L3[\"caché en proceso\"]\n    L3 --> L4[\"caché compartido\"]\n    L4 --> O[(\"origen · 109, 110\")]\n    L1 -.-> W[\"la ventana de desfase\\nes la SUMA de las capas\"]\n    L4 --> F{\"fallo\"}\n    F -->|\"muchos a la vez\"| A[\"avalancha:\\ncerrojo o recálculo anticipado\"]\n    F -->|\"clave inexistente\"| P[\"penetración:\\ncachear el vacío\"]\n    F -->|\"caché reiniciado\"| Z[\"arranque en frío:\\n¿aguanta el origen al 0 %?\"]\n    Z -->|\"no\"| D[\"no es un caché:\\nes una dependencia\"]",
+  "foundations": [
+    {
+      "heading": "Qué compra un caché, y qué medida sirve",
+      "body": "Un caché no hace que el sistema sea más rápido: hace que **el caso frecuente sea barato**, y que todos los casos sean más complicados. Conviene tenerlo claro porque decide qué merece la pena cachear.\n\n```text\nmerece la pena cuando\n  el mismo dato se pide muchas veces\n  calcularlo o traerlo es caro\n  y se tolera servirlo algo desfasado\n\nno merece la pena cuando\n  cada petición pide algo distinto\n  el origen ya es barato\n  o el dato no puede estar desfasado ni un segundo\n```\n\nY la medida habitual —proporción de aciertos— **no dice nada sola**:\n\n```text\ncaché A   95 % de aciertos; el 5 % restante cuesta 8 ms\ncaché B   70 % de aciertos; el 30 % restante cuesta 900 ms\n```\n\nB protege muchísimo más que A. Lo que hay que medir es lo que se ahorra, no la proporción:\n\n```text\ncarga que llega al origen, con y sin caché\nlatencia del percentil 99, no la media\n  → la media la domina el acierto; el usuario sufre el fallo\ncoste del fallo: latencia y carga en el origen\nproporción de valores servidos ya desfasados\n```\n\nY las capas, que es lo primero que hay que dibujar, porque el desfase **se suma**:\n\n```text\nnavegador          60 s\nborde             300 s\nen proceso         30 s\ncompartido        600 s\n                 ──────\npeor caso        990 s ≈ 16 min de desfase posible\n```\n\nCasi nadie hace esta suma, y es la explicación de la mitad de los «he cambiado el precio y sigue saliendo el viejo».\n\nY una distinción entre dos capas que se confunden:\n\n```text\nEN PROCESO      rapidísimo, y cada instancia tiene el suyo\n                → 40 instancias = 40 versiones distintas del dato\n                → e invalidar exige avisar a las 40\nCOMPARTIDO      un salto de red, y una sola verdad\n                → invalidar es un sitio\n```\n\nLa combinación de los dos es potente y es también la que más desfases raros produce: un dato invalidado en el compartido sigue vivo treinta segundos en cuarenta procesos."
+    },
+    {
+      "heading": "Patrones, y qué garantiza cada uno",
+      "body": "```text\nCACHÉ APARTE  (el más común)\n  leer:     mirar caché → si falla, leer origen → guardar\n  escribir: escribir origen → invalidar caché\n  + simple, y el caché puede caerse sin romper nada\n  − hay una ventana entre escribir e invalidar\n  − y cada sitio del código que escriba tiene que acordarse de invalidar\n\nLECTURA A TRAVÉS\n  el caché sabe cómo traer del origen\n  + el código no gestiona fallos\n  − más difícil de razonar cuando algo va mal\n\nESCRITURA A TRAVÉS\n  escribir caché y origen a la vez, de forma síncrona\n  + el caché nunca queda viejo\n  − toda escritura paga la latencia de los dos\n\nESCRITURA DIFERIDA\n  escribir en caché y volcar al origen después\n  + escrituras rapidísimas\n  − si el caché se pierde, se pierden datos → esto no es un caché,\n    es un almacén primario con otro nombre\n```\n\nY el orden importa más de lo que parece en el patrón más usado:\n\n```text\nmal   invalidar el caché → escribir el origen\n      entre las dos, otra petición lee el valor VIEJO y lo vuelve a cachear\n      → el caché queda viejo indefinidamente\n\nbien  escribir el origen → invalidar el caché\n      la ventana de desfase existe y es corta y se cierra sola\n```\n\nY aun así la segunda tiene una carrera conocida y difícil de evitar: una lectura que empezó antes de la escritura puede guardar su valor viejo después de la invalidación. Con desfase corto se acepta; cuando no se puede aceptar, la respuesta es el apartado siguiente."
+    },
+    {
+      "heading": "Invalidar: la solución que casi nadie usa",
+      "body": "Las tres formas de invalidar, con lo que cuesta cada una:\n\n```text\n1. CADUCIDAD\n   el valor vive N segundos y desaparece\n   + no hay nada que mantener\n   − el dato está viejo hasta N segundos, siempre\n   − y todas las claves caducan a la vez si se llenaron a la vez → avalancha\n\n2. INVALIDACIÓN EXPLÍCITA\n   cada escritura borra las claves afectadas\n   + el desfase es mínimo\n   − hay que acordarse en CADA ruta de escritura, incluidas las de\n     mantenimiento, las migraciones y los procesos por lotes\n   − y la clave que se olvida no da ningún error: simplemente sirve mal\n\n3. CLAVE VERSIONADA\n   la clave incluye una versión que cambia al modificar el dato\n   + invalidar es cambiar un número; el valor viejo deja de consultarse\n   + no hay ruta de escritura que se pueda olvidar\n   − ocupa memoria hasta que caduque, y hay que tener política de expulsión\n```\n\nLa tercera resuelve el problema de la segunda de raíz y se usa poco:\n\n```text\nen vez de     producto:1421\nusar          producto:1421:v7\n\ny la versión sale de algo que ya cambia con el dato:\n  una columna de versión, la marca de última modificación,\n  o la etiqueta que devuelve el propio origen\n```\n\nY su variante para invalidar grupos enteros sin recorrer claves:\n\n```text\ncatalogo:v3:producto:1421\ncatalogo:v3:categoria:12\n\ncambiar catalogo a v4 invalida el catálogo ENTERO de una vez\n→ y no hay que borrar nada\n```\n\nY una advertencia sobre las caducidades: **conviene que no sean todas iguales**. Si mil claves se llenaron en el mismo segundo y caducan a la vez, mil peticiones van al origen a la vez. Añadir una variación aleatoria lo resuelve:\n\n```python\nttl = base + random.randint(-base // 10, base // 10)\n```\n\nY qué **no** cachear, que es una lista corta y importante:\n\n```text\ndecisiones de autorización, salvo con caducidad muy corta y revocación\n  → un permiso retirado que sigue vivo 10 minutos es un problema de seguridad\ndatos de un usuario bajo una clave que no incluya al usuario\n  → es la fuga entre usuarios más común que existe\nlo que se escribe mucho más de lo que se lee\n```\n\nLa segunda merece detenerse: si la clave es `perfil` en vez de `perfil:cliente:1421`, el segundo usuario ve los datos del primero. Ocurre sobre todo en cachés en proceso y en cachés de borde mal configuradas, donde la clave se deriva de la ruta y no de la sesión."
+    },
+    {
+      "heading": "Los tres fallos, y la pregunta que lo decide todo",
+      "body": "**Avalancha.** Una clave muy popular caduca y las peticiones que llegan en ese instante fallan todas a la vez:\n\n```text\nclave con 4.000 peticiones/s\ncoste de recalcularla                800 ms\npeticiones que llegan durante ese cálculo    3.200\n→ 3.200 consultas simultáneas al origen por el mismo dato\n```\n\nLas tres defensas, que se combinan:\n\n```text\ncerrojo    solo una petición recalcula; las demás esperan o sirven el viejo\nrecálculo anticipado   se refresca ANTES de caducar, en segundo plano\nvariación de caducidad  evita que muchas claves caduquen juntas\n```\n\nLa segunda es la mejor para las claves muy populares: **el valor nunca llega a caducar porque siempre se renueva antes**.\n\n**Penetración.** Peticiones por claves que no existen: nunca aciertan y siempre llegan al origen.\n\n```text\npeticiones a /producto/999999999  → no existe → no se cachea → al origen\n→ repetido, es una forma trivial de saturar la base de datos\n```\n\nLa defensa es cachear también el vacío, con caducidad corta:\n\n```text\nguardar «no existe» durante 30 s\ny validar el formato antes de consultar\n```\n\n**Arranque en frío.** Y aquí está la pregunta que decide la naturaleza del caché:\n\n```text\nsi el caché se vacía ahora mismo, ¿aguanta el origen?\n\n  sí   → es una optimización; puede caerse y el sistema se degrada\n  no   → NO es un caché: es una dependencia con requisito de disponibilidad\n```\n\nY hay que responderla con números, no con intuición:\n\n```text\ntráfico total                        12.000 peticiones/s\nproporción de aciertos                     94 %\ncarga que llega al origen                 720 peticiones/s\ncapacidad del origen                    1.500 peticiones/s\ncarga con el caché vacío               12.000 peticiones/s   ← 8× la capacidad\n```\n\nCon esos números, **el caché es portante**, y eso cambia todo lo que hay que hacer con él:\n\n```text\nréplica y conmutación, como en la clase 109\nplan de recalentamiento tras un reinicio\nlimitación de caudal hacia el origen, para que el frío no lo tumbe\ny un ensayo: vaciar el caché en preproducción y medir\n```\n\nY una salida intermedia muy útil: **servir el valor viejo cuando el origen falla**. Si el origen no responde, devolver lo caducado es casi siempre mejor que devolver un error.\n\n```text\nvalor fresco       se sirve\nvalor caducado y origen sano       se recalcula\nvalor caducado y origen caído      se sirve el viejo, y se registra\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ está medido el coste del fallo, no solo la proporción de aciertos\n☐ están dibujadas las capas y sumada la ventana de desfase total\n☐ se escribe el origen antes de invalidar, nunca al revés\n☐ la invalidación usa claves versionadas en vez de borrado por ruta\n☐ las caducidades llevan variación aleatoria\n☐ las claves muy populares se refrescan antes de caducar\n☐ se cachea el vacío para evitar penetración\n☐ ninguna clave de datos de usuario carece del identificador de usuario\n☐ las decisiones de autorización no se cachean sin revocación\n☐ está respondido con números si el origen aguanta el caché vacío\n☐ si es portante: réplica, limitación hacia el origen y ensayo de vaciado\n```\n\nY el cierre que enlaza con la clase siguiente: hasta aquí, los datos que sirven al producto. Los que no caben en ninguno de estos almacenes —los históricos, los grandes, los que se consultan de formas que nadie previó— necesitan otro sitio, y es la materia de la clase 112."
+    }
+  ],
+  "worked_example": "**CloudShop pone caché delante del catálogo para resolver el producto popular que la clase 110 dejó abierto. En nueve meses ocurren los tres fallos del apartado cuarto, más uno que no está en la lista y es el más grave.**\n\n**Punto de partida.**\n\n```text\nlecturas del catálogo                    12.000 / s\ncapacidad del almacén                     1.500 / s\nproducto en portada                       4.100 / s sobre un solo elemento\nlatencia p99                                 34 ms\n```\n\nCaché compartido, patrón de caché aparte, caducidad de 300 s.\n\n```text                                    sin caché      con caché\naciertos                                      —            94 %\ncarga al origen                          12.000/s        720/s\nlatencia p99                                34 ms         6 ms\ncoste mensual del almacén                  2.900 €        410 €\n```\n\n**Fallo 1: avalancha, a los once días.**\n\n```text\n03:14  caducan a la vez las claves llenadas durante el despliegue de las 22:14\n03:14  1.840 claves caducadas en el mismo segundo\n03:14  la carga al origen pasa de 720/s a 9.100/s\n03:15  el almacén limita; errores en el 41 % de las peticiones\n03:19  se estabiliza al recachearse\n```\n\nLa causa es la del apartado tercero: **el caché se llenó de golpe tras un despliegue, así que caducó de golpe**. Las tres defensas y su efecto:\n\n```text                                    antes    variación   + recálculo anticipado\npico de carga al origen                  9.100/s    2.300/s        810/s\nclaves caducadas en el mismo segundo      1.840        41            —\nerrores                                    41 %       0 %           0 %\n```\n\nEl recálculo anticipado se aplicó solo a las 500 claves más pedidas: **el 0,04 % de las claves recibía el 68 % del tráfico**.\n\n**Fallo 2: penetración, y es deliberada.**\n\n```text\n14:20  llegan 3.400 peticiones/s a rutas de producto con identificadores\n       inventados\n14:20  ninguna acierta; todas llegan al origen\n14:22  el origen satura; el catálogo entero deja de responder\n```\n\nNo hacía falta ninguna sofisticación: bastaba pedir productos que no existen.\n\n```text                                    antes            después\ncachear el vacío                          no             sí, 30 s\nvalidación de formato antes de consultar  no             sí\ncarga al origen con el mismo ataque    3.400/s          ~40/s\n```\n\n**Fallo 3: el caché se reinicia.**\n\nUna actualización de mantenimiento vació el caché a las 11:40 de un martes:\n\n```text\ncarga al origen tras el vaciado          12.000/s\ncapacidad del origen                      1.500/s\ntiempo de caída total                    9 minutos\ntiempo hasta recuperar el 90 % de aciertos   14 min\n```\n\nLa pregunta del apartado cuarto se respondió con números **después** del incidente, cuando debía haberse respondido antes:\n\n```text\ncarga con el caché vacío / capacidad del origen = 8×\n→ el caché es portante\n```\n\nY con esa respuesta, el tratamiento cambió por completo:\n\n```text                                          antes         después\nréplica del caché                              no             sí\nconmutación probada                            no           trimestral\nlimitación de caudal hacia el origen           no        1.200/s, con cola\nservir valor caducado si el origen falla       no             sí\nrecalentamiento tras reinicio                  no      las 500 claves top\nensayo de vaciado en preproducción             no           trimestral\n\ncaída al repetir el ensayo                   9 min          0 min\n                                                     (degradación de 90 s)\n```\n\n**El cuarto fallo, que no está en la lista y es el peor.**\n\nUn caché en proceso se añadió para las preferencias del usuario, con esta clave:\n\n```text\nclave = \"preferencias\"\n```\n\nSin el identificador de usuario.\n\n```text\nusuarios que vieron preferencias de otra persona    no determinado\ndetectado por                        un cliente que llamó a soporte\ntiempo hasta corregir                            2 h 10\ntiempo que llevaba desplegado                    6 días\ndatos expuestos      dirección de envío y últimos 4 dígitos de la tarjeta\n```\n\nY lo que se hizo para que no vuelva a pasar, que es más útil que la corrección:\n\n```text\nregla en la revisión: toda clave de caché de datos de usuario debe\n  contener el identificador del sujeto\nprueba automática: dos sesiones distintas piden lo mismo y se compara\n  que las respuestas difieren\ncomprobación estática de las claves construidas con literales\n```\n\nLa prueba automática de la segunda línea detectó otros **dos** casos en el resto del sistema, ambos en cachés de borde donde la clave se derivaba de la ruta.\n\n**La ventana de desfase, que nadie había sumado.**\n\nTras una queja recurrente de comercio —«cambio un precio y tarda en verse»— se dibujaron las capas:\n\n```text\nnavegador                    60 s\nborde                       600 s\nen proceso                   30 s\ncompartido                  300 s\n                          ──────\npeor caso                   990 s ≈ 16 min\n```\n\nY la corrección no fue bajar caducidades, que habría multiplicado la carga, sino **claves versionadas** derivadas de la marca de modificación del producto:\n\n```text                                    caducidad      clave versionada\ndesfase peor caso                        16 min             ~2 s\ncaducidad del borde                      600 s              86.400 s\ncarga al origen                          720/s              310/s\nrutas de escritura que hay que recordar\ninvalidar                                   7                  0\n```\n\nLa penúltima fila es lo contraintuitivo: **al versionar las claves se pudo subir la caducidad**, porque el valor viejo ya no molesta a nadie. Menos desfase y menos carga a la vez.\n\n**A los nueve meses.**\n\n```text                                          antes         después\ncarga al origen                            12.000/s          310/s\nlatencia p99                                 34 ms          5 ms\ndesfase peor caso                           16 min           ~2 s\nrutas de escritura que invalidan a mano          7              0\navalanchas                                 1 / mes            0\ncaída por caché vacío                       9 min      0 (degradación 90 s)\nfugas entre usuarios                             3              0\ncoste mensual del almacén                   2.900 €          380 €\ncaché clasificado como portante                 no             sí\n```\n\n**La lección que esta clase traslada a la parte 09**: el caché resolvió el elemento popular en una tarde, y los nueve meses siguientes fueron **descubrir que era una dependencia crítica sin ninguno de los cuidados de una**. La pregunta «¿aguanta el origen con el caché vacío?» costó nueve minutos de caída por no haberla respondido antes, y es la única de esta clase que no admite una respuesta aproximada.",
+  "pitfalls": [
+    {
+      "symptom": "Picos de carga al origen a horas fijas",
+      "cause": "Muchas claves se llenaron a la vez y caducan a la vez",
+      "fix": "Añade variación aleatoria a la caducidad y refresca en segundo plano las claves más pedidas antes de que caduquen."
+    },
+    {
+      "symptom": "El origen se satura con peticiones por identificadores inexistentes",
+      "cause": "Penetración: lo que no existe nunca se cachea y siempre llega al origen",
+      "fix": "Cachea el resultado vacío con caducidad corta y valida el formato antes de consultar."
+    },
+    {
+      "symptom": "Un reinicio del caché tumba el sistema",
+      "cause": "El origen no tiene capacidad para el tráfico completo: el caché es portante",
+      "fix": "Calcula la relación entre tráfico total y capacidad del origen; si es mayor que uno, trata el caché como dependencia: réplica, limitación de caudal, recalentamiento y ensayo de vaciado."
+    },
+    {
+      "symptom": "Un usuario ve datos de otro",
+      "cause": "La clave de caché no incluye el identificador del sujeto",
+      "fix": "Exige el identificador en toda clave de datos de usuario y añade una prueba que compare respuestas de dos sesiones distintas."
+    },
+    {
+      "symptom": "Se cambia un dato y sigue viéndose el viejo mucho tiempo después",
+      "cause": "Hay varias capas de caché y sus ventanas de desfase se suman",
+      "fix": "Dibuja las capas, suma las caducidades y sustituye la caducidad por claves versionadas donde el desfase importe."
+    },
+    {
+      "symptom": "Una ruta de escritura olvidó invalidar y nadie se entera",
+      "cause": "La invalidación explícita depende de acordarse en cada sitio, y olvidarla no produce error",
+      "fix": "Usa claves versionadas: el valor viejo deja de consultarse sin que nadie tenga que borrarlo."
+    }
+  ],
+  "checks": [
+    "¿Por qué la proporción de aciertos no basta para evaluar un caché?",
+    "¿Por qué se escribe el origen antes de invalidar y no al revés?",
+    "¿Qué ventaja tiene una clave versionada frente a la invalidación explícita?",
+    "¿Qué es una avalancha y con qué tres defensas se previene?",
+    "¿Cómo se decide si un caché es una optimización o una dependencia?"
+  ],
+  "references": [
+    {
+      "text": "Redis (2025). *Key eviction and expiration* — políticas de expulsión, caducidad y su efecto en la carga.",
+      "url": "https://redis.io/docs/latest/develop/reference/eviction/"
+    },
+    {
+      "text": "Nygard, M. (2018). *Release It!*, cap. 5 — caché, avalancha y degradación controlada.",
+      "url": "https://pragprog.com/titles/mnee2/release-it-second-edition/"
+    },
+    {
+      "text": "Facebook Engineering (2013). *Scaling Memcache at Facebook* — cerrojo de recálculo y avalancha en producción.",
+      "url": "https://www.usenix.org/system/files/conference/nsdi13/nsdi13-final170_update.pdf"
+    },
+    {
+      "text": "MDN (2025). *HTTP caching* — capas de caché, validadores y control de desfase.",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching"
+    },
+    {
+      "text": "AWS (2025). *ElastiCache: caching strategies and best practices* — caché aparte, escritura a través y recalentamiento.",
+      "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html"
+    }
+  ]
+}
