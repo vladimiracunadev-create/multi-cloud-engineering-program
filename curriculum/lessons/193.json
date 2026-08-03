@@ -1,0 +1,118 @@
+{
+  "id": "193",
+  "purpose": "Diseñar un plan de direccionamiento que aguante diez años, porque es la decisión que más veces se toma en una tarde y menos veces se puede deshacer. La clase da la aritmética de CIDR sin rodeos, el método de asignación jerárquica que evita el solapamiento, la lista de consumidores de direcciones que siempre se olvidan, y el procedimiento de renumeración para cuando ya es tarde.",
+  "outcomes": [
+    "**Calcular** rangos, máscaras y capacidad de un bloque CIDR sin herramientas.",
+    "**Asignar** direcciones jerárquicamente por región, entorno y función.",
+    "**Dimensionar** contando los consumidores que no se ven.",
+    "**Evitar** el solapamiento que impide interconectar más adelante.",
+    "**Renumerar** una red en producción cuando el plan se agotó."
+  ],
+  "concepts": [
+    {
+      "term": "CIDR",
+      "definition": "Notación de bloque de direcciones: prefijo y longitud. /24 son 256 direcciones, /16 son 65.536."
+    },
+    {
+      "term": "asignación jerárquica",
+      "definition": "Repartir un bloque grande en trozos por región, entorno y función, de forma que cada nivel resuma en una sola ruta."
+    },
+    {
+      "term": "solapamiento",
+      "definition": "Dos redes que usan el mismo rango. Impide conectarlas sin traducción y es el error más caro."
+    },
+    {
+      "term": "resumen de rutas",
+      "definition": "Anunciar un bloque grande en vez de muchos pequeños. Depende de que la asignación sea contigua."
+    },
+    {
+      "term": "consumidor oculto",
+      "definition": "Lo que gasta direcciones sin que nadie lo cuente: servicios gestionados, contenedores, puntos privados."
+    },
+    {
+      "term": "renumeración",
+      "definition": "Cambiar el direccionamiento de una red viva. Cara, larga y evitable con un plan inicial correcto."
+    }
+  ],
+  "diagram": "flowchart TB\n    S[\"espacio total reservado\\np. ej. 10.0.0.0/8\"] --> R1[\"por REGIÓN · /12\\neu-west-1, eu-central-1…\"]\n    R1 --> R2[\"por ENTORNO · /16\\nprod, pre, dev, sandbox\"]\n    R2 --> R3[\"por VPC o red · /18\"]\n    R3 --> R4[\"por ZONA · /20\"]\n    R4 --> R5[\"por FUNCIÓN · /24\\npública, privada, datos,\\npuntos privados\"]\n    C[\"contar consumidores\"] --> C1[\"pods y servicios\\nde contenedores\"]\n    C --> C2[\"puntos privados\\nuno por servicio\"]\n    C --> C3[\"servicios gestionados\\nque toman subred\"]\n    C --> C4[\"balanceadores,\\npasarelas NAT\"]\n    C --> C5[\"crecimiento y\\nel siguiente proyecto\"]\n    X[\"NO solapar\"] --> X1[\"con la red corporativa\"]\n    X --> X2[\"con socios y\\nadquisiciones\"]\n    X --> X3[\"entre nubes\"]",
+  "foundations": [
+    {
+      "heading": "La aritmética, sin herramientas",
+      "body": "Un plan de direccionamiento se discute en una pizarra, y para eso hay que saber contar sin calculadora.\n\n```text\nla longitud del prefijo dice cuántos bits FIJA\n32 - longitud = bits libres = direcciones\n\n/8    16.777.216      /20     4.096\n/12    1.048.576      /21     2.048\n/16       65.536      /22     1.024\n/17       32.768      /23       512\n/18       16.384      /24       256\n/19        8.192      /26        64\n                      /28        16\n```\n\nY dos reglas que evitan el 90 % de los errores de cálculo:\n\n```text\ncada bit menos de prefijo DUPLICA el tamaño\n  /24 → /23 → /22 → /21   256, 512, 1.024, 2.048\n\nun bloque siempre empieza en un múltiplo de su tamaño\n  10.0.4.0/22 es válido      (4 es múltiplo de 4)\n  10.0.5.0/22 NO es válido\n```\n\nY lo que se pierde por bloque, que en subredes pequeñas es mucho:\n\n```text\ndirecciones reservadas por subred\n  red y difusión                                   2\n  las nubes reservan además entre 3 y 5\n\n  /24  →  ~251 usables\n  /28  →  ~11 usables    ← el 31 % perdido\n→ por eso no conviene bajar de /26 en subredes de trabajo\n```\n\nY los espacios privados disponibles, que es lo primero que se reparte:\n\n```text\n10.0.0.0/8         16,7 M    el grande; el que se usa\n172.16.0.0/12       1,0 M    ojo: muchos productos lo usan\n                             por defecto\n192.168.0.0/16     65 K      doméstico; no usar en empresa\n100.64.0.0/10       4,2 M    espacio compartido; útil para\n                             lo que nunca se enruta\n```\n\nY una advertencia sobre el segundo:\n\n```text\n172.17.0.0/16 es el rango por defecto de un motor de\ncontenedores muy extendido\n→ usarlo en la red corporativa produce fallos intermitentes\n  y difíciles de diagnosticar\n```"
+    },
+    {
+      "heading": "Asignación jerárquica",
+      "body": "El plan que funciona reparte de arriba abajo, y su virtud no es la elegancia: es que **cada nivel se puede resumir en una sola ruta**.\n\n```text\nNIVEL 0   el espacio de la organización\n  10.0.0.0/8, reservado entero aunque se use el 2 %\n  → y ANOTADO en un registro central                clase 169\n\nNIVEL 1   por región         /12   (1 M de direcciones)\n  10.0.0.0/12    eu-west-1\n  10.16.0.0/12   eu-central-1\n  10.32.0.0/12   us-east-1\n  10.48.0.0/12   reservado\n  → una ruta por región en la tabla central\n\nNIVEL 2   por entorno        /16\n  10.0.0.0/16    producción\n  10.1.0.0/16    preproducción\n  10.2.0.0/16    desarrollo\n  10.3.0.0/16    sandbox\n  10.4-15        reservado para crecer\n\nNIVEL 3   por red o cuenta   /18 o /20\n\nNIVEL 4   por zona           /20 o /22\n\nNIVEL 5   por función        /24\n  .0/24   pública (balanceadores, NAT)\n  .1/24   privada de aplicación\n  .2/24   datos\n  .3/24   puntos privados      ← el que siempre falta\n```\n\nY las tres reglas que hacen que el plan sobreviva:\n\n```text\n1. RESERVA MÁS DE LO QUE NECESITAS\n   reservar no cuesta nada; renumerar cuesta meses\n   → si crees que necesitas un /20, reserva un /16\n\n2. DEJA HUECOS ENTRE BLOQUES\n   asignar consecutivo sin huecos impide ampliar sin partir\n   → el bloque siguiente al tuyo debe estar libre\n\n3. QUE CADA NIVEL SEA CONTIGUO\n   sin contigüidad no hay resumen de rutas\n   → y las tablas de encaminamiento tienen límite duro\n```\n\nY el límite que sorprende a mitad de proyecto:\n\n```text\nlas tablas de rutas de las nubes tienen máximos\n  típicamente entre 50 y 1.000 rutas\n→ sin resumen, se llega antes de lo que parece\n→ y ampliar el límite no siempre es posible\n```\n\nY una decisión que conviene tomar al principio:\n\n```text\n¿IPv6 desde el día uno?\n  a favor   no hay escasez; simplifica el plan; obligatorio\n            en algunos servicios nuevos\n  en contra doble pila duplica reglas y diagnósticos; no\n            todos los productos lo soportan\n  práctica  reservar el plan IPv6 aunque no se despliegue,\n            y activarlo donde no cueste\n```"
+    },
+    {
+      "heading": "Contar lo que no se ve",
+      "body": "El agotamiento de direcciones casi nunca lo causan las máquinas: lo causan los consumidores que nadie contó.\n\n```text\nLO QUE SE CUENTA\n  máquinas virtuales\n  bases de datos\n\nLO QUE NO SE CUENTA Y GASTA MÁS\n  PODS DE CONTENEDORES\n    en algunos modelos de red, cada pod toma una dirección\n    de la subred → 110 pods por nodo × 40 nodos = 4.400\n    → una subred /24 se agota con 2 nodos\n\n  PUNTOS PRIVADOS\n    uno por servicio y por subred                clase 200\n    → 30 servicios × 3 zonas = 90 direcciones\n\n  SERVICIOS GESTIONADOS QUE PIDEN SUBRED PROPIA\n    bases gestionadas, motores de análisis, pasarelas\n    → algunos exigen un /27 o /26 vacío y exclusivo\n\n  BALANCEADORES Y PASARELAS NAT\n    varias direcciones cada uno, por zona\n\n  DESPLIEGUES ESCALONADOS\n    durante un despliegue conviven dos versiones\n    → hasta el doble de direcciones durante horas  clase 102\n\n  ESCALADO AUTOMÁTICO\n    hay que dimensionar por el MÁXIMO, no por el habitual\n```\n\nY la regla de dimensionado que resulta de todo eso:\n\n```text\ncalcula el máximo previsible y MULTIPLICA POR 2\n→ y si el resultado es un /24, usa un /23\n```\n\n**El solapamiento**, que es el error más caro y el más frecuente:\n\n```text\nDÓNDE OCURRE\n  dos equipos eligen 10.0.0.0/16 por defecto\n  la nueva nube usa el mismo rango que la corporativa\n  una empresa adquirida usa el mismo espacio\n  un socio pide conexión y coincide\n  el proveedor gestionado usa 172.17 por dentro\n\nQUÉ IMPIDE\n  conectar las dos redes sin traducción\n  y la traducción rompe el diagnóstico, los registros y\n  cualquier control basado en origen                clase 135\n```\n\nY la prevención, que es barata:\n\n```text\nun REGISTRO CENTRAL de bloques asignados\n  quién, para qué, desde cuándo, y estado\n  y ninguna red se crea sin pedir el bloque ahí\n→ automatizado en la plantilla de red nueva      clase 171\n→ si pedir el bloque tarda tres días, alguien lo elegirá\n  a mano                                              ley 16\n```"
+    },
+    {
+      "heading": "Renumerar, cuando ya es tarde",
+      "body": "Antes o después aparece una red que hay que renumerar. Es caro, pero no imposible, y hacerlo mal lo convierte en un corte.\n\n```text\nCUÁNDO ES INEVITABLE\n  el bloque se agotó y no hay contiguo libre\n  hay solapamiento con algo que hay que conectar\n  una adquisición trae la misma red\n```\n\n**El procedimiento que evita el corte**, que es siempre el mismo patrón de expandir y contraer:\n\n```text\n1  AÑADIR el rango nuevo a la red existente\n   la mayoría de las nubes permiten varios bloques por red\n\n2  CREAR subredes nuevas en el rango nuevo\n\n3  MOVER cargas, una a una, con despliegue escalonado\n   → lo que se mueve primero: lo que no tiene dependencias\n     entrantes por dirección\n\n4  ACTUALIZAR lo que referencia direcciones\n   ← aquí está el trabajo real, y es donde se descubre\n     lo que nadie sabía\n\n5  VACIAR y retirar las subredes viejas\n\n6  QUITAR el bloque antiguo de la red\n```\n\nY el paso 4 merece su lista, porque es lo que rompe:\n\n```text\nreglas de cortafuegos con direcciones fijas\nlistas de permitidos de terceros                   ← las peores\nconfiguraciones con la dirección escrita a mano\nrutas estáticas y túneles\nregistros de nombres con direcciones                clase 195\ncertificados emitidos para una dirección\ncontroles de acceso a bases por dirección de origen\ncuadros de mando y alertas que filtran por rango\n```\n\nY una realidad sobre las listas de terceros:\n\n```text\ncambiar una dirección que un socio tiene en su lista de\npermitidos requiere SU calendario, no el tuyo\n→ semanas o meses\n→ por eso el tráfico saliente hacia terceros conviene que\n  salga siempre por direcciones fijas y pocas, reservadas\n  desde el principio\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ hay un espacio reservado para toda la organización\n☐ hay un registro central de bloques, y es obligatorio\n☐ la asignación es jerárquica: región, entorno, red, zona,\n  función\n☐ cada nivel es contiguo y se puede resumir\n☐ hay huecos reservados junto a cada bloque asignado\n☐ el dimensionado cuenta pods, puntos privados y servicios\n  gestionados\n☐ el dimensionado usa el máximo, multiplicado por dos\n☐ ninguna subred de trabajo baja de /26\n☐ no se usa 172.17.0.0/16\n☐ se ha comprobado el solapamiento con la red corporativa,\n  socios y otras nubes\n☐ el tráfico saliente hacia terceros usa direcciones fijas\n  y pocas\n☐ el plan IPv6 está reservado aunque no se despliegue\n☐ se conocen los límites de rutas por tabla\n```\n\nY el cierre que enlaza con la clase siguiente: con las direcciones repartidas, queda decidir cómo se anuncian y por dónde va cada paquete. Encaminamiento, BGP y propagación de rutas es la materia de la clase 194."
+    }
+  ],
+  "worked_example": "**CloudShop tiene 214 cuentas, tres nubes y una red corporativa de quince años. Lo que sigue es el estado del direccionamiento que se encontró, el plan nuevo, y la renumeración de la red que impedía conectar con la empresa adquirida.**\n\n**Lo que había, levantado en dos semanas:**\n\n```text\nredes encontradas                                     87\n  con bloque registrado en algún sitio                19\n  con bloque documentado en una hoja de cálculo       31\n  sin registro alguno                                 37\n\nsolapamientos detectados\n  10.0.0.0/16 usado en 6 redes distintas\n  192.168.1.0/24 en 11 redes de desarrollo\n  172.17.0.0/16 en la red corporativa Y en el motor\n    de contenedores → causaba fallos intermitentes\n    desde 2022, con 3 incidentes sin causa conocida\n\nla adquisición\n  la empresa comprada usa 10.0.0.0/16 para su producción\n  → imposible conectar sin traducción\n```\n\nY el diagnóstico de por qué había pasado:\n\n```text\nno existía registro central obligatorio\ny pedir un bloque al equipo de red tardaba 6 días\n→ los equipos elegían el rango por defecto de la plantilla\n→ es exactamente el mecanismo de la clase 169         ley 16\n```\n\n**El plan nuevo.**\n\n```text\nespacio reservado          10.0.0.0/8   entero\n\nNIVEL 1 · región                                     /12\n  10.0.0.0/12     eu-west-1        (AWS, principal)\n  10.16.0.0/12    eu-central-1     (AWS, secundaria)\n  10.32.0.0/12    westeurope       (Azure)\n  10.48.0.0/12    europe-west1     (GCP)\n  10.64.0.0/12    corporativa\n  10.80.0.0/12    adquisiciones    ← reservado a propósito\n  10.96.0.0/11    libre\n\nNIVEL 2 · entorno, dentro de cada región             /16\n  x.0.0.0/16      producción\n  x.1.0.0/16      preproducción\n  x.2.0.0/16      desarrollo\n  x.3.0.0/16      sandbox\n  x.4-15          libre\n\nNIVEL 3 · red por dominio de producto                /18\n  10.0.0.0/18     pedidos\n  10.0.64.0/18    catálogo\n  10.0.128.0/18   datos y análisis\n  10.0.192.0/18   libre\n\nNIVEL 4 · zona                                       /20\nNIVEL 5 · función                                    /24\n  x.x.0.0/24      pública\n  x.x.1.0/23      privada de aplicación   ← /23, ver abajo\n  x.x.4.0/24      datos\n  x.x.5.0/24      puntos privados\n  x.x.6-15        libre\n```\n\n**El dimensionado, contando lo que no se ve.** El cálculo que cambió el plan:\n\n```text\nsubred privada de aplicación, zona de producción de pedidos\n\n  cálculo ingenuo\n    40 máquinas + margen           →  /26  (64)\n\n  cálculo real\n    nodos de contenedores                        40\n    pods por nodo                               110\n    direcciones por pods                      4.400\n    durante despliegue escalonado (×2)        8.800\n    balanceadores internos                       12\n    puntos privados (30 servicios × 3 zonas)     90\n    bases gestionadas con subred propia        3 × 32\n    margen de escalado al máximo               +30 %\n    ────────────────────────────────────────────────\n    total por zona                          ~11.900\n\n  → /18 por zona, no /26\n  → el plan inicial se habría agotado en 4 meses\n```\n\nY la corrección que se hizo en el plan:\n\n```text\nse cambió el modelo de red de contenedores para que los\npods usen un rango separado y no enrutado\n  100.64.0.0/10 para pods, no enrutado fuera del clúster\n  → la subred de aplicación vuelve a caber en un /22\n  → y las direcciones enrutables se reservan para lo que\n    de verdad necesita ser alcanzable\n```\n\n**El registro central**, montado antes que nada:\n\n```text\nun bloque no se puede usar sin estar registrado\n  quién lo pide, para qué, desde cuándo, estado\n\ny la parte que lo hace funcionar\n  la plantilla de red nueva PIDE el bloque automáticamente\n  → tiempo de espera: 40 segundos, no 6 días\n  → función de aptitud: ninguna red con bloque no\n    registrado                                    clase 190\n\nresultado a los 3 meses\n  redes creadas                                     23\n  con bloque del registro                           23\n  elegidas a mano                                    0\n```\n\n**La renumeración de la red de producción de la adquisición.**\n\n```text\nsituación   10.0.0.0/16, solapando con CloudShop\ndestino     10.80.0.0/18, dentro del espacio reservado\ncargas      41 servicios, 2 bases, 6 túneles a socios\n\nsemana 1    añadir 10.80.0.0/18 a la red existente\nsemanas 2-3 crear subredes nuevas y mover 12 servicios sin\n            dependencias entrantes por dirección\nsemanas 4-8 mover los 29 restantes, de 4 en 4\nsemanas 3-14 ACTUALIZAR REFERENCIAS   ← el trabajo real\n```\n\nY lo que apareció en el paso de referencias:\n\n```text\nreglas de cortafuegos con direcciones fijas          214\nrutas estáticas                                       31\nconfiguraciones con dirección escrita a mano          88\n  de ellas, en ficheros que nadie sabía que existían  19\nlistas de permitidos de terceros                       9\n  plazo del más lento                            11 semanas\ncertificado emitido para una dirección                 1\ncontroles de base de datos por origen                 17\nalertas que filtran por rango                         23\n\nhallazgos no buscados\n  4 servicios que se creían retirados seguían recibiendo\n    tráfico\n  1 túnel a un socio que dejó de operar en 2021       ley 20\n  2 reglas de cortafuegos que permitían todo el tráfico\n    desde un rango de un proveedor que ya no se usaba\n```\n\nY el resultado:\n\n```text\nduración total                            14 semanas\ncortes de servicio                             0\n  → gracias a convivir los dos rangos durante la migración\nel plazo lo marcó                     una lista de permitidos\n                                      de un socio: 11 semanas\ncoste estimado                     1,8 personas × 14 semanas\n```\n\n**La comparación que cierra el caso:**\n\n```text\nreservar el espacio y registrar los bloques al principio\n  coste            2 días de trabajo\nrenumerar después\n  coste            25 personas-semana, y el calendario de\n                   un tercero\n→ y esta es la razón por la que el plan de direccionamiento\n  se decide con cuidado y pronto                      ley 14\n```\n\n**La lección que esta clase deja**: el plan inicial habría durado **cuatro meses** porque nadie contó los pods, y la corrección no fue pedir más direcciones sino **sacar los pods del espacio enrutable**. Y de las catorce semanas de renumeración, el plazo no lo marcó ninguna decisión técnica: lo marcó **la lista de permitidos de un socio**, que tenía su propio calendario.",
+  "pitfalls": [
+    {
+      "symptom": "Dos redes que hay que conectar usan el mismo rango",
+      "cause": "No hubo registro central obligatorio y cada equipo eligió el valor por defecto",
+      "fix": "Reserva un espacio para toda la organización, exige registro para crear cualquier red y automatiza la petición para que tarde segundos."
+    },
+    {
+      "symptom": "Una subred se agota a los pocos meses",
+      "cause": "Se dimensionó contando máquinas y no pods, puntos privados ni servicios gestionados",
+      "fix": "Cuenta todos los consumidores, dimensiona por el máximo y multiplica por dos; saca los pods a un rango no enrutado si el modelo lo permite."
+    },
+    {
+      "symptom": "No se puede ampliar un bloque sin partirlo en dos",
+      "cause": "Los bloques se asignaron consecutivos, sin huecos",
+      "fix": "Deja libre el bloque contiguo a cada asignación y reserva por nivel más de lo que se necesita."
+    },
+    {
+      "symptom": "La tabla de rutas alcanza su límite",
+      "cause": "La asignación no es contigua y no se puede resumir",
+      "fix": "Asigna jerárquicamente y de forma contigua para anunciar un bloque por nivel."
+    },
+    {
+      "symptom": "Fallos intermitentes de red imposibles de diagnosticar",
+      "cause": "Un rango usado internamente por un producto solapa con la red corporativa",
+      "fix": "Evita 172.17.0.0/16 y comprueba qué rangos usan por dentro los productos gestionados antes de asignar."
+    },
+    {
+      "symptom": "Una renumeración se alarga meses más de lo previsto",
+      "cause": "Hay direcciones escritas en listas de permitidos de terceros",
+      "fix": "Haz que todo el tráfico saliente hacia terceros use direcciones fijas y pocas, reservadas desde el principio."
+    }
+  ],
+  "checks": [
+    "¿Cuántas direcciones tiene un /22 y por qué 10.0.5.0/22 no es válido?",
+    "¿Qué tres reglas hacen que un plan de direccionamiento sobreviva?",
+    "¿Qué consumidores de direcciones se olvidan casi siempre?",
+    "¿Por qué el solapamiento es el error más caro?",
+    "¿Cuál es el paso de una renumeración donde está el trabajo real?"
+  ],
+  "references": [
+    {
+      "text": "RFC 4632 — Classless Inter-Domain Routing (CIDR).",
+      "url": "https://www.rfc-editor.org/rfc/rfc4632"
+    },
+    {
+      "text": "RFC 1918 — Address allocation for private internets.",
+      "url": "https://www.rfc-editor.org/rfc/rfc1918"
+    },
+    {
+      "text": "RFC 6598 — IANA-reserved IPv4 prefix for shared address space (100.64.0.0/10).",
+      "url": "https://www.rfc-editor.org/rfc/rfc6598"
+    },
+    {
+      "text": "AWS (2025). *VPC sizing and IP address planning*.",
+      "url": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html"
+    },
+    {
+      "text": "Microsoft (2025). *Plan for IP addressing in Azure landing zones*.",
+      "url": "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing"
+    }
+  ]
+}
