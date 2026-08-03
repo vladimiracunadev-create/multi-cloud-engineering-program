@@ -1,0 +1,122 @@
+{
+  "id": "117",
+  "purpose": "Ejecutar código sin gestionar servidores, entendiendo que todo lo que hay que aprender se deduce de una sola renuncia: **el proceso puede desaparecer y reaparecer, y una instancia atiende una petición a la vez**. De ahí salen la aritmética de la concurrencia, que es también la del coste; el arranque en frío, que importa en unos casos y en otros no; los límites que obligan a partir el trabajo; y el conflicto con lo que la clase 109 dejó claro sobre las conexiones.",
+  "outcomes": [
+    "**Calcular** la concurrencia y el coste a partir del tráfico y la duración.",
+    "**Reducir** el arranque en frío y decidir si en este caso importa.",
+    "**Diseñar** dentro de los límites de duración, memoria y estado.",
+    "**Proteger** las dependencias de la concurrencia, y a otras funciones entre sí.",
+    "**Reconocer** cuándo este modelo deja de ser la elección adecuada."
+  ],
+  "concepts": [
+    {
+      "term": "una petición por instancia",
+      "definition": "Cada ejecución ocupa su instancia entera. La concurrencia es el número de instancias vivas, no de hilos."
+    },
+    {
+      "term": "arranque en frío",
+      "definition": "Tiempo añadido cuando hay que crear una instancia nueva: preparar el entorno, cargar el intérprete e inicializar el código."
+    },
+    {
+      "term": "concurrencia reservada",
+      "definition": "Límite máximo de instancias de una función. Sirve para dos cosas opuestas: garantizarle capacidad y evitar que se coma la de los demás."
+    },
+    {
+      "term": "congelación tras responder",
+      "definition": "Al devolver la respuesta, la instancia se congela. El trabajo lanzado en segundo plano se detiene a mitad y puede reanudarse mucho después."
+    },
+    {
+      "term": "memoria acoplada al procesador",
+      "definition": "En la mayoría de las plataformas, la memoria asignada determina también la potencia. Subir memoria puede abaratar, no encarecer."
+    },
+    {
+      "term": "punto de cruce de coste",
+      "definition": "Nivel de uso a partir del cual pagar por ejecución sale más caro que mantener capacidad encendida."
+    },
+    {
+      "term": "límite de tiempo",
+      "definition": "Duración máxima de una ejecución. Es un límite duro que obliga a partir el trabajo o a cambiar de modelo."
+    }
+  ],
+  "diagram": "flowchart TB\n    T[\"tráfico\"] --> C[\"concurrencia =\\npeticiones/s × duración\"]\n    C --> I[\"N instancias\"]\n    I --> F{\"¿instancia disponible?\"}\n    F -->|\"sí\"| W[\"arranque en caliente\"]\n    F -->|\"no\"| K[\"arranque en FRÍO:\\nentorno + intérprete + inicialización\"]\n    I --> D[(\"dependencia · 109\")]\n    D --> X{\"N × 1 conexión\\n¿supera el techo?\"}\n    X -->|\"sí\"| B[\"agotamiento:\\nla función escala, la base no\"]\n    I --> R[\"concurrencia reservada:\\nprotege a la base\\ny a las demás funciones\"]\n    W --> RESP[\"responder\"]\n    RESP --> FR[\"instancia CONGELADA:\\nlo lanzado en segundo plano\\nse detiene\"]",
+  "foundations": [
+    {
+      "heading": "La aritmética que lo explica todo",
+      "body": "En un servidor tradicional, un proceso atiende muchas peticiones a la vez. Aquí no:\n\n```text\nuna instancia = una petición a la vez\n```\n\nY de eso sale la única fórmula que hay que recordar:\n\n```text\nconcurrencia = peticiones por segundo × duración media\n\n800 peticiones/s × 0,120 s   →    96 instancias\n800 peticiones/s × 1,400 s   → 1.120 instancias\n```\n\nMismo tráfico, doce veces más instancias, solo por tardar más. Y eso decide tres cosas a la vez:\n\n```text\ncuántas instancias hacen falta\ncuántas conexiones abre contra su base de datos    (apartado cuarto)\ncuánto cuesta                                       (memoria × tiempo)\n```\n\n**El coste** se factura por memoria asignada y tiempo, y de ahí sale un resultado contraintuitivo:\n\n```text\nfunción con 512 MB, tarda 1.200 ms   → 0,6 GB·s\nla misma con 1.024 MB, tarda 480 ms  → 0,49 GB·s\n```\n\nMás memoria, **menos coste**, porque la memoria lleva procesador acoplado. La consecuencia práctica: probar tres o cuatro tamaños y medir, en vez de asignar el mínimo por prudencia. Lo que casi nunca compensa es el mínimo.\n\nY el **punto de cruce**, que hay que calcular antes de mover nada:\n\n```text\nuso esporádico o muy variable   → pagar por ejecución sale barato\nuso alto y constante            → una instancia encendida sale más barato\n\nejemplo con números redondos:\n  10 peticiones/s constantes, 200 ms, 512 MB\n  → 1 GB·s por segundo, 24 h al día\n  → comparado con dos contenedores pequeños siempre encendidos,\n    el segundo suele ganar por un factor de 3 a 10\n```\n\nY la conclusión que conviene tener escrita: **este modelo es excelente para lo irregular y caro para lo constante**. No es una cuestión de gusto: es una cuenta.\n\nY el otro lado, que a menudo compensa lo anterior:\n\n```text\nlo que se deja de pagar: capacidad ociosa, parcheado, escalado, guardia\nde la capa de ejecución\n→ y eso no aparece en la factura del cómputo\n```"
+    },
+    {
+      "heading": "El arranque en frío, y cuándo importa",
+      "body": "Cuando no hay instancia libre, hay que crear una, y eso tiene partes con costes muy distintos:\n\n```text\npreparar el entorno            plataforma; poco control\ncargar el intérprete o máquina virtual   depende del lenguaje\ninicializar TU código          dependencias, clientes, configuración\nprimera ejecución              caminos aún no optimizados\n```\n\nY el tercero es el que suele dominar y el único que controlas del todo:\n\n```text\nleer configuración de un servicio remoto al arrancar    +300 a 900 ms\ncrear clientes de SDK dentro del manejador     se repite en CADA petición\nun paquete de 180 MB frente a uno de 12 MB     diferencia grande\n```\n\nLas correcciones, por orden de eficacia:\n\n```text\n1. inicializar FUERA del manejador\n   clientes, conexiones y configuración se crean una vez por instancia\n   y se reutilizan en todas las peticiones que atienda\n\n2. reducir el paquete\n   quitar dependencias que no se usan; empaquetar solo lo necesario\n\n3. no consultar servicios remotos en la inicialización\n   o cachear el resultado con su caducidad\n\n4. instancias mínimas siempre listas\n   → resuelve el frío y se paga esté o no en uso\n```\n\nY la pregunta previa a todo esto, que ahorra mucho trabajo inútil:\n\n```text\n¿este arranque en frío lo sufre un usuario?\n  sí, es una API síncrona → importa, y afecta al percentil 99\n  no, procesa una cola     → no importa: 800 ms más en un trabajo\n                             asíncrono no los nota nadie\n```\n\nY dos matices que evitan diagnósticos equivocados:\n\n```text\nla proporción de arranques en frío baja con el tráfico\n  → con tráfico alto y constante, casi todo está caliente\n  → el problema es de tráfico irregular, no de volumen\n\nuna instancia se recicla cada cierto tiempo aunque haya tráfico\n  → siempre habrá algún frío; el objetivo no es cero\n```\n\nY el efecto secundario útil de inicializar fuera del manejador: **la instancia conserva estado entre peticiones**. Eso permite reutilizar conexiones y cachés locales, y a la vez es una fuente de errores:\n\n```text\nvariable global que acumula datos entre peticiones\n→ crece hasta agotar la memoria\n→ y si guarda datos de un usuario, el siguiente los ve (clase 111)\n```"
+    },
+    {
+      "heading": "Los límites que obligan a diseñar distinto",
+      "body": "```text\nDURACIÓN MÁXIMA        de minutos a unas pocas horas según plataforma\n                       → un trabajo que puede crecer no cabe\nMEMORIA                acoplada al procesador\nTAMAÑO DEL MENSAJE     límites de entrada y de respuesta\nDISCO TEMPORAL         existe, es efímero y se comparte entre peticiones\n                       de la MISMA instancia\nSIN ESTADO LOCAL       nada sobrevive garantizado entre ejecuciones\nSIN TRABAJO DE FONDO   la instancia se congela al responder\n```\n\nLa última merece el detalle porque produce errores desconcertantes:\n\n```text\nreturn respuesta            ← la instancia se CONGELA aquí\n// … la tarea lanzada en segundo plano se detiene a mitad\n// … y puede reanudarse minutos después, en la siguiente petición\n// … o no reanudarse nunca\n```\n\nSíntomas típicos: registros que aparecen tarde y mezclados con otra petición, métricas que se pierden, escrituras que a veces se completan. **La regla es que todo termine antes de responder**; lo que no pueda, va a una cola.\n\nY el límite de duración obliga a partir el trabajo, que es un patrón que conviene conocer:\n\n```text\nmal   una función que procesa 4 millones de filas\nbien  una función que procesa un lote y encola el resto\n      con marcador de posición y comprobación de tiempo restante\n\nif tiempo_restante() < 20s:\n    encolar(siguiente_marcador); return\n```\n\nY el disco temporal, que se comparte entre peticiones de la misma instancia:\n\n```text\nescribir siempre con nombre único por petición\ny borrar al terminar\n→ si no, una petición lee el fichero de la anterior\n```\n\n**Los reintentos automáticos**, que es lo que enlaza esta clase con la 116. En las invocaciones asíncronas y en las que consumen de una cola o un registro, **la plataforma reintenta sola**:\n\n```text\nfallo de la función        → se reintenta, típicamente dos veces más\ntiempo agotado             → se reintenta; y la ejecución anterior\n                             puede seguir viva un rato\nagotados los intentos      → destino de fallidos, si está configurado\n```\n\nDe ahí que la conclusión de la clase 116 se aplique aquí con más fuerza: **todo manejador asíncrono tiene que ser idempotente**, porque no hace falta que nadie lo reintente a mano; lo hace la plataforma."
+    },
+    {
+      "heading": "Concurrencia: proteger a la base y a las demás",
+      "body": "La función escala en segundos hasta miles de instancias. Sus dependencias no.\n\n```text\n1.200 instancias concurrentes\n× 1 conexión cada una\n= 1.200 conexiones contra una base con techo de 400\n```\n\nEs exactamente el incidente de la clase 109, con un agravante: **aquí la escalada es mucho más rápida** y no hay agrupador local que valga, porque cada instancia es un proceso aparte.\n\nLas tres respuestas, y suelen hacer falta las tres:\n\n```text\nagrupador externo                          clase 109\nconcurrencia reservada en la función       el límite duro que la contiene\nreutilizar la conexión entre peticiones    inicializando fuera del manejador\n```\n\nY la **concurrencia reservada** hace dos trabajos opuestos que conviene distinguir:\n\n```text\nTECHO      esta función no pasará de N instancias\n           → protege a su base de datos\n           → y protege a las demás funciones de la cuenta\n\nSUELO      esta función tiene N garantizadas\n           → nadie más se las puede quitar\n```\n\nLa segunda existe porque **la concurrencia suele ser un recurso compartido de la cuenta o el proyecto**, y ahí está el incidente clásico:\n\n```text\nuna función de procesamiento por lotes se dispara\nconsume toda la concurrencia disponible\n→ la API de cara al cliente empieza a recibir limitaciones\n→ y el incidente parece de la API, que no ha cambiado nada\n```\n\nEs un compartimento estanco, exactamente el mismo razonamiento que la clase 060 aplicó a los hilos y las conexiones: **aislar para que un consumidor no se lleve la capacidad de todos**.\n\nY el otro efecto de poner techo, que hay que aceptar conscientemente: **cuando se alcanza, se rechazan peticiones**. En una cola eso solo retrasa; en una API síncrona es un error visible. Por eso el techo se calcula con la capacidad de la dependencia, no con un número redondo.\n\nY lo que hay que vigilar:\n\n```text\nconcurrencia usada frente al límite\nlimitaciones por segundo\nproporción de arranques en frío\nduración, p50 y p99\nerrores y reintentos por origen\ncoste por millón de invocaciones, por función\n```\n\n**Cuándo este modelo no es la elección**, que conviene decir con claridad:\n\n```text\ntráfico alto y constante          sale caro; ver el punto de cruce\ntrabajos largos                   no caben en el límite de duración\nlatencia crítica en el p99        el frío es difícil de eliminar del todo\ninicialización muy pesada         se paga en cada instancia nueva\nnecesidad de estado local         no hay\nconexiones persistentes salientes vive mal con instancias efímeras\n```\n\nY la combinación que suele ganar: **lo irregular y por eventos en funciones; lo constante y de cara al cliente en contenedores** (partes 05 y 06). No es una decisión de todo o nada.\n\nY la lista de comprobación de la clase:\n\n```text\n☐ está calculada la concurrencia con tráfico × duración\n☐ se ha probado con varios tamaños de memoria y se ha medido el coste\n☐ está calculado el punto de cruce frente a capacidad encendida\n☐ los clientes y conexiones se crean fuera del manejador\n☐ no hay consultas remotas en la inicialización\n☐ está decidido si el arranque en frío afecta a alguien\n☐ nada se lanza en segundo plano después de responder\n☐ los trabajos largos se parten con marcador y control de tiempo restante\n☐ el disco temporal usa nombres únicos por petición\n☐ todo manejador asíncrono es idempotente (clase 116)\n☐ hay concurrencia reservada como techo, calculada con la dependencia\n☐ las funciones críticas tienen concurrencia garantizada\n```\n\nY el cierre que enlaza con la clase siguiente: estas funciones y servicios acaban expuestos como una API que consumen otros, dentro y fuera de la organización. Cómo se publica, se limita, se versiona y se cobra es la materia de la clase 118."
+    }
+  ],
+  "worked_example": "**CloudShop mueve tres cargas a funciones. Una encaja perfectamente, otra provoca dos incidentes y la tercera se devuelve a contenedores tras hacer la cuenta. Los tres casos son la misma decisión con datos distintos.**\n\n**Caso 1: procesar imágenes al subirlas. Encaja.**\n\n```text\ntráfico                    irregular: 0 la mayor parte del día,\n                           picos de 400/min al cargar catálogos\nduración                   1,8 s por imagen\nlatencia percibida         ninguna: es asíncrono\n```\n\n```text                                    contenedores      funciones\ncapacidad para el pico              4 instancias siempre    automática\ncoste mensual                            310 €               19 €\ntiempo de respuesta al pico          escalado en 90 s       inmediato\narranques en frío                          —              38 % de ejecuciones\nefecto de los arranques en frío            —                ninguno\n```\n\nTreinta y ocho por ciento de arranques en frío y **no importa**, porque es la pregunta del apartado segundo: nadie espera.\n\nY el ajuste de memoria, que sorprendió al equipo:\n\n```text            memoria    duración    GB·s      coste relativo\n                   512 MB     4,1 s     2,10           100 %\n                 1.024 MB     1,8 s     1,84            88 %\n                 2.048 MB     1,1 s     2,25           107 %\n```\n\nEl mínimo no era el más barato; el punto óptimo estaba en el medio.\n\n**Caso 2: consumir eventos de pedido. Dos incidentes.**\n\n**Incidente A: 1.400 conexiones contra una base de 400.**\n\n```text\n11:20  llega un lote de 90.000 eventos acumulados\n11:20  la función escala a 1.400 instancias en 40 s\n11:21  la base rechaza conexiones\n11:21  la parte SÍNCRONA del sistema también falla: comparten base\n11:34  se para la función a mano\n```\n\nLa cuenta que no se había hecho:\n\n```text\nconcurrencia = 3.000 mensajes/s × 0,47 s = 1.410 instancias\nconexiones                                  1.410\ntecho de la base                              400\n```\n\n```text                                    antes         después\nconexión creada                        en el manejador  fuera, reutilizada\nagrupador externo                          no             sí\nconcurrencia reservada                     ninguna        60\nconexiones máximas                         1.410          24\ntiempo en digerir 90.000 eventos           fallo        11 min\nefecto sobre la parte síncrona             caída          ninguno\n```\n\nSesenta instancias tardan once minutos en lugar de fallar en cuarenta segundos. **El techo no ralentizó el sistema: lo hizo posible.**\n\n**Incidente B: una función se come la concurrencia de la cuenta.**\n\n```text\n09:05  un trabajo de reindexación se dispara por un error de configuración\n09:06  consume 980 de las 1.000 unidades de concurrencia de la cuenta\n09:06  la API de cara al cliente empieza a recibir limitaciones\n09:06  errores del 34 % en el sitio web\n09:22  se identifica; la API no había cambiado nada\n```\n\nDieciséis minutos buscando en el sitio equivocado.\n\n```text                                    antes         después\nconcurrencia garantizada a la API          no          200 reservadas\ntecho de la función de reindexación        no          50\nalerta por concurrencia usada > 70 %       no             sí\nincidentes por vecino ruidoso           1 / 4 meses       0\n```\n\n**El trabajo de fondo que se congelaba.**\n\nY un problema que costó tres semanas de diagnóstico:\n\n```text\nsíntoma   el 2 % de los eventos no llegaba a analítica\n          y sus registros aparecían mezclados con otra petición\ncausa     el envío a analítica se lanzaba en segundo plano\n          y el manejador respondía sin esperarlo\n          → la instancia se congelaba a mitad del envío\n```\n\n```text                                    antes            después\nenvío a analítica                    en segundo plano   antes de responder\neventos perdidos                          2 %              0 %\nregistros mezclados entre peticiones      sí               no\nduración añadida                           —              +14 ms\n```\n\nCatorce milisegundos por hacerlo bien.\n\n**Caso 3: la API de catálogo. Se hace la cuenta y se devuelve a contenedores.**\n\n```text\ntráfico                       1.100 peticiones/s constantes, 24 h\nduración                      90 ms\nmemoria                       512 MB\nconcurrencia                  99 instancias permanentes\n```\n\n```text                                    funciones      contenedores\ncoste mensual de cómputo                 4.180 €           390 €\nlatencia p50                              38 ms            31 ms\nlatencia p99                             410 ms            84 ms\ncausa del p99                       arranques en frío         —\ninstancias mínimas para evitarlo    +1.900 €/mes             —\n```\n\nDiez veces más caro y con peor percentil 99. **Es tráfico constante**, que es justo donde este modelo pierde. Se devolvió a contenedores sin discusión, porque la cuenta la resolvía.\n\nY la conclusión que se escribió en la decisión:\n\n> «Funciones para lo irregular y lo dirigido por eventos. Contenedores para lo constante y de cara al cliente. La frontera la decide la cuenta de concurrencia por duración, y se revisa cuando el tráfico cambie de forma.»\n\n**A los seis meses.**\n\n```text                                          antes         después\ncargas en funciones                              3             2\ncoste mensual total de las movidas             310 €          29 €\ncoste evitado al devolver la API a contenedores   —         3.790 €/mes\nconexiones máximas desde funciones             1.410           24\ncaídas por agotar conexiones                     1             0\nincidentes por vecino ruidoso                    1             0\neventos perdidos por trabajo de fondo           2 %            0\nconcurrencia reservada configurada            ninguna     en las 2 funciones\nmanejadores asíncronos idempotentes            0 de 2        2 de 2\n```\n\n**La lección que esta clase traslada a la parte 09**: las tres decisiones se resolvieron con **la misma fórmula aplicada tres veces**. Concurrencia igual a peticiones por duración explicó por qué el procesado de imágenes es barato, por qué la función de eventos abrió mil cuatrocientas conexiones y por qué la API constante costaba diez veces más. Y el problema más difícil de diagnosticar no fue ninguno de los tres: fue **la instancia que se congela al responder**, que no aparece en ninguna métrica y solo se ve como datos que faltan.",
+  "pitfalls": [
+    {
+      "symptom": "La base de datos agota conexiones en cuanto llega un lote",
+      "cause": "Concurrencia igual a peticiones por duración: miles de instancias, una conexión cada una",
+      "fix": "Crea la conexión fuera del manejador, pon agrupador externo y fija concurrencia reservada calculada con el techo de la base."
+    },
+    {
+      "symptom": "Una API que no ha cambiado empieza a recibir limitaciones",
+      "cause": "Otra función consumió la concurrencia compartida de la cuenta",
+      "fix": "Reserva concurrencia garantizada a lo crítico y pon techo a los trabajos por lotes."
+    },
+    {
+      "symptom": "Se pierden datos enviados en segundo plano y los registros salen mezclados",
+      "cause": "La instancia se congela al responder y el trabajo pendiente se detiene",
+      "fix": "Termina todo antes de responder; lo que no quepa, encólalo."
+    },
+    {
+      "symptom": "El percentil 99 es diez veces la mediana",
+      "cause": "Arranques en frío en una ruta síncrona",
+      "fix": "Inicializa fuera del manejador, reduce el paquete, evita consultas remotas al arrancar y valora instancias mínimas o cambiar de modelo."
+    },
+    {
+      "symptom": "La factura es mucho mayor de lo esperado",
+      "cause": "Tráfico constante, que es donde pagar por ejecución pierde frente a capacidad encendida",
+      "fix": "Calcula el punto de cruce y prueba varios tamaños de memoria: el mínimo casi nunca es el más barato."
+    },
+    {
+      "symptom": "Efectos duplicados sin que nadie reintente a mano",
+      "cause": "La plataforma reintenta sola las invocaciones asíncronas",
+      "fix": "Haz idempotente todo manejador asíncrono, con la técnica de la clase 116."
+    }
+  ],
+  "checks": [
+    "¿Cómo se calcula la concurrencia y qué tres cosas decide?",
+    "¿Por qué asignar la memoria mínima suele salir más caro?",
+    "¿En qué casos importa el arranque en frío y en cuáles no?",
+    "¿Qué le pasa al trabajo lanzado en segundo plano después de responder?",
+    "¿Para qué dos cosas opuestas sirve la concurrencia reservada?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2025). *Lambda: concurrency, reserved and provisioned* — techo, suelo y comportamiento al escalar.",
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-concurrency.html"
+    },
+    {
+      "text": "AWS (2025). *Lambda execution environment lifecycle* — inicialización, congelación tras responder y reciclado.",
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html"
+    },
+    {
+      "text": "Google Cloud (2025). *Cloud Run functions: cold starts and minimum instances* — coste del arranque y mitigaciones.",
+      "url": "https://cloud.google.com/run/docs/tips/general"
+    },
+    {
+      "text": "Azure (2025). *Azure Functions: performance and scale considerations* — límites, planes y conexiones salientes.",
+      "url": "https://learn.microsoft.com/azure/azure-functions/functions-best-practices"
+    },
+    {
+      "text": "Jonas, E. y otros (2019). *Cloud programming simplified: a Berkeley view on serverless computing* — límites del modelo y cuándo no encaja.",
+      "url": "https://arxiv.org/abs/1902.03383"
+    }
+  ]
+}
