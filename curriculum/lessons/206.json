@@ -1,0 +1,118 @@
+{
+  "id": "206",
+  "purpose": "Eliminar las claves de acceso de larga duración de las canalizaciones, sustituyéndolas por federación con testigos de corta vida. La clase explica el mecanismo pieza a pieza —proveedor de identidad, condiciones de confianza, testigo y rol—, insiste en la parte donde se cometen los errores graves (**la condición de sujeto mal escrita permite que cualquier repositorio del mundo asuma tu rol**), y aborda la migración de decenas de canalizaciones sin romperlas.",
+  "outcomes": [
+    "**Explicar** el intercambio de testigo por credenciales temporales.",
+    "**Configurar** el proveedor de identidad y la política de confianza correctamente.",
+    "**Escribir** condiciones de sujeto que no dejen huecos.",
+    "**Migrar** canalizaciones existentes sin interrumpirlas.",
+    "**Verificar** con pruebas negativas que nadie más puede asumir el rol."
+  ],
+  "concepts": [
+    {
+      "term": "federación por identidad de carga",
+      "definition": "Intercambiar un testigo firmado por el sistema de integración por credenciales temporales del proveedor de nube."
+    },
+    {
+      "term": "proveedor de identidad",
+      "definition": "Recurso que declara en qué emisor se confía y con qué audiencia."
+    },
+    {
+      "term": "política de confianza",
+      "definition": "Regla del rol que dice quién puede asumirlo y bajo qué condiciones."
+    },
+    {
+      "term": "sujeto",
+      "definition": "Campo del testigo que identifica el repositorio, la rama, el entorno o la etiqueta que solicita el acceso."
+    },
+    {
+      "term": "audiencia",
+      "definition": "Destinatario declarado del testigo. Evita que un testigo emitido para otro servicio sirva aquí."
+    },
+    {
+      "term": "entorno protegido",
+      "definition": "Mecanismo del sistema de integración que exige aprobación antes de que un trabajo obtenga el testigo."
+    }
+  ],
+  "diagram": "flowchart TB\n    W[\"trabajo de la canalización\"] --> T[\"pide un testigo\\nal sistema de integración\"]\n    T --> T1[\"testigo firmado con\\niss · aud · sub\"]\n    T1 --> A[\"AWS STS\\nassume-role-with-web-identity\"]\n    A --> V{\"comprobaciones\"}\n    V --> V1[\"¿emisor confiable?\\nproveedor de identidad\"]\n    V --> V2[\"¿audiencia correcta?\"]\n    V --> V3[\"¿SUJETO permitido?\\n← aquí están los errores\"]\n    V3 -->|\"StringLike con *\\nmal puesto\"| X[\"CUALQUIER repositorio\\npuede asumir el rol\"]\n    V3 -->|\"StringEquals\\ncompleto\"| OK[\"credenciales temporales\\n15-60 min\"]\n    OK --> P[\"permisos mínimos\\ndel rol\"]",
+  "foundations": [
+    {
+      "heading": "Cómo funciona el intercambio",
+      "body": "El mecanismo tiene cuatro piezas y conviene entenderlas antes de configurarlas.\n\n```text\n1  EL SISTEMA DE INTEGRACIÓN EMITE UN TESTIGO\n   firmado por él, con vida de minutos, que dice\n     iss   quién lo emite (el servicio de integración)\n     aud   para quién es\n     sub   QUIÉN lo pide: organización, repositorio, rama,\n           entorno o etiqueta\n     y otros campos: rama, flujo de trabajo, ejecutor…\n\n2  AWS TIENE DECLARADO UN PROVEEDOR DE IDENTIDAD\n   que dice «confío en los testigos firmados por este\n   emisor, con esta audiencia»\n\n3  EL ROL TIENE UNA POLÍTICA DE CONFIANZA\n   que dice «pueden asumirme los testigos de ese proveedor\n   cuyo sujeto cumpla ESTAS condiciones»\n\n4  EL TRABAJO INTERCAMBIA testigo por credenciales\n   temporales, de 15 a 60 minutos, con los permisos del rol\n```\n\nY lo que se gana, que es lo que justifica la migración:\n\n```text\nsin claves de acceso guardadas como secretos\n  → no hay nada que robar del repositorio\n  → no hay nada que rotar                          clase 159\n  → si el repositorio se compromete, el atacante necesita\n    además cumplir las condiciones del sujeto\ncredenciales de minutos, no de años\ny cada uso queda registrado con el sujeto que lo pidió\n  → auditoría atribuible                          clase 141\n```\n\nY una comparación con lo que sustituye:\n\n```text\nCLAVE DE ACCESO GUARDADA COMO SECRETO\n  vive años\n  sirve desde cualquier sitio del mundo\n  se copia con un simple volcado de variables de entorno\n  y su rotación es un procedimiento manual que nadie hace\n                                                    ley 22\n\n→ en la clase 179, cuatro servicios compartían una clave\n  estática de tres años\n```\n\nY el ámbito de aplicación, que es más amplio de lo que suele usarse:\n\n```text\nel mismo mecanismo sirve para\n  GitHub Actions y GitLab CI hacia AWS\n  y también hacia Azure y Google Cloud\n  cargas en Kubernetes hacia AWS                  clase 213\n  y cualquier emisor que firme testigos con el formato\n    estándar\n```"
+    },
+    {
+      "heading": "Donde se cometen los errores graves",
+      "body": "La configuración es corta y tiene un punto donde un error convierte el mecanismo en algo peor que una clave estática.\n\n```text\nLA CONDICIÓN DE SUJETO\n\n  ✗ CATASTRÓFICO\n    \"StringLike\": { \"...:sub\": \"*\" }\n    → CUALQUIER repositorio de CUALQUIER organización del\n      mundo puede asumir tu rol\n    → basta con que alguien sepa el nombre del rol\n\n  ✗ MUY MALO\n    \"StringLike\": { \"...:sub\": \"repo:miorg/*\" }\n    → cualquier repositorio de tu organización, incluidos\n      los que cree un becario\n    → y si alguien puede crear un repositorio, puede\n      desplegar en producción\n\n  ✗ SUTIL Y FRECUENTE\n    olvidar la condición de AUDIENCIA\n    → un testigo emitido para otro servicio podría valer\n\n  ✓ CORRECTO\n    \"StringEquals\": {\n      \"...:aud\": \"<audiencia declarada>\",\n      \"...:sub\": \"repo:miorg/mirepo:environment:produccion\"\n    }\n    → un repositorio, un entorno, exacto\n```\n\nY las formas de sujeto que conviene conocer:\n\n```text\nrepo:org/repo:ref:refs/heads/main       una rama concreta\nrepo:org/repo:environment:produccion    un entorno protegido\nrepo:org/repo:ref:refs/tags/v*          etiquetas (con\n                                        StringLike, y con\n                                        cuidado)\nrepo:org/repo:pull_request              propuestas de cambio\n                                        ← NUNCA para producción\n```\n\nY la última merece énfasis:\n\n```text\nuna propuesta de cambio la puede abrir cualquiera desde una\nbifurcación\n→ dar permisos de producción a ese sujeto equivale a dar\n  permisos de producción a cualquiera\n→ los trabajos de propuesta de cambio usan un rol de solo\n  lectura, y nada más\n```\n\n**El entorno protegido**, que es la pieza que casi nadie usa y la que más aporta:\n\n```text\nun entorno del sistema de integración puede exigir\n  aprobación manual de personas concretas\n  que la rama sea una determinada\n  una espera mínima\n\ny el testigo incluye el nombre del entorno en el sujeto\n→ atar el rol de producción al entorno «produccion»\n  significa que ningún flujo puede obtenerlo sin pasar por\n  la aprobación                                   clase 106\n```\n\nY una comprobación que hay que hacer siempre:\n\n```text\nintenta asumir el rol desde\n  otra rama                      → debe fallar\n  otro repositorio               → debe fallar\n  una bifurcación                → debe fallar\n  un flujo sin el entorno        → debe fallar\n→ y si alguna funciona, la condición está mal escrita\n                                                   ley 22\n```"
+    },
+    {
+      "heading": "Permisos del rol y separación",
+      "body": "Quitar la clave estática no sirve de nada si el rol federado puede hacerlo todo.\n\n```text\nUN ROL POR PROPÓSITO, NO UNO QUE VALGA PARA CUALQUIER COSA\n  rol de lectura           propuestas de cambio: validar,\n                           planificar, analizar\n  rol de despliegue de\n    preproducción          escribir en preproducción\n  rol de despliegue de\n    producción             escribir en producción, atado al\n                           entorno protegido\n  rol de publicación de\n    artefactos             subir imágenes al registro\n\n→ y cada uno con permisos mínimos y con su condición de\n  sujeto propia                                   clase 134\n```\n\nY los permisos que **nunca** debe tener el rol de la canalización:\n\n```text\nmodificar políticas de identidad o crear roles\n  → si puede crear un rol con más permisos, tiene todos\ndesactivar el registro de auditoría\nborrar copias de seguridad\nmodificar la propia política de confianza\n  → podría ampliarse a sí mismo\n\n→ estos permisos se ponen en una barrera de la organización,\n  para que ni siquiera un administrador de la cuenta pueda\n  concederlos                                     clase 169\n```\n\nY dos controles que refuerzan:\n\n```text\nDURACIÓN MÍNIMA\n  la sesión dura lo que dure el trabajo, no una hora por\n  defecto\n\nCONDICIONES ADICIONALES EN LA POLÍTICA DE PERMISOS\n  restringir por región\n  restringir por etiqueta de recurso\n  exigir que la petición venga de la sesión federada, no de\n    una credencial cualquiera\n```\n\nY una decisión de arquitectura sobre cuentas:\n\n```text\nel rol de producción vive en la CUENTA de producción\nla canalización no tiene ningún acceso permanente a esa\ncuenta\n→ y el paso de producción está en un flujo separado, con\n  entorno protegido\n→ así el compromiso del repositorio no da acceso a\n  producción sin una aprobación humana        clases 108, 189\n```"
+    },
+    {
+      "heading": "Migrar sin romper",
+      "body": "Migrar decenas de canalizaciones a la vez es donde se rompen las cosas. El patrón es el de expandir y contraer.\n\n```text\n1  CREAR el proveedor de identidad y los roles, con\n   condiciones estrictas\n   → sin tocar nada de lo existente\n\n2  MIGRAR UNA canalización poco crítica\n   y comprobar que funciona y que las pruebas negativas\n   fallan como deben\n\n3  MIGRAR EL RESTO por lotes\n   las claves antiguas SIGUEN existiendo\n\n4  MEDIR EL USO de cada clave antigua\n   → una clave sin uso durante N días es candidata a\n     desactivar\n   → y las que siguen usándose revelan canalizaciones que\n     nadie sabía que existían\n\n5  DESACTIVAR, no borrar, y esperar\n   → si algo se rompe, se reactiva en segundos\n\n6  BORRAR, y con ellas los secretos del repositorio\n```\n\nY el paso 4 es el que descubre cosas:\n\n```text\nel informe de credenciales y los registros de acceso dicen\n  qué claves existen, cuándo se usaron por última vez y\n  desde dónde\n→ las claves sin uso en 90 días son riesgo puro\n→ y las que se usan desde direcciones inesperadas son otra\n  cosa                                            clase 141\n```\n\n**Lo que hay que vigilar** una vez migrado:\n\n```text\nusos del rol federado, con el sujeto que lo pidió\nintentos de asunción DENEGADOS\n  → un aumento significa que alguien está probando\nclaves de acceso de larga duración que existan todavía\n  → función de aptitud: cero permitidas            clase 190\ncambios en las políticas de confianza\n  → auditar siempre; ampliar una condición es el camino\n    para saltarse todo lo anterior\n```\n\nY una limitación que hay que conocer:\n\n```text\nno todo se puede federar\n  herramientas de terceros que solo aceptan clave y secreto\n  sistemas antiguos\n→ para esos, credenciales de rotación automática y ámbito\n  mínimo, con fecha de revisión escrita             ley 25\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ existe el proveedor de identidad con la audiencia\n  declarada\n☐ ninguna condición de sujeto usa comodín amplio\n☐ la condición de audiencia está presente\n☐ producción está atada a un entorno protegido con\n  aprobación\n☐ las propuestas de cambio usan un rol de solo lectura\n☐ hay un rol por propósito, con permisos mínimos\n☐ ningún rol de canalización puede crear roles ni modificar\n  su confianza\n☐ la duración de la sesión es la del trabajo\n☐ las pruebas negativas desde otra rama, repositorio y\n  bifurcación fallan\n☐ no queda ninguna clave de acceso de larga duración\n☐ hay función de aptitud que lo comprueba\n☐ se vigilan los intentos denegados y los cambios de\n  confianza\n```\n\nY el cierre que enlaza con la clase siguiente: con una canalización que puede desplegar sin secretos, queda desplegar algo. La aplicación sin servidores —funciones, pasarela de API y su definición como código— es la materia de la clase 207."
+    }
+  ],
+  "worked_example": "**CloudShop migra 41 canalizaciones a federación. Lo que sigue es la condición de sujeto mal escrita que encontraron en la primera revisión, la migración por lotes, y las once claves que aparecieron al medir el uso.**\n\n**El punto de partida:**\n\n```text\ncanalizaciones                                        41\nclaves de acceso de larga duración en secretos        23\n  antigüedad media                              2,1 años\n  con permisos de administrador                        6\n  compartidas entre varios repositorios                4\nrotaciones realizadas en 3 años                        0\n```\n\n**El primer intento, y el fallo que encontró la revisión.**\n\n```text\nun equipo había migrado ya su canalización, en marzo\nsu política de confianza decía\n\n  \"Condition\": {\n    \"StringLike\": {\n      \"token.actions.githubusercontent.com:sub\":\n        \"repo:cloudshop/*\"\n    }\n  }\n\nlo que eso permitía\n  cualquier repositorio de la organización cloudshop podía\n  asumir el rol\n  → y ese rol tenía permisos de escritura en producción\n\ny lo que lo hacía peor de lo que parecía\n  crear un repositorio en la organización lo podía hacer\n  cualquiera de los 214 miembros\n  → cualquiera podía desplegar en producción creando un\n    repositorio nuevo\n  → sin aprobación, sin revisión, sin dejar rastro obvio\n\ny faltaba además la condición de audiencia\n\nla prueba negativa que lo demostró\n  se creó un repositorio de prueba en la organización\n  se escribió un flujo que asumía el rol\n  → funcionó a la primera\n  tiempo desde la idea hasta desplegar en producción: 6 min\n```\n\nY el análisis:\n\n```text\nesta configuración era PEOR que la clave estática que\nsustituía\n  la clave, al menos, estaba en un secreto de un repositorio\n  concreto\n  esto era accesible desde cualquier repositorio nuevo\n→ y se había revisado y aprobado, porque «quitaba el\n  secreto»                                        clase 191\n```\n\n**La configuración corregida.**\n\n```text\nproveedor de identidad, uno por sistema de integración,\ncon la audiencia declarada\n\nROLES, uno por propósito\n\n  cloudshop-ci-lectura\n    sub   repo:cloudshop/tienda:pull_request\n    aud   comprobada\n    puede validar plantillas, planificar cambios, leer\n          artefactos\n    NO puede escribir nada\n\n  cloudshop-ci-preproduccion\n    sub   repo:cloudshop/tienda:ref:refs/heads/main\n    puede desplegar en la cuenta de preproducción\n\n  cloudshop-ci-produccion\n    sub   repo:cloudshop/tienda:environment:produccion\n    vive en la CUENTA de producción\n    entorno protegido con aprobación de 2 personas de una\n      lista, y espera mínima de 5 minutos\n    permisos mínimos, restringidos por región y por etiqueta\n\n  cloudshop-ci-artefactos\n    sub   repo:cloudshop/tienda:ref:refs/heads/main\n    puede subir al registro de imágenes, nada más\n\nBARRERA DE ORGANIZACIÓN\n  ningún rol de canalización puede\n    crear o modificar roles\n    modificar políticas de confianza\n    desactivar el registro de auditoría\n    borrar copias de seguridad\n  → denegación explícita a nivel de organización, no de\n    cuenta                                        clase 169\n```\n\n**Las pruebas negativas, ejecutadas tras corregir:**\n\n```text\n✓  asumir el rol de producción desde otra rama      denegado\n✓  asumir desde otro repositorio de la organización denegado\n✓  asumir desde una bifurcación externa             denegado\n✓  asumir desde un flujo sin el entorno             denegado\n✓  asumir con un testigo de otra audiencia          denegado\n✗  el rol de preproducción podía leer un bucket de\n   producción\n   → una política heredada del rol antiguo permitía\n     s3:GetObject sobre un comodín\n   → corregido; y añadida condición de etiqueta de entorno\n✓  el rol de artefactos intentando desplegar        denegado\n✓  el rol de canalización creando un rol            denegado\n   por la barrera\n```\n\n**La migración de las 41, por lotes.**\n\n```text\nsemana 1     proveedor y roles creados; nada más tocado\nsemana 2     1 canalización interna, poco crítica\n             pruebas negativas ejecutadas\nsemanas 3-6  32 canalizaciones, en lotes de 8\nsemanas 5-7  las 8 restantes, que eran las de producción\n             → con entorno protegido, requirió coordinar\n               aprobadores\nsemanas 7-11 MEDIR EL USO de las 23 claves antiguas\nsemana 12    desactivar (no borrar) las sin uso\nsemana 16    borrar y limpiar los secretos\n```\n\n**Lo que apareció al medir el uso de las claves antiguas:**\n\n```text\nclaves sin uso en 30 días                             12\n  → desactivadas sin incidencia\n\nclaves aún en uso                                     11\n  de canalizaciones ya migradas (residuos)             3\n    → un paso del flujo seguía usando la clave\n  de canalizaciones que NO estaban en la lista de 41    8\n    · un trabajo programado en una máquina de un equipo\n      de datos\n    · un script en el portátil de una persona, ejecutado a\n      mano cada lunes para subir tarifas       ← clase 192\n    · una herramienta de un proveedor externo\n    · dos integraciones de sistemas antiguos\n    · un sistema de despliegue que se creía retirado en 2023\n    · dos usos que nadie pudo explicar\n\n→ el inventario decía 41 canalizaciones\n→ la realidad tenía 49                              ley 24\n```\n\nY el tratamiento de los 8:\n\n```text\n5   migrados a federación o a roles asumidos desde la nube\n2   no se pudieron federar (proveedor externo y sistema\n    antiguo)\n    → credenciales con rotación automática cada 30 días,\n      permisos mínimos y fecha de revisión escrita   ley 25\n1   se apagó: era el sistema de despliegue retirado\n    → llevaba 2 años con credenciales de administrador\n      válidas                                        ley 20\n```\n\n**El resultado:**\n\n```text                                        antes     después\nclaves de acceso de larga duración            23           2\n  con rotación automática                      0           2\n  con permisos de administrador                6           0\nroles con condición de sujeto amplia           1           0\nentornos protegidos con aprobación             0           4\ncanalizaciones conocidas                      41          49\ntiempo para que un miembro cualquiera\n  despliegue en producción sin aprobación    6 min   imposible\nintentos denegados registrados al mes         n/a          14\n  → todos, flujos mal configurados tras un cambio de rama\n```\n\nY la función de aptitud que lo mantiene:\n\n```text\n«cero claves de acceso de larga duración sin excepción\n registrada»\n  excepciones vivas                                     2\n  con dueño y fecha de revisión                         2\n  → comprobado en cada cambio de infraestructura\n                                                clase 190\n```\n\n**La lección que esta clase deja**: la primera migración **quitó el secreto y empeoró la seguridad**, porque una condición de sujeto con comodín permitía que cualquiera de doscientos catorce miembros desplegara en producción creando un repositorio. Se había revisado y aprobado. Y al medir el uso de las claves antiguas apareció lo de siempre: **ocho canalizaciones que no estaban en el inventario**, incluida una que llevaba dos años con credenciales de administrador para un sistema que se creía retirado.",
+  "pitfalls": [
+    {
+      "symptom": "Cualquiera de la organización puede desplegar en producción",
+      "cause": "La condición de sujeto usa un comodín sobre la organización o el repositorio",
+      "fix": "Usa comparación exacta con repositorio y entorno concretos, y añade siempre la condición de audiencia."
+    },
+    {
+      "symptom": "Un flujo de propuesta de cambio obtiene permisos de escritura",
+      "cause": "El sujeto de propuesta de cambio está permitido en un rol con escritura",
+      "fix": "Las propuestas de cambio solo asumen un rol de lectura; las bifurcaciones pueden abrirlas desde fuera."
+    },
+    {
+      "symptom": "El rol federado puede ampliarse a sí mismo",
+      "cause": "Tiene permisos para crear roles o modificar su política de confianza",
+      "fix": "Deniega esos permisos en una barrera de organización, no solo en la política del rol."
+    },
+    {
+      "symptom": "Quitar el secreto no mejoró nada",
+      "cause": "El rol federado conserva permisos amplios heredados del anterior",
+      "fix": "Un rol por propósito, con permisos mínimos y condiciones de región y etiqueta."
+    },
+    {
+      "symptom": "Al borrar las claves antiguas se rompen procesos desconocidos",
+      "cause": "Se borraron sin medir el uso previo",
+      "fix": "Mide el uso semanas, desactiva antes de borrar, y trata los usos inesperados como hallazgos de inventario."
+    },
+    {
+      "symptom": "Quedan credenciales estáticas que no se pueden federar",
+      "cause": "Herramientas de terceros o sistemas antiguos que solo aceptan clave y secreto",
+      "fix": "Rotación automática, ámbito mínimo y excepción registrada con dueño y fecha de revisión."
+    }
+  ],
+  "checks": [
+    "¿Qué cuatro piezas intervienen en el intercambio de testigo por credenciales?",
+    "¿Por qué una condición de sujeto con comodín puede ser peor que una clave estática?",
+    "¿Qué aporta atar el rol de producción a un entorno protegido?",
+    "¿Qué permisos no debe tener nunca un rol de canalización y dónde se deniegan?",
+    "¿Qué se descubre al medir el uso de las claves antiguas antes de borrarlas?"
+  ],
+  "references": [
+    {
+      "text": "GitHub (2025). *About security hardening with OpenID Connect*.",
+      "url": "https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect"
+    },
+    {
+      "text": "GitHub (2025). *Configuring OpenID Connect in Amazon Web Services*.",
+      "url": "https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services"
+    },
+    {
+      "text": "GitLab (2025). *Connect to cloud services with OIDC*.",
+      "url": "https://docs.gitlab.com/ee/ci/cloud_services/"
+    },
+    {
+      "text": "AWS (2025). *Create an OpenID Connect identity provider in IAM*.",
+      "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html"
+    },
+    {
+      "text": "AWS (2025). *AssumeRoleWithWebIdentity and session policies*.",
+      "url": "https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithWebIdentity.html"
+    }
+  ]
+}
