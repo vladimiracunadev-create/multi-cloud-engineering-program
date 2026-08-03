@@ -1,0 +1,118 @@
+{
+  "id": "187",
+  "purpose": "Decidir qué se garantiza cuando hay varias copias del dato y la red puede partirse. La clase pone en su sitio el teorema CAP —que se cita mucho y se aplica mal—, explica por qué los relojes no sirven para ordenar sucesos, presenta el consenso como la herramienta cara que resuelve el acuerdo, y sostiene lo que este programa lleva demostrando desde la clase 149: **la consistencia se decide por operación, nunca para el sistema entero**.",
+  "outcomes": [
+    "**Enunciar** CAP correctamente y evitar los dos errores habituales al citarlo.",
+    "**Elegir** el modelo de consistencia por operación, con su justificación de negocio.",
+    "**Explicar** por qué los relojes de pared no ordenan sucesos distribuidos.",
+    "**Reconocer** cuándo hace falta consenso y cuánto cuesta.",
+    "**Diseñar** con consistencia eventual sin que el usuario vea incoherencias."
+  ],
+  "concepts": [
+    {
+      "term": "CAP",
+      "definition": "Bajo partición de red hay que elegir entre responder (disponibilidad) y garantizar la última escritura (consistencia). Solo aplica durante la partición."
+    },
+    {
+      "term": "linealizabilidad",
+      "definition": "Toda lectura ve la última escritura confirmada. La garantía más fuerte y la más cara."
+    },
+    {
+      "term": "consistencia eventual",
+      "definition": "Sin escrituras nuevas, todas las réplicas convergen. No dice cuándo."
+    },
+    {
+      "term": "consistencia de sesión",
+      "definition": "Un cliente ve sus propias escrituras y no retrocede en el tiempo. Suele ser lo que el usuario percibe como correcto."
+    },
+    {
+      "term": "reloj lógico",
+      "definition": "Contador que ordena sucesos por causalidad sin depender de la hora."
+    },
+    {
+      "term": "consenso",
+      "definition": "Acuerdo entre réplicas sobre un valor. Requiere mayoría y cuesta al menos un viaje de red."
+    }
+  ],
+  "diagram": "flowchart TB\n    P{\"¿hay partición\\nde red AHORA?\"}\n    P -->|no| N[\"CAP no dice nada\\n→ el compromiso real es\\nLATENCIA vs consistencia\"]\n    P -->|sí| E{\"¿qué se elige?\"}\n    E --> C[\"CONSISTENCIA\\nrechazar y no responder\"]\n    E --> A[\"DISPONIBILIDAD\\nresponder con dato\\nposiblemente viejo\"]\n    O[\"decidir POR OPERACIÓN\"] --> O1[\"reservar plaza\\n→ fuerte, o se vende dos veces\"]\n    O --> O2[\"ver catálogo\\n→ eventual, nadie lo nota\"]\n    O --> O3[\"ver mi reserva\\n→ de sesión\"]\n    O --> O4[\"cobrar\\n→ idempotente + fuerte\"]\n    R[\"ordenar sucesos\"] --> R1[\"reloj de pared: NO\\nderiva y salta\"]\n    R --> R2[\"reloj lógico o versión\"]\n    R --> R3[\"consenso si hace falta\\nacuerdo, no solo orden\"]",
+  "foundations": [
+    {
+      "heading": "CAP, bien enunciado",
+      "body": "El teorema se cita constantemente y casi siempre mal. Su enunciado correcto es estrecho:\n\n```text\nCUANDO LA RED SE PARTE y dos grupos de réplicas no pueden\nhablarse, un sistema debe elegir entre\n  responder a las peticiones (disponibilidad), aceptando que\n    la respuesta pueda no reflejar la última escritura\n  o garantizar la última escritura (consistencia), aceptando\n    no responder\n```\n\nY los dos errores habituales:\n\n```text\nERROR 1   «elegimos AP» o «somos CP» como propiedad del sistema\n  → la elección se hace por operación, y solo importa DURANTE\n    la partición\n  → el mismo sistema puede ser fuerte al reservar y eventual\n    al listar\n\nERROR 2   creer que sin partición hay que elegir\n  → sin partición se puede tener las dos\n  → pero se paga en LATENCIA, que es el compromiso que\n    importa el 99,99 % del tiempo\n```\n\nY por eso la formulación práctica es PACELC, que sí describe el día a día:\n\n```text\nsi hay Partición   →  elegir entre Availability y Consistency\nElse (lo normal)   →  elegir entre Latency y Consistency\n\n→ una escritura con confirmación en tres regiones es coherente\n  y cuesta ~120 ms\n→ la misma con confirmación local cuesta ~2 ms y puede perderse\n```\n\nY la observación de este programa:\n\n```text\ncasi ninguna discusión de CAP en un proyecto real trata de\nparticiones: trata de si se acepta pagar latencia\n→ y disfrazarlo de CAP impide medir el compromiso\n```\n\n**El espectro de garantías**, de más fuerte a más débil:\n\n```text\nLINEALIZABLE           toda lectura ve la última escritura\n  coste   mayoría en cada operación; latencia de la red\n\nSERIALIZABLE           las transacciones equivalen a un orden\n  coste   coordinación; conflictos y reintentos\n\nDE SESIÓN              veo mis escrituras, no retrocedo\n  coste   afinidad o testigo de versión; barato\n\nMONÓTONA               nunca leo algo más viejo que lo ya leído\n  coste   muy bajo\n\nEVENTUAL               converge, sin plazo\n  coste   el más bajo; y el que más sorprende al usuario\n```\n\nY el punto que cambia diseños:\n\n```text\nla mayoría de los sistemas que «necesitan consistencia fuerte»\nnecesitan CONSISTENCIA DE SESIÓN\n→ el usuario no compara su vista con la de otro usuario:\n  compara con lo que él mismo acaba de hacer\n```"
+    },
+    {
+      "heading": "Los relojes no ordenan nada",
+      "body": "Ordenar sucesos por la hora de la máquina es una fuente inagotable de errores sutiles.\n\n```text\nPROBLEMAS DEL RELOJ DE PARED\n  deriva entre máquinas: decenas de ms es normal\n  saltos hacia atrás al sincronizar\n  segundos intercalares y ajustes\n  máquinas virtuales que se congelan y despiertan\n\nCONSECUENCIAS\n  «el último gana» elige al que tenía el reloj adelantado\n  dos sucesos con la misma marca de tiempo\n  un suceso posterior con marca anterior\n  registros que parecen fuera de orden y no lo están\n```\n\nY el fallo clásico, con la evidencia habitual:\n\n```text\nresolución de conflictos por marca de tiempo\n  A escribe a las 10:00:00,120 (reloj adelantado 80 ms)\n  B escribe a las 10:00:00,090 (reloj correcto), DESPUÉS\n  → gana A, y la escritura real más reciente se pierde\n  → en silencio                                       ley 13\n```\n\n**Lo que sí ordena:**\n\n```text\nRELOJ LÓGICO (Lamport)\n  contador que se incrementa y se propaga\n  → da orden causal: si A causó B, A < B\n  → no distingue sucesos concurrentes\n\nRELOJ VECTORIAL\n  un contador por réplica\n  → detecta la concurrencia: dice «estos dos son conflictivos»\n  → coste: tamaño proporcional al número de réplicas\n\nNÚMERO DE VERSIÓN POR ENTIDAD\n  el más práctico; base de la escritura condicionada\n  → «actualiza si la versión sigue siendo 7»       clase 149\n\nRELOJ CON INCERTIDUMBRE ACOTADA\n  el sistema conoce su error máximo y espera ese margen\n  → lo usan bases distribuidas con hardware de tiempo\n  → permite orden global pagando latencia\n```\n\nY la regla práctica:\n\n```text\nno uses la hora para decidir quién gana\núsala para diagnosticar, y aun así con desconfianza\n→ para decidir, usa versiones o consenso\n```"
+    },
+    {
+      "heading": "Consenso: qué resuelve y qué cuesta",
+      "body": "El consenso resuelve un problema concreto: **que varias réplicas acuerden un valor aunque algunas fallen**. No resuelve la latencia ni el particionado de datos.\n\n```text\nCÓMO FUNCIONA, en una frase\n  una mayoría de réplicas debe confirmar antes de considerar\n  un valor decidido\n\nPOR QUÉ MAYORÍA\n  dos mayorías cualesquiera se solapan\n  → imposible que dos grupos decidan cosas distintas\n\nCONSECUENCIA DIRECTA\n  con 3 réplicas se tolera 1 fallo\n  con 5 réplicas se toleran 2\n  con 2 réplicas se tolera 0    ← el error más común\n```\n\nY el coste, que es lo que decide dónde se usa:\n\n```text\ncada decisión cuesta al menos un viaje a la mayoría\n  misma zona          ~1 ms\n  entre zonas         ~2-4 ms\n  entre regiones      ~30-120 ms\n\n→ por eso el consenso entre regiones se usa para METADATOS\n  (quién es el líder, qué configuración está activa) y no\n  para cada escritura de negocio\n```\n\nY las cuatro cosas para las que realmente se usa:\n\n```text\n1. elegir líder (quién escribe)\n2. acordar la configuración del grupo\n3. registrar un orden total de operaciones (registro replicado)\n4. bloqueos y arrendamientos distribuidos\n```\n\nY una advertencia sobre los arrendamientos, que es donde más se falla:\n\n```text\nun arrendamiento con expiración NO garantiza exclusión mutua\nsi el titular se congela y despierta\n→ hace falta un testigo monótono que el almacén compruebe\n→ sin eso, dos procesos se creen líderes a la vez\n```\n\n**Cuándo NO hace falta consenso**, que es la mayoría de las veces:\n\n```text\nsi la operación es idempotente y conmutativa\n  → basta con entregar al menos una vez              clase 117\nsi el conflicto se puede detectar y resolver después\n  → versiones y reconciliación\nsi hay un solo escritor por dato\n  → no hay nada que acordar                            ley 21\n```\n\nY esa última línea es la más importante de la clase:\n\n```text\nla mayoría de los problemas de consistencia se evitan\ndecidiendo bien QUIÉN ESCRIBE, no añadiendo coordinación\n```"
+    },
+    {
+      "heading": "Consistencia eventual sin que se note",
+      "body": "La consistencia eventual es barata y correcta para casi todo, y produce quejas solo cuando se implementa sin cuidar la percepción.\n\n```text\nLO QUE EL USUARIO NOTA\n  hace un cambio y no lo ve            ← lo más grave\n  ve un valor y luego uno más viejo    ← retroceso\n  dos pantallas muestran cosas distintas a la vez\n  un contador que baja\n\nLO QUE EL USUARIO NO NOTA\n  que su cambio tarde 200 ms en verse en OTRA sesión\n  que un panel agregado vaya 5 s por detrás\n  que un buscador tarde 30 s en indexar\n```\n\nY las técnicas que resuelven cada caso:\n\n```text\nVER LO PROPIO                consistencia de sesión\n  leer del primario tras escribir, durante N segundos\n  o llevar un testigo de versión en la sesión\n\nNO RETROCEDER               lectura monótona\n  fijar la réplica por sesión, o exigir versión ≥ la última\n  vista\n\nESCRITURA PROPIA VISIBLE YA  actualización optimista en cliente\n  mostrar el resultado esperado y corregir si falla\n  ojo   si falla a menudo, es peor que esperar\n\nCONTADORES                  tipos que convergen (CRDT) o\n  agregación con marca de «aproximado»\n\nOPERACIONES CRÍTICAS        fuerte, y solo esas\n```\n\nY una regla de diseño que evita la mitad de los problemas:\n\n```text\nno mezcles en la misma pantalla datos con garantías distintas\nsin decirlo\n→ «disponibilidad actualizada hace 12 s» es honesto y suficiente\n→ mostrar un dato viejo como si fuera actual no lo es\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ cada operación tiene su nivel de consistencia decidido\n☐ el nivel está justificado por consecuencia de negocio\n☐ no se cita CAP fuera de una partición real\n☐ el compromiso normal (latencia vs consistencia) está medido\n☐ ningún conflicto se resuelve por marca de tiempo\n☐ hay versión por entidad y escritura condicionada\n☐ el consenso se usa para metadatos, no para cada escritura\n☐ ningún grupo de consenso tiene 2 miembros\n☐ los arrendamientos usan testigo monótono\n☐ el usuario ve siempre sus propias escrituras\n☐ ninguna lectura retrocede dentro de una sesión\n☐ los datos aproximados se muestran marcados como tales\n```\n\nY el cierre que enlaza con la clase siguiente: decidir la consistencia de una operación obliga a escribir qué promete cada interfaz y qué pasa cuando cambia. Convertir eso en contratos que puedan evolucionar sin romper a nadie es la materia de la clase 188."
+    }
+  ],
+  "worked_example": "**El equipo de reservas decide la consistencia de sus once operaciones. Lo que sigue es la tabla de decisiones, los dos errores que había en el sistema anterior —uno de ellos vendía plazas dos veces— y lo que costó cada garantía.**\n\n**El problema que disparó la revisión:**\n\n```text\nen campaña, 14 reservas duplicadas sobre la misma plaza en\n3 días\n\ncausa investigada\n  la comprobación de disponibilidad leía de una réplica de\n  lectura con retraso de 200-900 ms\n  dos peticiones simultáneas veían la misma plaza libre\n  ambas escribían\n  → la restricción de unicidad no existía porque el inventario\n    se guardaba como un contador, no como plazas\n```\n\nY el segundo error, más sutil:\n\n```text\nlas modificaciones de reserva se resolvían por marca de tiempo\n  «gana la escritura más reciente»\n  → dos servidores con 140 ms de deriva\n  → 6 casos en el año en que una cancelación se perdía porque\n    una modificación anterior tenía marca posterior\n  → nadie lo detectó; se atribuyó a error del agente  ley 13\n```\n\n**La tabla de decisiones, operación por operación.**\n\n```text\noperación                    garantía        por qué\n────────────────────────────────────────────────────────────\n1  reservar plaza            LINEALIZABLE    vender dos veces\n                                             cuesta dinero y\n                                             reputación\n2  cobrar                    fuerte +        el cobro doble es\n                             idempotente     inaceptable\n3  cancelar                  fuerte          libera inventario\n4  modificar reserva         fuerte con      dos agentes editan\n                             versión         a la vez\n5  ver mi reserva            DE SESIÓN       el usuario debe ver\n                                             lo que acaba de\n                                             hacer\n6  listar mis reservas       DE SESIÓN       lo mismo\n7  buscar disponibilidad     EVENTUAL        200 ms de retraso\n                             ≤ 2 s           es aceptable; se\n                                             confirma al reservar\n8  ver catálogo              EVENTUAL        cambia 1 vez/mes\n9  ver precio                EVENTUAL        con validez de\n                             ≤ 10 min        10 min          clase 185\n10 panel de ocupación        EVENTUAL        marcado «hace N s»\n                             ≤ 30 s\n11 informe de negocio        EVENTUAL        diario\n                             ≤ 24 h\n```\n\nY la lectura de la tabla:\n\n```text\nde 11 operaciones, 4 necesitan garantía fuerte\ny esas 4 son el 3 % del tráfico\n→ pagar consistencia fuerte para todo habría costado\n  latencia en el 97 % restante sin ninguna ventaja\n```\n\n**Cómo se implementó cada garantía, y qué costó.**\n\n```text\n1  RESERVAR PLAZA — linealizable\n   antes    contador de plazas + lectura de réplica\n   después  fila por plaza con clave única\n            (hotel, tipo, fecha, nº de plaza)\n            escritura condicionada: INSERT que falla si existe\n            lectura desde el primario en el momento de reservar\n   coste    +14 ms de p50 en el paso de confirmación\n   efecto   duplicados imposibles por construcción, no por\n            comprobación previa\n   nota     esta es la corrección que importa: se pasó de\n            «comprobar y luego escribir» a «escribir con\n            restricción»                                clase 149\n\n2  COBRAR — idempotente\n   clave de idempotencia = id de reserva + intento\n   la pasarela devuelve el mismo resultado si se repite\n   coste    0; ya estaba, pero sin usarse en los reintentos\n\n4  MODIFICAR — versión, no reloj\n   antes    resolución por marca de tiempo\n   después  cada reserva tiene versión; la escritura envía la\n            versión leída y falla si cambió\n            el cliente reintenta con el estado nuevo\n   coste    0 € y 4 días de trabajo\n   efecto   los 6 casos anuales de cancelación perdida\n            desaparecen; ahora dan conflicto visible\n\n5-6  VER LO MÍO — sesión\n   tras escribir, la sesión lleva un testigo de versión\n   las lecturas exigen réplica con versión ≥ testigo\n   si ninguna réplica la tiene, lee del primario\n   coste    ~4 % de las lecturas van al primario\n\n7  BUSCAR — eventual con límite declarado\n   retraso máximo aceptado                     2 s\n   alerta si el retraso de réplica supera      5 s     ley 13\n   y en la respuesta se indica la hora del dato\n\n9  PRECIO — eventual con validez\n   caché de 10 min; si precios no responde, último válido\n   → esto es lo que lo convirtió en dependencia blanda  clase 185\n\n10 PANEL — eventual, marcado\n   la pantalla dice «ocupación a fecha de hace 18 s»\n   → las quejas de «el panel está mal» cayeron a cero sin\n     cambiar ni un dato\n```\n\n**Dónde se usó consenso, y dónde no.**\n\n```text\nSÍ\n  elección de primario de la base de reservas   gestionado\n  arrendamiento del trabajo de reconciliación   3 réplicas\n    con testigo monótono comprobado por el almacén\n\nNO\n  en ninguna escritura de negocio\n  → porque hay un solo escritor por dato, y con eso no hay\n    nada que acordar                                    ley 21\n```\n\nY un error que se corrigió al revisar:\n\n```text\nel arrendamiento del reconciliador estaba con 2 réplicas\n  tolerancia a fallos = 0\n  y sin testigo monótono\n→ una pausa larga del recolector de basura hizo que dos\n  procesos se creyeran titulares en enero\n→ se corrigió a 3 réplicas y testigo comprobado en el almacén\n```\n\n**El compromiso normal, medido**, que es lo que CAP no describe:\n\n```text\nconfirmación de escritura de reserva\n  local en la zona                        2,1 ms   pérdida posible\n  mayoría multizona                       4,8 ms   sin pérdida zonal\n  mayoría multirregión                   118 ms    sin pérdida regional\n\ndecisión   mayoría multizona\nmotivo     el objetivo de pérdida es de 1 minuto, no de cero;\n           118 ms en cada reserva no compensa       clase 166\n```\n\n**El resultado, tres meses después:**\n\n```text                                     antes      después\nreservas duplicadas por campaña             14           0\ncancelaciones perdidas al año                6           0\np50 del paso de confirmación             31 ms       45 ms\np50 de la búsqueda                       58 ms       58 ms\nlecturas servidas por el primario           100 %       4 %\nquejas por «el panel está mal»            9/mes         0\n```\n\n**La lección que esta clase deja**: de once operaciones solo cuatro necesitaban garantía fuerte, y **la corrección que eliminó las reservas duplicadas no fue elegir un nivel de consistencia: fue dejar de guardar el inventario como un contador**. Y de las dos quejas más ruidosas, una se resolvió escribiendo en la pantalla la antigüedad del dato.",
+  "pitfalls": [
+    {
+      "symptom": "Se venden dos veces los mismos recursos pese a comprobar disponibilidad antes",
+      "cause": "Comprobar y luego escribir no es atómico, y la lectura venía de una réplica retrasada",
+      "fix": "Modela el recurso como fila única y usa escritura condicionada que falle; no compruebes antes, deja que la restricción decida."
+    },
+    {
+      "symptom": "Se pierden actualizaciones sin que nadie lo note",
+      "cause": "Los conflictos se resuelven por marca de tiempo y los relojes derivan",
+      "fix": "Usa versión por entidad y escritura condicionada; reserva los relojes para diagnóstico."
+    },
+    {
+      "symptom": "El usuario hace un cambio y no lo ve",
+      "cause": "Se lee de una réplica sin consistencia de sesión",
+      "fix": "Lleva un testigo de versión en la sesión y exige una réplica al menos tan reciente, o lee del primario durante unos segundos."
+    },
+    {
+      "symptom": "Cada discusión de arquitectura acaba citando CAP sin llegar a nada",
+      "cause": "Se aplica CAP fuera de una partición, donde el compromiso real es latencia contra consistencia",
+      "fix": "Mide el coste en milisegundos de cada nivel de confirmación y decide por operación."
+    },
+    {
+      "symptom": "Dos procesos se creen titulares del mismo trabajo",
+      "cause": "Arrendamiento con expiración sin testigo monótono, o grupo de dos réplicas",
+      "fix": "Usa un número de mandato monótono que el almacén compruebe, y grupos de consenso impares de al menos tres."
+    },
+    {
+      "symptom": "Los usuarios se quejan de que un panel «está mal»",
+      "cause": "Se muestra un dato eventual como si fuera actual",
+      "fix": "Indica la antigüedad del dato en la propia pantalla y declara el retraso máximo aceptado, con alerta si se supera."
+    }
+  ],
+  "checks": [
+    "¿Cuáles son los dos errores habituales al citar CAP?",
+    "¿Qué describe PACELC que CAP no describe?",
+    "¿Por qué no se debe resolver un conflicto por marca de tiempo?",
+    "¿Cuántos fallos tolera un grupo de consenso de dos réplicas?",
+    "¿Qué garantía suele bastar cuando alguien pide «consistencia fuerte»?"
+  ],
+  "references": [
+    {
+      "text": "Gilbert, S. y Lynch, N. (2002). *Brewer's conjecture and the feasibility of consistent, available, partition-tolerant web services*.",
+      "url": "https://dl.acm.org/doi/10.1145/564585.564601"
+    },
+    {
+      "text": "Abadi, D. (2012). *Consistency tradeoffs in modern distributed database system design (PACELC)*.",
+      "url": "https://ieeexplore.ieee.org/document/6127847"
+    },
+    {
+      "text": "Lamport, L. (1978). *Time, clocks, and the ordering of events in a distributed system*.",
+      "url": "https://dl.acm.org/doi/10.1145/359545.359563"
+    },
+    {
+      "text": "Ongaro, D. y Ousterhout, J. (2014). *In search of an understandable consensus algorithm (Raft)*.",
+      "url": "https://raft.github.io/raft.pdf"
+    },
+    {
+      "text": "Kleppmann, M. (2017). *Designing Data-Intensive Applications*, caps. 5 y 9 — replicación, consistencia y consenso.",
+      "url": "https://dataintensive.net/"
+    }
+  ]
+}
