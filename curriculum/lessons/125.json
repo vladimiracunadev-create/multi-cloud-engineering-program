@@ -1,0 +1,118 @@
+{
+  "id": "125",
+  "purpose": "Decidir qué despierta a una persona y qué se mira en una pantalla, sabiendo que el fallo característico de esta materia no es medir poco sino producir tanta señal que deja de serlo. La clase da una prueba de cuatro preguntas que descarta la mayoría de las alertas existentes, defiende **alertar por síntomas y diagnosticar por causas**, mide la fatiga con cifras concretas y sostiene una idea incómoda: **el trabajo bien hecho reduce el número de alertas y mejora la detección al mismo tiempo**.",
+  "outcomes": [
+    "**Aplicar** la prueba de cuatro preguntas a cada alerta existente.",
+    "**Separar** lo que despierta a alguien de lo que abre una tarea o solo se mira.",
+    "**Alertar** por síntomas, con las excepciones justificadas.",
+    "**Medir** la fatiga y actuar sobre sus causas.",
+    "**Diseñar** paneles que respondan una pregunta cada uno."
+  ],
+  "concepts": [
+    {
+      "term": "alerta accionable",
+      "definition": "La que exige que una persona haga algo concreto que la automatización no puede hacer. Si no, no es una alerta."
+    },
+    {
+      "term": "síntoma",
+      "definition": "Efecto observable para quien usa el sistema: errores, lentitud, funcionalidad ausente. Es lo que debe despertar a alguien."
+    },
+    {
+      "term": "indicador adelantado",
+      "definition": "Causa que aún no es síntoma pero lo será con seguridad y con margen para actuar: disco llenándose, certificado que caduca, saturación."
+    },
+    {
+      "term": "fatiga de alertas",
+      "definition": "Estado en el que la gente deja de leer los avisos. Se mide, y aparece antes de lo que se cree."
+    },
+    {
+      "term": "inhibición",
+      "definition": "Suprimir alertas derivadas cuando ya se ha disparado la causa. Evita cuarenta avisos por un solo fallo."
+    },
+    {
+      "term": "duración de condición",
+      "definition": "Tiempo que la condición debe mantenerse antes de avisar. Es lo que separa una alerta de un parpadeo."
+    }
+  ],
+  "diagram": "flowchart TB\n    A[\"condición detectada\"] --> Q1{\"¿exige que alguien\\nhaga algo?\"}\n    Q1 -->|\"no\"| P[\"panel o informe\"]\n    Q1 -->|\"sí\"| Q2{\"¿está claro QUÉ hacer?\"}\n    Q2 -->|\"no\"| R[\"escribir el procedimiento\\nprimero · 128\"]\n    Q2 -->|\"sí\"| Q3{\"¿afecta a alguien\\nya o dentro de poco?\"}\n    Q3 -->|\"no\"| T[\"tarea, no aviso nocturno\"]\n    Q3 -->|\"sí\"| Q4{\"¿la automatización\\nya lo resuelve?\"}\n    Q4 -->|\"sí\"| N[\"que actúe, y avise si falla\"]\n    Q4 -->|\"no\"| AL[\"ALERTA\"]\n    AL --> S{\"¿cuánto margen hay?\"}\n    S -->|\"minutos\"| W[\"despertar\"]\n    S -->|\"horas o días\"| D[\"horario laboral\"]",
+  "foundations": [
+    {
+      "heading": "La prueba de las cuatro preguntas",
+      "body": "Antes de discutir umbrales, conviene descartar. Toda alerta tiene que superar estas cuatro:\n\n```text\n1. ¿EXIGE QUE ALGUIEN HAGA ALGO?\n   si la respuesta habitual es mirarla y cerrarla, no es una alerta\n\n2. ¿ESTÁ CLARO QUÉ HACER?\n   si quien la recibe tiene que investigar desde cero qué significa,\n   falta el procedimiento (clase 128), no sobra la alerta\n\n3. ¿AFECTA A ALGUIEN, YA O CON SEGURIDAD DENTRO DE POCO?\n   si no afecta a nadie, es información\n\n4. ¿LA AUTOMATIZACIÓN NO LO RESUELVE YA?\n   si el sistema se recupera solo, que se recupere\n   y que avise solo cuando NO lo consiga\n```\n\nLa cuarta es la que más alertas elimina en sistemas modernos: reinicios automáticos, reintentos, autoescalado y reversiones automáticas resuelven solos lo que antes exigía una persona. **Avisar de lo que ya se arregló es ruido.**\n\nY las tres categorías de destino, que hay que separar sin ambigüedad:\n\n```text\nDESPERTAR       hay que actuar en minutos y afecta a usuarios\n                → y esto es un recurso escaso: cada uso gasta atención\nTAREA           hay que actuar, y puede esperar al horario laboral\n                → certificados, capacidad, deuda operativa\nPANEL           no hay que actuar; sirve para investigar\n```\n\nY el criterio que decide entre las dos primeras no es la gravedad, sino **el margen**: cuánto tiempo hay antes de que sea un problema.\n\n```text\ndisco al 95 %, llenándose en 40 min      despertar\ndisco al 80 %, llenándose en 6 días      tarea\n```\n\nY una consecuencia organizativa: **toda alerta tiene un dueño**, sacado del catálogo de la clase 095. Una alerta que llega a un buzón común es una alerta que nadie atiende."
+    },
+    {
+      "heading": "Síntomas, causas y las excepciones",
+      "body": "La regla general:\n\n```text\nALERTAR por síntomas       lo que sufre quien usa el sistema\nDIAGNOSTICAR por causas    lo que hay dentro\n```\n\nY el motivo es doble:\n\n```text\nlas causas son muchas y cambian     alertar por cada una es interminable\nlos síntomas son pocos y estables   errores, lentitud, funcionalidad ausente\n\ny sobre todo:\n  una causa sin síntoma no merece despertar a nadie\n  un síntoma sin causa conocida SÍ, aunque no sepamos por qué\n```\n\nLa última línea es la importante: **alertar por causas deja fuera todo lo que nadie anticipó**, que es exactamente lo que produjo dieciocho de los veintiún problemas de la parte 09.\n\nEjemplos de la traducción:\n\n```text\ncausa                            síntoma equivalente\nuso de procesador > 90 %      →  latencia por encima del objetivo\nun pod se reinició            →  proporción de errores\nla réplica va retrasada       →  lecturas incorrectas o error visible\nmemoria al 85 %               →  (normalmente nada: no alertar)\n```\n\nY las excepciones legítimas, que son causas **con margen de actuación y consecuencia grave**:\n\n```text\ncertificado que caduca en 14 días\ndisco o cuota que se llenará en horas\ncredencial que expira\nsaturación creciendo con latencia todavía normal      clase 123\ncopia de seguridad que no se ha ejecutado             clase 088\nbucle, consumidor o trabajador parado                 ley 13\n```\n\nLa última categoría merece su propio apartado en cualquier sistema: **lo que no se ejecuta no da error**, y este programa la ha visto quince veces. Su alerta no mira valores, mira **antigüedad**.\n\nY el otro par que hay que tener siempre, aunque no se alerte por causas:\n\n```text\nausencia de datos                              clase 123\nla propia telemetría caída\n```\n\nPorque si el sistema de vigilancia se cae, todo lo demás parece correcto."
+    },
+    {
+      "heading": "La fatiga se mide",
+      "body": "La fatiga no es una queja: es un estado que se puede medir y que llega antes de lo que la gente cree.\n\n```text\nalertas por turno de guardia\n  0-1     sostenible\n  2-4     empieza a costar leerlas\n  > 5     se leen por encima; y las importantes se pierden entre las demás\n\nproporción de alertas que exigieron una acción\n  < 50 %  el conjunto está mal calibrado\n\nproporción que se resolvió sola antes de que nadie mirara\n  > 20 %  falta duración de condición o sobra la alerta\n\nalertas repetidas: las 5 que más se disparan\n  suelen ser el 60-80 % del volumen\n```\n\nLa última es la palanca: **arreglar cinco alertas suele arreglar la mayor parte del problema**.\n\nY las cuatro correcciones, en orden de eficacia:\n\n```text\n1. BORRAR lo que no supera la prueba de cuatro preguntas\n2. AGRUPAR e INHIBIR\n   cuarenta pods caídos por un nodo → una alerta del nodo\n   una dependencia caída → suprimir las de quienes dependen de ella\n3. AÑADIR DURACIÓN\n   «errores > 5 % durante 5 minutos», no «errores > 5 % ahora»\n   → elimina casi todo lo que se resuelve solo\n4. ARREGLAR LA CAUSA\n   la alerta que se dispara cada noche a las 3 no necesita otro umbral:\n   necesita que alguien mire qué pasa a las 3\n```\n\nY dos ajustes técnicos que evitan el parpadeo:\n\n```text\nhistéresis           avisar al 90 % y resolver al 80 %, no al 89,9 %\nventana de silencio  no repetir la misma alerta cada minuto\n```\n\nY dos mecanismos organizativos que mantienen el conjunto sano en el tiempo:\n\n```text\nREVISIÓN DE LO DISPARADO\n  cada alerta que sonó se clasifica: real, ruido, duplicada\n  semanal, en diez minutos\n\nLA PREGUNTA DE CADA INCIDENTE\n  «¿qué alerta debería haber sonado y no sonó?»\n  → es la que hace crecer el conjunto por el lado correcto\n```\n\nLas dos juntas son lo que permite que el número **baje** mientras la detección **mejora**: se quita lo que no sirve y se añade solo lo que un incidente real ha demostrado que falta.\n\nY una advertencia sobre las ventanas de mantenimiento: silenciar durante un despliegue es razonable, y **silenciar sin fecha de fin es cómo mueren las alertas**. Todo silencio caduca."
+    },
+    {
+      "heading": "Paneles que responden una pregunta",
+      "body": "El panel de sesenta gráficos no lo lee nadie. Y el motivo es el mismo de siempre: **no responde ninguna pregunta concreta**.\n\nLa taxonomía que funciona son tres tipos, con propósitos distintos:\n\n```text\n1. ¿ESTÁ FUNCIONANDO?   uno por servicio, seis paneles como mucho\n   peticiones, errores, latencia (percentiles), saturación,\n   estado frente al objetivo (clase 126) y línea de cambios (clase 121)\n   → se mira en treinta segundos y se contesta sí o no\n\n2. ¿POR QUÉ NO FUNCIONA?  uno por subsistema, con detalle\n   dependencias, colas, agrupadores, recursos\n   → se abre cuando el primero dice que no\n\n3. PARA UN INCIDENTE CONCRETO   se crea durante y se conserva\n   → y si se vuelve a usar tres veces, se convierte en uno de tipo 2\n```\n\nY las reglas de construcción que más mejoran un panel:\n\n```text\nel objetivo dibujado como línea, para saber si el valor es bueno\nlos cambios superpuestos: despliegues e interruptores\nescalas comparables entre gráficos que se leen juntos\nnada de medias donde importe la cola: percentiles\nel enlace al procedimiento correspondiente\n```\n\nLa primera es la que convierte un gráfico en información: **un valor de 240 ms no dice nada sin saber si el objetivo es 100 o 500**.\n\nY el antipatrón de la pantalla permanente en la pared: **se convierte en decoración en dos semanas**. Si algo tiene que llamar la atención, es una alerta; si no, no hace falta que esté siempre visible.\n\nY una comprobación anual muy reveladora, la misma lógica que la clase 121 aplicó a las métricas:\n\n```text\n¿qué paneles no ha abierto nadie en 90 días?\n→ borrarlos; están compitiendo por la atención con los que sirven\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ toda alerta supera las cuatro preguntas\n☐ toda alerta tiene dueño en el catálogo\n☐ se alerta por síntomas; las causas alertadas están justificadas por margen\n☐ hay alertas de antigüedad para lo que puede dejar de ejecutarse\n☐ hay alertas de ausencia de datos y de la propia telemetría\n☐ las alertas tienen duración de condición e histéresis\n☐ hay inhibición de alertas derivadas\n☐ todo silencio tiene fecha de fin\n☐ se miden alertas por turno y proporción accionable\n☐ se revisa semanalmente lo disparado y se clasifica\n☐ cada incidente pregunta qué alerta faltaba\n☐ cada servicio tiene un panel de seis gráficos que responde sí o no\n☐ los paneles llevan el objetivo dibujado y los cambios superpuestos\n```\n\nY el cierre que enlaza con la clase siguiente: la línea del objetivo que estos paneles necesitan no está definida en ninguna parte todavía. Decidir qué significa que el sistema funciona, con un número, y qué margen hay para fallar es la materia de la clase 126."
+    }
+  ],
+  "worked_example": "**CloudShop tiene 340 alertas configuradas y una guardia que nadie quiere hacer. El ejercicio dura un trimestre y su resultado contradice la intuición: al final hay muchas menos alertas y se detectan muchas más cosas.**\n\n**Punto de partida.**\n\n```text\nalertas configuradas                                     340\nalertas disparadas por semana                            410\nalertas por turno de guardia (12 h)                       29\nproporción que exigió alguna acción                      11 %\nproporción que se resolvió sola antes de mirarla         57 %\nsilenciadas indefinidamente                               46\nincidentes detectados por un cliente antes que por\n  una alerta                                        9 de 14\n```\n\nVeintinueve avisos por turno y once por ciento accionables. **La guardia consistía en cerrar avisos.**\n\n**Paso 1: las cinco que más suenan.**\n\n```text                                            disparos/semana   acciones\nuso de procesador > 80 %                              141              0\nun pod se reinició                                     88              2\nlatencia de una consulta > 100 ms                      52              0\nmemoria > 85 %                                         37              0\nreintento contra el proveedor de pago                  31              1\n                                                    ─────\n                                                      349  = 85 % del total\n```\n\nCinco alertas producían el 85 % del volumen y tres acciones al mes. Las cuatro primeras eran causas sin síntoma y se borraron; la quinta se convirtió en un panel.\n\n```text                                          antes         después\nalertas disparadas por semana                  410             61\n```\n\n**Paso 2: la prueba de cuatro preguntas sobre las 340.**\n\n```text\nno exigían ninguna acción                              184\nno estaba claro qué hacer                               41   → 12 se conservaron\n                                                              escribiendo el\n                                                              procedimiento;\n                                                              29 se borraron\nno afectaban a nadie                                    52\nla automatización ya lo resolvía                        38\n  reinicios, reintentos, autoescalado, reversión automática\nsuperaron las cuatro                                    25\n```\n\n```text                                          antes         después\nalertas configuradas                           340             37\n  (25 supervivientes + 12 con procedimiento nuevo)\n```\n\n**Paso 3: síntomas que faltaban.**\n\nY aquí el conjunto **creció**, con la pregunta de cada incidente aplicada a los veintiún problemas de la parte 09 y a los catorce incidentes del semestre:\n\n```text\nalertas nuevas, por síntoma                              9\n  proporción de errores de cada servicio de cara al cliente\n  latencia por encima del objetivo\n  pedidos que no avanzan de estado en 30 min          clase 115\n  emitido frente a procesado en cada frontera         clase 121\n\nalertas nuevas, por antigüedad (ley 13)                  7\n  consumidor sin avanzar\n  publicador de la tabla de salida parado             clase 116\n  bucle de reconciliación sin sincronizar             clase 103\n  cola de tareas del motor sin trabajadores           clase 119\n  copia de seguridad no ejecutada\n  cola de fallidos con algo dentro                    clase 113\n  instantáneas del lago sin caducar                   clase 112\n\nalertas nuevas, indicadores adelantados                  5\n  saturación de agrupadores y colas                   clase 123\n  certificados y credenciales por caducar\n  cuota o disco con proyección de llenado\n\nalertas de ausencia                                     15\n```\n\n```text                                          antes         después\nalertas configuradas                           340             73\n  de las cuales, existían antes                 340             25\n  nuevas                                          —             48\n```\n\n**Setenta y tres alertas, de las que casi dos tercios son nuevas.** El conjunto no se recortó: se sustituyó.\n\n**Paso 4: agrupación, inhibición y duración.**\n\n```text                                          antes         después\ndisparos por semana                             61             19\nqué cambió\n  duración de condición en 31 alertas         instantáneo    3-5 min\n  inhibición por dependencia caída            no              sí\n  agrupación por nodo y por servicio          no              sí\n  histéresis                                  no              sí\n```\n\nY el efecto de la inhibición en un incidente real:\n\n```text\ncaída de una zona de disponibilidad\n  avisos que se habrían enviado sin inhibición                88\n  avisos enviados                                              1\n```\n\n**Los silencios indefinidos.**\n\n```text\nsilencios activos                                           46\nde ellos, sin fecha de fin                                  46\nel más antiguo                                        19 meses\nalertas que estaban silenciadas y eran de las buenas          4\n```\n\nCuatro alertas útiles llevaban meses silenciadas y nadie lo sabía. Desde entonces **todo silencio caduca a los 7 días como máximo**, y renovarlo exige justificarlo.\n\n**Los paneles.**\n\n```text                                          antes         después\npaneles                                        118             34\nabiertos alguna vez en 90 días                  29             34\ngráficos en el panel principal de un servicio   41              6\ncon el objetivo dibujado                       0 %           100 %\ncon los cambios superpuestos                   0 %           100 %\npantallas permanentes en la pared                3              0\n```\n\n**El resultado al cabo del trimestre.**\n\n```text                                          antes         después\nalertas configuradas                           340             73\ndisparadas por semana                          410             19\npor turno de guardia                            29            1,4\nproporción accionable                          11 %           78 %\nproporción resuelta sola antes de mirarla      57 %            6 %\nsilencios sin fecha                             46              0\nincidentes detectados por un cliente\n  antes que por una alerta                   9 de 14         1 de 11\nincidentes detectados por una alerta         5 de 14        10 de 11\ntiempo medio hasta detección                  41 min        3 min 20\n```\n\nY el dato que se recoge para la calificación de la parte:\n\n```text\nla clase 120 predijo que el trabajo de la parte 10\nREDUCIRÍA el número de alertas\n→ de 340 a 73 configuradas, y de 410 a 19 disparos semanales\ny predijo que la mejora vendría más de síntomas que de causas\n→ 10 de las 11 detecciones fueron por alertas de síntoma o de antigüedad;\n  1 por indicador adelantado\n```\n\n**La lección que esta clase traslada a la parte 10**: el número bajó de 340 a 73 y la detección subió de 5 de 14 a 10 de 11, y **son la misma cosa**. Con veintinueve avisos por turno, las cinco que importaban estaban enterradas. Y lo que más aportó no fue borrar —aunque hubo que borrar 315—, sino **añadir cuarenta y ocho alertas nuevas que nadie había escrito**, casi todas de dos tipos: síntomas visibles para el usuario y cosas que habían dejado de ejecutarse sin dar error.",
+  "pitfalls": [
+    {
+      "symptom": "La guardia consiste en cerrar avisos sin hacer nada",
+      "cause": "Las alertas no superan la prueba de las cuatro preguntas",
+      "fix": "Borra lo que no exige acción, no afecta a nadie o ya lo resuelve la automatización; conserva lo que falta procedimiento escribiéndolo."
+    },
+    {
+      "symptom": "Un solo fallo genera decenas de avisos",
+      "cause": "No hay agrupación ni inhibición de alertas derivadas",
+      "fix": "Agrupa por nodo y servicio y suprime las de quienes dependen de algo que ya está alertado."
+    },
+    {
+      "symptom": "Muchas alertas se resuelven solas antes de que nadie mire",
+      "cause": "Se alerta sobre el valor instantáneo, sin duración de condición",
+      "fix": "Exige que la condición se mantenga varios minutos y añade histéresis para evitar parpadeos."
+    },
+    {
+      "symptom": "Alertas útiles llevan meses silenciadas y nadie lo sabe",
+      "cause": "Los silencios no caducan",
+      "fix": "Pon fecha de fin obligatoria y corta; renovar exige justificarlo."
+    },
+    {
+      "symptom": "Solo se detecta lo que alguien anticipó",
+      "cause": "Se alerta por causas técnicas y no por síntomas visibles",
+      "fix": "Alerta por errores, latencia y funcionalidad ausente; deja las causas para diagnosticar y para indicadores con margen."
+    },
+    {
+      "symptom": "Nadie mira los paneles",
+      "cause": "Tienen decenas de gráficos y no responden ninguna pregunta concreta",
+      "fix": "Un panel por servicio con seis gráficos que contesten si funciona, con el objetivo dibujado y los cambios superpuestos."
+    }
+  ],
+  "checks": [
+    "¿Cuáles son las cuatro preguntas que debe superar una alerta?",
+    "¿Por qué se alerta por síntomas y no por causas, y qué causas son excepción?",
+    "¿Con qué cifras se mide la fatiga y a partir de cuántas alertas por turno aparece?",
+    "¿Por qué todo silencio debe tener fecha de fin?",
+    "¿Qué debe contener un panel que responda si un servicio está funcionando?"
+  ],
+  "references": [
+    {
+      "text": "Google SRE (2025). *Practical alerting and symptom-based paging* — alertar por síntomas y evitar el ruido.",
+      "url": "https://sre.google/sre-book/practical-alerting/"
+    },
+    {
+      "text": "Google SRE (2025). *Being on-call* — carga sostenible de guardia y sus umbrales.",
+      "url": "https://sre.google/sre-book/being-on-call/"
+    },
+    {
+      "text": "Prometheus (2025). *Alerting rules and Alertmanager: grouping, inhibition, silences* — agrupación y supresión.",
+      "url": "https://prometheus.io/docs/alerting/latest/alertmanager/"
+    },
+    {
+      "text": "Rob Ewaschuk (2025). *My philosophy on alerting* — reglas prácticas para decidir qué merece despertar a alguien.",
+      "url": "https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/preview"
+    },
+    {
+      "text": "Grafana (2025). *Dashboard design best practices* — un panel, una pregunta.",
+      "url": "https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/best-practices/"
+    }
+  ]
+}
