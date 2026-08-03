@@ -1,0 +1,118 @@
+{
+  "id": "106",
+  "purpose": "Decidir quién mantiene todo lo que las clases 073 a 105 han ido acumulando —módulos, plantillas de canalización, puertas, bucle de reconciliación, entornos, interruptores— y cómo se ofrece a quince equipos sin que cada uno lo construya distinto ni tenga que pedirlo por ventanilla. La clase trata la plataforma interna como un producto con usuarios, y defiende una medida incómoda de su éxito: **la proporción que la usa sin estar obligada**.",
+  "outcomes": [
+    "**Distinguir** una plataforma de una ventanilla de peticiones y de una colección de herramientas.",
+    "**Inventariar** qué ofrece la plataforma y qué sigue siendo del equipo de producto.",
+    "**Diseñar** el camino asfaltado con su salida, para que sea camino y no jaula.",
+    "**Medir** la adopción voluntaria y usarla como señal de calidad del producto.",
+    "**Versionar** la plataforma sin romper a quien la consume."
+  ],
+  "concepts": [
+    {
+      "term": "plataforma interna",
+      "definition": "Producto cuyos usuarios son los equipos de la organización. Se mide por adopción y por tiempo ahorrado, no por número de componentes."
+    },
+    {
+      "term": "camino asfaltado",
+      "definition": "La forma respaldada de hacer algo: más rápida y con las decisiones difíciles ya tomadas. Su valor está en que ahorra trabajo, no en que sea obligatoria."
+    },
+    {
+      "term": "salida",
+      "definition": "Posibilidad explícita de dejar el camino asfaltado sin pedir permiso. Sin ella la adopción deja de significar nada."
+    },
+    {
+      "term": "ventanilla",
+      "definition": "Modo de fallo en el que la plataforma es un equipo al que se le piden cosas. Convierte a la plataforma en el cuello de botella que venía a eliminar."
+    },
+    {
+      "term": "autoservicio",
+      "definition": "El equipo obtiene lo que necesita sin intervención humana. Es la diferencia entre plataforma y ventanilla."
+    },
+    {
+      "term": "contrato de la plataforma",
+      "definition": "Qué versiones se soportan, cuánto duran y con cuánto aviso se retiran. Sin él, cada mejora de la plataforma es una interrupción para quince equipos."
+    }
+  ],
+  "diagram": "flowchart TB\n    P[\"plataforma interna\"] --> O[\"lo que ofrece\"]\n    O --> O1[\"módulos y catálogo · 095\"]\n    O --> O2[\"plantillas de canalización · 098-101\"]\n    O --> O3[\"bucle de reconciliación · 103\"]\n    O --> O4[\"entornos efímeros · 104\"]\n    O --> O5[\"observabilidad por defecto · 057\"]\n    P --> I[\"cómo se ofrece\"]\n    I --> A{\"¿autoservicio?\"}\n    A -->|\"sí\"| OK[\"plataforma\"]\n    A -->|\"no, hay que pedirlo\"| V[\"VENTANILLA:\\nel cuello de botella que venía a quitar\"]\n    OK --> S{\"¿hay salida?\"}\n    S -->|\"no, es obligatoria\"| H[\"la adopción no mide nada\\ny el fallo queda oculto\"]\n    S -->|\"sí\"| M[\"adopción voluntaria = señal de calidad\"]\n    M --> W[\"quien se sale, POR QUÉ:\\nla lista de trabajo pendiente\"]",
+  "foundations": [
+    {
+      "heading": "Qué es y qué no es",
+      "body": "Al final de las partes 06, 07 y 08 hay un inventario considerable de cosas que funcionan. El problema no es técnico: es que **quince equipos no pueden mantener quince copias de todo eso**, y que cada uno lo haga distinto es peor que no tenerlo, porque impide cualquier mejora transversal.\n\nLo que una plataforma no es, con sus tres modos de fallo:\n\n```text\nVENTANILLA\n  un equipo al que se le piden entornos, permisos y despliegues\n  → es el cuello de botella que la nube vino a eliminar\n  → y su síntoma es que la métrica que se enseña es «tickets cerrados»\n\nCOLECCIÓN DE HERRAMIENTAS\n  catorce productos comprados y ninguna integración\n  → el equipo sigue teniendo que juntarlos\n\nPLATAFORMA VACÍA\n  se construyó lo que el equipo de plataforma quiso construir\n  → nadie la usa, y la respuesta es hacerla obligatoria\n```\n\nY lo que sí es, en una frase que se puede comprobar: **el equipo consigue lo que necesita sin hablar con nadie**.\n\n```text\ncrear un servicio nuevo con canalización, entorno y observabilidad\n  ventanilla     ticket, 6 días\n  plataforma     un comando, 20 minutos\n```\n\nY el inventario concreto de lo que este programa ya ha construido y que la plataforma ofrece:\n\n```text\nmódulos de infraestructura versionados            clases 085, 086\ncatálogo de servicios con dueño                   clase 095\ncaminos asfaltados por tipo de servicio           clase 096\nplantillas de canalización con puertas            clases 097-101\nfirma, inventario y verificación                  clases 067, 101\nbucle de reconciliación y repositorio de entorno  clase 103\nentornos efímeros por cambio                      clase 104\nsistema de interruptores                          clase 105\nobservabilidad, paneles y alertas por defecto     clases 056, 057\n```\n\nY lo que **no** es de la plataforma, que hay que escribir para que la frontera no se discuta cada semana:\n\n```text\nel código del servicio\nsus pruebas\nsu presupuesto de error y su guardia\nsus decisiones de arquitectura\nlas alertas específicas de su dominio\n```\n\nLa tercera línea es la que más se intenta empujar hacia la plataforma, y es la que menos debe moverse: **quien opera lo que construye es quien puede arreglarlo**."
+    },
+    {
+      "heading": "Camino asfaltado, no jaula",
+      "body": "El camino asfaltado de la clase 096 funcionaba por una razón concreta: era **más rápido** que hacerlo a mano. No porque estuviera prohibido lo demás.\n\nY esa distinción decide todo lo que sigue:\n\n```text\nCAMINO         se elige porque ahorra trabajo\n               si nadie lo elige, la plataforma tiene un defecto\n\nJAULA          se impone\n               si nadie lo elegiría, no hay forma de saberlo\n```\n\nY la consecuencia incómoda: **una plataforma obligatoria oculta su propio fracaso**. La adopción es del 100 % por definición, y las quejas se interpretan como resistencia al cambio.\n\nPor eso hace falta la salida, y hace falta que sea explícita:\n\n```text\nun equipo puede no usar el camino asfaltado\n  sin pedir permiso\n  asumiendo lo que el camino le daba: puertas, observabilidad, cumplimiento\n  y declarándolo en el catálogo, para que se sepa\n```\n\nY lo que se hace con esa información es lo que convierte la salida en una herramienta de producto:\n\n```text\nquien se salió, y por qué\n→ esa lista ES el trabajo pendiente de la plataforma\n```\n\nY hay dos cosas que sí son obligatorias, y conviene separarlas claramente de lo que es camino:\n\n```text\nOBLIGATORIO      lo que protege a la organización, no lo que la acelera\n  identidad federada, sin claves de larga duración (clase 098)\n  cifrado y registro de auditoría (clases 046, 054)\n  firma verificada en admisión (clases 067, 101)\n\nCAMINO           todo lo demás\n```\n\nLa regla que ordena la frontera: **se impone el control, no la herramienta**. Un equipo puede usar otra canalización; lo que no puede es desplegar sin firma verificada.\n\nY una advertencia sobre la métrica, porque es fácil engañarse: **contar equipos que usan la plataforma no dice nada si no se cuenta también el trabajo que les ahorra**.\n\n```text\nadopción voluntaria del camino, por tipo de servicio\ntiempo desde «quiero un servicio nuevo» hasta «funcionando en dev»\nproporción del trabajo del equipo dedicada a infraestructura\nequipos que se salieron, y su motivo\n```\n\nLa tercera es la que justifica la existencia de la plataforma ante quien paga."
+    },
+    {
+      "heading": "La interfaz, y lo que hay debajo",
+      "body": "La plataforma se ofrece de tres formas, y conviene que sean tres vistas de lo mismo:\n\n```text\nlínea de comandos     lo que usa quien desarrolla a diario\nportal                lo que usa quien busca, descubre o no lo usa a diario\nAPI                   lo que usa la automatización\n```\n\nY la regla que evita el error más caro de este tema: **lo que hay debajo tiene que ser usable directamente**.\n\n```text\nmal   el portal es la única forma de crear un servicio\n      → cuando el portal falla o falta un campo, nadie puede hacer nada\n\nbien  el portal escribe una confirmación en un repositorio\n      → y esa confirmación se puede escribir a mano\n```\n\nEs la misma lógica que la clase 103 impuso al bucle: lo declarado es la verdad, y la interfaz es una comodidad encima.\n\nY el catálogo de la clase 095 es lo que hace que el portal sirva para algo más que crear cosas:\n\n```text\nqué servicios existen y de quién son\nqué versión de qué módulo usa cada uno\nqué está fuera del camino asfaltado, y por qué\nqué versiones de plataforma están por retirarse\ncómo se pide guardia, cómo se escala, dónde está el manual\n```\n\n**El contrato de la plataforma**, que es lo que decide si las mejoras son bienvenidas o temidas. Los equipos consumen versiones —de módulos, de plantillas, de imágenes base—, y cada cambio incompatible es una interrupción multiplicada por quince.\n\n```text\nversiones soportadas a la vez                          2\naviso antes de retirar una versión                90 días\ncambio incompatible                        versión mayor, nunca en sitio\nmigración                                  con herramienta, no con documento\n```\n\nLa última línea es la que más adopción compra: **si la plataforma pide migrar, la plataforma escribe la migración**. Un documento de doce pasos multiplicado por quince equipos es trabajo que la plataforma está externalizando a sus usuarios.\n\nY el tamaño, porque es la pregunta que siempre aparece. Como orden de magnitud observado, y no como regla:\n\n```text\nplataforma pequeña      3-5 personas para 10-20 equipos de producto\npor debajo de eso       no puede mantener lo que ofrece, y vuelve a ventanilla\npor encima sin demanda  construye lo que nadie pidió\n```\n\nY la señal de que el tamaño está mal en la dirección peligrosa: **la proporción del tiempo del equipo de plataforma dedicada a atender peticiones**. Si pasa de un tercio, la plataforma se está convirtiendo en ventanilla."
+    },
+    {
+      "heading": "Tratarla como producto",
+      "body": "Lo que separa una plataforma que se usa de una que se impone es que la primera se gestiona como producto. Y eso significa cuatro cosas concretas:\n\n```text\n1. TIENE USUARIOS y se les pregunta\n   entrevistas, no encuestas de satisfacción\n   observar a alguien creando un servicio nuevo enseña más que veinte respuestas\n\n2. TIENE TRABAJO PENDIENTE priorizado por valor\n   y el motivo de cada salida entra en esa lista\n\n3. TIENE DOCUMENTACIÓN que es parte del producto\n   si el camino asfaltado necesita que alguien lo explique, no está asfaltado\n\n4. TIENE MEDIDAS de uso y de ahorro\n   y se publican, incluidas las malas\n```\n\nY los tres antipatrones que aparecen cuando falta lo anterior:\n\n```text\nla plataforma como impuesto        se cobra y no se elige\nla plataforma como museo           componentes que nadie usa y nadie retira\nla plataforma como reescritura     cada 18 meses se tira y se empieza de nuevo\n```\n\nEl segundo se corrige con la misma disciplina que la clase 105 aplicó a los interruptores: **medir qué se usa y retirar lo que no**.\n\nY una tensión que conviene nombrar porque no tiene solución limpia: la plataforma quiere estandarizar y los equipos quieren libertad. La forma de resolverla que este programa ha usado sistemáticamente es la de la clase 096:\n\n```text\nestandarizar lo que nadie quiere decidir\n  registro, cifrado, red, identidad, empaquetado\ndejar libre lo que diferencia\n  lenguaje, marco de trabajo, modelo de datos, arquitectura interna\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ el equipo consigue lo que necesita sin abrir un ticket\n☐ está escrito qué es de la plataforma y qué es del equipo de producto\n☐ el camino asfaltado es más rápido que hacerlo a mano, y se mide\n☐ existe salida explícita, sin pedir permiso, y se declara en el catálogo\n☐ el motivo de cada salida entra en el trabajo pendiente de la plataforma\n☐ lo obligatorio son controles, no herramientas\n☐ lo que hay debajo de la interfaz es usable directamente\n☐ hay contrato de versiones: cuántas se soportan y con cuánto aviso se retiran\n☐ cuando la plataforma pide migrar, la plataforma escribe la migración\n☐ se vigila qué proporción del tiempo se va en atender peticiones\n☐ se retira lo que nadie usa\n```\n\nY el cierre que enlaza con la clase siguiente: todo lo anterior se justifica con una promesa —que entregar sea más rápido y más seguro—. Comprobar si esa promesa se cumple exige medir, y las medidas que se suelen usar tienen trampas conocidas. Es la materia de la clase 107."
+    }
+  ],
+  "worked_example": "**CloudShop crea un equipo de plataforma de cuatro personas para quince equipos de producto. El primer año tiene dos fases claramente separadas por una decisión, y la decisión es la que da la lección.**\n\n**Fase 1, meses 1 a 5: ventanilla.**\n\nEl equipo se formó con quienes ya hacían la infraestructura, y siguieron haciendo lo mismo con otro nombre:\n\n```text\npeticiones atendidas al mes                        118\ntiempo medio de atención                        4,5 días\nproporción del tiempo del equipo en peticiones     84 %\ncomponentes reutilizables construidos                2\ntiempo desde «quiero un servicio» hasta dev      6 días\n```\n\nOchenta y cuatro por ciento en peticiones. El indicador que el apartado tercero señala —un tercio— estaba más que duplicado, y la consecuencia era previsible: **no quedaba tiempo para construir la plataforma**.\n\nY el catálogo de peticiones enseñaba lo que había que automatizar:\n\n```text\ncrear un servicio nuevo con lo básico              41 %\ndar acceso a algo                                  23 %\ncrear un entorno o una base de datos               19 %\ndudas sobre cómo hacer algo                        11 %\notras                                               6 %\n```\n\nEl 83 % de las peticiones eran las mismas tres cosas, una y otra vez.\n\n**La decisión: dejar de atender para poder automatizar.**\n\nSe congelaron las peticiones de los tres tipos principales durante seis semanas y se construyó el autoservicio. Fue impopular, y se midió:\n\n```text                                  antes de congelar   después\ncrear un servicio nuevo                    4,5 días         22 min\ndar acceso                                 2 días           inmediato\n                                                    (grupos del catálogo)\ncrear entorno de datos                     6 días           14 min\npeticiones al mes                            118              19\nproporción del tiempo en peticiones          84 %            21 %\n```\n\n**Fase 2: la plataforma como producto, y la salida.**\n\nEl camino asfaltado se ofreció sin obligar, con la salida declarada. A los tres meses:\n\n```text\nservicios en el camino asfaltado             11 de 15\nservicios fuera, con salida declarada          4 de 15\n```\n\nY los cuatro motivos, que es lo que valía la información:\n\n```text\nservicio de análisis    necesita una imagen base con bibliotecas científicas\n                        que el camino no ofrecía\nmotor de precios        necesita despliegue en dos regiones activas y el\n                        camino solo hacía una\nportal antiguo          no está en contenedor y no lo va a estar\nintegraciones           usa una canalización distinta por requisito de un cliente\n```\n\nLos dos primeros entraron en el trabajo pendiente y se resolvieron; sus equipos volvieron al camino sin que nadie se lo pidiera. El tercero no se va a resolver nunca y está bien que sea así. El cuarto reveló algo distinto: **usaba otra canalización y aun así cumplía las tres obligaciones** —identidad federada, cifrado, firma verificada—, porque lo obligatorio eran los controles y no la herramienta.\n\n```text                                     mes 3      mes 9\nen el camino asfaltado                    11 de 15   14 de 15\nsalidas por carencia de la plataforma          2          0\nsalidas legítimas y permanentes                2          1\n```\n\n**El error que costó dos meses de confianza: una versión retirada sin aviso.**\n\n```text\nsemana 22: se publica la versión 2 de la plantilla de canalización\n           y se retira la 1 en la misma semana\nequipos afectados                                    9\nhoras de trabajo no planificado                    ~60\nequipos que dijeron que volverían a su canalización  3\n```\n\nSe escribió el contrato de la plataforma:\n\n```text\ndos versiones soportadas a la vez\n90 días de aviso antes de retirar\ny la plataforma escribe la migración\n```\n\nLa migración siguiente se hizo con una herramienta que abría el cambio propuesto en cada repositorio:\n\n```text                                   sin herramienta    con herramienta\nhoras de trabajo por equipo                  6,5              0,4\nequipos migrados en plazo                    5 de 9           9 de 9\nquejas                                          9                0\n```\n\n**Lo que costó y lo que ahorró, al año.**\n\n```text\ncoste del equipo de plataforma           4 personas\ntiempo ahorrado a los equipos de producto\n  creación de servicios (28 al año)      28 × 4,3 días  ≈ 120 días\n  accesos y entornos                                    ≈  95 días\n  migraciones con herramienta                           ≈  55 días\n  incidentes evitados por puertas y bucle               no cuantificado\ntotal estimado                                         ≈ 270 días-persona\n```\n\nY la medida que el apartado segundo señala como la que justifica la existencia:\n\n```text                                          antes         después\nproporción del trabajo de un equipo de producto\ndedicada a infraestructura                    31 %            9 %\n```\n\n**Al año.**\n\n```text                                          antes         después\npeticiones al mes                              118             19\ntiempo del equipo de plataforma en peticiones   84 %           21 %\ncrear un servicio nuevo hasta dev            6 días         22 min\nadopción voluntaria del camino                  —          14 de 15\nsalidas por carencia                            —              0\ncontrato de versiones                        no había       2 y 90 días\nmigraciones con herramienta                  0 de 2         3 de 3\ncomponentes retirados por falta de uso          —              5\n```\n\n**La lección que esta clase traslada al resto de la parte 08**: la fase 1 y la fase 2 tenían el mismo equipo, el mismo presupuesto y las mismas herramientas. Lo que cambió fue **dejar de atender peticiones durante seis semanas**, que es lo único que permitía construir lo que las eliminaba. Y la información más valiosa del año no la dio la adopción, sino su contrario: **los cuatro equipos que se salieron señalaron dos carencias reales, una decisión permanente correcta y un caso que demostró que lo obligatorio deben ser los controles y no las herramientas**.",
+  "pitfalls": [
+    {
+      "symptom": "El equipo de plataforma no tiene tiempo de construir nada",
+      "cause": "Está atendiendo peticiones; es una ventanilla con otro nombre",
+      "fix": "Clasifica las peticiones, congela los tipos más repetidos y automatízalos; vigila que la atención no pase de un tercio del tiempo."
+    },
+    {
+      "symptom": "La adopción es del 100 % y las quejas son constantes",
+      "cause": "La plataforma es obligatoria, así que su fracaso no puede medirse",
+      "fix": "Ofrece salida explícita sin pedir permiso y trata cada motivo de salida como trabajo pendiente del producto."
+    },
+    {
+      "symptom": "Cada mejora de la plataforma interrumpe a quince equipos",
+      "cause": "No hay contrato de versiones ni aviso de retirada",
+      "fix": "Soporta dos versiones, avisa con antelación y escribe tú la herramienta de migración."
+    },
+    {
+      "symptom": "Cuando el portal falla, nadie puede hacer nada",
+      "cause": "La interfaz es la única forma de operar y lo que hay debajo no es usable",
+      "fix": "Que el portal escriba en el repositorio y que esa confirmación se pueda escribir a mano."
+    },
+    {
+      "symptom": "Se construyeron componentes que nadie usa",
+      "cause": "Se priorizó por criterio del equipo de plataforma, no por demanda",
+      "fix": "Observa a los usuarios trabajando, prioriza por lo que aparece en las peticiones y retira lo que no se usa."
+    },
+    {
+      "symptom": "Los equipos discuten cada semana qué es responsabilidad de quién",
+      "cause": "La frontera entre plataforma y producto no está escrita",
+      "fix": "Escribe el inventario de lo que ofrece la plataforma y la lista de lo que no; mantén la guardia del servicio en el equipo que lo construye."
+    }
+  ],
+  "checks": [
+    "¿Qué distingue una plataforma de una ventanilla de peticiones?",
+    "¿Por qué una plataforma obligatoria oculta su propio fracaso?",
+    "¿Qué debe ser obligatorio y qué debe ser camino?",
+    "¿Por qué lo que hay debajo de la interfaz tiene que ser usable directamente?",
+    "¿Qué contiene el contrato de versiones de la plataforma y por qué la migración la escribe la plataforma?"
+  ],
+  "references": [
+    {
+      "text": "Skelton, M. y Pais, M. (2019). *Team Topologies*, cap. 5 — equipo de plataforma y su relación con los equipos de producto.",
+      "url": "https://teamtopologies.com/book"
+    },
+    {
+      "text": "CNCF (2025). *Platforms white paper* — plataforma como producto, capacidades e interfaces.",
+      "url": "https://tag-app-delivery.cncf.io/whitepapers/platforms/"
+    },
+    {
+      "text": "Thoughtworks (2025). *Platform as a product and the paved road* — camino asfaltado, salida y medición de adopción.",
+      "url": "https://www.thoughtworks.com/insights/blog/platforms"
+    },
+    {
+      "text": "Backstage (2025). *Software catalog and scaffolder* — catálogo, plantillas y autoservicio.",
+      "url": "https://backstage.io/docs/features/software-catalog/"
+    },
+    {
+      "text": "Google (2025). *Internal developer platforms and golden paths* — estandarizar lo que no diferencia.",
+      "url": "https://cloud.google.com/architecture/devops"
+    }
+  ]
+}
