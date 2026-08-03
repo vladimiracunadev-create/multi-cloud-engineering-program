@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>finops</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>optimización de costo, capacidad y sostenibilidad</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Decidir qué hacer con el gasto una vez atribuido, en un orden que evita el error más caro de esta materia: <strong>comprometerse a pagar durante tres años algo que se podía haber apagado</strong>. La clase desarrolla la escalera —eliminar, dimensionar, programar, comprometer, rediseñar—, trata el dimensionado con la honestidad que exige la curva de la clase 129, y cierra con la parte energética sin exagerarla: casi toda la optimización de coste es también de consumo, y conviene saber en qué casos concretos no coinciden.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> optimización de costo, capacidad y sostenibilidad con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>backlog-optimizacion</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Aplicar</strong> la escalera de optimización en orden y no saltarse escalones.</li>
+<li><strong>Dimensionar</strong> con percentiles y margen, no con medias.</li>
+<li><strong>Combinar</strong> instrumentos de descuento por capas según la estabilidad del consumo.</li>
+<li><strong>Usar</strong> capacidad interrumpible en lo que la tolera, y solo ahí.</li>
+<li><strong>Separar</strong> lo que reduce consumo energético de lo que solo reduce factura.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,20 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>optimización</code></td>
-<td>Define su papel en <strong>optimización de costo, capacidad y sostenibilidad</strong> y cómo observarlo en un sistema real.</td>
+<td><code>escalera de optimización</code></td>
+<td>Orden en el que se trabaja: eliminar, dimensionar, programar, comprometer y rediseñar. Saltárselo cuesta dinero.</td>
 </tr>
 <tr>
-<td><code>costo</code></td>
-<td>Define su papel en <strong>optimización de costo, capacidad y sostenibilidad</strong> y cómo observarlo en un sistema real.</td>
+<td><code>dimensionado</code></td>
+<td>Ajustar recursos al uso real, con margen hasta el codo. Se hace con percentiles, nunca con medias.</td>
 </tr>
 <tr>
-<td><code>capacidad</code></td>
-<td>Define su papel en <strong>optimización de costo, capacidad y sostenibilidad</strong> y cómo observarlo en un sistema real.</td>
+<td><code>compromiso</code></td>
+<td>Descuento a cambio de garantizar un gasto durante un periodo. Es una apuesta sobre tu propia arquitectura.</td>
 </tr>
 <tr>
-<td><code>sostenibilidad</code></td>
-<td>Define su papel en <strong>optimización de costo, capacidad y sostenibilidad</strong> y cómo observarlo en un sistema real.</td>
+<td><code>capacidad interrumpible</code></td>
+<td>Recursos muy baratos que el proveedor puede retirar con poco aviso. Sirven solo para cargas que toleran la interrupción.</td>
+</tr>
+<tr>
+<td><code>intensidad de carbono</code></td>
+<td>Emisiones por unidad de energía consumida. Varía por región y por hora, y es donde coste y emisiones dejan de coincidir.</td>
+</tr>
+<tr>
+<td><code>tensión eficiencia-fiabilidad</code></td>
+<td>Reducir margen abarata y acerca al codo. El presupuesto de error decide el límite.</td>
 </tr>
 </tbody>
 </table>
@@ -89,72 +94,375 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Optimización de costo, capacidad y sostenibilidad&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    E1[&quot;1 · ELIMINAR\nlo que nadie usa&quot;] --&gt; E2[&quot;2 · DIMENSIONAR\ncon percentiles y margen&quot;]
+    E2 --&gt; E3[&quot;3 · PROGRAMAR\napagar fuera de horario&quot;]
+    E3 --&gt; E4[&quot;4 · COMPROMETER\nsolo lo que quede&quot;]
+    E4 --&gt; E5[&quot;5 · REDISEÑAR\ncuesta ingeniería&quot;]
+    X[&quot;comprometer antes\nde eliminar&quot;] -.-&gt;|&quot;error caro&quot;| E4
+    E4 --&gt; C{&quot;perfil de consumo&quot;}
+    C --&gt;|&quot;base estable&quot;| C1[&quot;compromiso largo&quot;]
+    C --&gt;|&quot;variable&quot;| C2[&quot;bajo demanda&quot;]
+    C --&gt;|&quot;interrumpible&quot;| C3[&quot;capacidad sobrante\ncon reanudación&quot;]
+    E2 --&gt; L{&quot;límite&quot;}
+    L --&gt; L1[&quot;el codo · 129&quot;]
+    L --&gt; L2[&quot;el presupuesto de error · 126&quot;]
+    E5 --&gt; S[&quot;consumo energético:\ncasi siempre coincide\nsalvo región y hora&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-la-escalera-y-por-que-el-orden-importa">1. La escalera, y por qué el orden importa</h3>
+<pre><code class="language-text">1. ELIMINAR      lo que nadie usa               clase 142
+2. DIMENSIONAR   ajustar lo que sí se usa
+3. PROGRAMAR     apagar cuando no hace falta
+4. COMPROMETER   descuento sobre lo que queda
+5. REDISEÑAR     cambiar cómo funciona
+</code></pre>
+<p>Y el orden no es una preferencia: <strong>cada escalón cambia la base sobre la que se calcula el siguiente</strong>.</p>
+<pre><code class="language-text">comprometer antes de eliminar
+  → se firma un descuento sobre capacidad que se iba a apagar
+  → y ese compromiso impide apagarla, porque ya está pagada
+  → resultado: el descuento cuesta dinero
+</code></pre>
+<p>Es el error de la clase 142 en su forma general, y ocurre porque los escalones 1 a 3 requieren trabajo y el 4 se firma en una tarde.</p>
+<p>Y el rendimiento típico de cada escalón, como orden de magnitud:</p>
+<pre><code class="language-text">eliminar        10-30 % de la factura, sin riesgo y sin ingeniería
+dimensionar     10-25 %, con riesgo si se hace mal
+programar       5-15 %, concentrado en entornos inferiores
+comprometer     20-40 % sobre lo que quede, con compromiso de gasto
+rediseñar       muy variable, y cuesta semanas de ingeniería
+</code></pre>
+<p>Y una conclusión que sorprende: <strong>los tres primeros escalones suelen dar más que el descuento</strong>, y no requieren negociar nada.</p>
+<p>Y el quinto merece un criterio explícito, porque es donde se pierde el tiempo:</p>
+<pre><code class="language-text">rediseñar compensa cuando el coste CRECE con el tamaño del negocio
+no compensa cuando es un coste fijo pequeño
+→ optimizar una consulta que cuesta 90 € al mes no vale dos semanas
+→ optimizar el coste por pedido, sí
+</code></pre>
+<p>Y el límite que atraviesa toda la escalera, y que hay que enunciar antes de empezar:</p>
+<pre><code class="language-text">ninguna medida de eficiencia se aplica si consume el presupuesto
+de error                                                clase 126
+→ el margen no es desperdicio: es el tiempo de reaccionar
+</code></pre>
+<h3 id="2-dimensionar-sin-romper">2. Dimensionar sin romper</h3>
+<p>El dimensionado es el escalón con más riesgo, porque acerca el sistema al codo de la clase 129.</p>
+<p>Y el error habitual es usar medias:</p>
+<pre><code class="language-text">uso medio de procesador                       12 %
+conclusión ingenua                            «sobra el 80 %»
+uso en el percentil 99                        71 %
+uso durante el cierre mensual                 94 %
+</code></pre>
+<p>La media de un sistema con picos <strong>no describe nada</strong>. La regla:</p>
+<pre><code class="language-text">se dimensiona con el percentil alto del periodo relevante
+incluyendo los eventos periódicos: cierres, campañas, procesos nocturnos
+y dejando el margen hasta el codo                       clase 129
+</code></pre>
+<p>Y qué mirar, por recurso:</p>
+<pre><code class="language-text">procesador        percentil 95-99, y el pico de los eventos conocidos
+memoria           el máximo, no el percentil: quedarse sin memoria
+                  no degrada, mata el proceso
+disco             espacio y también operaciones por segundo
+red               ancho de banda del pico
+conexiones        saturación del agrupador                clase 109
+</code></pre>
+<p>La segunda línea es una diferencia importante: <strong>la memoria no admite percentiles</strong>.</p>
+<p>Y dos consideraciones específicas de la nube:</p>
+<pre><code class="language-text">MEMORIA Y PROCESADOR VAN ACOPLADOS en muchos servicios
+  → bajar memoria puede bajar el procesador y empeorar el tiempo
+  → hay que medir el resultado, no suponerlo         clase 117
+
+UNA FAMILIA DISTINTA puede ser mejor que un tamaño menor
+  → cargas ligadas a memoria, a procesador o a red tienen familias propias
+  → cambiar de familia suele rendir más que reducir el tamaño
+</code></pre>
+<p><strong>Programar</strong> es el escalón más sencillo y el que menos se hace:</p>
+<pre><code class="language-text">entornos inferiores fuera de horario laboral
+  → 168 horas a la semana → 45 útiles → 73 % de ahorro en esos entornos
+bases de datos de desarrollo, paradas por la noche
+capacidad reducida en horas valle en producción, si el perfil lo permite
+</code></pre>
+<p>Y lo que lo hace viable: <strong>encender tiene que ser rápido y automático</strong>, o alguien lo desactivará el primer día que necesite trabajar por la tarde. Es la ley 16 aplicada al ahorro.</p>
+<h3 id="3-comprometer-por-capas-y-lo-interrumpible">3. Comprometer por capas, y lo interrumpible</h3>
+<p>Los instrumentos de descuento cambian de nombre en cada proveedor y se comportan igual:</p>
+<pre><code class="language-text">COMPROMISO DE GASTO O DE CAPACIDAD
+  1 o 3 años, con o sin pago anticipado
+  descuento mayor cuanto más rígido y más largo
+  → es una apuesta a que tu arquitectura seguirá pareciéndose
+
+CAPACIDAD SOBRANTE INTERRUMPIBLE
+  60-90 % más barata
+  el proveedor la retira con un aviso de minutos
+
+NIVELES Y TARIFAS POR VOLUMEN
+  descuentos automáticos por uso acumulado
+</code></pre>
+<p>Y la forma correcta de usarlos es <strong>por capas</strong>, según la estabilidad de cada tramo:</p>
+<pre><code class="language-text">consumo del último año, por horas, ordenado de mayor a menor
+
+  ████████████████████████  base que SIEMPRE está    → compromiso a 3 años
+  ██████████                lo habitual pero variable → compromiso a 1 año
+  ████                      picos                      → bajo demanda
+  ██                        trabajos que toleran corte → interrumpible
+</code></pre>
+<p>Y las reglas prácticas:</p>
+<pre><code class="language-text">no comprometer más del percentil bajo del consumo estable
+  → comprometer al 100 % del uso actual es garantizar pagar de más
+revisar cada trimestre, con dueño                       clase 142
+y anotar la fecha de vencimiento como un riesgo, no como un trámite
+</code></pre>
+<p>Y el riesgo que hay que decir en voz alta: <strong>un compromiso a tres años es una apuesta sobre tu propia arquitectura</strong>. Si en dieciocho meses se migra a contenedores, a funciones o a otro proveedor, el compromiso sigue ahí.</p>
+<p><strong>La capacidad interrumpible</strong> es el descuento mayor y exige que la carga lo tolere:</p>
+<pre><code class="language-text">requisitos
+  soportar que la instancia desaparezca con un aviso de minutos
+  poder reanudar: puntos de control, o trabajo troceado e idempotente
+  diversificar tipos y zonas, para que no se retire todo a la vez
+
+encaja bien
+  construcción y pruebas de la canalización              clase 097
+  procesamiento por lotes y trabajos del lago            clase 112
+  entornos efímeros                                      clase 104
+  cargas sin estado con arranque rápido y un grupo de respaldo
+
+no encaja
+  bases de datos y cualquier cosa con estado local
+  nada cuyo corte se note en el objetivo del servicio    clase 126
+</code></pre>
+<p>Y el error clásico: <strong>usar capacidad interrumpible para algo que no puede reanudarse</strong>, y descubrirlo el día que el proveedor retira el 40 % de golpe. La prueba pertinente es la de la clase 131: <strong>quitar instancias a propósito y ver qué pasa</strong>.</p>
+<h3 id="4-redisenar-datos-y-consumo-energetico">4. Rediseñar, datos y consumo energético</h3>
+<p><strong>Los rediseños con mayor multiplicador</strong>, todos ya vistos en el programa:</p>
+<pre><code class="language-text">caché delante de lo caro                                clase 111
+quitar llamadas repetidas: una consulta en vez de 340   clase 124
+agrupar y procesar por lotes en vez de uno a uno        clase 112
+llevar el cálculo al dato, y no el dato al cálculo
+formato columnar y particionado                         clase 112
+nivel de servicio adecuado: no todo necesita el más caro
+y quitar funcionalidad que nadie usa
+</code></pre>
+<p>El último es el de mayor rendimiento y el que nunca se propone: <strong>una funcionalidad sin usuarios cuesta cómputo, almacenamiento, mantenimiento y superficie de ataque</strong>.</p>
+<p><strong>En datos</strong>, donde suele haber más grasa de la que parece:</p>
+<pre><code class="language-text">retención: ¿de verdad hacen falta 90 días calientes?    clases 122, 123
+clases de almacenamiento, agrupando antes               clase 112
+compresión y formato                                    clase 112
+borrar lo que nadie consulta
+copias de seguridad: cuántas generaciones y de qué
+y entornos de pruebas con subconjuntos, no con copias completas
+</code></pre>
+<p><strong>El consumo energético.</strong> Conviene tratarlo sin exagerar y sin ignorarlo:</p>
+<pre><code class="language-text">la energía consumida es, en primera aproximación,
+proporcional a los recursos-hora usados
+→ por tanto, casi toda optimización de coste reduce también consumo
+→ eliminar, dimensionar y programar valen doble
+</code></pre>
+<p>Y los casos donde <strong>no</strong> coinciden, que son los específicos de esta materia:</p>
+<pre><code class="language-text">REGIÓN
+  la intensidad de carbono varía mucho entre regiones
+  → dos regiones con precio parecido pueden diferir por un factor grande
+  → y la región también la deciden la latencia y la residencia (clase 141)
+
+HORA
+  la intensidad varía a lo largo del día según la generación
+  → mover trabajos por lotes a horas de baja intensidad no cambia
+    el coste y sí las emisiones
+
+EFICIENCIA DEL HARDWARE
+  familias más modernas hacen más trabajo por vatio
+  → suele coincidir con mejor precio por unidad de trabajo
+
+APROVECHAMIENTO
+  una instancia al 15 % consume bastante más de un 15 %
+  → consolidar cargas reduce energía más de lo que reduce coste
+</code></pre>
+<p>Y la parte honesta sobre la medición:</p>
+<pre><code class="language-text">las cifras las publica el proveedor, con metodologías distintas
+no son comparables entre proveedores
+y la mayor parte de las emisiones de un servicio digital suele
+  estar fuera del cómputo: fabricación, red, dispositivos de usuario
+→ conviene usarlas para decidir entre alternativas propias,
+  no para afirmaciones absolutas
+</code></pre>
+<p>Y la tensión final, que cierra la clase:</p>
+<pre><code class="language-text">reducir margen abarata y acerca al codo
+reducir réplicas abarata y reduce tolerancia a fallos
+reducir retención abarata y reduce capacidad de investigar
+
+→ el límite lo pone el presupuesto de error, no el objetivo de ahorro
+→ si una medida de eficiencia consume presupuesto, se revierte
+</code></pre>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ se ha eliminado lo no usado antes de dimensionar
+☐ se ha dimensionado antes de comprometer
+☐ el dimensionado usa percentiles altos y el máximo para memoria
+☐ se han probado varias familias, no solo tamaños menores
+☐ los entornos inferiores se apagan fuera de horario y encender es rápido
+☐ los compromisos cubren la base estable, no el consumo total
+☐ los compromisos se revisan cada trimestre y tienen dueño
+☐ la capacidad interrumpible solo se usa donde la interrupción se tolera
+☐ se ha ensayado la retirada de capacidad interrumpible
+☐ los rediseños se eligen por si el coste crece con el negocio
+☐ está medido el coste por unidad antes y después de cada medida
+☐ ninguna medida de eficiencia consume presupuesto de error
+☐ las decisiones de región consideran también intensidad de carbono
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: con esto está completo el material de la parte 11. La clase 144 monta la zona de aterrizaje con todo lo anterior aplicado desde el primer día y <strong>califica las cinco predicciones de la clase 132</strong>, empezando por la que decía que la ley 16 dominaría esta parte.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>optimización de costo, capacidad y sostenibilidad</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>CloudShop aplica la escalera sobre los 28.900 € que quedaban tras la clase 142. El ejercicio incluye un dimensionado que provocó un incidente y una decisión de compromiso que estuvo a punto de repetir el error de partida.</strong></p>
+<p><strong>Escalón 1: eliminar. Ya hecho en la clase 142.</strong></p>
+<pre><code class="language-text">compromiso mal dimensionado                          −5.700 €/mes
+telemetría sin consultar                             −5.300 €/mes
+huérfanos                                            −1.140 €/mes
+</code></pre>
+<p><strong>Escalón 2: dimensionar, y el incidente.</strong></p>
+<p>El primer intento usó medias:</p>
+<pre><code class="language-text">15 servicios, uso medio de procesador                       14 %
+propuesta automática de la herramienta      reducir a la mitad en 11
+aplicado                                                     11
+</code></pre>
+<p>Y a los cuatro días:</p>
+<pre><code class="language-text">cierre mensual: el proceso de facturación necesita 3× la capacidad
+servicios afectados                                           3
+latencia p99                                        de 180 ms a 4,1 s
+presupuesto de error consumido                              31 %
+revertido en                                             22 min
+</code></pre>
+<p>El diagnóstico es el del apartado segundo: <strong>la media no incluía el evento periódico</strong>.</p>
+<p>```text                                    por media       por percentil + eventos
+servicios reducidos                          11                  7
+reducción media aplicada                     50 %               28 %
+ahorro                                    1.900 €/mes       1.180 €/mes
+incidentes                                    1                  0
+presupuesto de error consumido               31 %               0 %</p>
+<pre><code>
+Setecientos euros menos de ahorro y ningún incidente. Y se añadió una regla: **ninguna propuesta de dimensionado se aplica sin incluir los eventos periódicos conocidos**, que están en el calendario del negocio.
+
+Y el cambio de familia, que rindió más que reducir tamaño:
+
+```text                                    tamaño menor    familia optimizada
+                                                          para memoria
+servicio de catálogo, coste                −22 %              −34 %
+latencia p99                               +41 %               −8 %
+</code></pre>
+<p><strong>Escalón 3: programar.</strong></p>
+<pre><code class="language-text">entornos inferiores                              3 (dev, pre, pruebas)
+horas encendidos antes                          168 / semana
+horas encendidos después                         50 / semana
+ahorro                                        2.100 €/mes
+
+condición para que se aceptara
+  encender bajo demanda en menos de 3 minutos
+  y encendido automático al abrir un cambio propuesto
+</code></pre>
+<p>Y sin esa condición no habría durado: en la primera semana, dos equipos desactivaron el apagado porque necesitaban trabajar por la tarde. <strong>Con el encendido en tres minutos, nadie volvió a desactivarlo.</strong></p>
+<p><strong>Escalón 4: comprometer, y la trampa evitada.</strong></p>
+<p>La propuesta inicial del proveedor cubría el consumo completo del último mes:</p>
+<pre><code class="language-text">propuesta                    compromiso a 3 años sobre el 100 % del uso
+descuento ofrecido                                        41 %
+ahorro aparente                                       6.100 €/mes
+</code></pre>
+<p>Y la revisión con las reglas del apartado tercero encontró dos problemas:</p>
+<pre><code class="language-text">1. el uso del último mes incluía lo que se acababa de dimensionar
+   y los entornos que ahora se apagan
+   → el consumo real ya era un 31 % menor
+
+2. había una migración prevista a contenedores en 8 meses
+   para 4 de los 15 servicios
+   → ese consumo cambiaría de forma
+</code></pre>
+<p>```text                                    propuesta inicial   decisión final
+base comprometida a 3 años              100 % del uso      62 % (la base
+                                        del mes anterior    estable medida
+                                                            en 12 meses)
+compromiso a 1 año                          —                18 %
+bajo demanda                                 0 %             12 %
+interrumpible                                0 %              8 %
+descuento efectivo                          41 %             34 %
+ahorro real                             6.100 € aparente   4.200 €/mes
+riesgo de pagar capacidad no usada          alto             bajo</p>
+<pre><code>
+**Menos descuento nominal y más ahorro real**, porque no se compromete lo que se va a apagar.
+
+**La capacidad interrumpible.**
+
+```text
+cargas evaluadas                                            15
+toleran interrupción                                         4
+  construcción y pruebas de la canalización                 sí
+  trabajos del lago                                         sí
+  entornos efímeros                                         sí
+  reprocesado de eventos                                    sí
+
+ahorro en esas cuatro                                  1.400 €/mes
+</code></pre>
+<p>Y el ensayo de la clase 131, hecho antes de confiar en ello:</p>
+<pre><code class="language-text">se retiró el 60 % de la capacidad interrumpible a propósito
+
+construcción y pruebas    reanudaron; +9 min en la canalización     ✓
+trabajos del lago         reanudaron desde el último punto           ✓
+entornos efímeros         se recrearon solos                         ✓
+reprocesado de eventos    PERDIÓ el progreso: no había punto
+                          de control; 4 h de trabajo repetido        ✗
+</code></pre>
+<p>El cuarto se corrigió antes de dejarlo en interrumpible. <strong>Sin el ensayo, se habría descubierto un domingo.</strong></p>
+<p><strong>Escalón 5: rediseñar, con el criterio del coste unitario.</strong></p>
+<pre><code class="language-text">candidatos                              coste actual   ¿crece con el negocio?
+recomendaciones, 0,038 €/pedido           4.100 €/mes         sí   → hacer
+consulta del catálogo                        90 €/mes         no   → no hacer
+formato del lago (ya columnar)                —                —   → hecho
+llamadas repetidas en 2 endpoints           310 €/mes         sí   → hacer
+</code></pre>
+<p>```text                                          antes         después
+coste por pedido de recomendaciones          0,038 €        0,011 €
+esfuerzo                                        —          3 semanas
+ahorro                                          —        2.900 €/mes</p>
+<pre><code>
+Y la consulta de 90 € al mes **no se optimizó**, deliberadamente y por escrito.
+
+**El consumo energético.**
+
+```text
+recursos-hora consumidos                     −38 % tras la escalera
+emisiones estimadas por el proveedor         −41 %
+</code></pre>
+<p>Y las dos decisiones específicas, que no cambiaron el coste:</p>
+<pre><code class="language-text">REGIÓN de los trabajos por lotes
+  se movieron los del lago a una región con menor intensidad de carbono
+  restricción: los datos personales no salen de Europa   clase 141
+  → solo pudieron moverse los agregados sin datos personales
+  coste                                              +2 %
+  emisiones estimadas de esos trabajos              −34 %
+
+HORA de ejecución
+  los procesos nocturnos se desplazaron 3 horas
+  coste                                               igual
+  emisiones estimadas                                −11 %
+</code></pre>
+<p>Y lo que se escribió como límite honesto:</p>
+<pre><code class="language-text">las cifras las publica el proveedor, con su metodología
+no son comparables con las de otro proveedor
+y la mayor parte de las emisiones del producto está fuera del cómputo
+→ se usan para elegir entre alternativas propias, no para afirmar nada
+  en términos absolutos
+</code></pre>
+<p><strong>El resultado de la escalera.</strong></p>
+<p>```text                                          €/mes acumulado
+punto de partida (tras la clase 142)              28.900
+dimensionar                                       −1.180
+programar                                         −2.100
+comprometer                                       −4.200
+rediseñar                                         −2.900
+                                                 ───────
+                                                  18.520</p>
+<pre><code>
+```text                                    inicio parte 11    final
+factura mensual                            41.200 €       18.520 €
+coste por pedido                            0,229 €        0,057 €
+pedidos mensuales                           180.000        325.000
+recursos-hora                                  —             −38 %
+incidentes causados por optimización            —              1
+presupuesto de error consumido por eficiencia   —          31 % (una vez)
+compromisos revisados trimestralmente          no             sí
+cargas en capacidad interrumpible                0              4
+ensayo de retirada de interrumpible             no         semestral
+</code></pre>
+<p><strong>La lección que esta clase traslada a la parte 11</strong>: la propuesta de compromiso que ofrecía un 41 % de descuento habría producido <strong>menos ahorro real que la que ofrecía un 34 %</strong>, porque cubría capacidad que estaba a punto de desaparecer. Y el único incidente de todo el ejercicio lo causó dimensionar con medias en un sistema con cierres mensuales: <strong>la media de un sistema con picos no describe nada</strong>, y aplicarla consumió el 31 % del presupuesto de error para ahorrar setecientos euros.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-11-security-governance-finops/143-optimizacion-de-costo-capacidad-y-sostenibilidad/lab.py
@@ -195,29 +503,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Se firma un descuento y el ahorro esperado no aparece</td>
+<td>Se comprometió capacidad que se iba a eliminar, dimensionar o apagar</td>
+<td>Recorre la escalera en orden: elimina, dimensiona y programa antes de comprometer, y compromete solo la base estable medida en doce meses.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Reducir tamaños provoca un incidente en el cierre mensual</td>
+<td>Se dimensionó con la media, que no incluye los eventos periódicos</td>
+<td>Usa percentiles altos, incluye los eventos del calendario de negocio y el máximo para memoria.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>El apagado de entornos fuera de horario se desactiva a la semana</td>
+<td>Ley 16: encender es lento y estorba</td>
+<td>Haz que encender tarde minutos y sea automático al abrir un cambio propuesto.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>El proveedor retira capacidad interrumpible y se pierde trabajo</td>
+<td>Se usó para una carga que no puede reanudarse</td>
+<td>Exige puntos de control o trabajo troceado e idempotente, diversifica tipos y zonas, y ensaya la retirada antes de confiar.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Se dedican semanas a optimizar algo que apenas cuesta</td>
+<td>No se distingue el coste fijo del que crece con el negocio</td>
+<td>Rediseña solo lo que aparece en el coste por unidad; deja documentado lo que se decide no optimizar.</td>
+</tr>
+<tr>
+<td>La eficiencia mejora y la fiabilidad empeora</td>
+<td>Se recortó el margen hasta el codo</td>
+<td>El presupuesto de error es el límite: si una medida de eficiencia lo consume, se revierte.</td>
 </tr>
 </tbody>
 </table>
@@ -228,17 +541,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Por qué comprometer antes de eliminar cuesta dinero?</li>
+<li>¿Por qué la media no sirve para dimensionar y qué se usa en su lugar?</li>
+<li>¿Cómo se reparte el consumo entre compromiso, bajo demanda e interrumpible?</li>
+<li>¿Qué requisitos tiene una carga para poder usar capacidad interrumpible?</li>
+<li>¿En qué casos concretos dejan de coincidir la reducción de coste y la de emisiones?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Practical Cloud Security — Chris Dotson.</li>
-<li>Cloud Security Handbook — Eyal Estrin.</li>
-<li>Cloud FinOps — Storment y Fuller.</li>
+<li>FinOps Foundation (2025). <em>Rate and usage optimization</em> — escalera de optimización y orden de aplicación. <a href="https://www.finops.org/framework/capabilities/">https://www.finops.org/framework/capabilities/</a></li>
+<li>AWS (2025). <em>Savings Plans, Reserved Instances and Spot best practices</em> — instrumentos y su combinación por capas. <a href="https://docs.aws.amazon.com/whitepapers/latest/cost-optimization-reservation-models/">https://docs.aws.amazon.com/whitepapers/latest/cost-optimization-reservation-models/</a></li>
+<li>Google Cloud (2025). <em>Committed use discounts and Spot VMs</em> — compromisos y capacidad interrumpible. <a href="https://cloud.google.com/compute/docs/instances/spot">https://cloud.google.com/compute/docs/instances/spot</a></li>
+<li>Green Software Foundation (2025). <em>Software carbon intensity specification</em> — intensidad por región y por hora. <a href="https://sci.greensoftware.foundation/">https://sci.greensoftware.foundation/</a></li>
+<li>Microsoft (2025). <em>Sustainability in the cloud: emissions reporting caveats</em> — límites de comparabilidad de las cifras. <a href="https://learn.microsoft.com/azure/architecture/framework/sustainability/">https://learn.microsoft.com/azure/architecture/framework/sustainability/</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -306,7 +621,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-escalera-y-por-que-el-orden-importa">1. La escalera, y por qué el orden importa</a><a class="toc-level-3" href="#2-dimensionar-sin-romper">2. Dimensionar sin romper</a><a class="toc-level-3" href="#3-comprometer-por-capas-y-lo-interrumpible">3. Comprometer por capas, y lo interrumpible</a><a class="toc-level-3" href="#4-redisenar-datos-y-consumo-energetico">4. Rediseñar, datos y consumo energético</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
