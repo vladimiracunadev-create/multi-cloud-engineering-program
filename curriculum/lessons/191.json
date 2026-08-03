@@ -1,0 +1,118 @@
+{
+  "id": "191",
+  "purpose": "Someter una arquitectura a revisión de forma que encuentre problemas, y comunicarla a audiencias que preguntan cosas distintas. La clase da el método de revisión basado en escenarios —que encuentra riesgos donde la revisión por opinión no encuentra nada—, la forma de traducir decisiones técnicas a las tres preguntas que hace cada audiencia, y la disciplina que hace útil una revisión: **buscar riesgos y puntos sensibles, no aprobar o rechazar**.",
+  "outcomes": [
+    "**Ejecutar** una revisión de arquitectura basada en escenarios de calidad.",
+    "**Distinguir** riesgo, punto sensible y cesión, y registrarlos.",
+    "**Traducir** una decisión técnica a lo que cada audiencia necesita saber.",
+    "**Presentar** una arquitectura con la estructura que resiste preguntas.",
+    "**Evitar** que la revisión se convierta en un trámite de aprobación."
+  ],
+  "concepts": [
+    {
+      "term": "revisión por escenarios",
+      "definition": "Someter la arquitectura a escenarios de calidad concretos y ver cómo responde, en vez de opinar sobre el diagrama."
+    },
+    {
+      "term": "riesgo",
+      "definition": "Decisión que puede impedir cumplir un atributo de calidad. Es el producto principal de una revisión."
+    },
+    {
+      "term": "punto sensible",
+      "definition": "Decisión de la que depende un solo atributo. Cambiarla lo afecta directamente."
+    },
+    {
+      "term": "punto de cesión",
+      "definition": "Decisión de la que dependen varios atributos en direcciones opuestas. Es donde se decide de verdad."
+    },
+    {
+      "term": "audiencia",
+      "definition": "Quien paga, quien opera, quien construye y quien lo sufre. Cada una pregunta cosas distintas."
+    },
+    {
+      "term": "revisión de aprobación",
+      "definition": "La que solo dice sí o no. No encuentra nada y se convierte en trámite."
+    }
+  ],
+  "diagram": "flowchart TB\n    R[\"revisión de arquitectura\"] --> R1[\"1 · escenarios de calidad\\npriorizados con negocio\"]\n    R1 --> R2[\"2 · recorrer cada escenario\\nsobre el diseño\"]\n    R2 --> R3[\"3 · anotar\"]\n    R3 --> A[\"RIESGO\\npuede impedir\\ncumplir un atributo\"]\n    R3 --> B[\"PUNTO SENSIBLE\\nafecta a un atributo\"]\n    R3 --> C[\"CESIÓN\\nafecta a varios,\\nen direcciones opuestas\"]\n    A --> D[\"registrar y decidir\"]\n    C --> D\n    P[\"comunicar\"] --> P1[\"QUIEN PAGA\\nqué se gana,\\nqué cuesta,\\nqué se arriesga\"]\n    P --> P2[\"QUIEN OPERA\\nqué se rompe,\\ncómo se sabe,\\nqué hago a las 3\"]\n    P --> P3[\"QUIEN CONSTRUYE\\nqué puedo cambiar\\nsin pedir permiso\"]\n    P --> P4[\"QUIEN LO SUFRE\\nqué cambia para mí\\ny cuándo\"]",
+  "foundations": [
+    {
+      "heading": "Revisión por escenarios",
+      "body": "La revisión habitual —presentar el diagrama y pedir comentarios— produce observaciones sobre nombres, tecnologías preferidas y detalles visibles. No encuentra riesgos porque no pregunta nada concreto.\n\nLa revisión por escenarios sí:\n\n```text\n1. SE PARTE DE LOS ESCENARIOS DE CALIDAD           clase 181\n   los medibles, no los adjetivos\n\n2. SE PRIORIZAN CON NEGOCIO\n   importancia para el negocio × dificultad técnica percibida\n   → se revisan los 5 u 8 primeros, no los veinte\n\n3. SE RECORRE CADA ESCENARIO SOBRE EL DISEÑO\n   «entra este estímulo, en estas condiciones: ¿qué pasa,\n    componente por componente?»\n   → y se anota dónde el diseño no tiene respuesta\n\n4. SE CLASIFICA LO ENCONTRADO\n   riesgo · punto sensible · cesión · no-riesgo\n\n5. SE DECIDE QUÉ HACER CON CADA RIESGO\n   y quién, y para cuándo\n```\n\nY la distinción que ordena los hallazgos:\n\n```text\nRIESGO\n  «si el pico llega a 3.000/s, el grupo de conexiones se\n   agota y la latencia se dispara»\n  → tiene consecuencia y probabilidad; se decide\n\nPUNTO SENSIBLE\n  «el tamaño del grupo de conexiones determina el caudal\n   máximo»\n  → una sola decisión afecta a un atributo; se documenta\n\nCESIÓN\n  «leer del primario garantiza ver lo propio y aumenta la\n   carga del primario»\n  → afecta a dos atributos en direcciones opuestas; es donde\n    hay que decidir explícitamente               clase 181\n\nNO-RIESGO\n  también se anota: «esto está resuelto, y así»\n  → evita revisarlo otra vez dentro de seis meses\n```\n\nY la regla que hace útil la revisión:\n\n```text\nel producto de una revisión es una LISTA DE RIESGOS con dueño\ny fecha, no un veredicto\n→ «aprobado» no dice nada y no mejora el diseño\n→ y una revisión que no encuentra riesgos no se hizo bien\n```\n\nY una advertencia de método:\n\n```text\nquien presenta no puede ser quien modera\ny quien revisa debe poder decir «no lo sé» sin coste\n→ si la revisión evalúa a la persona, deja de encontrar cosas\n```"
+    },
+    {
+      "heading": "Cómo se conduce, en la práctica",
+      "body": "Una revisión útil dura entre dos y cuatro horas y tiene un orden concreto.\n\n```text\nANTES\n  el material se reparte con 3 días de antelación\n  → diagrama C1 y C2                             clase 182\n  → escenarios de calidad medibles\n  → registros de decisión relevantes             clase 190\n  → lo que ya se sabe que es riesgo\n\n  quien revisa llega con preguntas escritas\n  → sin esto, la sesión se llena de preguntas de contexto\n\nDURANTE\n  20 min   contexto y objetivo de negocio, con cifras\n  20 min   arquitectura: C1, C2, y las decisiones caras\n  30 min   priorización de escenarios con negocio presente\n  90 min   recorrido de los 5-8 escenarios elegidos\n  20 min   riesgos, dueños y fechas\n\nDESPUÉS\n  lista de riesgos publicada en 48 h\n  cada riesgo con dueño, acción y fecha\n  los no-riesgos también anotados\n```\n\nY los cuatro papeles que hacen falta:\n\n```text\nQUIEN PRESENTA        conoce el diseño\nQUIEN MODERA          controla el tiempo y evita el desvío\nQUIEN REVISA (2-4)    de fuera del equipo, con experiencia\n                      distinta: operación, datos, seguridad\nNEGOCIO               prioriza los escenarios ← imprescindible\n```\n\nY el papel que más falta y más cambia el resultado:\n\n```text\nsin negocio en la sala, los escenarios se priorizan por\ncriterio técnico\n→ y se revisa lo interesante en vez de lo que importa\n```\n\n**Las preguntas que más encuentran**, por si hay poco tiempo:\n\n```text\n¿qué pasa si esta dependencia responde en 5 s en vez de\n  fallar?                                        clase 185\n¿quién escribe este dato?                          ley 21\n¿qué se rompe si desplegamos esto y aquello en orden\n  distinto?\n¿cómo nos enteramos de que esto ha fallado?        ley 13\n¿qué pasa el día que haya que volver atrás?\n¿esto se ha probado o se ha razonado?              ley 22\n¿cuánto cuesta al mes y por qué esa cifra?\n¿qué decisión de aquí es la más cara de cambiar?\n```\n\nY un patrón que aparece en casi todas las revisiones:\n\n```text\nel equipo conoce sus riesgos técnicos\ny NO conoce los de operación ni los de retirada\n→ por eso quien revisa debe venir de operación, no solo\n  de arquitectura\n```"
+    },
+    {
+      "heading": "Cuatro audiencias, cuatro preguntas",
+      "body": "La misma arquitectura se cuenta de cuatro formas, porque cada audiencia decide algo distinto.\n\n```text\nQUIEN PAGA (dirección, negocio, finanzas)\n  qué se gana, en términos de negocio\n  qué cuesta, al mes y de una vez\n  qué se arriesga, y qué pasa si sale mal\n  cuándo se nota\n\n  NO quiere    nombres de tecnologías, diagramas de cajas\n  SÍ quiere    una cifra de antes y una de después,\n               con su origen                       clase 179\n\nQUIEN OPERA (guardia, plataforma, soporte)\n  qué se rompe y con qué frecuencia\n  cómo me entero\n  qué hago a las 3 de la mañana\n  qué he de aprender y cuánto trabajo nuevo me traes\n\n  NO quiere    la justificación de la decisión\n  SÍ quiere    procedimientos, alertas y quién es el dueño\n\nQUIEN CONSTRUYE (equipos que usarán esto)\n  qué puedo cambiar sin pedir permiso\n  dónde están las fronteras\n  qué contrato tengo que respetar\n  cómo pruebo mi parte\n\n  SÍ quiere    fronteras claras y un camino fácil  clase 171\n\nQUIEN LO SUFRE (usuarios, socios, otros equipos)\n  qué cambia para mí\n  cuándo, y qué tengo que hacer\n  qué pasa si no hago nada\n\n  SÍ quiere    fechas y una lista de acciones\n```\n\nY el error más frecuente de comunicación:\n\n```text\ncontar a dirección el porqué técnico\ny a operación el porqué de negocio\n→ ambos escuchan educadamente y no deciden nada\n```\n\n**La estructura que resiste preguntas**, para cualquiera de las cuatro:\n\n```text\n1. el problema, con la cifra que lo demuestra\n2. lo que se descubrió que no se sabía          clase 178\n3. la decisión, en una frase\n4. las alternativas descartadas y por qué\n5. lo que se acepta a cambio         ← lo que da credibilidad\n6. cómo sabremos si funcionó, y cuándo\n```\n\nY el punto 5 es el que más se omite y el que más confianza genera:\n\n```text\nuna propuesta sin desventajas no se cree\n→ decir «esto añade 1,4 ms y consistencia eventual de\n  10 minutos, aceptado por revenue» hace creíble el resto\n```\n\nY una técnica que funciona con dirección:\n\n```text\npresentar DOS opciones viables, no una\n  con su coste, su riesgo y su plazo\n  y una recomendación clara\n→ una sola opción parece una decisión ya tomada que se viene\n  a ratificar, y genera resistencia\n```"
+    },
+    {
+      "heading": "Que no se convierta en trámite",
+      "body": "La revisión de arquitectura degenera en comité de aprobación con una facilidad notable, y entonces cumple la ley 16 como cualquier otro control.\n\n```text\nSEÑALES DE QUE YA ES UN TRÁMITE\n  la revisión no ha rechazado ni cambiado nada en un año\n  los equipos la convocan cuando ya está construido\n  la salida es un «aprobado» sin lista de riesgos\n  se revisa todo, sin criterio de umbral\n  tarda semanas en conseguirse una fecha\n  quien revisa no ha operado nada nunca\n```\n\nY las correcciones, una por señal:\n\n```text\nUMBRAL CLARO DE QUÉ SE REVISA\n  lo caro de cambiar y lo que cruza fronteras de equipo\n  → el resto, no                                 clase 181\n\nPRONTO Y EN BORRADOR\n  se revisa el diseño, no lo construido\n  → una revisión sobre algo ya hecho solo puede aprobar o\n    generar rencor\n\nSALIDA = RIESGOS, NO VEREDICTO\n  quien decide sigue siendo el equipo\n  → la revisión aporta riesgos que el equipo no vio; lo que\n    haga con ellos es suyo, y queda registrado\n\nDISPONIBILIDAD RÁPIDA\n  si conseguir fecha tarda tres semanas, se decide sin\n  revisión y se pide perdón                        ley 16\n\nREVISORES QUE HAN OPERADO\n  quien nunca ha estado de guardia no pregunta lo que\n  importa a las 3 de la mañana\n```\n\nY una medida honesta del valor de la revisión:\n\n```text\n¿cuántos riesgos encontrados por revisión se materializaron\ndespués?\n  → alto: la revisión ve bien\n¿cuántos incidentes tuvieron una causa que la revisión no vio?\n  → esos son los que enseñan a revisar mejor\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ la revisión parte de escenarios medibles, no del diagrama\n☐ negocio estuvo presente para priorizar\n☐ se recorrieron los escenarios sobre el diseño, uno a uno\n☐ lo encontrado está clasificado en riesgo, sensible o cesión\n☐ los no-riesgos también están anotados\n☐ cada riesgo tiene dueño, acción y fecha\n☐ la salida no es «aprobado» sino una lista\n☐ quien presenta no modera\n☐ al menos un revisor viene de operación\n☐ la revisión ocurrió sobre el diseño, no sobre lo construido\n☐ cada audiencia recibió lo que necesita decidir\n☐ se dijo explícitamente qué se acepta a cambio\n```\n\nY el cierre que enlaza con la clase siguiente: con requisitos, fronteras, disponibilidad, capacidad, consistencia, contratos, amenazas, decisiones registradas y revisión, queda aplicarlo todo a un sistema completo y comprobar si se sostiene. Es la materia de la clase 192, que además cierra la parte 15."
+    }
+  ],
+  "worked_example": "**La arquitectura de reservas se somete a revisión antes de construir. Lo que sigue son los escenarios priorizados con negocio, el recorrido de los cinco primeros, los nueve riesgos encontrados —tres de los cuales el equipo no había visto— y cómo se contó la misma decisión a cuatro audiencias.**\n\n**La priorización, hecha con negocio en la sala:**\n\n```text\nescenario                       negocio   dificultad   revisar\nQA-1 latencia de búsqueda          alta      media        sí\nQA-2 disponibilidad de reserva     alta      alta         sí\nQA-3 añadir método de pago         alta      alta         sí\nQA-5 recuperar tras borrado        alta      alta         sí\nQA-6 diagnóstico sin guardia       media     alta         sí\nQA-4 alcance tras compromiso       alta      media        no*\nQA-7 coste en campaña              media     baja         no\n\n* QA-4 se revisó por separado en el modelo de amenazas\n```\n\nY una sorpresa de la priorización:\n\n```text\nel equipo había puesto QA-1 (latencia) como el más importante\nnegocio puso QA-3 (añadir método de pago) igual de alto\nmotivo: había dos integraciones comprometidas por contrato\npara el año siguiente, y el equipo no lo sabía\n→ eso cambió el orden del trabajo                clase 181\n```\n\n**Recorrido del escenario QA-2 · disponibilidad de reserva.**\n\n```text\nestímulo   pico de campaña; el servicio de recomendaciones cae\nrecorrido\n  el borde recibe la petición                     ok\n  la API llama a precios                          ← ¿y si tarda?\n  la API llama a catálogo                         ← ¿y si tarda?\n  la API escribe la reserva                       ok\n  la API llama a la pasarela                      dura, aceptada\n  la API publica el evento                        asíncrona, ok\n\nHALLAZGOS\n  RIESGO 1   catálogo estaba declarado blando y la llamada no\n             tenía plazo ni alternativa\n             → el equipo lo sabía desde la clase 185\n  RIESGO 2   el plazo hacia la pasarela era de 30 s\n             → en saturación llena los hilos      clase 186\n             → EL EQUIPO NO LO HABÍA VISTO\n  CESIÓN     precio cacheado 10 min: gana disponibilidad,\n             pierde exactitud → decidida y registrada\n```\n\n**Recorrido del escenario QA-3 · añadir un método de pago en 5 días.**\n\n```text\nrecorrido, paso a paso, sobre el diseño\n  añadir el proveedor nuevo en el coordinador de pago\n  → el coordinador vive DENTRO de reservas          ok\n  añadir la opción en la app                         ok\n  añadir la conciliación contable\n  → la conciliación está en facturación heredada    ← aquí\n\nHALLAZGOS\n  RIESGO 3   el escenario NO se cumple: la parte contable\n             depende de un equipo externo con su propio\n             calendario, y su plazo típico es de 6 semanas\n             → EL EQUIPO NO LO HABÍA VISTO\n             → 5 días es imposible mientras la conciliación\n               viva ahí\n  acción     definir un contrato de evento hacia facturación\n             para que los métodos nuevos no requieran cambios\n             en el heredado                        clase 188\n```\n\n**Recorrido del escenario QA-6 · diagnóstico sin guardia nocturna.**\n\n```text\nestímulo   suben los errores de pago un martes a las 3:00\nrecorrido\n  ¿salta una alerta?                    sí, ritmo de consumo\n  ¿llega al móvil?                      sí\n  ¿identifica el servicio?              sí\n  ¿identifica el cambio responsable?    ← ¿hay línea de cambios?\n  ¿se puede diagnosticar sin acceso de escritura?\n\nHALLAZGOS\n  RIESGO 4   la línea de cambios solo incluye despliegues\n             propios; los cambios de configuración de la\n             pasarela y las banderas de función no aparecen\n             → EL EQUIPO NO LO HABÍA VISTO\n  RIESGO 5   el panel de diagnóstico no es usable en móvil\n  NO-RIESGO  la correlación por identificador de traza está\n             bien resuelta; se anota para no revisarlo otra vez\n```\n\n**Los nueve riesgos, con dueño y fecha:**\n\n```text\n#  riesgo                              dueño       fecha    est.\n1  catálogo dependencia dura sin plazo  reservas    sem 2   alto\n2  plazo de 30 s hacia la pasarela      reservas    sem 1   alto\n3  QA-3 imposible por conciliación      arquitect.  sem 6   alto\n4  línea de cambios incompleta          plataforma  sem 4   medio\n5  panel no usable en móvil             plataforma  sem 8   medio\n6  restauración de precios sin ensayar  datos       sem 5   alto\n7  sin control de salida en la subred   seguridad   sem 3   alto\n   nueva\n8  el socio C con credencial estática   alianzas    trim    bajo\n   (amenaza aceptada, se anota)                     revisión\n9  precios: un solo escritor, sin plan  reservas    sem 10  medio\n   si esa persona no está\n\nde los nueve, los que el equipo NO había visto     3, 4, 5\ny los tres venían de revisores de operación\n```\n\nY la observación del moderador, anotada en el acta:\n\n```text\nlos riesgos que el equipo ya conocía eran todos técnicos\nlos tres nuevos eran de operación y de dependencia\norganizativa\n→ confirma que un revisor que ha estado de guardia encuentra\n  lo que el equipo no ve\n```\n\n**La misma decisión, contada a cuatro audiencias.** Decisión: sacar precios a su propio servicio.\n\n```text\nA DIRECCIÓN (5 minutos)\n  «Los cambios de precio tardan hoy entre 2 y 6 semanas\n   porque hay que coordinar con catálogo, y 4 veces este\n   año una promoción salió tarde. Separando precios, pasan\n   a 5 días. Cuesta 10 semanas de trabajo y unos 210 €/mes\n   más. A cambio, el precio que se ve en el catálogo puede\n   ir hasta 10 minutos por detrás; revenue lo ha aceptado\n   por escrito. Sabremos si funcionó en el primer trimestre:\n   la medida es días desde que se aprueba un precio hasta\n   que está vivo.»\n\nA OPERACIÓN (5 minutos)\n  «Un servicio más, con su guardia. Se rompe si su almacén\n   no responde: entonces reservas usa el último precio válido\n   y sigue funcionando, así que no es una llamada de\n   madrugada. La alerta que sí lo es: retraso de propagación\n   por encima de 15 minutos. Procedimiento escrito y probado\n   por alguien de fuera del equipo. Dueño: equipo de\n   reservas. Y os quitamos tres alertas de ‹precio\n   incorrecto› que llevaban dos años sin causa conocida.»\n\nA LOS EQUIPOS QUE CONSTRUYEN\n  «El precio ya no está en la tabla de catálogo. Se pide al\n   servicio de precios o se escucha su evento. Contrato\n   versionado, compatible hacia delante, con pruebas de\n   contrato en nuestra canalización: si rompemos algo, falla\n   nuestro despliegue, no el vuestro. Podéis cambiar vuestra\n   parte sin pedirnos nada mientras respetéis el contrato.»\n\nAL SOCIO Y AL EQUIPO DE INFORMES (quien lo sufre)\n  «A partir del 14 de octubre, el campo precio del catálogo\n   deja de actualizarse en tiempo real y puede ir hasta 10\n   minutos por detrás. Si necesitáis el precio exacto en el\n   momento, usad el endpoint de precios, que os damos ahora.\n   Si no hacéis nada, veréis precios con hasta 10 minutos de\n   retraso. Contacto para dudas: X.»\n```\n\nY el detalle que hizo que dirección aprobara sin discusión:\n\n```text\nse presentaron DOS opciones\n  A  separar precios              10 semanas, 210 €/mes\n  B  mantener y añadir validación  3 semanas, 0 €\n     → no resuelve el bloqueo; los 5 días siguen siendo\n       6 semanas\n  recomendación: A, con el motivo\n\n→ y la pregunta de dirección fue sobre el plazo, no sobre\n  si hacerlo\n```\n\n**La lección que esta clase deja**: la revisión encontró nueve riesgos y **los tres que el equipo no había visto no eran técnicos**: un plazo demasiado largo hacia un tercero, una línea de cambios incompleta y un escenario de negocio que resultaba imposible por depender de un equipo externo. Los tres los encontraron revisores que habían estado de guardia. Y el escenario que negocio priorizó más alto —añadir un método de pago— **el equipo ni siquiera sabía que estaba comprometido por contrato**.",
+  "pitfalls": [
+    {
+      "symptom": "La revisión solo produce comentarios sobre nombres y tecnologías",
+      "cause": "Se presentó el diagrama y se pidieron opiniones, sin escenarios concretos",
+      "fix": "Parte de escenarios de calidad medibles y recórrelos uno a uno sobre el diseño."
+    },
+    {
+      "symptom": "Se revisa lo interesante en vez de lo que importa",
+      "cause": "Los escenarios se priorizaron con criterio técnico",
+      "fix": "Prioriza con negocio presente, cruzando importancia de negocio y dificultad técnica."
+    },
+    {
+      "symptom": "La revisión no ha cambiado nada en un año",
+      "cause": "Es un comité de aprobación que llega cuando ya está construido",
+      "fix": "Revisa el diseño en borrador, con umbral claro de qué se revisa, y que la salida sea una lista de riesgos con dueño y fecha."
+    },
+    {
+      "symptom": "El equipo sale de la revisión sin haber aprendido nada nuevo",
+      "cause": "Los revisores tienen el mismo perfil que quien presenta",
+      "fix": "Incluye al menos un revisor que haya estado de guardia; los riesgos de operación y de retirada son los que el equipo no ve."
+    },
+    {
+      "symptom": "Dirección escucha la propuesta y no decide",
+      "cause": "Se le contó el porqué técnico en vez de coste, riesgo y plazo",
+      "fix": "Presenta dos opciones viables con su coste y riesgo, y una recomendación clara."
+    },
+    {
+      "symptom": "Una propuesta genera desconfianza pese a ser buena",
+      "cause": "Se presentó sin desventajas",
+      "fix": "Di explícitamente qué se acepta a cambio y quién lo ha aceptado."
+    }
+  ],
+  "checks": [
+    "¿Qué diferencia hay entre riesgo, punto sensible y punto de cesión?",
+    "¿Por qué el producto de una revisión no debe ser un veredicto?",
+    "¿Qué aporta tener a negocio en la sala durante la priorización?",
+    "¿Qué necesita saber quien opera y qué no le interesa?",
+    "¿Qué señales indican que la revisión se ha convertido en trámite?"
+  ],
+  "references": [
+    {
+      "text": "Clements, P., Kazman, R. y Klein, M. (2001). *Evaluating Software Architectures: Methods and Case Studies* (ATAM).",
+      "url": "https://www.oreilly.com/library/view/evaluating-software-architectures/9780201704822/"
+    },
+    {
+      "text": "SEI (2000). *ATAM: Method for Architecture Evaluation*.",
+      "url": "https://insights.sei.cmu.edu/library/atam-method-for-architecture-evaluation/"
+    },
+    {
+      "text": "Bass, L., Clements, P. y Kazman, R. (2021). *Software Architecture in Practice*, cap. de evaluación.",
+      "url": "https://www.oreilly.com/library/view/software-architecture-in/9780136886051/"
+    },
+    {
+      "text": "Brown, S. (2019). *Software Architecture for Developers, vol. 2* — comunicación por audiencias.",
+      "url": "https://leanpub.com/visualising-software-architecture"
+    },
+    {
+      "text": "Google (2025). *Architecture review practices* en Cloud Architecture Framework.",
+      "url": "https://cloud.google.com/architecture/framework"
+    }
+  ]
+}
