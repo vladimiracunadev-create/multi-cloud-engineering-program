@@ -1,0 +1,118 @@
+{
+  "id": "107",
+  "purpose": "Comprobar si todo lo construido en las partes 07 y 08 cumple su promesa. Las cuatro medidas de entrega son la herramienta habitual, y son útiles **leídas por parejas y como diagnóstico propio de un equipo a lo largo del tiempo**. La clase enseña las cuatro con precisión, demuestra con casos concretos qué pasa cuando se convierten en objetivo, y añade lo que ninguna de las cuatro ve: dónde se va realmente el tiempo de quien desarrolla.",
+  "outcomes": [
+    "**Definir** las cuatro medidas con precisión, incluido desde dónde se miden.",
+    "**Leerlas** por parejas, porque cada una sin su contraria se degrada.",
+    "**Reconocer** cómo se falsea cada una cuando se convierte en objetivo.",
+    "**Medir** la fricción real, que es donde suele estar la mayor mejora.",
+    "**Usarlas** como diagnóstico propio y no como comparación entre equipos."
+  ],
+  "concepts": [
+    {
+      "term": "frecuencia de despliegue",
+      "definition": "Cada cuánto llega a producción un cambio. Mide la capacidad de entregar en incrementos pequeños."
+    },
+    {
+      "term": "plazo de cambio",
+      "definition": "Tiempo desde que el código se confirma hasta que está en producción. No incluye lo anterior a la confirmación, y por eso oculta la mitad del problema."
+    },
+    {
+      "term": "tasa de fallo del cambio",
+      "definition": "Proporción de despliegues que provocan una degradación que exige actuar. Es la contraparte de la frecuencia."
+    },
+    {
+      "term": "tiempo de restauración",
+      "definition": "Desde que la degradación empieza hasta que se restablece el servicio. Es la contraparte del plazo."
+    },
+    {
+      "term": "ley de Goodhart",
+      "definition": "Cuando una medida se convierte en objetivo, deja de ser una buena medida. Las cuatro son especialmente fáciles de falsear."
+    },
+    {
+      "term": "fricción",
+      "definition": "Tiempo que se pierde esperando, repitiendo o rehaciendo. No aparece en ninguna de las cuatro y suele ser la mayor palanca."
+    }
+  ],
+  "diagram": "flowchart TB\n    subgraph P1[\"pareja 1: ritmo\"]\n      A[\"frecuencia de despliegue\"]\n      B[\"plazo de cambio\"]\n    end\n    subgraph P2[\"pareja 2: estabilidad\"]\n      C[\"tasa de fallo del cambio\"]\n      D[\"tiempo de restauración\"]\n    end\n    P1 <-->|\"se leen JUNTAS\\no cada una se degrada\"| P2\n    P1 -.->|\"sola\"| G1[\"despliegues vacíos\\nfusiones tardías\"]\n    P2 -.->|\"sola\"| G2[\"no desplegar nunca\\nno declarar incidentes\"]\n    F[\"lo que ninguna ve\"] --> F1[\"espera de revisión\"]\n    F --> F2[\"pruebas inestables\"]\n    F --> F3[\"tiempo antes de la primera confirmación\"]\n    F --> F4[\"si el trabajo servía para algo\"]",
+  "foundations": [
+    {
+      "heading": "Las cuatro, con precisión",
+      "body": "La definición importa más que el nombre, porque casi todas las discusiones vienen de medir cosas distintas con la misma palabra.\n\n```text\nFRECUENCIA DE DESPLIEGUE\n  despliegues a producción por unidad de tiempo, por servicio\n  se cuenta el despliegue, no la fusión\n  se cuenta por servicio, no por organización\n     → sumar quince servicios da un número grande y sin significado\n\nPLAZO DE CAMBIO\n  desde la confirmación hasta que ese código sirve tráfico\n  mediana y percentil 90, no media\n     → la media la domina el caso raro\n\nTASA DE FALLO DEL CAMBIO\n  despliegues que provocan degradación que exige actuar\n     (revertir, arreglar en caliente, apagar un interruptor)\n  dividido entre despliegues totales\n\nTIEMPO DE RESTAURACIÓN\n  desde que la degradación empieza —no desde que se detecta—\n  hasta que el servicio se restablece\n```\n\nY la línea de «no desde que se detecta» es la que la hace honesta: si se mide desde la detección, mejorar la medida es **tardar más en detectar**.\n\nY el mayor punto ciego del plazo, que conviene decir pronto:\n\n```text\nidea → escritura → PRIMERA CONFIRMACIÓN → revisión → fusión → producción\n                   └────── lo que el plazo mide ──────────────────┘\n       └── lo que NO mide, y suele ser mayor ──┘\n```\n\nEn organizaciones donde la canalización ya funciona, **la mayor parte del tiempo total está antes de la primera confirmación o esperando revisión**. Optimizar la canalización cuando el problema está ahí es trabajar en el sitio equivocado.\n\nY una nota sobre los rangos que se publican como referencia: sirven para saber en qué orden de magnitud se está, no como objetivo. Un servicio interno que se usa dos veces al día no gana nada desplegando cincuenta veces."
+    },
+    {
+      "heading": "Por qué van por parejas",
+      "body": "El valor de estas cuatro medidas no está en cada una: está en que **cada pareja restringe a la otra**.\n\n```text\nfrecuencia y plazo         cuánto ritmo\ntasa de fallo y            a qué precio\ntiempo de restauración\n```\n\nY el motivo es que cada una, sola, tiene una forma trivial de mejorarse que empeora el sistema:\n\n```text\nsolo frecuencia          desplegar cambios vacíos\nsolo plazo               fusionar sin revisar\nsolo tasa de fallo       no desplegar\nsolo restauración        no declarar incidentes\n```\n\nY el hallazgo que hace interesantes a las cuatro juntas —y que este programa ha ido confirmando en varias clases— es que **no están en conflicto**. Lo que mejora el ritmo suele mejorar la estabilidad, por una razón mecánica:\n\n```text\ndesplegar más veces → cada despliegue lleva menos cambios\n                    → cuando algo falla, hay menos donde buscar\n                    → y revertir cuesta menos\n```\n\nEs lo mismo que la clase 097 dijo del tamaño del incremento y lo que la clase 102 midió al quitar la aprobación para revertir.\n\nY conviene una quinta medida que las cuatro no cubren y que decide si el equipo puede sostener el ritmo:\n\n```text\ntrabajo no planificado como proporción del total\n  → si sube, el sistema está devolviendo el ritmo en forma de incidentes\n```\n\nY una advertencia sobre la agregación, que es un error frecuente y difícil de deshacer:\n\n```text\nmal   una cifra de la organización, comparando equipos\nbien  la evolución de cada servicio contra sí mismo\n```\n\nDos servicios con perfiles distintos —uno de cara al cliente y otro por lotes— no son comparables, y el momento en que estas medidas aparecen en una comparación entre equipos es el momento en que dejan de servir para diagnosticar."
+    },
+    {
+      "heading": "Qué pasa cuando se convierten en objetivo",
+      "body": "Este apartado es la parte práctica de la ley de Goodhart, y conviene tenerla escrita porque los cuatro casos aparecen de verdad.\n\n```text\nOBJETIVO: subir la frecuencia de despliegue\n  se despliega el mismo artefacto varias veces\n  se parte un cambio en tres despliegues sin motivo\n  se cuentan los despliegues a dev\n  → la cifra sube y no llega más valor a nadie\n\nOBJETIVO: bajar el plazo de cambio\n  se retrasa la primera confirmación hasta tenerlo casi listo\n     → el reloj empieza más tarde y el trabajo total es el mismo\n  se abre el cambio propuesto ya aprobado de antemano\n  → la cifra baja y la espera se ha movido a donde no se mide\n\nOBJETIVO: bajar la tasa de fallo\n  se redefine qué cuenta como fallo\n  se arregla en caliente sin declarar nada\n  se despliega menos veces, con más cambios juntos\n  → la cifra baja y el riesgo por despliegue sube\n\nOBJETIVO: bajar el tiempo de restauración\n  se cierra el incidente cuando se aplica la mitigación\n  se empieza a contar desde la detección\n  → la cifra baja y el usuario sigue afectado\n```\n\nLa tercera es la más dañina de las cuatro, porque **mueve el sistema en dirección contraria a todo lo que las partes 07 y 08 han construido**.\n\nY las tres reglas que evitan casi todo esto:\n\n```text\n1. las cuatro se publican siempre juntas, nunca una sola\n2. no se fija objetivo numérico; se fija una dirección y se revisa la causa\n3. quien las mira pregunta «¿qué lo impide?», no «¿por qué no llegas?»\n```\n\nY una cuarta, más concreta, que corta el falseo de raíz: **la definición de cada medida se escribe y se versiona**, y cambiarla exige el mismo trámite que cambiar cualquier otra cosa. Casi todos los saltos bruscos de estas cifras vienen de un cambio de definición, no de un cambio de comportamiento.\n\nY una comprobación honesta que conviene hacer cada cierto tiempo:\n\n```text\n¿la mejora de la cifra se corresponde con algo que la gente note?\n  si el plazo bajó a la mitad y nadie del equipo lo percibe,\n  probablemente se movió el punto de medida\n```"
+    },
+    {
+      "heading": "Dónde se va el tiempo de verdad",
+      "body": "Las cuatro medidas describen el sistema de entrega. No describen el día de quien desarrolla, y ahí suele estar la palanca mayor.\n\nLo que se mide, y con qué instrumento:\n\n```text\nespera de revisión            del momento de pedirla al primer comentario\n                              → suele ser la mayor partida, y es barata de arreglar\npruebas inestables            proporción de ejecuciones que fallan y pasan al repetir\n                              → destruye la confianza en las puertas (clase 100)\ntiempo de bucle local         guardar → ver el efecto\n                              → si pasa de un minuto, cambia cómo se trabaja\ntiempo de la canalización     clase 097\ncambios de contexto           interrupciones por día\nbúsqueda de información       cuánto cuesta averiguar cómo se hace algo\n```\n\nY el instrumento para las dos últimas no son los registros: son las personas. Una pregunta periódica y corta, con la misma redacción cada vez, da una serie comparable:\n\n```text\n«¿cuánto de tu semana se fue en esperar o en rehacer?»\n«¿qué te ha frenado más esta semana?»\n```\n\nY la segunda pregunta, abierta, es la que produce la lista de trabajo pendiente de la plataforma de la clase 106.\n\nY una advertencia sobre las pruebas inestables, porque tienen un efecto que no se ve en ninguna cifra de tiempo:\n\n```text\nsi el 8 % de las ejecuciones falla sin motivo\n→ la gente repite sin mirar\n→ y cuando el fallo es real, también lo repite\n→ la puerta ha dejado de ser puerta (clase 100)\n```\n\nY lo que ninguna medida de esta clase captura, y hay que decirlo:\n\n```text\nsi lo entregado sirvió para algo\nsi lo que se construyó era lo que hacía falta\nsi el equipo puede sostener este ritmo el año que viene\n```\n\nUn equipo puede tener las cuatro medidas excelentes **entregando muy deprisa algo que nadie quiere**. Las cuatro miden la máquina, no la dirección.\n\nY la lista de comprobación de la clase:\n\n```text\n☐ las cuatro definiciones están escritas, versionadas y son estables\n☐ el plazo se mide desde la confirmación, y se sabe qué queda fuera\n☐ la restauración se cuenta desde que empieza, no desde que se detecta\n☐ se miden por servicio, no agregadas por organización\n☐ se publican siempre las cuatro juntas\n☐ no hay objetivo numérico por equipo ni comparación entre equipos\n☐ se sigue el trabajo no planificado como quinta medida\n☐ se mide la espera de revisión y la inestabilidad de las pruebas\n☐ hay una pregunta abierta y periódica sobre qué frena al equipo\n☐ se comprueba que la mejora de la cifra la nota alguien\n```\n\nY el cierre que enlaza con la clase siguiente: con esto termina el material de la parte 08. La clase 108 monta la fábrica completa sobre los tres proveedores y, sobre todo, **califica la hipótesis escrita al cerrar la parte 07**, incluidas las partes en las que se equivocó."
+    }
+  ],
+  "worked_example": "**CloudShop mide las cuatro durante catorce meses. El ejercicio tiene tres momentos: lo que enseñó la primera medición, lo que pasó cuando alguien fijó un objetivo, y dónde estaba de verdad la mayor mejora.**\n\n**Primera medición, mes 1.**\n\n```text                             mediana        p90\nfrecuencia de despliegue      1,2 / semana        —\nplazo de cambio                    3,1 días    11 días\ntasa de fallo del cambio             14 %         —\ntiempo de restauración             2,4 h       9,1 h\ntrabajo no planificado               38 %        —\n```\n\nY al descomponer el plazo, que es lo que las cifras agregadas ocultaban:\n\n```text\nconfirmación → petición de revisión                4 h\npetición de revisión → primer comentario        31 h   ← 42 % del total\nprimer comentario → aprobación                  18 h\naprobación → fusión                              2 h\nfusión → producción                             19 h\n                                            ───────\n                                                74 h ≈ 3,1 días\n```\n\nTreinta y una horas esperando a que alguien mirara. **La canalización, que era donde todo el mundo miraba, era el 26 % del plazo.**\n\n**Lo que se hizo con eso, y lo que costó.**\n\n```text\ncompromiso de revisión en menos de 4 h laborables\nrotación diaria de quién revisa primero\naviso automático a los 2 h sin revisar\nlímite de tamaño: por encima de 400 líneas se pide partirlo\n```\n\n```text                                  mes 1     mes 4\nespera hasta primer comentario         31 h      3,5 h\nplazo de cambio (mediana)             3,1 días   1,1 días\ntamaño mediano del cambio             310 lín.   140 lín.\n```\n\nY sin tocar la canalización. La segunda mayor partida fueron las pruebas inestables:\n\n```text                                  mes 1     mes 6\nejecuciones que fallan y pasan al repetir  8,1 %    0,9 %\nreintentos por semana                       47         6\ncambios fusionados con la puerta en rojo    11         0\n```\n\nLa última línea es la importante: once cambios se habían fusionado saltándose una puerta roja porque «seguro que es la prueba inestable». **La inestabilidad no cuesta tiempo: cuesta la puerta.**\n\n**Mes 7: alguien fija un objetivo, y las cuatro se mueven.**\n\nSe anunció un objetivo trimestral: «tasa de fallo del cambio por debajo del 5 %». En dos meses:\n\n```text                             mes 6      mes 8\ntasa de fallo del cambio            9 %       4,1 %   ← objetivo cumplido\nfrecuencia de despliegue        4,1 / sem   2,2 / sem\ncambios por despliegue              1,8       4,3\nincidentes declarados             12/mes      5/mes\nincidentes en el registro de\nguardia sin declarar               1/mes      9/mes   ← aquí está la respuesta\ntiempo de restauración            48 min      2,1 h\n```\n\nLa cifra bajó a la mitad y el sistema empeoró en todo lo demás: **se declararon menos incidentes y se juntaron más cambios por despliegue**. Las dos formas de falsear que el apartado tercero anticipa, las dos a la vez, y ninguna deliberada: la gente responde al incentivo sin proponérselo.\n\nSe retiró el objetivo numérico y se sustituyó por las tres reglas:\n\n```text                             mes 8      mes 12\ntasa de fallo del cambio           4,1 %       6,2 %   ← sube, y es más honesta\nfrecuencia de despliegue        2,2 / sem   5,8 / sem\nincidentes sin declarar            9/mes       0/mes\ntiempo de restauración             2,1 h      37 min\n```\n\nLa tasa de fallo **subió** y todo lo demás mejoró. Es el argumento más claro de por qué las cuatro se publican juntas.\n\n**Lo que las cuatro no vieron.**\n\nLa pregunta abierta semanal —«¿qué te ha frenado más esta semana?»— produjo, en seis meses:\n\n```text\nesperar revisión                            41 menciones  → resuelto arriba\nno encontrar cómo se hace algo              33            → catálogo (106)\npruebas inestables                          28            → resuelto arriba\nentorno local lento                         19            → efímeros (104)\nesperar a otro equipo                       17            → sin resolver\nno saber si lo que hago se usa               9            → sin resolver\n```\n\nLas dos últimas no se resolvieron y siguen en la lista. Y la última es la que ninguna medida de esta clase puede capturar: **el sistema de entrega no dice si lo entregado servía para algo**.\n\n**A los catorce meses.**\n\n```text                                     mes 1        mes 14\nfrecuencia de despliegue              1,2 / sem     6,4 / sem\nplazo de cambio (mediana)              3,1 días       9 h\nplazo de cambio (p90)                   11 días      31 h\ntasa de fallo del cambio                  14 %        6,2 %\ntiempo de restauración                   2,4 h       37 min\ntrabajo no planificado                    38 %         19 %\nespera hasta primer comentario            31 h        3,5 h\npruebas inestables                       8,1 %        0,9 %\nincidentes sin declarar                  1/mes        0/mes\nobjetivos numéricos por equipo             1            0\n```\n\n**La lección que esta clase traslada al resto de la parte 08**: la mejora mayor del plazo —de 3,1 días a 1,1— **no vino de nada construido en las partes 07 y 08**. Vino de comprometerse a revisar en cuatro horas y de partir los cambios. La canalización, que era donde estaba toda la atención, era el 26 % del problema. Y el episodio del mes 7 deja la advertencia con datos: **un objetivo numérico sobre una sola de las cuatro consiguió su cifra y empeoró el sistema**, y lo hizo sin que nadie tuviera intención de falsear nada.",
+  "pitfalls": [
+    {
+      "symptom": "Una medida mejora mucho y nadie del equipo nota ninguna diferencia",
+      "cause": "Se movió el punto desde el que se mide, no el comportamiento",
+      "fix": "Escribe y versiona las definiciones; sospecha de todo salto brusco y comprueba si coincide con un cambio de definición."
+    },
+    {
+      "symptom": "La tasa de fallo baja y los incidentes reales no bajan",
+      "cause": "Se declaran menos incidentes o se despliega menos veces con más cambios juntos",
+      "fix": "Publica siempre las cuatro juntas y sigue el número de incidentes sin declarar en el registro de guardia."
+    },
+    {
+      "symptom": "Se optimiza la canalización durante meses y el plazo apenas mejora",
+      "cause": "La mayor parte del plazo está en la espera de revisión, no en la canalización",
+      "fix": "Descompón el plazo por tramos antes de decidir dónde trabajar."
+    },
+    {
+      "symptom": "Los equipos se comparan y los que peor salen dejan de reportar",
+      "cause": "Las medidas se usan como evaluación en vez de como diagnóstico",
+      "fix": "Mide cada servicio contra su propia evolución y prohíbe la comparación entre equipos y personas."
+    },
+    {
+      "symptom": "Se fusionan cambios con una puerta en rojo",
+      "cause": "Las pruebas inestables han destruido la confianza en la señal",
+      "fix": "Mide la proporción de ejecuciones que fallan y pasan al repetir, y trátala como defecto prioritario."
+    },
+    {
+      "symptom": "Las cuatro medidas son excelentes y el producto no avanza",
+      "cause": "Miden la máquina de entrega, no si lo entregado servía",
+      "fix": "Complementa con medidas de resultado y con una pregunta abierta y periódica al equipo."
+    }
+  ],
+  "checks": [
+    "¿Desde qué momento se mide el plazo de cambio y qué queda fuera?",
+    "¿Por qué el tiempo de restauración se cuenta desde que empieza la degradación y no desde la detección?",
+    "¿Qué forma trivial de mejorar tiene cada medida por separado?",
+    "¿Por qué no deben fijarse objetivos numéricos por equipo sobre estas medidas?",
+    "¿Qué mide la inestabilidad de las pruebas que no aparece en ninguna de las cuatro?"
+  ],
+  "references": [
+    {
+      "text": "Forsgren, N., Humble, J. y Kim, G. (2018). *Accelerate*, caps. 2 y 4 — definición de las cuatro medidas y su relación.",
+      "url": "https://itrevolution.com/product/accelerate/"
+    },
+    {
+      "text": "DORA (2025). *State of DevOps report* — evolución de las medidas y advertencias sobre su uso.",
+      "url": "https://dora.dev/research/"
+    },
+    {
+      "text": "Forsgren, N. y otros (2021). *The SPACE of developer productivity* — por qué una sola dimensión no basta.",
+      "url": "https://queue.acm.org/detail.cfm?id=3454124"
+    },
+    {
+      "text": "Google (2025). *Engineering productivity research: flaky tests* — coste de la inestabilidad sobre la confianza en las puertas.",
+      "url": "https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html"
+    },
+    {
+      "text": "Strathern, M. (1997). *Improving ratings: audit in the British university system* — formulación de la ley de Goodhart aplicada a indicadores.",
+      "url": "https://doi.org/10.1111/1468-0009.00035"
+    }
+  ]
+}
