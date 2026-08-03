@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> intermedio-avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>iac</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>plan, apply, drift, import y refactor con moved</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Dominar el ciclo de ejecución —refrescar, planificar, aplicar— y convertir la detección de desviación en una operación programada en lugar de en un descubrimiento accidental. Es la respuesta parcial a la pregunta que dejó la clase 084: sin un bucle continuo, <strong>una planificación periódica es lo más parecido a la reconciliación</strong> que se puede tener, y sirve para casi todo salvo para corregir sola. La clase cubre además las operaciones quirúrgicas y el procedimiento para refactorizar sin destruir nada.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> plan, apply, drift, import y refactor con moved con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>ciclo-cambio-iac</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Separar</strong> las tres fases de una ejecución y saber qué hace cada una con el estado.</li>
+<li><strong>Programar</strong> la detección de desviación y clasificar lo que encuentre.</li>
+<li><strong>Leer</strong> un plan localizando primero lo que destruye o reemplaza.</li>
+<li><strong>Usar</strong> las operaciones quirúrgicas sabiendo qué riesgo introduce cada una.</li>
+<li><strong>Refactorizar</strong> con la comprobación que demuestra que el cambio es seguro.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,28 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>plan</code></td>
-<td>Define su papel en <strong>plan, apply, drift, import y refactor con moved</strong> y cómo observarlo en un sistema real.</td>
+<td><code>refresco</code></td>
+<td>Consulta del estado real de cada recurso antes de comparar. Es lo que hace lenta una planificación grande y lo que <strong>detecta la desviación</strong>.</td>
 </tr>
 <tr>
-<td><code>apply</code></td>
-<td>Define su papel en <strong>plan, apply, drift, import y refactor con moved</strong> y cómo observarlo en un sistema real.</td>
+<td><code>plan guardado</code></td>
+<td>Fichero con el cambio calculado. Aplicarlo garantiza que se ejecuta lo revisado; sin él, la aplicación vuelve a planificar (clase 059).</td>
 </tr>
 <tr>
-<td><code>drift</code></td>
-<td>Define su papel en <strong>plan, apply, drift, import y refactor con moved</strong> y cómo observarlo en un sistema real.</td>
+<td><code>detección programada</code></td>
+<td>Planificación periódica cuyo resultado se vigila. Convierte la desviación en una señal en vez de en un descubrimiento durante un incidente.</td>
 </tr>
 <tr>
-<td><code>import</code></td>
-<td>Define su papel en <strong>plan, apply, drift, import y refactor con moved</strong> y cómo observarlo en un sistema real.</td>
+<td><code>operación acotada</code></td>
+<td>Aplicar solo parte del grafo. Es una herramienta de emergencia: rompe la garantía de que el estado corresponde con lo declarado.</td>
 </tr>
 <tr>
-<td><code>refactor</code></td>
-<td>Define su papel en <strong>plan, apply, drift, import y refactor con moved</strong> y cómo observarlo en un sistema real.</td>
+<td><code>declaración de movimiento</code></td>
+<td>Renombrar o mover un recurso sin destruirlo. La comprobación de que está bien es un plan con cero de todo.</td>
 </tr>
 <tr>
-<td><code>moved</code></td>
-<td>Define su papel en <strong>plan, apply, drift, import y refactor con moved</strong> y cómo observarlo en un sistema real.</td>
+<td><code>declaración de retirada</code></td>
+<td>Dejar de gestionar un recurso conservándolo. Es la forma declarativa y revisable de entregar algo a otro estado o a otro equipo.</td>
 </tr>
 </tbody>
 </table>
@@ -97,72 +94,296 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Plan, apply, drift, import y refactor con moved&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    E[&quot;ejecución&quot;] --&gt; F1[&quot;1 · REFRESCO\nconsulta el estado real&quot;]
+    F1 --&gt; F2[&quot;2 · PLAN\ncompara y calcula el cambio&quot;]
+    F2 --&gt; F3[&quot;3 · APLICACIÓN\nejecuta lo calculado&quot;]
+    F1 -.-&gt;|&quot;detecta&quot;| D[&quot;DESVIACIÓN&quot;]
+    D --&gt; C{&quot;clasificar · clase 085&quot;}
+    C --&gt; C1[&quot;manual: reconciliar y preguntar por qué&quot;]
+    C --&gt; C2[&quot;proveedor: declarar o ignorar&quot;]
+    C --&gt; C3[&quot;otro sistema: frontera de propiedad&quot;]
+    P[&quot;planificación PROGRAMADA&quot;] -.-&gt;|&quot;código de salida 2&quot;| AL[&quot;alerta de desviación&quot;]
+    S{&quot;operaciones quirúrgicas&quot;} --&gt; S1[&quot;-target · rompe la garantía&quot;]
+    S --&gt; S2[&quot;-replace · recreación deliberada&quot;]
+    S --&gt; S3[&quot;-refresh-only · solo actualizar el estado&quot;]
+    R[&quot;refactor&quot;] --&gt; M[&quot;moved / removed&quot;] --&gt; V[&quot;plan con CERO de todo&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-tres-fases-y-que-hace-cada-una">1. Tres fases, y qué hace cada una</h3>
+<p>Una ejecución tiene tres fases y confundirlas lleva a diagnósticos equivocados:</p>
+<pre><code class="language-text">1. REFRESCO    consulta el estado REAL de cada recurso al proveedor
+               actualiza en memoria lo que ha cambiado
+2. PLAN        compara lo declarado con lo refrescado y calcula el cambio
+3. APLICACIÓN  ejecuta ese cambio y escribe el estado
+</code></pre>
+<p>De ahí salen tres hechos operativos.</p>
+<p><strong>El refresco es lo que tarda.</strong> Una planificación de mil recursos hace mil llamadas a la API, y ahí está casi todo el tiempo. Por eso repartir el estado (clase 087) acelera tanto: se refrescan menos recursos.</p>
+<p>Y se puede saltar, con una advertencia grande:</p>
+<pre><code class="language-bash">$ terraform plan -refresh=false
+</code></pre>
+<p>Eso planifica contra lo que el estado <strong>cree</strong> que hay, sin comprobarlo. Es útil para una iteración rápida durante el desarrollo y peligroso para aplicar: si algo cambió por fuera, el plan no lo verá y la aplicación puede pisarlo.</p>
+<p><strong>El refresco es lo que detecta la desviación.</strong> Y desde hace varias versiones ya no escribe el estado por su cuenta durante una planificación: la desviación aparece <strong>en el plan</strong>, como información:</p>
+<pre><code class="language-text">Note: Objects have changed outside of Terraform
+
+  # aws_security_group.app has been changed
+  ~ ingress { + cidr_blocks = [&quot;0.0.0.0/0&quot;] }
+</code></pre>
+<p>Esa sección es la más importante de un plan y la que menos se lee. Dice <strong>qué ha cambiado alguien por fuera</strong>, y en el ejemplo dice que alguien abrió un grupo de seguridad a internet.</p>
+<p>Y para actualizar el estado sin cambiar nada de la infraestructura, existe una modalidad propia:</p>
+<pre><code class="language-bash">$ terraform plan  -refresh-only
+$ terraform apply -refresh-only
+</code></pre>
+<p>Sirve para el caso legítimo de la clase 085: <strong>aceptar un cambio del proveedor</strong> que no se quiere revertir. Actualiza el estado para que refleje la realidad y deja de proponerlo en cada plan.</p>
+<p><strong>La aplicación debe ejecutar un plan guardado.</strong> Es la regla de la clase 059 y no ha cambiado:</p>
+<pre><code class="language-bash">$ terraform plan -out=tfplan -lock-timeout=10m
+$ terraform show -no-color tfplan &gt; plan.txt     # esto se revisa
+$ terraform apply tfplan                          # esto ejecuta lo revisado
+</code></pre>
+<p>Y una precisión sobre el plan guardado que conviene conocer: <strong>contiene los valores sensibles</strong> de lo que va a crear. Si se publica como artefacto de la canalización, hereda el problema del estado de la clase 087. La versión legible que se publica en la revisión no debe ser el fichero binario sino su representación, con los valores sensibles ya ocultos.</p>
+<h3 id="2-la-desviacion-como-senal-programada">2. La desviación como señal programada</h3>
+<p>La clase 084 dejó la pregunta: sin un bucle continuo, nada garantiza que dentro de un mes la realidad se parezca al repositorio. La respuesta parcial es convertir la planificación en una <strong>comprobación periódica</strong>.</p>
+<pre><code class="language-bash">$ terraform plan -detailed-exitcode -lock-timeout=5m
+# 0 = sin cambios
+# 2 = hay cambios  ← esto es la señal
+# 1 = error
+</code></pre>
+<p>Ejecutado cada noche sobre cada estado, ese código de salida es la métrica que faltaba:</p>
+<pre><code class="language-text">código 0   la realidad coincide con lo declarado
+código 2   hay desviación, o hay cambios sin aplicar en el repositorio
+código 1   la ejecución falló: credenciales, bloqueo, un recurso que ya no existe
+</code></pre>
+<p>Y la segunda línea tiene dos causas que hay que distinguir, porque una es normal y la otra no:</p>
+<pre><code class="language-text">cambios sin aplicar   alguien fusionó código y no se ha desplegado todavía
+                      → normal si la canalización aplica al fusionar; sospechoso si no
+desviación real       la infraestructura cambió por fuera
+                      → la sección &quot;objetos han cambiado fuera de Terraform&quot;
+</code></pre>
+<p>La distinción se automatiza mirando el plan en formato estructurado:</p>
+<pre><code class="language-bash">$ terraform show -json tfplan | jq -r '
+    if (.resource_drift // []) | length &gt; 0
+    then &quot;DESVIACIÓN: &quot; + ([.resource_drift[].address] | join(&quot;, &quot;))
+    else &quot;sin desviación&quot; end'
+</code></pre>
+<p>Y lo que se hace con lo que encuentre es la clasificación de la clase 085, que aquí se convierte en un procedimiento:</p>
+<pre><code class="language-text">1. ¿es un campo que el proveedor rellena?
+   → declararlo, o aceptarlo con una aplicación de solo refresco
+2. ¿lo gestiona otro sistema?
+   → declararlo como ignorado, con el dueño anotado (clase 086)
+3. ¿lo cambió una persona?
+   → averiguar POR QUÉ antes de revertir
+     si el cambio era necesario, va al repositorio
+     si no, se revierte y se registra
+</code></pre>
+<p>El paso 3 es el que la clase 085 midió: dos de cada tres cambios manuales resultaron ser necesarios.</p>
+<p>Y lo que esta detección <strong>no</strong> hace, para no exagerar su alcance:</p>
+<pre><code class="language-text">no corrige nada: solo avisa
+no detecta lo que el proveedor no expone en su API
+no detecta recursos que existen y no están en ningún estado (clase 087)
+y si el propio proceso deja de ejecutarse, no avisa nadie — ley 13
+</code></pre>
+<p>La última exige lo que la ley 13 pide siempre: una señal de que la comprobación se ejecutó. Una alerta sobre desviación que lleva tres semanas sin ejecutarse es indistinguible de un sistema sin desviación.</p>
+<h3 id="3-leer-un-plan-por-donde-importa">3. Leer un plan por donde importa</h3>
+<p>Un plan grande se lee en un orden concreto, porque lo peligroso está al final si se lee de arriba abajo.</p>
+<p><strong>Primero, lo que destruye:</strong></p>
+<pre><code class="language-bash">$ terraform show -json tfplan | jq -r '.resource_changes[]
+  | select(.change.actions | index(&quot;delete&quot;))
+  | &quot;\(.change.actions | join(&quot;,&quot;))  \(.address)&quot;'
+delete,create  aws_db_instance.pedidos
+delete         aws_s3_bucket.temporal
+</code></pre>
+<p>Dos líneas y las dos merecen atención distinta: la primera recrea una base de datos y la segunda borra un bucket.</p>
+<p><strong>Segundo, por qué se reemplaza.</strong> El plan lo dice al final de la línea del campo culpable:</p>
+<pre><code class="language-text">~ resource &quot;aws_db_instance&quot; &quot;pedidos&quot; {
+    ~ engine_version = &quot;15.4&quot; -&gt; &quot;16.2&quot; # forces replacement
+</code></pre>
+<p>Ese comentario es la información más valiosa de un plan. Y la protección de las clases 059 y 086 lo convierte en un error de planificación en vez de en una pérdida:</p>
+<pre><code class="language-hcl">lifecycle { prevent_destroy = true }
+</code></pre>
+<p><strong>Tercero, lo que se modifica en el sitio</strong>, que normalmente no tiene riesgo. Y <strong>cuarto, lo que se crea</strong>, cuyo único riesgo es el coste.</p>
+<p>Y la comprobación que conviene automatizar en la canalización, que es la de la clase 059 con el criterio afinado:</p>
+<pre><code class="language-bash">$ BORRADOS=$(terraform show -json tfplan | jq -r '.resource_changes[]
+    | select(.change.actions | index(&quot;delete&quot;)) | .address')
+$ if [ -n &quot;$BORRADOS&quot; ]; then
+    echo &quot;$BORRADOS&quot; | tee borrados.txt
+    echo &quot;::warning::este plan destruye recursos; exige aprobación explícita&quot;
+  fi
+</code></pre>
+<p>No se trata de prohibir los borrados —a veces son el objetivo— sino de que ninguno pase sin que alguien lo haya leído y aceptado.</p>
+<p>Y el ruido, que es el enemigo de todo lo anterior. La clase 085 midió que el 84 % de los cambios propuestos no eran desviación. Las tres causas y su corrección:</p>
+<pre><code class="language-text">campos que el proveedor rellena     declararlos explícitamente
+valores normalizados por el proveedor  escribirlos en su forma normalizada
+recursos gestionados por otro        declararlos como ignorados
+</code></pre>
+<p>Y la métrica que dice si la revisión sigue siendo legible:</p>
+<pre><code class="language-text">líneas del plan en una ejecución sin cambios de código
+  0        correcto
+  1-20     revisable
+  &gt;100     nadie lo lee, y el día que aparezca algo real pasará desapercibido
+</code></pre>
+<p>Esa es exactamente la lección que la clase 047 aprendió con el <code>what-if</code> y la 081 con el diferencial de manifiestos. Tercera aparición: <strong>una previsualización ruidosa es una previsualización que no se usa</strong>.</p>
+<h3 id="4-operaciones-quirurgicas-y-su-precio">4. Operaciones quirúrgicas y su precio</h3>
+<p>Hay tres operaciones que actúan sobre una parte del sistema, y las tres tienen un coste que conviene conocer antes de usarlas en una urgencia.</p>
+<p><strong>Aplicar solo una parte.</strong></p>
+<pre><code class="language-bash">$ terraform apply -target=aws_instance.app tfplan
+</code></pre>
+<p>Aplica ese recurso y sus dependencias, e ignora el resto. Es útil para salir de una situación bloqueada y <strong>rompe la garantía central del sistema</strong>: después de una aplicación acotada, el estado ya no corresponde con lo declarado, y nadie sabe qué queda pendiente.</p>
+<pre><code class="language-text">reglas de uso
+  solo en emergencia, nunca en la canalización
+  siempre seguido de una aplicación completa que deje el plan vacío
+  y con un registro de por qué se hizo
+</code></pre>
+<p>La segunda regla es la importante: una aplicación acotada <strong>no ha terminado</strong> hasta que una completa dé cero cambios.</p>
+<p><strong>Forzar la recreación de un recurso.</strong></p>
+<pre><code class="language-bash">$ terraform plan -replace=aws_instance.app -out=tfplan
+</code></pre>
+<p>Marca ese recurso para destruir y crear. Es la sustituta de la antigua marca de contaminado, y su ventaja es que <strong>el efecto se ve en el plan antes de ejecutarse</strong>. Sirve para el caso de la clase 085 —el recurso existe, está en el estado y está mal— y para reemplazar una máquina que ha degradado sin cambiar nada declarado.</p>
+<p><strong>Actualizar el estado sin tocar la infraestructura.</strong></p>
+<pre><code class="language-bash">$ terraform apply -refresh-only
+</code></pre>
+<p>Acepta la realidad. Es lo correcto cuando la desviación es del proveedor y no se quiere revertir, y hay que hacerlo con el mismo cuidado que lo demás: revisando qué se está aceptando.</p>
+<p>Y una operación que no es quirúrgica pero se usa como si lo fuera:</p>
+<pre><code class="language-bash">$ terraform destroy
+</code></pre>
+<p>Su radio de impacto es el estado entero, que es la razón por la que la clase 087 insistía en repartirlo. En entornos efímeros es la operación normal; en producción no debería poder ejecutarse desde la canalización en absoluto.</p>
+<pre><code class="language-text">protecciones acumuladas
+  prevent_destroy en lo que no se puede perder      (086)
+  protección del proveedor contra el borrado        (042, 077)
+  permisos de la identidad que aplica: sin borrar    (059)
+  y aprobación humana explícita para cualquier plan con borrados
+</code></pre>
+<p>Las cuatro son complementarias y ninguna sustituye a las demás: la primera falla la planificación, la segunda falla la llamada, la tercera impide que la identidad lo intente y la cuarta pone a una persona en medio.</p>
+<h3 id="5-refactorizar-sin-destruir">5. Refactorizar sin destruir</h3>
+<p>El refactor es donde el estado se cobra su precio, porque <strong>la dirección de un recurso es su identidad</strong>. Renombrar sin más lo destruye y lo recrea.</p>
+<p>El procedimiento seguro tiene cuatro pasos y una comprobación que decide:</p>
+<pre><code class="language-text">1. hacer el cambio en el código
+2. declarar los movimientos
+3. planificar
+4. exigir CERO de todo
+</code></pre>
+<pre><code class="language-hcl"># extraer recursos a un módulo
+moved {
+  from = aws_instance.web
+  to   = module.tienda.aws_instance.web
+}
+moved {
+  from = aws_security_group.web
+  to   = module.tienda.aws_security_group.web
+}
+
+# pasar de índice numérico a clave estable (el arreglo de la clase 059)
+moved {
+  from = aws_vpc_security_group_ingress_rule.reglas[0]
+  to   = aws_vpc_security_group_ingress_rule.reglas[&quot;permitir-https&quot;]
+}
+</code></pre>
+<pre><code class="language-bash">$ terraform plan
+Plan: 0 to add, 0 to change, 0 to destroy.
+</code></pre>
+<p>Esa línea con tres ceros es la comprobación. Cualquier otra cosa significa que la declaración de movimientos está incompleta o que el refactor cambia algo más de lo previsto, y en los dos casos hay que pararse.</p>
+<p>Y para <strong>dejar de gestionar</strong> algo sin destruirlo, la forma declarativa:</p>
+<pre><code class="language-hcl">removed {
+  from = aws_s3_bucket.legado
+  lifecycle { destroy = false }
+}
+</code></pre>
+<p>Eso lo saca del estado y <strong>lo deja vivo</strong>. Es lo correcto al entregar un recurso a otro equipo, al moverlo a otro estado o al retirar de la gestión algo que pasa a ser de un servicio gestionado. Y frente a la orden equivalente tiene la ventaja de siempre: <strong>queda en el repositorio, revisable, con el resto del cambio</strong>.</p>
+<p>Un refactor grande —repartir un estado en cuatro, extraer módulos, renombrar todo— se hace por pasos y cada paso termina con el plan vacío. Intentarlo de una vez produce un plan de doscientas líneas que nadie puede verificar, y ahí es donde se cuela la destrucción de algo.</p>
+<p>Y dos avisos sobre los movimientos:</p>
+<pre><code class="language-text">se pueden retirar del código una vez aplicados, y conviene dejarlos
+  un tiempo: si otro entorno aún no ha aplicado, los necesita
+no sirven para mover entre ESTADOS distintos
+  → para eso, la orden de mover con estado de destino (clase 087)
+</code></pre>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ aplicación siempre con plan guardado
+☐ el plan legible se publica en la revisión, sin valores sensibles
+☐ detección de desviación programada, con señal de que se ejecutó
+☐ la sección de cambios fuera de Terraform, leída y clasificada
+☐ lo que destruye el plan, extraído y aprobado explícitamente
+☐ ruido del plan en cero para una ejecución sin cambios de código
+☐ operaciones acotadas solo en emergencia, seguidas de una completa
+☐ destrucción imposible desde la canalización en producción
+☐ refactores con movimientos declarados y plan con cero de todo
+☐ retiradas declaradas, no con órdenes sueltas
+</code></pre>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>plan, apply, drift, import y refactor con moved</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>CloudShop programa la detección de desviación por primera vez. La primera ejecución sobre los cuatro estados devuelve código 2 en los cuatro, y clasificar lo que encuentra ocupa tres días y cambia cuatro cosas.</strong></p>
+<p><strong>La primera ejecución.</strong></p>
+<pre><code class="language-text">estado        código   cambios propuestos   de ellos, desviación real
+red              2            31                      4
+datos            2            18                      2
+plataforma       2            47                      1
+tienda           2             9                      3
+                            ─────                   ───
+                            105                     10
+</code></pre>
+<p>Noventa y cinco de ciento cinco cambios eran ruido — la misma proporción que la clase 085 midió, en otro repositorio y con otro equipo.</p>
+<p><strong>La clasificación de los diez reales.</strong></p>
+<pre><code class="language-text">origen                                          casos   decisión
+campos que el proveedor rellena                   —     (ya estaban en el ruido)
+otro sistema los gestiona                         3     declarados como ignorados
+cambio manual necesario                           5     incorporados al repositorio
+cambio manual innecesario                         2     revertidos
+</code></pre>
+<p>Y los cinco necesarios merecen detalle, porque son el argumento contra revertir sin preguntar:</p>
+<pre><code class="language-text">1. una regla de salida hacia un proveedor de pago nuevo, añadida hace 5 meses
+2. el tamaño de una instancia subido durante un incidente de julio
+3. una alarma de presupuesto que finanzas pidió por correo
+4. un permiso de lectura para el equipo de auditoría
+5. la retención de una copia de seguridad subida por requisito legal
+</code></pre>
+<p>Cinco decisiones legítimas que solo existían en la infraestructura y no en ningún sitio revisable. <strong>Revertirlas habría producido cinco incidentes</strong>, y uno de ellos —el quinto— habría sido un incumplimiento.</p>
+<p><strong>Y los dos innecesarios:</strong></p>
+<pre><code class="language-text">1. un grupo de seguridad abierto a internet &quot;para probar&quot;, hacía 3 semanas
+2. un registro de auditoría desactivado durante una migración, hacía 2 meses
+</code></pre>
+<p>El primero es el hallazgo de seguridad del ejercicio: <strong>tres semanas con un puerto abierto a internet</strong> que ninguna alerta había detectado, porque la detección de desviación no existía.</p>
+<p><strong>El ruido, y cuánto costó eliminarlo.</strong></p>
+<p>```text                                        antes            después
+cambios propuestos sin cambios de código        105              0
+  campos del proveedor no declarados             61        declarados
+  valores normalizados de otra forma             19        escritos ya normalizados
+  recursos de otros sistemas                     15        declarados como ignorados
+esfuerzo                                         —        2,5 días-persona</p>
+<pre><code>
+Dos días y medio para que la señal sea legible. Y la consecuencia inmediata: a partir de ahí, **cualquier cambio propuesto en una ejecución nocturna es real**, lo que convierte el código de salida en una alerta útil.
+
+**Los tres meses siguientes.**
+
+```text
+ejecuciones nocturnas                          368
+con desviación                                  14
+  de ellas, cambios manuales                     9
+  de ellas, del proveedor                        5
+tiempo medio hasta detectar un cambio manual   &lt; 24 h
+</code></pre>
+<p>Y el efecto que nadie había previsto: los cambios manuales <strong>bajaron de nueve a dos</strong> en el tercer mes. No por una norma, sino porque cada uno generaba una notificación con nombre y apellidos al día siguiente, y la conversación que seguía terminaba siempre igual —«¿esto debería estar en el repositorio?»—.</p>
+<p><strong>Y un refactor grande, hecho por pasos.</strong></p>
+<p>La separación del estado de la clase 087 se completó extrayendo módulos:</p>
+<pre><code class="language-text">paso                              movimientos   plan tras el paso
+1. extraer el módulo de red            18       0 add, 0 change, 0 destroy
+2. extraer el de datos                 11       0, 0, 0
+3. pasar índices a claves estables     26       0, 0, 0
+4. retirar recursos legados             4       0, 0, 0  (con retirada declarada)
+</code></pre>
+<p>Cincuenta y nueve movimientos en cuatro pasos, <strong>sin destruir ni recrear nada</strong>. Y el paso 3 fue el que más valor tuvo: eliminó de una vez el riesgo de reindexación que la clase 059 había identificado y que seguía presente en veintiséis recursos.</p>
+<p>```text                                        antes            después
+recursos identificados por posición             26                0
+riesgo de destrucción al quitar un elemento    alto          ninguno
+plan tras cada paso del refactor                 —          0, 0, 0</p>
+<pre><code>
+**Resumen:**
+
+```text                                          antes         después
+cambios propuestos sin cambios de código        105              0
+desviación detectada                          nunca        en menos de 24 h
+cambios manuales al mes                          9              2
+días con un puerto abierto sin detectar         21              0
+recursos identificados por posición             26              0
+refactor con destrucción                       n/a              0
+</code></pre>
+<p><strong>La lección que esta clase traslada al resto de la parte 07</strong>: la detección programada no corrige nada y aun así cambió el comportamiento del equipo, porque <strong>convirtió el cambio manual en algo visible con nombre al día siguiente</strong>. Y el trabajo que la hizo posible no fue configurar la ejecución nocturna sino los dos días y medio de eliminar ruido: una señal que grita ciento cinco veces al día no es una señal. La corrección de fondo —un bucle que además reconcilie— es la parte 08.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-07-infrastructure-as-code-configuration/090-plan-apply-drift-import-y-refactor-con-moved/lab.py
@@ -203,29 +424,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Una planificación grande tarda varios minutos</td>
+<td>El refresco consulta cada recurso al proveedor</td>
+<td>Reparte el estado por radio de impacto; para iterar en desarrollo, planifica sin refresco sabiendo que no verás cambios externos.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>La desviación se descubre durante un incidente</td>
+<td>Nadie planifica salvo cuando va a cambiar algo</td>
+<td>Programa la planificación con código de salida detallado y vigila también que la propia comprobación se ejecute.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Nadie lee el plan porque siempre propone decenas de cambios</td>
+<td>Campos del proveedor sin declarar y recursos gestionados por otros sistemas</td>
+<td>Elimina el ruido hasta que una ejecución sin cambios de código proponga cero; es la condición para que la señal sirva.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Tras una aplicación acotada nadie sabe qué queda pendiente</td>
+<td>Aplicar una parte rompe la correspondencia entre estado y declaración</td>
+<td>Úsala solo en emergencia y termina siempre con una aplicación completa que deje el plan vacío.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Un refactor propone destruir y recrear recursos</td>
+<td>La dirección del recurso es su identidad y ha cambiado</td>
+<td>Declara los movimientos y exige un plan con cero de todo; si propone algo, la declaración está incompleta.</td>
+</tr>
+<tr>
+<td>Revertir la desviación provoca varios incidentes</td>
+<td>Los cambios manuales respondían a decisiones legítimas que no estaban en el repositorio</td>
+<td>Clasifica antes de revertir y averigua el motivo de cada uno: la mayoría suele ser necesaria.</td>
 </tr>
 </tbody>
 </table>
@@ -236,17 +462,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué hace cada una de las tres fases de una ejecución y cuál detecta la desviación?</li>
+<li>¿Qué distingue el código de salida 2 causado por desviación del causado por cambios sin aplicar?</li>
+<li>¿En qué orden se lee un plan y cuál es la información más valiosa que contiene?</li>
+<li>¿Qué garantía rompe una aplicación acotada y cómo se cierra esa brecha?</li>
+<li>¿Qué comprobación demuestra que un refactor con movimientos declarados es seguro?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Infrastructure as Code — Kief Morris.</li>
-<li>Terraform: Up &amp; Running — Yevgeniy Brikman.</li>
-<li>Ansible for DevOps — Jeff Geerling.</li>
+<li>HashiCorp (2025). <em>The core Terraform workflow</em> — refresco, plan y aplicación. <a href="https://developer.hashicorp.com/terraform/intro/core-workflow">https://developer.hashicorp.com/terraform/intro/core-workflow</a></li>
+<li>HashiCorp (2025). <em>Managing resource drift</em> — detección, refresco y aceptación de cambios externos. <a href="https://developer.hashicorp.com/terraform/tutorials/state/resource-drift">https://developer.hashicorp.com/terraform/tutorials/state/resource-drift</a></li>
+<li>HashiCorp (2025). <em>Command: plan and machine-readable output</em> — códigos de salida y formato estructurado. <a href="https://developer.hashicorp.com/terraform/cli/commands/plan">https://developer.hashicorp.com/terraform/cli/commands/plan</a></li>
+<li>HashiCorp (2025). <em>Resource targeting</em> — por qué es una operación excepcional. <a href="https://developer.hashicorp.com/terraform/cli/commands/plan#resource-targeting">https://developer.hashicorp.com/terraform/cli/commands/plan#resource-targeting</a></li>
+<li>HashiCorp (2025). <em>The removed block</em> — dejar de gestionar un recurso sin destruirlo. <a href="https://developer.hashicorp.com/terraform/language/resources/syntax#removing-resources">https://developer.hashicorp.com/terraform/language/resources/syntax#removing-resources</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -314,7 +542,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-fases-y-que-hace-cada-una">1. Tres fases, y qué hace cada una</a><a class="toc-level-3" href="#2-la-desviacion-como-senal-programada">2. La desviación como señal programada</a><a class="toc-level-3" href="#3-leer-un-plan-por-donde-importa">3. Leer un plan por donde importa</a><a class="toc-level-3" href="#4-operaciones-quirurgicas-y-su-precio">4. Operaciones quirúrgicas y su precio</a><a class="toc-level-3" href="#5-refactorizar-sin-destruir">5. Refactorizar sin destruir</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
