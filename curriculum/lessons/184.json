@@ -1,0 +1,118 @@
+{
+  "id": "184",
+  "purpose": "Elegir cuántas unidades desplegables materializan las fronteras de la clase 183: una, unas pocas o muchas. La clase trata el monolito modular como opción por defecto legítima y no como fracaso, enumera los cinco motivos que **de verdad** justifican separar en servicios, cuantifica lo que cuesta cada separación, y da el orden de migración que evita los dos desastres habituales: el monolito distribuido y la reescritura completa.",
+  "outcomes": [
+    "**Elegir** entre monolito modular, unos pocos servicios y muchos con criterios comprobables.",
+    "**Aplicar** los cinco motivos válidos para separar, y descartar los inválidos.",
+    "**Cuantificar** el coste operativo de cada servicio adicional.",
+    "**Reconocer** un monolito distribuido antes de haberlo construido.",
+    "**Migrar** por partes, empezando por la que más lo justifica."
+  ],
+  "concepts": [
+    {
+      "term": "monolito modular",
+      "definition": "Un despliegue con fronteras internas reales: esquemas separados, un escritor por dato, dependencias controladas."
+    },
+    {
+      "term": "monolito distribuido",
+      "definition": "Muchos servicios que hay que desplegar juntos y comparten datos. Suma los costes de ambos modelos y no da las ventajas de ninguno."
+    },
+    {
+      "term": "motivo válido de separación",
+      "definition": "Razón medible: ritmo de despliegue, escalado desacoplado, aislamiento de fallo, aislamiento de datos o autonomía de equipo."
+    },
+    {
+      "term": "coste marginal por servicio",
+      "definition": "Lo que cuesta al mes tener un servicio más: canalización, telemetría, guardia, cuota, seguridad."
+    },
+    {
+      "term": "estrangulamiento",
+      "definition": "Migración por partes en la que lo nuevo intercepta tráfico y lo viejo se retira poco a poco."
+    },
+    {
+      "term": "latencia de frontera",
+      "definition": "Lo que añade cada salto de red: milisegundos, fallos parciales y consistencia eventual."
+    }
+  ],
+  "diagram": "flowchart TB\n    D{\"¿hay un motivo VÁLIDO\\ny medido para separar?\"}\n    D -->|no| M[\"MONOLITO MODULAR\\nfronteras reales,\\nun despliegue\"]\n    D -->|sí| V[\"¿cuál de los cinco?\"]\n    V --> V1[\"ritmo de despliegue\\nmuy distinto\"]\n    V --> V2[\"escalado desacoplado\\ncon cifra\"]\n    V --> V3[\"aislamiento de fallo\\nnecesario\"]\n    V --> V4[\"aislamiento de datos\\npor normativa\"]\n    V --> V5[\"autonomía de equipo\\ncon equipo real\"]\n    V1 --> S[\"separa ESE módulo\"]\n    V2 --> S\n    V3 --> S\n    V4 --> S\n    V5 --> S\n    S --> C[\"paga el coste:\\nred, consistencia,\\noperación, guardia\"]\n    M --> R[\"revisa cada trimestre\"]\n    R --> D",
+  "foundations": [
+    {
+      "heading": "El monolito modular como opción por defecto",
+      "body": "La discusión suele plantearse como «monolito o microservicios», y el planteamiento ya es el error: la frontera y el despliegue son decisiones distintas.\n\n```text\nFRONTERA          dónde está la línea            clase 183\nDESPLIEGUE        cuántas unidades hay           esta clase\n\n→ se puede tener 12 fronteras y 1 despliegue\n→ y se puede tener 12 despliegues y 0 fronteras reales\n   (que es el peor caso de todos)\n```\n\nY el monolito modular no es un paso intermedio ni una derrota:\n\n```text\nQUÉ DA\n  fronteras reales, propiedad clara, un escritor por dato\n  transacciones locales, sin coordinación distribuida\n  una canalización, una telemetría, una guardia\n  latencia de llamada en nanosegundos\n  refactorizar fronteras es barato\n\nQUÉ NO DA\n  despliegue independiente\n  escalado por parte\n  aislamiento de fallo\n  autonomía de equipos grandes\n```\n\nY el dato que más pesa en la decisión, con el tamaño de equipo real:\n\n```text\nhasta ~8 personas   el coste de coordinación humana es bajo\n                    → un despliegue casi siempre gana\n8 a 25              zona de decisión; separa lo que lo pida\n> 25                la coordinación de un solo despliegue empieza\n                    a dominar; separar por equipo tiene sentido\n```\n\nY una advertencia sobre la comparación habitual:\n\n```text\nse compara «monolito heredado sin fronteras» contra\n«microservicios bien hechos»\n→ la comparación honesta es monolito MODULAR contra servicios,\n  y entonces la ventaja se reduce mucho\n```"
+    },
+    {
+      "heading": "Los cinco motivos válidos, y los inválidos",
+      "body": "Separar un módulo en su propio servicio tiene que justificarse con uno de estos cinco, **con una cifra**:\n\n```text\n1. RITMO DE DESPLIEGUE MUY DISTINTO\n   este módulo cambia 9 veces al mes y el resto 1\n   → y los despliegues del resto lo bloquean, o al revés\n   cifra   despliegues/mes de cada parte             clase 183\n\n2. ESCALADO DESACOPLADO\n   este módulo consume 8× los recursos del resto, o su carga\n   sube 20× en campaña mientras el resto no se mueve\n   cifra   uso de CPU/memoria por módulo y su perfil temporal\n   ojo     si el ahorro es de 200 €/mes, no compensa\n\n3. AISLAMIENTO DE FALLO\n   un fallo aquí no debe poder tirar lo demás\n   cifra   incidentes originados en este módulo que afectaron\n           al resto\n   ojo     dentro de un proceso también se puede aislar\n           (límites, mamparos, tiempos de espera)   clase 153\n\n4. AISLAMIENTO DE DATOS POR NORMATIVA\n   estos datos deben vivir en otra región, otra cuenta u otro\n   régimen de acceso                                clase 177\n   → es el motivo menos discutible de los cinco\n\n5. AUTONOMÍA DE EQUIPO\n   hay un equipo REAL, con personas, que lo posee y lo opera\n   ojo     «vamos a contratar» no cuenta; un servicio sin\n           equipo es un servicio sin dueño            ley 20\n```\n\nY los motivos que se usan mucho y no aguantan:\n\n```text\n«ES LA BUENA PRÁCTICA»                        ley 17\n«ASÍ ESCALAMOS EN EL FUTURO»\n  → el futuro rara vez llega con la forma prevista, y mientras\n    tanto se paga todos los meses\n«CADA SERVICIO EN SU LENGUAJE»\n  → multiplica la operación por el número de lenguajes\n«EL MONOLITO ESTÁ HECHO UN DESASTRE»\n  → el desastre es la falta de fronteras; separarlo sin\n    arreglarlas produce un monolito distribuido\n«PARA QUE LOS EQUIPOS NO SE PISEN»\n  → si el problema es el fichero compartido, la frontera\n    modular ya lo resuelve                          clase 183\n```\n\nY el criterio que resume todo:\n\n```text\nsepara UN módulo cuando UNO de los cinco lo pide, con cifra\nno separes «el sistema» de golpe\n```"
+    },
+    {
+      "heading": "Lo que cuesta cada servicio",
+      "body": "El coste de un servicio adicional se subestima siempre porque es difuso: no aparece en ninguna factura con su nombre.\n\n```text\nPOR CADA SERVICIO, AL MES\n  canalización y su mantenimiento\n  telemetría: paneles, alertas, objetivos          clase 125\n  procedimientos y turno de guardia                clase 127\n  actualizaciones de base y de dependencias\n  identidad, permisos, secretos                    clase 134\n  presupuesto y etiquetas                          clase 142\n  cuota y límites\n  documentación y contrato                         clase 188\n\ny los costes que no se ven hasta el incidente\n  un salto de red más en el camino crítico\n  un modo de fallo parcial más\n  consistencia eventual donde antes había transacción\n  una correlación más que mantener                 clase 121\n```\n\nY el orden de magnitud, medido en organizaciones reales:\n\n```text\nun servicio bien operado cuesta entre 2 y 6 días-persona al\nmes de mantenimiento, sin contar el desarrollo\n→ 20 servicios ≈ una persona entera solo en mantenerlos\n→ y ese es el mecanismo de la ley 23\n```\n\n**La latencia de frontera**, que se paga en cada llamada:\n\n```text\nllamada dentro del proceso            ~100 ns\nllamada de red en la misma zona       0,5 - 2 ms\nllamada entre zonas                   1 - 4 ms\ncon serialización y TLS               +0,3 - 1 ms\n\n→ una operación que antes hacía 6 llamadas internas y ahora\n  cruza 4 fronteras pasa de microsegundos a ~8 ms\n→ y si alguna es una llamada por elemento, a segundos  clase 124\n```\n\nY el efecto sobre la disponibilidad, que es el más olvidado:\n\n```text\ncada dependencia síncrona dura multiplica                clase 185\n  6 servicios al 99,9 % en serie → 99,4 %\n→ separar sin convertir las llamadas en asíncronas BAJA la\n  disponibilidad\n```\n\n**El monolito distribuido**, que es el resultado de separar mal, se reconoce por estas señales:\n\n```text\nhay que desplegar varios servicios a la vez, en orden\nvarios servicios comparten base de datos\nun cambio de esquema requiere coordinar equipos\nlas pruebas necesitan todo el sistema levantado\ncada operación de usuario cruza más de 4 servicios\nhay una transacción distribuida o una saga por operación normal\nnadie puede desplegar en viernes\n```\n\nY el diagnóstico:\n\n```text\nsi tres o más de esas señales están presentes, se pagan los\ncostes de los servicios y los del monolito a la vez\n→ y la salida suele ser JUNTAR, no separar más\n```"
+    },
+    {
+      "heading": "Cómo migrar sin reescribir",
+      "body": "Cuando la separación está justificada, el modo importa tanto como la decisión.\n\n**Lo que no funciona:**\n\n```text\nLA REESCRITURA COMPLETA\n  se congela el sistema viejo, se construye el nuevo\n  → el viejo sigue cambiando porque el negocio no se para\n  → el nuevo persigue un objetivo móvil durante 18 meses\n  → y la mitad de estos proyectos se abandonan\n```\n\n**Lo que funciona: estrangulamiento.**\n\n```text\n1. poner una fachada delante del sistema actual\n   → todo el tráfico pasa por ahí; nada cambia todavía\n\n2. elegir UN módulo, el que más lo justifique\n   → normalmente el de ritmo de cambio más alto\n\n3. hacer que el dato tenga un solo escritor\n   → esto es la parte cara, y se hace ANTES de mover código\n\n4. desviar el tráfico de ese módulo al servicio nuevo\n   → con despliegue escalonado y vuelta atrás    clase 102\n\n5. RETIRAR el código y los datos viejos\n   → sin este paso, la migración solo añade      clase 171\n\n6. medir, y decidir si el siguiente módulo lo merece\n```\n\nY el paso 3 es el que decide el resultado:\n\n```text\nmover el código sin dividir los datos produce dos servicios\nque escriben la misma tabla\n→ acoplamiento tipo 7, el más caro                 clase 183\n→ y es exactamente el monolito distribuido\n```\n\nY el paso 5 es el que más se salta:\n\n```text\nmigración sin retirada = dos sistemas que mantener\n→ y la capacidad del equipo se consume manteniendo      ley 23\n→ la migración no termina cuando lo nuevo funciona:\n  termina cuando lo viejo ya no existe\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ las fronteras están decididas antes que el despliegue\n☐ cada separación tiene uno de los cinco motivos, con cifra\n☐ hay un equipo real para cada servicio propuesto\n☐ está calculado el coste marginal mensual por servicio\n☐ está calculado el efecto en latencia y en disponibilidad\n☐ ninguna operación normal exige transacción distribuida\n☐ ningún par de servicios comparte almacén\n☐ no hay servicios que deban desplegarse en orden\n☐ la migración es por partes, no reescritura\n☐ los datos se dividen antes de mover el código\n☐ cada paso termina con la retirada de lo viejo\n```\n\nY el cierre que enlaza con la clase siguiente: cada frontera que se materializa en un servicio añade un punto que puede fallar y una dependencia que se hereda. Calcular a cuánto asciende eso —y dónde está el techo real de disponibilidad— es la materia de la clase 185."
+    }
+  ],
+  "worked_example": "**El equipo de reservas decide cuántos despliegues materializan las cuatro fronteras de la clase 183. Lo que sigue es la evaluación de los cinco motivos módulo por módulo, el cálculo del coste, y la migración de los dos que se separaron.**\n\n**Punto de partida**: 6 personas, un monolito sin fronteras internas, 214 despliegues al año.\n\n**Evaluación módulo por módulo, con cifras.**\n\n```text\nPRECIOS\n  1 ritmo         9 despliegues/mes frente a 2 del resto     ✓\n                  y 4 veces el mes pasado un despliegue de\n                  precios se retrasó por esperar a reservas\n  2 escalado      no; consume el 6 % de la CPU               ✗\n  3 fallo         un error de reglas tiró el sistema entero\n                  2 veces en el año                          ✓\n  4 datos         no                                         ✗\n  5 equipo        lo lleva 1 persona con revenue             ~\n  DECISIÓN        SEPARAR — motivos 1 y 3, ambos con cifra\n\nBÚSQUEDA\n  1 ritmo         1 despliegue/mes                           ✗\n  2 escalado      3.000/s en pico frente a 40/s del resto;\n                  perfil temporal completamente distinto;\n                  ahorro estimado 3.100 €/mes                ✓\n  3 fallo         una búsqueda lenta agotaba el grupo de\n                  conexiones y afectaba a reservas           ✓\n  4 datos         no                                         ✗\n  5 equipo        no hay equipo propio                       ✗\n  DECISIÓN        SEPARAR — motivo 2 con cifra clara\n\nRESERVAS + PAGOS\n  1 ritmo         2/mes                                      ✗\n  2 escalado      es el resto                                 ✗\n  3 fallo         es el núcleo; aislarlo de qué                ✗\n  4 datos         los datos de tarjeta no se guardan, se\n                  tokenizan en la pasarela                    ✗\n  5 equipo        4 personas, el mismo equipo                 ✗\n  DECISIÓN        NO SEPARAR — y además el 71 % de cambios\n                  acoplados lo desaconseja               clase 183\n\nCATÁLOGO\n  1 ritmo         1/mes                                      ✗\n  2 escalado      no                                         ✗\n  3 fallo         no ha causado incidentes                   ✗\n  4 datos         no                                         ✗\n  5 equipo        no                                         ✗\n  DECISIÓN        NO SEPARAR — queda como módulo\n\nCLIENTES (contacto, preferencias, consentimientos)\n  4 datos         los consentimientos deben ser auditables y\n                  con acceso restringido a legal              ~\n  DECISIÓN        NO SEPARAR todavía — el aislamiento se\n                  consigue con esquema y permisos propios,\n                  sin un despliegue más\n\nNOTIFICACIONES\n  ya estaba separada; 6 % de cambios acoplados; se mantiene\n```\n\n**Resultado: 4 despliegues, no 12.**\n\n```text\nmonolito modular   reservas+pagos, catálogo, clientes (3 módulos)\nprecios            servicio\nbúsqueda           servicio\nnotificaciones     servicio\n```\n\n**El coste, calculado antes de decidir.**\n\n```text\ncoste marginal por servicio, estimado con el histórico\n  canalización y mantenimiento         0,8 día-persona/mes\n  telemetría y alertas                 0,5\n  actualizaciones y dependencias       0,7\n  identidad, secretos, permisos        0,3\n  documentación y contrato             0,4\n  TOTAL                                2,7 días-persona/mes\n\n3 servicios además del monolito       8,1 días-persona/mes\nequipo de 6 personas ≈ 120 días/mes   → 6,8 % de la capacidad\n\ncontraste: si se hubieran separado los 12 módulos\n  12 × 2,7 = 32,4 días/mes            → 27 % de la capacidad\n  y el equipo no habría podido construir nada         ley 23\n```\n\n**Efecto en latencia y disponibilidad, calculado antes:**\n\n```text\nel flujo de reserva cruza ahora 1 frontera nueva (precios)\n  +1,4 ms de p50, +6 ms de p99\n  aceptable frente al QA-1 de 500 ms                clase 181\n\ndisponibilidad\n  precios era dependencia DURA en el flujo de reserva\n  → 99,9 × 99,9 = 99,8 %, por debajo del QA-2 de 99,7 %  ✓ justo\n  → decisión: el precio se CACHEA con validez de 10 min y\n    si precios no responde se usa el último válido\n  → pasa a dependencia BLANDA, y el techo vuelve a 99,9 %\n```\n\nY esa decisión —convertir la dependencia dura en blanda— fue la que hizo viable la separación, y no se habría visto sin el cálculo.\n\n**La migración de precios, por estrangulamiento.**\n\n```text\nsemana 1   fachada delante del monolito; nada cambia\nsemanas 2-5  DIVIDIR EL DATO   ← la parte cara\n  el precio vivía en la tabla de catálogo\n  se crea el almacén de precios y se escribe en los dos\n  se compara durante 2 semanas: 3 discrepancias, todas por\n    un trabajo programado olvidado que escribía precios\n  catálogo deja de escribir el precio\nsemana 6   el servicio de precios lee de su almacén\nsemana 7   la fachada desvía el 5 %, luego 25 %, luego 100 %\nsemana 8   se publica el evento de cambio de precio\nsemanas 9-10  RETIRADA\n  columna de precio eliminada del catálogo\n  código viejo borrado\n  trabajo programado retirado\n```\n\nY lo que costó y lo que se descubrió:\n\n```text\ndividir el dato                    4 semanas de las 10\nmover el código                    1 semana\nhallazgo   un trabajo programado escribía precios desde 2021\n           y nadie lo sabía; explicaba 3 incidentes de\n           «precio incorrecto» sin causa conocida\n```\n\n**El resultado, seis meses después.**\n\n```text                                        antes    después\ndespliegues de precios bloqueados/mes            4         0\nincidentes originados en reglas de precios       2/año     0\ncoste de cómputo en pico                    -3.100 €/mes\np99 del flujo de reserva                    412 ms    438 ms\ndisponibilidad del flujo                    99,71 %   99,74 %\ncapacidad consumida en mantenimiento          n/d       6,8 %\nservicios que comparten almacén                 4         0\n```\n\n**Y la decisión que no se tomó**, registrada para no rediscutirla cada trimestre:\n\n```text\nno separar reservas y pagos\nrevisar si   el equipo pasa de 12 personas\n             o el 71 % de cambios acoplados baja del 30 %\n```\n\n**La lección que esta clase deja**: de doce módulos, solo tres cumplían alguno de los cinco motivos con una cifra detrás, y separar los doce habría consumido el 27 % de la capacidad del equipo en mantenimiento. Y la parte cara de separar un servicio **no fue mover el código —una semana— sino dividir el dato: cuatro**. Quien separa código sin dividir datos no ha separado nada.",
+  "pitfalls": [
+    {
+      "symptom": "Hay muchos servicios pero hay que desplegarlos en orden y comparten base",
+      "cause": "Monolito distribuido: se separó el código sin dividir los datos",
+      "fix": "Divide primero los datos con un escritor único; si ya está hecho al revés, plantea juntar en vez de separar más."
+    },
+    {
+      "symptom": "El equipo apenas construye nada nuevo",
+      "cause": "El coste de mantener los servicios consume la capacidad",
+      "fix": "Calcula el coste marginal por servicio y retira; separa solo lo que cumpla uno de los cinco motivos con cifra."
+    },
+    {
+      "symptom": "La disponibilidad bajó tras separar en servicios",
+      "cause": "Las llamadas nuevas son síncronas y duras, y se multiplican",
+      "fix": "Calcula el techo antes de separar y convierte las dependencias del camino crítico en blandas con caché o valor por defecto."
+    },
+    {
+      "symptom": "La reescritura completa lleva año y medio y no sale",
+      "cause": "El sistema viejo sigue cambiando mientras se construye el nuevo",
+      "fix": "Migra por estrangulamiento: fachada, un módulo cada vez, y retirada al final de cada paso."
+    },
+    {
+      "symptom": "Tras la migración hay que mantener el sistema nuevo y el viejo",
+      "cause": "No hubo paso de retirada",
+      "fix": "La migración termina cuando lo viejo deja de existir, no cuando lo nuevo funciona."
+    },
+    {
+      "symptom": "Se separa un servicio y acaba sin quien lo atienda",
+      "cause": "Se contó con un equipo que no existía",
+      "fix": "Exige equipo real y dueño escrito antes de crear un despliegue nuevo."
+    }
+  ],
+  "checks": [
+    "¿Por qué frontera y despliegue son decisiones distintas?",
+    "¿Cuáles son los cinco motivos válidos para separar y qué cifra respalda cada uno?",
+    "¿Cuánto cuesta al mes un servicio adicional y por qué no aparece en ninguna factura?",
+    "¿Por qué separar sin convertir llamadas en asíncronas baja la disponibilidad?",
+    "¿Cuál es el paso caro del estrangulamiento y cuál el que más se salta?"
+  ],
+  "references": [
+    {
+      "text": "Newman, S. (2021). *Building Microservices*, 2.ª ed. — cuándo separar y qué cuesta.",
+      "url": "https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/"
+    },
+    {
+      "text": "Fowler, M. (2015). *MonolithFirst* — empezar junto y separar con evidencia.",
+      "url": "https://martinfowler.com/bliki/MonolithFirst.html"
+    },
+    {
+      "text": "Fowler, M. (2004). *StranglerFigApplication* — migración por estrangulamiento.",
+      "url": "https://martinfowler.com/bliki/StranglerFigApplication.html"
+    },
+    {
+      "text": "Shopify Engineering (2019). *Deconstructing the monolith* — monolito modular a escala.",
+      "url": "https://shopify.engineering/deconstructing-monolith-designing-software-maximizes-developer-productivity"
+    },
+    {
+      "text": "Skelton, M. y Pais, M. (2019). *Team Topologies* — servicios, equipos y carga cognitiva.",
+      "url": "https://teamtopologies.com/book"
+    }
+  ]
+}
