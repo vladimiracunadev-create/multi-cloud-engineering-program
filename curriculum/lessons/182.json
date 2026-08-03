@@ -1,0 +1,118 @@
+{
+  "id": "182",
+  "purpose": "Dibujar un sistema de forma que sirva para discutir decisiones y no para decorar una presentación. El modelo C4 da cuatro niveles de zoom —contexto, contenedores, componentes y código— y su valor no está en las cajas sino en dos disciplinas: **un nivel por conversación** y **cada flecha dice quién llama a quién, con qué y por qué**. La clase enseña además qué dibujar en cada nivel, qué no, y cómo evitar que el diagrama envejezca mal.",
+  "outcomes": [
+    "**Elegir** el nivel de zoom adecuado a la conversación que se está teniendo.",
+    "**Dibujar** contexto y contenedores con el detalle justo y ninguno más.",
+    "**Anotar** las flechas con protocolo, dirección y motivo.",
+    "**Detectar** los diagramas que mienten: los que envejecen y los que ocultan.",
+    "**Mantener** los diagramas vivos con el mínimo esfuerzo posible."
+  ],
+  "concepts": [
+    {
+      "term": "contexto (C1)",
+      "definition": "El sistema como una caja, sus usuarios y los sistemas externos con los que habla."
+    },
+    {
+      "term": "contenedor (C2)",
+      "definition": "Unidad desplegable y ejecutable por separado: aplicación, servicio, base de datos, cola, función."
+    },
+    {
+      "term": "componente (C3)",
+      "definition": "Agrupación lógica dentro de un contenedor. Se dibuja solo cuando hace falta discutirla."
+    },
+    {
+      "term": "código (C4)",
+      "definition": "Clases y relaciones. Casi nunca se dibuja a mano: se genera o no existe."
+    },
+    {
+      "term": "flecha anotada",
+      "definition": "Relación con dirección, protocolo, motivo y, si importa, sincronía y volumen."
+    },
+    {
+      "term": "diagrama vivo",
+      "definition": "El que se actualiza porque alguien lo usa. El resto miente en cuanto cambia algo."
+    }
+  ],
+  "diagram": "flowchart TB\n    C1[\"C1 · CONTEXTO\\nel sistema, sus usuarios\\ny los sistemas externos\"] --> Q1[\"conversación:\\nalcance y fronteras\\ncon negocio\"]\n    C1 --> C2[\"C2 · CONTENEDORES\\nunidades desplegables\\ny cómo se hablan\"]\n    C2 --> Q2[\"conversación:\\ndecisiones técnicas,\\noperación, despliegue\"]\n    C2 --> C3[\"C3 · COMPONENTES\\ndentro de UN contenedor\"]\n    C3 --> Q3[\"conversación:\\nfronteras internas,\\nsolo donde duele\"]\n    C3 --> C4[\"C4 · CÓDIGO\\nse genera o no existe\"]\n    R[\"cada flecha\"] --> R1[\"quién llama a quién\"]\n    R --> R2[\"con qué protocolo\"]\n    R --> R3[\"para qué\"]\n    R --> R4[\"síncrona o no\"]",
+  "foundations": [
+    {
+      "heading": "Cuatro niveles, una conversación cada uno",
+      "body": "El error que arruina la mayoría de los diagramas es mezclar niveles: un dibujo con usuarios, servicios, tablas y clases a la vez no sirve para ninguna conversación.\n\n```text\nC1  CONTEXTO       ¿qué hay dentro y qué hay fuera?\n    audiencia      negocio, dirección, equipos vecinos\n    contiene       el sistema como UNA caja\n                   personas que lo usan, con su papel\n                   sistemas externos, con quién los opera\n    NO contiene    tecnologías, bases de datos, colas\n\nC2  CONTENEDORES   ¿de qué piezas desplegables consta?\n    audiencia      el equipo, operación, seguridad\n    contiene       aplicaciones, servicios, almacenes, colas\n                   la tecnología de cada uno\n                   las relaciones, anotadas\n    NO contiene    clases, capas internas, detalles de esquema\n\nC3  COMPONENTES    ¿cómo está organizado ESTE contenedor?\n    audiencia      quien va a tocarlo\n    se dibuja      solo cuando hay una discusión de frontera\n    NO se dibuja   «por completitud», para todos los servicios\n\nC4  CÓDIGO         clases y relaciones\n    se genera desde el código, o no se hace\n```\n\nY la regla que ahorra la mitad del trabajo:\n\n```text\ncasi todo el valor está en C1 y C2\nC3 solo donde hay una decisión que discutir\nC4 casi nunca\n```\n\n**Qué es un contenedor y qué no**, porque es donde más se confunde:\n\n```text\nSÍ es contenedor          se despliega y ejecuta por separado\n  una aplicación móvil\n  una API\n  un trabajo programado\n  una base de datos\n  una cola o un tema\n  un almacén de objetos con lógica asociada\n\nNO es contenedor\n  una biblioteca compartida\n  un módulo interno\n  una capa\n  un «dominio»\n```\n\nY una prueba práctica: **si no se puede reiniciar por separado, no es un contenedor.**"
+    },
+    {
+      "heading": "Las flechas son el contenido",
+      "body": "Las cajas se adivinan; las flechas no. Un diagrama con cajas correctas y flechas sin anotar no dice nada que no supiéramos.\n\nCada relación lleva, como mínimo:\n\n```text\nDIRECCIÓN    quién inicia la llamada\n             ← no «se comunican», que oculta el acoplamiento\nPROTOCOLO    HTTPS/JSON, gRPC, SQL, mensaje en cola\nMOTIVO       «para consultar disponibilidad», no «datos»\n```\n\nY cuando importa, tres anotaciones más que cambian decisiones:\n\n```text\nSÍNCRONA O NO      una llamada síncrona hereda la disponibilidad\n                   del llamado                          clase 185\nDURA O BLANDA      ¿el llamante sigue funcionando sin ella?\nVOLUMEN            peticiones por segundo, o por operación\n                   ← revela las consultas por elemento   clase 124\n```\n\nY una anotación que este programa ha demostrado que vale más que todas:\n\n```text\n¿QUIÉN ESCRIBE?\n  marcar en el diagrama qué contenedor ESCRIBE cada almacén\n  → si hay dos flechas de escritura al mismo almacén, hay\n    acoplamiento oculto y el diagrama acaba de encontrarlo  ley 21\n```\n\nY el error de dirección más caro:\n\n```text\ndibujar «A ↔ B» porque «se hablan»\n→ esconde quién depende de quién\n→ y por tanto esconde qué se cae cuando cae uno\n```\n\n**Lo que un diagrama de contenedores debe permitir responder sin preguntar a nadie:**\n\n```text\n¿qué se cae si cae esto?\n¿por dónde entra el tráfico externo?\n¿dónde vive cada dato y quién lo escribe?\n¿qué cruza una frontera de red o de cuenta?\n¿qué es síncrono en el camino crítico?\n¿qué se despliega junto y qué por separado?\n```\n\nY si no las responde, el diagrama es decorativo por muy bonito que sea."
+    },
+    {
+      "heading": "Los diagramas que mienten",
+      "body": "Hay tres formas de mentir con un diagrama correcto, y todas son frecuentes:\n\n```text\n1. EL QUE ENVEJECIÓ\n   se dibujó al empezar y nadie lo tocó\n   → miente en cuanto se añade un servicio\n   señal   no coincide con lo que hay desplegado\n\n2. EL QUE OCULTA\n   omite lo feo: el trabajo programado sin dueño, la conexión\n   directa a la base del heredado, el acceso manual\n   → y esas son precisamente las piezas que causan incidentes\n   señal   el diagrama es más limpio que la realidad\n\n3. EL QUE DIBUJA EL DESEO\n   representa la arquitectura objetivo como si fuese la actual\n   → y las decisiones se toman sobre algo que no existe\n   señal   nadie sabe decir qué parte ya está\n```\n\nY la disciplina que los evita:\n\n```text\nmarcar SIEMPRE el estado de cada elemento\n  existe · en construcción · previsto · a retirar\n\ny tener dos diagramas cuando haga falta, nunca uno mezclado\n  ACTUAL   lo que hay hoy, con lo feo incluido\n  OBJETIVO lo que se quiere, con fecha\n```\n\n**Cómo mantenerlos vivos** sin que se convierta en una tarea que nadie hace:\n\n```text\nel diagrama vive en el repositorio, como texto\n  → mermaid, PlantUML o similar; se revisa en el mismo cambio\n\nse actualiza en el cambio que lo invalida, no «luego»\n  → si un cambio añade un contenedor y no toca el diagrama,\n    la revisión lo pide\n\nse contrasta contra la realidad de vez en cuando\n  → el inventario de recursos y el mapa de dependencias\n    observadas dicen la verdad                          clase 122\n  → y lo que aparezca en el mapa y no en el diagrama es\n    exactamente lo que hay que mirar                    ley 15\n```\n\nY el contraste automático, que es barato y encuentra mucho:\n\n```text\nlista de servicios desplegados      vs   contenedores del C2\ndependencias observadas             vs   flechas del C2\nalmacenes con más de un escritor    vs   flechas de escritura\n→ las diferencias son hallazgos, no errores del diagrama\n```"
+    },
+    {
+      "heading": "Cuándo dibujar y cuándo no",
+      "body": "Dibujar tiene coste, y hacerlo por costumbre produce documentación que nadie lee.\n\n```text\nDIBUJA CUANDO\n  hay que decidir una frontera                          clase 183\n  hay que explicar el alcance a alguien de fuera\n  entra gente nueva y hay que orientarla\n  se discute qué se cae si cae algo                     clase 185\n  se revisa la seguridad y hace falta ver el alcance    clase 189\n  se prepara una migración\n\nNO DIBUJES\n  «para tener documentación»\n  el C3 de todos los servicios\n  el C4 a mano\n  lo que el código ya dice mejor\n```\n\nY una forma de usar los niveles que funciona bien en reuniones:\n\n```text\nempieza SIEMPRE en C1, aunque todos lo conozcan\n  → alinea el alcance en dos minutos y evita media hora de\n    malentendido\nbaja a C2 y quédate ahí\n  → es el nivel donde se toman casi todas las decisiones\nbaja a C3 solo si la discusión lo pide, y solo del contenedor\n  en cuestión\n```\n\nY dos vistas complementarias que no son C4 y suelen faltar:\n\n```text\nVISTA DE DESPLIEGUE   dónde corre cada contenedor: cuenta,\n                      región, zona, red                 clase 169\n                      → responde «¿qué cae si cae una zona?»\n\nVISTA DE DATOS        quién escribe y quién lee cada almacén\n                      → responde «¿dónde está el acoplamiento?»\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ cada diagrama tiene un solo nivel de zoom\n☐ el C1 no contiene tecnologías\n☐ cada elemento del C2 se despliega por separado\n☐ toda flecha tiene dirección, protocolo y motivo\n☐ las llamadas síncronas del camino crítico están marcadas\n☐ está marcado quién ESCRIBE cada almacén\n☐ no hay ninguna flecha bidireccional sin explicar\n☐ cada elemento tiene estado: existe, previsto o a retirar\n☐ actual y objetivo están separados\n☐ el diagrama está en el repositorio, como texto\n☐ se ha contrastado con las dependencias observadas\n```\n\nY el cierre que enlaza con la clase siguiente: el diagrama de contenedores hace visibles las fronteras, pero no dice si están bien puestas. Decidir dónde va cada frontera —y por qué el criterio no es funcional— es la materia de la clase 183."
+    }
+  ],
+  "worked_example": "**El equipo de reservas de la clase 181 dibuja su sistema actual antes de rediseñarlo. Lo que sigue es el C1, el C2 con las flechas anotadas, el contraste contra la realidad —que encontró cinco cosas que no estaban en el dibujo— y el único C3 que se dibujó.**\n\n**C1 · Contexto.** Una caja, cuatro actores, tres sistemas externos:\n\n```text\nPERSONAS\n  Cliente final           reserva y modifica\n  Agente de call center   reserva por teléfono y resuelve\n  Gestor de hotel         actualiza inventario y precios\n\nSISTEMA\n  [Plataforma de reservas]\n\nEXTERNOS\n  Pasarela de pago        externa, contrato con SLA de 99,95 %\n  Facturación heredada    interna, otro equipo, no se toca\n  Proveedor de correo     externo\n```\n\nY una decisión de alcance que el C1 dejó clara en dos minutos:\n\n```text\nfacturación está FUERA de la caja\n→ y por tanto no se rediseña, se integra\n→ negocio creía que entraba en el proyecto           clase 181\n```\n\n**C2 · Contenedores, tal como estaba antes del rediseño.**\n\n```mermaid\nflowchart TB\n    subgraph Ext[\" \"]\n      PAY[\"Pasarela de pago\\nexterno\"]\n      FACT[\"Facturación heredada\\notro equipo\"]\n    end\n    APP[\"App móvil\\nSwift / Kotlin\"]\n    WEB[\"Web pública\\nNext.js\"]\n    CC[\"Consola de agentes\\nReact\"]\n    API[\"API de reservas\\nJava, App Service\"]\n    SEA[\"Servicio de búsqueda\\nPython\"]\n    JOB[\"Trabajos programados\\n6 scripts\"]\n    DB[(\"Base de reservas\\nPostgreSQL\")]\n    CACHE[(\"Caché\\nRedis\")]\n    Q[\"Cola de correo\\nService Bus\"]\n\n    APP -->|\"HTTPS/JSON · reservar y consultar · síncrona · dura\"| API\n    WEB -->|\"HTTPS/JSON · reservar y consultar · síncrona · dura\"| API\n    CC -->|\"HTTPS/JSON · gestionar reservas · síncrona · dura\"| API\n    WEB -->|\"HTTPS/JSON · buscar disponibilidad · 3.000/s en pico\"| SEA\n    API -->|\"SQL · ESCRIBE reservas\"| DB\n    SEA -->|\"SQL · LEE inventario\"| DB\n    JOB -->|\"SQL · ESCRIBE 4 tablas\"| DB\n    FACT -->|\"SQL · LEE Y ESCRIBE estado de cobro\"| DB\n    SEA -->|\"lee y escribe · caché de disponibilidad\"| CACHE\n    API -->|\"HTTPS · cobrar · síncrona · DURA\"| PAY\n    API -->|\"mensaje · avisar al cliente · asíncrona · blanda\"| Q\n```\n\nY lo que el diagrama hizo evidente en cuanto se anotó quién escribe:\n\n```text\ntres contenedores ESCRIBEN la base de reservas\n  la API, los trabajos programados y facturación heredada\n→ acoplamiento por escritura, invisible hasta dibujarlo   ley 21\n→ y explica por qué cualquier cambio de esquema requería\n  coordinar con un equipo que no participa en el proyecto\n\nel pago es una dependencia DURA y síncrona en el camino de\nreserva\n→ el techo de disponibilidad del flujo no puede superar el\n  99,95 % de la pasarela                                clase 185\n```\n\n**El contraste contra la realidad**, hecho con el inventario de recursos y el mapa de dependencias observadas:\n\n```text\nEN LA REALIDAD Y NO EN EL DIBUJO\n  1  un segundo caché, en una máquina virtual sin etiquetas,\n     usado por la consola de agentes\n  2  un trabajo programado nº 7 que nadie recordaba: exportaba\n     un CSV a un almacén compartido con marketing\n  3  una conexión directa de la herramienta de informes a la\n     réplica de lectura\n  4  la app móvil llamaba también a un endpoint antiguo\n     (api-v1) que se creía retirado\n  5  la pasarela de pago llamaba de vuelta a un webhook que\n     no estaba dibujado\n\nEN EL DIBUJO Y NO EN LA REALIDAD\n  0\n```\n\nY el hallazgo más caro fue el 5, por lo que implicaba:\n\n```text\nel webhook de la pasarela era un punto de ENTRADA externo\nno dibujado, y por tanto\n  → no estaba en el modelo de amenazas               clase 189\n  → no tenía alerta de ausencia                       ley 13\n  → y cuando falló en marzo, 41 pagos quedaron cobrados\n    y sin reserva confirmada durante 3 días\n```\n\n**El único C3 que se dibujó**, y por qué se dibujó ese:\n\n```text\nmotivo   se discutía si el cálculo de precios debía salir de\n         la API de reservas a su propio contenedor\n\nC3 de la API de reservas\n  Controlador de reservas       entrada HTTP\n  Motor de disponibilidad       consulta inventario\n  Calculadora de precios        reglas, promociones, impuestos\n  Coordinador de pago           habla con la pasarela\n  Repositorio de reservas       único que escribe la tabla\n  Publicador de eventos         escribe en la cola\n\nlo que la discusión necesitaba ver\n  la calculadora de precios NO tocaba el repositorio\n  la llamaban 3 de los 6 componentes\n  y cambiaba 4 veces al mes, frente a 1 vez al trimestre\n  el resto\n```\n\nY la decisión que salió de ese C3, con el criterio de la clase siguiente:\n\n```text\nsale a su propio contenedor\nmotivo   ritmo de cambio muy distinto y sin escritura compartida\ncoste de cambio si nos equivocamos   medio: una llamada más\n         y volver a juntarlo es mecánico\n```\n\n**El diagrama objetivo**, marcado con estado para no mentir:\n\n```text\nAPI de reservas               existe\nServicio de precios           previsto        Q4\nServicio de catálogo          en construcción\nTrabajos programados          a retirar       4 de 7\nendpoint api-v1               a retirar       tras migrar la app\nacceso de facturación a la BD a retirar       sustituir por evento\nsegundo caché sin etiquetas   a retirar       inmediato\n```\n\n**La lección que esta clase deja**: el diagrama que el equipo tenía era correcto y llevaba dos años sin tocarse. Al contrastarlo contra las dependencias observadas aparecieron **cinco elementos reales que no estaban dibujados y ninguno dibujado que no existiera**, y el más peligroso —un punto de entrada externo— llevaba tres años funcionando sin figurar en ningún sitio. El diagrama no era falso: era **incompleto en la dirección que importa**, que siempre es la misma.",
+  "pitfalls": [
+    {
+      "symptom": "El diagrama no sirve para ninguna conversación",
+      "cause": "Mezcla niveles: usuarios, servicios, tablas y clases a la vez",
+      "fix": "Un nivel por diagrama; empieza en C1, decide en C2 y baja a C3 solo donde haya discusión."
+    },
+    {
+      "symptom": "El dibujo no dice qué se cae si cae algo",
+      "cause": "Las flechas no tienen dirección, sincronía ni dureza",
+      "fix": "Anota quién inicia, con qué protocolo, para qué, si es síncrona y si es dura o blanda."
+    },
+    {
+      "symptom": "Un cambio de esquema requiere coordinar con equipos ajenos y nadie sabía por qué",
+      "cause": "El diagrama no marcaba quién escribe cada almacén",
+      "fix": "Marca las flechas de escritura; dos escritores en un almacén son acoplamiento oculto."
+    },
+    {
+      "symptom": "El diagrama es más limpio que la realidad",
+      "cause": "Omite lo feo: trabajos sin dueño, accesos directos, endpoints antiguos",
+      "fix": "Contrástalo con el inventario y las dependencias observadas; lo que sobre en la realidad es el hallazgo."
+    },
+    {
+      "symptom": "Se toman decisiones sobre una arquitectura que no existe",
+      "cause": "El diagrama objetivo se presenta como el actual",
+      "fix": "Separa actual y objetivo, y marca el estado de cada elemento: existe, previsto o a retirar."
+    },
+    {
+      "symptom": "Los diagramas quedan obsoletos a las semanas",
+      "cause": "Viven en una herramienta aparte y actualizarlos es una tarea suelta",
+      "fix": "Guárdalos como texto en el repositorio y exige actualizarlos en el mismo cambio que los invalida."
+    }
+  ],
+  "checks": [
+    "¿Qué prueba decide si algo es un contenedor?",
+    "¿Qué debe llevar como mínimo cada flecha, y qué tres anotaciones más cambian decisiones?",
+    "¿Cuáles son las tres formas de mentir con un diagrama correcto?",
+    "¿Cómo se contrasta un diagrama contra la realidad y qué significan las diferencias?",
+    "¿Cuándo merece la pena dibujar un C3?"
+  ],
+  "references": [
+    {
+      "text": "Brown, S. (2025). *The C4 model for visualising software architecture*.",
+      "url": "https://c4model.com/"
+    },
+    {
+      "text": "Brown, S. (2019). *Software Architecture for Developers* — niveles de abstracción y documentación mínima útil.",
+      "url": "https://leanpub.com/software-architecture-for-developers"
+    },
+    {
+      "text": "Clements, P. y otros (2010). *Documenting Software Architectures*, 2.ª ed. — vistas y su audiencia.",
+      "url": "https://www.oreilly.com/library/view/documenting-software-architectures/9780132488617/"
+    },
+    {
+      "text": "Structurizr (2025). *Diagrams as code* — diagramas versionados junto al código.",
+      "url": "https://structurizr.com/"
+    },
+    {
+      "text": "Mermaid (2025). *Flowchart syntax* — diagramas como texto en el repositorio.",
+      "url": "https://mermaid.js.org/syntax/flowchart.html"
+    }
+  ]
+}
