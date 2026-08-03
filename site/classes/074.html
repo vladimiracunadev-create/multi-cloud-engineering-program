@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> intermedio-avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>kubernetes</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>pods, replicasets, deployments y jobs</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Trabajar con las cargas de Kubernetes sabiendo que el pod <strong>no es un contenedor</strong>: es un grupo de contenedores que comparten espacio de red y ciclo de vida, exactamente el modo compartido de la clase 065. De esa definición salen los patrones auxiliares y sus problemas de orden, y de la naturaleza declarativa salen dos comportamientos que producen incidentes reales: <strong>un contenedor de inicialización se ejecuta una vez por pod</strong> —no una vez por despliegue— y <strong>los objetos terminados no desaparecen solos</strong>, con la consecuencia sobre el almacén de estado que la clase 073 acaba de mostrar.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> pods, replicasets, deployments y jobs con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>workload-kubernetes</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Explicar</strong> qué comparten los contenedores de un pod y qué patrones habilita eso.</li>
+<li><strong>Distinguir</strong> el trabajo que corresponde a un contenedor de inicialización del que no, con la trampa de la ejecución por réplica.</li>
+<li><strong>Describir</strong> cómo un despliegue progresa y cómo vuelve atrás, y qué lo impide.</li>
+<li><strong>Configurar</strong> trabajos y trabajos programados con límite de reintentos, plazo y limpieza.</li>
+<li><strong>Anticipar</strong> el efecto de los objetos terminados que nadie retira.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,20 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>pods</code></td>
-<td>Define su papel en <strong>pods, replicasets, deployments y jobs</strong> y cómo observarlo en un sistema real.</td>
+<td><code>pod</code></td>
+<td>Unidad de planificación: uno o varios contenedores que <strong>comparten espacio de red y almacenamiento efímero</strong>, se ubican juntos y viven y mueren juntos. Es el modo compartido de la clase 065 con nombre propio.</td>
 </tr>
 <tr>
-<td><code>replicasets</code></td>
-<td>Define su papel en <strong>pods, replicasets, deployments y jobs</strong> y cómo observarlo en un sistema real.</td>
+<td><code>contenedor de inicialización</code></td>
+<td>Se ejecuta hasta terminar, en orden, antes que los de la aplicación. Se ejecuta <strong>una vez por pod</strong>, así que con tres réplicas ocurre tres veces.</td>
 </tr>
 <tr>
-<td><code>deployments</code></td>
-<td>Define su papel en <strong>pods, replicasets, deployments y jobs</strong> y cómo observarlo en un sistema real.</td>
+<td><code>contenedor auxiliar</code></td>
+<td>Acompaña al principal durante toda su vida. Su orden de arranque y de parada respecto del principal es lo que decide si hay errores en cada despliegue.</td>
 </tr>
 <tr>
-<td><code>jobs</code></td>
-<td>Define su papel en <strong>pods, replicasets, deployments y jobs</strong> y cómo observarlo en un sistema real.</td>
+<td><code>conjunto de réplicas</code></td>
+<td>Mantiene N pods idénticos. No se crea a mano: lo crea el despliegue, y su nombre incluye una huella de la plantilla — que es como funciona la vuelta atrás.</td>
+</tr>
+<tr>
+<td><code>límite de reintentos y plazo</code></td>
+<td>Cuántas veces se reintenta un trabajo y cuánto puede durar. Sin ellos, un trabajo roto reintenta indefinidamente y uno colgado no termina nunca.</td>
+</tr>
+<tr>
+<td><code>limpieza automática</code></td>
+<td>Plazo tras el cual un trabajo terminado se elimina. Sin él, los objetos completados <strong>se acumulan para siempre</strong> en el almacén de estado.</td>
 </tr>
 </tbody>
 </table>
@@ -89,72 +94,343 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Pods, ReplicaSets, Deployments y Jobs&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    subgraph pod[&quot;POD · una dirección IP, un ciclo de vida&quot;]
+        I1[&quot;init 1 · termina&quot;] --&gt; I2[&quot;init 2 · termina&quot;]
+        I2 --&gt; A[&quot;contenedor de la aplicación&quot;]
+        I2 --&gt; S[&quot;contenedor auxiliar&lt;br/&gt;arranca ANTES, muere DESPUÉS&quot;]
+        A &lt;--&gt;|&quot;127.0.0.1&quot;| S
+    end
+    D[&quot;Deployment&quot;] --&gt; RS1[&quot;ReplicaSet v7 · huella de plantilla&quot;]
+    D --&gt; RS2[&quot;ReplicaSet v8&quot;]
+    RS2 --&gt; pod
+    D -.-&gt;|&quot;vuelta atrás = reescalar el anterior&quot;| RS1
+    J[&quot;Job&quot;] --&gt; JP[&quot;pods hasta completar&quot;]
+    JP -.-&gt;|&quot;sin limpieza automática&quot;| ACC[&quot;objetos terminados&lt;br/&gt;que se acumulan · clase 073&quot;]
+    CJ[&quot;CronJob&quot;] --&gt; J
+    CJ -.-&gt;|&quot;sin política de concurrencia&quot;| SOL[&quot;ejecuciones solapadas&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
+<h3 id="1-el-pod-es-el-modo-compartido-de-la-clase-065">1. El pod es el modo compartido de la clase 065</h3>
+<p>Un pod es uno o varios contenedores que comparten cosas concretas, y saber cuáles evita la mitad de las confusiones:</p>
+<pre><code class="language-text">comparten
+  espacio de red    una sola dirección IP; se hablan por 127.0.0.1
+                    y NO pueden escuchar en el mismo puerto
+  almacenamiento efímero  los volúmenes declarados en el pod
+  ciclo de vida     se planifican juntos, se ubican en el mismo nodo
+                    y se eliminan juntos
+
+no comparten
+  sistema de ficheros   cada uno el suyo, salvo los volúmenes que monte
+  espacio de procesos   salvo que se active explícitamente
+  límites de recursos   cada contenedor tiene los suyos
+</code></pre>
+<p>La primera línea es literalmente el modo compartido que la clase 065 explicó, y por eso aquello no era una curiosidad: <strong>era el modelo mental de esta parte</strong>.</p>
+<p>De ahí salen dos patrones, y la diferencia entre ellos es cuándo se ejecutan:</p>
+<pre><code class="language-text">contenedor de inicialización   se ejecuta hasta TERMINAR, en orden,
+                               antes de que arranque ningún contenedor principal
+contenedor auxiliar            acompaña al principal durante toda su vida
+</code></pre>
+<p>Para qué sirve cada uno, con los casos que de verdad aparecen:</p>
+<pre><code class="language-text">inicialización
+  esperar a que una dependencia acepte conexiones (clase 066)
+  ajustar la propiedad de un volumen (el problema de uid de la clase 064)
+  descargar configuración o certificados antes de arrancar
+
+auxiliar
+  representante de red que cifra o enruta el tráfico
+  recolector de métricas o de registros
+  actualizador de configuración que refresca un fichero montado
+</code></pre>
+<p>Y la trampa del primero, que es la que produce incidentes y ya apareció en la clase 071 con otro mecanismo:</p>
+<pre><code class="language-text">un contenedor de inicialización se ejecuta UNA VEZ POR POD
+  → con tres réplicas, tres veces
+  → al escalar a diez, diez veces
+  → en cada reinicio de un pod, otra vez
+</code></pre>
+<p>Por eso <strong>una migración de esquema no va en un contenedor de inicialización</strong>. Parece el sitio natural —«antes de que arranque la aplicación»— y en realidad se ejecuta una vez por réplica y en cada reinicio. Es la segunda aparición de la misma ley que la clase 071 enunció, ahora con un mecanismo de Kubernetes:</p>
+<pre><code class="language-text">migración de esquema  →  un trabajo, ejecutado una vez, antes del despliegue
+esperar a la base     →  contenedor de inicialización, o mejor, reintento
+                         en la aplicación (clases 066, 068)
+</code></pre>
+<p>La segunda opción merece un matiz: esperar en un contenedor de inicialización resuelve el arranque y no la vida, exactamente como <code>depends_on</code> con condición de salud en la clase 066. <strong>El reintento en la aplicación sigue siendo obligatorio</strong>, y con él, el contenedor de inicialización suele sobrar.</p>
+<p>Y sobre los <strong>contenedores auxiliares</strong>, el problema histórico que conviene conocer porque explica una configuración que se ve en muchos sitios: si el auxiliar es un contenedor normal, no hay garantía de que arranque antes que el principal ni de que muera después. Eso produce dos fallos exactos:</p>
+<pre><code class="language-text">al arrancar   el principal intenta salir por el representante que aún no está
+              → errores de conexión en cada creación de pod
+al parar      el representante muere primero
+              → las peticiones en curso del principal fallan (clase 068)
+</code></pre>
+<p>La forma correcta actual es declararlo como contenedor de inicialización con política de reinicio permanente, lo que le da orden garantizado: <strong>arranca antes que los principales y se termina después</strong>.</p>
+<h3 id="2-como-avanza-y-como-vuelve-atras-un-despliegue">2. Cómo avanza y cómo vuelve atrás un despliegue</h3>
+<p>Un despliegue no gestiona pods: gestiona <strong>conjuntos de réplicas</strong>, y ahí está la explicación de la vuelta atrás.</p>
+<pre><code class="language-bash">$ kubectl get rs -l app=tienda
+NAME               DESIRED   CURRENT   READY   AGE
+tienda-7d4b9c8f5        3         3       3     2m     ← la nueva
+tienda-6b1d4a2e7        0         0       0     6d     ← la anterior, conservada
+</code></pre>
+<p>El sufijo es una huella de la plantilla del pod. Cambiar cualquier campo de la plantilla produce una huella distinta y, con ella, un conjunto nuevo. Y volver atrás es <strong>volver a escalar el conjunto anterior</strong>, que sigue existiendo:</p>
+<pre><code class="language-bash">$ kubectl rollout undo deploy/tienda
+$ kubectl rollout history deploy/tienda
+</code></pre>
+<p>De donde salen dos requisitos que se olvidan:</p>
+<pre><code class="language-text">revisionHistoryLimit &gt; 0     si es 0, no hay conjunto anterior que reescalar
+la imagen por HUELLA         si la plantilla referencia una etiqueta y esa
+                             etiqueta se movió, &quot;volver atrás&quot; descarga
+                             el contenido nuevo (clase 061)
+</code></pre>
+<p>La segunda es la quinta aparición de la regla de la clase 061, ahora con la consecuencia más incómoda: <strong>una vuelta atrás que no vuelve a ninguna parte</strong>, con todo el mecanismo funcionando correctamente.</p>
+<p>El avance se controla con dos parámetros y su combinación decide si hay capacidad de sobra o de menos durante el despliegue:</p>
+<pre><code class="language-yaml">strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1          # cuántos pods DE MÁS se permiten
+    maxUnavailable: 0    # cuántos pueden faltar
+</code></pre>
+<p><code>maxUnavailable: 0</code> es el valor correcto por defecto: se crean pods nuevos antes de retirar los viejos, así que la capacidad nunca baja. El coste es que hace falta sitio para uno más y que el despliegue es algo más lento.</p>
+<p>Y un detalle que produce despliegues que parecen colgados: <strong>un pod cuenta como disponible cuando pasa su comprobación de disponibilidad</strong>, no cuando arranca. Si esa comprobación es exigente y la aplicación tarda, el despliegue avanza al ritmo del arranque real — que es lo correcto y hay que dimensionar el tiempo límite en consecuencia.</p>
+<pre><code class="language-bash">$ kubectl rollout status deploy/tienda --timeout=300s
+Waiting for deployment &quot;tienda&quot; rollout to finish: 1 out of 3 new replicas have been updated...
+</code></pre>
+<p>Y el mecanismo que impide un despliegue infinito: si en un plazo no hay progreso, el despliegue se marca como fallido y <strong>se queda parado</strong>, con los pods viejos sirviendo:</p>
+<pre><code class="language-yaml">progressDeadlineSeconds: 600
+</code></pre>
+<p>Eso es lo que se quiere: un despliegue que no puede avanzar no debe seguir intentándolo mientras el conjunto anterior mantiene el servicio. Y la canalización tiene que leer ese estado, porque <code>apply</code> habrá devuelto éxito hace rato — la ley de la clase 073.</p>
+<p>Sobre la <strong>inmutabilidad</strong>: la mayoría de los campos de un pod no se pueden modificar. Cambiar la imagen, las variables o los límites significa <strong>crear otro pod</strong>. Eso es coherente con todo el modelo y explica por qué cualquier cambio produce reemplazo, y por qué el despliegue existe para hacerlo de forma controlada.</p>
+<h3 id="3-trabajos-reintentos-plazos-y-lo-que-nadie-retira">3. Trabajos: reintentos, plazos y lo que nadie retira</h3>
+<p>Un trabajo ejecuta pods hasta que terminan con éxito, y tiene cuatro parámetros que hay que poner siempre porque sus valores por defecto producen problemas:</p>
+<pre><code class="language-yaml">apiVersion: batch/v1
+kind: Job
+metadata: {name: facturar-dia}
+spec:
+  completions: 1
+  parallelism: 1
+  backoffLimit: 3                 # reintentos antes de darse por vencido
+  activeDeadlineSeconds: 3600     # plazo total, pase lo que pase
+  ttlSecondsAfterFinished: 86400  # se elimina solo un día después
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: facturar
+          image: registro/tienda@sha256:9f2c…
+          command: [&quot;/bin/tienda&quot;, &quot;facturar-dia&quot;]
+</code></pre>
+<p>Qué pasa sin cada uno:</p>
+<pre><code class="language-text">sin backoffLimit          usa el valor por defecto y reintenta seis veces;
+                          con un fallo permanente, seis pods fallidos que quedan
+sin activeDeadlineSeconds un proceso colgado no termina NUNCA
+                          y bloquea la ejecución siguiente si hay política
+                          de concurrencia estricta
+sin ttlSecondsAfterFinished  los objetos terminados NO se eliminan solos
+                          → se acumulan indefinidamente
+restartPolicy: Always     no es válido en un trabajo: reiniciaría para siempre
+</code></pre>
+<p>El tercero merece detenerse, porque es la conexión directa con la clase 073. Un trabajo programado que se ejecuta cada cinco minutos genera 288 objetos al día. Sin limpieza automática:</p>
+<pre><code class="language-text">288 objetos/día × 3 trabajos programados × 90 días ≈ 78.000 objetos
+cada uno con su pod, sus sucesos y su historial de estado
+→ presión sobre el almacén de estado, listados lentos y, en el límite,
+  el clúster en solo lectura de la clase 073
+</code></pre>
+<p>La comprobación es directa y conviene hacerla en cualquier clúster con unos meses de vida:</p>
+<pre><code class="language-bash">$ kubectl get jobs -A --no-headers | wc -l
+$ kubectl get pods -A --field-selector status.phase=Succeeded --no-headers | wc -l
+</code></pre>
+<p>Y los <strong>trabajos programados</strong> añaden tres parámetros propios, dos de los cuales ya aparecieron en la clase 071:</p>
+<pre><code class="language-yaml">spec:
+  schedule: &quot;0 2 * * *&quot;
+  timeZone: &quot;Europe/Madrid&quot;
+  concurrencyPolicy: Forbid          # si la anterior sigue, no arranca otra
+  startingDeadlineSeconds: 300       # si no pudo arrancar en 5 min, se salta
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+</code></pre>
+<p><strong>La política de concurrencia</strong> es la corrección del incidente de la clase 071: sin ella, una ejecución que dure más que el intervalo se solapa consigo misma.</p>
+<p><strong>El plazo de arranque</strong> resuelve un fallo que solo aparece después de un incidente y es espectacular: si el plano de control estuvo caído varias horas, al volver el controlador intenta recuperar <strong>todas</strong> las ejecuciones perdidas. Un trabajo cada cinco minutos durante seis horas de caída son 72 ejecuciones lanzadas a la vez. Con el plazo puesto, las que no pudieron arrancar a tiempo simplemente se saltan, que casi siempre es lo correcto.</p>
+<p>Y <strong>la zona horaria</strong> merece declararse explícitamente: sin ella, el horario se interpreta en la del controlador, que puede no ser la del negocio. Un cierre diario «a las 2 de la madrugada» que se ejecuta a las 3 o a la 1 según la estación es un error difícil de atribuir.</p>
+<p>Y para lo que debe ejecutarse en <strong>todos los nodos</strong> —un recolector de registros, un agente de red— existe el conjunto de demonios, que planifica un pod por nodo y añade automáticamente los nodos nuevos. Su particularidad operativa es que <strong>actualizarlo toca todos los nodos</strong>, así que su despliegue progresivo tiene que estar bien configurado o afecta al clúster entero a la vez.</p>
+<h3 id="4-propiedad-borrado-en-cascada-y-objetos-huerfanos">4. Propiedad, borrado en cascada y objetos huérfanos</h3>
+<p>Cada objeto creado por un controlador lleva una referencia a su propietario, y de ahí sale el borrado en cascada:</p>
+<pre><code class="language-bash">$ kubectl get rs tienda-7d4b9c8f5 -o jsonpath='{.metadata.ownerReferences}' | jq -r '.[].kind'
+Deployment
+$ kubectl get pod tienda-7d4b9c8f5-x2k4p -o jsonpath='{.metadata.ownerReferences}' | jq -r '.[].kind'
+ReplicaSet
+</code></pre>
+<p>Borrar el despliegue borra sus conjuntos de réplicas y estos sus pods. Y hay una variante que produce sorpresas:</p>
+<pre><code class="language-bash">$ kubectl delete deploy tienda --cascade=orphan
+</code></pre>
+<p>Eso elimina el despliegue y <strong>deja los pods vivos, sin dueño</strong>. Nadie los reemplaza si mueren, nadie los actualiza, y no aparecen al listar despliegues. Es útil en migraciones controladas y es una fuente de recursos fantasma cuando se usa sin querer.</p>
+<p>La comprobación de huérfanos merece estar en la revisión periódica de un clúster:</p>
+<pre><code class="language-bash">$ kubectl get pods -A -o json \
+  | jq -r '.items[] | select(.metadata.ownerReferences == null)
+           | &quot;\(.metadata.namespace)/\(.metadata.name)&quot;'
+</code></pre>
+<p>Cualquier pod sin propietario es un pod que nadie gestiona: no se recrea, no se actualiza y no lo cubre ningún presupuesto de interrupción de la clase 079.</p>
+<p>Y los <strong>finalizadores</strong>, que la clase 073 introdujo, aparecen aquí en su forma habitual: un objeto que no se borra porque un controlador debía limpiar algo primero.</p>
+<pre><code class="language-bash">$ kubectl get pvc datos-tienda -o jsonpath='{.metadata.finalizers}'
+[&quot;kubernetes.io/pvc-protection&quot;]
+</code></pre>
+<p>Ese en concreto es una protección deliberada: impide borrar una reclamación de volumen mientras un pod la esté usando. Quitarlo a mano borra el objeto y deja el volumen real sin nadie que lo gestione — que es exactamente el tipo de recurso huérfano que aparece en la factura seis meses después.</p>
+<p>Y la lista de comprobación de esta clase, que es lo que se lleva al proyecto de la 084:</p>
+<pre><code class="language-text">☐ ninguna migración de esquema en contenedores de inicialización
+☐ los auxiliares declarados con orden garantizado de arranque y parada
+☐ imagen por huella en la plantilla, para que la vuelta atrás signifique algo
+☐ revisionHistoryLimit mayor que cero
+☐ maxUnavailable en cero salvo justificación
+☐ progressDeadlineSeconds acorde al arranque real, y leído por la canalización
+☐ todo trabajo con límite de reintentos, plazo y limpieza automática
+☐ todo trabajo programado con política de concurrencia, plazo de arranque
+   y zona horaria declarada
+☐ ningún pod sin propietario
+</code></pre>
+<p>Nueve puntos, de los cuales cuatro corrigen valores por defecto que producen problemas y dos vienen directamente de incidentes de las clases 061 y 071.</p>
+<h3 id="5-elegir-el-objeto-correcto">5. Elegir el objeto correcto</h3>
+<p>Con seis tipos de carga disponibles, elegir mal produce trabajo que no encaja con el mecanismo. La tabla que evita la discusión:</p>
 <table>
 <thead>
 <tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
+<th>Necesidad</th>
+<th>Objeto</th>
+<th>Por qué</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
+<td>Servicio sin estado, N réplicas intercambiables</td>
+<td>Deployment</td>
+<td>Despliegue progresivo y vuelta atrás</td>
 </tr>
 <tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
+<td>Identidad estable y almacenamiento propio por réplica</td>
+<td>StatefulSet</td>
+<td>Clase 077</td>
 </tr>
 <tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
+<td>Un pod en cada nodo</td>
+<td>DaemonSet</td>
+<td>Se ajusta solo al añadir nodos</td>
 </tr>
 <tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
+<td>Trabajo que termina</td>
+<td>Job</td>
+<td>Reintentos, paralelismo y plazo</td>
 </tr>
 <tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
+<td>Trabajo que termina, con horario</td>
+<td>CronJob</td>
+<td>Concurrencia y plazo de arranque</td>
+</tr>
+<tr>
+<td>Un pod suelto</td>
+<td>Pod</td>
+<td><strong>Casi nunca</strong>: nadie lo recrea</td>
 </tr>
 </tbody>
 </table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<p>La última fila merece la advertencia: un pod creado directamente no lo gestiona ningún controlador. Si su nodo cae, desaparece y nadie lo sustituye. Solo tiene sentido para depuración puntual —y para eso está el contenedor efímero de la clase 070.</p>
+<p>Y dos decisiones que se toman mal con frecuencia:</p>
+<p><strong>Un despliegue con una sola réplica no es alta disponibilidad.</strong> Durante cualquier actualización, cualquier expulsión y cualquier caída de nodo hay una ventana sin servicio. Si el servicio importa, el mínimo es dos réplicas repartidas, y eso exige que la aplicación tolere ejecutarse dos veces — que es la propiedad que las clases 064 y 071 llamaron estado adherido.</p>
+<p><strong>Un trabajo no es un servicio con horario.</strong> Un proceso de larga duración que «se reinicia si muere» no debe ser un trabajo con reintentos infinitos: es un despliegue con una réplica, y sus reinicios los gestiona el kubelet con espera creciente.</p>
+<p>Y el cierre que enlaza con el resto de la parte: los objetos de esta clase describen <strong>qué debe existir</strong>. Nada de lo visto aquí dice cómo se llega a ello desde fuera, dónde se guardan los datos ni quién puede hablar con quién — que son las tres clases siguientes y, no por casualidad, tres de las cuatro fugas que la clase 072 predijo. La hipótesis va por buen camino: <strong>Kubernetes está resolviendo la reubicación y el despliegue progresivo, y las fugas siguen ahí esperando su nombre propio</strong>.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>pods, replicasets, deployments y jobs</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>CloudShop despliega en Kubernetes la aplicación de la parte 05. Los cinco incidentes del primer trimestre son de los objetos de carga, y tres de ellos son leyes conocidas reapareciendo con un mecanismo nuevo.</strong></p>
+<p><strong>Incidente 1 — la migración de esquema se ejecutó tres veces.</strong></p>
+<p>El equipo puso la migración en un contenedor de inicialización, que parecía el sitio natural.</p>
+<pre><code class="language-bash">$ kubectl logs tienda-7d4b9-x2k4p -c migrar | head -2
+Aplicando migración 2026_08_add_column…
+ERROR: column &quot;descuento&quot; of relation &quot;pedidos&quot; already exists
+</code></pre>
+<p>Con tres réplicas, tres ejecuciones simultáneas. Dos fallaron, el despliegue se quedó a medias y la base quedó con una migración aplicada parcialmente.</p>
+<p>```text                                        antes            después
+migración                        contenedor de inicialización   trabajo previo
+                                                                al despliegue
+ejecuciones por despliegue                    3                     1
+espera a la base de datos          en el mismo contenedor     reintento en la
+                                                              aplicación (068)
+contenedores de inicialización                1                     0</p>
+<pre><code>
+Segunda aparición de la ley de la clase 071 —**lo que se ejecuta por réplica se ejecuta N veces**— con un mecanismo distinto y el mismo daño.
+
+**Incidente 2 — errores en cada creación de pod, y otra vez al parar.**
+
+El representante de red que cifra el tráfico entre servicios estaba declarado como contenedor normal.
+
+```text
+al arrancar   la aplicación intentaba conectar antes de que el representante
+              escuchara → ~15 errores por pod creado
+al parar      el representante moría primero → las peticiones en curso
+              de la aplicación fallaban
+</code></pre>
+<p>```text                                        antes            después
+declaración del auxiliar       contenedor normal   inicialización con reinicio
+                                                   permanente: orden garantizado
+errores por creación de pod              ~15               0
+errores por parada de pod                ~8                0
+errores por despliegue completo         ~70                0</p>
+<pre><code>
+Es el mismo problema que la clase 068 resolvió dentro de un proceso, ahora entre contenedores del mismo pod: **quién arranca antes y quién muere después**.
+
+**Incidente 3 — 78.000 objetos terminados y el almacén al límite.**
+
+```bash
+$ kubectl get jobs -A --no-headers | wc -l
+26412
+$ kubectl get pods -A --field-selector status.phase=Succeeded --no-headers | wc -l
+51833
+</code></pre>
+<p>Tres trabajos programados sin limpieza automática, funcionando desde hacía tres meses. Los listados tardaban minutos y el almacén de estado se acercaba a la cuota — el mismo camino que produjo el incidente 3 de la clase 073.</p>
+<p>```text                                        antes            después
+limpieza automática                       ninguna         86.400 s (1 día)
+historial conservado por trabajo programado  ilimitado      3 correctos, 3 fallidos
+objetos de trabajos en el clúster           78.245            412
+tiempo de un listado de todos los pods      2 min 40 s        1,8 s
+tamaño del almacén de estado                1,4 GiB         210 MiB</p>
+<pre><code>
+**Incidente 4 — 72 ejecuciones simultáneas después de un mantenimiento.**
+
+Tras seis horas de plano de control detenido por una actualización, al volver:
+
+```bash
+$ kubectl get jobs -l cronjob=sincronizar-stock --no-headers | wc -l
+72
+</code></pre>
+<p>El controlador intentó recuperar todas las ejecuciones perdidas de golpe. Las 72 arrancaron a la vez contra el mismo proveedor externo, que las bloqueó — el mismo desenlace que el incidente de ritmo de la clase 056, con otro origen.</p>
+<p>```text                                        antes            después
+plazo de arranque                         sin declarar        300 s
+política de concurrencia                    Allow             Forbid
+zona horaria                              sin declarar    Europe/Madrid
+ejecuciones tras una caída de 6 h             72               1</p>
+<pre><code>
+**Incidente 5 — la vuelta atrás que no volvió a ninguna parte.**
+
+Un despliegue defectuoso se revierte y el problema persiste.
+
+```bash
+$ kubectl rollout undo deploy/tienda
+deployment.apps/tienda rolled back
+$ kubectl get pods -l app=tienda -o jsonpath='{..imageID}' | tr ' ' '\n' | sort -u
+registro/tienda@sha256:c74e0182…      ← la misma imagen defectuosa
+</code></pre>
+<p>La plantilla referenciaba <code>tienda:v8</code>, y la canalización había reescrito esa etiqueta. Volver atrás reescaló el conjunto anterior, cuya plantilla apuntaba a la misma etiqueta, que ahora contenía el código nuevo.</p>
+<p>```text                                        antes            después
+referencia en la plantilla                etiqueta            huella
+revisionHistoryLimit                          0                 10
+vuelta atrás efectiva                        no                sí, 34 s medidos
+etiquetas inmutables en el registro          no                sí</p>
+<pre><code>
+Quinta aparición de la regla de la clase 061, con la consecuencia más incómoda posible: **todo el mecanismo funcionó correctamente y no sirvió de nada**.
+
+**Resumen del primer trimestre:**
+
+```text                                          antes         después
+ejecuciones de la migración por despliegue        3             1
+errores por despliegue completo                  ~70            0
+objetos de trabajos en el clúster              78.245          412
+tiempo de un listado completo de pods         2 min 40 s      1,8 s
+ejecuciones tras una caída de 6 h                72             1
+vuelta atrás efectiva                            no        sí, 34 s
+pods sin propietario                              4             0
+</code></pre>
+<p><strong>La lección que esta clase traslada al resto de la parte 06</strong>: cuatro de los cinco incidentes venían de valores por defecto —sin limpieza, sin plazo de arranque, sin historial de revisiones, contenedor auxiliar sin orden— y ninguno era un fallo del sistema. Y tres eran leyes ya conocidas del programa reapareciendo con mecanismos nuevos. <strong>La lista de nueve comprobaciones de esta clase habría evitado los cinco</strong>, y ninguna de las nueve exige entender nada que las clases anteriores no hubieran enseñado ya.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-06-kubernetes-managed-platforms/074-pods-replicasets-deployments-y-jobs/lab.py
@@ -195,29 +471,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Una migración de esquema se ejecuta varias veces y deja la base a medias</td>
+<td>Está en un contenedor de inicialización, que se ejecuta una vez por pod</td>
+<td>Ejecútala como un trabajo previo al despliegue; el contenedor de inicialización es para esperar o preparar, no para actuar una sola vez.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Errores al crear y al parar cada pod con un representante de red</td>
+<td>El contenedor auxiliar no tiene orden garantizado respecto del principal</td>
+<td>Decláralo como contenedor de inicialización con reinicio permanente: arranca antes y termina después.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Los listados tardan minutos y el almacén de estado crece sin parar</td>
+<td>Los trabajos terminados no se eliminan solos</td>
+<td>Pon limpieza automática en todos los trabajos y limita el historial de los programados.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Tras una caída del plano de control se lanzan decenas de ejecuciones a la vez</td>
+<td>El controlador recupera las ejecuciones perdidas y no hay plazo de arranque</td>
+<td>Declara plazo de arranque y política de concurrencia estricta; casi siempre saltarse lo perdido es lo correcto.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>La vuelta atrás se completa y el problema persiste</td>
+<td>La plantilla referencia una etiqueta que se reescribió, o no hay historial de revisiones</td>
+<td>Referencia por huella, mantén historial mayor que cero y activa etiquetas inmutables en el registro.</td>
+</tr>
+<tr>
+<td>Existen pods que nadie recrea ni actualiza</td>
+<td>Se crearon sueltos o se borró su propietario dejándolos huérfanos</td>
+<td>Usa siempre un controlador y revisa periódicamente los pods sin referencia de propietario.</td>
 </tr>
 </tbody>
 </table>
@@ -228,17 +509,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué comparten los contenedores de un pod y con qué mecanismo de la clase 065 se corresponde?</li>
+<li>¿Por qué una migración de esquema no debe ir en un contenedor de inicialización?</li>
+<li>¿Cómo funciona exactamente una vuelta atrás y qué dos cosas pueden dejarla sin efecto?</li>
+<li>¿Qué cuatro parámetros hay que poner siempre en un trabajo y qué produce la ausencia de cada uno?</li>
+<li>¿Qué ocurre con los trabajos programados tras varias horas de plano de control detenido, y cómo se evita?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Kubernetes: Up and Running — Burns, Beda y Hightower.</li>
-<li>Kubernetes Patterns — Ibryam y Huß.</li>
-<li>Production Kubernetes — Rosso et al..</li>
+<li>Kubernetes (2025). <em>Pods</em> — qué comparten los contenedores y ciclo de vida conjunto. <a href="https://kubernetes.io/docs/concepts/workloads/pods/">https://kubernetes.io/docs/concepts/workloads/pods/</a></li>
+<li>Kubernetes (2025). <em>Sidecar containers</em> — orden garantizado de arranque y terminación. <a href="https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/">https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/</a></li>
+<li>Kubernetes (2025). <em>Deployments</em> — conjuntos de réplicas, estrategia, historial y vuelta atrás. <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">https://kubernetes.io/docs/concepts/workloads/controllers/deployment/</a></li>
+<li>Kubernetes (2025). <em>Jobs and automatic cleanup</em> — reintentos, plazo y eliminación tras finalizar. <a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/">https://kubernetes.io/docs/concepts/workloads/controllers/job/</a></li>
+<li>Kubernetes (2025). <em>CronJob</em> — concurrencia, plazo de arranque, zona horaria e historial. <a href="https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/">https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -306,7 +589,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-pod-es-el-modo-compartido-de-la-clase-065">1. El pod es el modo compartido de la clase 065</a><a class="toc-level-3" href="#2-como-avanza-y-como-vuelve-atras-un-despliegue">2. Cómo avanza y cómo vuelve atrás un despliegue</a><a class="toc-level-3" href="#3-trabajos-reintentos-plazos-y-lo-que-nadie-retira">3. Trabajos: reintentos, plazos y lo que nadie retira</a><a class="toc-level-3" href="#4-propiedad-borrado-en-cascada-y-objetos-huerfanos">4. Propiedad, borrado en cascada y objetos huérfanos</a><a class="toc-level-3" href="#5-elegir-el-objeto-correcto">5. Elegir el objeto correcto</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
