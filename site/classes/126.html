@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>sre</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>sli, slo, sla y presupuesto de error</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Poner un número a lo que significa que el sistema funciona, y usarlo para decidir. La clase distingue las tres cosas que se confunden —lo que se mide, lo que se promete internamente y lo que se firma—, insiste en que <strong>un objetivo de latencia se expresa como proporción y no como percentil</strong>, y desarrolla el mecanismo que convierte todo esto en algo útil: el presupuesto de error, que sirve para dos cosas concretas —<strong>decidir si se sigue entregando o se para a arreglar</strong>, y sustituir un montón de alertas de umbral por unas pocas basadas en el ritmo de consumo—.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> sli, slo, sla y presupuesto de error con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>slo-servicio</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Elegir</strong> indicadores que midan lo que experimenta quien usa el sistema.</li>
+<li><strong>Expresar</strong> objetivos de latencia como proporción por debajo de un umbral.</li>
+<li><strong>Calcular</strong> el presupuesto de error y convertirlo en una regla de decisión.</li>
+<li><strong>Alertar</strong> por ritmo de consumo en varias ventanas, no por umbral instantáneo.</li>
+<li><strong>Fijar</strong> un objetivo alcanzable dadas las dependencias, y no por aspiración.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,24 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>sli</code></td>
-<td>Define su papel en <strong>sli, slo, sla y presupuesto de error</strong> y cómo observarlo en un sistema real.</td>
+<td><code>indicador</code></td>
+<td>Medida de la experiencia de quien usa el sistema, expresada como proporción de eventos correctos sobre el total.</td>
 </tr>
 <tr>
-<td><code>slo</code></td>
-<td>Define su papel en <strong>sli, slo, sla y presupuesto de error</strong> y cómo observarlo en un sistema real.</td>
+<td><code>objetivo</code></td>
+<td>Valor que ese indicador debe alcanzar en una ventana de tiempo. Es un compromiso interno y decide prioridades.</td>
 </tr>
 <tr>
-<td><code>sla</code></td>
-<td>Define su papel en <strong>sli, slo, sla y presupuesto de error</strong> y cómo observarlo en un sistema real.</td>
+<td><code>acuerdo</code></td>
+<td>Promesa contractual con consecuencias. Siempre menos exigente que el objetivo interno, para tener margen.</td>
 </tr>
 <tr>
-<td><code>presupuesto</code></td>
-<td>Define su papel en <strong>sli, slo, sla y presupuesto de error</strong> y cómo observarlo en un sistema real.</td>
+<td><code>presupuesto de error</code></td>
+<td>Lo que queda del 100 % tras el objetivo. Es una cantidad de fallo permitida y se gasta.</td>
 </tr>
 <tr>
-<td><code>error</code></td>
-<td>Define su papel en <strong>sli, slo, sla y presupuesto de error</strong> y cómo observarlo en un sistema real.</td>
+<td><code>ritmo de consumo</code></td>
+<td>Velocidad a la que se agota el presupuesto respecto de lo previsto. Es la base de las alertas útiles sobre objetivos.</td>
+</tr>
+<tr>
+<td><code>ventana móvil</code></td>
+<td>Los últimos N días, actualizados continuamente. Sirve para decidir; el mes natural sirve para informar.</td>
 </tr>
 </tbody>
 </table>
@@ -93,75 +94,334 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: SLI, SLO, SLA y presupuesto de error&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    U[&quot;experiencia del usuario&quot;] --&gt; I[&quot;INDICADOR\nbuenos / total&quot;]
+    I --&gt; O[&quot;OBJETIVO\n99,9 % en 28 días&quot;]
+    O --&gt; B[&quot;PRESUPUESTO\n0,1 % = 40 min&quot;]
+    O --&gt; A[&quot;ACUERDO\n99,5 % · contractual&quot;]
+    B --&gt; D{&quot;¿queda presupuesto?&quot;}
+    D --&gt;|&quot;sí&quot;| S[&quot;seguir entregando · parte 08&quot;]
+    D --&gt;|&quot;no&quot;| P[&quot;parar y arreglar fiabilidad&quot;]
+    B --&gt; R{&quot;ritmo de consumo&quot;}
+    R --&gt;|&quot;14× en 1 h&quot;| W[&quot;despertar&quot;]
+    R --&gt;|&quot;6× en 6 h&quot;| W
+    R --&gt;|&quot;1× en 3 días&quot;| T[&quot;tarea&quot;]
+    I -.-&gt;|&quot;se mide en el BORDE&quot;| E[&quot;no en el servidor&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-tres-cosas-distintas-y-como-se-elige-la-primera">1. Tres cosas distintas, y cómo se elige la primera</h3>
+<pre><code class="language-text">INDICADOR   lo que se mide
+            «proporción de peticiones correctas y por debajo de 300 ms»
+OBJETIVO    lo que se promete internamente
+            «99,9 % en los últimos 28 días»
+ACUERDO     lo que se firma, con consecuencias
+            «99,5 % mensual, o se descuenta de la factura»
+</code></pre>
+<p>Y la relación entre ellos no es negociable:</p>
+<pre><code class="language-text">acuerdo  &lt;  objetivo
+</code></pre>
+<p>Si se firma lo mismo que se persigue internamente, cualquier desviación es un incumplimiento contractual. El margen entre los dos es lo que permite reaccionar antes.</p>
+<p><strong>Elegir el indicador</strong> es la parte difícil, y tiene tres condiciones a la vez:</p>
+<pre><code class="language-text">1. mide lo que EXPERIMENTA quien usa el sistema
+2. se puede medir de verdad, con lo que hay
+3. depende de nosotros lo suficiente como para actuar
+</code></pre>
+<p>Y la forma canónica es siempre la misma, y conviene forzarla:</p>
+<pre><code class="language-text">indicador = eventos buenos / eventos válidos
+</code></pre>
+<p>Y de ahí sale la corrección más importante de esta clase:</p>
+<pre><code class="language-text">mal   «latencia del percentil 99 por debajo de 300 ms»
+bien  «proporción de peticiones por debajo de 300 ms ≥ 99 %»
+</code></pre>
+<p>Son casi lo mismo y no del todo: el segundo <strong>se puede sumar entre instancias y entre ventanas</strong>, se puede comparar, y encaja con el presupuesto. El primero es una métrica y arrastra los problemas de agregación de la clase 123.</p>
+<p>Y el intervalo de histograma colocado en el objetivo, que la clase 123 anticipó, es exactamente lo que hace que esa proporción sea una división exacta.</p>
+<p>Los tipos de indicador que cubren casi todo:</p>
+<pre><code class="language-text">DISPONIBILIDAD   peticiones sin error / peticiones válidas
+LATENCIA         peticiones por debajo del umbral / total
+FRESCURA         datos con antigüedad menor que X / total
+                 → para lo asíncrono y los informes
+CORRECCIÓN       resultados correctos / total
+                 → cuando se puede comprobar; muy valioso y poco usado
+COBERTURA        elementos procesados / elementos que debían procesarse
+                 → es la métrica de conservación de la clase 121
+</code></pre>
+<p>Y dos decisiones que cambian el número por completo:</p>
+<pre><code class="language-text">DÓNDE SE MIDE     en el borde o en el cliente, no en el servidor
+                  → el servidor no ve la cola de entrada ni la red
+QUÉ ES «VÁLIDO»   los errores por petición mal formada del cliente
+                  no cuentan como fallo nuestro; hay que escribirlo
+</code></pre>
+<p>Y una advertencia sobre el número de indicadores: <strong>entre dos y cuatro por servicio de cara al usuario</strong>. Más no se pueden gobernar, y la mayoría de los servicios internos no necesitan ninguno propio.</p>
+<h3 id="2-el-presupuesto-y-para-que-sirve-de-verdad">2. El presupuesto, y para qué sirve de verdad</h3>
+<p>El objetivo deja un resto, y ese resto es una cantidad concreta de fallo permitido:</p>
+<pre><code class="language-text">objetivo    presupuesto      en 28 días        en 1 día
+99      %       1 %          6 h 43 min        14 min
+99,5    %       0,5 %        3 h 22 min         7 min
+99,9    %       0,1 %          40 min          1,4 min
+99,95   %       0,05 %         20 min           43 s
+99,99   %       0,01 %          4 min            9 s
+</code></pre>
+<p>Y la fila de abajo enseña por qué un objetivo aspiracional es un problema: <strong>con cuatro minutos al mes, un solo despliegue fallido lo consume entero</strong>, y ningún proceso humano reacciona en ese tiempo.</p>
+<p>Y lo importante no es la tabla, sino <strong>la regla de decisión</strong> que la acompaña:</p>
+<pre><code class="language-text">queda presupuesto     → se sigue entregando funcionalidad
+                        con las prácticas de la parte 08
+presupuesto agotado   → se para la funcionalidad nueva y se dedica
+                        el esfuerzo a fiabilidad, hasta recuperarlo
+</code></pre>
+<p>Eso es lo que convierte el objetivo en algo más que un informe. Y tiene una condición previa sin la cual no funciona:</p>
+<pre><code class="language-text">la regla la acepta POR ADELANTADO quien puede decidir prioridades
+→ si se discute cuando el presupuesto se agota, no hay regla
+</code></pre>
+<p>Y dos matices honestos:</p>
+<pre><code class="language-text">el presupuesto no se «ahorra» para gastarlo de golpe
+  → es un límite, no una hucha
+un mes con presupuesto intacto es también una señal
+  → o el objetivo es demasiado flojo, o se está siendo demasiado
+    conservador entregando
+</code></pre>
+<p>La segunda es la menos intuitiva y la más útil: <strong>un sistema que nunca gasta presupuesto probablemente está entregando demasiado despacio</strong>.</p>
+<p>Y qué gasta presupuesto y qué no:</p>
+<pre><code class="language-text">gasta     todo fallo que sufre el usuario, sea de quien sea la culpa
+          incluidas las caídas del proveedor
+no gasta  el mantenimiento anunciado, si el usuario lo acepta
+          y las peticiones inválidas, si así se definió
+</code></pre>
+<p>La primera línea sorprende y es deliberada: <strong>al usuario le da igual de quién sea la culpa</strong>. Si una dependencia del proveedor tumba el servicio, el presupuesto se gasta, y eso es lo que obliga a diseñar para tolerarlo.</p>
+<h3 id="3-alertar-por-ritmo-de-consumo">3. Alertar por ritmo de consumo</h3>
+<p>Este apartado sustituye buena parte de las alertas de umbral de la clase 125 por unas pocas mejores.</p>
+<p>El problema del umbral fijo:</p>
+<pre><code class="language-text">«avisar si los errores superan el 5 %»
+  → un pico del 6 % durante 30 segundos: irrelevante, y avisa
+  → un 1,5 % sostenido durante dos días: gasta el presupuesto entero,
+    y no avisa nunca
+</code></pre>
+<p>La alternativa es medir <strong>a qué velocidad se gasta el presupuesto</strong>:</p>
+<pre><code class="language-text">ritmo 1×    se agota justo al final de la ventana: lo previsto
+ritmo 14,4× se agota en 2 días: hay que actuar ya
+ritmo 0,5×  sobra presupuesto
+</code></pre>
+<p>Y las alertas se construyen combinando <strong>una ventana corta y otra larga</strong>, para tener sensibilidad sin falsos avisos:</p>
+<pre><code class="language-text">DESPERTAR   ritmo &gt; 14,4× en 1 h  Y  &gt; 14,4× en 5 min
+            → consume el 2 % del presupuesto en una hora
+
+DESPERTAR   ritmo &gt; 6× en 6 h     Y  &gt; 6× en 30 min
+            → consume el 5 % en seis horas
+
+TAREA       ritmo &gt; 3× en 1 día   Y  &gt; 3× en 2 h
+TAREA       ritmo &gt; 1× en 3 días  Y  &gt; 1× en 6 h
+</code></pre>
+<p>La condición de la ventana corta es la que evita avisar por algo que ya terminó: <strong>si la ventana larga está alta pero la corta ya bajó, el problema pasó</strong>.</p>
+<p>Y lo que se gana:</p>
+<pre><code class="language-text">cuatro alertas por servicio en vez de veinte umbrales
+cubre errores, latencia y cualquier otro indicador con la misma forma
+su gravedad se corresponde con el daño real al usuario
+y no hay que ajustar umbrales a mano por servicio
+</code></pre>
+<p><strong>La ventana del objetivo</strong>, que también decide:</p>
+<pre><code class="language-text">móvil de 28 días     para decidir: siempre refleja el estado actual
+mes natural          para informar y para el acuerdo contractual
+</code></pre>
+<p>Y veintiocho en lugar de treinta por un motivo práctico: <strong>contiene siempre el mismo número de fines de semana</strong>, así que las comparaciones entre ventanas no se distorsionan.</p>
+<p>Y una advertencia sobre la ventana móvil: <strong>un incidente sale del cálculo de golpe cuando cumple 28 días</strong>, y el indicador «mejora» sin que nadie haya hecho nada. Conviene saberlo antes de celebrarlo.</p>
+<h3 id="4-poner-el-numero-con-las-dependencias-delante">4. Poner el número, con las dependencias delante</h3>
+<p>El objetivo no se elige por aspiración. Los tres insumos:</p>
+<pre><code class="language-text">1. LO QUE HAY AHORA
+   medir el indicador durante 4-6 semanas sin objetivo
+   → si ahora es 99,2 %, poner 99,99 % no es un objetivo: es un deseo
+
+2. LO QUE NOTA EL USUARIO
+   ¿a partir de qué punto se queja, se va o llama?
+   → suele haber un escalón, y ese es el sitio del objetivo
+
+3. LO QUE PERMITEN LAS DEPENDENCIAS
+</code></pre>
+<p>Y la tercera se calcula, y es la que más ilusiones rompe:</p>
+<pre><code class="language-text">si una petición necesita 5 dependencias en serie, cada una al 99,9 %
+disponibilidad máxima = 0,999^5 = 99,50 %
+
+→ no se puede prometer 99,9 % sin cambiar el diseño
+</code></pre>
+<p>Y las formas de romper esa cadena son las que la clase 130 desarrolla:</p>
+<pre><code class="language-text">hacer la dependencia opcional: servir sin ella   clase 124
+cachear su respuesta para sobrevivir a su caída  clase 111
+hacerla asíncrona: encolar en vez de llamar      clase 113
+redundancia: dos proveedores o dos regiones
+</code></pre>
+<p>Y hay una decisión de coste explícita, porque <strong>cada nueve cuesta más que el anterior</strong>:</p>
+<pre><code class="language-text">de 99   a 99,9    suele ser trabajo de ingeniería normal
+de 99,9 a 99,99   suele exigir redundancia entre regiones y automatismos
+de 99,99 en adelante   exige que nada dependa de una intervención humana
+</code></pre>
+<p>Y la pregunta que evita gastar de más: <strong>¿qué pierde el negocio por cada nueve que falta?</strong> Si nadie sabe responderla, el objetivo lo está eligiendo la moda.</p>
+<p><strong>El acuerdo contractual</strong>, que es otra cosa:</p>
+<pre><code class="language-text">se mide como lo mide el CLIENTE, no como nos conviene
+lleva consecuencias: descuentos, penalizaciones
+y por eso va varios puntos por debajo del objetivo interno
+y debe definir con precisión qué cuenta, cómo se mide y quién arbitra
+</code></pre>
+<p>Y un aviso sobre qué no debe tener objetivo formal:</p>
+<pre><code class="language-text">todo servicio interno con dos consumidores
+cada componente por separado
+todo lo que no se traduzca en algo que alguien note
+</code></pre>
+<p><strong>Poner objetivos a todo es la ley 15 aplicada a los objetivos</strong>: con cuarenta, ninguno decide nada.</p>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ cada indicador se expresa como buenos entre válidos
+☐ los de latencia son proporción bajo umbral, no percentiles
+☐ está escrito qué eventos son válidos y cuáles no cuentan
+☐ se mide en el borde o en el cliente
+☐ hay entre dos y cuatro indicadores por servicio de cara al usuario
+☐ el objetivo se fijó midiendo antes, no por aspiración
+☐ está calculado el máximo que permiten las dependencias
+☐ el acuerdo contractual es menos exigente que el objetivo
+☐ la regla de decisión al agotar el presupuesto está aceptada de antemano
+☐ las alertas son de ritmo de consumo, con ventana corta y larga
+☐ la ventana de decisión es móvil, y la de informe es natural
+☐ el estado del presupuesto está en el panel principal del servicio
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: cuando el presupuesto se consume de golpe, hay un incidente. Cómo se declara, quién manda mientras dura, qué se comunica y qué se hace después es la materia de la clase 127.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>sli, slo, sla y presupuesto de error</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-10-observability-sre-reliability/126-sli-slo-sla-y-presupuesto-de-error/lab.py
+<p><strong>CloudShop define objetivos para los cinco servicios de cara al cliente. El ejercicio tiene tres momentos: la aspiración que resultó imposible, las alertas de umbral que se sustituyeron, y el mes en que la regla del presupuesto se aplicó de verdad.</strong></p>
+<p><strong>Momento 1: el objetivo aspiracional que las matemáticas descartaron.</strong></p>
+<p>La dirección propuso 99,99 % para el flujo de compra. Antes de aceptarlo se hicieron las tres cuentas del apartado cuarto.</p>
+<pre><code class="language-text">LO QUE HAY AHORA, medido 6 semanas sin objetivo
+  disponibilidad del flujo de compra                    99,21 %
+  proporción por debajo de 500 ms                       97,4 %
+
+LO QUE PERMITEN LAS DEPENDENCIAS
+  identidad            99,95 %
+  catálogo             99,90 %
+  precios              99,90 %
+  inventario           99,80 %
+  pago (externo)       99,50 %
+  ────────────────────────────
+  producto             99,05 %   ← techo actual
+</code></pre>
+<p><strong>Noventa y nueve coma cero cinco.</strong> El objetivo propuesto era físicamente imposible sin cambiar el diseño, y con la configuración de entonces ni siquiera se podía prometer 99,5 %.</p>
+<p>Se rediseñaron tres dependencias con las técnicas del apartado cuarto:</p>
+<p>```text                                    antes            después
+catálogo                             llamada síncrona   caché con valor
+                                                        caducado servible
+precios                              llamada síncrona   caché, y precio
+                                                        base si falla
+pago                                 síncrono en la
+                                     petición           encolado, con
+                                                        confirmación posterior</p>
+<p>techo por dependencias                 99,05 %           99,74 %</p>
+<pre><code>
+Y el objetivo se fijó en **99,5 %**, con el acuerdo contractual en 99,0 %.
+
+```text
+objetivo interno    99,5 %   → presupuesto: 3 h 22 min / 28 días
+acuerdo firmado     99,0 %   → margen: 3 h 22 min más antes de
+                                consecuencias contractuales
+</code></pre>
+<p><strong>La corrección del indicador de latencia.</strong></p>
+<pre><code class="language-text">primera versión    «percentil 99 por debajo de 500 ms»
+problema           se calculaba promediando instancias (clase 123)
+                   y no se podía combinar con el presupuesto
+
+versión final      «proporción de peticiones por debajo de 500 ms ≥ 99 %»
+                   con un intervalo de histograma exactamente en 500 ms
+</code></pre>
+<p>Y dónde se mide, que cambió el número:</p>
+<p>```text                                    en el servidor    en el borde
+proporción bajo 500 ms                     99,4 %            97,4 %
+diferencia                       la cola de entrada y la red,
+                                 que el servidor no ve</p>
+<pre><code>
+Dos puntos de diferencia. **El servidor decía que se cumplía el objetivo y el usuario decía que no.**
+
+**Momento 2: las alertas de ritmo sustituyen a veinte umbrales.**
+
+```text                                          antes         después
+alertas de umbral sobre errores y latencia      20              0
+alertas de ritmo de consumo                      0              4
+ventanas                                        —      1 h/5 min, 6 h/30 min,
+                                                       1 d/2 h, 3 d/6 h
+</code></pre>
+<p>Y el comportamiento comparado, con seis meses de datos:</p>
+<p>```text                                    umbrales      ritmo de consumo
+avisos por mes                              31                 6
+de ellos, con daño real al usuario           7                 6
+falsos avisos por picos breves              19                 0
+degradaciones lentas no detectadas           5                 0</p>
+<pre><code>
+Las dos últimas filas son el argumento entero. Los umbrales avisaban diecinueve veces por picos irrelevantes y **se perdían cinco degradaciones lentas**:
+
+```text
+ejemplo real  1,4 % de errores sostenido durante 3 días
+  umbral del 5 %          nunca se disparó
+  ritmo de consumo        avisó como tarea a las 6 h
+  presupuesto consumido   84 % antes de que nadie lo hubiera notado
+</code></pre>
+<p><strong>Momento 3: el mes en que se agotó el presupuesto.</strong></p>
+<pre><code class="language-text">día 3   despliegue con un defecto: 41 min de errores parciales
+        presupuesto consumido: 38 %
+día 11  caída del proveedor de pago: 1 h 12 min
+        presupuesto consumido acumulado: 74 %
+día 17  incidente de conexiones (clase 109): 27 min
+        presupuesto consumido acumulado: 88 %
+día 19  degradación por saturación: 34 min
+        presupuesto consumido acumulado: 105 %
+</code></pre>
+<p>Y entonces se aplicó la regla, que estaba aceptada por escrito desde el principio:</p>
+<pre><code class="language-text">funcionalidad nueva                        parada 9 días
+esfuerzo dedicado a fiabilidad             el del equipo entero
+trabajo hecho en esos 9 días
+  agrupador de conexiones y techos           clase 109
+  plazos y respuesta parcial en 4 llamadas   clase 124
+  caché con valor caducado servible          clase 111
+  reversión automática por ritmo de consumo  clase 102
+</code></pre>
+<p>Y la discusión que no hubo:</p>
+<pre><code class="language-text">tiempo dedicado a discutir si parar o no                        0
+motivo    la regla estaba aceptada por adelantado, con nombre
+          y firma, desde la definición del objetivo
+</code></pre>
+<p>Y el efecto en los tres meses siguientes:</p>
+<p>```text                                    mes del incidente   +3 meses
+presupuesto consumido                        105 %              31 %
+despliegues por semana                       6,4 (y luego 0)     7,1
+incidentes                                    4                  1</p>
+<pre><code>
+Los despliegues **no bajaron** al mes siguiente: el equipo volvió a entregar más que antes, sobre un sistema que ya no gastaba el presupuesto.
+
+**Y el mes contrario, que también enseñó algo.**
+
+```text
+mes 7   presupuesto consumido: 4 %
+</code></pre>
+<p>Cuatro por ciento. Según el apartado segundo, eso es también una señal, y al revisarlo:</p>
+<pre><code class="language-text">causa    dos equipos habían dejado de desplegar los viernes
+         y estaban acumulando cambios «por prudencia»
+efecto   lotes más grandes, y el incidente del mes 8 fue el mayor del año
+decisión volver a desplegar a diario; el presupuesto está para gastarse
+</code></pre>
+<p><strong>A los seis meses.</strong></p>
+<p>```text                                          antes         después
+indicadores definidos                            0             11
+servicios con objetivo                        0 de 5         5 de 5
+objetivo del flujo de compra              aspiración 99,99 %   99,5 %
+techo por dependencias                       99,05 %         99,74 %
+disponibilidad real                          99,21 %         99,68 %
+proporción bajo 500 ms (en el borde)          97,4 %          99,3 %
+alertas de umbral sobre errores y latencia       20              0
+alertas de ritmo de consumo                       0              4
+avisos por mes                                   31              6
+falsos avisos por picos breves                   19              0
+degradaciones lentas no detectadas          5 / 6 meses          0
+meses con la regla del presupuesto aplicada       —              1
+discusiones sobre si aplicarla                    —              0</p>
+<pre><code>
+**La lección que esta clase traslada a la parte 10**: lo más valioso del ejercicio ocurrió **antes de medir nada**. Multiplicar las disponibilidades de las cinco dependencias demostró en diez minutos que el objetivo que se quería prometer era imposible, y eso convirtió la conversación de «esforzaos más» en «hay que hacer opcionales tres dependencias». Y el mecanismo que más cambió el día a día no fue el objetivo, sino su resto: **una regla de parada aceptada por adelantado eliminó por completo la discusión que suele consumir los días posteriores a un mal mes**.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-10-observability-sre-reliability/126-sli-slo-sla-y-presupuesto-de-error/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>sre</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -199,29 +459,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>El objetivo es inalcanzable por más que se esfuerce el equipo</td>
+<td>Se fijó por aspiración, sin calcular el techo que imponen las dependencias</td>
+<td>Multiplica las disponibilidades de la cadena; si no llega, haz dependencias opcionales, cacheables o asíncronas antes de prometer nada.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>El indicador de latencia no se puede combinar ni comparar</td>
+<td>Está expresado como percentil en vez de como proporción bajo umbral</td>
+<td>Define proporción de peticiones por debajo del umbral y coloca un intervalo de histograma justo ahí.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>El servidor cumple el objetivo y el usuario se queja</td>
+<td>Se mide donde no se ven la cola de entrada ni la red</td>
+<td>Mide en el borde o en el cliente.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Una degradación leve y sostenida consume el presupuesto sin disparar nada</td>
+<td>Las alertas son de umbral instantáneo</td>
+<td>Alerta por ritmo de consumo del presupuesto, combinando una ventana larga con una corta.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Al agotarse el presupuesto se discute durante días qué hacer</td>
+<td>La regla de decisión no estaba aceptada de antemano por quien prioriza</td>
+<td>Acuerda y firma la regla al definir el objetivo, no cuando se incumple.</td>
+</tr>
+<tr>
+<td>Hay objetivos para cuarenta componentes y ninguno decide nada</td>
+<td>Ley 15 aplicada a los objetivos</td>
+<td>De dos a cuatro indicadores por servicio de cara al usuario; los componentes internos no necesitan objetivo propio.</td>
 </tr>
 </tbody>
 </table>
@@ -232,17 +497,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué relación debe haber entre el acuerdo contractual y el objetivo interno, y por qué?</li>
+<li>¿Por qué un objetivo de latencia se expresa como proporción y no como percentil?</li>
+<li>¿Para qué dos cosas concretas sirve el presupuesto de error?</li>
+<li>¿Por qué las alertas de ritmo de consumo combinan una ventana larga y una corta?</li>
+<li>¿Cómo se calcula el techo de disponibilidad que imponen las dependencias?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Site Reliability Engineering — Beyer et al..</li>
-<li>The Site Reliability Workbook — Beyer et al..</li>
-<li>Observability Engineering — Majors, Fong-Jones y Miranda.</li>
+<li>Google SRE (2025). <em>Service level objectives</em> — indicadores, objetivos y presupuesto de error. <a href="https://sre.google/sre-book/service-level-objectives/">https://sre.google/sre-book/service-level-objectives/</a></li>
+<li>Google SRE (2025). <em>Alerting on SLOs: multiwindow, multi-burn-rate</em> — ventanas y ritmos de consumo. <a href="https://sre.google/workbook/alerting-on-slos/">https://sre.google/workbook/alerting-on-slos/</a></li>
+<li>Beyer, B. y otros (2018). <em>The Site Reliability Workbook</em>, cap. 2 — cómo elegir indicadores útiles. <a href="https://sre.google/workbook/implementing-slos/">https://sre.google/workbook/implementing-slos/</a></li>
+<li>Wilkinson, A. (2025). <em>SLO implementation patterns</em> — proporción de eventos buenos y ventanas móviles. <a href="https://github.com/google/slo-generator">https://github.com/google/slo-generator</a></li>
+<li>Prometheus (2025). <em>Histograms and quantiles</em> — por qué el intervalo colocado en el objetivo importa. <a href="https://prometheus.io/docs/practices/histograms/">https://prometheus.io/docs/practices/histograms/</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -310,7 +577,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-cosas-distintas-y-como-se-elige-la-primera">1. Tres cosas distintas, y cómo se elige la primera</a><a class="toc-level-3" href="#2-el-presupuesto-y-para-que-sirve-de-verdad">2. El presupuesto, y para qué sirve de verdad</a><a class="toc-level-3" href="#3-alertar-por-ritmo-de-consumo">3. Alertar por ritmo de consumo</a><a class="toc-level-3" href="#4-poner-el-numero-con-las-dependencias-delante">4. Poner el número, con las dependencias delante</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
