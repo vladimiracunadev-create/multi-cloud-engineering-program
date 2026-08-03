@@ -1,0 +1,118 @@
+{
+  "id": "183",
+  "purpose": "Decidir dónde va cada frontera, que es la decisión más cara de cambiar de todas las que se toman. La clase define acoplamiento y cohesión con precisión suficiente para discutirlos, enumera las siete formas de acoplamiento por orden de coste, y sostiene con la evidencia del programa que la frontera correcta la marca **quién escribe cada dato y a qué ritmo cambia cada cosa**, no la descomposición funcional que sale sola al mirar el organigrama.",
+  "outcomes": [
+    "**Distinguir** los siete tipos de acoplamiento y ordenarlos por coste.",
+    "**Medir** la cohesión de un módulo con criterios comprobables.",
+    "**Situar** fronteras usando escritura de datos y ritmo de cambio.",
+    "**Reconocer** las fronteras mal puestas por sus síntomas.",
+    "**Decidir** cuándo mover una frontera y cuánto cuesta hacerlo."
+  ],
+  "concepts": [
+    {
+      "term": "acoplamiento",
+      "definition": "Medida de cuánto obliga un cambio en A a cambiar B. No es malo por sí mismo; lo caro es el tipo equivocado."
+    },
+    {
+      "term": "cohesión",
+      "definition": "Medida de cuánto pertenecen juntas las cosas de un módulo. Alta cohesión: cambian por el mismo motivo."
+    },
+    {
+      "term": "acoplamiento por datos",
+      "definition": "Dos módulos escriben el mismo almacén. El más caro y el más invisible."
+    },
+    {
+      "term": "ritmo de cambio",
+      "definition": "Frecuencia con que se modifica una parte. Partes con ritmos muy distintos no pertenecen al mismo módulo."
+    },
+    {
+      "term": "frontera",
+      "definition": "Línea que separa lo que se despliega, versiona y decide por separado."
+    },
+    {
+      "term": "coste de mover una frontera",
+      "definition": "Lo que cuesta cambiarla más tarde. Determina cuánto cuidado merece la decisión inicial."
+    }
+  ],
+  "diagram": "flowchart TB\n    A[\"acoplamiento, de barato a caro\"] --> A1[\"1 · por mensaje\\ncontrato explícito\"]\n    A1 --> A2[\"2 · por parámetro\"]\n    A2 --> A3[\"3 · por contrato de API\"]\n    A3 --> A4[\"4 · temporal\\nA necesita que B esté vivo\"]\n    A4 --> A5[\"5 · por despliegue\\nhay que subirlos juntos\"]\n    A5 --> A6[\"6 · por conocimiento\\nA sabe cómo funciona B\"]\n    A6 --> A7[\"7 · POR DATOS\\ndos escriben el mismo almacén\"]\n    F[\"dónde va la frontera\"] --> F1[\"quién ESCRIBE cada dato\"]\n    F --> F2[\"a qué RITMO cambia\"]\n    F --> F3[\"qué se despliega junto\\nporque debe\"]\n    F1 --> X[\"frontera correcta\"]\n    F2 --> X\n    F3 --> X",
+  "foundations": [
+    {
+      "heading": "Acoplamiento: siete tipos, por coste",
+      "body": "Decir «hay que reducir el acoplamiento» no ayuda: todo sistema útil está acoplado. Lo que importa es **de qué tipo**, porque el coste varía en dos órdenes de magnitud.\n\n```text\n1  POR MENSAJE            A publica un evento; B lo consume\n   coste de cambio        bajo; el contrato es explícito\n   se rompe con           cambiar el esquema del evento  clase 148\n\n2  POR PARÁMETRO         A llama a B pasando datos\n   coste                  bajo\n\n3  POR CONTRATO DE API   A depende de la forma de la API de B\n   coste                  medio; gestionable con versiones\n\n4  TEMPORAL              A necesita que B esté vivo AHORA\n   coste                  medio-alto; hereda disponibilidad\n   síntoma                una caída de B tira A               clase 185\n\n5  POR DESPLIEGUE        hay que subir A y B a la vez\n   coste                  alto; elimina la autonomía\n   síntoma                «no puedo desplegar hasta que ellos»\n\n6  POR CONOCIMIENTO      A sabe cómo funciona B por dentro\n   coste                  alto; se rompe sin avisar\n   síntoma                un cambio interno de B rompe A\n\n7  POR DATOS             A y B escriben el mismo almacén\n   coste                  el más alto de todos\n   síntoma                nadie puede cambiar el esquema\n   invisible              no aparece en el código de ninguno\n```\n\nY la observación que este programa ha repetido desde la clase 147:\n\n```text\nlos seis primeros son visibles: están en el código\nel séptimo NO, y por eso sobrevive años                 ley 21\n→ dos servicios «independientes» que escriben la misma\n  tabla no son dos servicios: son uno mal repartido\n```\n\nY una consecuencia práctica que se usa como regla de diseño:\n\n```text\nse puede convertir acoplamiento caro en barato\n  7 → 1   un solo escritor, y los demás reciben eventos\n  5 → 3   contrato versionado en vez de despliegue conjunto\n  6 → 3   API explícita en vez de conocimiento interno\n  4 → 1   asíncrono donde la operación lo permita   clase 118\n\ny cada conversión cuesta latencia, consistencia o complejidad\n→ no se hacen todas: se hacen donde el cambio duele\n```"
+    },
+    {
+      "heading": "Cohesión: qué pertenece junto",
+      "body": "La cohesión se explica mal con definiciones abstractas y bien con una pregunta:\n\n```text\n¿estas dos cosas cambian por el mismo motivo?\n\nsí   pertenecen juntas\nno   no, aunque traten del mismo sustantivo\n```\n\nY el error clásico es agrupar por sustantivo:\n\n```text\n«todo lo de Cliente va en el servicio de Cliente»\n  → datos de contacto        cambian por marketing\n  → preferencias             cambian por producto\n  → historial de pagos       cambian por finanzas\n  → consentimientos          cambian por legal\n\ncuatro motivos de cambio, cuatro equipos, un solo módulo\n→ cada despliegue toca lo de los otros tres\n```\n\n**Los criterios de cohesión que se pueden comprobar**, no opinar:\n\n```text\n1. MOTIVO DE CAMBIO\n   mira los últimos 50 cambios del módulo\n   → si vienen de tres áreas distintas de negocio, no hay cohesión\n\n2. RITMO DE CAMBIO\n   mide cuántas veces al mes cambia cada parte\n   → si una cambia 8 veces y otra 1 al trimestre, sepáralas\n\n3. QUIÉN LOS PIDE\n   si los cambios vienen de equipos distintos, la frontera\n   está en el sitio equivocado                          ley 21\n\n4. QUÉ SE ROMPE JUNTO\n   si un fallo en una parte no afecta a la otra, no comparten\n   destino y podrían separarse\n```\n\nY una medida directa que se saca del historial y casi nadie mira:\n\n```text\nCAMBIOS ACOPLADOS\n  ¿qué porcentaje de los cambios a A tocan también a B?\n\n  > 60 %   A y B deberían estar juntos\n  10-60 %  frontera dudosa, mírala\n  < 10 %   frontera bien puesta\n\nse calcula del historial del repositorio, en minutos\n```\n\nY la asimetría que hay que recordar:\n\n```text\ndemasiados módulos   coste de coordinación, latencia,\n                     operación                       clase 184\ndemasiado pocos      coste de coordinación humana\n                     y despliegues bloqueados\n→ el óptimo no es «más pequeño»; es «cambia junto, va junto»\n```"
+    },
+    {
+      "heading": "Dónde va la frontera de verdad",
+      "body": "La descomposición funcional —reservas, pagos, catálogo— sale sola, y **casi siempre está a medio camino de la correcta**. Los tres criterios que la corrigen, por orden de fuerza:\n\n```text\n1. QUIÉN ESCRIBE CADA DATO                              ley 21\n   un dato, un escritor\n   → si dos módulos necesitan escribir lo mismo, o son uno\n     solo o el dato está mal definido\n   → este criterio, solo, coloca la mayoría de las fronteras\n\n2. RITMO DE CAMBIO\n   lo que cambia 8 veces al mes no vive con lo que cambia\n   una vez al trimestre\n   → aunque traten del mismo sustantivo\n\n3. LO QUE DEBE FALLAR JUNTO\n   si A no tiene sentido sin B, sepáralos con cuidado:\n   estás creando acoplamiento temporal                  clase 185\n```\n\nY tres criterios que se usan mucho y funcionan mal:\n\n```text\nEL ORGANIGRAMA\n  produce fronteras que reflejan la empresa de hoy\n  → y la empresa se reorganiza antes que el software\n  → aunque la ley de Conway es real: si el organigrama y la\n    frontera se pelean, gana el organigrama                ley 21\n\nEL SUSTANTIVO DE NEGOCIO\n  «Cliente», «Producto», «Pedido»\n  → agrupa cosas que cambian por motivos distintos\n\nEL TAMAÑO\n  «que ningún servicio pase de N líneas»\n  → optimiza una medida sin relación con el coste    ley 17\n```\n\n**Los síntomas de una frontera mal puesta**, que se detectan sin discutir:\n\n```text\nhay que desplegar dos cosas juntas para que funcione\nun cambio pequeño requiere tocar tres repositorios\nla mayoría de los cambios cruzan la frontera\ndos equipos se bloquean en el mismo fichero\nhay que preguntar a otro equipo qué significa un campo\ndos servicios escriben el mismo almacén\nun servicio hace una llamada por elemento a otro   clase 124\nla frontera exige transacción distribuida          clase 149\n```\n\nY el último es el más informativo:\n\n```text\nsi mantener la corrección exige una transacción a través de\nla frontera, la frontera está en el sitio equivocado\n→ mueve la frontera, no añadas coordinación distribuida\n```\n\n**Cuándo mover una frontera y cuánto cuesta:**\n\n```text\nMOVER HACIA DENTRO (juntar dos módulos)   barato\n  suele ser mecánico; se pierde autonomía\n\nMOVER HACIA FUERA (separar uno en dos)    caro si hay datos\n  si comparten almacén, hay que dividir datos, y eso es\n  lo más caro que existe                              clase 147\n\nREGLA PRÁCTICA\n  ante la duda, EMPIEZA JUNTO y separa cuando el ritmo de\n  cambio o el escritor lo exijan\n  → juntar lo separado es más barato que separar lo junto\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ está identificado el tipo de acoplamiento de cada relación\n☐ ningún almacén tiene más de un escritor\n☐ se ha medido el porcentaje de cambios acoplados\n☐ se ha medido el ritmo de cambio de cada parte\n☐ ninguna frontera exige transacción distribuida\n☐ ninguna frontera obliga a desplegar dos cosas juntas\n☐ las fronteras no se copiaron del organigrama sin pensar\n☐ se sabe el coste de mover cada frontera\n☐ ante la duda, se empezó junto\n```\n\nY el cierre que enlaza con la clase siguiente: sabiendo dónde van las fronteras, queda decidir cuántas unidades desplegables las materializan —una, unas pocas o muchas— y esa es una decisión distinta y con su propio coste. Es la materia de la clase 184."
+    },
+    {
+      "heading": "Modularidad sin repartir en servicios",
+      "body": "Una confusión frecuente y cara: **frontera no significa servicio**. Se puede tener modularidad estricta dentro de un solo despliegue, y suele ser la mejor opción durante años.\n\n```text\nLO QUE DA LA FRONTERA MODULAR (mismo despliegue)\n  claridad de propiedad\n  un escritor por dato\n  contratos internos explícitos\n  posibilidad de separar después\n\nLO QUE AÑADE SEPARAR EN SERVICIOS\n  despliegue independiente\n  escalado independiente\n  aislamiento de fallo\n  y a cambio: red, latencia, consistencia eventual,\n  operación, y coordinación                          clase 184\n```\n\nY el modo de mantener fronteras dentro de un mismo despliegue, que es lo que las hace reales:\n\n```text\ncada módulo con su propio esquema o su propio conjunto de tablas\nprohibida la consulta cruzada; se pide por la interfaz del módulo\nel acceso a datos de otro módulo NO compila\n  → paquetes internos, reglas de dependencia, análisis estático\ncada módulo tiene dueño escrito\ny sus cambios se revisan por ese dueño\n```\n\nY la comprobación que dice si la frontera modular es real o decorativa:\n\n```text\n¿se podría sacar este módulo a su propio despliegue en una\nsemana, sin tocar los demás?\n\n  sí   la frontera es real\n  no   es una carpeta con un nombre bonito\n```\n\nY una advertencia con evidencia de este programa:\n\n```text\nlas fronteras que solo existen por convención se erosionan\n→ alguien hace una consulta cruzada «solo esta vez»\n→ y a los dos años hay 7                            clase 179\n→ si no lo impide el compilador o la revisión, ocurrirá\n```"
+    }
+  ],
+  "worked_example": "**El equipo de reservas decide dónde van sus fronteras. Lo que sigue es el análisis de acoplamiento con datos del repositorio, el rechazo de la descomposición que salía sola, y las cuatro fronteras que resultaron.**\n\n**Punto de partida: la descomposición funcional obvia.**\n\n```text\nReservas · Pagos · Catálogo · Precios · Clientes · Notificaciones\n```\n\nY parecía correcta hasta que se miraron dos datos que están en el repositorio y no requieren opinión.\n\n**Dato 1: cambios acoplados, últimos 12 meses.**\n\n```text\npares que cambian juntos                    % de cambios\n  Reservas × Pagos                                71 %\n  Catálogo × Precios                              64 %\n  Reservas × Notificaciones                        6 %\n  Catálogo × Clientes                              3 %\n  Precios × Reservas                              38 %\n```\n\nY la lectura:\n\n```text\nReservas y Pagos cambian juntos el 71 % de las veces\n→ separarlos crea dos repositorios que hay que tocar a la vez\n→ NO son dos módulos: son uno\n\nCatálogo y Precios, 64 %\n→ lo mismo\n\nPrecios × Reservas, 38 %\n→ zona dudosa; hay que mirar por qué\n```\n\n**Dato 2: ritmo de cambio y origen de los cambios.**\n\n```text\nparte                cambios/mes   los pide\nreglas de precios         9        producto y revenue\ndisponibilidad            1        operaciones\nflujo de reserva          2        producto\ncoordinación de pago      1        finanzas\nplantillas de aviso       6        marketing\ndatos de contacto         4        marketing\nconsentimientos           1        legal\n```\n\nY aquí apareció la contradicción con el dato 1:\n\n```text\nPrecios cambia 9 veces al mes; Catálogo, 1\n→ el 64 % de cambios acoplados NO significa que pertenezcan\n  juntos: significa que cada cambio de precio obligaba a tocar\n  el catálogo\n→ y al mirar por qué: los precios estaban GUARDADOS en la tabla\n  de catálogo\n\nel acoplamiento era del tipo 7, por datos, disfrazado\n```\n\n**Dato 3: quién escribe cada almacén, del diagrama de la clase 182.**\n\n```text\ntabla                     escritores\nreservas                  API, trabajos programados, facturación\ncatálogo                  catálogo, precios\nclientes                  API, importación de marketing\ninventario                gestor de hoteles, trabajos programados\n```\n\nY cuatro almacenes con más de un escritor, que es donde estaba el problema real.\n\n**Las decisiones, con el criterio de la clase.**\n\n```text\nDECISIÓN 1   Reservas y Pagos van JUNTOS\n  motivo     71 % de cambios acoplados; y la corrección exige\n             transacción entre ambos\n  alternativa descartada   separarlos con saga\n  por qué    la compensación habría hecho invisible el fallo\n             cuando el pago se confirma y la reserva no  ley 19\n  coste de cambio si nos equivocamos   medio\n\nDECISIÓN 2   Precios SALE de Catálogo\n  motivo     9 cambios/mes frente a 1; equipos distintos\n  cómo       catálogo deja de guardar el precio; precios tiene\n             su propio almacén y publica un evento de cambio\n  convierte  acoplamiento 7 → 1\n  coste      alto: hay que migrar el dato       ← se hace pronto\n\nDECISIÓN 3   Clientes NO se parte por sustantivo\n  motivo     contacto (4/mes, marketing), consentimientos\n             (1/mes, legal) y preferencias cambian por motivos\n             distintos\n  cómo       tres módulos con esquemas separados DENTRO del\n             mismo despliegue, cada uno con dueño\n  por qué no tres servicios   el tráfico no lo justifica y la\n             operación costaría más que la autonomía que da\n  coste de separarlos después   bajo: ya tienen esquema propio\n\nDECISIÓN 4   Notificaciones queda separada\n  motivo     6 % de cambios acoplados, y ya era asíncrona\n  confirma   la frontera existente estaba bien puesta\n```\n\n**Los escritores, después:**\n\n```text\ntabla                     escritor único\nreservas                  servicio de reservas y pagos\n  facturación             → recibe evento, ya no escribe\n  trabajos programados    → 4 retirados; 3 pasan por la API\ncatálogo                  servicio de catálogo\nprecios                   servicio de precios      ← nuevo\nclientes.contacto         módulo de contacto\nclientes.consentimientos  módulo de consentimientos\ninventario                servicio de catálogo\n  gestor de hoteles       → escribe por la API, no directo\n```\n\n**Cómo se hicieron reales las fronteras dentro del despliegue de clientes**, que es lo que evita que se erosionen:\n\n```text\ntres esquemas separados en la misma base\nnadie consulta el esquema de otro módulo\n  → usuario de base de datos por módulo, con permisos solo\n    sobre su esquema; la consulta cruzada FALLA, no se detecta\n    en revisión\nreglas de dependencia en el análisis estático\ncada módulo con dueño en el fichero de propiedad\n```\n\nY la comprobación de la clase, aplicada:\n\n```text\n¿se podría sacar contacto a su propio despliegue en una semana?\n  → sí: esquema propio, sin consultas cruzadas, contrato claro\n  → la frontera es real\n```\n\n**Lo que costó equivocarse una vez.** La primera propuesta separaba Reservas y Pagos:\n\n```text\nse llegó a implementar la saga durante 3 semanas\nse abandonó al hacer la prueba negativa: al fallar el paso de\nconfirmación, la compensación cancelaba el pago y el cliente\nrecibía dos correos contradictorios\ncoste del error                              3 semanas\ncómo se detectó                              prueba negativa\nqué lo habría evitado                        mirar el 71 % de\n                                             cambios acoplados\n                                             ANTES de diseñar\n```\n\n**La lección que esta clase deja**: dos datos que ya estaban en el repositorio —qué cambia junto y a qué ritmo— corrigieron una descomposición funcional que parecía obvia, y el acoplamiento más caro del sistema **no estaba en ninguna llamada**: estaba en que el precio vivía en la tabla del catálogo. Ningún diagrama de servicios lo habría mostrado.",
+  "pitfalls": [
+    {
+      "symptom": "Dos servicios «independientes» no pueden cambiar de esquema sin coordinarse",
+      "cause": "Acoplamiento por datos: ambos escriben el mismo almacén",
+      "fix": "Un escritor por dato; los demás reciben eventos. Convierte el acoplamiento tipo 7 en tipo 1."
+    },
+    {
+      "symptom": "Un cambio pequeño obliga a tocar tres repositorios",
+      "cause": "La frontera cruza justo por donde ocurren los cambios",
+      "fix": "Calcula el porcentaje de cambios acoplados del historial; por encima del 60 % esas partes van juntas."
+    },
+    {
+      "symptom": "Un módulo se despliega constantemente por culpa de una parte que cambia mucho",
+      "cause": "Se agrupó por sustantivo y no por motivo ni ritmo de cambio",
+      "fix": "Separa lo que cambia 8 veces al mes de lo que cambia una vez al trimestre, aunque compartan nombre."
+    },
+    {
+      "symptom": "Mantener la corrección exige una transacción distribuida",
+      "cause": "La frontera está en el sitio equivocado",
+      "fix": "Mueve la frontera en vez de añadir coordinación distribuida y compensaciones."
+    },
+    {
+      "symptom": "Las fronteras modulares se erosionan y aparecen consultas cruzadas",
+      "cause": "Solo existían por convención",
+      "fix": "Haz que la consulta cruzada falle: esquemas y usuarios de base separados, reglas de dependencia en el análisis estático."
+    },
+    {
+      "symptom": "Separar un módulo resulta muchísimo más caro de lo previsto",
+      "cause": "Compartía almacén y hay que dividir datos",
+      "fix": "Ante la duda empieza junto: juntar lo separado es más barato que separar lo junto."
+    }
+  ],
+  "checks": [
+    "¿Cuál de los siete tipos de acoplamiento es el más caro y por qué es invisible?",
+    "¿Qué mide el porcentaje de cambios acoplados y cómo se obtiene?",
+    "¿Por qué agrupar por sustantivo de negocio suele dar mala cohesión?",
+    "¿Qué indica que una frontera está mal puesta si exige transacción distribuida?",
+    "¿Qué comprobación dice si una frontera modular es real o decorativa?"
+  ],
+  "references": [
+    {
+      "text": "Parnas, D. L. (1972). *On the criteria to be used in decomposing systems into modules*.",
+      "url": "https://dl.acm.org/doi/10.1145/361598.361623"
+    },
+    {
+      "text": "Newman, S. (2019). *Monolith to Microservices* — acoplamiento por datos y cómo dividirlo.",
+      "url": "https://www.oreilly.com/library/view/monolith-to-microservices/9781492047834/"
+    },
+    {
+      "text": "Tornhill, A. (2018). *Software Design X-Rays* — cambios acoplados medidos sobre el historial.",
+      "url": "https://pragprog.com/titles/atevol/software-design-x-rays/"
+    },
+    {
+      "text": "Evans, E. (2003). *Domain-Driven Design* — contextos delimitados y sus fronteras.",
+      "url": "https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/"
+    },
+    {
+      "text": "Conway, M. (1968). *How do committees invent?* — la frontera y el organigrama.",
+      "url": "https://www.melconway.com/Home/Committees_Paper.html"
+    }
+  ]
+}
