@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> intermedio-avanzado · <strong>Horas estimadas:</strong> 8<br>
 <strong>Laboratorio:</strong> <code>capstone</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>proyecto: plataforma kubernetes portable</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Integrar las once clases anteriores en una plataforma de Kubernetes que se pueda operar y mover, y <strong>calificar la hipótesis de la clase 072</strong>. Acertó en las tres afirmaciones y se quedó corta en una palabra: dijo que Kubernetes «renombraría» las cuatro fugas, y lo que hizo fue renombrarlas <strong>y añadir un problema propio en cada una</strong>. De esa corrección y de los simulacros salen las dos leyes que esta parte aporta, y la primera explica seis incidentes de seis clases distintas.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> proyecto: plataforma kubernetes portable con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>plataforma-kubernetes</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Trazar</strong> cada decisión de la plataforma hasta la clase que la tomó y su alternativa descartada.</li>
+<li><strong>Calificar</strong> la hipótesis de la clase 072 con evidencia, incluida la parte en que se quedó corta.</li>
+<li><strong>Enunciar</strong> las dos leyes que esta parte añade, con las apariciones que las respaldan.</li>
+<li><strong>Provocar</strong> tres fallos propios de un clúster y medir detección, impacto y recuperación.</li>
+<li><strong>Entregar</strong> una plataforma con su capa portable separada de la del proveedor.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,20 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>proyecto</code></td>
-<td>Define su papel en <strong>proyecto: plataforma kubernetes portable</strong> y cómo observarlo en un sistema real.</td>
+<td><code>ausencia de acción como fallo</code></td>
+<td>En un sistema declarativo, un bucle que no funciona <strong>no produce ningún error</strong>: simplemente nada ocurre. Es el modo de fallo por defecto, no una excepción.</td>
 </tr>
 <tr>
-<td><code>plataforma</code></td>
-<td>Define su papel en <strong>proyecto: plataforma kubernetes portable</strong> y cómo observarlo en un sistema real.</td>
+<td><code>decisión de creación</code></td>
+<td>Elección que se toma en minutos al crear un recurso y que no se puede cambiar después: plan de direcciones, complemento de red, modelo de vinculación, clave de partición.</td>
 </tr>
 <tr>
-<td><code>kubernetes</code></td>
-<td>Define su papel en <strong>proyecto: plataforma kubernetes portable</strong> y cómo observarlo en un sistema real.</td>
+<td><code>capa portable y capa del proveedor</code></td>
+<td>Separación entre lo que se conserva al cambiar de plataforma —los manifiestos— y lo que se reescribe entero —la infraestructura del clúster.</td>
 </tr>
 <tr>
-<td><code>portable</code></td>
-<td>Define su papel en <strong>proyecto: plataforma kubernetes portable</strong> y cómo observarlo en un sistema real.</td>
+<td><code>hipótesis calificada</code></td>
+<td>Predicción evaluada después con datos, incluida la parte imprecisa. La de la clase 072 acertó y usó una palabra de menos, y esa palabra es lo que aporta.</td>
+</tr>
+<tr>
+<td><code>concentración tras la recuperación</code></td>
+<td>Efecto de que las reglas de colocación se evalúen solo al planificar: tras una caída, las réplicas se recolocan donde caben y el reparto se pierde en silencio.</td>
+</tr>
+<tr>
+<td><code>alerta de bucle detenido</code></td>
+<td>Señal sobre la marca de tiempo de la última reconciliación de cada controlador. Es la única forma de detectar la ausencia de acción.</td>
 </tr>
 </tbody>
 </table>
@@ -89,72 +94,391 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Proyecto: plataforma Kubernetes portable&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    subgraph port[&quot;capa PORTABLE · 94 %&quot;]
+        M[&quot;manifiestos de carga&quot;] --&gt; I[&quot;imágenes por huella · 061-067&quot;]
+        M --&gt; C[&quot;contrato de la aplicación · 068&quot;]
+        M --&gt; O[&quot;instrumentación · 082&quot;]
+    end
+    subgraph prov[&quot;capa del PROVEEDOR · se reescribe&quot;]
+        R[&quot;plan de direcciones · 083&quot;] --&gt; N[&quot;complemento de red · 080&quot;]
+        N --&gt; ID[&quot;federación de identidad · 083&quot;]
+        ID --&gt; S[&quot;clases de almacenamiento · 077&quot;]
+        S --&gt; E[&quot;entrada y balanceador · 075&quot;]
+    end
+    port --&gt; K[&quot;clúster&quot;]
+    prov --&gt; K
+    K --&gt; L{&quot;leyes nuevas de la parte&quot;}
+    L --&gt; L1[&quot;un bucle que no funciona\nno produce ningún error&quot;]
+    L --&gt; L2[&quot;lo que se decide al crear\nno se cambia después&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
+<h3 id="1-la-plataforma-entregada-y-de-donde-sale-cada-decision">1. La plataforma entregada y de dónde sale cada decisión</h3>
+<p>Doce decisiones, con su alternativa descartada y la trampa que evita:</p>
 <table>
 <thead>
 <tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
+<th>Decisión</th>
+<th>Requisito</th>
+<th>Alternativa descartada</th>
+<th>Trampa que evita</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
+<td>Esperar convergencia tras aplicar</td>
+<td>Saber que se desplegó (073)</td>
+<td>Confiar en el éxito de <code>apply</code></td>
+<td>Tres despliegues que nunca ocurrieron</td>
 </tr>
 <tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
+<td>Migraciones como trabajo, no en inicialización</td>
+<td>Una sola ejecución (074)</td>
+<td>Contenedor de inicialización</td>
+<td>Migración aplicada tres veces</td>
 </tr>
 <tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
+<td>Auxiliares con orden garantizado</td>
+<td>Sin errores al arrancar y parar (074)</td>
+<td>Contenedor normal</td>
+<td>70 errores por despliegue</td>
 </tr>
 <tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
+<td>Lista de destinos como primera comprobación</td>
+<td>Diagnóstico rápido (075)</td>
+<td>Empezar por los registros</td>
+<td>30 min por un selector</td>
 </tr>
 <tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
+<td>Configuración con huella en el nombre</td>
+<td>Un cambio es un despliegue (076)</td>
+<td>Objeto de nombre fijo</td>
+<td>Réplicas divergentes 11 días</td>
+</tr>
+<tr>
+<td>Vinculación diferida de volúmenes</td>
+<td>Planificar antes de elegir zona (077)</td>
+<td>Aprovisionamiento inmediato</td>
+<td>Pods en Pending con nodos libres</td>
+</tr>
+<tr>
+<td>Solicitudes medidas, no estimadas</td>
+<td>Capacidad real (078)</td>
+<td>Valores a ojo</td>
+<td>24 nodos donde bastaban 4</td>
+</tr>
+<tr>
+<td>Presupuesto como máximo indisponible</td>
+<td>Poder actualizar (079)</td>
+<td>Mínimo disponible</td>
+<td>124 días sin parchear</td>
+</tr>
+<tr>
+<td>Espacios cerrados por política de red</td>
+<td>Aislamiento real (080)</td>
+<td>Confiar en el espacio de nombres</td>
+<td>Desarrollo alcanzando producción</td>
+</tr>
+<tr>
+<td>Validación contra el servidor antes de aplicar</td>
+<td>Detectar antes (081)</td>
+<td>Aplicar y ver</td>
+<td>Selector inmutable en producción</td>
+</tr>
+<tr>
+<td>Alerta de declarado frente a disponible</td>
+<td>Ver la ausencia de acción (082)</td>
+<td>Métricas de recursos</td>
+<td>Cinco fallos activos meses</td>
+</tr>
+<tr>
+<td>Capa portable separada de la del proveedor</td>
+<td>Poder moverse (083)</td>
+<td>Todo mezclado</td>
+<td>214 ficheros atados a una nube</td>
 </tr>
 </tbody>
 </table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
-<h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>proyecto: plataforma kubernetes portable</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p>Y tres decisiones tomadas <strong>en contra</strong> de lo que sugiere el hábito:</p>
+<pre><code class="language-text">1. La imagen no lleva intérprete de órdenes y el diagnóstico se hace
+   con contenedores efímeros, que además están sujetos a la política
+   de admisión (clases 070, 072).
+
+2. Los presupuestos de interrupción se expresan como máximo indisponible
+   aunque «mínimo disponible» sea más intuitivo: es lo único que sigue
+   siendo correcto al escalar (079).
+
+3. Un índice de búsqueda salió del clúster hacia un servicio gestionado,
+   después de hacer la cuenta completa. Contenerizar no obliga a
+   autogestionar (077).
+</code></pre>
+<h3 id="2-la-hipotesis-de-la-clase-072-calificada">2. La hipótesis de la clase 072, calificada</h3>
+<p>La clase 072 dejó escrito:</p>
+<blockquote>
+<p>Kubernetes resolverá reubicación, despliegue progresivo y reparto de carga, y <strong>no resolverá ninguna de las cuatro fugas</strong>: las renombrará y devolverá a la aplicación las mismas obligaciones. Y su ley nueva será que <strong>aceptado no es funcionando</strong>.</p>
+</blockquote>
+<p><strong>Afirmación 1 — resuelve reubicación, despliegue y reparto. CIERTA, con una cifra que corrige la expectativa.</strong></p>
+<pre><code class="language-text">reubicación tras caída de nodo    sí, y tarda ~5 min, no segundos (073)
+                                  lo que sí tarda segundos es dejar de
+                                  enviarle tráfico: 43 s medidos
+despliegue progresivo             sí, con vuelta atrás en segundos (074)
+reparto de carga                  sí, con la advertencia de las conexiones
+                                  persistentes (075)
+</code></pre>
+<p>Las tres se cumplen. La corrección útil es la primera: <strong>la reubicación existe y no es instantánea</strong>, y dimensionar capacidad sin saberlo produce una expectativa falsa.</p>
+<p><strong>Afirmación 2 — no resuelve las cuatro fugas. CIERTA, y la palabra «renombrar» se quedó corta.</strong></p>
+<p>La clase 083 lo cuantificó: 13 de 214 manifiestos cambiaron al migrar, y los trece son exactamente las cuatro fugas. Pero Kubernetes hizo algo más que renombrarlas: <strong>añadió un problema propio en cada una</strong>.</p>
+<pre><code class="language-text">fuga            renombrada como            y ADEMÁS añadió
+─────────────────────────────────────────────────────────────────────────────
+almacenamiento  reclamación y clase        el volumen elige zona antes que
+                                           el planificador (077)
+red             servicio, política,        una política puede existir sin que
+                entrada                    nada la implemente (080)
+identidad       cuenta de servicio         quien crea pods lee los secretos
+                                           del espacio (076)
+ciclo de vida   comprobaciones y           la ventana de retirada depende del
+                presupuesto                tamaño del clúster (075, 079)
+</code></pre>
+<p>Cuatro problemas nuevos, uno por fuga. Así que la formulación correcta es más incómoda que la predicha:</p>
+<blockquote>
+<p>Kubernetes renombra las cuatro fugas, devuelve las mismas obligaciones <strong>y añade una dificultad propia en cada una</strong>.</p>
+</blockquote>
+<p><strong>Afirmación 3 — la ley nueva es que aceptado no es funcionando. CIERTA, y ahora medible.</strong></p>
+<p>La clase 082 la convirtió en una métrica —réplicas declaradas menos disponibles— y esa métrica destapó cinco situaciones activas en su primera semana. La ley no solo se confirma: <strong>se puede vigilar</strong>, que es lo que la hace útil.</p>
+<h3 id="3-dos-leyes-nuevas-con-sus-apariciones">3. Dos leyes nuevas, con sus apariciones</h3>
+<p><strong>Ley 13. En un sistema declarativo, un bucle que no funciona no produce ningún error.</strong></p>
+<p>Seis apariciones en seis clases de esta misma parte, con seis mecanismos distintos:</p>
+<pre><code class="language-text">el gestor de controladores sin reconciliar    tres despliegues no ocurridos   073
+un objeto de entrada sin controlador          dos días sin tráfico            075
+un objeto de escalado sin métrica             cuatro meses sin escalar        078
+un presupuesto con selector desajustado       meses protegiendo a nadie       079
+una política de red sin complemento que la
+  implemente                                  ocho meses sin filtrar          080
+un trabajo programado suspendido              nueve días sin ejecutarse       082
+</code></pre>
+<p>Las seis tienen la misma forma: <strong>el objeto existe, es válido, figura en el inventario y no hace nada</strong>. Ninguna produjo un error, ninguna apareció en un panel y todas se descubrieron por casualidad o al buscarlas.</p>
+<p>Esta ley es una especialización de la que la clase 060 corrigió —un mecanismo que parece estar haciendo algo y no lo está— y merece enunciarse aparte porque su causa es distinta: allí era una configuración incompleta; aquí es <strong>el modo de fallo por defecto de un modelo declarativo</strong>. Si lo que hace el trabajo es un bucle, y el bucle no está, lo que ocurre es nada.</p>
+<p>Y su antídoto es único y concreto:</p>
+<pre><code class="language-text">cada bucle necesita una señal de &quot;última reconciliación con éxito&quot;
+y una alerta cuando esa marca envejece
+</code></pre>
+<p>Eso vale para los controladores integrados, para los de terceros y para los propios. Y para lo que no publica esa señal, la alternativa es medir el <strong>efecto</strong>: la métrica de la clase 082 detecta seis causas distintas sin conocer ninguna.</p>
+<p><strong>Ley 14. Lo que se decide al crear un recurso es lo que no se puede cambiar después.</strong></p>
+<p>Apariciones en cinco partes distintas:</p>
+<pre><code class="language-text">clave de partición de un contenedor            042
+modo de una base de datos de documentos        054
+modelo de vinculación de una clase de
+  almacenamiento                               077
+plan de direcciones, complemento de red y
+  modelo de identidad de un clúster            083
+ubicación y birregión de un bucket             053
+</code></pre>
+<p>Y la propiedad que las une es incómoda: <strong>son decisiones de cinco minutos en un asistente o en una plantilla, tomadas al principio, cuando menos se sabe</strong>. La consecuencia práctica es una regla de método:</p>
+<pre><code class="language-text">antes de crear cualquier recurso, preguntar:
+  ¿qué de esto no voy a poder cambiar?
+  ¿qué tamaño o qué patrón tendrá esto dentro de dos años?
+  ¿cuánto cuesta rehacerlo si me equivoco?
+</code></pre>
+<p>Tres preguntas que cuestan diez minutos y que en esta parte habrían evitado un clúster con techo de 27 nodos, una clase de almacenamiento que ataba pods a una zona y un complemento de red incapaz de segmentar.</p>
+<h3 id="4-tres-fallos-provocados-y-lo-que-enseno-cada-uno">4. Tres fallos provocados y lo que enseñó cada uno</h3>
+<p><strong>Fallo 1 — pérdida de un nodo.</strong> Se apaga un nodo con seis pods de producción.</p>
+<pre><code class="language-text">detección: deja de recibir tráfico           41 s
+sustitución de los pods                       5 min 12 s
+errores vistos por el cliente                 0
+capacidad durante el episodio                 83 %
+</code></pre>
+<p>Cero errores, porque el margen de capacidad estaba dimensionado para perder un nodo. La reubicación tardó los cinco minutos que la clase 073 anticipó.</p>
+<p><strong>Y el hallazgo:</strong> al recuperarse, las réplicas no volvieron a repartirse.</p>
+<pre><code class="language-bash">$ kubectl get pods -l app=api -o custom-columns=N:.metadata.name,\
+ZONA:.metadata.labels.'topology\.kubernetes\.io/zone' --no-headers | awk '{print $2}' | sort | uniq -c
+      5 zona-b
+      1 zona-c
+</code></pre>
+<p>Cinco de seis réplicas en la misma zona. Las reglas de reparto se evalúan <strong>al planificar</strong> (clase 078), y durante la caída los pods se colocaron donde cabían. Nadie los recolocó después, así que el clúster quedó en un estado en el que <strong>la siguiente caída de zona sería total</strong>.</p>
+<pre><code class="language-text">síntoma observable   ninguno: todos los pods sanos, servicio correcto
+consecuencia real    el reparto entre zonas había desaparecido
+corrección           reparto entre zonas estricto (no como preferencia),
+                     y un reequilibrado periódico que recoloca
+señal añadida        alerta si la mayor concentración por zona supera
+                     un umbral
+</code></pre>
+<p><strong>Fallo 2 — actualizar el clúster con carga en curso.</strong></p>
+<pre><code class="language-text">nodos actualizados                            11
+duración                                      3 h 40 min
+errores HTTP durante la actualización         0
+</code></pre>
+<p><strong>Y el hallazgo:</strong> cero errores HTTP y, al mirar el camino asíncrono como la clase 072 obligó a hacer:</p>
+<pre><code class="language-text">mensajes reentregados durante la actualización   1.847
+trabajos programados que no se ejecutaron         2
+</code></pre>
+<p>Los mensajes reentregados eran esperables y los absorbió la idempotencia. Los dos trabajos programados no: se saltaron su ventana porque el nodo que los ejecutaba se estaba vaciando y el plazo de arranque (clase 074) los descartó.</p>
+<pre><code class="language-text">corrección   los trabajos críticos con plazo de arranque mayor que la ventana
+             de vaciado de un nodo, y alerta cuando un trabajo programado
+             no crea ejecuciones en dos intervalos (clase 082)
+</code></pre>
+<p><strong>Fallo 3 — detener un controlador.</strong> Se reduce a cero el controlador de entrada durante veinte minutos, sin avisar al equipo.</p>
+<pre><code class="language-text">tiempo hasta que alguien lo notó              18 min
+cómo se notó                                  un usuario avisó
+alertas disparadas                            1 (disponibilidad del servicio)
+alertas que señalaban la CAUSA                0
+</code></pre>
+<p><strong>Y el hallazgo:</strong> la alerta de disponibilidad detectó el efecto y nada señaló que el controlador no estaba. Se repitió el simulacro deteniendo un controlador cuyo efecto no es inmediato —el que renueva certificados—:</p>
+<pre><code class="language-text">tiempo hasta que alguien lo notó              no se notó en 20 min
+tiempo hasta que se habría notado             ~40 días, al caducar el certificado
+</code></pre>
+<p>Eso es la ley 13 en su forma más pura, y la corrección es la que esa ley pide:</p>
+<pre><code class="language-text">señal de última reconciliación con éxito para cada controlador
+alerta cuando esa marca envejece más de lo esperado
++ para los certificados, vigilar el VENCIMIENTO desde fuera (clase 058)
+</code></pre>
+<p>Los tres hallazgos comparten forma con los de las clases 048, 060 y 072: <strong>la infraestructura aguantó los tres fallos y en los tres había algo que ninguna revisión de configuración podía mostrar</strong>.</p>
+<h3 id="5-la-entrega-y-la-pregunta-que-abre-la-parte-07">5. La entrega y la pregunta que abre la parte 07</h3>
+<p><strong>La entrega, sin conocimiento tácito.</strong></p>
+<pre><code class="language-text">capa portable       manifiestos, sin nada del proveedor
+capa de plataforma  creación, complementos, clases, entrada, identidad
+línea base          26 afirmaciones, cada una con su prueba negativa
+verificar.sh        ejecuta las 26 y devuelve código de salida
+ADR                 12 decisiones con su alternativa descartada
+riesgos residuales  5, con responsable y condición de revisión
+alertas             14, de las cuales 7 sobre cosas que dejan de ocurrir
+procedimientos      3 fallos ensayados, con verificación posterior
+línea base medida   rendimiento, despliegue, actualización y coste
+</code></pre>
+<p>Los <strong>cinco riesgos residuales</strong>:</p>
+<pre><code class="language-text">1. reubicación de ~5 min ante caída de nodo: aceptada, con margen de capacidad
+2. un espacio de nombres no aísla frente a código no confiable (080)
+3. el plan de direcciones fija el techo en 110 nodos; revisar a los 80
+4. dos complementos gestionados se actualizan en el calendario del proveedor
+5. las escrituras del índice migrado siguen en una sola región
+</code></pre>
+<p><strong>La comparación con el punto de partida</strong>, medida con el mismo método:</p>
+<p>```text                                          antes         después
+nodos en horas valle                             24              4
+solicitudes reservadas frente a uso           78 / 21 %      34 / 26 %
+días sin poder actualizar el clúster            124              0
+políticas de red efectivas                     0 de 14        14 de 14
+personas con administración total                 42              2
+errores por despliegue                         20-60             0
+errores al vaciar un nodo bajo carga           1.284             0
+tiempo de detección de un fallo silencioso   días o nunca    &lt; 10 min
+coste mensual del clúster                    3.180 USD      1.120 USD
+pruebas negativas ejecutadas                  0 de 26        26 de 26</p>
+<pre><code>
+**Y la pregunta que abre la parte 07.**
+
+Esta parte deja una plataforma que funciona y que se mantiene con órdenes ejecutadas por personas o por una canalización. Nada garantiza que dentro de un mes el clúster se parezca al repositorio: un cambio manual sobrevive, un objeto borrado no vuelve, una diferencia entre entornos se acumula — que es exactamente lo que la clase 081 midió al unificar cuatro copias y encontrar treinta y una divergencias que nadie había decidido.
+
+Y resulta que el mecanismo que resuelve eso ya está descrito en esta parte: **es el bucle de la clase 073**, aplicado a la infraestructura en vez de a las cargas.
+
+&gt; Las clases 047 y 059 trataron la infraestructura como código que alguien ejecuta. Si el modelo declarativo con reconciliación continua es mejor que ejecutar órdenes —y esta parte sugiere que lo es—, ¿por qué la infraestructura se sigue gestionando con ejecuciones? ¿Qué se gana al ponerle un bucle, y qué problema nuevo aparece cuando **dos bucles creen que mandan sobre el mismo recurso**?
+
+La hipótesis que se escribe ahora, para poder equivocarse de forma comprobable:
+
+&gt; El bucle continuo eliminará la desviación entre repositorio y realidad, y hará visible una clase de problema que hoy no se ve: **la frontera de propiedad entre quienes escriben sobre el mismo objeto**. Aparecerá al menos una de las catorce leyes con un mecanismo nuevo, y la más probable es la 13 — porque un bucle de infraestructura que se detiene tampoco produce ningún error.
+
+La parte 07 la califica.
+
+## 🔬 Ejemplo trabajado
+
+**Entrega del capstone de la parte 06, con las cifras que se llevan a la parte 07.**
+
+**Verificación completa.** Las 26 afirmaciones de la línea base:
+
+```bash
+$ ./verificar.sh
+✓ despliegue verificado por convergencia        rollout status, no apply
+✓ imágenes por huella en todos los manifiestos  0 etiquetas
+✓ firma verificada en la admisión               imagen sin firma → rechazada
+✓ migraciones como trabajo previo               0 en inicialización
+✓ auxiliares con orden garantizado              7 de 7
+✓ lista de destinos no vacía en todos los servicios  19 de 19
+✓ solo el frontal publicado                     1 objeto de entrada
+✓ resolución de nombres con nombre absoluto     4 servicios corregidos
+✓ configuración con huella en el nombre         9 de 9
+✓ ningún secreto en el repositorio              0 coincidencias
+✓ secretos desde el gestor externo              11 de 11
+✓ cifrado en reposo del almacén                 activo
+✓ vinculación diferida en clases zonales        3 de 3
+✓ política de recuperación de conservación      3 de 3
+✓ restauración de volumen probada               1.284.391 filas · 2 h 40 min
+✓ solicitudes y límites en todos los contenedores  74 de 74
+✓ ningún pod en mejor esfuerzo en producción    0
+✓ presupuestos con margen                       12 de 12, permitidas ≥ 1
+✓ ningún presupuesto con selector vacío         0
+✓ espacios cerrados por política de red         6 de 6
+✓ política de red efectiva                      desarrollo → producción: rechazado
+✓ perfil de seguridad en modo rechazo           6 de 6
+✓ federación acotada a espacio y cuenta         otro espacio → denegado
+✓ ningún testigo montado sin necesidad          4 de 74
+✓ despliegue con carga: cero errores            0 HTTP · 0 reentregas
+✓ vaciado de nodo con carga: cero errores       0
+26/26 correctas
+</code></pre>
+<p><strong>Línea base medida:</strong></p>
+<pre><code class="language-text">rps 981,2 · p50 40,4 ms · p95 95,1 ms · p99 201,8 ms · errores 0
+despliegue completo                    1 min 40 s
+vuelta atrás                              34 s
+actualización del clúster completa     3 h 40 min
+reubicación tras caída de nodo         5 min 12 s
+retirada de tráfico de un nodo caído      41 s
+costo mensual                          1.120 USD
+</code></pre>
+<p><strong>Los tres fallos, con lo aprendido en cada uno:</strong></p>
+<p>```text                          detección   impacto real           lección
+pérdida de un nodo               41 s       0 errores, y el         las reglas de
+                                            reparto entre zonas     colocación no
+                                            desapareció             recolocan nada</p>
+<p>actualización con carga           —         0 errores HTTP,         lo que no tiene
+                                            2 trabajos programados  métrica propia
+                                            saltados                no se verifica</p>
+<p>controlador detenido            18 min      lo notó un usuario;     un bucle que se
+                                            0 alertas señalaban     detiene no da
+                                            la causa                ningún error</p>
+<pre><code>
+**El hallazgo que justificó el capstone.** Tras el simulacro de nodo, todo estaba en verde:
+
+```text
+pods listos            6 de 6
+servicio               disponible
+presupuesto            cumplido
+presupuesto de error   intacto
+</code></pre>
+<p>Y el reparto:</p>
+<pre><code class="language-bash">$ kubectl get pods -l app=api -o json | jq -r '.items[]
+  | .metadata.labels[&quot;topology.kubernetes.io/zone&quot;] // &quot;?&quot;' | sort | uniq -c
+      5 zona-b
+      1 zona-c
+</code></pre>
+<p><strong>Cinco de seis réplicas en una zona, sin ninguna señal.</strong> La regla de reparto estaba puesta como preferencia —la corrección de la clase 078 para no bloquear el crecimiento— y durante la caída los pods se colocaron donde cabían. Al recuperarse, nadie los movió.</p>
+<pre><code class="language-text">síntoma observable   ninguno
+consecuencia real    la siguiente caída de zona habría sido total
+causa                las reglas se evalúan al planificar, no después
+qué lo destapó       contar las zonas después del simulacro,
+                     no el simulacro en sí
+</code></pre>
+<p>Corrección y comprobación posterior:</p>
+<p>```text                                    antes            después
+reparto entre zonas                   preferencia        estricto
+reparto entre nodos                   preferencia        preferencia
+reequilibrado                          ninguno       periódico, en ventana
+alerta de concentración por zona       ninguna       &gt; 50 % en una zona → aviso
+zonas tras repetir el simulacro       5/1/0            2/2/2</p>
+<pre><code>
+**Se entrega a la parte 07 con:**
+
+```text
+catorce leyes observadas, dos de ellas nuevas de esta parte
+las cuatro fugas, con el problema propio que Kubernetes añade a cada una
+26 afirmaciones y su guion de verificación
+12 decisiones con alternativa descartada
+5 riesgos residuales con responsable
+la proporción medida de portabilidad: 94 % de manifiestos, 0 % de plataforma
+</code></pre>
+<p>Y la hipótesis escrita para la parte 07:</p>
+<blockquote>
+<p>El bucle continuo eliminará la desviación entre repositorio y realidad y hará visible la frontera de propiedad entre quienes escriben sobre el mismo objeto. Y volverá a aparecer la ley 13, porque un bucle de infraestructura detenido tampoco produce ningún error.</p>
+</blockquote>
+<p><strong>La lección que esta parte deja al programa</strong>: la hipótesis de la clase 072 acertó en todo y usó una palabra de menos. Kubernetes no solo renombra las cuatro fugas: <strong>añade una dificultad propia en cada una</strong>, y las cuatro nuevas tienen la misma forma que la ley 13 — un objeto que existe y no hace lo que su nombre promete. De las once clases de la parte, seis produjeron un incidente de esa familia, con seis mecanismos distintos. <strong>Esa frecuencia no es mala suerte: es el modo de fallo por defecto de un sistema donde el trabajo lo hacen bucles.</strong></p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-06-kubernetes-managed-platforms/084-proyecto-plataforma-kubernetes-portable/lab.py
@@ -195,29 +519,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Tras recuperarse de una caída, todas las réplicas quedan en la misma zona</td>
+<td>Las reglas de colocación se evalúan al planificar y nadie recoloca después</td>
+<td>Reparto estricto entre zonas, reequilibrado periódico y alerta sobre la concentración máxima por zona.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Una actualización con carga da cero errores y aun así se pierde trabajo</td>
+<td>Solo se midió el camino HTTP; los trabajos programados que caían en la ventana de vaciado se saltaron</td>
+<td>Amplía el criterio de verificación al camino asíncrono y alerta cuando un trabajo programado deja de crear ejecuciones.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Un controlador se detiene y nadie se entera</td>
+<td>En un modelo declarativo la ausencia de acción no produce ningún error</td>
+<td>Señal de última reconciliación por controlador con alerta de envejecimiento, y medición del efecto donde no haya señal.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>El clúster no puede crecer y hay que recrearlo para arreglarlo</td>
+<td>El plan de direcciones y el complemento se fijaron al crear el clúster</td>
+<td>Antes de crear cualquier recurso, pregunta qué no se podrá cambiar, qué tamaño tendrá en dos años y cuánto cuesta rehacerlo.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Se espera que la reubicación tras una caída de nodo sea inmediata</td>
+<td>Retirar el tráfico tarda segundos; sustituir los pods tarda minutos por diseño</td>
+<td>Dimensiona el margen de capacidad para operar sin ese nodo durante la ventana, y documenta ambos tiempos.</td>
+</tr>
+<tr>
+<td>Un objeto de seguridad existe y no protege nada</td>
+<td>Es la ley 13: el bucle que debía implementarlo no está o el selector no coincide</td>
+<td>Toda afirmación de control necesita una prueba negativa que la obligue a actuar.</td>
 </tr>
 </tbody>
 </table>
@@ -228,17 +557,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿En qué acertó la hipótesis de la clase 072 y qué palabra se quedó corta?</li>
+<li>Enuncia la ley 13 y cita cuatro de sus seis apariciones con mecanismos distintos.</li>
+<li>¿Por qué la ley 14 es especialmente peligrosa, y qué tres preguntas la mitigan?</li>
+<li>Tras el simulacro de nodo todo estaba en verde y el reparto entre zonas había desaparecido. ¿Por qué, y qué señal lo detecta?</li>
+<li>¿Qué proporción de la plataforma es portable y dónde se concentra exactamente lo que no lo es?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Kubernetes: Up and Running — Burns, Beda y Hightower.</li>
-<li>Kubernetes Patterns — Ibryam y Huß.</li>
-<li>Production Kubernetes — Rosso et al..</li>
+<li>Kubernetes (2025). <em>Production environment checklist</em> — consideraciones de un clúster operable. <a href="https://kubernetes.io/docs/setup/production-environment/">https://kubernetes.io/docs/setup/production-environment/</a></li>
+<li>Kubernetes (2025). <em>Configuration best practices</em> — decisiones que conviene tomar al crear. <a href="https://kubernetes.io/docs/concepts/configuration/overview/">https://kubernetes.io/docs/concepts/configuration/overview/</a></li>
+<li>CNCF (2025). <em>Kubernetes cluster conformance</em> — qué garantiza la conformidad y qué no. <a href="https://www.cncf.io/certification/software-conformance/">https://www.cncf.io/certification/software-conformance/</a></li>
+<li>Google (2018). <em>The Site Reliability Workbook</em>, cap. 15 — simulacros de fallo y hallazgos. <a href="https://sre.google/workbook/postmortem-culture/">https://sre.google/workbook/postmortem-culture/</a></li>
+<li>Kubernetes (2025). <em>Descheduler</em> — reequilibrado de pods tras cambios de topología. <a href="https://github.com/kubernetes-sigs/descheduler">https://github.com/kubernetes-sigs/descheduler</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -306,7 +637,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-plataforma-entregada-y-de-donde-sale-cada-decision">1. La plataforma entregada y de dónde sale cada decisión</a><a class="toc-level-3" href="#2-la-hipotesis-de-la-clase-072-calificada">2. La hipótesis de la clase 072, calificada</a><a class="toc-level-3" href="#3-dos-leyes-nuevas-con-sus-apariciones">3. Dos leyes nuevas, con sus apariciones</a><a class="toc-level-3" href="#4-tres-fallos-provocados-y-lo-que-enseno-cada-uno">4. Tres fallos provocados y lo que enseñó cada uno</a><a class="toc-level-3" href="#5-la-entrega-y-la-pregunta-que-abre-la-parte-07">5. La entrega y la pregunta que abre la parte 07</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
