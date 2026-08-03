@@ -1,0 +1,118 @@
+{
+  "id": "102",
+  "purpose": "Elegir cómo llega a producción un artefacto ya verificado, entendiendo lo que una estrategia de despliegue **sí** controla y lo que no. Ninguna reduce la probabilidad de que el cambio tenga un defecto: reducen cuánta gente lo ve y en cuánto tiempo se revierte. La clase demuestra por qué las cuatro estrategias comparten un mismo requisito —que dos versiones convivan—, por qué un canario de cinco minutos con el 5 % del tráfico no puede detectar casi nada, y por qué la reversión del código es fácil y la de los datos no.",
+  "outcomes": [
+    "**Distinguir** lo que una estrategia de despliegue controla de lo que no.",
+    "**Elegir** entre recreación, progresiva, azul-verde y canario con un criterio explícito.",
+    "**Diseñar** un cambio para que dos versiones convivan, que es el requisito común de todas.",
+    "**Dimensionar** un canario para que su veredicto signifique algo.",
+    "**Separar** lo que se puede revertir de lo que no, y planear en consecuencia."
+  ],
+  "concepts": [
+    {
+      "term": "radio de exposición",
+      "definition": "Proporción de usuarios que ve la versión nueva mientras se decide si está bien. Es lo que la estrategia controla de verdad."
+    },
+    {
+      "term": "convivencia N y N+1",
+      "definition": "Requisito común a las cuatro estrategias: durante el despliegue hay dos versiones en producción, y todo lo compartido debe funcionar con ambas."
+    },
+    {
+      "term": "expandir y contraer",
+      "definition": "Patrón para cambiar un esquema o un contrato en tres pasos —añadir, migrar, retirar— de modo que en ningún momento se rompa la convivencia."
+    },
+    {
+      "term": "análisis automático del canario",
+      "definition": "Comparar métricas del canario con las de un control de la misma versión y decidir sin intervención humana. Sin él, un canario es un despliegue progresivo más lento."
+    },
+    {
+      "term": "potencia del canario",
+      "definition": "Capacidad estadística de detectar el empeoramiento que se busca. Depende del tráfico que recibe y del tiempo que dura, no de la voluntad de detectarlo."
+    },
+    {
+      "term": "punto de no retorno",
+      "definition": "Momento a partir del cual revertir la versión ya no restaura el estado anterior, porque algo irreversible ha ocurrido en los datos."
+    }
+  ],
+  "diagram": "flowchart TB\n    A[\"artefacto verificado\"] --> Q{\"¿conviven N y N+1?\"}\n    Q -->|\"no\"| R[\"recreación:\\nparada, única opción honesta\"]\n    Q -->|\"sí\"| S{\"¿hay señal automática\\ny tráfico suficiente?\"}\n    S -->|\"no\"| P[\"progresiva o azul-verde\"]\n    S -->|\"sí\"| C[\"canario con análisis\"]\n    C --> AN{\"canario vs CONTROL\\nde la misma versión\"}\n    AN -->|\"peor\"| RB[\"revertir automáticamente\"]\n    AN -->|\"igual\"| AV[\"avanzar al siguiente escalón\"]\n    RB --> D{\"¿se cruzó el punto\\nde no retorno?\"}\n    D -->|\"no\"| OK[\"estado anterior restaurado\"]\n    D -->|\"sí\"| FW[\"solo cabe avanzar\\ncorrigiendo\"]",
+  "foundations": [
+    {
+      "heading": "Lo que una estrategia controla, y lo que no",
+      "body": "Conviene decirlo antes de comparar nada, porque es la confusión más cara de este tema:\n\n```text\nlo que NO cambia con la estrategia\n  la probabilidad de que el cambio tenga un defecto\n  → eso lo bajan las pruebas y las puertas de la clase 100\n\nlo que SÍ cambia\n  cuánta gente ve el defecto mientras se decide\n  cuánto tarda en dejar de verlo\n```\n\nY con eso, la magnitud que las cuatro estrategias mueven es una sola:\n\n```text\nimpacto ≈ usuarios expuestos × tiempo hasta revertir\n```\n\nLas cuatro estrategias, y qué hace cada una con esos dos factores:\n\n```text                     expuestos      revertir      coste       corte\nrecreación                 100 %         redesplegar   ninguno      sí\nprogresiva                 creciente     redesplegar   ninguno      no\nazul-verde                 0 o 100 %     cambiar ruta  2× durante   no\ncanario                    1-5-25 %      cambiar ruta  1 extra      no\n```\n\nY las dos columnas de la derecha explican por qué no hay una respuesta única:\n\n```text\nazul-verde     reversión en segundos, y hay que pagar dos entornos completos\n               salta de 0 % a 100 % de golpe: no hay exposición gradual\ncanario        exposición gradual, y necesita señal para decidir\n               si nadie mira la señal, es una progresiva más lenta\nprogresiva     barata y sin corte, y revertir exige redesplegar la anterior\nrecreación     hay corte, y es la única honesta cuando no cabe convivencia\n```\n\nY una combinación frecuente que conviene nombrar porque resuelve la debilidad de dos de ellas: **azul-verde con desplazamiento gradual de tráfico** —los dos entornos completos, y la ruta moviéndose del 1 % al 100 %— da reversión instantánea *y* exposición gradual, al precio de mantener los dos entornos.\n\nY una pregunta que decide antes que cualquier otra, y que la clase 079 dejó planteada en Kubernetes:\n\n```text\n¿el servicio guarda estado en la instancia?\n  sí  → ninguna estrategia funciona bien; el problema es el estado, no el despliegue\n  no  → siguen las cuatro sobre la mesa\n```"
+    },
+    {
+      "heading": "El requisito común: que N y N+1 convivan",
+      "body": "Progresiva, azul-verde y canario tienen una cosa en común que a menudo se pasa por alto: **durante el despliegue hay dos versiones en producción a la vez**. Y todo lo que comparten tiene que funcionar con ambas.\n\n```text\nesquema de la base de datos      lo leen y escriben las dos\nmensajes en la cola              los produce una y los consume la otra\ncaché compartida                 la escribe una y la lee la otra\nficheros en almacenamiento       los escribe una y los lee la otra\ncontrato de la API               lo llaman clientes de ambas edades\n```\n\nY el fallo típico no es que el cambio esté mal, sino que **es incompatible consigo mismo**:\n\n```text\nla versión nueva renombra una columna\n→ la versión vieja, que sigue sirviendo el 95 % del tráfico, falla\n→ y el canario parece bien, porque el que falla es el control\n```\n\nEl patrón que lo evita se llama **expandir y contraer**, y son tres despliegues, no uno:\n\n```text\n1. EXPANDIR   añadir la columna nueva; la aplicación escribe en las dos\n              y sigue leyendo de la vieja\n              → compatible con la versión anterior\n\n2. MIGRAR     rellenar la columna nueva con los datos históricos\n              cambiar la lectura a la nueva\n              → compatible con la versión anterior\n\n3. CONTRAER   dejar de escribir en la vieja y retirarla\n              → SOLO cuando ninguna versión anterior está en producción\n```\n\nY la regla que resume el patrón:\n\n```text\nninguna migración de esquema puede ser destructiva\nmientras exista una versión anterior en ejecución\n```\n\nY lo que hace que el paso 3 se olvide sistemáticamente: es el único que no aporta funcionalidad. Anotarlo como trabajo con fecha, igual que las excepciones de las clases 091 y 101, es lo que evita que la base de datos acumule columnas muertas durante años.\n\nY el mismo patrón vale para las colas y para las API:\n\n```text\ncolas   el consumidor nuevo entiende el formato viejo y el nuevo\n        se despliegan primero TODOS los consumidores, y luego el productor\nAPI     añadir campos, no renombrar; los campos nuevos, opcionales\n        retirar solo cuando ningún cliente los usa, y eso se mide\n```\n\nLa segunda línea de las colas es la que ordena el despliegue cuando hay dos servicios: **primero el que lee, después el que escribe**. Al revés, hay mensajes que nadie sabe interpretar."
+    },
+    {
+      "heading": "Un canario que no puede detectar nada",
+      "body": "Este es el apartado que cambia la práctica de la mayoría de los equipos. Un canario decide comparando métricas, y para que la comparación signifique algo hacen falta **suficientes eventos**.\n\nLa cuenta, con números realistas:\n\n```text\ntráfico total                     1.000 peticiones/s\nal canario                                5 %  →  50 peticiones/s\ntasa de error de referencia             0,1 %  →  0,05 errores/s\nduración del canario                    5 min\n\nerrores esperados en el canario, si todo va bien:      15\nerrores esperados si el cambio DUPLICA la tasa:        30\n```\n\nY con 15 frente a 30 eventos, la variación normal de un sistema real hace que esa diferencia sea perfectamente compatible con el azar. **Un canario de cinco minutos al 5 % no puede detectar que la tasa de error se ha duplicado.** Lo que hace es dar permiso para avanzar.\n\nLas tres palancas, y cuál conviene mover:\n\n```text\nmás tráfico al canario    detecta antes, y expone a más gente\nmás duración              detecta lo mismo, exponiendo a los mismos\numbral menos exigente     detecta solo desastres, no degradaciones\n```\n\nY la conclusión práctica: **el escalón inicial debe durar más de lo que la intuición sugiere**, y los siguientes pueden ser rápidos porque el tráfico ya es mayor.\n\n```text\n5 %   30 min     ← el escalón que de verdad decide\n25 %  10 min\n50 %   5 min\n100 %  —\n```\n\nY una segunda corrección, tan importante como la anterior: **contra qué se compara**.\n\n```text\nmal   canario de hoy contra la media de ayer\n      → la carga, la hora y la composición del tráfico son distintas\n\nbien  canario contra un CONTROL de la versión anterior\n      desplegado a la vez, con el mismo tamaño y el mismo tipo de tráfico\n      → la única diferencia entre los dos grupos es la versión\n```\n\nY qué se mira, en orden de utilidad:\n\n```text\ntasa de error del propio servicio         siempre\nlatencia, percentil 95 y 99               siempre\nerrores de sus dependencias               casi siempre\nuna métrica de negocio del recorrido      cuando exista\nCPU y memoria                             como apoyo, no como veredicto\n```\n\nY la trampa que la ley 13 vuelve a poner aquí: **si el análisis no consulta ninguna métrica, no falla — aprueba**. Un canario mal configurado no da error: da luz verde. La comprobación que lo detecta es la de siempre:\n\n```text\ndesplegar a propósito una versión rota y confirmar que el canario la para\ny repetirlo cada cierto tiempo, porque las métricas se renombran\n```"
+    },
+    {
+      "heading": "Revertir: lo que se puede y lo que no",
+      "body": "La reversión del código es un problema resuelto: se vuelve a la etiqueta anterior, que sigue existiendo porque la clase 099 la hizo inmutable. Lo que no está resuelto es todo lo demás.\n\n```text\nse revierte bien\n  el binario y la imagen\n  la configuración versionada\n  la ruta del tráfico\n\nno se revierte\n  los datos que la versión nueva escribió en un formato nuevo\n  los mensajes que ya consumió\n  los correos que envió\n  los pagos que cobró\n  las llamadas que hizo a terceros\n```\n\nLa frontera entre las dos listas es el **punto de no retorno**, y conviene identificarlo por adelantado para cada cambio:\n\n```text\n¿este cambio escribe datos que la versión anterior no sabe leer?\n¿consume mensajes que no podrá reprocesar?\n¿tiene efectos hacia fuera que no se pueden deshacer?\n\ntres noes  → revertir es seguro; automatízalo\nalgún sí   → revertir no basta; hay que planear la corrección hacia delante\n```\n\nY cuando la respuesta es «algún sí», la estrategia cambia de forma:\n\n```text\nreducir el radio todavía más (1 %, no 5 %)\nponer un interruptor de funcionalidad para apagar sin desplegar (clase 105)\ny tener escrito el procedimiento de corrección, no solo el de reversión\n```\n\nY los dos umbrales que hacen que la reversión ocurra de verdad:\n\n```text\nautomática   el análisis del canario revierte sin preguntar\nmanual       cualquiera del equipo puede revertir sin pedir permiso\n```\n\nLa segunda es organizativa y suele ser el cuello de botella real: si revertir exige una aprobación, la mediana de tiempo hasta revertir se mide en horas. Y con la fórmula del primer apartado, eso multiplica el impacto por el mismo factor.\n\nY una precaución sobre la reversión automática, porque el exceso también hace daño: si revierte por cualquier oscilación, el equipo pierde la confianza y la desactiva —ley 16 otra vez—. El ajuste es el mismo que en la clase 101: medir cuántas reversiones fueron correctas.\n\n```text\nreversiones automáticas por trimestre         12\n  correctas (el cambio era malo)               9\n  innecesarias (falsa alarma)                  3   ← si sube, sube el umbral\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ el servicio no guarda estado en la instancia\n☐ el cambio es compatible con la versión anterior en esquema, colas y API\n☐ las migraciones destructivas están separadas, con fecha y dueño\n☐ los consumidores se despliegan antes que los productores\n☐ el canario se compara con un control de la versión anterior, no con ayer\n☐ el primer escalón dura lo suficiente para que su veredicto signifique algo\n☐ el análisis consulta métricas que existen, comprobado con una versión rota\n☐ el punto de no retorno del cambio está identificado antes de desplegar\n☐ revertir no requiere aprobación de nadie\n☐ se mide cuántas reversiones automáticas fueron innecesarias\n```\n\nY el cierre que enlaza con la clase siguiente: en todo esto, alguien o algo ejecuta el despliegue. Cuando ese algo es un proceso que compara continuamente lo declarado con lo real —la predicción escrita al cerrar la parte 06— aparecen problemas nuevos, y son la materia de la clase 103."
+    }
+  ],
+  "worked_example": "**CloudShop tenía despliegue progresivo en los quince servicios y una reversión que exigía aprobación. En seis meses hubo cuatro incidentes causados por despliegues; el ejercicio consiste en clasificarlos y cambiar solo lo que los cuatro casos justifican.**\n\n**Los cuatro incidentes.**\n\n```text\nA  fallo del 100 % de peticiones           detectado en 4 min, revertido en 51 min\n   causa: excepción en el arranque con la configuración de producción\n\nB  latencia ×3 en el percentil 99          detectado en 3 h, revertido en 4 h 10\n   causa: una consulta sin índice, visible solo con datos reales\n\nC  pedidos duplicados durante 2 h 40       no se revirtió\n   causa: la versión nueva reprocesó mensajes que la vieja había marcado\n\nD  el 5 % de peticiones fallando 6 días    detectado por un cliente\n   causa: la versión nueva renombró un campo; el consumidor viejo lo ignoraba\n```\n\n**Lo primero que salta: el tiempo hasta revertir, no la detección.**\n\n```text            detección      hasta revertir    de la que era aprobación\nA                   4 min           51 min                    43 min\nB                    3 h           1 h 10                      38 min\nC                     —               —                          —\nD                   6 días            —                          —\n```\n\nEn los dos casos donde se revirtió, **la aprobación fue la mayor parte del tiempo**. Se eliminó el requisito: cualquiera del equipo revierte sin pedir permiso, y se avisa después.\n\n```text                                     antes           después\nmediana de tiempo hasta revertir         1 h 10           6 min\n```\n\n**El incidente A: un canario lo habría parado, y no había canario.**\n\nUn fallo del 100 % de peticiones es lo más fácil de detectar: con el 5 % del tráfico durante 30 minutos, un canario lo habría parado en el primer minuto exponiendo al 5 %. Se activó canario con análisis automático en los cinco servicios de cara al cliente.\n\nY la primera configuración fue la que casi todo el mundo escribe:\n\n```text\n5 % durante 5 min, comparado con la media de la semana anterior\n```\n\nSe hizo la cuenta del apartado tercero con el tráfico real del servicio de pedidos:\n\n```text\ntráfico                          420 peticiones/s\nal canario, 5 %                   21 peticiones/s\ntasa de error de referencia          0,08 %\nerrores esperados en 5 min             5\nerrores si la tasa se duplica         10\n```\n\nCinco frente a diez. Se cambió a **30 minutos en el primer escalón** y a comparar con un control de la versión anterior desplegado a la vez. Y se comprobó desplegando a propósito una versión con un 2 % de error inyectado:\n\n```text                                    ¿lo para?\n5 min, contra la semana anterior             no\n30 min, contra la semana anterior            no consistentemente\n30 min, contra control simultáneo            sí, en el minuto 11\n```\n\nLa tercera línea es la que justifica el control simultáneo: sin él, la variación entre días tapaba la señal.\n\n**El incidente B: el canario tampoco lo habría parado, y eso hay que decirlo.**\n\nLa consulta sin índice degradaba solo con el volumen de datos completo, y a bajo tráfico el percentil 99 del canario no se separaba del control. Lo que lo detectó al reproducirlo fue una métrica distinta:\n\n```text\nlatencia del servicio, p99          sin diferencia significativa a 5 %\nduración de consulta a la base      +310 % desde el primer minuto\n```\n\nSe añadió la latencia de las dependencias al análisis. **El canario no es una red universal**: cada incidente que se escapa señala una métrica que falta.\n\n**El incidente C: no había estrategia posible, porque el punto de no retorno se cruzó en el minuto uno.**\n\nLos pedidos duplicados ya estaban cobrados. Revertir la versión no los deshacía. La revisión del cambio con las tres preguntas habría dado dos síes:\n\n```text\n¿escribe datos que la versión anterior no sabe leer?    no\n¿consume mensajes que no podrá reprocesar?              SÍ\n¿tiene efectos hacia fuera irreversibles?               SÍ  (cobros)\n```\n\nSe añadió esa revisión de tres preguntas a la plantilla de cambio. Con dos síes, el despliegue pasa a 1 % durante una hora y con interruptor de funcionalidad.\n\n**El incidente D: el problema no era el despliegue, era la convivencia.**\n\nEl campo renombrado rompió al consumidor viejo. El diagnóstico es el del apartado segundo, y la corrección también:\n\n```text                                  antes            después\ncambios de esquema y contrato       en un despliegue   expandir/migrar/contraer\norden de despliegue                 sin regla          consumidores primero\ncomprobación de compatibilidad      no había           puerta en la canalización\n```\n\nLa puerta compara el contrato del cambio con el de la versión en producción y bloquea si elimina o renombra algo. En seis meses paró once cambios; **los once eran renombrados en despliegue único**, exactamente el patrón del incidente D.\n\nY el paso de contraer, que es el que se olvida:\n\n```text\ncolumnas duplicadas pendientes de retirar, al empezar        0\ncreadas por el patrón en 6 meses                             9\nretiradas en plazo                                           7\npendientes con fecha y dueño                                 2\n```\n\n**A los seis meses.**\n\n```text                                          antes         después\nincidentes causados por despliegues        4 / 6 meses    1 / 6 meses\nmediana de tiempo hasta revertir              1 h 10          6 min\nusuarios expuestos en el peor caso             100 %             5 %\nreversión requiere aprobación                    sí              no\nreversiones automáticas del canario               —          9 correctas\n                                                             3 innecesarias\ncambios parados por incompatibilidad              —              11\nprueba de canario con versión rota          no existía      trimestral\n```\n\n**La lección que esta clase traslada al resto de la parte 08**: de las cuatro causas, **solo una se resolvía con la estrategia de despliegue**. La segunda pedía una métrica que no se miraba, la tercera era irreversible por naturaleza y la cuarta era un problema de compatibilidad entre versiones que ninguna estrategia arregla. Y el cambio de mayor efecto medido no fue el canario: fue **quitar la aprobación para revertir**, que dividió por once el tiempo de exposición sin costar nada.",
+  "pitfalls": [
+    {
+      "symptom": "El canario aprueba cambios que luego fallan en producción",
+      "cause": "Con el tráfico y la duración configurados no hay eventos suficientes para detectar el empeoramiento",
+      "fix": "Calcula los eventos esperados en el escalón; alarga el primer escalón hasta que la diferencia buscada sea distinguible."
+    },
+    {
+      "symptom": "El canario da veredictos erráticos según el día y la hora",
+      "cause": "Se compara con datos históricos, y la carga y el tráfico no son comparables",
+      "fix": "Compara con un control de la versión anterior desplegado a la vez, con el mismo tamaño y el mismo tipo de tráfico."
+    },
+    {
+      "symptom": "La versión antigua empieza a fallar cuando se despliega la nueva",
+      "cause": "El cambio es incompatible con su propia versión anterior en esquema, cola o contrato",
+      "fix": "Aplica expandir y contraer, despliega los consumidores antes que los productores y pon una puerta que bloquee eliminaciones y renombrados."
+    },
+    {
+      "symptom": "Se revierte la versión y el problema persiste",
+      "cause": "Se cruzó el punto de no retorno: hay datos, mensajes o efectos externos que la reversión no deshace",
+      "fix": "Identifica el punto de no retorno antes de desplegar con las tres preguntas y planea la corrección hacia delante, no solo la reversión."
+    },
+    {
+      "symptom": "El tiempo hasta revertir se mide en horas aunque la detección sea de minutos",
+      "cause": "Revertir requiere una aprobación",
+      "fix": "Autoriza a cualquiera del equipo a revertir sin permiso previo, con aviso posterior."
+    },
+    {
+      "symptom": "Un canario mal configurado aprueba todo y nadie se entera",
+      "cause": "Ley 13: un análisis que no consulta ninguna métrica no falla, aprueba",
+      "fix": "Despliega a propósito una versión rota cada trimestre y confirma que el canario la para."
+    }
+  ],
+  "checks": [
+    "¿Qué controla una estrategia de despliegue y qué no controla?",
+    "¿Qué requisito comparten progresiva, azul-verde y canario, y qué patrón lo satisface?",
+    "¿Por qué un canario de cinco minutos con el 5 % del tráfico puede no detectar nada?",
+    "¿Contra qué debe compararse el canario y por qué no contra la semana anterior?",
+    "¿Qué tres preguntas identifican el punto de no retorno de un cambio?"
+  ],
+  "references": [
+    {
+      "text": "Humble, J. y Farley, D. (2010). *Continuous Delivery*, cap. 10 — despliegues azul-verde, canario y reversión.",
+      "url": "https://www.oreilly.com/library/view/continuous-delivery-reliable/9780321670250/"
+    },
+    {
+      "text": "Google SRE (2025). *Canarying releases* — control simultáneo, potencia del análisis y automatización del veredicto.",
+      "url": "https://sre.google/workbook/canarying-releases/"
+    },
+    {
+      "text": "Kubernetes (2025). *Deployment strategies and rollbacks* — mecánica de progresiva y reversión.",
+      "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+    },
+    {
+      "text": "Argo Rollouts (2025). *Analysis and progressive delivery* — escalones, métricas y reversión automática.",
+      "url": "https://argo-rollouts.readthedocs.io/en/stable/features/analysis/"
+    },
+    {
+      "text": "Fowler, M. (2025). *Parallel change (expand and contract)* — cambiar un contrato sin romper la convivencia.",
+      "url": "https://martinfowler.com/bliki/ParallelChange.html"
+    }
+  ]
+}
