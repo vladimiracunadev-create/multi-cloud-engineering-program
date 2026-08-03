@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> intermedio-avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>observability</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>logs, métricas, eventos y depuración</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Ver lo que ocurre dentro de un clúster, con dos hechos que hay que asumir antes de diseñar nada: <strong>los sucesos caducan en una hora</strong>, así que la explicación de por qué algo falló anoche ya no existe; y <strong>la fuente que alimenta el escalado no es un sistema de vigilancia</strong>, no guarda historia y confundirla con uno deja al equipo sin datos justo cuando los necesita. La clase cierra además la traducción de la ley de la clase 073 a una métrica concreta que casi ningún panel tiene.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> logs, métricas, eventos y depuración con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>diagnostico-kubernetes</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Distinguir</strong> los cuatro tipos de señal del clúster y qué pregunta responde cada uno.</li>
+<li><strong>Conservar</strong> los sucesos y los registros más allá de su vida útil por defecto.</li>
+<li><strong>Separar</strong> las métricas de estado de las de recursos, y saber cuál detecta cada problema.</li>
+<li><strong>Alertar</strong> sobre la distancia entre lo declarado y lo que funciona.</li>
+<li><strong>Recorrer</strong> un diagnóstico completo con las órdenes en el orden que acota.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,20 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>logs</code></td>
-<td>Define su papel en <strong>logs, métricas, eventos y depuración</strong> y cómo observarlo en un sistema real.</td>
+<td><code>suceso</code></td>
+<td>Explicación que un componente deja sobre un objeto. <strong>Caduca en una hora por defecto</strong> y no se guarda en ningún sitio: es la primera fuente que desaparece.</td>
 </tr>
 <tr>
-<td><code>métricas</code></td>
-<td>Define su papel en <strong>logs, métricas, eventos y depuración</strong> y cómo observarlo en un sistema real.</td>
+<td><code>métrica de estado</code></td>
+<td>Lo que el clúster <strong>declara</strong>: réplicas deseadas, fase de un pod, condiciones. Responde a si lo pedido está ocurriendo.</td>
 </tr>
 <tr>
-<td><code>eventos</code></td>
-<td>Define su papel en <strong>logs, métricas, eventos y depuración</strong> y cómo observarlo en un sistema real.</td>
+<td><code>métrica de recursos</code></td>
+<td>Lo que las cargas <strong>consumen</strong>: CPU, memoria, disco. Responde a si algo va justo, y no dice nada sobre si lo declarado se cumplió.</td>
 </tr>
 <tr>
-<td><code>depuración</code></td>
-<td>Define su papel en <strong>logs, métricas, eventos y depuración</strong> y cómo observarlo en un sistema real.</td>
+<td><code>fuente para el escalado</code></td>
+<td>Componente que publica el uso instantáneo para el escalado automático y para consultas puntuales. <strong>No guarda historia</strong>: no es un sistema de vigilancia.</td>
+</tr>
+<tr>
+<td><code>rotación de registros del nodo</code></td>
+<td>El kubelet rota los registros de cada contenedor por tamaño. Un contenedor locuaz <strong>pierde su propio historial</strong> en minutos si nadie lo recoge.</td>
+</tr>
+<tr>
+<td><code>distancia entre declarado y disponible</code></td>
+<td>Diferencia entre las réplicas que un objeto pide y las que sirven. Es la ley de la clase 073 expresada como número, y es la alerta que casi nunca existe.</td>
 </tr>
 </tbody>
 </table>
@@ -89,72 +94,355 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Logs, métricas, eventos y depuración&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    Q{&quot;¿qué pregunta?&quot;} --&gt;|&quot;¿por qué el objeto está así?&quot;| E[&quot;SUCESOS · caducan en 1 h&quot;]
+    Q --&gt;|&quot;¿qué dijo el proceso?&quot;| L[&quot;REGISTROS · rotan en el nodo&quot;]
+    Q --&gt;|&quot;¿se está cumpliendo lo declarado?&quot;| S[&quot;métricas de ESTADO&quot;]
+    Q --&gt;|&quot;¿va justo de algo?&quot;| R[&quot;métricas de RECURSOS&quot;]
+    Q --&gt;|&quot;¿por dónde pasó la petición?&quot;| T[&quot;trazas · clases 045 · 057&quot;]
+    E -.-&gt;|&quot;si no se exportan&quot;| X1[&quot;la causa de anoche no existe&quot;]
+    L -.-&gt;|&quot;si no se recogen&quot;| X2[&quot;el contenedor locuaz borra su historia&quot;]
+    S --&gt; A[&quot;réplicas declaradas − disponibles &gt; 0\ndurante N min → ALERTA&quot;]
+    A -.-&gt; LEY[&quot;la ley de la clase 073, medida&quot;]
+    R --&gt; P[&quot;presión por recurso · clase 070&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
+<h3 id="1-cuatro-senales-cuatro-preguntas-y-dos-que-caducan">1. Cuatro señales, cuatro preguntas, y dos que caducan</h3>
+<p>En un clúster hay cuatro fuentes y cada una responde algo distinto. Usar la equivocada es la causa habitual de un diagnóstico largo:</p>
+<pre><code class="language-text">sucesos      ¿por qué este objeto está en este estado?
+             lo escriben el planificador, el kubelet y los controladores
+registros    ¿qué dijo el proceso?
+métricas de estado    ¿se está cumpliendo lo que se declaró?
+métricas de recursos  ¿algo va justo de CPU, memoria o disco?
+trazas       ¿por dónde pasó una petición concreta? (clases 045, 057)
+</code></pre>
+<p>Y las dos primeras tienen una propiedad que hay que asumir antes de diseñar nada.</p>
+<p><strong>Los sucesos caducan en una hora.</strong></p>
+<pre><code class="language-bash">$ kubectl get events -n tienda --sort-by=.lastTimestamp | tail -5
+# solo la última hora; lo anterior ya no existe
+</code></pre>
+<p>Eso significa que la explicación de por qué un pod se reinició anoche, por qué el planificador no lo colocó o por qué un volumen no montó <strong>ha desaparecido</strong> cuando alguien mira por la mañana. Es la fuente más útil para el diagnóstico de la clase 073 y la que primero se pierde.</p>
+<p>La corrección es exportarlos, y hay dos formas:</p>
+<pre><code class="language-text">un recolector que los lea de la API y los envíe al sistema de registros
+una alerta que los convierta en métrica cuando importan
+</code></pre>
+<p>Y una advertencia sobre el volumen: los sucesos son muchos y repetitivos —el mismo se agrega con un contador— así que exportarlos todos es caro. La práctica sensata es exportar los de tipo aviso y los de razones concretas:</p>
+<pre><code class="language-text">FailedScheduling · FailedMount · Unhealthy · BackOff · Killing · Preempted
+OOMKilling · FailedCreate · NodeNotReady
+</code></pre>
+<p><strong>Los registros rotan en el nodo.</strong> El kubelet los guarda en ficheros con un tamaño máximo y un número de ficheros:</p>
+<pre><code class="language-text">por defecto, del orden de 10 MiB por fichero y 5 ficheros
+→ un contenedor que escribe 50 MiB por minuto conserva su último minuto
+</code></pre>
+<p>Y hay una consecuencia peor: <code>kubectl logs</code> lee de ahí, así que <strong>la información se pierde antes de que nadie la busque</strong>. Sin un recolector que los envíe fuera, el clúster no tiene historial de registros.</p>
+<p>Y la opción que salva más diagnósticos y menos gente conoce:</p>
+<pre><code class="language-bash">$ kubectl logs tienda-7d4b9-x2k4p --previous
+</code></pre>
+<p>Eso muestra los registros del contenedor <strong>anterior</strong>, el que murió. Sin <code>--previous</code>, en un contenedor que reinicia en bucle se leen los registros del que acaba de arrancar, que no dicen nada: la causa está en el que falló.</p>
+<p>Y para cuando el pod ya no existe, no hay nada que leer: por eso el recolector no es opcional en cuanto el clúster deja de ser de pruebas.</p>
+<h3 id="2-estado-y-recursos-dos-familias-que-no-se-sustituyen">2. Estado y recursos: dos familias que no se sustituyen</h3>
+<p>La confusión más extendida es tratar la fuente que alimenta el escalado como si fuera un sistema de vigilancia:</p>
+<pre><code class="language-bash">$ kubectl top pods -n tienda
+NAME               CPU(cores)   MEMORY(bytes)
+api-7d4b9-x2k4p    340m         1120Mi
+</code></pre>
+<p>Eso es el <strong>uso instantáneo</strong> y no se guarda. No hay ayer, no hay percentiles, no hay comparación. Sirve para que el escalado automático decida y para una consulta puntual, y no sirve para investigar nada que haya pasado.</p>
+<p>El sistema de vigilancia real recoge dos familias distintas, y es importante no confundirlas:</p>
+<pre><code class="language-text">métricas de RECURSOS      cuánto consume cada contenedor y cada nodo
+  origen: el propio kubelet y agentes del nodo
+  responden: ¿va justo? ¿hay presión? (clase 070)
+
+métricas de ESTADO        qué declara el clúster sobre sus objetos
+  origen: un componente que lee la API y publica su contenido
+  responden: ¿lo declarado está ocurriendo?
+</code></pre>
+<p>La segunda familia es la que casi siempre falta y la que detecta los problemas de esta parte:</p>
+<pre><code class="language-text">réplicas deseadas frente a disponibles        la ley de la clase 073
+pods en estado no listo, por motivo
+reinicios por contenedor
+trabajos programados que no se ejecutaron
+presupuestos con cero interrupciones permitidas   (clase 079)
+reclamaciones de volumen sin vincular             (clase 077)
+nodos no listos
+certificados próximos a caducar
+</code></pre>
+<p>Y la alerta que traduce la ley de la clase 073 a un número, que es la aportación central de esta clase:</p>
+<pre><code class="language-text">réplicas declaradas − réplicas disponibles &gt; 0  durante 10 minutos
+</code></pre>
+<p>Eso detecta de una vez: un despliegue que no avanza, un pod que no se planifica, una imagen que no se descarga, un volumen que no monta y una comprobación que nunca pasa. <strong>Cinco causas distintas y un solo síntoma</strong>, que es exactamente lo que se quiere de una alerta de primer nivel.</p>
+<p>Y su complemento, que detecta lo que la anterior no ve:</p>
+<pre><code class="language-text">un objeto de despliegue existe y su controlador no lo ha reconciliado
+  → marca de tiempo del arrendamiento de los controladores (clase 073)
+un trabajo programado no ha creado ningún trabajo en dos intervalos
+  → la tarea dejó de ejecutarse sin que nada fallara
+</code></pre>
+<p>La segunda es la versión de esta parte del fallo silencioso que el programa persigue desde la clase 060: <strong>algo que dejó de ocurrir no genera ningún error</strong>.</p>
+<p>Y sobre el formato, una nota que conecta con la clase 057: el estándar de facto para publicar métricas en Kubernetes es el mismo que las tres nubes admiten de forma nativa. Eso convierte la instrumentación de una aplicación en algo <strong>portable de verdad</strong>: las mismas métricas y los mismos paneles valen en el clúster, en cualquier nube y en una máquina. Es uno de los pocos contratos del programa que se conserva sin traducción alguna.</p>
+<h3 id="3-el-orden-que-acota-un-diagnostico">3. El orden que acota un diagnóstico</h3>
+<p>Con las cuatro fuentes y el modelo de la clase 073, el diagnóstico sigue un orden fijo. Saltárselo es lo que convierte diez minutos en dos horas.</p>
+<pre><code class="language-bash"># 1. ¿qué dice el objeto de sí mismo, y qué sucesos tiene?
+$ kubectl describe pod api-7d4b9-x2k4p
+
+# 2. ¿qué dijo el proceso? y si reinició, el ANTERIOR
+$ kubectl logs api-7d4b9-x2k4p --previous --tail=100
+
+# 3. ¿qué ve la plataforma sobre el conjunto?
+$ kubectl get deploy api -o wide
+$ kubectl get rs -l app=api
+
+# 4. ¿qué cambió?
+$ kubectl rollout history deploy/api
+$ kubectl get events -n tienda --sort-by=.lastTimestamp | tail -20
+
+# 5. si hace falta entrar, sin intérprete de órdenes (clase 070)
+$ kubectl debug -it api-7d4b9-x2k4p --image=nicolaka/netshoot --target=api
+
+# 6. si el problema parece del nodo
+$ kubectl describe node nodo-14
+$ kubectl debug node/nodo-14 -it --image=busybox
+</code></pre>
+<p>Y una tabla que traduce el estado observado al eslabón responsable, ampliando la de la clase 073 con lo aprendido después:</p>
 <table>
 <thead>
 <tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
+<th>Estado</th>
+<th>Fuente que lo explica</th>
+<th>Causa habitual</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
+<td><code>Pending</code></td>
+<td>Sucesos del pod</td>
+<td>Recursos, reglas de colocación, volumen zonal (078, 077)</td>
 </tr>
 <tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
+<td><code>ContainerCreating</code></td>
+<td>Sucesos del pod</td>
+<td>Volumen que no monta, secreto que no existe (076, 077)</td>
 </tr>
 <tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
+<td><code>ImagePullBackOff</code></td>
+<td>Sucesos del pod</td>
+<td>Huella inexistente, credenciales, admisión de firma (061, 067)</td>
 </tr>
 <tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
+<td><code>CrashLoopBackOff</code></td>
+<td><code>logs --previous</code></td>
+<td>La aplicación sale; el registro del contenedor muerto lo dice</td>
 </tr>
 <tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
+<td><code>Running</code> y no listo</td>
+<td><code>describe</code>, comprobación de disponibilidad</td>
+<td>Dependencia caída (068)</td>
+</tr>
+<tr>
+<td><code>Terminating</code> largo</td>
+<td>Sucesos y finalizadores</td>
+<td>Proceso que ignora la señal, o controlador ausente (073)</td>
+</tr>
+<tr>
+<td><code>OOMKilled</code></td>
+<td>Estado del contenedor</td>
+<td>Límite frente a uso real (063, 078)</td>
+</tr>
+<tr>
+<td><code>Evicted</code></td>
+<td>Sucesos del nodo</td>
+<td>Presión del nodo y clase de servicio (078)</td>
 </tr>
 </tbody>
 </table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<p>La fila de la imagen merece una nota porque su mensaje se lee mal:</p>
+<pre><code class="language-text">Failed to pull image &quot;registro/api@sha256:…&quot;: … not found
+  → la huella no existe: casi siempre, una etiqueta que se resolvió mal
+Failed to pull image …: unauthorized
+  → credenciales del registro, o identidad del nodo
+admission webhook denied the request: no matching signatures
+  → la política de la clase 067 está funcionando: eso es un ÉXITO
+</code></pre>
+<p>El tercero es un caso en el que el fallo es la señal de que un control funciona, y merece reconocerse para no «arreglarlo».</p>
+<p>Y dos órdenes que ahorran tiempo y se conocen poco:</p>
+<pre><code class="language-bash"># ver el estado de todos los contenedores de un espacio, con motivos
+$ kubectl get pods -n tienda -o custom-columns=\
+NOMBRE:.metadata.name,LISTO:.status.containerStatuses[*].ready,\
+REINICIOS:.status.containerStatuses[*].restartCount,\
+MOTIVO:.status.containerStatuses[*].state.waiting.reason
+
+# seguir los sucesos en tiempo real durante un despliegue
+$ kubectl get events -n tienda --watch-only
+</code></pre>
+<p>La segunda durante un despliegue muestra la secuencia completa —creación, planificación, descarga, arranque, disponibilidad— y es la mejor forma de entender por qué un despliegue tarda lo que tarda.</p>
+<h3 id="4-lo-que-cuesta-y-lo-que-nadie-consulta">4. Lo que cuesta, y lo que nadie consulta</h3>
+<p>La clase 057 estableció el método: mirar el historial de consultas antes de recortar. En un clúster, el resultado de ese ejercicio es casi siempre el mismo.</p>
+<pre><code class="language-text">composición típica del volumen de registros de un clúster
+  registros de acceso del controlador de entrada     30-50 %
+  salida de un componente de plataforma muy locuaz   15-30 %
+  aplicaciones                                       15-25 %
+  sucesos exportados sin filtrar                      5-15 %
+</code></pre>
+<p>Las dos primeras filas suman más de la mitad y casi nunca originan una alerta. Las palancas, en el mismo orden que la clase 057:</p>
+<pre><code class="language-text">1. bajar el nivel de registro de los componentes de plataforma
+   muchos vienen con nivel de depuración por defecto en su instalación
+2. filtrar los accesos correctos del controlador de entrada
+   y archivar el volumen íntegro aparte, más barato
+3. exportar solo los sucesos que importan, no todos
+4. estructurar los registros de las aplicaciones
+   una línea por evento, en formato estructurado, sin trazas de pila repetidas
+</code></pre>
+<p>Y una fuente de volumen específica del clúster que sorprende: <strong>un contenedor en bucle de reinicio genera registros sin parar</strong>, y con espera creciente sigue haciéndolo durante días. Un despliegue roto que nadie retira puede ser la mayor partida del mes.</p>
+<pre><code class="language-bash">$ kubectl get pods -A --field-selector status.phase!=Running \
+  -o custom-columns=NS:.metadata.namespace,N:.metadata.name,\
+R:.status.containerStatuses[0].restartCount --no-headers | sort -k3 -rn | head
+</code></pre>
+<p>Esa lista debería estar vigilada: un contador de reinicios de cuatro cifras es a la vez un servicio roto y una factura.</p>
+<p>Y sobre las <strong>métricas</strong>, la trampa de coste es la cardinalidad, exactamente como en las clases 034 y 045:</p>
+<pre><code class="language-text">una métrica por pod × 400 pods × 15 métricas × 20 etiquetas
+  → cientos de miles de series, que se renuevan en CADA despliegue
+</code></pre>
+<p>La segunda parte es la propia del clúster: los pods tienen nombres nuevos en cada despliegue, así que cualquier métrica etiquetada con el nombre del pod <strong>crea series nuevas continuamente</strong>. La corrección es agregar por despliegue o por servicio y no conservar la etiqueta del pod salvo donde haga falta.</p>
+<p>Y la lista de comprobación de observabilidad de un clúster:</p>
+<pre><code class="language-text">☐ recolector de registros: sin él no hay historial
+☐ sucesos exportados, filtrados por tipo y razón
+☐ métricas de estado además de las de recursos
+☐ alerta de réplicas declaradas frente a disponibles
+☐ alerta de arrendamiento de controladores envejecido
+☐ alerta de trabajos programados que dejan de ejecutarse
+☐ alerta de presupuestos con cero interrupciones permitidas (079)
+☐ alerta de reclamaciones sin vincular y nodos no listos
+☐ presión por recurso, por contenedor y por nodo (070)
+☐ nivel de registro de los componentes de plataforma revisado
+☐ etiqueta de pod evitada en métricas de alta cardinalidad
+☐ consultas de diagnóstico guardadas antes de necesitarlas
+</code></pre>
+<p>Doce puntos, de los cuales seis son alertas sobre <strong>cosas que dejan de ocurrir</strong> — que es la familia de fallos que este programa lleva persiguiendo desde la clase 060 y que en Kubernetes es especialmente fácil de producir, porque casi todo lo hace un bucle y un bucle que no funciona no da error.</p>
+<h3 id="5-lo-que-ya-se-puede-afirmar-sobre-observabilidad">5. Lo que ya se puede afirmar sobre observabilidad</h3>
+<p>Con las clases 034, 045, 057, 070 y esta, el programa ha recorrido cinco implementaciones distintas del mismo problema. Lo que se repite ya no es casualidad:</p>
+<pre><code class="language-text">1. la señal por defecto es la equivocada
+   utilización en vez de saturación, medias en vez de percentiles,
+   recursos en vez de estado
+
+2. lo que no se recoge mientras ocurre no existe
+   registros apagados (045), exportación no retroactiva (049),
+   sucesos que caducan (082)
+
+3. el volumen lo domina un puñado de componentes que nadie consulta
+   y la comprobación es mirar el historial de consultas, no intuir
+
+4. las alertas útiles son sobre la experiencia y sobre lo que se detiene
+   no sobre umbrales de recursos (057)
+
+5. un incidente no es el momento de aprender a consultar
+   las consultas se escriben antes y se guardan
+</code></pre>
+<p>Y la aportación propia de Kubernetes a esa lista, que no aparecía en las tres nubes:</p>
+<pre><code class="language-text">6. casi todo lo hace un bucle, y un bucle que no funciona no da error
+   → hace falta una métrica de &quot;¿se está cumpliendo lo declarado?&quot;
+     y no solo de &quot;¿está sano lo que existe?&quot;
+</code></pre>
+<p>Esa sexta es la que justifica la alerta central de esta clase. En una máquina, si un proceso no arranca, alguien lo ve. En un clúster, un objeto puede estar declarado, aceptado, visible en el inventario y sin ninguna instancia funcionando, indefinidamente y en silencio.</p>
+<p>Y dos números que conviene medir en un simulacro, porque son los que resumen si la observabilidad sirve:</p>
+<pre><code class="language-text">tiempo hasta detectar          desde que algo se rompe hasta que alguien lo sabe
+tiempo hasta localizar la causa desde que se sabe hasta que se sabe por qué
+</code></pre>
+<p>Todo lo de las cinco clases existe para bajar esos dos números. Cualquier panel, recolector o alerta que no los baje es decoración con coste mensual, y el simulacro es la única forma de comprobarlo.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>logs, métricas, eventos y depuración</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>CloudShop investiga tres incidentes del mes anterior y no puede explicar ninguno. Los cinco hallazgos son sobre lo que faltaba recoger, y el más útil es una alerta que no existía.</strong></p>
+<p><strong>Hallazgo 1 — la causa de anoche había caducado.</strong></p>
+<pre><code class="language-bash">$ kubectl get events -n tienda | grep api-7d4b9
+No resources found
+</code></pre>
+<p>El pod se había reiniciado siete veces entre las 02:00 y las 04:00. A las 09:00, los sucesos habían desaparecido y los registros del contenedor muerto también, porque el pod se había recreado.</p>
+<p>```text                                        antes            después
+sucesos exportados                        ninguno       filtrados, 30 días
+registros recogidos                    solo del nodo    recolector a un
+                                                        sistema central
+historial disponible                       1 hora           30 días
+incidentes explicables del mes anterior    0 de 3           —</p>
+<pre><code>
+**Hallazgo 2 — se leían los registros equivocados.**
+
+Durante el diagnóstico de un bucle de reinicio, el equipo leía:
+
+```bash
+$ kubectl logs api-7d4b9-x2k4p --tail=50
+[INFO] iniciando…
+[INFO] conectando a la base de datos…
+</code></pre>
+<p>Siempre las mismas dos líneas, del contenedor que acababa de arrancar. La causa estaba en el que había muerto:</p>
+<pre><code class="language-bash">$ kubectl logs api-7d4b9-x2k4p --previous --tail=20
+[FATAL] configuración inválida: campo 'tiempoEspera' esperaba entero, recibió &quot;30s&quot;
+</code></pre>
+<p>Diecinueve horas de diagnóstico por no usar una opción.</p>
+<p>```text                                        antes            después
+procedimiento documentado                 no había     con --previous como paso 2
+tiempo hasta la causa en un bucle       19 h              4 min</p>
+<pre><code>
+**Hallazgo 3 — la alerta que faltaba, y lo que destapó al ponerla.**
+
+Se añadió la alerta central de esta clase: réplicas declaradas menos disponibles mayor que cero durante diez minutos. En la primera semana disparó cinco veces:
+
+```text
+causa                                          veces
+despliegue detenido por presupuesto (079)        1
+volumen sin vincular por zona (077)              1
+imagen rechazada por firma (067)                 1
+comprobación de disponibilidad que nunca pasaba  1
+trabajo programado que llevaba 9 días sin ejecutarse  1
+</code></pre>
+<p>Las cinco existían desde antes y ninguna había generado una alerta. La última era la peor: un trabajo programado que sincronizaba precios llevaba nueve días sin ejecutarse porque su objeto había quedado suspendido durante un mantenimiento.</p>
+<p>```text                                        antes            después
+alertas de estado                             0                 6
+situaciones detectadas la primera semana      —                 5
+tiempo medio de detección                 días o nunca       &lt; 10 min</p>
+<pre><code>
+**Hallazgo 4 — el 61 % del volumen de registros lo generaban dos cosas.**
+
+```text
+controlador de entrada, accesos completos       44 %
+un componente de plataforma en modo depuración  17 %
+aplicaciones                                    22 %
+sucesos sin filtrar                             11 %
+resto                                            6 %
+</code></pre>
+<p>El componente en modo depuración llevaba así desde su instalación, catorce meses atrás, porque el ejemplo de la documentación lo traía activado.</p>
+<p>```text                                        antes            después
+ingesta diaria                            38 GiB/día        9 GiB/día
+nivel del componente de plataforma        depuración        aviso
+accesos del controlador de entrada        completos      solo &gt;= 400,
+                                                          volumen íntegro
+                                                          archivado aparte
+costo mensual de registros                 ~570 USD         ~140 USD
+capacidad de investigación perdida            —              ninguna</p>
+<pre><code>
+**Hallazgo 5 — un pod en bucle costaba más que el resto del espacio.**
+
+```bash
+$ kubectl get pods -A --field-selector status.phase!=Running \
+  -o custom-columns=N:.metadata.name,R:.status.containerStatuses[0].restartCount \
+  --no-headers | sort -k2 -rn | head -3
+prueba-integracion-8f2   4127
+viejo-informes-3a1        918
+</code></pre>
+<p>Un pod de una prueba abandonada llevaba once semanas reiniciando cada cuarenta segundos, escribiendo su traza de error en cada arranque.</p>
+<p>```text                                        antes            después
+pods en bucle sin dueño                       2                 0
+reinicios acumulados                      5.045                 —
+volumen que generaban                   4,1 GiB/día             0
+alerta sobre contadores de reinicio      ninguna        &gt; 20 en 1 h → aviso</p>
+<pre><code>
+**Y la medición que cierra el ejercicio:**
+
+```text                                          antes         después
+tiempo hasta detectar (simulacro)         no se detectaba    3 min 10 s
+tiempo hasta localizar la causa               horas           6 min
+incidentes del mes explicables               0 de 3           3 de 3
+ingesta diaria                             38 GiB/día      9 GiB/día
+costo mensual de observabilidad             ~640 USD        ~190 USD
+alertas sobre cosas que dejan de ocurrir        0               6
+consultas de diagnóstico guardadas              0               7
+</code></pre>
+<p><strong>La lección que esta clase traslada al proyecto de la clase 084</strong>: los tres incidentes del mes anterior eran explicables y la información existió — durante una hora los sucesos y durante unos minutos los registros. <strong>Lo que faltaba no era capacidad de análisis sino conservación</strong>, y su corrección costó menos que lo que se ahorró recortando el volumen que nadie consultaba. Y la alerta central —declarado menos disponible— destapó en una semana cinco situaciones que llevaban entre nueve días y varios meses activas, todas invisibles porque en Kubernetes lo que no ocurre no produce ningún error.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-06-kubernetes-managed-platforms/082-logs-metricas-eventos-y-depuracion/lab.py
@@ -195,29 +483,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>No se puede explicar por qué algo falló hace unas horas</td>
+<td>Los sucesos caducan en una hora y los registros del contenedor muerto desaparecen con el pod</td>
+<td>Exporta sucesos filtrados por tipo y razón, y despliega un recolector de registros: sin él el clúster no tiene historial.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Los registros de un contenedor en bucle no dicen nada</td>
+<td>Se están leyendo los del contenedor recién arrancado, no los del que murió</td>
+<td>Usa <code>--previous</code>; la causa está siempre en el contenedor anterior.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Un servicio lleva días sin funcionar y nadie se enteró</td>
+<td>No hay alerta sobre la distancia entre réplicas declaradas y disponibles</td>
+<td>Añade esa alerta: detecta cinco causas distintas con un solo síntoma.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Una tarea programada deja de ejecutarse sin que nada falle</td>
+<td>En Kubernetes lo que deja de ocurrir no produce ningún error</td>
+<td>Alerta cuando un trabajo programado no crea ejecuciones en dos intervalos consecutivos.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>La factura de registros crece sin relación con el tráfico</td>
+<td>Un componente de plataforma en modo depuración o un pod en bucle de reinicio</td>
+<td>Revisa el nivel de registro de los componentes instalados y vigila los contadores de reinicio.</td>
+</tr>
+<tr>
+<td>Las métricas crecen sin control en cada despliegue</td>
+<td>Las series están etiquetadas con el nombre del pod, que cambia siempre</td>
+<td>Agrega por despliegue o servicio y conserva la etiqueta del pod solo donde de verdad haga falta.</td>
 </tr>
 </tbody>
 </table>
@@ -228,17 +521,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué pregunta responde cada una de las cuatro fuentes, y cuáles dos caducan?</li>
+<li>¿Por qué <code>kubectl logs</code> sin <code>--previous</code> es inútil en un bucle de reinicio?</li>
+<li>¿Qué cinco causas distintas detecta la alerta de réplicas declaradas frente a disponibles?</li>
+<li>¿En qué se diferencian las métricas de estado de las de recursos, y cuál falta casi siempre?</li>
+<li>¿Qué aportación propia de Kubernetes se añade a las cinco conclusiones de observabilidad del programa?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Kubernetes: Up and Running — Burns, Beda y Hightower.</li>
-<li>Kubernetes Patterns — Ibryam y Huß.</li>
-<li>Production Kubernetes — Rosso et al..</li>
+<li>Kubernetes (2025). <em>Events and their retention</em> — origen, agregación y caducidad. <a href="https://kubernetes.io/docs/reference/kubernetes-api/cluster-resources/event-v1/">https://kubernetes.io/docs/reference/kubernetes-api/cluster-resources/event-v1/</a></li>
+<li>Kubernetes (2025). <em>Logging architecture</em> — rotación en el nodo y necesidad de recolector. <a href="https://kubernetes.io/docs/concepts/cluster-administration/logging/">https://kubernetes.io/docs/concepts/cluster-administration/logging/</a></li>
+<li>Kubernetes (2025). <em>Resource metrics pipeline</em> — para qué sirve la fuente del escalado y qué no es. <a href="https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/">https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/</a></li>
+<li>kube-state-metrics (2025). <em>Documentation</em> — métricas de estado de los objetos del clúster. <a href="https://github.com/kubernetes/kube-state-metrics/tree/main/docs">https://github.com/kubernetes/kube-state-metrics/tree/main/docs</a></li>
+<li>Kubernetes (2025). <em>Debug running pods</em> — orden de diagnóstico y contenedores efímeros. <a href="https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/">https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -306,7 +601,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-cuatro-senales-cuatro-preguntas-y-dos-que-caducan">1. Cuatro señales, cuatro preguntas, y dos que caducan</a><a class="toc-level-3" href="#2-estado-y-recursos-dos-familias-que-no-se-sustituyen">2. Estado y recursos: dos familias que no se sustituyen</a><a class="toc-level-3" href="#3-el-orden-que-acota-un-diagnostico">3. El orden que acota un diagnóstico</a><a class="toc-level-3" href="#4-lo-que-cuesta-y-lo-que-nadie-consulta">4. Lo que cuesta, y lo que nadie consulta</a><a class="toc-level-3" href="#5-lo-que-ya-se-puede-afirmar-sobre-observabilidad">5. Lo que ya se puede afirmar sobre observabilidad</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
