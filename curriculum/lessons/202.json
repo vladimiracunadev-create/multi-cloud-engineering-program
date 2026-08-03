@@ -1,0 +1,118 @@
+{
+  "id": "202",
+  "purpose": "Ver el tráfico de verdad cuando las métricas no bastan, que es exactamente cuando ocurren los incidentes que duran horas. La clase ordena las herramientas de diagnóstico de red por coste y por lo que cada una puede responder —registros de flujo, observación desde el núcleo, captura de paquetes—, da el método de descarte que evita perder tiempo, y aborda lo que casi nunca se explica: **qué hacer cuando el tráfico va cifrado y no se puede mirar dentro**.",
+  "outcomes": [
+    "**Elegir** la herramienta adecuada a la pregunta que se está haciendo.",
+    "**Leer** registros de flujo para responder qué habla con qué y qué se rechaza.",
+    "**Usar** observación desde el núcleo sin desplegar agentes intrusivos.",
+    "**Capturar** paquetes con filtro y de forma acotada, y saber qué buscar.",
+    "**Diagnosticar** cuando el contenido está cifrado y no se puede inspeccionar."
+  ],
+  "concepts": [
+    {
+      "term": "registro de flujo",
+      "definition": "Resumen por conexión: origen, destino, puerto, bytes, y si fue aceptada o rechazada. Barato y siempre disponible."
+    },
+    {
+      "term": "eBPF",
+      "definition": "Mecanismo que permite ejecutar código de observación dentro del núcleo, sin modificar aplicaciones ni añadir proxies."
+    },
+    {
+      "term": "captura de paquetes",
+      "definition": "Copia del tráfico real. La única que ve el detalle, y la más cara en recursos y en privacidad."
+    },
+    {
+      "term": "muestreo",
+      "definition": "Registrar una fracción de los flujos. Reduce coste y hace que los eventos raros no aparezcan."
+    },
+    {
+      "term": "retransmisión",
+      "definition": "Reenvío de un segmento perdido. Su tasa es la señal más directa de un problema de red."
+    },
+    {
+      "term": "ventana cero",
+      "definition": "El receptor anuncia que no puede recibir más. Indica que el problema está en el destino, no en la red."
+    }
+  ],
+  "diagram": "flowchart TB\n    P[\"¿qué pregunta tengo?\"] --> Q1{\"¿quién habla\\ncon quién?\"}\n    Q1 -->|sí| F[\"REGISTROS DE FLUJO\\nbarato, siempre activo\"]\n    P --> Q2{\"¿se está\\nrechazando algo?\"}\n    Q2 -->|sí| F\n    P --> Q3{\"¿qué proceso\\nabre esta conexión?\"}\n    Q3 -->|sí| B[\"eBPF\\nvincula socket,\\nproceso y contenedor\"]\n    P --> Q4{\"¿por qué esta\\nconexión va lenta\\no se corta?\"}\n    Q4 -->|sí| C[\"CAPTURA\\nfiltrada y acotada\"]\n    C --> C1[\"retransmisiones\"]\n    C --> C2[\"ventana cero\"]\n    C --> C3[\"quién cierra primero\"]\n    C --> C4[\"handshake TLS\"]\n    E[\"cifrado\"] --> E1[\"tamaños, tiempos\\ny dirección siguen visibles\"]\n    E --> E2[\"instrumentar en\\nlos extremos\"]",
+  "foundations": [
+    {
+      "heading": "Tres herramientas, tres preguntas",
+      "body": "El error que más tiempo cuesta es empezar capturando paquetes. Cada herramienta responde preguntas distintas y hay que ir de la barata a la cara.\n\n```text\nREGISTROS DE FLUJO\n  qué dan   por conexión: origen, destino, puertos, protocolo,\n            bytes, paquetes, si fue aceptada o rechazada, y\n            a menudo por qué regla\n  coste     bajo; se pueden dejar siempre activos\n  responden\n    ¿quién habla con quién?\n    ¿se está rechazando algo, y qué regla lo rechaza?\n    ¿cuánto tráfico va a cada destino?      ← coste  clase 200\n    ¿hay tráfico hacia sitios inesperados?\n  NO responden\n    por qué una conexión concreta va lenta\n    qué ocurre dentro de la conversación\n\nOBSERVACIÓN DESDE EL NÚCLEO (eBPF)\n  qué da    eventos en el núcleo: sockets, llamadas al\n            sistema, latencia por conexión, y —lo importante—\n            QUÉ PROCESO Y QUÉ CONTENEDOR\n  coste     bajo o medio; sin modificar aplicaciones\n  responde\n    ¿qué proceso abre esta conexión?\n    ¿cuánto tarda cada fase: resolución, conexión, respuesta?\n    ¿qué contenedor genera este tráfico?\n    ¿dónde se pierden paquetes dentro del nodo?\n\nCAPTURA DE PAQUETES\n  qué da    el tráfico real\n  coste     alto: CPU, disco, y contiene datos personales\n  responde\n    todo lo demás, pero solo si sabes qué buscar\n```\n\nY el método de descarte, que es el orden correcto:\n\n```text\n1  ¿llega la conexión al destino?        → flujos\n2  ¿la rechaza alguna regla?             → flujos\n3  ¿qué proceso la abre y cuánto tarda   → eBPF\n   cada fase?\n4  ¿qué pasa dentro de la conversación?  → captura\n\n→ y en la práctica, los pasos 1 y 2 resuelven la mayoría\n```\n\nY una advertencia sobre los registros de flujo:\n\n```text\nEL MUESTREO\n  muchos productos muestrean: 1 de cada N flujos\n  → los eventos raros desaparecen\n  → y precisamente lo que se busca en un incidente suele\n    ser raro\n\n→ conviene tener muestreo completo al menos en las subredes\n  críticas, aunque cueste más\n```"
+    },
+    {
+      "heading": "Leer registros de flujo",
+      "body": "Los registros de flujo están casi siempre activados y casi nunca se usan bien.\n\n```text\nLO QUE SE PUEDE RESPONDER EN MINUTOS\n\n¿este servicio habla con quien creemos?\n  agrupar por par origen-destino y contar\n  → y comparar con el diagrama                       ley 24\n\n¿qué se está rechazando?\n  filtrar por acción de rechazo y agrupar por regla\n  → los rechazos son la señal más informativa y la que\n    nadie mira                                       ley 15\n\n¿a dónde va el tráfico saliente y cuánto?\n  agrupar por destino externo y sumar bytes\n  → esto es lo que descubre coste y exfiltración  clase 200\n\n¿hay tráfico entre zonas que podría ser dentro de una?\n  agrupar por zona de origen y de destino\n  → suele ser la línea de coste más grande y peor\n    atribuida                                     clase 168\n\n¿qué habla con este recurso antes de retirarlo?\n  filtrar por su dirección durante semanas\n  → es la forma correcta de decidir si algo se puede\n    apagar                                          ley 23\n```\n\nY los patrones que se reconocen en los flujos:\n\n```text\nMUCHOS FLUJOS CORTOS AL MISMO DESTINO\n  sin reutilización de conexión\n  → cada petición abre una conexión nueva\n  → coste de establecimiento y de TLS en cada una\n\nFLUJOS RECHAZADOS REPETIDOS DESDE EL MISMO ORIGEN\n  un cliente que no sabe que ya no puede\n  → suele ser un servicio retirado a medias\n\nTRÁFICO SALIENTE CONSTANTE Y PEQUEÑO A UN DESTINO ÚNICO\n  la firma clásica de un agente o de una exfiltración lenta\n                                                clase 200\n\nUN ORIGEN QUE HABLA CON MUCHOS DESTINOS INTERNOS\n  reconocimiento, o un servicio que hace de intermediario\n  sin razón                                     clase 201\n```\n\nY una limitación que hay que tener presente:\n\n```text\nlos flujos dicen QUE hubo conexión, no si funcionó\n  una conexión aceptada que devuelve errores de aplicación\n  aparece igual que una correcta\n→ para eso hacen falta las métricas de aplicación\n                                                clase 121\n```"
+    },
+    {
+      "heading": "Captura de paquetes: qué buscar",
+      "body": "Capturar sin saber qué se busca produce gigabytes inútiles. Con cuatro cosas se resuelve casi todo.\n\n```text\nANTES DE CAPTURAR\n  filtra en el origen: host, puerto y protocolo\n  acota el tiempo o el tamaño\n  captura en los DOS extremos si es posible    ← clave\n  y ten en cuenta que el contenido puede tener datos\n    personales: la captura es un dato sensible  clase 189\n```\n\n**Las cuatro señales que hay que mirar:**\n\n```text\n1  RETRANSMISIONES\n   segmentos reenviados porque no llegó confirmación\n   tasa normal        < 0,1 %\n   preocupante        > 1 %\n   → indica pérdida en el camino: enlace saturado, MTU,\n     equipo intermedio                          clase 198\n\n2  VENTANA CERO\n   el receptor anuncia que no puede recibir más\n   → el problema está en el DESTINO, no en la red\n   → el destino no consume lo que le llega: aplicación\n     bloqueada, disco lento, hilos agotados     clase 186\n\n3  QUIÉN CIERRA PRIMERO Y CÓMO\n   cierre limpio     alguien terminó a propósito\n   reinicio abrupto  algo cortó: cortafuegos, plazo, proceso\n                     caído\n   → y saber CUÁL de los dos extremos lo envió señala dónde\n     está la causa\n   → un reinicio desde un intermedio suele ser un cortafuegos\n     con estado que perdió la sesión            clase 194\n\n4  EL ESTABLECIMIENTO\n   ¿cuánto tarda el saludo inicial?  → red\n   ¿cuánto tarda el saludo TLS?      → certificados, cadena\n   ¿se completa?                     → versión o cifrado\n                                       incompatible\n   → aquí se ven los fallos de certificado con precisión\n                                                clase 196\n```\n\nY los patrones que identifican causa directamente:\n\n```text\nSÍNTOMA EN LA CAPTURA           CAUSA\nretransmisiones solo de         MTU sin ajustar    clase 198\npaquetes grandes\n\nventana cero repetida           el destino no consume:\n                                mirar el destino, no la red\n\nreinicio abrupto tras 60 s      un intermedio con plazo de\nexactos de inactividad          inactividad menor que los\n                                extremos           clase 196\n\nsaludo TLS que empieza y no     cadena incompleta o versión\ntermina                         no soportada\n\nmuchos establecimientos por     sin reutilización de conexión\nsegundo al mismo destino\n\ntodo correcto en la captura     el problema es de aplicación,\n                                no de red      ← también es\n                                un resultado\n```\n\nY el último merece énfasis:\n\n```text\nuna captura limpia DESCARTA la red\n→ y descartar es la mitad del diagnóstico\n→ decir «la red está bien, con esta evidencia» vale tanto\n  como encontrar la causa\n```"
+    },
+    {
+      "heading": "Cuando el tráfico va cifrado",
+      "body": "Con TLS en todas partes —y más aún con TLS mutuo— la captura ya no muestra el contenido. Eso cambia el método pero no lo impide.\n\n```text\nLO QUE SIGUE SIENDO VISIBLE CIFRADO\n  quién habla con quién, y cuándo\n  el nombre solicitado en el saludo, salvo que esté cifrado\n  tamaños de los mensajes y su patrón temporal\n  el establecimiento completo y sus errores\n  retransmisiones, ventana cero y cierres\n\n→ es decir: casi todo lo que hace falta para diagnosticar\n  problemas de RED\n```\n\nY lo que hay que hacer para lo demás:\n\n```text\nINSTRUMENTAR EN LOS EXTREMOS\n  trazas con contexto propagado                  clase 121\n  → dan lo que la captura ya no puede dar\n\nOBSERVAR DESDE EL NÚCLEO\n  eBPF puede ver los datos ANTES de cifrar y DESPUÉS de\n  descifrar, dentro del proceso\n  → sin claves, sin proxy y sin tocar la aplicación\n  → es la razón principal por la que esta técnica se ha\n    vuelto central\n\nDESCIFRAR EN UN PUNTO CONTROLADO\n  el balanceador o el proxy ya ven el tráfico en claro\n  → registrar allí, con cuidado de no registrar datos\n    personales                                   clase 189\n\nY LO QUE NO SE DEBE HACER\n  guardar claves privadas para poder descifrar capturas\n  → convierte el archivo de capturas en el activo más\n    peligroso de la organización\n```\n\n**La operación del diagnóstico**, que evita el caos durante los incidentes:\n\n```text\nQUÉ HAY QUE TENER PREPARADO ANTES\n  flujos activos y consultables, sin muestreo en lo crítico\n  permiso y procedimiento para capturar, con quién autoriza\n  un sitio donde guardar capturas, con caducidad automática\n  las herramientas instaladas o disponibles al momento\n  y el camino esperado de cada flujo, escrito     clase 194\n\n→ conseguir un permiso de captura durante un incidente\n  añade horas\n```\n\nY el tratamiento de las capturas como dato sensible:\n\n```text\ncontienen datos personales y a veces credenciales\n→ acceso restringido, caducidad corta, y registro de quién\n  las descarga\n→ y nunca en un almacén compartido general        clase 189\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ los registros de flujo están activos y son consultables\n☐ no hay muestreo en las subredes críticas\n☐ los rechazos se revisan periódicamente, no solo en\n  incidentes\n☐ hay observación desde el núcleo capaz de vincular\n  conexión, proceso y contenedor\n☐ existe procedimiento y permiso previo para capturar\n☐ las capturas se filtran y se acotan en origen\n☐ las capturas caducan solas y su acceso queda registrado\n☐ no se guardan claves privadas para descifrar capturas\n☐ el diagnóstico de aplicación se apoya en trazas, no en\n  contenido de paquetes\n☐ el camino esperado de los flujos principales está escrito\n```\n\nY el cierre que enlaza con la clase siguiente: hasta aquí la red ha sido de centros de datos y nubes, con enlaces estables. Cuando el extremo es una tienda, un vehículo o un dispositivo que se queda sin cobertura, las reglas cambian. Redes definidas por software, 5G y operación desconectada es la materia de la clase 203."
+    }
+  ],
+  "worked_example": "**Tres incidentes de CloudShop que las métricas no explicaban. Lo que sigue es el diagnóstico de cada uno con la herramienta que correspondía, y el tiempo que costó cada vez que se empezó por la equivocada.**\n\n**Incidente 1 · «El servicio de envíos falla al llamar al transportista», abril.**\n\n```text\nsíntoma   el 12 % de las llamadas al API del transportista\n          fallaban por plazo vencido\n          las métricas de aplicación solo decían «timeout»\n\nlo que se hizo primero (mal)\n  2 h revisando el código del cliente HTTP\n  1 h capturando paquetes sin filtro en el nodo\n     → 3,2 GB de captura, imposible de leer\n\nlo que lo resolvió, en 6 minutos\n  REGISTROS DE FLUJO, filtrados por el destino del\n  transportista\n\n    flujos aceptados                          88 %\n    flujos RECHAZADOS                         12 %\n    regla que los rechazaba   el grupo de seguridad de\n                              salida de una de las tres\n                              subredes de la aplicación\n\n  causa    al añadir una tercera subred en febrero, se copió\n           la configuración de otra y faltaba la regla de\n           salida hacia el rango del transportista\n  → el 12 % era exactamente 1 de cada 3 réplicas\n\nlección   la primera pregunta era «¿se rechaza algo?» y la\n          responden los flujos en un minuto\n```\n\n**Incidente 2 · «Conexiones que se cuelgan cada 60 segundos exactos», julio.**\n\n```text\nsíntoma   las conexiones de larga duración entre el servicio\n          de informes y la base corporativa se cortaban con\n          una regularidad exacta\n          reintentaban y funcionaban, pero cada corte perdía\n          la consulta en curso\n\nflujos    mostraban conexiones establecidas y cerradas, sin\n          rechazos → no bastaba\n\neBPF      mostró que el cierre venía de fuera del proceso\n          y que el proceso no lo pedía\n\nCAPTURA   filtrada por el par de direcciones y el puerto,\n          durante 5 minutos: 4 MB\n\n  lo que se vio\n    tras exactamente 60 s sin datos, llegaba un reinicio\n    abrupto\n    el reinicio NO venía de ninguno de los dos extremos:\n    los números de secuencia no correspondían\n    → lo enviaba un intermedio\n\n  causa   el cortafuegos del enlace dedicado tenía un plazo\n          de inactividad de 60 s\n          los dos extremos tenían 300 s y no enviaban nada\n          entre consultas\n\n  corrección\n    mensajes de mantenimiento de conexión cada 30 s en el\n    cliente\n    y el plazo del cortafuegos documentado en el registro de\n    caminos esperados                            clase 194\n\ntiempo total    40 min, de los cuales 25 fueron conseguir\n                permiso para capturar\n→ desde entonces, el permiso está preautorizado con\n  procedimiento\n```\n\n**Incidente 3 · «Latencia alta e intermitente solo en una zona», octubre.**\n\n```text\nsíntoma   el p99 del servicio de catálogo en la zona C era\n          4 veces el de las zonas A y B\n          CPU, memoria y errores, normales en las tres\n\nflujos    volumen y destinos idénticos en las tres zonas\n          → no explicaba nada\n\neBPF      desglose de latencia por fase, por conexión\n\n    fase                    zona A    zona B    zona C\n    resolución de nombre     0,4 ms    0,4 ms   38 ms   ←\n    establecimiento          0,6 ms    0,6 ms    0,7 ms\n    saludo TLS               1,2 ms    1,2 ms    1,3 ms\n    primera respuesta        41 ms     43 ms     44 ms\n\n  → el problema era la RESOLUCIÓN DE NOMBRES, no el tráfico\n\n  causa\n    el resolutor de la zona C tenía una regla de reenvío\n    apuntando a un servidor corporativo que respondía lento\n    las otras dos usaban el resolutor local        clase 195\n    y como la biblioteca no cacheaba, cada petición\n    resolvía de nuevo\n\n  corrección\n    regla de reenvío corregida\n    caché de resolución activada en el cliente\n    p99 de la zona C                    de 84 ms a 46 ms\n\nlección   sin el desglose por fase, esto se habría\n          diagnosticado como «la red de la zona C va mal»\n          y se habría escalado al proveedor\n```\n\n**Lo que se montó después de los tres.**\n\n```text\nFLUJOS\n  activados en todas las subredes\n  sin muestreo en producción y en datos\n  con 30 días de retención y consulta indexada\n  coste                                    +410 €/mes\n\n  y un panel que nadie tenía: RECHAZOS POR REGLA\n    revisión semanal\n    en los 6 primeros meses encontró\n      · 3 servicios retirados cuyos clientes seguían\n        intentando conectar\n      · 1 regla que rechazaba tráfico legítimo desde una\n        subred nueva (el incidente 1, en otras dos subredes)\n      · 2 orígenes internos intentando alcanzar producción\n        desde preproducción                    clase 199\n\nOBSERVACIÓN DESDE EL NÚCLEO\n  desplegada en todos los nodos\n  da: latencia por fase, proceso y contenedor por conexión,\n      pérdidas dentro del nodo\n  coste                          ~2 % de CPU, 180 €/mes\n\nCAPTURA\n  procedimiento preautorizado, con dos personas que pueden\n  activarla\n  filtro obligatorio en origen\n  almacenamiento con caducidad de 7 días y acceso registrado\n  prohibido guardar claves privadas para descifrar\n```\n\n**El efecto medido:**\n\n```text                                        antes     después\ntiempo medio de diagnóstico de red        1 h 55       12 min\nincidentes en que se capturó sin filtro        3           0\ntiempo perdido en conseguir permisos       25 min          0\nrechazos revisados periódicamente             no       semanal\nproblemas encontrados por la revisión\n  de rechazos, sin incidente previo            —           6\n```\n\nY una observación sobre el último dato:\n\n```text\nseis problemas se encontraron mirando los rechazos, sin que\nhubiera ningún incidente\n→ tres de ellos habrían causado uno más adelante\n→ la señal existía desde siempre y nadie la miraba  ley 15\n```\n\n**La lección que esta clase deja**: los tres incidentes se resolvieron con tres herramientas distintas, y en dos de ellos **se empezó por la más cara**: tres horas de código y captura ciega para un problema que los registros de flujo respondían en seis minutos. El incidente que parecía más de red —latencia alta en una zona— **no era de red**: era resolución de nombres, y solo se vio con el desglose de latencia por fase. Y el panel más útil del año no lo pidió ningún incidente: fue **mirar lo que se estaba rechazando**.",
+  "pitfalls": [
+    {
+      "symptom": "Se pierden horas en un diagnóstico que los flujos resolvían en minutos",
+      "cause": "Se empezó capturando paquetes en vez de descartar por orden",
+      "fix": "Pregunta primero si la conexión llega y si algo la rechaza; los flujos responden eso al instante."
+    },
+    {
+      "symptom": "Un evento raro no aparece en los registros de flujo",
+      "cause": "El producto está muestreando una fracción de los flujos",
+      "fix": "Desactiva el muestreo al menos en las subredes críticas, aunque cueste más."
+    },
+    {
+      "symptom": "La captura ocupa gigabytes y no se puede analizar",
+      "cause": "Se capturó sin filtro ni límite de tiempo",
+      "fix": "Filtra por host, puerto y protocolo en el origen, acota la duración y captura en ambos extremos."
+    },
+    {
+      "symptom": "Las conexiones se cortan con periodicidad exacta",
+      "cause": "Un intermedio con plazo de inactividad menor que el de los extremos envía un reinicio",
+      "fix": "Comprueba en la captura de quién viene el reinicio y añade mensajes de mantenimiento de conexión por debajo de ese plazo."
+    },
+    {
+      "symptom": "Se atribuye a la red una latencia que no es de red",
+      "cause": "No se desglosó la latencia por fase de la conexión",
+      "fix": "Usa observación desde el núcleo para separar resolución, establecimiento, saludo TLS y primera respuesta."
+    },
+    {
+      "symptom": "El archivo de capturas se convierte en un riesgo",
+      "cause": "Se guardan capturas sin caducidad, o claves privadas para descifrarlas",
+      "fix": "Caducidad corta, acceso restringido y registrado, y nunca almacenar claves privadas para descifrar tráfico capturado."
+    }
+  ],
+  "checks": [
+    "¿Qué pregunta responde cada una de las tres herramientas y en qué orden se usan?",
+    "¿Por qué el muestreo de flujos estorba precisamente en un incidente?",
+    "¿Qué indica una ventana cero repetida y hacia dónde dirige el diagnóstico?",
+    "¿Qué sigue siendo visible en una captura de tráfico cifrado?",
+    "¿Qué hay que tener preparado antes de necesitar una captura?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2025). *VPC Flow Logs* — campos, acciones y limitaciones.",
+      "url": "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
+    },
+    {
+      "text": "Cilium (2025). *Hubble: eBPF-based network observability*.",
+      "url": "https://docs.cilium.io/en/stable/overview/intro/"
+    },
+    {
+      "text": "Gregg, B. (2019). *BPF Performance Tools*.",
+      "url": "https://www.brendangregg.com/bpf-performance-tools-book.html"
+    },
+    {
+      "text": "Wireshark (2025). *TCP analysis flags: retransmissions, zero window, resets*.",
+      "url": "https://www.wireshark.org/docs/wsug_html_chunked/ChAdvTCPAnalysis.html"
+    },
+    {
+      "text": "Google Cloud (2025). *Packet Mirroring and network diagnostics*.",
+      "url": "https://cloud.google.com/vpc/docs/packet-mirroring"
+    }
+  ]
+}
