@@ -1,0 +1,118 @@
+{
+  "id": "133",
+  "purpose": "Abrir la parte del control con el cambio de modelo que la hace posible: **dejar de conceder confianza por el lugar del que viene una petición**. La clase separa la idea de los productos que la venden, explica por qué el modelo de perímetro convierte el primer equipo comprometido en la red entera, y desarrolla el criterio que distingue una defensa en profundidad real de cinco controles decorativos: **que las capas sean independientes**. Y termina con la pregunta que ordena todo el trabajo: si roban ahora mismo esta credencial, ¿hasta dónde se llega?",
+  "outcomes": [
+    "**Enunciar** qué se verifica en cada petición y por qué no basta el origen.",
+    "**Explicar** por qué el modelo de perímetro falla y qué lo sustituye.",
+    "**Distinguir** capas de defensa independientes de capas que comparten un único punto.",
+    "**Calcular** el alcance de un compromiso desde cada punto de entrada.",
+    "**Ordenar** la adopción por lo que de verdad detiene ataques reales."
+  ],
+  "concepts": [
+    {
+      "term": "confianza cero",
+      "definition": "Ninguna petición se acepta por venir de un sitio determinado. Se verifica identidad, permiso y contexto en cada acceso."
+    },
+    {
+      "term": "modelo de perímetro",
+      "definition": "Dividir el mundo en dentro y fuera, y confiar en lo de dentro. Su consecuencia es que un solo equipo comprometido da acceso a todo."
+    },
+    {
+      "term": "movimiento lateral",
+      "definition": "Avance del atacante de un sistema a otro una vez dentro. Es donde ocurre la mayor parte del daño."
+    },
+    {
+      "term": "independencia de capas",
+      "definition": "Que el fallo de una no implique el de las demás. Cinco controles que dependen del mismo sistema de identidad son un solo control."
+    },
+    {
+      "term": "alcance del compromiso",
+      "definition": "Todo lo que un atacante puede leer, escribir o ejecutar partiendo de una credencial concreta."
+    },
+    {
+      "term": "suponer la brecha",
+      "definition": "Diseñar dando por hecho que alguien ya está dentro, y limitar lo que puede hacer desde allí."
+    }
+  ],
+  "diagram": "flowchart TB\n    P[\"petición\"] --> V{\"se verifica en CADA acceso\"}\n    V --> V1[\"identidad: persona o carga\"]\n    V --> V2[\"estado del dispositivo\"]\n    V --> V3[\"recurso y acción concretos\"]\n    V --> V4[\"contexto: momento, origen, riesgo\"]\n    V1 --> D{\"decisión\"}\n    V2 --> D\n    V3 --> D\n    V4 --> D\n    D -->|\"permitir\"| A[\"acceso mínimo y temporal · 134\"]\n    D -->|\"denegar\"| N[\"registro y señal\"]\n    A --> B{\"si roban esta credencial,\\n¿hasta dónde se llega?\"}\n    B --> B1[\"límite por identidad · 134\"]\n    B --> B2[\"límite por red · 135\"]\n    B --> B3[\"límite por cuenta o proyecto\"]\n    X[\"modelo de perímetro\"] -.->|\"un equipo comprometido\"| Y[\"= toda la red\"]",
+  "foundations": [
+    {
+      "heading": "Por qué el perímetro dejó de funcionar",
+      "body": "El modelo tradicional divide el mundo en dos y confía en uno de los lados:\n\n```text\nfuera   no confiable: cortafuegos, filtrado, inspección\ndentro  confiable: se accede a casi todo sin más comprobaciones\n```\n\nY su consecuencia se enuncia en una línea:\n\n```text\nel primer equipo comprometido dentro equivale a la red entera\n```\n\nPorque a partir de ahí el atacante ya está «dentro», y dentro no hay controles. Eso es el movimiento lateral, y es donde ocurre la mayor parte del daño de casi cualquier incidente serio.\n\nY hay cuatro razones por las que el modelo ya no se sostiene, aunque la anterior bastaría:\n\n```text\nla carga vive en varios proveedores y en servicios gestionados\n  → no hay un dentro que contenga todo\nla gente trabaja desde cualquier sitio\n  → el túnel privado convierte a cualquier portátil en «dentro»\nlas direcciones son dinámicas y efímeras\n  → una regla por dirección no significa nada en contenedores\nlas integraciones con terceros atraviesan el perímetro por diseño\n```\n\nLo que lo sustituye es una regla sencilla de enunciar y laboriosa de implantar:\n\n```text\nninguna petición se acepta por venir de un sitio determinado\nse verifica en CADA acceso:\n  quién     identidad de la persona o de la carga, demostrada\n  con qué   estado del dispositivo, cuando aplique\n  a qué     recurso concreto\n  para qué  acción concreta\n  en qué contexto  momento, origen, señales de riesgo\n```\n\nY dos precisiones para no vender humo:\n\n```text\nesto NO es un producto que se compra\n  es una dirección arquitectónica que se recorre por partes\n\nla red sigue importando\n  no se deja de segmentar: se deja de CONFIAR por estar segmentado\n  → la red pasa de ser el control a ser una capa más     clase 135\n```\n\nY la pieza que hace posible todo lo demás es la que este programa lleva construyendo desde la clase 054: **identidad de carga de trabajo**. Un servicio se autentica por lo que es —una identidad emitida y verificable—, no por la dirección desde la que llama."
+    },
+    {
+      "heading": "Capas que de verdad son capas",
+      "body": "La defensa en profundidad consiste en poner varios controles de modo que **hagan falta varios fallos** para que haya daño. Y su fallo típico no es tener pocas capas, sino tenerlas mal:\n\n```text\ncontrol 1   autenticación en la puerta de entrada\ncontrol 2   permisos del servicio\ncontrol 3   política de red que permite el tráfico\ncontrol 4   cifrado con claves gestionadas\ncontrol 5   registro de auditoría\n\ny los cinco se apoyan en el mismo sistema de identidad\n→ quien lo comprometa pasa las cinco a la vez\n→ no son cinco capas: es una\n```\n\nDe ahí el criterio:\n\n```text\ndos capas son independientes si el fallo de una no implica el de la otra\n→ y se comprueba preguntando: ¿qué comprometería a las dos?\n```\n\nY las dimensiones sobre las que sí se consiguen capas independientes:\n\n```text\nIDENTIDAD      quién puede pedirlo                     clase 134\nRED            desde dónde se puede alcanzar           clase 135\nDATO           cifrado, con claves de otro dominio     clase 136\nAPLICACIÓN     validación y autorización de negocio\nDETECCIÓN      registro, alertas y respuesta           parte 10\nORGANIZACIÓN   separación de funciones y aprobaciones  clase 134\n```\n\nY una comprobación práctica sobre cualquier sistema:\n\n```text\nsi un atacante consigue la credencial de la aplicación,\n¿qué le impide leer la base de datos entera?\n  «los permisos»            → una capa\n  «y además la red»         → dos, si la red no la controla la misma identidad\n  «y el cifrado por campo»  → tres, si la clave no la puede pedir esa identidad\n```\n\nLa última condición es la que suele fallar: **la aplicación puede descifrar, así que el cifrado no es una capa frente a ella**. Sí lo es frente a quien acceda al almacenamiento por otro camino, que es un escenario distinto y también real.\n\nY el peor error de este apartado, que aparece constantemente:\n\n```text\nconfundir NÚMERO de controles con profundidad\n→ veinte reglas que dependen de lo mismo protegen como una\n```\n\nY su contrario, igual de dañino: **una capa que estorba y se rodea no cuenta**. Es la ley 16, que esta parte va a ver muchas veces."
+    },
+    {
+      "heading": "Suponer la brecha, y medirla",
+      "body": "El ejercicio más útil de esta clase no es un diagrama: es una pregunta con respuesta medible.\n\n```text\nsi roban AHORA MISMO esta credencial, ¿hasta dónde se llega?\n```\n\nY se responde punto por punto, enumerando los orígenes reales:\n\n```text\nel portátil de alguien de desarrollo\nla identidad de la canalización                     clase 098\nla identidad de un contenedor en producción         clase 054\nuna clave de API de un socio                        clase 118\nla cuenta de un proveedor externo con acceso\nun servicio expuesto a internet con una vulnerabilidad\n```\n\nY para cada uno se enumera lo alcanzable, sin adornos:\n\n```text\n¿qué datos puede leer?\n¿qué puede modificar o borrar?\n¿puede conseguir OTRA credencial desde ahí?     ← lo más importante\n¿puede llegar a producción desde un entorno inferior?\n¿queda registro de lo que haga?\n¿cuánto tardaría alguien en enterarse?\n```\n\nLa tercera pregunta es la que decide el alcance real: **la mayoría de los compromisos graves no vienen de lo que la primera credencial permite, sino de la segunda que permite obtener**.\n\nY las tres formas de acortar el alcance, en orden de eficacia:\n\n```text\n1. que la credencial sea de corta vida y de un solo uso\n   → nada de claves de larga duración                 clase 098\n2. que sus permisos sean los mínimos y no permanentes\n   → nada de administradores permanentes               clase 134\n3. que no pueda alcanzar por red lo que no necesita\n   → segmentación con denegación por defecto           clase 135\n```\n\nY hay una cuarta que es de las más eficaces y menos usadas: **separar por cuentas o proyectos**. Los límites administrativos del proveedor son la frontera más difícil de cruzar para un atacante, porque no dependen de configuración de red ni de reglas finas.\n\n```text\nun entorno por cuenta o proyecto\nlos entornos inferiores SIN camino hacia producción\ny las identidades de uno sin permisos en el otro\n```\n\nY el orden de adopción, que importa porque casi todo el mundo empieza por el sitio equivocado:\n\n```text\n1. identidad de las personas: factor resistente a suplantación\n2. identidad de las cargas: sin claves de larga duración\n3. permisos mínimos y sin administración permanente\n4. segmentación que limite el movimiento lateral\n5. detección y respuesta\n```\n\nY la razón del orden es que los dos primeros cortan **la vía de entrada más común**, mientras que empezar por la red es caro y deja abierta la puerta principal."
+    },
+    {
+      "heading": "El control que se rodea",
+      "body": "Este apartado es la ley 16 aplicada a la seguridad, y conviene abrirlo aquí porque va a reaparecer en toda la parte.\n\n```text\nun control que estorba acaba desactivado, rodeado o convertido en trámite\n```\n\nY sus formas típicas, con lo que las produce:\n\n```text\nel túnel privado que todo el mundo evita\n  porque va lento y hay que reconectarse cada hora\n  → la gente usa alternativas sin control\n\nla excepción temporal que lleva dos años\n  porque nadie puso fecha                             clases 046, 091\n\nla cuenta administrativa compartida\n  porque pedir permisos tarda tres días\n  → y entonces nadie sabe quién hizo qué\n\nel repositorio de claves en una hoja de cálculo\n  porque el almacén oficial exige un procedimiento largo\n\nla aprobación que se concede sin mirar\n  porque llegan cuarenta al día                       ley 15\n```\n\nY la conclusión operativa, que va contra la intuición: **el control más seguro que nadie usa es peor que uno razonable que todo el mundo usa**.\n\nLas cuatro formas de que un control sobreviva:\n\n```text\nQUE SEA EL CAMINO MÁS RÁPIDO\n  pedir un acceso temporal debe tardar menos que buscar un atajo\n  → es el camino asfaltado de la clase 106 aplicado a la seguridad\nQUE TENGA SALIDA DECLARADA\n  con motivo, responsable y caducidad que rompa algo    clase 101\nQUE SE MIDA SU RODEO\n  cuántas excepciones, cuántos accesos por vía alternativa\n  → si sube, el control está mal diseñado, no la gente\nQUE NO DEPENDA DE LA MEMORIA DE NADIE\n  automático por defecto, no una lista de buenas prácticas\n```\n\nY lo que hay que vigilar desde el primer día de esta parte:\n\n```text\nexcepciones vivas y su antigüedad\ncredenciales de larga duración que quedan\nidentidades con permisos amplios permanentes\naccesos a producción fuera del camino habitual\ncuentas compartidas\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ ninguna autorización depende únicamente del origen de la petición\n☐ las cargas se autentican por identidad emitida, no por dirección\n☐ está escrito qué se verifica en cada acceso\n☐ las capas de defensa son independientes, y se ha comprobado\n☐ está calculado el alcance desde cada punto de entrada\n☐ está identificado desde dónde se puede obtener OTRA credencial\n☐ los entornos están separados por cuenta o proyecto\n☐ los entornos inferiores no tienen camino a producción\n☐ el camino seguro es el más rápido\n☐ se mide cuánto se rodean los controles\n```\n\nY el cierre que enlaza con la clase siguiente: de las tres formas de acortar el alcance, la que más reduce y más fricción genera es la de los permisos. Cómo se conceden los mínimos, cómo se dan solo mientras hacen falta y cómo se impide que una sola persona pueda hacerlo todo es la materia de la clase 134."
+    }
+  ],
+  "worked_example": "**CloudShop hace el ejercicio del apartado tercero antes de comprar ni configurar nada: enumerar los puntos de entrada y medir hasta dónde se llega desde cada uno. El resultado reordena por completo lo que se pensaba hacer.**\n\n**El inventario de puntos de entrada.**\n\n```text\n1. portátil de una persona de desarrollo\n2. identidad de la canalización                     clase 098\n3. contenedor de producción del servicio de pedidos\n4. clave de API de un socio                         clase 118\n5. cuenta de un proveedor de análisis con acceso de lectura\n6. servicio expuesto a internet\n```\n\n**Lo que se alcanzaba desde cada uno, medido con permisos reales.**\n\n```text\n1. PORTÁTIL DE DESARROLLO\n   túnel privado activo → red interna completa\n   credenciales en el disco: 3 claves de larga duración\n   acceso a producción: SÍ, mediante una de esas claves\n   otra credencial obtenible: sí, la del almacén de secretos\n   → ALCANCE: total\n\n2. CANALIZACIÓN\n   ya corregido en la clase 103: sin credenciales de clúster\n   puede confirmar en el repositorio de entorno\n   → ALCANCE: puede desplegar lo que quiera, con revisión en producción\n\n3. CONTENEDOR DE PEDIDOS\n   identidad federada, sin claves      clase 054\n   base de datos de pedidos: lectura y escritura\n   otras bases: NO\n   red: puede alcanzar 14 de 15 servicios\n   otra credencial obtenible: sí, la del proveedor de pago\n   → ALCANCE: pedidos + pagos\n\n4. CLAVE DE SOCIO\n   API pública, con límites\n   → ALCANCE: sus propios datos\n\n5. PROVEEDOR DE ANÁLISIS\n   lectura sobre el lago completo, incluido el subconjunto\n   con datos personales     clase 104\n   → ALCANCE: todos los datos históricos\n\n6. SERVICIO EXPUESTO\n   identidad propia, permisos limitados\n   red: puede alcanzar 14 de 15 servicios\n   → ALCANCE: punto de partida para movimiento lateral\n```\n\n**Las tres conclusiones que reordenaron el plan.**\n\nEl plan original era «segmentar la red», porque era lo que estaba en el presupuesto. Los números decían otra cosa:\n\n```text\n1. el punto de entrada más peligroso era un PORTÁTIL, no un servidor\n   tres claves de larga duración en disco daban acceso total\n\n2. el multiplicador era la SEGUNDA credencial\n   4 de 6 puntos permitían obtener otra credencial\n   → sin eso, ningún punto llegaba lejos\n\n3. la red importaba, y menos de lo esperado\n   14 de 15 servicios alcanzables desde cualquier sitio era malo\n   pero por sí sola no daba acceso a datos: hacía falta una credencial\n```\n\n**Lo que se hizo, en el orden que los datos dictaron.**\n\n```text\nMES 1-2  identidad de las personas\n  factor resistente a suplantación, obligatorio\n  fin de las claves de larga duración en portátiles\n  acceso a producción solo mediante concesión temporal (clase 134)\n\nMES 2-3  identidad de las cargas\n  las 3 credenciales estáticas restantes migradas a federación\n  el proveedor de pago pasó a clave rotada automáticamente\n\nMES 3-5  separación por cuentas\n  un proyecto por entorno; sin camino de dev a producción\n  el proveedor de análisis, movido a una cuenta de solo lectura\n  con datos anonimizados\n\nMES 5-8  segmentación\n  denegación por defecto entre servicios (clase 135)\n```\n\n**El mismo ejercicio, repetido a los ocho meses.**\n\n```text                                    alcance antes        alcance después\nportátil de desarrollo                     total          nada sin concesión\n                                                          temporal aprobada\ncanalización                          desplegar todo     igual, con revisión\ncontenedor de pedidos               pedidos + pagos      solo pedidos\nclave de socio                        sus datos            sus datos\nproveedor de análisis            todo el histórico    subconjunto anonimizado\nservicio expuesto              14 de 15 servicios       2 de 15 servicios\n\npuntos desde los que se obtiene otra credencial   4 de 6        0 de 6\n```\n\nLa última fila es la que más cambió el riesgo: **ninguna credencial permite ya conseguir otra**.\n\n**La comprobación de independencia de capas.**\n\nSe revisaron los controles del servicio de pedidos:\n\n```text\ncontrol                              ¿de qué depende?\nautenticación en la puerta            sistema de identidad\npermisos del servicio                 sistema de identidad\npolítica de red                       controlador de red\ncifrado en reposo                     servicio de claves\nregistro de auditoría                 plataforma\n\n¿qué comprometería a la vez varias?\n  el sistema de identidad → las dos primeras\n  → son UNA capa, no dos\n```\n\nY la corrección no fue añadir controles, sino separarlos:\n\n```text\nla política de red pasó a no depender de etiquetas gestionadas\npor la misma identidad\nel acceso a las claves de cifrado se restringió a identidades\ndistintas de las de la aplicación, con aprobación para operaciones\nmasivas de descifrado\n```\n\n**La ley 16, medida durante la adopción.**\n\n```text                                    mes 1        mes 8\nexcepciones vivas                          0            31\nde ellas, con fecha de caducidad           —            31\nde ellas, caducadas y renovadas            —             6\ncuentas compartidas                        4             0\naccesos a producción por vía alternativa   no medido     2 / mes\ntiempo para obtener acceso temporal        3 días       90 s\n```\n\nY la penúltima fila es la que se vigila: **dos accesos al mes por vía alternativa** se investigaron uno a uno; los dos eran procedimientos de emergencia sin camino oficial, y se les creó uno.\n\nY la última explica por qué el resto funcionó: **pedir acceso pasó de tres días a noventa segundos**, y con eso nadie tuvo motivo para buscar atajos.\n\n**A los ocho meses.**\n\n```text                                          antes         después\nclaves de larga duración                        14              0\npuntos de entrada con alcance total              1              0\npuntos desde los que se obtiene otra credencial  4              0\nservicios alcanzables desde uno comprometido    14 de 15       2 de 15\nentornos separados por cuenta                   no              sí\ncamino de dev a producción                      sí              no\ncuentas compartidas                              4              0\ntiempo para acceso temporal a producción      3 días           90 s\ncapas realmente independientes                   3              5\n```\n\n**La lección que esta clase abre para la parte 11**: el plan original era segmentar la red, y el ejercicio de medir el alcance demostró que **el punto de entrada más peligroso era un portátil con tres claves guardadas en disco**. Lo que multiplicaba el daño no era la conectividad: era que cuatro de seis credenciales permitían obtener otra. Y el cambio que hizo aceptable todo lo demás no fue un control: fue **reducir de tres días a noventa segundos el tiempo de pedir acceso**, porque un control que estorba se rodea, y eso es exactamente lo que la hipótesis de la clase 132 predijo para esta parte.",
+  "pitfalls": [
+    {
+      "symptom": "Un solo equipo comprometido da acceso a casi todo",
+      "cause": "Modelo de perímetro: dentro no hay controles y el movimiento lateral es libre",
+      "fix": "Verifica identidad, recurso, acción y contexto en cada acceso; separa entornos por cuenta y deniega por defecto entre servicios."
+    },
+    {
+      "symptom": "Hay muchos controles y un solo fallo los atraviesa todos",
+      "cause": "Las capas dependen del mismo sistema; no son capas",
+      "fix": "Comprueba para cada par qué comprometería a los dos y construye sobre dimensiones distintas: identidad, red, dato, aplicación, detección y organización."
+    },
+    {
+      "symptom": "Se invierte en segmentar la red y los incidentes siguen entrando por credenciales",
+      "cause": "Se empezó por la capa cara antes que por la identidad",
+      "fix": "Ordena la adopción: identidad de personas, identidad de cargas, permisos mínimos, segmentación y detección."
+    },
+    {
+      "symptom": "Un compromiso pequeño acaba siendo total",
+      "cause": "Desde la primera credencial se puede obtener otra",
+      "fix": "Enumera para cada punto de entrada si permite conseguir otra credencial, y corta esa cadena antes que nada."
+    },
+    {
+      "symptom": "La gente usa vías alternativas para trabajar",
+      "cause": "Ley 16: el control oficial es más lento que el atajo",
+      "fix": "Haz que el camino seguro sea el más rápido, mide los rodeos y trata su aumento como defecto de diseño."
+    },
+    {
+      "symptom": "Se declara implantada la confianza cero porque se compró un producto",
+      "cause": "Es una dirección arquitectónica, no un producto",
+      "fix": "Mide alcance por punto de entrada antes y después; esa cifra es la que dice si algo ha cambiado."
+    }
+  ],
+  "checks": [
+    "¿Por qué el modelo de perímetro convierte un equipo comprometido en la red entera?",
+    "¿Qué se verifica en cada acceso cuando no se confía en el origen?",
+    "¿Cómo se comprueba que dos capas de defensa son independientes?",
+    "¿Por qué la pregunta clave es si desde una credencial se puede obtener otra?",
+    "¿En qué orden conviene adoptar los controles y por qué no se empieza por la red?"
+  ],
+  "references": [
+    {
+      "text": "NIST (2020). *SP 800-207: Zero Trust Architecture* — principios, componentes y modelos de despliegue.",
+      "url": "https://csrc.nist.gov/pubs/sp/800/207/final"
+    },
+    {
+      "text": "Google (2025). *BeyondCorp: a new approach to enterprise security* — acceso sin confianza en la red.",
+      "url": "https://cloud.google.com/beyondcorp"
+    },
+    {
+      "text": "CISA (2025). *Zero Trust Maturity Model* — orden de adopción por pilares.",
+      "url": "https://www.cisa.gov/zero-trust-maturity-model"
+    },
+    {
+      "text": "MITRE (2025). *ATT&CK: lateral movement* — técnicas reales de avance dentro de una red.",
+      "url": "https://attack.mitre.org/tactics/TA0008/"
+    },
+    {
+      "text": "AWS (2025). *Security pillar: apply security at all layers* — independencia de capas y separación por cuentas.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html"
+    }
+  ]
+}
