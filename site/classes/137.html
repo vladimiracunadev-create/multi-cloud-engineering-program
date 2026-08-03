@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>security</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>gestión de secretos y credenciales de workloads</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Resolver el problema de las credenciales que las cargas necesitan para todo lo demás. La clase ordena las soluciones por cuánto <strong>eliminan</strong> el problema en vez de por cuánto lo gestionan, y defiende que casi todo el mundo empieza por la tercera —comprar un almacén— cuando las dos primeras hacen desaparecer categorías enteras de riesgo. Y se detiene en el detalle que explica por qué sobreviven las credenciales eternas: <strong>una variable de entorno no se puede rotar sin reiniciar</strong>, así que rotar se vuelve una operación disruptiva y se deja de hacer.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> gestión de secretos y credenciales de workloads con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>ciclo-secretos</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Ordenar</strong> las opciones por cuánto eliminan el problema, no por cuánto lo administran.</li>
+<li><strong>Sustituir</strong> credenciales estáticas por identidad federada donde sea posible.</li>
+<li><strong>Elegir</strong> el mecanismo de entrega sabiendo cuál permite rotar en caliente.</li>
+<li><strong>Rotar</strong> sin provocar cortes, con el patrón de dos credenciales válidas.</li>
+<li><strong>Reducir</strong> el rastro por el que un secreto acaba en sitios donde no debería.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,20 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>gestión</code></td>
-<td>Define su papel en <strong>gestión de secretos y credenciales de workloads</strong> y cómo observarlo en un sistema real.</td>
+<td><code>identidad federada de carga</code></td>
+<td>La carga demuestra quién es con un testigo emitido por su entorno y obtiene credenciales temporales. No hay secreto que guardar.</td>
 </tr>
 <tr>
-<td><code>secretos</code></td>
-<td>Define su papel en <strong>gestión de secretos y credenciales de workloads</strong> y cómo observarlo en un sistema real.</td>
+<td><code>credencial dinámica</code></td>
+<td>Credencial creada bajo demanda para un uso concreto, con caducidad corta. Al expirar, deja de existir.</td>
 </tr>
 <tr>
-<td><code>credenciales</code></td>
-<td>Define su papel en <strong>gestión de secretos y credenciales de workloads</strong> y cómo observarlo en un sistema real.</td>
+<td><code>almacén de secretos</code></td>
+<td>Servicio que guarda, versiona, audita y entrega secretos según la identidad que los pide.</td>
 </tr>
 <tr>
-<td><code>workloads</code></td>
-<td>Define su papel en <strong>gestión de secretos y credenciales de workloads</strong> y cómo observarlo en un sistema real.</td>
+<td><code>entrega en caliente</code></td>
+<td>Que la carga pueda recibir un valor nuevo sin reiniciarse. Es lo que hace posible rotar de verdad.</td>
+</tr>
+<tr>
+<td><code>ventana de dos credenciales</code></td>
+<td>Periodo en el que la antigua y la nueva son válidas a la vez. Es lo que permite rotar sin cortes.</td>
+</tr>
+<tr>
+<td><code>arranque de confianza</code></td>
+<td>Cómo demuestra la carga quién es la primera vez. Si requiere un secreto previo, el problema solo se ha desplazado.</td>
 </tr>
 </tbody>
 </table>
@@ -89,75 +94,346 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Gestión de secretos y credenciales de workloads&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    O{&quot;¿hace falta un secreto?&quot;} --&gt;|&quot;el destino acepta\nidentidad federada&quot;| A[&quot;1 · SIN SECRETO\ntestigo del entorno → credencial temporal&quot;]
+    O --&gt;|&quot;el destino emite\ncredenciales&quot;| B[&quot;2 · DINÁMICA\ncreada al usar, caduca sola&quot;]
+    O --&gt;|&quot;secreto propio de un tercero&quot;| C[&quot;3 · ALMACÉN\nentregado según identidad&quot;]
+    C --&gt; D{&quot;entrega&quot;}
+    D --&gt;|&quot;variable de entorno&quot;| E[&quot;NO se rota sin reiniciar&quot;]
+    D --&gt;|&quot;fichero montado&quot;| F[&quot;rotable si se relee&quot;]
+    D --&gt;|&quot;consulta al usar&quot;| G[&quot;rotable · añade dependencia&quot;]
+    A --&gt; H[&quot;arranque de confianza:\n¿con qué demuestra quién es?&quot;]
+    C --&gt; H
+    B --&gt; I[&quot;rotación con ventana\nde dos credenciales&quot;]
+    F --&gt; I
+    G --&gt; I
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-ordenar-por-lo-que-elimina">1. Ordenar por lo que elimina</h3>
+<p>La escala, de la que hace desaparecer el problema a la que solo lo administra:</p>
+<pre><code class="language-text">1. NO HAY SECRETO
+   la carga demuestra quién es con un testigo emitido por su entorno
+   y recibe credenciales temporales del destino
+   → no hay nada que guardar, rotar ni filtrar
+   → clases 054 y 098
+
+2. CREDENCIAL DINÁMICA
+   el destino crea una credencial para este uso, con caducidad corta
+   → una credencial de base de datos válida 15 minutos, distinta
+     en cada arranque
+   → si se filtra, caduca sola
+
+3. ALMACÉN DE SECRETOS
+   el valor existe y se guarda en un servicio que lo entrega
+   según la identidad que lo pide, con auditoría y versiones
+   → necesario para terceros que solo tienen claves estáticas
+
+4. CIFRADO EN EL REPOSITORIO
+   funciona, y el valor está en un sitio del que no se puede purgar
+   → ley 11
+
+5. EN UNA VARIABLE O UN FICHERO DE CONFIGURACIÓN
+   → es donde estamos casi siempre al empezar
+</code></pre>
+<p>Y la observación que ordena el trabajo: <strong>casi todo el mundo salta al tercero</strong>, porque es el que se puede comprar, cuando los dos primeros eliminan categorías enteras de riesgo.</p>
+<pre><code class="language-text">con almacén        el secreto existe, se puede filtrar, hay que rotarlo,
+                   y quien comprometa la carga lo lee
+con federación     no hay secreto; comprometer la carga da acceso
+                   MIENTRAS dure, y nada que llevarse
+</code></pre>
+<p>Y el criterio para decidir por dónde va cada caso:</p>
+<pre><code class="language-text">¿el destino acepta identidad federada?        → opción 1
+¿el destino puede emitir credenciales?        → opción 2
+¿es un tercero con clave estática y punto?    → opción 3
+</code></pre>
+<p>Y la tercera es donde acaba lo que no se puede cambiar: proveedores de pago, mensajería, servicios antiguos. <strong>Es una minoría de los casos y suele ocupar toda la atención.</strong></p>
+<p><strong>El arranque de confianza</strong>, que es la pregunta que descubre si el problema se ha resuelto o solo movido:</p>
+<pre><code class="language-text">¿con qué demuestra la carga quién es la PRIMERA vez?
+
+  con un testigo que le da su entorno de ejecución    → resuelto
+  con un certificado emitido por la plataforma        → resuelto
+  con una clave guardada en su imagen o su
+    configuración                                     → NO resuelto:
+                                                        hay un secreto
+                                                        eterno en algún sitio
+</code></pre>
+<p>Y conviene decirlo en voz alta cuando ocurre, en vez de presentar como resuelto un problema que se ha desplazado un escalón.</p>
+<h3 id="2-como-llega-el-valor-y-por-que-eso-decide-la-rotacion">2. Cómo llega el valor, y por qué eso decide la rotación</h3>
+<p>Los mecanismos de entrega, con la propiedad que decide todo:</p>
+<pre><code class="language-text">VARIABLE DE ENTORNO
+  + trivial, funciona en todas partes
+  − visible en el listado de procesos, en volcados de memoria,
+    y la heredan los procesos hijos
+  − NO SE PUEDE CAMBIAR sin reiniciar el proceso
+
+FICHERO MONTADO
+  + el contenido puede actualizarse sin reiniciar
+  − hay que releerlo: si la aplicación lo lee una vez al arrancar,
+    es lo mismo que una variable
+
+CONSULTA AL ALMACÉN EN EL MOMENTO DE USARLO
+  + siempre el valor vigente; rotación inmediata
+  − añade una dependencia en el camino de la petición
+  − se resuelve con caché corta, y entonces la rotación tarda ese caché
+
+AGENTE O ACOMPAÑANTE
+  obtiene y renueva por su cuenta y lo deja disponible
+  + la aplicación no habla con el almacén
+  − una pieza más que operar
+</code></pre>
+<p>Y la línea que explica el estado del mundo:</p>
+<pre><code class="language-text">si el secreto llega por variable de entorno, rotar exige reiniciar
+→ rotar pasa a ser una operación con riesgo
+→ y por eso hay credenciales de hace cuatro años
+</code></pre>
+<p>Es la ley 16 otra vez: <strong>un control que exige una parada acaba no ejecutándose</strong>.</p>
+<p>Y dos precauciones sobre lo que se lleva el valor a sitios inesperados:</p>
+<pre><code class="language-text">los procesos hijos heredan el entorno
+  → un guion auxiliar, una herramienta de diagnóstico, un depurador
+los volcados y los informes de error suelen incluir el entorno
+  → y acaban en el sistema de errores, que ve mucha gente
+</code></pre>
+<p>Y la comprobación barata: <strong>pedir el entorno de un proceso en producción y ver qué aparece</strong>.</p>
+<pre><code class="language-text">$ tr '\0' '\n' &lt; /proc/1/environ | grep -Ei 'key|secret|token|password'
+</code></pre>
+<p>Si ahí hay algo, ese algo está también en cualquier volcado que se genere.</p>
+<h3 id="3-rotar-sin-cortar">3. Rotar sin cortar</h3>
+<p>Rotar significa que el valor antiguo deja de ser válido. Y si el antiguo deja de valer <strong>antes</strong> de que todo el mundo use el nuevo, hay un corte.</p>
+<p>El patrón que lo resuelve son dos credenciales válidas a la vez:</p>
+<pre><code class="language-text">1. crear la credencial NUEVA; ahora valen las dos
+2. actualizar el almacén con la nueva
+3. esperar a que todas las cargas la hayan tomado
+   → y comprobarlo, no suponerlo
+4. deshabilitar la antigua
+5. comprobar que nada falla
+6. borrarla
+</code></pre>
+<p>Y el paso 3 exige poder observar quién sigue usando la antigua:</p>
+<pre><code class="language-text">si el destino registra qué credencial se usó → mirar ahí
+si no → esperar más que el mayor caché o ciclo de vida conocido
+</code></pre>
+<p>Y los dos errores clásicos:</p>
+<pre><code class="language-text">rotar y confiar en que todo se reiniciará    → falla lo que no reinició
+deshabilitar la antigua a la vez que se
+  publica la nueva                            → corte garantizado
+</code></pre>
+<p>Y la rotación automática solo funciona si la carga <strong>relee</strong>:</p>
+<pre><code class="language-text">rotación automática cada 30 días
++ la aplicación lee el valor al arrancar y nunca más
+= una caída programada cada 30 días
+</code></pre>
+<p>Y hay que decirlo con claridad porque ocurre a menudo: <strong>activar la rotación automática sin comprobar la relectura es programar un incidente</strong>.</p>
+<p><strong>Las credenciales dinámicas</strong> eliminan casi todo lo anterior donde se pueden usar:</p>
+<pre><code class="language-text">la carga pide acceso a la base
+el almacén crea un usuario con permisos concretos y 1 hora de vida
+la carga lo usa
+al caducar, el usuario se elimina
+</code></pre>
+<p>Y lo que se gana:</p>
+<pre><code class="language-text">nada que rotar: todo caduca solo
+un secreto filtrado sirve una hora
+se sabe qué carga hizo qué, porque cada una tiene su usuario
+</code></pre>
+<p>Y lo que hay que vigilar: <strong>las credenciales huérfanas</strong> si la limpieza falla, que es la ley 13 aplicada aquí, y el efecto sobre el agrupador de conexiones de la clase 109, porque cambiar de usuario obliga a rehacer conexiones.</p>
+<h3 id="4-el-rastro-y-que-hacer-cuando-se-filtra">4. El rastro, y qué hacer cuando se filtra</h3>
+<p>La clase 092 enumeró seis sitios por los que un secreto se escapa. Con lo aprendido desde entonces, la lista es más larga:</p>
+<pre><code class="language-text">repositorio e historial                         clase 101
+registros de la canalización                    clase 098
+artefactos publicados, incluidos ficheros de plan
+estado de infraestructura                       clase 087
+salidas de módulos
+variables de entorno y volcados
+registros de la aplicación                      clase 122
+informes de error y trazas de pila
+telemetría, si se serializan objetos
+herramientas de soporte que muestran contexto
+capturas de pantalla y mensajes en chats
+copias de seguridad de todo lo anterior
+</code></pre>
+<p>Y los controles que cubren esa lista ya están repartidos por el programa:</p>
+<pre><code class="language-text">protección en el envío del repositorio          clase 101
+lista de permitidos en el registro              clase 122
+depuración en el recolector de telemetría       clase 124
+escáner diario sobre muestras                   clase 122
+y el que falta: comprobar qué muestran las herramientas internas
+</code></pre>
+<p>Y el procedimiento cuando se filtra, que este programa ha repetido y no cambia:</p>
+<pre><code class="language-text">1. ROTAR         estuvo expuesto, punto
+2. CORREGIR      el mecanismo que lo dejó salir
+3. PURGAR        donde se pueda; sabiendo que no será en todos los sitios
+4. REVISAR       qué se hizo con esa credencial mientras estuvo expuesta
+</code></pre>
+<p>El cuarto se olvida y es el que dice si hubo daño: <strong>con auditoría de uso por credencial se puede responder; sin ella, no</strong>.</p>
+<p>Y la medida honesta del programa de secretos, que es una sola:</p>
+<pre><code class="language-text">tiempo desde que se filtra hasta que deja de ser válida
+</code></pre>
+<p>Y lo que la reduce, por orden:</p>
+<pre><code class="language-text">no tener secretos                       tiempo = 0
+credenciales de una hora                tiempo ≤ 1 h
+rotación automática que funciona        horas
+rotación manual con procedimiento       días
+rotación manual sin procedimiento       nunca
+</code></pre>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ existe inventario de todos los secretos y de quién los usa
+☐ cada uno está clasificado en la escala, y hay plan para subirlo
+☐ lo que acepta identidad federada no tiene secreto
+☐ las bases de datos usan credenciales dinámicas donde se puede
+☐ el arranque de confianza no depende de un secreto eterno
+☐ ningún secreto llega por variable de entorno si hay que rotarlo
+☐ la aplicación relee el valor sin reiniciar, y está comprobado
+☐ la rotación usa ventana de dos credenciales, y se verifica el paso 3
+☐ hay auditoría de uso por credencial
+☐ el rastro está cubierto en repositorio, registros, telemetría y soporte
+☐ se mide el tiempo desde filtración hasta invalidación
+☐ el procedimiento de filtración empieza por rotar y termina por revisar uso
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: las credenciales son una de las dos vías por las que entra un atacante. La otra es el código y sus dependencias, y el trabajo de mantenerlo sin vulnerabilidades conocidas —con la escala real que eso tiene— es la materia de la clase 138.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>gestión de secretos y credenciales de workloads</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-11-security-governance-finops/137-gestion-de-secretos-y-credenciales-de-workloads/lab.py
+<p><strong>CloudShop tiene un almacén de secretos desde hace dos años y sigue teniendo credenciales de 2023. El ejercicio empieza por el inventario y termina descubriendo por qué el almacén no había resuelto el problema.</strong></p>
+<p><strong>El inventario.</strong></p>
+<pre><code class="language-text">secretos en el almacén                                    118
+secretos fuera del almacén, encontrados                    41
+  en variables de configuración de despliegue              22
+  en ficheros de configuración de imágenes                 11
+  en el estado de infraestructura                           5
+  en un documento compartido                                3
+
+edad de la credencial más antigua                    4,1 años
+secretos rotados alguna vez                            9 de 159
+secretos con dueño identificado                       61 de 159
+</code></pre>
+<p>Nueve de ciento cincuenta y nueve rotados alguna vez. <strong>El almacén existía y no había cambiado nada</strong>, y la razón estaba en el mecanismo de entrega:</p>
+<pre><code class="language-text">entrega por variable de entorno                       141 de 159
+→ rotar exigía reiniciar
+→ reiniciar en producción se percibía como riesgo
+→ nadie rotaba
+</code></pre>
+<p><strong>La clasificación en la escala.</strong></p>
+<p>```text                                        cuántos    destino
+destino acepta identidad federada                 88     opción 1: sin secreto
+destino puede emitir credenciales dinámicas       34     opción 2
+tercero con clave estática                        29     opción 3: almacén
+sin clasificar / obsoletos                         8     borrar</p>
+<pre><code>
+**Ochenta y ocho de ciento cincuenta y nueve no necesitaban existir.**
+
+**Fase 1: eliminar los 88.**
+
+```text                                          antes         después
+credenciales estáticas hacia servicios
+del proveedor                                    88              0
+mecanismo                              clave de larga     testigo del entorno
+                                       duración           → credencial de 1 h
+tiempo desde filtración hasta invalidación   indefinido       ≤ 1 h
+rotaciones necesarias                            88              0
+</code></pre>
+<p>Y el arranque de confianza se revisó explícitamente:</p>
+<pre><code class="language-text">¿con qué demuestra la carga quién es?
+  en el clúster        con el testigo de su cuenta de servicio
+  en la canalización   con el testigo del flujo                clase 098
+  en las funciones     con la identidad asignada por la plataforma
+→ ningún secreto eterno en el arranque
+</code></pre>
+<p><strong>Fase 2: credenciales dinámicas para bases de datos.</strong></p>
+<p>```text                                          antes         después
+usuarios de base de datos                    6 fijos      1 por carga y arranque
+vida de la credencial                     indefinida            1 h
+secretos que rotar                              6                0
+quién hizo qué en la base                 no se sabía   cada carga, por usuario</p>
+<pre><code>
+Y el efecto colateral que hubo que resolver, y que la clase 109 anticipaba:
+
+```text
+al renovar la credencial, el agrupador tenía que rehacer conexiones
+primera versión: rehacía las 24 de golpe cada hora
+  → picos de latencia de 400 ms cada 60 minutos
+corrección: renovación escalonada, y solapamiento de 10 min
+  → pico eliminado
+</code></pre>
+<p>Y las credenciales huérfanas, que son la ley 13 aquí:</p>
+<pre><code class="language-text">usuarios creados y no eliminados, tras 3 meses                    412
+causa            fallos de limpieza cuando la carga moría de golpe
+corrección       caducidad en la propia base, no solo en el almacén
+                 + barrido diario
+usuarios huérfanos después                                        0-3
+</code></pre>
+<p><strong>Fase 3: los 29 que no se pueden eliminar.</strong></p>
+<p>Aquí sí hacía falta el almacén, y hubo que cambiar la entrega:</p>
+<p>```text                                          antes         después
+entrega                              variable de entorno   fichero montado,
+                                                           releído al cambiar
+rotación                                     manual         automática, 30 días
+reinicio necesario                              sí              no</p>
+<pre><code>
+Y la primera rotación automática **provocó una caída**, exactamente como advierte el apartado tercero:
+
+```text
+02:00  rotación automática del secreto del proveedor de mensajería
+02:00  el fichero se actualizó
+02:00  la aplicación no lo releía: lo cargaba al arrancar
+02:01  fallos en el 100 % de los envíos
+02:40  detectado y mitigado reiniciando
+</code></pre>
+<p>```text                                          antes         después
+la aplicación relee el valor                    no              sí
+comprobado con una prueba                       no        sí, en la canalización
+ventana de dos credenciales                     no          sí, 24 h
+verificación del paso 3                         no        registro de uso
+                                                          por versión
+caídas por rotación                        1 de 1 rotación     0 de 14</p>
+<pre><code>
+Y la verificación del paso 3 fue lo que dio confianza: **el destino registraba qué versión de la credencial se usaba**, así que deshabilitar la antigua dejó de ser un acto de fe.
+
+**El rastro, revisado con el escáner de la clase 122.**
+
+```text
+hallazgos en la primera semana
+  secretos en variables de entorno visibles en volcados            18
+  un secreto en el estado de infraestructura                        5
+  claves en informes de error con el entorno adjunto                 3
+  una clave visible en la herramienta interna de soporte             1
+  secretos en capturas pegadas en el chat del equipo                 2
+</code></pre>
+<p>El de la herramienta de soporte era el peor: <strong>mostraba la configuración completa de un cliente, incluidas sus claves de integración</strong>, y lo veían once personas de atención al cliente.</p>
+<p>```text                                          antes         después
+herramienta de soporte                muestra configuración   campos sensibles
+                                      completa                ocultos
+escáner sobre volcados e informes            no                 sí, diario
+hallazgos residuales                          —              0-1 / mes</p>
+<pre><code>
+**La medida del programa.**
+
+```text                                          antes         después
+tiempo desde filtración hasta invalidación
+  para el 88 %                             indefinido         0 (no existen)
+  para el 21 %                             indefinido         ≤ 1 h
+  para el 18 % restante                    días o nunca       24 h
+secretos totales                               159              29
+con dueño identificado                      61 de 159        29 de 29
+rotados en el último año                     9 de 159        29 de 29
+edad del más antiguo                        4,1 años         30 días
+</code></pre>
+<p><strong>A los seis meses.</strong></p>
+<p>```text                                          antes         después
+secretos existentes                            159              29
+fuera del almacén                               41               0
+entregados por variable de entorno             141               0
+rotados alguna vez                               9              29
+credenciales dinámicas de base de datos          0              34
+usuarios huérfanos en base de datos              —             0-3
+caídas por rotación                              1               0
+secretos visibles en herramientas internas       1               0
+tiempo desde filtración hasta invalidación  indefinido     ≤ 1 h (o 0)</p>
+<pre><code>
+**La lección que esta clase traslada a la parte 11**: el almacén de secretos llevaba dos años instalado y el número de credenciales sin rotar era el mismo que antes de comprarlo. La causa no era la herramienta: era que **entregarlas por variable de entorno hacía que rotar exigiera reiniciar**, y eso convirtió una tarea rutinaria en una operación con riesgo que nadie hacía. Y la mayor reducción del riesgo no la produjo ninguna función del almacén: la produjo **descubrir que el 55 % de los secretos no tenía por qué existir**.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-11-security-governance-finops/137-gestion-de-secretos-y-credenciales-de-workloads/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>security</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -195,29 +471,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Hay un almacén de secretos y las credenciales siguen sin rotarse</td>
+<td>Se entregan por variable de entorno, así que rotar exige reiniciar</td>
+<td>Entrega por fichero releído o por consulta al usar, y comprueba con una prueba que la aplicación toma el valor nuevo sin reiniciar.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>La rotación automática provoca una caída</td>
+<td>La aplicación lee el valor al arrancar y nunca más</td>
+<td>Verifica la relectura antes de activar la rotación y usa ventana con las dos credenciales válidas.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Se gestionan con mucho esfuerzo secretos que no deberían existir</td>
+<td>Se saltó a comprar un almacén sin clasificar antes qué destinos aceptan identidad federada o credenciales dinámicas</td>
+<td>Clasifica el inventario en la escala y elimina primero todo lo que pueda subir a las dos primeras opciones.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Un secreto aparece en volcados, informes de error o herramientas de soporte</td>
+<td>Está en el entorno del proceso y las herramientas muestran configuración completa</td>
+<td>Sácalo del entorno, oculta campos sensibles en las herramientas internas y ejecuta un escáner diario sobre muestras.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>La base de datos acumula usuarios que ya no usa nadie</td>
+<td>Las credenciales dinámicas no se limpian cuando la carga muere de golpe</td>
+<td>Pon caducidad en la propia base además del almacén y añade un barrido diario.</td>
+</tr>
+<tr>
+<td>Se dice que no hay secretos y hay uno en el arranque</td>
+<td>La carga necesita una clave previa para autenticarse ante el almacén</td>
+<td>Usa el testigo que emite el entorno de ejecución; si no es posible, dilo explícitamente en vez de presentarlo como resuelto.</td>
 </tr>
 </tbody>
 </table>
@@ -228,17 +509,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué ordena la escala de opciones y por qué empezar por comprar un almacén no es lo mejor?</li>
+<li>¿Por qué una variable de entorno impide rotar y qué consecuencia tiene?</li>
+<li>¿Qué pasos tiene una rotación con ventana de dos credenciales y cuál se verifica peor?</li>
+<li>¿Qué elimina una credencial dinámica y qué problema nuevo introduce?</li>
+<li>¿Cuál es la medida honesta de un programa de secretos?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Practical Cloud Security — Chris Dotson.</li>
-<li>Cloud Security Handbook — Eyal Estrin.</li>
-<li>Cloud FinOps — Storment y Fuller.</li>
+<li>HashiCorp Vault (2025). <em>Dynamic secrets and database secrets engine</em> — credenciales creadas al usar, con caducidad. <a href="https://developer.hashicorp.com/vault/docs/secrets/databases">https://developer.hashicorp.com/vault/docs/secrets/databases</a></li>
+<li>AWS (2025). <em>Secrets Manager rotation strategies</em> — ventana de dos credenciales y verificación. <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html">https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html</a></li>
+<li>Kubernetes (2025). <em>Secrets: risks and mounted volumes</em> — entrega por fichero frente a variable de entorno. <a href="https://kubernetes.io/docs/concepts/configuration/secret/">https://kubernetes.io/docs/concepts/configuration/secret/</a></li>
+<li>SPIFFE (2025). <em>Workload identity and the bootstrap problem</em> — cómo demuestra una carga quién es sin un secreto previo. <a href="https://spiffe.io/docs/latest/spiffe-about/overview/">https://spiffe.io/docs/latest/spiffe-about/overview/</a></li>
+<li>OWASP (2025). <em>Secrets management cheat sheet</em> — inventario, entrega, rotación y respuesta a filtraciones. <a href="https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -306,7 +589,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-ordenar-por-lo-que-elimina">1. Ordenar por lo que elimina</a><a class="toc-level-3" href="#2-como-llega-el-valor-y-por-que-eso-decide-la-rotacion">2. Cómo llega el valor, y por qué eso decide la rotación</a><a class="toc-level-3" href="#3-rotar-sin-cortar">3. Rotar sin cortar</a><a class="toc-level-3" href="#4-el-rastro-y-que-hacer-cuando-se-filtra">4. El rastro, y qué hacer cuando se filtra</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
