@@ -1,0 +1,118 @@
+{
+  "id": "199",
+  "purpose": "Sustituir la maraña de conexiones punto a punto por un concentrador de conectividad, y hacerlo sin convertirlo en un punto único ni en una autopista donde todo alcanza a todo. La clase explica por qué el emparejamiento directo deja de escalar, cómo se usan las tablas de rutas del concentrador para segmentar de verdad, qué cuesta cada salto en dinero y latencia, y cuándo un concentrador es la respuesta equivocada.",
+  "outcomes": [
+    "**Explicar** por qué las conexiones punto a punto no escalan.",
+    "**Segmentar** con tablas de rutas del concentrador en vez de con reglas.",
+    "**Calcular** el coste de un concentrador en dinero y en latencia.",
+    "**Conectar** varias regiones y varias nubes sin crear caminos indeseados.",
+    "**Decidir** cuándo NO usar un concentrador."
+  ],
+  "concepts": [
+    {
+      "term": "emparejamiento directo",
+      "definition": "Conexión entre dos redes. Simple, barata y sin tránsito: no encadena."
+    },
+    {
+      "term": "concentrador de conectividad",
+      "definition": "Servicio central al que se conectan las redes y que encamina entre ellas."
+    },
+    {
+      "term": "tabla de rutas del concentrador",
+      "definition": "Conjunto de rutas asociado a un grupo de conexiones. Es el mecanismo de segmentación real."
+    },
+    {
+      "term": "aislamiento por asociación",
+      "definition": "Que una red solo vea las rutas de la tabla a la que está asociada."
+    },
+    {
+      "term": "inspección centralizada",
+      "definition": "Hacer pasar el tráfico entre segmentos por un cortafuegos común."
+    },
+    {
+      "term": "coste por salto",
+      "definition": "Lo que cobra el concentrador por conexión y por gigabyte procesado, que se paga en cada dirección."
+    }
+  ],
+  "diagram": "flowchart TB\n    A[\"n redes emparejadas\\ndirectamente\"] --> A1[\"n(n-1)/2 conexiones\\n10 redes → 45\\n30 redes → 435\"]\n    A1 --> A2[\"y NO hay tránsito:\\nA-B y B-C no dan A-C\"]\n    B[\"CONCENTRADOR\"] --> B1[\"n conexiones\"]\n    B1 --> T[\"tablas de rutas\"]\n    T --> T1[\"producción\\nve producción y\\ncompartidos\"]\n    T --> T2[\"desarrollo\\nve desarrollo y\\ncompartidos\"]\n    T --> T3[\"compartidos\\nve a todos\"]\n    T --> T4[\"inspección\\ntodo lo que cruce\\npasa por el cortafuegos\"]\n    C[\"coste\"] --> C1[\"por conexión/hora\"]\n    C --> C2[\"por GB procesado\\n← se paga en cada salto\"]\n    C --> C3[\"latencia:\\n+0,3 a 1 ms por salto\"]",
+  "foundations": [
+    {
+      "heading": "Por qué el emparejamiento directo se acaba",
+      "body": "Conectar dos redes directamente es lo más simple y lo más barato, y funciona muy bien hasta que deja de hacerlo.\n\n```text\nLO BUENO DEL EMPAREJAMIENTO DIRECTO\n  sin salto intermedio: latencia mínima\n  sin coste de procesamiento por gigabyte\n  sin punto único añadido\n\nLO QUE LO ROMPE\n  1  NO HAY TRÁNSITO\n     si A-B y B-C están emparejadas, A NO alcanza C\n     → hay que emparejar A-C explícitamente\n\n  2  CRECIMIENTO CUADRÁTICO\n     n(n-1)/2 conexiones\n       5 redes  →  10\n      10 redes  →  45\n      30 redes  → 435\n\n  3  RUTAS EN CADA TABLA\n     cada red necesita una ruta por cada otra red\n     → se llega al límite de rutas por tabla       clase 194\n\n  4  IMPOSIBLE DE CAMBIAR\n     añadir una red exige tocar n tablas\n```\n\nY el umbral práctico:\n\n```text\nhasta ~6-8 redes, emparejar directamente sigue siendo la\nopción más simple y más barata\npor encima, un concentrador se paga solo en trabajo evitado\n\ny el patrón mixto funciona bien\n  concentrador para lo general\n  emparejamiento directo para los pares con MUCHO tráfico\n  → evita pagar el procesamiento por gigabyte dos veces\n```\n\n**Lo que un concentrador aporta**, además de reducir conexiones:\n\n```text\nun punto donde ver el tráfico entre redes\nun punto donde aplicar inspección                clase 200\nsegmentación por tabla de rutas, no por reglas\nconexión con los enlaces dedicados en un solo sitio\n                                                 clase 198\ny conectividad entre regiones sin emparejar todo con todo\n```"
+    },
+    {
+      "heading": "Segmentar con tablas, no con reglas",
+      "body": "El error más común al montar un concentrador es asociarlo todo a una sola tabla de rutas. Entonces **todo alcanza a todo**, y la segmentación queda dependiendo de reglas de cortafuegos en cada extremo.\n\n```text\nUNA SOLA TABLA\n  producción, desarrollo, socios y oficinas se ven entre sí\n  → un fallo de configuración en cualquier extremo abre un\n    camino                                       clase 189\n  → y el alcance desde un punto comprometido es total\n\nVARIAS TABLAS\n  cada red se ASOCIA a una tabla (qué rutas ve)\n  y PROPAGA sus rutas a las tablas que decidas (quién la ve)\n  → asociación y propagación son cosas distintas\n```\n\nY el patrón que resuelve la mayoría de los casos:\n\n```text\nTABLA producción\n  asocia    redes de producción\n  ve        producción + servicios compartidos + corporativa\n  NO ve     desarrollo, preproducción, socios\n\nTABLA no-producción\n  asocia    desarrollo, preproducción\n  ve        no-producción + servicios compartidos\n  NO ve     producción              ← control estructural\n\nTABLA compartidos\n  asocia    servicios comunes (nombres, identidad, registro)\n  ve        todos\n\nTABLA socios\n  asocia    conexiones de terceros\n  ve        solo la red de intercambio\n  → un socio no alcanza nada más, por construcción\n```\n\nY la propiedad que hace esto valioso:\n\n```text\n«preproducción no puede alcanzar producción» deja de ser una\nregla que alguien puede quitar\n→ pasa a ser una ausencia de ruta\n→ y las ausencias no se saltan por error de configuración\n                                                 clase 189\n```\n\n**La inspección centralizada**, cuando hace falta:\n\n```text\nsi el tráfico entre segmentos debe inspeccionarse\n  las tablas apuntan al cortafuegos, no a la red destino\n  el cortafuegos decide y devuelve al concentrador\n\ncoste\n  un salto más: +0,3 a 1 ms\n  el gigabyte se procesa DOS veces en el concentrador\n  y el cortafuegos hay que dimensionarlo y hacerlo redundante\n\n→ inspecciona lo que cruza fronteras de confianza, no todo\n                                                 clase 189\n```\n\nY un fallo de diseño frecuente:\n\n```text\nhacer pasar por el cortafuegos central el tráfico entre dos\nredes del MISMO segmento\n→ triplica el coste y añade latencia sin ganar nada\n```"
+    },
+    {
+      "heading": "Lo que cuesta",
+      "body": "Un concentrador tiene dos costes que se suman y uno que no se ve.\n\n```text\nPOR CONEXIÓN Y HORA\n  cada red conectada paga una tarifa fija\n  → con 60 redes es una cifra apreciable al mes\n\nPOR GIGABYTE PROCESADO\n  se cobra el tráfico que pasa por el concentrador\n  → y se paga en CADA salto\n\nY EL QUE NO SE VE\n  el tráfico que antes iba directo y ahora da un rodeo\n  → dos redes en la misma zona que se hablaban directamente\n    ahora pasan por el concentrador: se paga el proceso y\n    se añade latencia\n```\n\nY el cálculo que hay que hacer antes:\n\n```text\npor cada par de redes con tráfico importante\n  volumen mensual × precio por GB × número de saltos\n\ny compararlo con\n  el coste de mantener un emparejamiento directo (casi cero)\n\n→ los pares de mucho volumen suelen merecer emparejamiento\n  directo ADEMÁS del concentrador\n→ pero cuidado: entonces hay dos caminos, y hay que evitar\n  la asimetría                                    clase 194\n```\n\n**La latencia**, que es pequeña pero se acumula:\n\n```text\nemparejamiento directo, misma zona          ~0,2 ms\nconcentrador                                 +0,3-1 ms\nconcentrador + inspección                    +1-3 ms\nconcentrador entre regiones                 el de la región\n\n→ irrelevante para casi todo\n→ importante si el camino crítico cruza varias veces\n  clase 186\n```\n\n**Multirregión y multinube**, que es donde el concentrador aporta más:\n\n```text\nCONCENTRADORES EMPAREJADOS ENTRE REGIONES\n  un concentrador por región, conectados entre sí\n  → cada red se conecta solo a su concentrador local\n  → y alcanza la otra región sin emparejar nada más\n\nMULTINUBE\n  cada nube tiene su propio concentrador\n  la unión se hace con enlaces dedicados o túneles\n                                                 clase 198\n  → y el plan de direccionamiento tiene que estar limpio,\n    o nada de esto funciona                       clase 193\n\nY LA REGLA QUE EVITA EL DESASTRE\n  no encadenes tránsito entre nubes sin decidirlo\n  → «la nube A alcanza la C a través de la B» suele ser un\n    accidente de propagación, no una decisión\n```\n\nY una consecuencia de coste que sorprende:\n\n```text\nel tráfico entre nubes atraviesa dos concentradores y una\nsalida\n→ se paga proceso en los dos y salida en el origen\n→ por eso el tráfico entre nubes conviene medirlo por\n  separado y atribuirlo                          clase 168\n```"
+    },
+    {
+      "heading": "Cuándo NO usar un concentrador",
+      "body": "Un concentrador no siempre es la respuesta, y montarlo por defecto tiene costes.\n\n```text\nNO LO USES SI\n  hay menos de 6-8 redes y no se prevé crecer\n  el tráfico entre dos redes es enorme y directo\n    → empareja esas dos y deja el resto\n  el objetivo era aislar y se va a asociar todo a una tabla\n    → entonces solo has creado un punto central sin ganar\n      aislamiento\n  no hay quien lo opere\n    → un concentrador mal operado es un punto único   ley 20\n```\n\nY el riesgo estructural que introduce:\n\n```text\nUN CONCENTRADOR ES UN PUNTO POR EL QUE PASA CUANTO SE MUEVE\n  su fallo afecta a todas las redes conectadas\n  un cambio de tabla erróneo puede aislar medio sistema\n  y su límite de rutas o de ancho de banda es compartido\n\n→ los proveedores lo hacen redundante por dentro, pero el\n  error de configuración no lo cubre nadie\n→ los cambios se hacen con ventana y vuelta atrás  clase 194\n```\n\n**La operación**, que tiene sus propias señales:\n\n```text\nrutas por tabla, contra el límite                 ley 13\ntráfico procesado por conexión y su coste\nconexiones en estado no disponible\ncambios en asociaciones y propagaciones ← auditar siempre\nlatencia entre pares representativos\n```\n\nY la alerta más útil:\n\n```text\n«ha aparecido una ruta hacia un segmento que no debería\n verse desde aquí»\n→ detecta la propagación accidental, que es como se abren\n  los caminos indeseados                         clase 189\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ el número de redes justifica el concentrador\n☐ hay varias tablas de rutas, no una\n☐ asociación y propagación están decididas por segmento\n☐ producción no es alcanzable desde no-producción por\n  ausencia de ruta\n☐ los socios solo ven la red de intercambio\n☐ la inspección se aplica a lo que cruza fronteras, no a todo\n☐ los pares de mucho volumen se han evaluado para\n  emparejamiento directo\n☐ está calculado el coste por gigabyte y por salto\n☐ no hay tránsito accidental entre nubes\n☐ hay alerta de rutas por tabla contra el límite\n☐ hay alerta de rutas inesperadas en una tabla\n☐ los cambios de tabla se hacen con ventana y vuelta atrás\n```\n\nY el cierre que enlaza con la clase siguiente: el concentrador resuelve la conectividad entre redes propias, pero el tráfico hacia los servicios del proveedor y hacia internet sigue saliendo por otro lado. Puntos privados y control de salida es la materia de la clase 200."
+    }
+  ],
+  "worked_example": "**CloudShop tiene 63 redes en tres nubes, conectadas con 214 emparejamientos directos acumulados en cinco años. Lo que sigue es la migración a concentradores, la segmentación que cerró un camino que nadie sabía que existía, y los dos pares que se dejaron emparejados a propósito.**\n\n**El punto de partida:**\n\n```text\nredes                                              63\nemparejamientos directos                          214\n  documentados                                     47\n  creados «para una prueba» y nunca retirados      31\n  sin dueño identificable                          52\nrutas en la tabla de la red de producción         187\nlímite de la nube                                 200\n→ a 13 rutas de no poder añadir una red más\n\ntiempo medio para conectar una red nueva      6 días\n  → y por eso 31 emparejamientos se hicieron «rápido»\n                                                  ley 16\n```\n\nY el hallazgo del inventario, que fue el que justificó el proyecto:\n\n```text\nse trazaron los caminos alcanzables desde cada red\n\n  desde la red de DESARROLLO se alcanzaba\n    la red de datos de PRODUCCIÓN\n\n  cómo\n    desarrollo ↔ herramientas (emparejado en 2021)\n    herramientas ↔ datos-producción (emparejado en 2022)\n    → y alguien había añadido rutas estáticas en ambos\n      extremos «para una migración» que terminó en 2022\n\n  llevaba así                              3 años\n  aparecía en algún diagrama                   no    ley 24\n  lo detectó                    el inventario, no una alerta\n```\n\n**La segmentación diseñada.**\n\n```text\nTABLA producción\n  asocia      18 redes de producción\n  propaga a   producción, compartidos\n  ve          producción, compartidos, corporativa\n\nTABLA no-producción\n  asocia      29 redes (desarrollo, preproducción, pruebas)\n  propaga a   no-producción, compartidos\n  ve          no-producción, compartidos\n  NO ve       producción             ← ausencia de ruta\n\nTABLA compartidos\n  asocia      7 redes (nombres, identidad, registro,\n              artefactos, telemetría)\n  propaga a   todas\n  ve          todas\n\nTABLA socios\n  asocia      4 conexiones de terceros\n  propaga a   solo intercambio\n  ve          solo la red de intercambio\n\nTABLA inspección\n  el tráfico producción ↔ corporativa y todo lo de socios\n  pasa por el cortafuegos central\n```\n\nY la comprobación del diseño, hecha antes de migrar:\n\n```text\nse simuló, tabla por tabla, qué alcanza cada red\n\n  desde desarrollo\n    compartidos                                  sí\n    otras redes de desarrollo                    sí\n    producción                                   NO\n    datos de producción                          NO\n    corporativa                                  NO\n\n  desde una red de socio\n    red de intercambio                           sí\n    cualquier otra cosa                          NO\n```\n\n**La migración, por lotes.**\n\n```text\nsemana 1     concentrador en la región principal; tablas\n             creadas y vacías\nsemanas 2-4  redes de desarrollo, 29, de 6 en 6\n             y retirada del emparejamiento correspondiente\n             en cada paso                        clase 184\nsemanas 5-8  redes de producción, 18, de 3 en 3, en ventana\nsemanas 6-9  compartidos y socios\nsemana 10    concentrador de la segunda región, emparejado\nsemanas 11-13 las otras dos nubes, por enlace dedicado\n             clase 198\nsemanas 12-15 RETIRADA de los 214 emparejamientos\n```\n\nY el paso de retirada, que es el que casi siempre falta:\n\n```text\nemparejamientos retirados                        212\nconservados a propósito                            2   ← ver abajo\n\ny durante la retirada\n  4 emparejamientos resultaron estar en uso por algo que\n  nadie había declarado\n    · un trabajo de exportación nocturno\n    · una herramienta de monitorización de un proveedor\n    · un servidor de compilación antiguo\n    · una réplica de base de datos de un proyecto cancelado\n      que seguía copiando datos       ← se apagó, ley 20\n```\n\n**Los dos emparejamientos que se conservaron, con su cálculo:**\n\n```text\nPAR 1   aplicación ↔ base de datos de pedidos\n  volumen mensual                          412 TB\n  por el concentrador\n    412.000 GB × 0,02 €/GB                8.240 €/mes\n    latencia añadida                      +0,6 ms en el\n                                          camino crítico\n  emparejado directo\n    coste de proceso                          0 €\n    latencia                              0,2 ms\n  decisión   emparejamiento directo, y ruta más específica\n             para que gane al camino del concentrador\n                                                 clase 194\n  ahorro     8.240 €/mes\n\nPAR 2   telemetría ↔ recolector central\n  volumen mensual                          180 TB\n  ahorro                                 3.600 €/mes\n  decisión   igual\n```\n\nY la precaución que hizo falta:\n\n```text\nal existir dos caminos posibles, hubo que comprobar simetría\n  la ruta más específica gana en las DOS direcciones\n  se verificó con una traza en ambos sentidos     clase 194\n  y se añadió a la comprobación semanal\n```\n\n**El coste, antes y después:**\n\n```text                                        antes     después\nemparejamientos                               214           2\nrutas en la tabla de producción               187          23\nconexiones al concentrador                      0          63\ncoste fijo del concentrador                     0     2.840 €/mes\ncoste por GB procesado                          0     6.100 €/mes\n  (tras excluir los 2 pares directos)\ncoste evitado por los 2 pares directos          —    11.840 €/mes\ntiempo para conectar una red nueva          6 días      25 min\ncaminos indeseados detectables                 no          sí\n```\n\nY la línea que resume el balance:\n\n```text\nel concentrador cuesta 8.940 €/mes\nsin los dos emparejamientos directos costaría 20.780 €\n→ la decisión de dejar dos pares fuera del concentrador\n  valía más que todo el resto del proyecto en dinero\n```\n\n**La vigilancia montada:**\n\n```text\nrutas por tabla contra el límite, alerta al 75 %\ncambios en asociaciones y propagaciones → auditados y\n  con alerta\nRUTA INESPERADA EN UNA TABLA\n  se declara qué prefijos deben verse desde cada tabla\n  cualquier otro dispara alerta\n  → en el primer trimestre disparó 2 veces\n    · una propagación mal configurada al añadir una red\n    · un socio nuevo asociado a la tabla equivocada\n  → las dos se corrigieron en minutos, no en años\n```\n\n**La lección que esta clase deja**: el proyecto se justificó por el límite de rutas, pero lo que encontró fue **un camino de desarrollo a los datos de producción que llevaba tres años abierto** a través de dos emparejamientos y unas rutas estáticas de una migración terminada. Ninguna regla de cortafuegos lo habría cerrado de forma duradera; lo cerró **la ausencia de ruta**. Y en dinero, la decisión que más valió fue la contraria a la del proyecto: **dejar dos pares fuera del concentrador**, porque su volumen hacía que el coste por gigabyte superara todo lo demás.",
+  "pitfalls": [
+    {
+      "symptom": "Añadir una red nueva exige tocar decenas de tablas",
+      "cause": "Topología de emparejamientos punto a punto, que crece de forma cuadrática",
+      "fix": "Migra a un concentrador cuando pases de seis u ocho redes, y retira los emparejamientos a medida que migras."
+    },
+    {
+      "symptom": "El concentrador no aporta aislamiento",
+      "cause": "Todas las redes están asociadas a una única tabla de rutas",
+      "fix": "Usa varias tablas y decide por separado a qué tabla se asocia cada red y a cuáles propaga sus rutas."
+    },
+    {
+      "symptom": "Un entorno inferior alcanza producción y nadie sabe por dónde",
+      "cause": "Tránsito accidental a través de emparejamientos encadenados y rutas estáticas olvidadas",
+      "fix": "Traza qué alcanza cada red, cierra por ausencia de ruta en vez de por regla y alerta ante rutas inesperadas en una tabla."
+    },
+    {
+      "symptom": "La factura del concentrador es enorme",
+      "cause": "Pares con muchísimo volumen atraviesan el concentrador y pagan proceso por gigabyte",
+      "fix": "Calcula el coste por par y deja emparejamiento directo para los de gran volumen, cuidando la simetría del camino."
+    },
+    {
+      "symptom": "La latencia del camino crítico empeora tras centralizar",
+      "cause": "Tráfico que antes iba directo ahora da un rodeo, a veces con inspección",
+      "fix": "Inspecciona solo lo que cruza fronteras de confianza y evita enrutar por el cortafuegos el tráfico dentro de un mismo segmento."
+    },
+    {
+      "symptom": "Un cambio de tabla aísla medio sistema",
+      "cause": "El concentrador es un punto por el que pasa todo y el cambio se hizo sin red",
+      "fix": "Cambios en ventana, con configuración previa guardada y vuelta atrás probada, y auditoría de asociaciones y propagaciones."
+    }
+  ],
+  "checks": [
+    "¿Por qué el emparejamiento directo deja de escalar y a partir de cuántas redes?",
+    "¿Qué diferencia hay entre asociar una red a una tabla y propagar sus rutas a ella?",
+    "¿Por qué cerrar un camino por ausencia de ruta es más robusto que por regla?",
+    "¿Qué costes tiene un concentrador y cuál es el que no se ve?",
+    "¿En qué casos conviene mantener un emparejamiento directo pese a tener concentrador?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2025). *Transit Gateway route tables and segmentation*.",
+      "url": "https://docs.aws.amazon.com/vpc/latest/tgw/tgw-route-tables.html"
+    },
+    {
+      "text": "Microsoft (2025). *Virtual WAN architecture and routing*.",
+      "url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about"
+    },
+    {
+      "text": "Google Cloud (2025). *Network Connectivity Center*.",
+      "url": "https://cloud.google.com/network-connectivity/docs/network-connectivity-center"
+    },
+    {
+      "text": "AWS (2025). *Building a scalable and secure multi-VPC network infrastructure*.",
+      "url": "https://docs.aws.amazon.com/whitepapers/latest/building-scalable-secure-multi-vpc-network-infrastructure/welcome.html"
+    },
+    {
+      "text": "Microsoft (2025). *Cloud Adoption Framework: network topology and connectivity*.",
+      "url": "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/network-topology-and-connectivity"
+    }
+  ]
+}
