@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado-experto · <strong>Horas estimadas:</strong> 8<br>
 <strong>Laboratorio:</strong> <code>capstone</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>proyecto: revisión de arquitectura con adr</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Revisar la arquitectura construida y dejar el único artefacto que sobrevive a los cambios de equipo: <strong>el registro de por qué está así</strong>. La clase da un método de revisión que se puede ejecutar en medio día, el formato mínimo de una decisión y las cifras con las que se comprueba que el registro sirve. Y cierra la parte con las tres piezas de siempre: <strong>calificar las cinco predicciones de la clase 144</strong>, que esta vez salieron mejor de lo habitual y conviene explicar por qué; incorporar la ley que esta parte ha hecho aparecer cuatro veces; y escribir la predicción que la parte 13 tendrá que corregir.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> proyecto: revisión de arquitectura con adr con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>architecture-review</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Ejecutar</strong> una revisión de arquitectura acotada, con resultado accionable.</li>
+<li><strong>Registrar</strong> una decisión con su traslado, sus premisas y qué la revisaría.</li>
+<li><strong>Medir</strong> si el registro se usa o es un archivo muerto.</li>
+<li><strong>Calificar</strong> las cinco predicciones de la clase 144 con evidencia.</li>
+<li><strong>Escribir</strong> la predicción de la parte 13 en términos que se puedan desmentir.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,20 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>proyecto</code></td>
-<td>Define su papel en <strong>proyecto: revisión de arquitectura con adr</strong> y cómo observarlo en un sistema real.</td>
+<td><code>registro de decisión</code></td>
+<td>Documento corto escrito en el momento de decidir, con las opciones, el traslado, las premisas y qué haría revisarla.</td>
 </tr>
 <tr>
-<td><code>revisión</code></td>
-<td>Define su papel en <strong>proyecto: revisión de arquitectura con adr</strong> y cómo observarlo en un sistema real.</td>
+<td><code>revisión de arquitectura</code></td>
+<td>Sesión acotada que compara los escenarios de calidad con el sistema real y produce cambios, no un informe.</td>
 </tr>
 <tr>
-<td><code>arquitectura</code></td>
-<td>Define su papel en <strong>proyecto: revisión de arquitectura con adr</strong> y cómo observarlo en un sistema real.</td>
+<td><code>divergencia</code></td>
+<td>Distancia entre la arquitectura documentada y la real. Se mide, y siempre existe.</td>
 </tr>
 <tr>
-<td><code>adr</code></td>
-<td>Define su papel en <strong>proyecto: revisión de arquitectura con adr</strong> y cómo observarlo en un sistema real.</td>
+<td><code>ley 21</code></td>
+<td>El acoplamiento real está en quién puede escribir cada dato. Separar procesos sin separar escritores no separa nada.</td>
+</tr>
+<tr>
+<td><code>premisa de revisión</code></td>
+<td>Condición que, al cumplirse, obliga a reconsiderar una decisión. Es lo que la hace revisable.</td>
+</tr>
+<tr>
+<td><code>hipótesis de la parte 13</code></td>
+<td>Predicción escrita ahora sobre lo que ocurrirá cuando el sujeto sea usar varios proveedores y sobrevivir a la pérdida de uno.</td>
 </tr>
 </tbody>
 </table>
@@ -89,72 +94,386 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Proyecto: revisión de arquitectura con ADR&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    R[&quot;revisión de arquitectura&quot;] --&gt; R1[&quot;1 · escenarios de la clase 145\n¿siguen siendo válidos?&quot;]
+    R1 --&gt; R2[&quot;2 · comparar con el sistema REAL\ntrazas · flujos · escritores&quot;]
+    R2 --&gt; R3[&quot;3 · medir los cuatro atributos · 155&quot;]
+    R3 --&gt; R4[&quot;4 · listar divergencias y decidir&quot;]
+    R4 --&gt; R5[&quot;5 · registrar decisiones&quot;]
+    R5 --&gt; A[&quot;registro de decisión&quot;]
+    A --&gt; A1[&quot;qué se decidió y qué opciones había&quot;]
+    A --&gt; A2[&quot;qué mejora y qué empeora, con cifras&quot;]
+    A --&gt; A3[&quot;qué prioridad lo decidió&quot;]
+    A --&gt; A4[&quot;premisas dadas por ciertas&quot;]
+    A --&gt; A5[&quot;QUÉ HARÍA REVISARLO&quot;]
+    A5 --&gt; M[&quot;medida del registro:\ndecisiones revisadas al\ncumplirse su premisa&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-revisar-sin-escribir-un-informe">1. Revisar sin escribir un informe</h3>
+<p>Una revisión de arquitectura útil cabe en medio día y produce cambios, no un documento. Sus cinco pasos:</p>
+<pre><code class="language-text">1. ¿SIGUEN SIENDO VÁLIDOS LOS ESCENARIOS?              clase 145
+   se leen los 5-12 escenarios con sus cifras
+   y se marca cuáles han cambiado
+   → es lo que más se olvida y lo que más decisiones invalida
+
+2. COMPARAR CON EL SISTEMA REAL, con datos
+   no con el diagrama: con lo que dicen las trazas y los registros
+
+3. MEDIR LOS CUATRO ATRIBUTOS                          clase 155
+
+4. LISTAR DIVERGENCIAS Y DECIDIR QUÉ HACER CON CADA UNA
+   corregir el sistema, corregir el documento, o aceptarla por escrito
+
+5. REGISTRAR las decisiones tomadas
+</code></pre>
+<p>Y el paso 2 se hace con lo que ya existe, sin pedirle nada a nadie:</p>
+<pre><code class="language-text">grafo de dependencias real, agregando trazas             clase 124
+conexiones observadas entre servicios                    clase 135
+quién escribe cada tabla, del registro de auditoría      clase 147
+qué campos consume cada cliente                          clase 153
+qué operaciones cruzan cuántas fronteras                 clase 152
+coste por servicio y por unidad                          clase 142
+</code></pre>
+<p>Y la divergencia siempre existe, y este programa la ha medido tres veces:</p>
+<pre><code class="language-text">dependencias documentadas 23, observadas 41              clase 124
+conexiones documentadas 23, observadas 58                clase 135
+decisiones registradas 2, tomadas 14                     clase 155
+</code></pre>
+<p>Y lo que hay que hacer con cada divergencia:</p>
+<pre><code class="language-text">el sistema está mal          → corregir el sistema
+el documento está viejo      → corregir el documento
+era una decisión implícita   → convertirla en explícita y registrarla
+es deuda conocida            → aceptarla por escrito, con fecha de revisión
+</code></pre>
+<p>La tercera es la más frecuente: <strong>algo que nadie decidió y que funciona</strong>, y que conviene registrar antes de que alguien lo cambie sin saber por qué estaba así.</p>
+<p>Y dos reglas sobre la dinámica de la sesión, con la disciplina de la clase 140:</p>
+<pre><code class="language-text">están quienes construyeron el sistema
+el resultado es una lista de cambios con dueño, no un acta
+</code></pre>
+<h3 id="2-el-registro-de-decisiones">2. El registro de decisiones</h3>
+<p>Los diagramas se mantienen unos meses. Lo que sobrevive es <strong>lo que se escribió en el momento de decidir</strong>, porque no hay que mantenerlo: describe un instante.</p>
+<p>El formato mínimo, en una página:</p>
+<pre><code class="language-text">TÍTULO       una frase con la decisión
+FECHA y ESTADO   propuesta · aceptada · sustituida por otra
+CONTEXTO     qué problema hay y qué escenarios aplican      clase 145
+OPCIONES     dos o tres reales; si hay una, no era decisión
+DECISIÓN     cuál y por qué
+TRASLADO     qué mejora y qué empeora, con cifras           clase 155
+PRIORIDAD    cuál de los atributos lo decidió
+PREMISAS     lo que se da por cierto
+REVISAR SI   qué haría reconsiderarla
+</code></pre>
+<p>Y las tres últimas líneas son las que distinguen un registro útil de uno decorativo:</p>
+<pre><code class="language-text">sin premisas    a los dos años nadie sabe si sigue teniendo sentido
+sin traslado    parece que fue gratis, y no lo fue
+sin «revisar si» nadie la revisa nunca
+</code></pre>
+<p>Y ejemplos de premisas de revisión de esta parte, que ya se han usado:</p>
+<pre><code class="language-text">«si hay más de 15 servicios o un tercer lenguaje»          clase 152
+«si soporte necesita escalar por su cuenta»                clase 148
+«si el tráfico se multiplica por cuatro»                   clase 145
+«si cambia el requisito normativo»                         clase 136
+«si la campaña de noviembre deja de celebrarse»            clase 142
+</code></pre>
+<p>Y las reglas prácticas que hacen que el registro se mantenga vivo:</p>
+<pre><code class="language-text">vive en el repositorio, junto al código
+se escribe ANTES de implementar, no después
+es inmutable: no se edita, se sustituye por otro que la reemplaza
+se numera, y se enlaza desde el código cuando explica algo raro
+una página; si necesita más, la decisión no está clara
+</code></pre>
+<p>La tercera importa más de lo que parece: <strong>una decisión editada pierde su valor histórico</strong>. Si cambia, se escribe otra que dice que sustituye a la anterior, y la anterior queda con su fecha y su contexto.</p>
+<p>Y qué merece un registro y qué no:</p>
+<pre><code class="language-text">sí   lo que costaría caro deshacer
+     lo que alguien preguntará dentro de un año
+     lo que se decidió en contra de lo obvio
+     lo que se decidió NO hacer, y por qué
+no   convenciones de estilo
+     decisiones reversibles en una tarde
+</code></pre>
+<p>La cuarta de la primera lista es la más valiosa y la que menos se escribe: <strong>por qué NO se hizo lo que parecía evidente</strong>. Sin ella, alguien lo propondrá otra vez cada seis meses.</p>
+<p>Y las dos medidas que dicen si el registro sirve:</p>
+<pre><code class="language-text">decisiones registradas frente a tomadas
+decisiones revisadas al cumplirse su premisa
+</code></pre>
+<p>La segunda, si es cero, significa que el registro es un archivo muerto.</p>
+<h3 id="3-calificacion-de-las-cinco-predicciones">3. Calificación de las cinco predicciones</h3>
+<p><strong>Predicción 1: «la parte 12 no introducirá mecanismos nuevos; nombrará decisiones ya tomadas. Más de la mitad de sus clases formalizarán algo ya hecho».</strong></p>
+<pre><code class="language-text">veredicto: EQUIVOCADA por poco, y el error es lo interesante
+</code></pre>
+<pre><code class="language-text">clases que formalizan lo ya hecho                        5 de 11
+  146  propiedades de una aplicación operable
+  147  la frontera que ya decidían las claves de partición
+  148  la granularidad que ya se había elegido sin criterio
+  149  la consistencia que ya se elegía por operación sin decirlo
+  153  los contratos de las clases 115 y 118
+
+clases con material genuinamente nuevo                   4 de 11
+  150  testigo de época, particiones fijas
+  151  fallo gris, fallo metaestable, trabajo constante, celdas
+  153  contratos dirigidos por el consumidor
+  154  seis dimensiones de aislamiento
+
+clases de encuadre, ni una cosa ni otra                  2 de 11
+  145  atributos y escenarios
+  155  el traslado entre cuatro atributos
+</code></pre>
+<p>Y lo que la predicción no vio: <strong>todo el material nuevo trata de lo mismo</strong>, y es lo que las partes anteriores no habían tocado:</p>
+<pre><code class="language-text">cómo falla el CONJUNTO, y cómo se comprueba
+  las partes 05 a 11 trataron el fallo de cada componente
+  la 12 trata el fallo del sistema: gris, metaestable, por celdas
+</code></pre>
+<p><strong>Predicción 2: «la ley 14 dominará, con más apariciones que en cualquier otra parte».</strong></p>
+<pre><code class="language-text">veredicto: ACERTADA en las dos mitades
+</code></pre>
+<pre><code class="language-text">ley 14 en la parte 12                                          5
+  145  identificar qué decisiones serán irreversibles
+  147  la propiedad de los datos, que después no se mueve
+  148  dividir es fácil; unir no se propone nunca
+  150  número de particiones y asignación de claves
+  154  el nivel de aislamiento sin camino de migración
+
+máximo anterior en una sola parte                              3  (parte 09)
+otras leyes en la parte 12
+  ley 20   3        ley 16   3        ley 13   2
+</code></pre>
+<p><strong>Predicción 3: «la clase más difícil será la de dividir, y la división la deciden los datos y los equipos, no la tecnología».</strong></p>
+<pre><code class="language-text">veredicto: ACERTADA
+</code></pre>
+<pre><code class="language-text">en la extracción de un servicio
+  semanas dedicadas al código                                  4
+  semanas dedicadas a los DATOS                                5
+la causa real de los problemas de la división existente
+  41 tablas con más de un escritor, no el número de servicios
+la restricción que descartó la propuesta de 22 servicios
+  el tamaño del equipo                                    clase 145
+</code></pre>
+<p><strong>Predicción 4: «la arquitectura documentada no coincidirá con el sistema real».</strong></p>
+<pre><code class="language-text">veredicto: ACERTADA, con tres medidas independientes
+</code></pre>
+<pre><code class="language-text">dependencias documentadas 23, observadas 41              clase 124
+conexiones documentadas 23, observadas 58                clase 135
+decisiones registradas 2, tomadas 14                     clase 155
+5 de 15 servicios no correspondían a ninguna frontera    clase 147
+</code></pre>
+<p><strong>Predicción 5: «monolito o microservicios será la decisión menos importante; las consecuentes serán la propiedad de los datos, la consistencia por operación y el contrato».</strong></p>
+<pre><code class="language-text">veredicto: ACERTADA, y se puede formular mejor
+</code></pre>
+<p>Lo que la evidencia muestra no es solo que importe poco, sino algo más fuerte:</p>
+<pre><code class="language-text">no es una decisión independiente
+la determinan las otras tres
+  quién escribe cada dato          → dónde puede estar la frontera
+  qué consistencia exige cada operación → qué puede quedar separado
+  qué contrato se puede sostener   → qué se puede desplegar aparte
+→ una vez respondidas, cuántos procesos hay es casi mecánico
+</code></pre>
+<p><strong>Y una observación sobre el conjunto</strong>, porque cuatro aciertos de cinco es mucho mejor que en las partes anteriores y conviene explicar por qué:</p>
+<pre><code class="language-text">las predicciones de las partes 08 a 11 eran sobre materia nueva
+las de la parte 12 eran sobre la SISTEMATIZACIÓN de lo ya vivido
+→ predecir cómo se ordenará lo que uno ya ha hecho es mucho más fácil
+  que predecir lo que aún no ha hecho
+→ y por eso el acierto aquí vale menos que los errores de antes
+</code></pre>
+<h3 id="4-la-ley-21-el-recuento-y-la-hipotesis-de-la-parte-13">4. La ley 21, el recuento y la hipótesis de la parte 13</h3>
+<pre><code class="language-text">LEY 21
+  El acoplamiento real de un sistema está en quién puede escribir
+  cada dato. Separar procesos sin separar escritores no separa nada.
+</code></pre>
+<p>Sus cuatro apariciones en esta parte:</p>
+<pre><code class="language-text">clase 147   41 tablas con más de un escritor; 5 semanas por cambio
+            de esquema y 3 equipos para tocar un descuento
+clase 148   el monolito repartido: 11 de 15 servicios compartían tablas,
+            y por eso el 41 % de los despliegues había que coordinarlos
+clase 150   un solo escritor por partición es lo que permite razonar;
+            dos líderes a la vez es el peor fallo posible
+clase 154   el aislamiento entre clientes se decide en los datos:
+            las 6 fugas estaban en consultas, no en despliegues
+</code></pre>
+<p>Y lo que añade al cuestionario:</p>
+<pre><code class="language-text">¿quién puede escribir este dato? ¿cuántos son?
+si separo estos dos procesos, ¿siguen escribiendo lo mismo?
+¿qué tendría que pasar para que solo uno pudiera escribirlo?
+</code></pre>
+<p>Y su relación con la ley 14, que es su vecina:</p>
+<pre><code class="language-text">ley 14   las decisiones de creación son irreversibles
+ley 21   y la más irreversible de todas es quién escribe cada dato
+</code></pre>
+<p><strong>Recuento tras la parte 12:</strong></p>
+<pre><code class="language-text">ley 13  el bucle que no corre no da error                        24
+ley 15  una señal con demasiados elementos deja de ser señal     20
+ley 16  un control que estorba acaba desactivado o rodeado       21
+ley 14  las decisiones de creación son irreversibles             16
+ley 11  lo que entra en un sistema de solo-añadir se queda        9
+ley 20  lo que no tiene dueño no se apaga ni se corrige           8
+ley 19  lo que compensa un fallo lo vuelve invisible              7
+ley 17  la medida que se vuelve objetivo se alcanza sin mejorar   6
+ley 18  lo asíncrono traslada la garantía, no la elimina          5
+ley 21  el acoplamiento está en quién escribe                     4
+        NUEVA en esta parte
+</code></pre>
+<p><strong>La hipótesis de la parte 13.</strong> La parte siguiente trata de usar varios proveedores, de conectar lo propio con lo ajeno y de sobrevivir a perder una región o un proveedor entero. La predicción, escrita para poder desmentirla:</p>
+<pre><code class="language-text">1. La mayoría de los motivos declarados para usar varios proveedores
+   no resistirán la pregunta de la clase 145: «¿qué pasa si no?».
+   → predigo que de los motivos habituales, MENOS DE LA MITAD
+     sobrevivirán a esa pregunta, y que el que más sobrevive no será
+     el que más se cita
+
+2. El coste dominante de operar entre nubes no será el cómputo:
+   será la SALIDA DE DATOS y la duplicación de lo que ya está
+   resuelto en un proveedor.
+   → predigo que la salida de datos aparecerá como partida de dos
+     cifras porcentuales en el ejemplo de coste
+
+3. La ley dominante será la 21, la recién estrenada, en su forma
+   entre proveedores: quién puede escribir el dato decide si una
+   configuración activa-activa es posible.
+   → y predigo que la conclusión honesta de la parte será que
+     activa-activa con escritura en los dos lados casi nunca compensa
+
+4. Lo más difícil no será mover la carga: será la IDENTIDAD y la RED.
+   → predigo que las clases 159 y 160 tendrán más problemas reales
+     que las de portabilidad de carga
+
+5. Y la predicción que puede salir del revés: los objetivos de
+   recuperación declarados no se corresponderán con nada medido,
+   igual que ocurrió con la copia de seguridad de la clase 088
+   y con el punto de recuperación de la clase 150.
+   → predigo que, al medirlos, el tiempo real será entre 3 y 10 veces
+     el declarado
+</code></pre>
+<p>Y lo que se anota para calificar sin trampa:</p>
+<pre><code class="language-text">lo que ya sabemos    que lo declarado y lo medido difieren, dos veces
+lo que creemos       que el problema es de identidad y red, no de carga
+lo que no sabemos    si existe algún caso en que activa-activa con
+                     escritura en ambos lados sí compense
+</code></pre>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>proyecto: revisión de arquitectura con adr</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>CloudShop ejecuta la revisión de arquitectura sobre lo construido en esta parte y monta el registro de decisiones. La revisión dura cinco horas y encuentra tres divergencias, una de las cuales invalidaba una decisión tomada seis meses antes.</strong></p>
+<p><strong>Paso 1: los escenarios, revisados.</strong></p>
+<pre><code class="language-text">escenarios escritos en la clase 145                             8
+siguen siendo válidos                                           6
+cambiaron                                                       2
+  E1  el pico de referencia bajó de 5.000/s a 2.100/s
+      → la campaña dejó de celebrarse                    clase 142
+  E5  tres clientes exigen ahora datos en su propia región
+      → escenario reescrito                              clase 154
+</code></pre>
+<p>Y el primero invalidó una decisión anterior:</p>
+<pre><code class="language-text">decisión de hace 6 meses   dimensionar para 5.000 peticiones/s
+capacidad reservada        para ese pico
+coste asociado             1.400 €/mes de margen permanente
+con el pico real de 2.100/s, el margen sobra
+→ decisión sustituida; ahorro 900 €/mes
+</code></pre>
+<p><strong>Una decisión correcta en su momento y cara hoy</strong>, detectada solo porque los escenarios llevaban fecha.</p>
+<p><strong>Paso 2: el sistema real, con datos.</strong></p>
+<p>```text                                    documentado    observado
+unidades desplegables                          5             5      ✓
+dependencias entre unidades                    7             9      ✗
+tablas con más de un escritor                  0             2      ✗
+campos del contrato en uso                    22            22      ✓
+fronteras que cruza «confirmar pedido»         2             2      ✓
+operaciones síncronas                         12            12      ✓</p>
+<pre><code>
+Y las dos divergencias:
+
+```text
+DIVERGENCIA 1: dos dependencias no documentadas
+  el módulo de soporte llamaba directamente al servicio de pagos
+  motivo   una urgencia de hace 4 meses
+  decisión corregir el sistema: pasa por ventas, como estaba diseñado
+
+DIVERGENCIA 2: dos tablas con dos escritores
+  la tabla de reservas la escribían almacén y un trabajo nocturno
+  motivo   el trabajo nocturno se escribió antes de la clase 147
+  decisión corregir el sistema: el trabajo publica un hecho y almacén
+           escribe                                        ley 21
+</code></pre>
+<p>Y una tercera que se aceptó por escrito:</p>
+<pre><code class="language-text">DIVERGENCIA 3: el adaptador de correo sigue siendo una función
+  aunque el volumen ha crecido y ya no es tan irregular
+  cuenta de la clase 117   sigue compensando, por poco
+  decisión   aceptada, con revisión cuando supere 200 envíos/hora
+</code></pre>
+<p><strong>Paso 3: los cuatro atributos.</strong></p>
+<p>```text                                    inicio parte 12    ahora
+latencia p99 del flujo de compra              840 ms        190 ms
+coste por pedido                             0,057 €       0,038 €
+alcance desde un servicio comprometido      2 de 15        2 de 5
+caminos hasta objetivos críticos                 14             2
+unidades por persona de guardia                3,75          1,25
+horas de mantenimiento al mes por unidad         11            12
+trabajo repetitivo                             11 %           9 %</p>
+<pre><code>
+**El registro de decisiones, montado.**
+
+```text
+decisiones tomadas en la parte 12                              14
+registradas en su momento                                       0
+registradas retroactivamente durante la revisión               14
+  → con fecha real, marcadas como reconstruidas
+tiempo empleado                                             3 h 20
+</code></pre>
+<p>Y el efecto en los seis meses siguientes:</p>
+<p>```text                                          antes         después
+decisiones registradas frente a tomadas       0 de 14      19 de 19
+escritas antes de implementar                     —        17 de 19
+sustituidas por otra posterior                    —              3
+revisadas al cumplirse su premisa                 —              4
+preguntas de «¿por qué está así?» respondidas
+con el registro                                   —             11</p>
+<pre><code>
+Y las cuatro revisadas por premisa:
+
+```text
+«si el pico baja de 3.000/s»              se cumplió → dimensionado
+«si aparece un tercer lenguaje»           se cumplió → malla revisada
+                                                       y mantenida
+«si soporte necesita escalar solo»        no se cumplió
+«si cambia el requisito normativo»        se cumplió → región propia
+                                                       para 3 clientes
+</code></pre>
+<p>Y una decisión de las que más valen, del tipo «por qué NO se hizo lo obvio»:</p>
+<pre><code class="language-text">registro 007   «no separamos el motor de precios en un servicio»
+contexto       es la parte más compleja y lo pedía el equipo
+decisión       módulo con interfaz estricta
+motivo         ninguno de los seis criterios de la clase 148 aplicaba
+revisar si     tiene equipo propio o perfil de escala distinto
+
+veces que se ha vuelto a proponer en 6 meses                    2
+veces que la discusión se cerró leyendo el registro             2
+tiempo empleado en cada una                                 ~10 min
+</code></pre>
+<p>Sin ese registro, <strong>cada propuesta habría reabierto una discusión de horas</strong>.</p>
+<p><strong>El estado de la parte 12, completo.</strong></p>
+<p>```text                                          antes         después
+escenarios de calidad escritos                    0              8
+atributos priorizados                             0              3
+unidades desplegables                            15              5
+contextos con frontera y escritor único          no             5
+tablas con más de un escritor                    41              0
+fronteras que cruza una operación típica          7              2
+latencia p99 del flujo de compra              840 ms         190 ms
+consistencia decidida por operación          0 de 20        20 de 20
+punto de recuperación medido                     no             sí
+protección contra dos líderes, ensayada          no             sí
+fallo gris: tiempo de detección               32 min           70 s
+clientes afectados por un vecino ruidoso         190              3
+fugas entre clientes                               6              0
+roturas de contrato                          11 / año           1
+decisiones registradas                             2             19</p>
+<pre><code>
+**Lo que la parte 12 no resolvió, dicho con claridad.**
+
+```text
+el motor de precios sigue siendo un módulo, y si el equipo crece
+  habrá que extraerlo con el coste que eso tiene
+las dos personalizaciones que no cupieron en el catálogo
+  se resolvieron pasando un cliente a nivel dedicado, que es caro
+y la divergencia entre lo documentado y lo real vuelve a aparecer
+  en cuanto se deja de medir: la revisión es periódica, no única
+</code></pre>
+<p><strong>La conclusión que cierra la parte 12</strong>: la revisión encontró tres divergencias en cinco horas, y <strong>la más cara no era un fallo del sistema sino de las premisas</strong>: se seguía dimensionando para un pico que había dejado de existir catorce meses antes, y eso costaba novecientos euros al mes. Y el artefacto que más valor produjo en los seis meses siguientes no fue ningún diagrama: fue <strong>un registro de una página explicando por qué NO se separó el motor de precios</strong>, que cerró en diez minutos dos discusiones que antes habrían durado horas.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-12-cloud-native-distributed-architecture/156-proyecto-revision-de-arquitectura-con-adr/lab.py
@@ -195,29 +514,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>La revisión de arquitectura produce un informe que nadie lee</td>
+<td>Se comparó el sistema con el diagrama en vez de con datos, y no salieron cambios con dueño</td>
+<td>Compara con trazas, conexiones observadas y escritores reales, y sal con una lista de cambios.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>A los dos años nadie sabe por qué el sistema está así</td>
+<td>Las decisiones no se registraron en el momento</td>
+<td>Registro de una página por decisión, escrito antes de implementar, inmutable y viviendo junto al código.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>La misma propuesta se rediscute cada seis meses</td>
+<td>No se registró por qué NO se hizo lo que parecía obvio</td>
+<td>Registra también las decisiones negativas, con su motivo y su premisa de revisión.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>El registro existe y nadie lo revisa</td>
+<td>Falta la línea de qué haría revisar cada decisión</td>
+<td>Escribe la premisa de revisión y mide cuántas decisiones se revisan al cumplirse.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Se mantiene una decisión correcta que hoy es cara</td>
+<td>Los escenarios cambiaron y nadie los revisó</td>
+<td>Empieza toda revisión comprobando si los escenarios de calidad siguen siendo válidos.</td>
+</tr>
+<tr>
+<td>Se separan procesos y el sistema sigue igual de acoplado</td>
+<td>Ley 21: los escritores siguen siendo los mismos</td>
+<td>Comprueba quién puede escribir cada dato; sin separar escritores, no hay separación.</td>
 </tr>
 </tbody>
 </table>
@@ -228,18 +552,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué cinco pasos tiene una revisión de arquitectura y con qué datos se hace el segundo?</li>
+<li>¿Qué tres líneas distinguen un registro de decisión útil de uno decorativo?</li>
+<li>¿Por qué se registran también las decisiones de no hacer algo?</li>
+<li>¿Qué dice la ley 21 y en qué se diferencia de la ley 14?</li>
+<li>¿Qué predice la hipótesis de la parte 13 sobre los motivos del multi-nube y sobre los objetivos de recuperación?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Cloud Native Patterns — Cornelia Davis.</li>
-<li>Building Microservices — Sam Newman.</li>
-<li>Release It! — Michael Nygard.</li>
-<li>Designing Data-Intensive Applications — Martin Kleppmann.</li>
+<li>Nygard, M. (2011). <em>Documenting architecture decisions</em> — formato y motivo del registro de decisiones. <a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions</a></li>
+<li>SEI (2025). <em>Lightweight architecture evaluation</em> — revisión acotada con resultado accionable. <a href="https://insights.sei.cmu.edu/library/">https://insights.sei.cmu.edu/library/</a></li>
+<li>Ford, N. y otros (2017). <em>Building Evolutionary Architectures</em> — funciones de aptitud y revisión continua. <a href="https://evolutionaryarchitecture.com/">https://evolutionaryarchitecture.com/</a></li>
+<li>ADR GitHub organization (2025). <em>Architecture decision records: templates and tooling</em> — plantillas y prácticas. <a href="https://adr.github.io/">https://adr.github.io/</a></li>
+<li>Ford, N. y otros (2021). <em>Software Architecture: The Hard Parts</em>, cap. 15 — registrar compromisos y revisarlos. <a href="https://www.oreilly.com/library/view/software-architecture-the/9781492086888/">https://www.oreilly.com/library/view/software-architecture-the/9781492086888/</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -307,7 +632,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-revisar-sin-escribir-un-informe">1. Revisar sin escribir un informe</a><a class="toc-level-3" href="#2-el-registro-de-decisiones">2. El registro de decisiones</a><a class="toc-level-3" href="#3-calificacion-de-las-cinco-predicciones">3. Calificación de las cinco predicciones</a><a class="toc-level-3" href="#4-la-ley-21-el-recuento-y-la-hipotesis-de-la-parte-13">4. La ley 21, el recuento y la hipótesis de la parte 13</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
