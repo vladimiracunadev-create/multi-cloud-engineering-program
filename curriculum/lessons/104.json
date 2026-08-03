@@ -1,0 +1,118 @@
+{
+  "id": "104",
+  "purpose": "Crear un entorno completo por cada cambio, usarlo mientras el cambio se revisa y destruirlo después. Con lo declarado en un repositorio y un agente que lo materializa, la infraestructura es la parte fácil: la clase se ocupa de las dos partes difíciles —**los datos y las dependencias**— y de la tercera que nadie planea, **destruirlos**. Y termina con la lista honesta de lo que un entorno efímero no puede verificar, para no confiar en él más de lo que aguanta.",
+  "outcomes": [
+    "**Crear** un entorno por cambio a partir de lo ya declarado.",
+    "**Elegir** una estrategia de datos y asumir su compromiso.",
+    "**Resolver** las dependencias sin contaminar entornos compartidos ni multiplicar el coste.",
+    "**Garantizar** la destrucción, que es donde se va el presupuesto.",
+    "**Enumerar** lo que un entorno efímero no puede verificar."
+  ],
+  "concepts": [
+    {
+      "term": "entorno efímero",
+      "definition": "Entorno completo creado para un cambio concreto, con su nombre y su dirección, y destruido cuando el cambio se cierra."
+    },
+    {
+      "term": "semilla de datos",
+      "definition": "Conjunto mínimo de datos versionado que hace que el entorno sea utilizable. Es parte del código, no un volcado."
+    },
+    {
+      "term": "subconjunto anonimizado",
+      "definition": "Extracto de producción con los datos personales sustituidos, conservando volumen y formas suficientes para que las pruebas signifiquen algo."
+    },
+    {
+      "term": "doble de dependencia",
+      "definition": "Sustituto de un servicio externo que responde según su contrato. Barato, y se aleja de la realidad si nadie verifica el contrato."
+    },
+    {
+      "term": "caducidad",
+      "definition": "Tiempo de vida máximo tras el cual el entorno se destruye aunque nadie lo pida. Es lo único que impide que el gasto crezca sin techo."
+    },
+    {
+      "term": "huérfano",
+      "definition": "Entorno cuyo cambio ya se cerró y que sigue existiendo. Ley 13: nadie da un error por él; solo aparece en la factura."
+    }
+  ],
+  "diagram": "flowchart TB\n    PR[\"cambio propuesto\"] --> CR[\"crear entorno\\nnombre + dirección\"]\n    CR --> I[\"infraestructura\\nya declarada · 103\"]\n    CR --> D{\"datos\"}\n    CR --> X{\"dependencias\"}\n    D --> D1[\"semilla versionada\\nrápida · poco realista\"]\n    D --> D2[\"subconjunto anonimizado\\nrealista · hay que mantenerlo\"]\n    X --> X1[\"dobles por contrato\\nbaratos · derivan\"]\n    X --> X2[\"instancia dedicada\\nfiel · cara\"]\n    I --> U[\"usar: revisar, probar, demostrar\"]\n    D1 --> U\n    X1 --> U\n    U --> C{\"¿cambio cerrado?\"}\n    C -->|\"sí\"| DEL[\"destruir\"]\n    C -->|\"caducidad\"| DEL\n    C -->|\"nadie mira\"| ORF[\"huérfano:\\nsolo aparece en la factura\"]",
+  "foundations": [
+    {
+      "heading": "Lo fácil y lo difícil",
+      "body": "Con lo declarado en un repositorio y un agente que lo materializa —clase 103—, crear la infraestructura de un entorno nuevo es apuntar el agente a otra ruta con otro prefijo. Eso ya está resuelto.\n\nLo que decide si el entorno sirve para algo es lo otro:\n\n```text                          dificultad     coste       fidelidad\ninfraestructura                   baja         bajo         alta\ndatos                             ALTA         medio        variable\ndependencias externas             media        ALTO         variable\ndestrucción                       baja         —            —\n```\n\nY conviene fijar antes de nada **qué pregunta responde** el entorno, porque de eso dependen las tres decisiones siguientes:\n\n```text\n«¿esta pantalla se ve bien?»            semilla mínima basta\n«¿este flujo completo funciona?»        hacen falta datos coherentes\n«¿esta consulta aguanta el volumen?»    hace falta volumen real\n                                        → y eso rara vez cabe en un efímero\n```\n\nLa tercera es la del incidente B de la clase 102, y es la que se responde mal más a menudo.\n\nY lo que un entorno efímero aporta que no aporta ningún otro mecanismo de la parte 08:\n\n```text\nuna dirección que se puede abrir mientras el cambio se revisa\n→ la revisión deja de ser leer un diferencial\n→ y quien pidió el cambio puede verlo antes de que exista\n```\n\nY un uso menos citado y muy rentable: **probar los módulos de infraestructura de verdad**. La clase 090 comprobaba los módulos analizando el plan; con entornos efímeros se pueden crear, comprobar y destruir, que es la única forma de detectar lo que solo falla al aplicar.\n\nY el nombrado, que parece un detalle y no lo es:\n\n```text\nprefijo derivado del cambio: pr-1421\n  espacio de nombres      pr-1421\n  dirección               pr-1421.dev.cloudshop.example\n  etiquetas en la nube    cambio=1421, caduca=2026-08-05\n```\n\nLas etiquetas de la última línea son las que permiten encontrar los huérfanos, y sin ellas el apartado cuarto no tiene forma de funcionar."
+    },
+    {
+      "heading": "Los datos, que es la parte difícil",
+      "body": "Un entorno sin datos no permite probar casi nada, y copiarlos de producción no es una opción. Las tres estrategias, con su compromiso real:\n\n```text\nSEMILLA VERSIONADA\n  un conjunto pequeño, en el repositorio, cargado al crear\n  + rápido, reproducible, sin datos personales\n  + los casos de prueba son explícitos y se revisan como código\n  − no detecta nada que dependa del volumen ni de la variedad real\n\nSUBCONJUNTO ANONIMIZADO\n  extracto de producción con los datos personales sustituidos\n  + formas y distribuciones parecidas a las reales\n  − hay que mantener la anonimización cuando cambia el esquema\n  − y hay que demostrar que la anonimización es correcta\n\nCOPIA DE PRODUCCIÓN\n  − datos personales fuera de su entorno, con menos controles\n  − tamaño que hace inviable la creación por cambio\n  → no\n```\n\nY la elección práctica en casi todos los casos es la primera **más** un mecanismo que compense su debilidad:\n\n```text\nsemilla para el entorno efímero\n+ un entorno persistente con subconjunto anonimizado, compartido,\n  para lo que depende del volumen\n```\n\nY una advertencia sobre la anonimización que conviene decir sin rodeos: **sustituir el nombre y el correo no es anonimizar**. Un conjunto de datos con fechas, importes y códigos postales reales puede reidentificar a personas por combinación. Si se usa un subconjunto, la evaluación de reidentificación es parte del trabajo, no un trámite.\n\n**La semilla como código**, que es lo que la hace sostenible:\n\n```text\ndatos/semilla/001-catalogo.sql        productos, categorías\ndatos/semilla/002-clientes.sql        12 clientes de prueba\ndatos/semilla/003-pedidos.sql         pedidos en cada estado posible\n```\n\nEl tercer fichero es el que más valor da y el que se olvida: **un pedido en cada estado**, incluidos los estados raros. Es lo que permite probar el caso que en producción ocurre una vez al mes.\n\nY el mantenimiento, que es el punto donde estas cosas mueren:\n\n```text\nla migración de esquema se aplica a la semilla en la misma confirmación\n→ si la semilla no carga, la canalización falla\n→ y así la semilla no puede quedarse atrás sin que nadie se entere\n```"
+    },
+    {
+      "heading": "Las dependencias, que es la parte cara",
+      "body": "Un servicio rara vez está solo. Y las tres formas de resolver lo que hay alrededor tienen costes muy distintos:\n\n```text\nCOMPARTIR LA INSTANCIA DE DESARROLLO\n  + coste cero\n  − los entornos se contaminan entre sí\n  − y una prueba de un cambio rompe la de otro\n\nDESPLEGAR EL SISTEMA ENTERO EN EL EFÍMERO\n  + aislamiento completo\n  − quince servicios por cada cambio abierto\n  − y el tiempo de creación se dispara\n\nDOBLES POR CONTRATO\n  + baratos y rápidos\n  − se alejan de la realidad si nadie verifica el contrato\n```\n\nY la combinación que suele funcionar:\n\n```text\nel servicio que cambia                    real, desplegado en el efímero\nsus dependencias directas                 reales, si son pocas\nel resto                                  dobles por contrato\nservicios de terceros                     dobles SIEMPRE\n```\n\nLa última línea no es negociable por dos motivos: cuestan dinero por llamada y **tienen efectos reales**. Un entorno efímero que envía correos de verdad, cobra de verdad o llama a un proveedor de verdad no es un entorno de pruebas: es producción con otro nombre.\n\nY el peligro de los dobles es el mismo que la clase 100 nombró: **derivan**. El doble responde lo que se escribió hace ocho meses y el servicio real ya responde otra cosa. Lo que lo evita es lo que aquella clase llamó nivel de contrato:\n\n```text\nel doble se genera a partir del contrato publicado del servicio real\ny una prueba periódica comprueba que el servicio real sigue cumpliéndolo\n→ si el real cambia, la prueba falla y el doble se regenera\n```\n\nY una cuenta que decide el diseño, con los números de una organización mediana:\n\n```text\ncambios abiertos a la vez, media                       9\nservicios desplegados por entorno, si todo es real    15\ntotal                                                135 despliegues vivos\n\ncon dobles para lo que no cambia                       2-3 por entorno\ntotal                                                 ~25\n```\n\nY el tiempo de creación, que es lo que decide si la gente lo usa —la ley 16 otra vez—:\n\n```text\npor debajo de 10 min      se usa\n10 a 20 min               se usa a regañadientes\npor encima de 30 min      no se usa\n```\n\nLo que más baja ese tiempo no es optimizar el despliegue: es **no crear lo que no cambia**."
+    },
+    {
+      "heading": "Destruir, que es donde se va el presupuesto",
+      "body": "Este apartado es la ley 13 aplicada al dinero: **un entorno que nadie destruye no da ningún error**. Solo aparece en la factura, dos meses después.\n\nLos tres mecanismos, y hacen falta los tres:\n\n```text\n1. al cerrar el cambio      lo destruye el mismo flujo que lo creó\n                            → falla si el flujo no se ejecuta\n\n2. por caducidad            se destruye a las N horas de inactividad\n                            → sin depender de ningún evento\n\n3. barrido de huérfanos     programado, busca por etiqueta lo que existe\n                            y cuyo cambio ya está cerrado\n                            → la red que recoge lo que se escapó de las otras dos\n```\n\nEl segundo es el que de verdad sostiene esto, porque no depende de que ocurra nada. Y el tercero es el que descubre lo que las etiquetas mal puestas dejaron fuera:\n\n```bash\n# entornos vivos cuyo cambio ya está cerrado\n$ kubectl get ns -l tipo=efimero -o json \\\n  | jq -r '.items[] | \"\\(.metadata.name) \\(.metadata.labels.cambio)\"' \\\n  | while read ns pr; do\n      estado=$(gh pr view \"$pr\" --json state -q .state 2>/dev/null || echo DESCONOCIDO)\n      [ \"$estado\" != \"OPEN\" ] && echo \"huérfano: $ns (cambio $pr: $estado)\"\n    done\n```\n\nY lo que hay que vigilar, con la disciplina de la clase 057:\n\n```text\nentornos vivos ahora mismo\nedad del más antiguo\nhuérfanos encontrados por el barrido\ncoste del mes atribuido a efímeros\n```\n\nLa segunda línea es la más informativa: **si el más antiguo tiene tres semanas, la caducidad no está funcionando**.\n\nY una precaución sobre lo que la destrucción deja atrás, que es donde se acumula el gasto invisible:\n\n```text\nvolúmenes persistentes con política de conservar\nregistros de imágenes con una etiqueta por cambio\ncopias de seguridad automáticas de las bases de datos creadas\nregistros de auditoría, que sí deben conservarse\n```\n\nLas tres primeras se limpian; la cuarta no.\n\n**Lo que un entorno efímero no puede verificar**, que es la parte que conviene decir en voz alta para que nadie confíe de más:\n\n```text\nrendimiento con el volumen de datos real     ← incidente B de la clase 102\ncomportamiento bajo carga real\nefectos que solo aparecen tras días de ejecución: fugas, acumulaciones\ninteracciones con el tráfico real y su composición\ncualquier cosa que dependa de la escala\n```\n\nY la consecuencia: **un entorno efímero no sustituye al canario de la clase 102**. Responde antes y responde menos.\n\nY la lista de comprobación de la clase:\n\n```text\n☐ está escrito qué pregunta responde el entorno\n☐ la infraestructura sale de lo ya declarado, sin plantillas aparte\n☐ la semilla está versionada y las migraciones se le aplican en la misma confirmación\n☐ hay un pedido en cada estado posible en la semilla\n☐ los servicios de terceros son SIEMPRE dobles, nunca reales\n☐ los dobles se generan del contrato y hay prueba de que el real lo cumple\n☐ la creación tarda menos de diez minutos\n☐ hay destrucción al cerrar, caducidad y barrido de huérfanos\n☐ se vigila la edad del entorno más antiguo\n☐ se limpian volúmenes, imágenes y copias que la destrucción deja atrás\n☐ está escrito qué NO verifica este entorno\n```\n\nY el cierre que enlaza con la clase siguiente: hasta aquí, cambiar el comportamiento de producción exige desplegar. Separar las dos cosas —desplegar el código y activar el comportamiento— cambia lo que significa una entrega, y es la materia de la clase 105."
+    }
+  ],
+  "worked_example": "**CloudShop añade un entorno por cada cambio propuesto. La infraestructura estaba resuelta por la clase 103; el ejercicio son las otras tres partes, y termina con la cuenta de qué detectaron y qué se escapó.**\n\n**Primer intento: todo real. Dura once días.**\n\n```text\nservicios desplegados por entorno                    15\ntiempo de creación                             34 min\ncambios abiertos a la vez, media                      9\ndespliegues vivos                                   135\ncoste mensual proyectado                        4.100 €\nuso real: entornos abiertos por los equipos      2 de 9\n```\n\nTreinta y cuatro minutos y dos de cada nueve usados. Es la ley 16 en su forma más limpia: **la herramienta era correcta y nadie la usaba porque era lenta**.\n\n**Segundo intento: solo lo que cambia.**\n\n```text                                    todo real    solo lo que cambia\nservicios desplegados                        15                2,4 (media)\ntiempo de creación                        34 min             6 min 40 s\ncoste mensual                            4.100 €               520 €\nentornos usados por los equipos           2 de 9              9 de 9\n```\n\nY los dobles que sustituyeron a los otros doce servicios se generaron del contrato publicado de cada uno, con una prueba semanal que comprueba que el servicio real sigue cumpliéndolo. En seis meses, esa prueba falló cuatro veces; **las cuatro eran contratos que habían cambiado sin avisar**, que es exactamente el defecto que la clase 100 clasificó como de nivel de contrato.\n\n**Los datos: dos intentos y una decisión honesta.**\n\nEl primer intento fue un subconjunto anonimizado de producción.\n\n```text\ntamaño del subconjunto                            2,4 GB\ntiempo de carga                                    4 min\nrevisión de reidentificación                  no se hizo\n```\n\nAl hacer la revisión que faltaba, el resultado paró el enfoque:\n\n```text\nnombres y correos sustituidos                        sí\nfechas de nacimiento, códigos postales e importes   reales\n→ 71 clientes reidentificables por combinación de tres campos\n```\n\nSe cambió a semilla versionada, y el subconjunto quedó solo en un entorno persistente con los mismos controles que producción.\n\n```text                                    subconjunto      semilla\ntamaño                                        2,4 GB        18 MB\ntiempo de carga                                4 min          11 s\ndatos personales                               reales      ninguno\ncasos raros cubiertos                    los que hubiera   explícitos\n```\n\nY la última línea resultó ser una ventaja inesperada. La semilla incluye **un pedido en cada estado**, incluidos tres que en producción ocurren menos de una vez al mes:\n\n```text\ndefectos detectados en 6 meses por estados raros de la semilla        7\nde ellos, imposibles de reproducir con el subconjunto                 5\n```\n\nCinco defectos que el extracto de producción no habría encontrado, porque esos estados no estaban en la ventana extraída.\n\n**La destrucción: el mes que costó 1.900 €.**\n\nEl flujo de destrucción se ejecutaba al cerrar el cambio. Un mes después:\n\n```text\nentornos vivos                                       31\ncambios abiertos                                      9\nhuérfanos                                            22\nedad del más antiguo                             26 días\ncoste del mes                                     1.900 €\n```\n\nLas causas de los veintidós:\n\n```text\ncambios cerrados sin fusionar (el flujo no se dispara)        14\nfallos del flujo de destrucción                                5\nentornos creados a mano para depurar                           3\n```\n\nSe añadieron la caducidad y el barrido:\n\n```text                                        mes 1     mes 6\nentornos vivos                                 31          9-11\nhuérfanos                                      22           0-1\nedad del más antiguo                       26 días        31 h\ncoste mensual                               1.900 €       520 €\n```\n\nY el barrido encontró además lo que la destrucción dejaba atrás:\n\n```text\nvolúmenes con política de conservar, sin dueño        41   →  liberados\netiquetas de imagen por cambio, ya cerrado           380   →  purgadas\ncopias de seguridad automáticas de bases efímeras     64   →  desactivadas\n```\n\n**Qué detectaron, y qué se escapó.**\n\n```text\ndefectos detectados en el entorno efímero, 6 meses            34\n  de interfaz y de flujo completo                             19\n  de configuración específica de entorno                       8\n  de contrato entre servicios                                  7\n\ndefectos que llegaron a producción igualmente                  6\n  dependientes del volumen de datos                            3\n  visibles solo tras días de ejecución                         2\n  dependientes de la composición del tráfico real              1\n```\n\nLos seis de la segunda lista están en la lista de «lo que no verifica» del apartado cuarto, escrita **antes** de medirlos. Ninguno es una sorpresa, y los seis siguen siendo materia del canario de la clase 102.\n\n**A los seis meses.**\n\n```text                                          antes         después\nentorno por cambio                              no             sí\ntiempo de creación                               —          6 min 40 s\ncoste mensual de efímeros                        —            520 €\nhuérfanos                                        —            0-1\ndatos personales fuera de producción     en 2 entornos          0\ndefectos detectados antes de fusionar            —          34 / 6 meses\ndefectos de contrato detectados                  0              7\nrevisiones con dirección abierta               0 %           88 %\n```\n\n**La lección que esta clase traslada al resto de la parte 08**: de los tres problemas, el que más costó no fue técnico. La creación se arregló no creando lo que no cambia; la destrucción se arregló con una caducidad que no depende de ningún evento; y **los datos se arreglaron renunciando al realismo**, que era lo contrario de la intuición inicial. La semilla pequeña, con casos explícitos, encontró cinco defectos que el extracto de producción no contenía.",
+  "pitfalls": [
+    {
+      "symptom": "Los entornos existen y los equipos no los usan",
+      "cause": "Tardan demasiado en crearse; ley 16",
+      "fix": "Despliega solo el servicio que cambia y sustituye el resto por dobles generados del contrato."
+    },
+    {
+      "symptom": "La factura crece sin que nadie sepa por qué",
+      "cause": "Ley 13: un entorno que nadie destruye no produce ningún error",
+      "fix": "Caducidad por inactividad, destrucción al cerrar y barrido programado de huérfanos por etiqueta."
+    },
+    {
+      "symptom": "Hay datos personales en entornos con menos controles que producción",
+      "cause": "Se extrajo un subconjunto y se sustituyeron solo nombres y correos",
+      "fix": "Usa semilla versionada; si hace falta volumen real, evalúa la reidentificación y trata ese entorno con los controles de producción."
+    },
+    {
+      "symptom": "Las pruebas pasan contra los dobles y fallan contra el servicio real",
+      "cause": "Los dobles derivaron respecto del contrato real",
+      "fix": "Genera los dobles del contrato publicado y comprueba periódicamente que el servicio real lo cumple."
+    },
+    {
+      "symptom": "Dos cambios se rompen las pruebas entre sí",
+      "cause": "Comparten la misma instancia de las dependencias",
+      "fix": "Aísla con dobles por entorno; comparte solo lo que ningún cambio modifica."
+    },
+    {
+      "symptom": "Un cambio pasa el entorno efímero y falla en producción por rendimiento",
+      "cause": "El entorno no tiene ni el volumen de datos ni la carga real",
+      "fix": "Escribe qué no verifica el entorno y mantén el canario de la clase 102 para lo que depende de la escala."
+    }
+  ],
+  "checks": [
+    "¿Cuál es la parte fácil de un entorno efímero y cuáles son las dos difíciles?",
+    "¿Qué compromiso tiene cada estrategia de datos y por qué la copia de producción no es una opción?",
+    "¿Por qué los servicios de terceros deben ser siempre dobles?",
+    "¿Qué tres mecanismos de destrucción hacen falta y por qué no basta con el primero?",
+    "¿Qué cosas no puede verificar un entorno efímero, y qué mecanismo las cubre?"
+  ],
+  "references": [
+    {
+      "text": "Fowler, M. (2025). *Test doubles and contract tests* — dobles por contrato y verificación contra el servicio real.",
+      "url": "https://martinfowler.com/bliki/ContractTest.html"
+    },
+    {
+      "text": "Argo CD (2025). *ApplicationSet: pull request generator* — un entorno por cambio propuesto, y su destrucción al cerrarlo.",
+      "url": "https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Pull-Request/"
+    },
+    {
+      "text": "ICO (2025). *Anonymisation and re-identification risk* — por qué sustituir identificadores directos no basta.",
+      "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/anonymisation/"
+    },
+    {
+      "text": "FinOps Foundation (2025). *Tagging and orphaned resource detection* — encontrar lo que quedó vivo sin dueño.",
+      "url": "https://www.finops.org/framework/capabilities/resource-utilization-efficiency/"
+    },
+    {
+      "text": "Testcontainers (2025). *Ephemeral dependencies for tests* — dependencias desechables con ciclo de vida acotado.",
+      "url": "https://testcontainers.com/guides/"
+    }
+  ]
+}
