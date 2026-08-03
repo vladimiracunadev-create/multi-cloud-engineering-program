@@ -1,0 +1,118 @@
+{
+  "id": "195",
+  "purpose": "Entender el sistema de nombres lo suficiente para diagnosticarlo, porque es la primera sospecha de casi todos los incidentes raros y la última que se comprueba bien. La clase separa autoritativo de recursivo, explica por qué el tiempo de vida es una decisión de arquitectura y no un ajuste, aborda la vista partida entre red interna y externa, y trata DNSSEC con honestidad: qué resuelve, qué no, y por qué su modo de fallo es apagar el dominio entero.",
+  "outcomes": [
+    "**Distinguir** resolución autoritativa de recursiva y saber dónde mirar cada una.",
+    "**Elegir** tiempos de vida según lo que se vaya a cambiar y cuándo.",
+    "**Diseñar** vista partida sin que interno y externo se contradigan.",
+    "**Evaluar** si DNSSEC compensa, y operarlo sin apagar el dominio.",
+    "**Diagnosticar** los fallos de nombres por su firma característica."
+  ],
+  "concepts": [
+    {
+      "term": "autoritativo",
+      "definition": "Servidor que posee la zona y responde con la verdad. Es donde se cambian los registros."
+    },
+    {
+      "term": "recursivo",
+      "definition": "Servidor que resuelve en nombre del cliente y guarda en caché. Es donde vive la respuesta que el cliente ve."
+    },
+    {
+      "term": "tiempo de vida (TTL)",
+      "definition": "Cuánto puede cachearse una respuesta. Determina cuánto tarda un cambio en surtir efecto en todas partes."
+    },
+    {
+      "term": "vista partida",
+      "definition": "La misma zona responde distinto según quién pregunte: red interna o internet."
+    },
+    {
+      "term": "DNSSEC",
+      "definition": "Firma criptográfica de las respuestas. Garantiza integridad y origen, no confidencialidad."
+    },
+    {
+      "term": "caché negativa",
+      "definition": "Almacenamiento de la respuesta «no existe». Su duración la fija un campo que casi nadie mira."
+    }
+  ],
+  "diagram": "flowchart TB\n    C[\"cliente\"] --> R[\"RECURSIVO\\nresuelve y CACHEA\"]\n    R -->|\"¿está en caché\\ny no ha vencido?\"| H[\"responde del caché\\n← aquí vive el problema\"]\n    R --> A1[\"raíz\"] --> A2[\"servidores de .com\"] --> A3[\"AUTORITATIVO\\nde tu zona\"]\n    A3 --> R\n    T[\"TTL decide\"] --> T1[\"corto: cambios rápidos,\\nmás consultas\"]\n    T --> T2[\"largo: resistente a\\ncaídas, cambios lentos\"]\n    S[\"vista partida\"] --> S1[\"interna: direcciones\\nprivadas\"]\n    S --> S2[\"externa: direcciones\\npúblicas\"]\n    S --> S3[\"riesgo: divergencia\\nentre las dos\"]\n    D[\"DNSSEC\"] --> D1[\"integridad y origen\"]\n    D --> D2[\"NO confidencialidad\"]\n    D --> D3[\"fallo = dominio\\nAPAGADO entero\"]",
+  "foundations": [
+    {
+      "heading": "Autoritativo y recursivo: dónde mirar",
+      "body": "La mitad de los diagnósticos fallidos de nombres vienen de consultar el servidor equivocado.\n\n```text\nAUTORITATIVO\n  posee la zona; responde con la verdad actual\n  es donde se CAMBIAN los registros\n  no cachea nada: lo que dice es lo que hay\n\nRECURSIVO\n  resuelve en nombre del cliente y GUARDA la respuesta\n  es lo que el cliente configura\n  puede estar devolviendo algo viejo durante horas\n\nY EN MEDIO\n  el sistema operativo cachea\n  la biblioteca del lenguaje cachea      ← el peor\n  el navegador cachea\n  el proxy o el balanceador cachea\n```\n\nY de ahí la regla de diagnóstico:\n\n```text\npregunta al AUTORITATIVO para saber qué hay configurado\npregunta al RECURSIVO que usa el cliente para saber qué ve\ny compáralos\n\n→ «yo lo veo bien» casi siempre significa «mi caché es otra»\n```\n\nY una trampa concreta que aparece en producción:\n\n```text\nalgunas bibliotecas y máquinas virtuales de lenguaje cachean\nla resolución PARA SIEMPRE dentro del proceso\n→ un cambio de dirección no surte efecto hasta reiniciar\n→ y el servicio parece «no ver» el cambio aunque el TTL\n  haya vencido hace horas\n→ comprobar el comportamiento de caché del entorno de\n  ejecución es parte del diseño, no del diagnóstico\n```\n\n**Los tipos de registro que hacen falta**, sin más:\n\n```text\nA / AAAA    nombre → dirección IPv4 / IPv6\nCNAME       nombre → otro nombre\n            ojo: no puede coexistir con otros registros del\n            mismo nombre, y no vale en la raíz del dominio\nALIAS/ANAME registro propietario que resuelve eso último\nNS          quién es autoritativo para la zona\nMX          correo\nTXT         verificaciones, políticas de correo\nSRV         servicio, puerto y prioridad\nCAA         qué autoridades pueden emitir certificados\n            ← el que casi nadie pone y evita emisiones\n              no autorizadas\nPTR         dirección → nombre; usado por sistemas de correo\n```"
+    },
+    {
+      "heading": "El tiempo de vida es una decisión de arquitectura",
+      "body": "El TTL se rellena por costumbre y determina cosas importantes.\n\n```text\nTTL CORTO   (30-60 s)\n  + un cambio surte efecto casi enseguida\n  + permite conmutación por nombre               clase 166\n  − más consultas y más dependencia del recursivo\n  − si el autoritativo cae, todo expira rápido y se apaga\n\nTTL LARGO   (1-24 h)\n  + resistente: si el autoritativo cae, todo sigue\n  + menos consultas\n  − un cambio tarda hasta un día en verse en todas partes\n  − y en una emergencia, ese día es el tiempo de recuperación\n```\n\nY la regla que resuelve la elección:\n\n```text\nel TTL debe ser MENOR que el tiempo de recuperación que\nprometes por ese nombre\n\n→ si prometes conmutar en 15 minutos y el TTL es de 1 hora,\n  no cumples, hagas lo que hagas               clase 185\n```\n\nY el procedimiento para cambiar algo que tiene TTL largo:\n\n```text\n1  bajar el TTL a 60 s\n2  ESPERAR el TTL antiguo entero (hasta 24 h)\n3  hacer el cambio\n4  comprobar\n5  volver a subir el TTL\n\n→ saltarse el paso 2 es el error clásico: parte del mundo\n  sigue con la respuesta vieja\n```\n\nY dos valores que casi nadie mira y causan incidentes:\n\n```text\nCACHÉ NEGATIVA\n  cuánto se recuerda que un nombre NO existe\n  se fija en el registro SOA de la zona, no por registro\n  → si vale 3 h y creas un nombre nuevo tras haberlo\n    consultado, tardará 3 h en verse\n  → causa típica de «he creado el registro y no funciona»\n\nTTL DE LOS REGISTROS NS\n  cuánto se recuerda quién es autoritativo\n  → un cambio de proveedor de DNS tarda ese tiempo, y suele\n    ser de 24-48 h\n```\n\nY una decisión de diseño que evita mucho dolor:\n\n```text\nno uses nombres con TTL largo para lo que va a cambiar\nsepara los nombres estables de los que conmutan\n  api.cloudshop.com          TTL 60   ← conmuta\n  docs.cloudshop.com         TTL 3600 ← estable\n```"
+    },
+    {
+      "heading": "Vista partida y zonas internas",
+      "body": "Casi toda organización acaba resolviendo el mismo nombre de dos formas: por dentro apunta a una dirección privada, por fuera a una pública.\n\n```text\nPOR QUÉ SE HACE\n  el tráfico interno no debe salir a internet para volver\n  → latencia, coste de salida y exposición    clase 200\n  y el certificado y el nombre siguen siendo los mismos\n\nCÓMO SE HACE\n  una zona privada, asociada a las redes internas\n  con los mismos nombres y direcciones privadas\n  → el resolutor interno la consulta primero\n```\n\nY los tres problemas que trae, con su solución:\n\n```text\n1. DIVERGENCIA\n   alguien añade un registro en la zona pública y no en la\n   privada, o al revés\n   → los internos ven una cosa y los externos otra\n   solución   generar ambas del mismo origen, o comprobar\n              la diferencia automáticamente        clase 190\n\n2. NOMBRES QUE SOLO EXISTEN DENTRO\n   y que se filtran en registros, correos o mensajes de error\n   → revelan estructura interna                    clase 189\n\n3. DIAGNÓSTICO CONFUSO\n   «a mí me resuelve bien» según desde dónde se pregunte\n   solución   decir SIEMPRE desde qué red se consultó\n```\n\n**La resolución en la nube**, que tiene sus propias reglas:\n\n```text\ncada red tiene un resolutor propio, en una dirección fija\n  del rango de la red\nlas zonas privadas se ASOCIAN a redes concretas\n  → una red sin asociar no ve la zona\nla resolución desde la corporativa hacia la nube exige\n  reenvío explícito, y viceversa\n  → punto de entrada y de salida del resolutor\n```\n\nY el fallo más común de este montaje:\n\n```text\nel reenvío está configurado en un sentido y no en el otro\n→ desde la nube se resuelven los nombres corporativos\n→ desde la corporativa no se resuelven los de la nube\n→ y se descubre el día que un sistema corporativo tiene que\n  llamar a un servicio nuevo\n```\n\nY una decisión que ahorra trabajo:\n\n```text\nusa un subdominio propio para lo interno\n  int.cloudshop.com     para todo lo privado\n→ evita la vista partida en la mayoría de los nombres\n→ y deja la partida solo donde de verdad hace falta\n```"
+    },
+    {
+      "heading": "DNSSEC y los fallos característicos",
+      "body": "**DNSSEC** firma las respuestas para que el resolutor pueda comprobar que no han sido alteradas.\n\n```text\nQUÉ RESUELVE\n  que alguien altere la respuesta por el camino\n  que un resolutor sea envenenado con datos falsos\n\nQUÉ NO RESUELVE\n  confidencialidad: la consulta viaja en claro igual\n  → eso lo resuelven DNS sobre TLS o sobre HTTPS\n  que el dominio esté mal configurado\n  que alguien tome el control de tu cuenta de DNS\n```\n\nY el motivo por el que se adopta despacio:\n\n```text\nSU MODO DE FALLO ES APAGAR EL DOMINIO ENTERO\n  si una firma caduca o la cadena se rompe, los resolutores\n  que validan RECHAZAN todas las respuestas\n  → no es degradación: es desaparición\n  → y el diagnóstico desde fuera parece «el dominio no existe»\n```\n\nY por eso su operación tiene reglas propias:\n\n```text\nvigilar la caducidad de las firmas, con margen  ← ley 13\nvigilar que el registro de delegación en el dominio padre\n  coincide con la clave activa\ncualquier cambio de proveedor de DNS exige un procedimiento\n  específico, y es donde más se rompe\ny la rotación de claves se ensaya antes                ley 22\n```\n\n**Los fallos de nombres por su firma**, que es lo que permite diagnosticar rápido:\n\n```text\nSÍNTOMA                              CAUSA HABITUAL\nfunciona en unos sitios y no en      caché con TTL vigente en\notros                                unos recursivos\n\nfunciona y de pronto deja de         registro cambiado; unos\nfuncionar, y luego vuelve            recursivos ya expiraron\n                                     y otros no\n\ncreo un registro y no aparece        caché negativa del SOA\n\nel servicio no ve la dirección       la biblioteca cachea\nnueva tras horas                     dentro del proceso\n\nresuelve distinto según el equipo    vista partida y red\n                                     distinta\n\nel dominio entero desaparece         DNSSEC roto, o los NS\n                                     apuntan a un proveedor\n                                     que ya no sirve la zona\n\nlatencia alta al conectar            resolución lenta o\nsolo la primera vez                  resolutor sin caché\n\nresuelve pero con dirección de       registro huérfano de un\nun servicio retirado                 recurso ya borrado\n                                     ← peligro real\n```\n\nY el último merece su propia advertencia:\n\n```text\nREGISTRO HUÉRFANO\n  un nombre que apunta a una dirección o a un recurso que ya\n  no es tuyo\n  → alguien puede reclamar ese recurso y recibir tu tráfico\n  → afecta a subdominios apuntando a servicios externos\n    dados de baja\n  → comprobación periódica obligatoria             ley 20\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ se sabe qué es autoritativo y qué recursivo en cada caso\n☐ los TTL son menores que el plazo de recuperación prometido\n☐ los nombres que conmutan están separados de los estables\n☐ el TTL de caché negativa está revisado\n☐ se conoce el comportamiento de caché del entorno de\n  ejecución\n☐ la vista partida se genera del mismo origen o se compara\n☐ el reenvío entre nube y corporativa funciona en ambos\n  sentidos\n☐ hay registro CAA\n☐ si hay DNSSEC, hay alerta de caducidad de firmas\n☐ se comprueban periódicamente los registros huérfanos\n☐ hay alerta si la zona deja de responder o cambia sola\n```\n\nY el cierre que enlaza con la clase siguiente: resuelto el nombre, el tráfico llega a un punto de entrada que lo reparte y termina la conexión cifrada. Balanceo, proxies y gestión de certificados es la materia de la clase 196."
+    }
+  ],
+  "worked_example": "**CloudShop sufre cuatro incidentes de nombres en un año. Lo que sigue es cada uno con su firma, el rediseño que salió, y el registro huérfano que encontraron por casualidad.**\n\n**Incidente 1 · «El cambio no surte efecto», enero.**\n\n```text\ncontexto  migración del balanceador de pedidos a uno nuevo\n          se cambió el registro A de api.cloudshop.com\n\nsíntoma   a las 2 h, el 30 % del tráfico seguía llegando al\n          balanceador viejo, que ya estaba apagado a medias\n\ndiagnóstico\n  el TTL del registro era 86.400 (24 h)\n  el equipo lo bajó a 60 s el mismo día del cambio\n  → los recursivos que ya tenían la respuesta antigua la\n    mantuvieron hasta 24 h\n\nqué faltó   bajar el TTL y ESPERAR el TTL antiguo entero\n            ANTES de cambiar\n\nefecto      6 h de tráfico partido; 340 pedidos fallidos\n```\n\n**Incidente 2 · «He creado el registro y no aparece», marzo.**\n\n```text\ncontexto  se creó pagos-v2.cloudshop.com para una prueba\n\nsíntoma   el equipo lo consultó antes de crearlo (por error),\n          y después de crearlo seguía sin resolver durante\n          casi tres horas, solo desde algunas redes\n\ndiagnóstico\n  caché negativa: el campo mínimo del SOA valía 10.800 (3 h)\n  el resolutor había guardado «este nombre no existe»\n\ncorrección\n  caché negativa bajada a 300 s\n  y una nota en el procedimiento: no consultar un nombre\n  antes de crearlo\n```\n\n**Incidente 3 · «Resuelve bien desde la nube y mal desde la oficina», junio.**\n\n```text\nsíntoma   el sistema corporativo de conciliación no podía\n          llamar al servicio de inventario nuevo\n          desde la nube todo funcionaba\n\ndiagnóstico\n  zona privada int.cloudshop.com, asociada a las redes de\n  la nube\n  el reenvío desde la corporativa hacia el resolutor de la\n  nube NO existía\n  → el reenvío estaba montado solo en el sentido\n    nube → corporativa\n\ncorrección\n  punto de entrada del resolutor en la nube y regla de\n  reenvío en la corporativa\n  comprobación negativa añadida: resolver un nombre interno\n  desde CADA red, en las dos direcciones\n```\n\n**Incidente 4 · «El servicio no ve la dirección nueva», septiembre.**\n\n```text\ncontexto  conmutación de la base de datos a la réplica de\n          otra zona; el nombre se actualizó y el TTL era 30 s\n\nsíntoma   4 de los 11 servicios siguieron conectando a la\n          dirección antigua durante 40 minutos, hasta que\n          se reiniciaron\n\ndiagnóstico\n  los 4 servicios corrían sobre un entorno de ejecución que\n  cachea la resolución dentro del proceso, sin respetar el\n  TTL\n  → el TTL de 30 s no servía de nada para esos 4\n\ncorrección\n  configuración explícita de caducidad de caché en el\n  entorno de ejecución\n  y una prueba negativa nueva: cambiar el nombre y comprobar\n  que CADA servicio lo sigue en menos de 60 s\n\ny el hallazgo de método\n  el plazo de recuperación prometido para la base era de\n  5 minutos\n  el TTL era correcto, y aun así no se cumplía\n  → el plazo depende de la capa que más cachea, no del TTL\n```\n\n**El rediseño de nombres.**\n\n```text\nSEPARACIÓN POR VOLATILIDAD\n  nombres que conmutan          TTL 30 s\n    api, base de datos, balanceadores\n  nombres estables              TTL 3.600 s\n    documentación, sitio corporativo\n  nombres de infraestructura    TTL 300 s\n\nSUBDOMINIO INTERNO\n  todo lo privado en int.cloudshop.com\n  → la vista partida queda solo en 3 nombres, no en 60\n\nGENERACIÓN ÚNICA\n  las zonas pública e interna se generan del mismo origen\n  declarativo\n  → función de aptitud: ningún registro existe en una zona\n    y no en la otra sin declararlo             clase 190\n\nCACHÉ NEGATIVA         300 s\nREGISTRO CAA           añadido; solo dos autoridades\nDNSSEC                 evaluado y NO adoptado, ver abajo\n```\n\n**La decisión sobre DNSSEC, registrada:**\n\n```text\nCONTEXTO\n  el dominio no maneja correo sensible\n  el tráfico crítico va sobre TLS con validación de\n  certificado, que ya detecta la suplantación\n  el equipo tiene 4 personas y no hay guardia nocturna\n\nDECISIÓN   no adoptar DNSSEC en esta fase\n\nMOTIVO\n  su modo de fallo apaga el dominio entero, y el equipo no\n  tiene capacidad de vigilar caducidades de firma con la\n  disciplina que exige\n  el riesgo que mitiga está ya cubierto en su mayor parte\n  por TLS para el tráfico que importa\n\nQUÉ LA REABRIRÍA\n  si aparece un requisito contractual\n  si se empieza a manejar correo con datos sensibles\n  si el proveedor pasa a gestionar la rotación de claves\n  automáticamente y con alerta de caducidad\n\nACEPTA     dirección de tecnología, por escrito\nREVISA     12 meses\n```\n\nY la observación del registro:\n\n```text\nesta es una decisión de NO adoptar una buena práctica\n→ y por eso lleva motivo, nombre y fecha             clase 189\n→ «no lo hicimos» sin registro es un olvido; con registro\n  es una decisión\n```\n\n**El registro huérfano, encontrado al inventariar:**\n\n```text\nse comprobaron los 214 registros de la zona pública\n\nregistros que apuntaban a recursos inexistentes            9\n  de ellos, a direcciones que ya no eran de CloudShop      3\n  de ellos, a un servicio externo dado de baja en 2023     1\n\nel peligroso\n  encuestas.cloudshop.com apuntaba por CNAME a una\n  plataforma de formularios cuya cuenta se canceló en 2023\n  → cualquiera que registrase ese identificador en esa\n    plataforma habría servido contenido bajo el dominio de\n    CloudShop\n  → llevaba 19 meses así\n\ncorrección\n  registros huérfanos eliminados\n  comprobación mensual automatizada: todo CNAME y todo A\n  debe apuntar a algo que existe y es nuestro\n  → 3 más detectados en los 6 meses siguientes\n```\n\n**El resultado del año siguiente:**\n\n```text                                        antes     después\nincidentes de nombres                          4           1\ntiempo medio de diagnóstico                 55 min      9 min\nnombres con vista partida                      60           3\nregistros huérfanos                             9           0\ntiempo real de conmutación por nombre       40 min      50 s\ndivergencias entre zona interna y pública       7           0\n```\n\n**La lección que esta clase deja**: de los cuatro incidentes, **tres tuvieron como causa una caché que nadie había considerado** —la de los recursivos con el TTL antiguo, la negativa del SOA y la del entorno de ejecución— y ninguna estaba en el diagrama de arquitectura. Y el hallazgo más grave del año no fue un incidente: fue **un CNAME olvidado durante diecinueve meses que apuntaba a una cuenta cancelada**, y lo encontró un inventario, no una alerta.",
+  "pitfalls": [
+    {
+      "symptom": "Un cambio de registro tarda horas en surtir efecto para parte del tráfico",
+      "cause": "Se bajó el TTL el mismo día del cambio, sin esperar a que expirara el antiguo",
+      "fix": "Baja el TTL, espera el TTL antiguo completo, haz el cambio, comprueba y vuelve a subirlo."
+    },
+    {
+      "symptom": "Se crea un registro y no resuelve durante horas",
+      "cause": "Caché negativa: el nombre se consultó antes de existir y se recordó como inexistente",
+      "fix": "Revisa el valor mínimo del SOA y bájalo; evita consultar nombres antes de crearlos."
+    },
+    {
+      "symptom": "Un servicio sigue conectando a la dirección antigua pese al TTL corto",
+      "cause": "La biblioteca o el entorno de ejecución cachea la resolución dentro del proceso",
+      "fix": "Configura explícitamente la caducidad de caché del entorno y añade una prueba negativa que cambie el nombre y mida cuánto tarda cada servicio en seguirlo."
+    },
+    {
+      "symptom": "Un nombre interno resuelve desde la nube y no desde la red corporativa",
+      "cause": "El reenvío entre resolutores está configurado en un solo sentido",
+      "fix": "Monta punto de entrada y de salida del resolutor, y comprueba la resolución desde cada red en ambas direcciones."
+    },
+    {
+      "symptom": "Internos y externos ven direcciones distintas y contradictorias",
+      "cause": "Las zonas pública y privada se mantienen por separado y divergen",
+      "fix": "Genera ambas del mismo origen declarativo y comprueba automáticamente que no haya registros en una y no en la otra."
+    },
+    {
+      "symptom": "Un subdominio sirve contenido que no es tuyo",
+      "cause": "Registro huérfano apuntando a un recurso o cuenta externa dada de baja",
+      "fix": "Inventaría periódicamente todos los registros y comprueba que cada destino existe y es tuyo."
+    }
+  ],
+  "checks": [
+    "¿A qué servidor se pregunta para saber qué hay configurado y a cuál para saber qué ve el cliente?",
+    "¿Qué relación debe cumplir el TTL con el plazo de recuperación prometido?",
+    "¿Qué campo fija la caché negativa y qué síntoma produce?",
+    "¿Cuál es el modo de fallo de DNSSEC y por qué condiciona su adopción?",
+    "¿Qué es un registro huérfano y por qué es peligroso?"
+  ],
+  "references": [
+    {
+      "text": "RFC 1034 y 1035 — Domain names: concepts, facilities and implementation.",
+      "url": "https://www.rfc-editor.org/rfc/rfc1034"
+    },
+    {
+      "text": "RFC 2308 — Negative caching of DNS queries.",
+      "url": "https://www.rfc-editor.org/rfc/rfc2308"
+    },
+    {
+      "text": "RFC 4033 — DNS security introduction and requirements (DNSSEC).",
+      "url": "https://www.rfc-editor.org/rfc/rfc4033"
+    },
+    {
+      "text": "AWS (2025). *Route 53: private hosted zones and resolver endpoints*.",
+      "url": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-private.html"
+    },
+    {
+      "text": "OWASP (2025). *Subdomain takeover* — registros huérfanos.",
+      "url": "https://owasp.org/www-community/attacks/Subdomain_Takeover"
+    }
+  ]
+}
