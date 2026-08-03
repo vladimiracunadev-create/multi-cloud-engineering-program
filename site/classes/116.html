@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>distributed</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>sagas, outbox, idempotencia y deduplicación</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Resolver lo que las clases 113, 114 y 115 fueron aplazando. Son dos problemas distintos y se confunden todo el rato: <strong>guardar un cambio y publicar su hecho no se puede hacer de forma atómica</strong>, y <strong>un consumidor que recibe el mismo mensaje dos veces no debe producir dos efectos</strong>. La clase da la solución de cada uno —tabla de salida e idempotencia real, no aproximada— y luego afronta el caso general: cuando una operación abarca varios servicios y no existe ninguna transacción que los cubra.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> sagas, outbox, idempotencia y deduplicación con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>transaccion-distribuida</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Explicar</strong> por qué la doble escritura no puede ser atómica y qué pierde cada atajo.</li>
+<li><strong>Implantar</strong> la tabla de salida y su gemela en el consumidor.</li>
+<li><strong>Elegir</strong> la técnica de idempotencia adecuada a cada efecto, incluidos los externos.</li>
+<li><strong>Diseñar</strong> una secuencia con compensaciones, y ordenar los pasos por reversibilidad.</li>
+<li><strong>Enunciar</strong> qué se consigue de verdad: efecto una sola vez, no entrega una sola vez.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,20 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>sagas</code></td>
-<td>Define su papel en <strong>sagas, outbox, idempotencia y deduplicación</strong> y cómo observarlo en un sistema real.</td>
+<td><code>doble escritura</code></td>
+<td>Guardar en la base y publicar en el intermediario como dos operaciones. Entre las dos puede fallar todo, y no hay transacción que las cubra.</td>
 </tr>
 <tr>
-<td><code>outbox</code></td>
-<td>Define su papel en <strong>sagas, outbox, idempotencia y deduplicación</strong> y cómo observarlo en un sistema real.</td>
+<td><code>tabla de salida</code></td>
+<td>El evento se escribe en la misma transacción que el cambio, en una tabla propia. Un publicador la lee y publica después.</td>
+</tr>
+<tr>
+<td><code>tabla de entrada</code></td>
+<td>El consumidor registra el identificador de lo procesado en la misma transacción que el efecto. Es lo que hace la deduplicación fiable.</td>
 </tr>
 <tr>
 <td><code>idempotencia</code></td>
-<td>Define su papel en <strong>sagas, outbox, idempotencia y deduplicación</strong> y cómo observarlo en un sistema real.</td>
+<td>Repetir la operación no añade efecto. No es «detectar duplicados»: es que repetir sea inofensivo.</td>
 </tr>
 <tr>
-<td><code>deduplicación</code></td>
-<td>Define su papel en <strong>sagas, outbox, idempotencia y deduplicación</strong> y cómo observarlo en un sistema real.</td>
+<td><code>compensación</code></td>
+<td>Operación de negocio que anula el efecto de un paso anterior. No es una vuelta atrás: es un hecho nuevo y visible.</td>
+</tr>
+<tr>
+<td><code>efecto una sola vez</code></td>
+<td>Entrega al menos una vez más proceso idempotente. Es lo máximo alcanzable, y es suficiente.</td>
 </tr>
 </tbody>
 </table>
@@ -89,72 +94,334 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Sagas, outbox, idempotencia y deduplicación&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    A[&quot;cambiar estado + publicar hecho&quot;] --&gt; B{&quot;¿en una transacción?&quot;}
+    B --&gt;|&quot;imposible:\nson dos sistemas&quot;| C[&quot;TABLA DE SALIDA&quot;]
+    C --&gt; C1[&quot;1 transacción:\ncambio + fila de evento&quot;]
+    C1 --&gt; C2[&quot;publicador lee y publica&quot;]
+    C2 --&gt; C3[&quot;al menos una vez\npor construcción&quot;]
+    C3 --&gt; D[&quot;consumidor&quot;]
+    D --&gt; E{&quot;¿ya procesado?&quot;}
+    E --&gt;|&quot;tabla de entrada\nMISMA transacción\nque el efecto&quot;| F[&quot;efecto una sola vez&quot;]
+    F --&gt; G{&quot;¿efecto externo?&quot;}
+    G --&gt;|&quot;acepta clave&quot;| H[&quot;pasar la clave\nde idempotencia&quot;]
+    G --&gt;|&quot;no la acepta&quot;| I[&quot;no hay idempotencia:\nsolo reducir la ventana&quot;]
+    F --&gt; S[&quot;secuencia con compensaciones\nlo irreversible, AL FINAL&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-la-doble-escritura-no-tiene-atajo">1. La doble escritura no tiene atajo</h3>
+<p>El problema aparece en cuanto un servicio guarda algo y publica un hecho:</p>
+<pre><code class="language-text">BEGIN
+  UPDATE pedidos SET estado='pagado' WHERE id=1421
+COMMIT
+publicar(&quot;pedido.pagado&quot;, 1421)      ← si falla aquí, el hecho no existe
+</code></pre>
+<p>Y el orden inverso no mejora nada:</p>
+<pre><code class="language-text">publicar(&quot;pedido.pagado&quot;, 1421)
+BEGIN … COMMIT                        ← si falla aquí, el hecho es MENTIRA
+</code></pre>
+<p>Las dos son la misma imposibilidad: <strong>son dos sistemas distintos y no hay transacción que los abarque</strong>. Y los atajos habituales pierden algo cada uno:</p>
+<pre><code class="language-text">publicar dentro de la transacción
+  el intermediario no participa; si la transacción se deshace,
+  el mensaje ya salió
+
+reintentar la publicación en memoria
+  si el proceso muere, se pierde
+
+transacción distribuida de dos fases
+  existe, y casi ningún intermediario moderno la soporta;
+  y bloquea recursos mientras dura
+
+no hacer nada y esperar que no pase
+  pasa; con 10.000 operaciones al día, varias veces al mes
+</code></pre>
+<p><strong>La solución es la tabla de salida</strong>, y consiste en no tener dos sistemas en el momento crítico:</p>
+<pre><code class="language-sql">BEGIN;
+  UPDATE pedidos SET estado='pagado' WHERE id=1421;
+  INSERT INTO salida (id, tipo, sujeto, datos, creado)
+  VALUES ('e-9f2c', 'pedido.pagado', 'pedido/1421', '{…}', now());
+COMMIT;
+</code></pre>
+<p>Y después, un publicador lee la tabla y publica:</p>
+<pre><code class="language-text">lee las filas no publicadas, en orden
+publica
+marca como publicadas
+
+si muere entre publicar y marcar → publica otra vez
+→ AL MENOS UNA VEZ, por construcción
+→ y por eso el consumidor tiene que ser idempotente: apartado tercero
+</code></pre>
+<p>Lo operativo, que decide si esto funciona:</p>
+<pre><code class="language-text">ORDEN         leer por identificador creciente; publicar en orden por sujeto
+LIMPIEZA      borrar lo publicado con cierta antigüedad, o la tabla crece
+              sin fin → y no borrarlo no da ningún error (ley 13)
+RETRASO       vigilar la antigüedad de la fila no publicada más vieja
+              → es la señal, igual que en la clase 113
+COMPETENCIA   varios publicadores requieren bloqueo o reparto por sujeto
+</code></pre>
+<p>Y dos formas de leer la tabla:</p>
+<pre><code class="language-text">sondeo periódico          simple, y añade latencia y carga
+captura de cambios sobre
+la tabla de salida        latencia baja y sin carga de sondeo
+                          → aquí sí encaja la captura de cambios (clase 115),
+                            porque la tabla la escribes tú a propósito
+</code></pre>
+<p>Y la simétrica en el consumidor, <strong>la tabla de entrada</strong>, que es lo que hace que la deduplicación sea fiable y no aproximada:</p>
+<pre><code class="language-sql">BEGIN;
+  INSERT INTO procesados (id_mensaje) VALUES ('e-9f2c');  -- falla si ya está
+  UPDATE inventario SET reservado = reservado + 1 WHERE sku='X';
+COMMIT;
+</code></pre>
+<p>Si la inserción falla por duplicado, la transacción entera se deshace y no hay segundo efecto. <strong>La clave está en que las dos cosas estén en la misma transacción</strong>: comprobar antes y actuar después deja una ventana en la que dos consumidores pasan la comprobación.</p>
+<h3 id="2-idempotencia-de-verdad">2. Idempotencia de verdad</h3>
+<p>Idempotente no significa «detecta duplicados»: significa que <strong>repetir no añade efecto</strong>. Las técnicas, de más robusta a menos:</p>
+<pre><code class="language-text">1. OPERACIÓN NATURALMENTE IDEMPOTENTE
+   estado = 'pagado'            repetir no cambia nada
+   frente a  saldo = saldo - 10  repetir descuenta otra vez
+   → siempre que se pueda, expresar el efecto como asignación
+     y no como incremento
+
+2. RESTRICCIÓN ÚNICA SOBRE LA CLAVE NATURAL
+   UNIQUE (pedido_id, tipo_movimiento)
+   → la base impide el segundo efecto, sin código
+   → es la más fuerte porque no depende de que nadie se acuerde
+
+3. ESCRITURA CONDICIONAL POR VERSIÓN
+   UPDATE … WHERE id=1421 AND version=7
+   → si otro ya aplicó, afecta a 0 filas y se detecta
+   → sirve también contra el desorden: descarta lo viejo (clase 113)
+
+4. TABLA DE DEDUPLICACIÓN CON CLAVE
+   la del apartado anterior, en la misma transacción que el efecto
+   → general y aplicable a casi todo
+   → cuidado con su caducidad: ver más abajo
+</code></pre>
+<p>Y el detalle de la cuarta que casi siempre se hace mal: <strong>la caducidad de la tabla de deduplicación es una ventana de corrección, no de limpieza</strong>.</p>
+<pre><code class="language-text">caducidad de 24 h
+→ un mensaje reentregado a las 30 h se procesa otra vez
+→ ¿puede eso ocurrir? con reprocesos de la clase 114, sí
+</code></pre>
+<p>La regla: <strong>la caducidad debe superar la retención del registro y cualquier ventana de reproceso previsible</strong>.</p>
+<p>Y de dónde sale la clave, porque generarla mal invalida todo:</p>
+<pre><code class="language-text">bien   el identificador del mensaje, si el productor lo genera una vez
+       y lo repite en los reenvíos
+bien   una clave derivada del negocio: «pago-1421-intento-3»
+mal    generarla en el consumidor  → cada intento tiene una distinta
+mal    usar la marca de tiempo     → cambia en cada reenvío
+</code></pre>
+<p><strong>Los efectos externos</strong>, que es el caso duro y el que se pasa por alto:</p>
+<pre><code class="language-text">cobrar en un proveedor de pago
+enviar un correo
+llamar a la API de un transportista
+</code></pre>
+<p>Aquí la idempotencia <strong>no depende de ti</strong>:</p>
+<pre><code class="language-text">si el proveedor acepta una clave de idempotencia
+  → pásasela, derivada del negocio, y él deduplica
+  → esto es lo que hace correcta la operación, no tu tabla
+
+si NO la acepta
+  → no hay idempotencia posible
+  → solo se puede reducir la ventana: registrar «voy a llamar» antes,
+    y conciliar después con el estado del proveedor
+</code></pre>
+<p>Y la conciliación de la última línea es trabajo real y periódico: comparar lo que crees haber hecho con lo que el proveedor dice que ocurrió. <strong>Casi nadie la monta hasta el primer descuadre.</strong></p>
+<p>Y la conclusión que ordena la parte 09 entera:</p>
+<pre><code class="language-text">entrega al menos una vez  (clases 113 y 114, y no hay alternativa)
++ proceso idempotente     (esta clase)
+= EFECTO UNA SOLA VEZ
+</code></pre>
+<h3 id="3-cuando-no-hay-transaccion-que-abarque">3. Cuando no hay transacción que abarque</h3>
+<p>Un pedido toca inventario, pago, envío y notificación, y cada uno vive en su servicio con su base. No existe ninguna transacción que abarque los cuatro.</p>
+<p>Lo que sí existe es una <strong>secuencia de transacciones locales, cada una con su compensación</strong>:</p>
+<pre><code class="language-text">paso 1  reservar inventario        compensar: liberar la reserva
+paso 2  cobrar                     compensar: devolver
+paso 3  crear el envío             compensar: cancelar el envío
+paso 4  notificar al cliente       compensar: NO SE PUEDE
+</code></pre>
+<p>Y de ahí las tres verdades incómodas de este patrón:</p>
+<pre><code class="language-text">1. COMPENSAR NO ES DESHACER
+   una devolución no es que el cobro no ocurriera: es otro hecho,
+   visible para el cliente y para la contabilidad
+
+2. HAY PASOS QUE NO SE COMPENSAN
+   un correo enviado, una llamada a un tercero, un envío ya recogido
+   → hay que ORDENAR los pasos: lo irreversible, lo más tarde posible
+
+3. NO HAY AISLAMIENTO
+   entre el paso 1 y el 4, otro proceso ve el estado intermedio
+   → un inventario reservado y un pago pendiente son visibles
+</code></pre>
+<p>La tercera es la que produce errores raros, y la defensa es hacer explícito el estado intermedio:</p>
+<pre><code class="language-text">estados de negocio, no booleanos
+  pendiente_de_pago, reservado, confirmado, cancelado
+y quien consulte tiene que saber tratarlos
+</code></pre>
+<p>Y el tiempo, que es la parte que se olvida: <strong>un paso puede no responder nunca</strong>. Cada paso necesita un plazo y una decisión al vencerlo:</p>
+<pre><code class="language-text">si el paso 2 no responde en 5 min
+  → ¿se compensa el paso 1 o se sigue esperando?
+  → hay que decidirlo por adelantado, y por paso
+</code></pre>
+<p>Y el peor caso de todos, que hay que mirar de frente: <strong>la compensación también puede fallar</strong>. La respuesta honesta no es más automatismo:</p>
+<pre><code class="language-text">reintentar la compensación, con límite
+y si sigue fallando → cola de intervención humana, con todo el contexto
+→ una secuencia atascada tiene que ser VISIBLE, no silenciosa
+</code></pre>
+<p><strong>Cómo se coordina</strong>, que enlaza con la clase 115:</p>
+<pre><code class="language-text">COREOGRAFIADA   cada servicio reacciona al hecho anterior
+                + sin componente central
+                − nadie conoce la secuencia entera; compensar en cadena
+                  es difícil de seguir
+
+ORQUESTADA      un componente conoce los pasos y las compensaciones
+                + la secuencia está escrita en un sitio
+                + los plazos y los atascos tienen dueño
+                − acopla a los participantes
+</code></pre>
+<p>Y el criterio: <strong>si hay compensaciones y plazos, orquestar</strong>. La coreografía es buena para propagar hechos; para procesos con vuelta atrás, tener la secuencia en un sitio vale más que la independencia. Es la clase 119.</p>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ no hay ninguna doble escritura sin tabla de salida
+☐ el publicador vigila la antigüedad de la fila más vieja sin publicar
+☐ la tabla de salida se limpia, y ese trabajo está programado
+☐ el consumidor registra lo procesado en la MISMA transacción que el efecto
+☐ la caducidad de la deduplicación supera la retención y la ventana de reproceso
+☐ la clave de idempotencia la genera el productor y se repite en los reenvíos
+☐ los efectos externos reciben clave de idempotencia; si no la aceptan,
+  hay conciliación periódica
+☐ los pasos irreversibles están al final de la secuencia
+☐ cada paso tiene plazo y decisión al vencerlo
+☐ los estados intermedios son estados de negocio y quien consulta los conoce
+☐ una compensación que falla acaba en una cola visible, no en silencio
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: todo esto supone procesos que se ejecutan en algún sitio con control sobre su tiempo de vida. Cuando ese sitio es una función efímera con límites de duración, concurrencia y arranque, varias de estas garantías se complican, y es la materia de la clase 117.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>sagas, outbox, idempotencia y deduplicación</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>CloudShop arrastra tres problemas de las clases anteriores: eventos que no se publicaron, cobros duplicados y pedidos que se quedan a medias. Los tres se resuelven aquí, y el tercero enseña lo que cuesta no tener transacciones.</strong></p>
+<p><strong>Problema 1: los eventos que nunca existieron.</strong></p>
+<p>Una auditoría comparó pedidos pagados con eventos publicados:</p>
+<pre><code class="language-text">pedidos con estado 'pagado' en 6 meses            412.880
+eventos 'pedido.pagado' publicados                412.301
+faltan                                                579
+</code></pre>
+<p>Quinientos setenta y nueve pedidos cobrados que <strong>facturación nunca supo que existían</strong>. Y ninguno produjo un error: la transacción de la base había ido bien y la publicación había fallado después.</p>
+<pre><code class="language-text">causas de los 579
+  reinicio del proceso entre confirmar y publicar        341
+  intermediario no disponible unos segundos              203
+  errores de red                                          35
+</code></pre>
+<p>Con tabla de salida:</p>
+<p>```text                                    doble escritura   tabla de salida
+eventos perdidos en 6 meses                    579                0
+latencia de publicación (sondeo cada 2 s)      inmediata        ~1,1 s
+latencia con captura de cambios sobre la tabla     —            ~90 ms
+filas acumuladas sin limpieza a los 2 meses        —        41 millones</p>
+<pre><code>
+La última fila es el trabajo nuevo que apareció, y tardó dos meses en verse porque **no daba ningún error**. Se programó la limpieza y una alerta por antigüedad de la fila más vieja sin publicar, que en cuatro meses detectó tres publicadores parados.
+
+**Problema 2: los cobros duplicados, de la clase 113.**
+
+La clase 113 dejó residuo tras ajustar la invisibilidad:
+
+```text
+duplicados residuales                        0-2 por semana
+causa                        reentrega tras muerte del consumidor
+</code></pre>
+<p>El primer intento fue una tabla de deduplicación consultada antes de cobrar:</p>
+<pre><code class="language-text">SELECT … FROM procesados WHERE id = ?     -- si existe, salir
+… cobrar …
+INSERT INTO procesados …
+</code></pre>
+<p>Y siguió habiendo duplicados, menos:</p>
+<p>```text                                    antes    comprobar antes    misma transacción
+duplicados por semana                     0-2          0-1                 0</p>
+<pre><code>
+La razón es la del apartado primero: **entre la consulta y la inserción caben dos consumidores**. Con la inserción y el efecto local en la misma transacción, el problema local desapareció.
+
+Pero el cobro es un efecto **externo**, y ahí la transacción local no alcanza:
+
+```text
+la transacción local puede deshacerse DESPUÉS de que el proveedor cobró
+→ y el proveedor ya cobró
+</code></pre>
+<p>La corrección real fue pasar la clave al proveedor:</p>
+<p>```text                                    sin clave      con clave de idempotencia
+cobros duplicados en 6 meses                 47                    0
+lo que hace el proveedor con el repetido   cobra      devuelve el cobro original</p>
+<pre><code>
+Y para el proveedor de mensajería, que **no** acepta clave, se montó la conciliación:
+
+```text
+comparación diaria entre envíos que creemos haber creado y los suyos
+descuadres encontrados el primer día                       94
+descuadres al mes 6                                       0-3
+tiempo hasta detectar un descuadre     de nunca a menos de 24 h
+</code></pre>
+<p><strong>Problema 3: los pedidos a medias.</strong></p>
+<pre><code class="language-text">pedidos en estado inconsistente al mes                     31
+  inventario reservado y pago fallido                      19
+  pago hecho y envío no creado                              9
+  envío creado y pedido cancelado                           3
+cómo se detectaban       reclamaciones de clientes
+cómo se arreglaban       a mano, por el equipo de soporte
+</code></pre>
+<p>La tercera línea es la peor: <strong>envío creado y pedido cancelado</strong> significa mercancía que salió de un pedido que no existe.</p>
+<p>Se escribió la secuencia con compensaciones y se reordenó por reversibilidad:</p>
+<pre><code class="language-text">ORDEN ORIGINAL                    ORDEN CORREGIDO
+1 crear pedido                    1 crear pedido (pendiente)
+2 notificar al cliente            2 reservar inventario
+3 reservar inventario             3 cobrar
+4 cobrar                          4 crear envío
+5 crear envío                     5 notificar al cliente   ← irreversible, al final
+</code></pre>
+<p>El cambio de la notificación del segundo al quinto lugar eliminó por sí solo una categoría entera de problemas:</p>
+<pre><code class="language-text">correos de confirmación de pedidos que luego fallaban
+  antes:  118 en 6 meses
+  después:  0
+</code></pre>
+<p>Y los plazos por paso, con su decisión:</p>
+<pre><code class="language-text">paso          plazo     al vencer
+reservar      30 s      reintentar 3 veces, luego cancelar
+cobrar         5 min    compensar la reserva y marcar pendiente_de_pago
+crear envío   15 min    reintentar; a los 15 min, cola de intervención
+notificar      1 h      reintentar; no bloquea el pedido
+</code></pre>
+<p>Y lo que ocurrió con las compensaciones que fallan:</p>
+<pre><code class="language-text">compensaciones ejecutadas en 6 meses               1.412
+  correctas                                        1.397
+  fallidas tras 3 intentos                            15
+  → a cola de intervención humana con todo el contexto
+tiempo medio de resolución de esas 15            22 min
+pedidos inconsistentes detectados por clientes       0
+</code></pre>
+<p>Quince casos en seis meses que <strong>una persona resolvió en veintidós minutos de media</strong>, en lugar de treinta y uno al mes descubiertos por reclamaciones.</p>
+<p><strong>Y el estado intermedio visible, que causó un incidente propio.</strong></p>
+<pre><code class="language-text">síntoma   el panel de existencias mostraba menos stock del real
+causa     las reservas de secuencias en curso se contaban como vendidas
+          y algunas se compensaban minutos después
+efecto    se dejaron de vender 340 unidades que estaban disponibles
+</code></pre>
+<p>Es la falta de aislamiento del apartado tercero. La corrección fue hacer explícitos los estados:</p>
+<p>```text                                    antes            después
+estados de inventario              disponible/vendido   disponible /
+                                                        reservado_en_curso /
+                                                        vendido
+el panel muestra                   disponible           disponible +
+                                                        reservado_en_curso,
+                                                        separados
+unidades no vendidas por el error     340                  0</p>
+<pre><code>
+**A los seis meses.**
+
+```text                                          antes         después
+eventos perdidos                          579 / 6 meses        0
+cobros duplicados                          47 / 6 meses        0
+descuadres con el transportista           no se sabía         0-3 / mes
+pedidos inconsistentes                     31 / mes           0
+correos de confirmación erróneos          118 / 6 meses        0
+unidades bloqueadas por estado intermedio     340              0
+casos que requieren intervención humana        —          15 / 6 meses
+tiempo medio de esa intervención               —            22 min
+trabajo nuevo: limpieza de la tabla de salida  —          programado
+</code></pre>
+<p><strong>La lección que esta clase traslada a la parte 09</strong>: ninguno de los tres problemas se resolvió con una garantía del intermediario. Se resolvieron <strong>moviendo el punto donde ocurre la atomicidad</strong>: la tabla de salida mete el hecho en la misma transacción que el cambio, la tabla de entrada mete la deduplicación en la misma transacción que el efecto, y la clave de idempotencia traslada el mismo truco al proveedor externo. Y donde ese truco no se puede aplicar —el transportista que no acepta clave, la compensación que falla— la respuesta honesta no es más automatismo: es <strong>conciliar periódicamente y hacer visible lo que necesita una persona</strong>.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-09-data-messaging-serverless-integration/116-sagas-outbox-idempotencia-y-deduplicacion/lab.py
@@ -195,29 +462,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Hay cambios guardados cuyo evento nunca se publicó, sin ningún error</td>
+<td>Doble escritura: la base y el intermediario son dos sistemas y no hay transacción que los cubra</td>
+<td>Tabla de salida: el evento se escribe en la misma transacción que el cambio y un publicador lo envía después.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>La deduplicación reduce los duplicados pero no los elimina</td>
+<td>Se comprueba antes y se registra después: entre las dos caben dos consumidores</td>
+<td>Registra el identificador procesado en la misma transacción que el efecto, y deja que la restricción única falle.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Se cobra dos veces aunque el consumidor sea idempotente localmente</td>
+<td>El efecto está en un sistema externo y la transacción local no lo abarca</td>
+<td>Pasa una clave de idempotencia derivada del negocio al proveedor; si no la acepta, monta conciliación periódica.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Se envía una confirmación de un pedido que luego se cancela</td>
+<td>Un paso irreversible está antes que pasos que pueden fallar</td>
+<td>Ordena la secuencia por reversibilidad y deja lo irreversible al final.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Otros procesos ven datos a medias mientras la secuencia avanza</td>
+<td>Una secuencia con compensaciones no tiene aislamiento</td>
+<td>Haz explícitos los estados intermedios como estados de negocio y adapta lo que consulta.</td>
+</tr>
+<tr>
+<td>La tabla de salida crece sin límite</td>
+<td>Ley 13: no limpiar lo publicado no produce ningún error</td>
+<td>Programa la limpieza y alerta por antigüedad de la fila más vieja sin publicar.</td>
 </tr>
 </tbody>
 </table>
@@ -228,17 +500,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Por qué guardar y publicar no puede ser atómico, y qué pierde cada atajo?</li>
+<li>¿Por qué la deduplicación debe estar en la misma transacción que el efecto?</li>
+<li>¿De dónde debe salir la clave de idempotencia y por qué no vale generarla en el consumidor?</li>
+<li>¿Qué se hace cuando un proveedor externo no acepta clave de idempotencia?</li>
+<li>¿Qué tres cosas distinguen una compensación de una vuelta atrás?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Designing Data-Intensive Applications — Martin Kleppmann.</li>
-<li>Enterprise Integration Patterns — Hohpe y Woolf.</li>
-<li>Building Event-Driven Microservices — Adam Bellemare.</li>
+<li>Richardson, C. (2025). <em>Transactional outbox pattern</em> — publicar el hecho en la misma transacción que el cambio. <a href="https://microservices.io/patterns/data/transactional-outbox.html">https://microservices.io/patterns/data/transactional-outbox.html</a></li>
+<li>Richardson, C. (2025). <em>Saga pattern</em> — transacciones locales con compensación, coreografiadas y orquestadas. <a href="https://microservices.io/patterns/data/saga.html">https://microservices.io/patterns/data/saga.html</a></li>
+<li>Stripe (2025). <em>Idempotent requests</em> — clave de idempotencia en un efecto externo y su ventana. <a href="https://docs.stripe.com/api/idempotent_requests">https://docs.stripe.com/api/idempotent_requests</a></li>
+<li>Helland, P. (2012). <em>Idempotence is not a medical condition</em> — idempotencia como propiedad del efecto, no de la entrega. <a href="https://queue.acm.org/detail.cfm?id=2187821">https://queue.acm.org/detail.cfm?id=2187821</a></li>
+<li>Garcia-Molina, H. y Salem, K. (1987). <em>Sagas</em> — el artículo original sobre transacciones largas con compensación. <a href="https://www.cs.cornell.edu/andru/cs711/2002fa/reading/sagas.pdf">https://www.cs.cornell.edu/andru/cs711/2002fa/reading/sagas.pdf</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -306,7 +580,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-doble-escritura-no-tiene-atajo">1. La doble escritura no tiene atajo</a><a class="toc-level-3" href="#2-idempotencia-de-verdad">2. Idempotencia de verdad</a><a class="toc-level-3" href="#3-cuando-no-hay-transaccion-que-abarque">3. Cuando no hay transacción que abarque</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
