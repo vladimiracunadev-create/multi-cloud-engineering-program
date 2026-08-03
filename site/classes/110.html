@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>data</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>nosql: clave-valor, documento, columna y grafo</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Decidir cuándo un almacén no relacional es la elección correcta, con un criterio que no es «escala» sino otro: <strong>cuánto sabes de antemano sobre cómo vas a consultar los datos</strong>. La clase recorre las cuatro familias por lo que resuelven en un acceso directo y por lo que no pueden hacer, y se detiene en la decisión que la clase 108 predijo que dominaría esta parte —la clave de partición, que se elige al crear, decide el reparto y no se cambia— y en su consecuencia más cara: una partición caliente.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> nosql: clave-valor, documento, columna y grafo con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>matriz-nosql</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Decidir</strong> entre relacional y no relacional por lo que sabes de los accesos, no por el volumen.</li>
+<li><strong>Distinguir</strong> las cuatro familias por lo que cada una resuelve en un acceso directo.</li>
+<li><strong>Diseñar</strong> una clave de partición que reparta, y detectar una caliente.</li>
+<li><strong>Modelar</strong> por consulta, asumiendo el coste de las consultas que aún no existen.</li>
+<li><strong>Elegir</strong> el nivel de consistencia de cada lectura y saber qué se paga por él.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,28 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>nosql</code></td>
-<td>Define su papel en <strong>nosql: clave-valor, documento, columna y grafo</strong> y cómo observarlo en un sistema real.</td>
+<td><code>modelar por consulta</code></td>
+<td>Diseñar la disposición de los datos a partir de los accesos conocidos. Lo contrario del modelo relacional, que normaliza primero y consulta después.</td>
 </tr>
 <tr>
-<td><code>clave</code></td>
-<td>Define su papel en <strong>nosql: clave-valor, documento, columna y grafo</strong> y cómo observarlo en un sistema real.</td>
+<td><code>clave de partición</code></td>
+<td>Campo que decide en qué partición vive cada elemento. Se elige al crear la tabla, determina el reparto de carga y no se cambia sin recrear.</td>
 </tr>
 <tr>
-<td><code>valor</code></td>
-<td>Define su papel en <strong>nosql: clave-valor, documento, columna y grafo</strong> y cómo observarlo en un sistema real.</td>
+<td><code>partición caliente</code></td>
+<td>Partición que recibe una proporción desmedida del tráfico. El sistema tiene capacidad de sobra y esa partición está saturada.</td>
 </tr>
 <tr>
-<td><code>documento</code></td>
-<td>Define su papel en <strong>nosql: clave-valor, documento, columna y grafo</strong> y cómo observarlo en un sistema real.</td>
+<td><code>clave de ordenación</code></td>
+<td>Segundo componente de la clave que ordena los elementos dentro de la partición. Es lo que permite recorrer rangos con un solo acceso.</td>
 </tr>
 <tr>
-<td><code>columna</code></td>
-<td>Define su papel en <strong>nosql: clave-valor, documento, columna y grafo</strong> y cómo observarlo en un sistema real.</td>
+<td><code>consistencia eventual</code></td>
+<td>Una lectura puede devolver un valor anterior durante un intervalo corto. Es más barata y más rápida; no siempre es aceptable.</td>
 </tr>
 <tr>
-<td><code>grafo</code></td>
-<td>Define su papel en <strong>nosql: clave-valor, documento, columna y grafo</strong> y cómo observarlo en un sistema real.</td>
+<td><code>recorrido completo</code></td>
+<td>Leer la tabla entera porque la consulta no encaja con las claves. En estos sistemas es lento y se factura por cada elemento leído.</td>
 </tr>
 </tbody>
 </table>
@@ -97,75 +94,297 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: NoSQL: clave-valor, documento, columna y grafo&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    Q{&quot;¿conoces los accesos\nde antemano?&quot;} --&gt;|&quot;no · consultas exploratorias&quot;| REL[&quot;relacional · 109&quot;]
+    Q --&gt;|&quot;sí · pocos y estables&quot;| NO[&quot;no relacional&quot;]
+    NO --&gt; F{&quot;familia&quot;}
+    F --&gt;|&quot;un valor por clave&quot;| KV[&quot;clave-valor:\nsesión, caché, cesta&quot;]
+    F --&gt;|&quot;documento entero&quot;| DOC[&quot;documento:\nagregado que se lee junto&quot;]
+    F --&gt;|&quot;muchas filas por clave&quot;| COL[&quot;columna ancha:\nseries, eventos por entidad&quot;]
+    F --&gt;|&quot;relaciones como dato&quot;| GR[&quot;grafo:\ncaminos y recorridos&quot;]
+    KV --&gt; PK[&quot;clave de partición\n· se elige al CREAR ·&quot;]
+    DOC --&gt; PK
+    COL --&gt; PK
+    PK --&gt; H{&quot;¿reparte?&quot;}
+    H --&gt;|&quot;no&quot;| HOT[&quot;partición caliente:\ncapacidad de sobra y saturación&quot;]
+    H --&gt;|&quot;sí&quot;| OK[&quot;acceso directo constante&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-la-pregunta-que-decide-y-no-es-el-volumen">1. La pregunta que decide, y no es el volumen</h3>
+<p>El criterio habitual —«relacional hasta que no escale»— es malo porque el volumen rara vez es el problema. Un motor relacional administrado con índices correctos sirve millones de filas sin dificultad.</p>
+<p>La pregunta que sí decide:</p>
+<pre><code class="language-text">¿sabes de antemano cómo vas a consultar estos datos?
+
+  no, y van a aparecer consultas nuevas       → relacional
+  sí, son pocos accesos y no van a cambiar    → no relacional
+</code></pre>
+<p>Y el motivo es que los dos modelos invierten el orden del diseño:</p>
+<pre><code class="language-text">RELACIONAL      modelas los DATOS: entidades, relaciones, formas normales
+                y luego consultas como quieras
+                el precio: el motor tiene que resolver combinaciones en
+                tiempo de consulta
+
+NO RELACIONAL   modelas las CONSULTAS: cada acceso conocido tiene su
+                disposición de datos
+                el precio: una consulta que no previste puede ser inviable
+</code></pre>
+<p>Y hay tres motivos legítimos para elegir no relacional que sí se sostienen:</p>
+<pre><code class="language-text">1. accesos por clave, muchísimos y muy simples
+   sesiones, cestas, perfiles, caché persistente
+   → el relacional también puede, y aquí no aporta nada su capacidad extra
+
+2. escritura muy alta y sostenida sobre una entidad
+   series temporales, eventos por dispositivo, registros
+   → el reparto por partición es exactamente lo que hace falta
+
+3. el propio dato es una red de relaciones que se recorren
+   → esto es el grafo, y no lo hace bien ningún otro modelo
+</code></pre>
+<p>Y un motivo que <strong>no</strong> se sostiene y se usa mucho: «no queremos definir un esquema». El esquema no desaparece; se muda del motor al código, donde nadie lo valida.</p>
+<pre><code class="language-text">sin esquema en el motor
+→ conviven cinco formas del mismo documento, escritas en tres años
+→ y cada lectura tiene que saber tratarlas todas
+</code></pre>
+<p>La forma sana de trabajar sin esquema declarado es <strong>versionar el documento</strong> y tener una ruta de migración, no ignorar el problema:</p>
+<pre><code class="language-json">{&quot;v&quot;: 3, &quot;id&quot;: &quot;c-1421&quot;, &quot;nombre&quot;: &quot;…&quot;, &quot;direcciones&quot;: [ … ]}
+</code></pre>
+<h3 id="2-cuatro-familias-por-lo-que-resuelven">2. Cuatro familias, por lo que resuelven</h3>
+<pre><code class="language-text">CLAVE-VALOR
+  resuelve   dame el valor de esta clave
+  no resuelve  cualquier consulta que no sea por la clave
+  encaja en  sesión, cesta, preferencias, resultados de cálculo
+  cuidado    el valor entero se lee y se escribe: no metas dentro cosas
+             que cambian a ritmos distintos
+
+DOCUMENTO
+  resuelve   dame este agregado completo, y filtra por campos indexados
+  no resuelve  combinaciones entre colecciones a gran escala
+  encaja en  entidades que se leen y escriben juntas: pedido con sus líneas
+  cuidado    si el documento crece sin límite —un pedido con 50.000 eventos—
+             el modelo se rompe
+
+COLUMNA ANCHA
+  resuelve   dame las filas de esta entidad, en este rango de tiempo
+  no resuelve  consultas que no empiecen por la clave de partición
+  encaja en  series temporales, eventos por usuario o por dispositivo
+  cuidado    borrar es escribir marcas de borrado; borrar mucho hace daño
+
+GRAFO
+  resuelve   recorridos: de aquí a allá pasando por N saltos
+  no resuelve  agregaciones masivas sobre todo el grafo
+  encaja en  permisos heredados, recomendaciones, detección de fraude,
+             dependencias
+  cuidado    es el único de los cuatro cuya alternativa relacional es
+             realmente mala: una consulta de profundidad variable en
+             tablas es dolorosa
+</code></pre>
+<p>Y una regla de tamaño que evita disgustos en las tres primeras familias:</p>
+<pre><code class="language-text">si un elemento puede crecer sin límite, no es un elemento:
+es una colección, y necesita su propia clave
+</code></pre>
+<p>El ejemplo clásico: el pedido con su historial de eventos dentro. Funciona hasta que un pedido tiene mil eventos, y entonces cada lectura del pedido lee los mil.</p>
+<p>Y sobre el grafo, una precisión práctica: <strong>casi siempre convive con otro almacén</strong>. El grafo guarda las relaciones y los identificadores; los atributos completos viven en el sistema principal. Duplicar todo en el grafo es lo que hace que los grafos se abandonen.</p>
+<h3 id="3-la-clave-de-particion-se-elige-al-crear">3. La clave de partición: se elige al crear</h3>
+<p>Aquí está la decisión que la clase 108 predijo como dominante en esta parte, y es exactamente eso: <strong>se elige al crear la tabla, decide cómo se reparte todo y cambiarla es recrear y recargar</strong>.</p>
+<p>La clave suele tener dos partes:</p>
+<pre><code class="language-text">clave de PARTICIÓN     decide en qué partición vive el elemento
+clave de ORDENACIÓN    ordena dentro de la partición
+
+acceso directo         partición + ordenación exactas
+recorrido de rango     partición exacta + rango de ordenación
+cualquier otra cosa    recorrido completo
+</code></pre>
+<p>Y la propiedad que hay que exigirle a la clave de partición:</p>
+<pre><code class="language-text">CARDINALIDAD ALTA        muchos valores distintos
+REPARTO UNIFORME         ninguno concentra el tráfico
+CONOCIDA EN LA CONSULTA  si no la sabes al consultar, no sirve
+</code></pre>
+<p>Las tres a la vez. Y los fallos típicos son incumplir una:</p>
+<pre><code class="language-text">estado del pedido como clave     5 valores → 5 particiones → fallo de cardinalidad
+fecha del día como clave         todo el tráfico de hoy en una → fallo de reparto
+identificador interno aleatorio  reparte muy bien y no lo sabes al consultar
+                                 → fallo de conocimiento
+</code></pre>
+<p><strong>La partición caliente</strong> es lo que ocurre al fallar el reparto, y su síntoma engaña:</p>
+<pre><code class="language-text">capacidad de la tabla        10.000 operaciones/s
+límite por partición          1.000 operaciones/s
+tráfico real                  3.000 operaciones/s
+
+si el 80 % cae en una partición → 2.400 sobre un límite de 1.000
+→ errores de limitación con la tabla al 30 % de su capacidad
+</code></pre>
+<p>Y las tres correcciones, en orden de preferencia:</p>
+<pre><code class="language-text">1. cambiar la clave por una que reparta de verdad
+   → recrear; es la ley 14 cobrando su precio
+
+2. añadir un sufijo de reparto artificial
+   clave = &quot;producto#1421#3&quot;  con 3 de 0..9
+   → reparte, y ahora cada lectura tiene que consultar los 10 sufijos
+
+3. poner delante un caché para el elemento caliente
+   → resuelve las lecturas y no las escrituras
+</code></pre>
+<p>La segunda es la que más se usa y conviene entender su precio: <strong>multiplica por diez el coste de leer ese elemento</strong>. Es un intercambio, no una solución gratis.</p>
+<p>Y un caso que aparece siempre y que las tres correcciones no cubren: <strong>el elemento genuinamente popular</strong>. Un producto en portada recibe cien mil lecturas por segundo y ninguna clave lo reparte, porque es una sola cosa. Ahí la respuesta es la tercera, y es la clase 111.</p>
+<h3 id="4-modelar-por-consulta-y-lo-que-cuesta-despues">4. Modelar por consulta, y lo que cuesta después</h3>
+<p>Si el acceso decide la disposición, cada acceso nuevo necesita una disposición nueva. De ahí salen los índices secundarios y el diseño de tabla única:</p>
+<pre><code class="language-text">ÍNDICE SECUNDARIO
+  otra clave de partición sobre los mismos datos
+  + permite un acceso que la clave principal no permite
+  − se paga en escritura: cada escritura actualiza también el índice
+  − y suele ser eventualmente consistente
+
+TABLA ÚNICA
+  varios tipos de entidad conviviendo con claves compuestas
+  PK=&quot;CLI#1421&quot;  SK=&quot;PERFIL&quot;
+  PK=&quot;CLI#1421&quot;  SK=&quot;PEDIDO#2026-07-31#88&quot;
+  + un solo acceso trae el cliente y sus últimos pedidos
+  − ilegible sin documentación, y la migración es un proyecto
+</code></pre>
+<p>Y la consecuencia honesta que hay que aceptar antes de empezar:</p>
+<pre><code class="language-text">una consulta que no estaba prevista cuesta
+  un índice nuevo (dinero y escritura), o
+  un recorrido completo (mucho dinero y lentitud), o
+  copiar los datos a otro sistema
+</code></pre>
+<p>La tercera opción es la que acaba adoptando casi todo el mundo, y es legítima: <strong>el almacén sirve al producto, y un segundo sistema sirve al análisis</strong>. Es la materia de la clase 112.</p>
+<p><strong>El coste, que en estos sistemas es parte del diseño.</strong> Se factura por operación y por datos leídos, así que un acceso mal modelado es directamente una factura:</p>
+<pre><code class="language-text">leer un elemento por clave                       1 unidad
+recorrer 100 elementos de una partición        ~ proporcional al tamaño leído
+recorrido completo de 10 millones           decenas de miles de unidades
+                                            y se paga aunque el filtro
+                                            descarte casi todo
+</code></pre>
+<p>La última línea es la trampa: <strong>filtrar no ahorra</strong>. El filtro se aplica después de leer, así que se paga por todo lo leído.</p>
+<p><strong>Consistencia.</strong> Casi todos ofrecen dos niveles de lectura, y la elección es por acceso, no global:</p>
+<pre><code class="language-text">eventual   más barata y más rápida; puede devolver un valor anterior
+fuerte     ve la última escritura confirmada; cuesta más y tarda más
+</code></pre>
+<p>Y la regla es la misma de la clase 109, porque el problema es el mismo:</p>
+<pre><code class="language-text">lectura que solo se muestra              eventual
+lectura que decide una escritura         fuerte
+</code></pre>
+<p>Y las transacciones: existen, y <strong>casi siempre acotadas</strong> —a una partición, a un número de elementos, a una región—. Diseñar suponiendo transacciones amplias es el error que la clase 116 tendrá que reparar.</p>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ están escritos los accesos conocidos antes de elegir el almacén
+☐ la clave de partición tiene cardinalidad, reparte y se conoce al consultar
+☐ se ha estimado el tráfico de la partición más caliente, no solo el total
+☐ ningún elemento puede crecer sin límite
+☐ los documentos llevan versión y hay ruta de migración
+☐ cada índice secundario tiene un acceso que lo justifica
+☐ no hay recorridos completos en el camino de una petición
+☐ el nivel de consistencia está elegido por acceso
+☐ está previsto dónde irán las consultas no previstas
+☐ el coste por operación está estimado con el patrón real
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: el elemento genuinamente popular no lo reparte ninguna clave, y la respuesta es ponerle algo delante. Qué se gana, qué se rompe y por qué invalidar es difícil es la materia de la clase 111.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>nosql: clave-valor, documento, columna y grafo</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-09-data-messaging-serverless-integration/110-nosql-clave-valor-documento-columna-y-grafo/lab.py
+<p><strong>CloudShop mueve tres conjuntos de datos a almacenes no relacionales. Uno sale bien, otro provoca un incidente de partición caliente y el tercero enseña lo que cuesta una consulta no prevista.</strong></p>
+<p><strong>Caso 1: la sesión y la cesta. Sale bien y conviene entender por qué.</strong></p>
+<pre><code class="language-text">accesos conocidos     leer por identificador de sesión
+                      escribir por identificador de sesión
+                      caducar a las 72 h
+accesos futuros       ninguno previsible
+</code></pre>
+<p>Un único acceso por clave, sin consultas exploratorias. Es el caso ideal.</p>
+<p>```text                                    relacional     clave-valor
+latencia p99 de lectura                     14 ms          1,2 ms
+escrituras por segundo en el pico            3.100         3.100
+carga que quitó a la base principal            —          41 % de escrituras
+caducidad                                proceso nocturno  automática</p>
+<pre><code>
+Y el detalle que evitó un problema conocido: **la cesta y el histórico de navegación se guardaron por separado**, aunque pertenecen a la misma sesión. El histórico cambia en cada clic y la cesta pocas veces; juntos habrían obligado a reescribir la cesta entera constantemente.
+
+**Caso 2: los eventos de pedido. Partición caliente en el segundo día.**
+
+Se eligió una tabla de columna ancha para el historial de eventos de cada pedido. La primera clave:
+
+```text
+clave de partición   fecha (2026-07-31)
+clave de ordenación  marca de tiempo + identificador de pedido
+motivo               «así los informes diarios son un solo recorrido»
+</code></pre>
+<p>El segundo día en producción:</p>
+<pre><code class="language-text">capacidad de la tabla                   20.000 escrituras/s
+límite por partición                     1.000 escrituras/s
+tráfico real                             2.900 escrituras/s
+en la partición de hoy                   2.900   ← el 100 %
+errores de limitación                    el 66 % de las escrituras
+utilización de la tabla                  14 %
+</code></pre>
+<p>Catorce por ciento de utilización y dos tercios de las escrituras rechazadas. Es el síntoma que engaña del apartado tercero, en su forma más pura: <strong>la clave se eligió por la consulta de informes y no por el reparto de la escritura</strong>.</p>
+<p>La corrección exigió recrear la tabla y recargar 210 millones de elementos:</p>
+<p>```text                                   clave por fecha    clave por pedido
+clave de partición                       fecha              identificador de pedido
+clave de ordenación                      tiempo + pedido    marca de tiempo
+particiones activas                      1                  ~2,4 millones
+escrituras rechazadas                    66 %               0 %
+leer el historial de un pedido           recorrido           1 acceso
+informe diario                           1 recorrido         ya no es posible
+tiempo de la migración                     —                 31 h</p>
+<pre><code>
+Y la última fila es el intercambio real: **se ganó la escritura y se perdió el informe**. El informe se resolvió publicando los eventos también a almacenamiento de objetos, que es la clase 112.
+
+Y la lección de la ley 14, medida: la decisión se tomó en veinte minutos de diseño y costó treinta y una horas de migración y dos días de errores.
+
+**Caso 3: el catálogo, y la consulta que nadie previó.**
+
+El catálogo se modeló por sus tres accesos conocidos:
+
+```text
+por identificador de producto            acceso directo
+por categoría, ordenado por ventas       índice secundario
+por marca                                índice secundario
+</code></pre>
+<p>A los cuatro meses, el equipo de producto pidió: «productos con existencias por debajo de N en cualquier categoría».</p>
+<pre><code class="language-text">opción A  índice nuevo sobre existencias
+          → existencias cambian en cada venta
+          → 4.100 escrituras/s adicionales al índice
+          → coste estimado: 890 €/mes
+
+opción B  recorrido completo cada 15 min
+          → 2,1 millones de elementos leídos por ejecución
+          → coste estimado: 1.240 €/mes
+          → y el filtro no ahorra: se paga por todo lo leído
+
+opción C  publicar los cambios a un segundo sistema para consultas libres
+          → coste estimado: 210 €/mes, con retardo de ~1 min
+</code></pre>
+<p>Se eligió la C. Y la conclusión que se escribió en la decisión, que es la que este apartado defiende:</p>
+<blockquote>
+<p>«El almacén sirve al producto con sus accesos conocidos. Cualquier consulta nueva y exploratoria va al segundo sistema. Añadir un índice por cada pregunta nueva convierte la escritura en el cuello de botella.»</p>
+</blockquote>
+<p><strong>Y un cuarto caso que no se hizo: el grafo.</strong></p>
+<p>Se evaluó un almacén de grafo para las recomendaciones y se descartó, con el motivo escrito:</p>
+<pre><code class="language-text">recorridos necesarios              2 saltos, siempre
+alternativa relacional             una tabla de asociación y dos combinaciones
+latencia medida en relacional      18 ms
+coste de operar un sistema más     alto
+decisión                           no; se reconsiderará si aparecen
+                                   recorridos de profundidad variable
+</code></pre>
+<p>Es el criterio del apartado segundo: <strong>el grafo gana cuando la profundidad es variable</strong>. Con dos saltos fijos, no aporta lo bastante para justificar un sistema más.</p>
+<p><strong>Al año.</strong></p>
+<p>```text                                          antes         después
+latencia p99 de sesión                        14 ms          1,2 ms
+escrituras quitadas a la base principal          —           41 %
+escrituras rechazadas por partición caliente     —           0 %
+migraciones forzadas por la clave de partición   —           1 (31 h)
+índices secundarios añadidos por consultas
+  nuevas                                         —           0
+consultas exploratorias                    en el almacén   en el segundo sistema
+sistemas de datos en producción                  1             4</p>
+<pre><code>
+La última fila es el coste que no aparece en ninguna comparativa de rendimiento: **se pasó de un sistema a cuatro**, y cada uno tiene su copia, su vigilancia, su plan de recuperación y su forma de fallar.
+
+**La lección que esta clase traslada a la parte 09**: la migración de treinta y una horas no la causó un problema de escala. La causó **elegir la clave de partición por la consulta de informes en vez de por el reparto de la escritura**, en una decisión de veinte minutos que no se podía deshacer. Es la primera confirmación explícita de la predicción de la clase 108: en los servicios con estado, las decisiones de creación son las caras.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-09-data-messaging-serverless-integration/110-nosql-clave-valor-documento-columna-y-grafo/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>data</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -203,29 +422,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Errores de limitación con la tabla al 15 % de su capacidad</td>
+<td>Partición caliente: la clave no reparte y el tráfico se concentra</td>
+<td>Estima el tráfico de la partición más cargada, no el total; corrige la clave, y si no puedes, reparte con sufijo asumiendo que multiplica el coste de lectura.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Cada consulta nueva exige un índice y la escritura se satura</td>
+<td>Se está usando un almacén modelado por consulta para consultas exploratorias</td>
+<td>Publica los cambios a un segundo sistema para las consultas libres y deja el almacén para los accesos conocidos.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>La factura crece con consultas que devuelven pocos resultados</td>
+<td>Hay recorridos completos: el filtro se aplica tras leer, y se paga por todo lo leído</td>
+<td>Rediseña el acceso para que use clave de partición y rango, o muévelo al segundo sistema.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Leer una entidad se vuelve lento con el tiempo</td>
+<td>Un elemento crece sin límite porque contiene una colección dentro</td>
+<td>Si algo puede crecer sin límite, dale su propia clave en vez de anidarlo.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>El mismo documento existe en cinco formas distintas</td>
+<td>Sin esquema declarado, el esquema se mudó al código y nadie lo valida</td>
+<td>Versiona el documento, valida al escribir y ten una ruta de migración.</td>
+</tr>
+<tr>
+<td>Un producto popular satura su partición y ninguna clave lo reparte</td>
+<td>Es un solo elemento genuinamente caliente</td>
+<td>Pon un caché delante para las lecturas; ninguna clave reparte lo que es una sola cosa.</td>
 </tr>
 </tbody>
 </table>
@@ -236,17 +460,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué pregunta decide entre relacional y no relacional, y por qué no es el volumen?</li>
+<li>¿Qué tres propiedades debe cumplir una clave de partición a la vez?</li>
+<li>¿Por qué una tabla puede rechazar escrituras estando al 15 % de su capacidad?</li>
+<li>¿Qué precio tiene repartir con un sufijo artificial?</li>
+<li>¿Por qué filtrar no reduce el coste de un recorrido completo?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Designing Data-Intensive Applications — Martin Kleppmann.</li>
-<li>Enterprise Integration Patterns — Hohpe y Woolf.</li>
-<li>Building Event-Driven Microservices — Adam Bellemare.</li>
+<li>AWS (2025). <em>DynamoDB: partition keys and best practices</em> — cardinalidad, reparto y particiones calientes. <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html">https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html</a></li>
+<li>Google Cloud (2025). <em>Bigtable schema design</em> — clave de fila, reparto y antipatrones. <a href="https://cloud.google.com/bigtable/docs/schema-design">https://cloud.google.com/bigtable/docs/schema-design</a></li>
+<li>Azure (2025). <em>Cosmos DB: partitioning and horizontal scaling</em> — clave de partición lógica y física. <a href="https://learn.microsoft.com/azure/cosmos-db/partitioning-overview">https://learn.microsoft.com/azure/cosmos-db/partitioning-overview</a></li>
+<li>Kleppmann, M. (2017). <em>Designing Data-Intensive Applications</em>, caps. 2 y 6 — modelos de datos y particionado. <a href="https://dataintensive.net/">https://dataintensive.net/</a></li>
+<li>Neo4j (2025). <em>When to use a graph database</em> — profundidad variable como criterio de elección. <a href="https://neo4j.com/docs/getting-started/data-modeling/">https://neo4j.com/docs/getting-started/data-modeling/</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -314,7 +540,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-pregunta-que-decide-y-no-es-el-volumen">1. La pregunta que decide, y no es el volumen</a><a class="toc-level-3" href="#2-cuatro-familias-por-lo-que-resuelven">2. Cuatro familias, por lo que resuelven</a><a class="toc-level-3" href="#3-la-clave-de-particion-se-elige-al-crear">3. La clave de partición: se elige al crear</a><a class="toc-level-3" href="#4-modelar-por-consulta-y-lo-que-cuesta-despues">4. Modelar por consulta, y lo que cuesta después</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
