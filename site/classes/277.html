@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> experto · <strong>Horas estimadas:</strong> 8<br>
 <strong>Laboratorio:</strong> <code>capstone</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>capstone retail: comercio multi-región</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Primer capstone sectorial: comercio en varias regiones. La clase da el encargo completo, la restricción que manda en este sector —<strong>el pico estacional concentrado y la asimetría entre leer y comprar</strong>—, las decisiones por capa con sus alternativas, lo que se acepta perder cuando algo falla, y las pruebas negativas que verifican el resultado.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> capstone retail: comercio multi-región con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>retail-capstone</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Identificar</strong> la restricción dominante del comercio y qué decide.</li>
+<li><strong>Separar</strong> los recorridos por criticidad y tratarlos distinto.</li>
+<li><strong>Decidir</strong> la estrategia entre regiones con coste y con cifras.</li>
+<li><strong>Definir</strong> qué se degrada y en qué orden bajo carga.</li>
+<li><strong>Verificar</strong> el diseño con las pruebas negativas del sector.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,24 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>capstone</code></td>
-<td>Define su papel en <strong>capstone retail: comercio multi-región</strong> y cómo observarlo en un sistema real.</td>
+<td><code>asimetría de recorridos</code></td>
+<td>Leer catálogo es masivo y tolerante; comprar es escaso y crítico. Se diseñan por separado.</td>
 </tr>
 <tr>
-<td><code>retail</code></td>
-<td>Define su papel en <strong>capstone retail: comercio multi-región</strong> y cómo observarlo en un sistema real.</td>
+<td><code>pico estacional</code></td>
+<td>Concentración de demanda en horas concretas del año. Determina capacidad, cambio y guardia.</td>
 </tr>
 <tr>
-<td><code>comercio</code></td>
-<td>Define su papel en <strong>capstone retail: comercio multi-región</strong> y cómo observarlo en un sistema real.</td>
+<td><code>reserva de inventario</code></td>
+<td>El punto donde el comercio necesita coherencia fuerte. Casi el único.</td>
 </tr>
 <tr>
-<td><code>multi</code></td>
-<td>Define su papel en <strong>capstone retail: comercio multi-región</strong> y cómo observarlo en un sistema real.</td>
+<td><code>sobreventa</code></td>
+<td>Vender más unidades de las existentes. Riesgo aceptable con compensación, o no, según el producto.</td>
 </tr>
 <tr>
-<td><code>región</code></td>
-<td>Define su papel en <strong>capstone retail: comercio multi-región</strong> y cómo observarlo en un sistema real.</td>
+<td><code>degradación por prioridad</code></td>
+<td>Apagar lo accesorio para que lo esencial siga. Decidido antes, con negocio.</td>
+</tr>
+<tr>
+<td><code>residencia por mercado</code></td>
+<td>Obligación de que ciertos datos permanezcan en una región concreta.</td>
 </tr>
 </tbody>
 </table>
@@ -93,72 +94,421 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Capstone retail: comercio multi-región&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    U[&quot;usuario&quot;] --&gt; R1[&quot;CATÁLOGO Y BÚSQUEDA\nmasivo · tolerante\ncaché en el borde&quot;]
+    U --&gt; R2[&quot;CARRITO\nsesión · recuperable&quot;]
+    U --&gt; R3[&quot;COMPRA Y PAGO\nescaso · CRÍTICO\ncoherencia fuerte&quot;]
+    U --&gt; R4[&quot;SEGUIMIENTO\nfrescura de minutos&quot;]
+    R1 --&gt; C[&quot;réplicas por región\nlectura local&quot;]
+    R3 --&gt; I{&quot;reserva de\ninventario&quot;}
+    I --&gt;|&quot;región primaria&quot;| D[&quot;escritura\ncoherente&quot;]
+    D --&gt; P[&quot;pago · idempotente&quot;]
+    P --&gt; E[&quot;eventos:\npreparación y envío&quot;]
+    X[&quot;pico estacional&quot;] -.-&gt;|&quot;vertido por\nprioridad&quot;| R1
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-el-encargo-y-la-restriccion-que-manda">1. El encargo y la restricción que manda</h3>
+<p><strong>El encargo.</strong> CloudShop opera en tres mercados —Europa, Norteamérica y Latinoamérica— con catálogo compartido, inventario por almacén y pago por pasarela local. Hay que diseñar y defender la arquitectura completa, con cifras.</p>
+<pre><code class="language-text">CIFRAS DE PARTIDA
+  visitas/mes                              41 M
+  búsquedas y vistas de catálogo/día        18 M
+  pedidos/día                              38.000
+  pico de temporada alta                    ×3,1 sobre un
+                                            martes normal
+  y el evento de campaña                    ×1,6 durante
+                                            40 minutos
+  referencias en catálogo                   2,1 M
+  almacenes                                 7
+  mercados con residencia obligatoria       1 (Europa,
+                                            datos
+                                            personales)
+</code></pre>
+<p>Y la restricción que manda, que no es técnica:</p>
+<pre><code class="language-text">EL NEGOCIO SE JUEGA EN HORAS CONCRETAS DEL AÑO
+  el 31 % de los ingresos anuales ocurre en 6 semanas
+  y dentro de esas, el 9 % en 3 días
+
+→ consecuencias directas
+  la capacidad se dimensiona para el pico y se paga todo
+    el año, salvo que sea elástica de verdad
+                                            clase 262
+  la ventana de cambio de esas semanas vale más que
+    cualquier otra decisión                 clase 260
+  y la guardia de esos días necesita gente, no
+    procedimientos                          clase 257
+
+→ y en un sector donde una caída de una hora en el día
+  malo cuesta más que un mes de infraestructura, la
+  conversación de coste cambia de sentido
+</code></pre>
+<p>Y la segunda restricción, la que ordena el diseño:</p>
+<pre><code class="language-text">LA ASIMETRÍA ENTRE LEER Y COMPRAR
+  18 M vistas/día frente a 38.000 pedidos/día
+  → 474 lecturas por cada compra
+
+  y sus exigencias son opuestas
+    catálogo   masivo · tolerante a datos algo viejos ·
+               caché sirve · latencia importa mucho
+    compra     escaso · exige coherencia · idempotencia ·
+               latencia importa menos que la corrección
+
+→ tratarlos igual es el error de partida del sector
+→ y separarlos permite que el 99,8 % del tráfico se sirva
+  desde caché regional y el 0,2 % desde la región donde
+  vive la verdad
+</code></pre>
+<h3 id="2-las-decisiones-por-capa">2. Las decisiones por capa</h3>
+<p>Cada una con su alternativa y con lo que empeora.</p>
+<pre><code class="language-text">CATÁLOGO Y BÚSQUEDA
+  decisión   réplicas de solo lectura por región, con
+             caché en el borde y validez de 5 minutos
+  alternativa  servir todo desde una región
+  por qué    474 lecturas por compra; la latencia de
+             catálogo mueve la conversión
+  empeora    un cambio de precio tarda hasta 5 minutos en
+             verse en todas partes
+  mitigación invalidación explícita para precio y para
+             disponibilidad; los demás campos, por caducidad
+
+INVENTARIO Y RESERVA
+  decisión   la reserva se hace en la región del ALMACÉN
+             que sirve, con coherencia fuerte
+  alternativa  inventario replicado con resolución de
+             conflictos
+  por qué    la sobreventa de un producto único no se
+             compensa; la de un producto con reposición, sí
+  empeora    una compra que cruza almacenes de dos regiones
+             tarda más
+  y se acepta porque son el 3 % de los pedidos
+
+CARRITO
+  decisión   persistente y asociado a la identidad, no a
+             la sesión ni a la instancia
+  alternativa  en memoria de la instancia
+  por qué    la clase 261 midió lo que cuesta: el 9 % de
+             usuarios perdía la compra al retirar una
+             instancia
+  empeora    una escritura por acción del usuario
+
+PAGO
+  decisión   pasarela local por mercado, con clave de
+             idempotencia obligatoria y máquina de estados
+             explícita                       clase 210
+  alternativa  una pasarela global
+  por qué    las tasas de aprobación locales son entre 4 y
+             11 puntos mejores, y eso domina cualquier
+             consideración técnica
+  empeora    tres integraciones que mantener y tres modos
+             de fallo distintos
+
+PEDIDO Y CUMPLIMIENTO
+  decisión   pedido confirmado = evento; el resto es
+             asíncrono                       clase 210
+  alternativa  todo síncrono hasta el almacén
+  por qué    el almacén no puede tumbar la compra
+  empeora    el usuario ve «confirmado» antes de que el
+             almacén lo sepa
+  y se acepta con seguimiento por frescura   clase 275
+
+DATOS PERSONALES
+  decisión   los de clientes europeos residen en Europa;
+             el catálogo y los datos agregados, no
+  alternativa  todo en una región
+  por qué    obligación legal del mercado
+  empeora    dos almacenes analíticos y una vista unificada
+             que hay que construir
+</code></pre>
+<p>Y la estrategia entre regiones:</p>
+<pre><code class="language-text">decisión   una región activa por mercado, con la
+           secundaria en frío y datos replicados
+           objetivo de recuperación: 30 minutos en
+           temporada alta, 4 horas el resto del año
+  → y esa diferencia es lo interesante
+  → durante 6 semanas se mantiene capacidad caliente en la
+    secundaria; el resto del año no
+  coste     +9.000 USD/mes base; +41.000 en temporada
+  alternativa activo-activo permanente: +112.000/mes
+</code></pre>
+<h3 id="3-que-se-acepta-perder">3. Qué se acepta perder</h3>
+<p>El diseño no se define por lo que aguanta: se define por lo que se decide sacrificar y en qué orden.</p>
+<pre><code class="language-text">EL ORDEN DE DEGRADACIÓN, acordado con negocio
+
+  PRIORIDAD 1 · nunca se apaga
+    completar una compra ya iniciada
+    pago y confirmación
+    → si esto cae, no hay negocio
+
+  PRIORIDAD 2 · se degrada, no se apaga
+    catálogo y búsqueda
+    → si la búsqueda falla, se sirve el catálogo por
+      categorías desde caché
+    → peor experiencia, negocio vivo
+
+  PRIORIDAD 3 · se apaga bajo carga
+    recomendaciones
+    valoraciones y reseñas
+    disponibilidad exacta por tienda física
+    → y esto se decidió ANTES, no durante  clase 262
+
+  PRIORIDAD 4 · se vierte
+    histórico de pedidos
+    exportaciones y paneles de comerciantes
+</code></pre>
+<p>Y los sacrificios explícitos, que son la parte que cuesta acordar:</p>
+<pre><code class="language-text">SE ACEPTA
+  que un precio tarde hasta 5 minutos en propagarse
+  que el seguimiento muestre «actualizado hace X» en vez
+    de un estado falso
+  que un pedido aparezca en el almacén con hasta 2 minutos
+    de retraso
+  que el histórico no esté disponible en el pico
+  y sobreventa de hasta el 0,3 % en productos con
+    reposición, con compensación automática al cliente
+
+NO SE ACEPTA
+  cobrar dos veces                         clase 210
+  perder un pedido confirmado
+  sobrevender un producto único o personalizado
+  mostrar el pedido de otro cliente
+  y que un dato personal europeo salga de Europa
+
+→ y esta lista es el documento más útil del capstone
+→ porque durante un incidente nadie tiene tiempo de
+  decidirlo                                clase 257
+</code></pre>
+<p>Y las señales que verifican esas promesas:</p>
+<pre><code class="language-text">éxito de compra, medido en el cliente        &gt; 99,9 %
+latencia del catálogo, percentil 95          &lt; 800 ms
+cobros duplicados                            0, alerta
+                                             inmediata
+sobreventa por categoría de producto         panel diario
+frescura del seguimiento por transportista   p95 &lt; 10 min
+retraso pedido → almacén                     p95 &lt; 2 min
+y datos personales fuera de región           0, control
+                                             automático
+</code></pre>
+<h3 id="4-las-pruebas-negativas-del-capstone">4. Las pruebas negativas del capstone</h3>
+<p>Lo que hay que ejecutar para saber si el diseño funciona.</p>
+<pre><code class="language-text">DE CARGA Y CAPACIDAD                        clase 262
+  ☐ ¿cuál es el recurso limitante de la compra y dónde
+    está su codo?
+  ☐ ¿el vertido por prioridad está probado con carga real?
+  ☐ ¿escalar el servicio empeora algún limitante?
+  ☐ ¿las cuotas de la región secundaria dan para el 100 %?
+
+DE FALLO                                    clase 261
+  ☐ retirar una instancia: ¿alguien pierde el carrito?
+  ☐ +200 ms en inventario: ¿cuánto se degrada la compra?
+  ☐ la pasarela de un mercado no responde: ¿qué ve el
+    usuario?
+  ☐ el almacén no consume eventos durante 2 horas: ¿se
+    pierde algún pedido?
+  ☐ caída de una zona en pico: ¿qué se degrada y en qué
+    orden?
+
+DE CORRECCIÓN
+  ☐ reenviar el mismo pago tres veces: ¿un solo cobro?
+  ☐ dos compras simultáneas de la última unidad: ¿una sola
+    gana?
+  ☐ un evento de estado llega desordenado: ¿se aplica el
+    viejo?
+  ☐ un evento llega duplicado: ¿se duplica el pedido?
+
+DE DATOS Y NORMATIVA
+  ☐ ¿algún dato personal europeo sale de Europa? control
+    automático                              clase 251
+  ☐ ¿un cliente puede ver el pedido de otro cambiando un
+    identificador?
+  ☐ ¿la exportación analítica contiene datos personales?
+
+DE OPERACIÓN                                parte 21
+  ☐ ¿cuánto tarda restaurar el pedido más reciente?
+  ☐ ¿la conmutación de región se ha ensayado con carga?
+  ☐ ¿el procedimiento de sobreventa existe y se ha
+    ejecutado?
+  ☐ ¿la guardia de temporada alta está dimensionada?
+</code></pre>
+<p><strong>El entregable del capstone:</strong></p>
+<pre><code class="language-text">1  diagrama por recorrido, no por servicio
+2  registro de decisiones con alternativas y coste
+                                            clase 272
+3  la lista de lo que se acepta perder, firmada con
+   negocio
+4  el orden de degradación
+5  los indicadores por recorrido y sus objetivos
+                                            clase 268
+6  el plan de temporada alta: capacidad, congelación,
+   guardia y ensayos
+7  el coste mensual estimado, base y pico
+8  y el resultado de las pruebas negativas, con lo que
+   falló
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: el comercio acepta perder cosas y compensar. El siguiente sector no puede: cuando el dato es dinero y hay que probar ante un tercero qué ocurrió, el diseño cambia. Pagos, auditoría y recuperación es la materia de la clase 278.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>capstone retail: comercio multi-región</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>El capstone resuelto, con las cifras de las pruebas negativas. Lo que sigue son las tres decisiones que costaron discusión, lo que falló al ejecutar las pruebas, y el resultado de la temporada alta.</strong></p>
+<p><strong>Discusión 1 · Sobreventa: dónde está la coherencia fuerte.</strong></p>
+<pre><code class="language-text">posturas
+  ingeniería  «reservar con coherencia fuerte cuesta
+              latencia y limita el caudal»
+  negocio     «vender algo que no existe destroza la
+              confianza»
+
+lo que resolvió la discusión: separar por tipo de producto
+
+  producto con reposición (94 % del catálogo)
+    → reserva optimista con reconciliación
+    → sobreventa tolerada hasta el 0,3 %
+    → compensación automática: cupón y aviso en 2 horas
+    → coste de la compensación   ~11.000 USD/año
+
+  producto único o personalizado (6 %)
+    → reserva con coherencia fuerte en la región del
+      almacén
+    → cero sobreventa
+    → y esos productos son el 23 % del margen
+
+→ el coste de la coherencia fuerte solo se paga donde hace
+  falta
+→ y la cifra que cerró la discusión fue el coste de las
+  compensaciones frente al de aplicar coherencia fuerte a
+  todo: 11.000 al año frente a 214.000
+</code></pre>
+<p><strong>Discusión 2 · La región activa por mercado.</strong></p>
+<pre><code class="language-text">propuesta inicial   una sola región global
+  latencia de catálogo desde Latinoamérica     310 ms
+  conversión medida en ese mercado             1,7 %
+
+prueba controlada
+  se sirvió el catálogo desde una réplica regional a la
+  mitad del tráfico durante 3 semanas
+    latencia            310 ms → 84 ms
+    conversión          1,7 % → 2,3 %
+    → +35 % relativo
+
+  ingresos adicionales anualizados        1,9 M USD
+  coste de la réplica regional          148.000 USD/año
+
+→ decisión tomada con datos, no con principios
+→ y el registro guarda la prueba, no solo la conclusión
+                                            clase 272
+</code></pre>
+<p>Y lo que empeoró, dicho en el registro:</p>
+<pre><code class="language-text">un cambio de precio tarda hasta 5 minutos en verse en
+todas las regiones
+  → y en una campaña relámpago eso importaba
+  → mitigación: invalidación explícita para precio y
+    disponibilidad, propagada en &lt; 20 s
+  → y los demás campos por caducidad, que es lo barato
+</code></pre>
+<p><strong>Las pruebas negativas, ejecutadas.</strong></p>
+<p>```text                                              resultado</p>
+<p>CARGA
+codo de la compra                          4.100 pet/s
+recurso limitante                          conexiones a
+                                           inventario
+vertido por prioridad probado                      sí
+escalar empeora el limitante          sí, corregido con
+                                      intermediario
+cuotas de la secundaria                3,2 % → 100 %</p>
+<p>FALLO
+retirar instancia: ¿se pierde carrito?             no
++200 ms en inventario                 compra 1.240 ms
+                                      (antes 4.100)
+pasarela caída de un mercado          se ofrece método
+                                      alternativo en 1,4 s
+almacén sin consumir 2 h              0 pedidos perdidos;
+                                      cola al día en 9 min
+caída de zona en pico                 recomendaciones y
+                                      reseñas apagadas;
+                                      compra intacta</p>
+<p>CORRECCIÓN
+pago reenviado 3 veces                       1 cobro
+última unidad, 2 compras simultáneas   1 gana, 1 avisa
+evento de estado desordenado             descartado
+evento duplicado                         sin efecto</p>
+<p>DATOS
+dato personal europeo fuera de Europa   1 HALLAZGO
+cliente ve pedido ajeno                        no
+exportación con datos personales        1 HALLAZGO</p>
+<p>OPERACIÓN
+restaurar el pedido más reciente             4 min 12 s
+conmutación ensayada con carga               sí, 22 min
+procedimiento de sobreventa                  sí, usado 3
+                                             veces</p>
+<pre><code>
+Y los dos hallazgos de datos, que eran los graves:
+
+```text
+HALLAZGO 1
+  el servicio de recomendaciones enviaba el identificador
+  de cliente a un proveedor externo alojado fuera de
+  Europa
+  → llevaba 14 meses
+  → y el contrato con el proveedor no cubría transferencia
+  corrección  se sustituyó por un identificador
+              seudonimizado y rotatorio; y el control
+              automático se añadió a la cadena  clase 251
+
+HALLAZGO 2
+  la exportación analítica nocturna incluía correo
+  electrónico y dirección, y se copiaba a un almacén en
+  otra región
+  → la exportación existía desde antes de la separación
+    por mercados                                ley 25
+  corrección  seudonimización en el origen y control de
+              esquema que detiene la publicación
+                                             clase 243
+
+→ los dos son de datos, ninguno da error, y los dos
+  llevaban más de un año                       ley 29
+</code></pre>
+<p><strong>La temporada alta, con el plan aplicado.</strong></p>
+<pre><code class="language-text">plan
+  capacidad para 9.200 pet/s, con vertido preparado
+  cuotas ampliadas en ambas regiones de cada mercado
+  objetivo de recuperación bajado a 30 min con secundaria
+    caliente durante 6 semanas
+  congelación parcial: estándar sí, alto impacto no
+                                            clase 260
+  guardia reforzada: 8 personas, turnos de 8 horas
+  y ensayo de conmutación 2 semanas antes
+
+lo que ocurrió
+  pico real                              10.870 pet/s
+  vertido activo                              49 min
+  peticiones rechazadas                        8,4 %
+  compras completadas               100 % de las
+                                    intentadas
+  incidentes de gravedad alta                      1
+    (una pasarela local degradada 26 min; método
+     alternativo ofrecido automáticamente)
+  ingresos de las 6 semanas             +37 % interanual
+</code></pre>
+<p>Y la comparación con el año anterior:</p>
+<p>```text                                   año anterior    este año
+pico soportado                     3.800 pet/s    9.200 pet/s
+caídas del flujo de compra            2 h 40 min          0
+compras completadas en el pico             41 %       100 %
+incidentes graves                             6           1
+cambios desplegados en las 6 semanas           0         214
+  incidentes causados por ellos               -           0</p>
+<p>coste de infraestructura de las 6
+  semanas                              189.000     241.000
+ingresos de las 6 semanas                  base       +37 %</p>
+<pre><code>
+Y la lectura que el equipo llevó a la defensa:
+
+```text
+se gastaron 52.000 USD más en infraestructura durante la
+temporada
+y se desplegaron 214 cambios donde antes 0
+
+→ y no hubo ni una caída del flujo de compra
+→ la congelación total del año anterior no había evitado
+  las 2 h 40 de caída: las había concentrado
+                                            clase 260
+</code></pre>
+<p><strong>La lección que este capstone deja</strong>: la coherencia fuerte se aplicó al <strong>6 % del catálogo</strong> —los productos únicos, que son el 23 % del margen— y compensar la sobreventa del resto costó 11.000 USD al año frente a los 214.000 de aplicarla a todo. Y las dos pruebas que fallaron no eran de carga ni de fallo: eran <strong>datos personales saliendo de Europa por dos caminos que llevaban más de un año abiertos</strong> y que no producían ningún error.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-23-industry-capstones/277-capstone-retail-comercio-multi-region/lab.py
@@ -199,29 +549,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>El catálogo y la compra se diseñan igual y ninguno queda bien</td>
+<td>Se ignoró la asimetría: cientos de lecturas por cada compra, con exigencias opuestas</td>
+<td>Separa los recorridos: catálogo con réplicas y caché regional, compra con coherencia donde hace falta.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Aplicar coherencia fuerte a todo el inventario limita el caudal y encarece</td>
+<td>No se distinguió el producto con reposición del producto único</td>
+<td>Reserva optimista con reconciliación y compensación donde la sobreventa se puede compensar; coherencia fuerte solo donde no.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Durante el pico se decide sobre la marcha qué apagar</td>
+<td>El orden de degradación no estaba acordado antes con negocio</td>
+<td>Escribe y firma el orden de prioridad y la lista de lo que se acepta perder; en un incidente nadie tiene tiempo de decidirlo.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Se congela todo en temporada alta y aun así hay caídas</td>
+<td>La congelación concentra el riesgo en vez de eliminarlo y retiene arreglos de capacidad</td>
+<td>Congela solo el alto impacto, manten los cambios estándar con canario más lento y nunca congeles capacidad ni seguridad.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Un dato personal sale de su región sin que nadie lo note</td>
+<td>Integraciones y exportaciones anteriores a la separación por mercados siguen activas</td>
+<td>Añade control automático de residencia en la cadena y comprobación de esquema que detenga exportaciones con datos personales.</td>
+</tr>
+<tr>
+<td>El plan de continuidad no funciona justo en temporada alta</td>
+<td>Las cuotas de la región secundaria estaban en valores por defecto y el ensayo nunca levantó carga real</td>
+<td>Amplía cuotas en ambas regiones y ensaya la conmutación con carga antes de que empiece la temporada.</td>
 </tr>
 </tbody>
 </table>
@@ -232,17 +587,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Cuál es la restricción dominante del comercio y qué tres cosas decide?</li>
+<li>¿Por qué se separan catálogo y compra y qué exige cada uno?</li>
+<li>¿Dónde hace falta coherencia fuerte en este sector y dónde no?</li>
+<li>¿Qué contiene la lista de lo que se acepta perder y por qué se escribe antes?</li>
+<li>¿Qué pruebas negativas revelaron los fallos más graves y por qué no daban error?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Building Evolutionary Architectures — Ford, Parsons y Kua.</li>
-<li>Release It! — Michael Nygard.</li>
-<li>Accelerate — Forsgren, Humble y Kim.</li>
+<li>AWS (2024). <em>Retail reference architectures and Well-Architected retail lens</em>. <a href="https://docs.aws.amazon.com/wellarchitected/latest/retail-lens/retail-lens.html">https://docs.aws.amazon.com/wellarchitected/latest/retail-lens/retail-lens.html</a></li>
+<li>Google Cloud (2024). <em>Retail and commerce architectures</em>. <a href="https://cloud.google.com/architecture/ecommerce-web-application">https://cloud.google.com/architecture/ecommerce-web-application</a></li>
+<li>Microsoft (2024). <em>E-commerce architecture on Azure</em>. <a href="https://learn.microsoft.com/azure/architecture/industries/retail/">https://learn.microsoft.com/azure/architecture/industries/retail/</a></li>
+<li>Helland, P. (2007). <em>Life beyond distributed transactions</em> — reservas y compensación. <a href="https://queue.acm.org/detail.cfm?id=3025012">https://queue.acm.org/detail.cfm?id=3025012</a></li>
+<li>Reglamento (UE) 2016/679, RGPD — residencia y transferencias de datos personales. <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj">https://eur-lex.europa.eu/eli/reg/2016/679/oj</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -310,7 +667,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-encargo-y-la-restriccion-que-manda">1. El encargo y la restricción que manda</a><a class="toc-level-3" href="#2-las-decisiones-por-capa">2. Las decisiones por capa</a><a class="toc-level-3" href="#3-que-se-acepta-perder">3. Qué se acepta perder</a><a class="toc-level-3" href="#4-las-pruebas-negativas-del-capstone">4. Las pruebas negativas del capstone</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>

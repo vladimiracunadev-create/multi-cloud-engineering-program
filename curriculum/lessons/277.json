@@ -1,0 +1,118 @@
+{
+  "id": "277",
+  "purpose": "Primer capstone sectorial: comercio en varias regiones. La clase da el encargo completo, la restricción que manda en este sector —**el pico estacional concentrado y la asimetría entre leer y comprar**—, las decisiones por capa con sus alternativas, lo que se acepta perder cuando algo falla, y las pruebas negativas que verifican el resultado.",
+  "outcomes": [
+    "**Identificar** la restricción dominante del comercio y qué decide.",
+    "**Separar** los recorridos por criticidad y tratarlos distinto.",
+    "**Decidir** la estrategia entre regiones con coste y con cifras.",
+    "**Definir** qué se degrada y en qué orden bajo carga.",
+    "**Verificar** el diseño con las pruebas negativas del sector."
+  ],
+  "concepts": [
+    {
+      "term": "asimetría de recorridos",
+      "definition": "Leer catálogo es masivo y tolerante; comprar es escaso y crítico. Se diseñan por separado."
+    },
+    {
+      "term": "pico estacional",
+      "definition": "Concentración de demanda en horas concretas del año. Determina capacidad, cambio y guardia."
+    },
+    {
+      "term": "reserva de inventario",
+      "definition": "El punto donde el comercio necesita coherencia fuerte. Casi el único."
+    },
+    {
+      "term": "sobreventa",
+      "definition": "Vender más unidades de las existentes. Riesgo aceptable con compensación, o no, según el producto."
+    },
+    {
+      "term": "degradación por prioridad",
+      "definition": "Apagar lo accesorio para que lo esencial siga. Decidido antes, con negocio."
+    },
+    {
+      "term": "residencia por mercado",
+      "definition": "Obligación de que ciertos datos permanezcan en una región concreta."
+    }
+  ],
+  "diagram": "flowchart TB\n    U[\"usuario\"] --> R1[\"CATÁLOGO Y BÚSQUEDA\\nmasivo · tolerante\\ncaché en el borde\"]\n    U --> R2[\"CARRITO\\nsesión · recuperable\"]\n    U --> R3[\"COMPRA Y PAGO\\nescaso · CRÍTICO\\ncoherencia fuerte\"]\n    U --> R4[\"SEGUIMIENTO\\nfrescura de minutos\"]\n    R1 --> C[\"réplicas por región\\nlectura local\"]\n    R3 --> I{\"reserva de\\ninventario\"}\n    I -->|\"región primaria\"| D[\"escritura\\ncoherente\"]\n    D --> P[\"pago · idempotente\"]\n    P --> E[\"eventos:\\npreparación y envío\"]\n    X[\"pico estacional\"] -.->|\"vertido por\\nprioridad\"| R1",
+  "foundations": [
+    {
+      "heading": "El encargo y la restricción que manda",
+      "body": "**El encargo.** CloudShop opera en tres mercados —Europa, Norteamérica y Latinoamérica— con catálogo compartido, inventario por almacén y pago por pasarela local. Hay que diseñar y defender la arquitectura completa, con cifras.\n\n```text\nCIFRAS DE PARTIDA\n  visitas/mes                              41 M\n  búsquedas y vistas de catálogo/día        18 M\n  pedidos/día                              38.000\n  pico de temporada alta                    ×3,1 sobre un\n                                            martes normal\n  y el evento de campaña                    ×1,6 durante\n                                            40 minutos\n  referencias en catálogo                   2,1 M\n  almacenes                                 7\n  mercados con residencia obligatoria       1 (Europa,\n                                            datos\n                                            personales)\n```\n\nY la restricción que manda, que no es técnica:\n\n```text\nEL NEGOCIO SE JUEGA EN HORAS CONCRETAS DEL AÑO\n  el 31 % de los ingresos anuales ocurre en 6 semanas\n  y dentro de esas, el 9 % en 3 días\n\n→ consecuencias directas\n  la capacidad se dimensiona para el pico y se paga todo\n    el año, salvo que sea elástica de verdad\n                                            clase 262\n  la ventana de cambio de esas semanas vale más que\n    cualquier otra decisión                 clase 260\n  y la guardia de esos días necesita gente, no\n    procedimientos                          clase 257\n\n→ y en un sector donde una caída de una hora en el día\n  malo cuesta más que un mes de infraestructura, la\n  conversación de coste cambia de sentido\n```\n\nY la segunda restricción, la que ordena el diseño:\n\n```text\nLA ASIMETRÍA ENTRE LEER Y COMPRAR\n  18 M vistas/día frente a 38.000 pedidos/día\n  → 474 lecturas por cada compra\n\n  y sus exigencias son opuestas\n    catálogo   masivo · tolerante a datos algo viejos ·\n               caché sirve · latencia importa mucho\n    compra     escaso · exige coherencia · idempotencia ·\n               latencia importa menos que la corrección\n\n→ tratarlos igual es el error de partida del sector\n→ y separarlos permite que el 99,8 % del tráfico se sirva\n  desde caché regional y el 0,2 % desde la región donde\n  vive la verdad\n```"
+    },
+    {
+      "heading": "Las decisiones por capa",
+      "body": "Cada una con su alternativa y con lo que empeora.\n\n```text\nCATÁLOGO Y BÚSQUEDA\n  decisión   réplicas de solo lectura por región, con\n             caché en el borde y validez de 5 minutos\n  alternativa  servir todo desde una región\n  por qué    474 lecturas por compra; la latencia de\n             catálogo mueve la conversión\n  empeora    un cambio de precio tarda hasta 5 minutos en\n             verse en todas partes\n  mitigación invalidación explícita para precio y para\n             disponibilidad; los demás campos, por caducidad\n\nINVENTARIO Y RESERVA\n  decisión   la reserva se hace en la región del ALMACÉN\n             que sirve, con coherencia fuerte\n  alternativa  inventario replicado con resolución de\n             conflictos\n  por qué    la sobreventa de un producto único no se\n             compensa; la de un producto con reposición, sí\n  empeora    una compra que cruza almacenes de dos regiones\n             tarda más\n  y se acepta porque son el 3 % de los pedidos\n\nCARRITO\n  decisión   persistente y asociado a la identidad, no a\n             la sesión ni a la instancia\n  alternativa  en memoria de la instancia\n  por qué    la clase 261 midió lo que cuesta: el 9 % de\n             usuarios perdía la compra al retirar una\n             instancia\n  empeora    una escritura por acción del usuario\n\nPAGO\n  decisión   pasarela local por mercado, con clave de\n             idempotencia obligatoria y máquina de estados\n             explícita                       clase 210\n  alternativa  una pasarela global\n  por qué    las tasas de aprobación locales son entre 4 y\n             11 puntos mejores, y eso domina cualquier\n             consideración técnica\n  empeora    tres integraciones que mantener y tres modos\n             de fallo distintos\n\nPEDIDO Y CUMPLIMIENTO\n  decisión   pedido confirmado = evento; el resto es\n             asíncrono                       clase 210\n  alternativa  todo síncrono hasta el almacén\n  por qué    el almacén no puede tumbar la compra\n  empeora    el usuario ve «confirmado» antes de que el\n             almacén lo sepa\n  y se acepta con seguimiento por frescura   clase 275\n\nDATOS PERSONALES\n  decisión   los de clientes europeos residen en Europa;\n             el catálogo y los datos agregados, no\n  alternativa  todo en una región\n  por qué    obligación legal del mercado\n  empeora    dos almacenes analíticos y una vista unificada\n             que hay que construir\n```\n\nY la estrategia entre regiones:\n\n```text\ndecisión   una región activa por mercado, con la\n           secundaria en frío y datos replicados\n           objetivo de recuperación: 30 minutos en\n           temporada alta, 4 horas el resto del año\n  → y esa diferencia es lo interesante\n  → durante 6 semanas se mantiene capacidad caliente en la\n    secundaria; el resto del año no\n  coste     +9.000 USD/mes base; +41.000 en temporada\n  alternativa activo-activo permanente: +112.000/mes\n```"
+    },
+    {
+      "heading": "Qué se acepta perder",
+      "body": "El diseño no se define por lo que aguanta: se define por lo que se decide sacrificar y en qué orden.\n\n```text\nEL ORDEN DE DEGRADACIÓN, acordado con negocio\n\n  PRIORIDAD 1 · nunca se apaga\n    completar una compra ya iniciada\n    pago y confirmación\n    → si esto cae, no hay negocio\n\n  PRIORIDAD 2 · se degrada, no se apaga\n    catálogo y búsqueda\n    → si la búsqueda falla, se sirve el catálogo por\n      categorías desde caché\n    → peor experiencia, negocio vivo\n\n  PRIORIDAD 3 · se apaga bajo carga\n    recomendaciones\n    valoraciones y reseñas\n    disponibilidad exacta por tienda física\n    → y esto se decidió ANTES, no durante  clase 262\n\n  PRIORIDAD 4 · se vierte\n    histórico de pedidos\n    exportaciones y paneles de comerciantes\n```\n\nY los sacrificios explícitos, que son la parte que cuesta acordar:\n\n```text\nSE ACEPTA\n  que un precio tarde hasta 5 minutos en propagarse\n  que el seguimiento muestre «actualizado hace X» en vez\n    de un estado falso\n  que un pedido aparezca en el almacén con hasta 2 minutos\n    de retraso\n  que el histórico no esté disponible en el pico\n  y sobreventa de hasta el 0,3 % en productos con\n    reposición, con compensación automática al cliente\n\nNO SE ACEPTA\n  cobrar dos veces                         clase 210\n  perder un pedido confirmado\n  sobrevender un producto único o personalizado\n  mostrar el pedido de otro cliente\n  y que un dato personal europeo salga de Europa\n\n→ y esta lista es el documento más útil del capstone\n→ porque durante un incidente nadie tiene tiempo de\n  decidirlo                                clase 257\n```\n\nY las señales que verifican esas promesas:\n\n```text\néxito de compra, medido en el cliente        > 99,9 %\nlatencia del catálogo, percentil 95          < 800 ms\ncobros duplicados                            0, alerta\n                                             inmediata\nsobreventa por categoría de producto         panel diario\nfrescura del seguimiento por transportista   p95 < 10 min\nretraso pedido → almacén                     p95 < 2 min\ny datos personales fuera de región           0, control\n                                             automático\n```"
+    },
+    {
+      "heading": "Las pruebas negativas del capstone",
+      "body": "Lo que hay que ejecutar para saber si el diseño funciona.\n\n```text\nDE CARGA Y CAPACIDAD                        clase 262\n  ☐ ¿cuál es el recurso limitante de la compra y dónde\n    está su codo?\n  ☐ ¿el vertido por prioridad está probado con carga real?\n  ☐ ¿escalar el servicio empeora algún limitante?\n  ☐ ¿las cuotas de la región secundaria dan para el 100 %?\n\nDE FALLO                                    clase 261\n  ☐ retirar una instancia: ¿alguien pierde el carrito?\n  ☐ +200 ms en inventario: ¿cuánto se degrada la compra?\n  ☐ la pasarela de un mercado no responde: ¿qué ve el\n    usuario?\n  ☐ el almacén no consume eventos durante 2 horas: ¿se\n    pierde algún pedido?\n  ☐ caída de una zona en pico: ¿qué se degrada y en qué\n    orden?\n\nDE CORRECCIÓN\n  ☐ reenviar el mismo pago tres veces: ¿un solo cobro?\n  ☐ dos compras simultáneas de la última unidad: ¿una sola\n    gana?\n  ☐ un evento de estado llega desordenado: ¿se aplica el\n    viejo?\n  ☐ un evento llega duplicado: ¿se duplica el pedido?\n\nDE DATOS Y NORMATIVA\n  ☐ ¿algún dato personal europeo sale de Europa? control\n    automático                              clase 251\n  ☐ ¿un cliente puede ver el pedido de otro cambiando un\n    identificador?\n  ☐ ¿la exportación analítica contiene datos personales?\n\nDE OPERACIÓN                                parte 21\n  ☐ ¿cuánto tarda restaurar el pedido más reciente?\n  ☐ ¿la conmutación de región se ha ensayado con carga?\n  ☐ ¿el procedimiento de sobreventa existe y se ha\n    ejecutado?\n  ☐ ¿la guardia de temporada alta está dimensionada?\n```\n\n**El entregable del capstone:**\n\n```text\n1  diagrama por recorrido, no por servicio\n2  registro de decisiones con alternativas y coste\n                                            clase 272\n3  la lista de lo que se acepta perder, firmada con\n   negocio\n4  el orden de degradación\n5  los indicadores por recorrido y sus objetivos\n                                            clase 268\n6  el plan de temporada alta: capacidad, congelación,\n   guardia y ensayos\n7  el coste mensual estimado, base y pico\n8  y el resultado de las pruebas negativas, con lo que\n   falló\n```\n\nY el cierre que enlaza con la clase siguiente: el comercio acepta perder cosas y compensar. El siguiente sector no puede: cuando el dato es dinero y hay que probar ante un tercero qué ocurrió, el diseño cambia. Pagos, auditoría y recuperación es la materia de la clase 278."
+    }
+  ],
+  "worked_example": "**El capstone resuelto, con las cifras de las pruebas negativas. Lo que sigue son las tres decisiones que costaron discusión, lo que falló al ejecutar las pruebas, y el resultado de la temporada alta.**\n\n**Discusión 1 · Sobreventa: dónde está la coherencia fuerte.**\n\n```text\nposturas\n  ingeniería  «reservar con coherencia fuerte cuesta\n              latencia y limita el caudal»\n  negocio     «vender algo que no existe destroza la\n              confianza»\n\nlo que resolvió la discusión: separar por tipo de producto\n\n  producto con reposición (94 % del catálogo)\n    → reserva optimista con reconciliación\n    → sobreventa tolerada hasta el 0,3 %\n    → compensación automática: cupón y aviso en 2 horas\n    → coste de la compensación   ~11.000 USD/año\n\n  producto único o personalizado (6 %)\n    → reserva con coherencia fuerte en la región del\n      almacén\n    → cero sobreventa\n    → y esos productos son el 23 % del margen\n\n→ el coste de la coherencia fuerte solo se paga donde hace\n  falta\n→ y la cifra que cerró la discusión fue el coste de las\n  compensaciones frente al de aplicar coherencia fuerte a\n  todo: 11.000 al año frente a 214.000\n```\n\n**Discusión 2 · La región activa por mercado.**\n\n```text\npropuesta inicial   una sola región global\n  latencia de catálogo desde Latinoamérica     310 ms\n  conversión medida en ese mercado             1,7 %\n\nprueba controlada\n  se sirvió el catálogo desde una réplica regional a la\n  mitad del tráfico durante 3 semanas\n    latencia            310 ms → 84 ms\n    conversión          1,7 % → 2,3 %\n    → +35 % relativo\n\n  ingresos adicionales anualizados        1,9 M USD\n  coste de la réplica regional          148.000 USD/año\n\n→ decisión tomada con datos, no con principios\n→ y el registro guarda la prueba, no solo la conclusión\n                                            clase 272\n```\n\nY lo que empeoró, dicho en el registro:\n\n```text\nun cambio de precio tarda hasta 5 minutos en verse en\ntodas las regiones\n  → y en una campaña relámpago eso importaba\n  → mitigación: invalidación explícita para precio y\n    disponibilidad, propagada en < 20 s\n  → y los demás campos por caducidad, que es lo barato\n```\n\n**Las pruebas negativas, ejecutadas.**\n\n```text                                              resultado\n\nCARGA\ncodo de la compra                          4.100 pet/s\nrecurso limitante                          conexiones a\n                                           inventario\nvertido por prioridad probado                      sí\nescalar empeora el limitante          sí, corregido con\n                                      intermediario\ncuotas de la secundaria                3,2 % → 100 %\n\nFALLO\nretirar instancia: ¿se pierde carrito?             no\n+200 ms en inventario                 compra 1.240 ms\n                                      (antes 4.100)\npasarela caída de un mercado          se ofrece método\n                                      alternativo en 1,4 s\nalmacén sin consumir 2 h              0 pedidos perdidos;\n                                      cola al día en 9 min\ncaída de zona en pico                 recomendaciones y\n                                      reseñas apagadas;\n                                      compra intacta\n\nCORRECCIÓN\npago reenviado 3 veces                       1 cobro\núltima unidad, 2 compras simultáneas   1 gana, 1 avisa\nevento de estado desordenado             descartado\nevento duplicado                         sin efecto\n\nDATOS\ndato personal europeo fuera de Europa   1 HALLAZGO\ncliente ve pedido ajeno                        no\nexportación con datos personales        1 HALLAZGO\n\nOPERACIÓN\nrestaurar el pedido más reciente             4 min 12 s\nconmutación ensayada con carga               sí, 22 min\nprocedimiento de sobreventa                  sí, usado 3\n                                             veces\n```\n\nY los dos hallazgos de datos, que eran los graves:\n\n```text\nHALLAZGO 1\n  el servicio de recomendaciones enviaba el identificador\n  de cliente a un proveedor externo alojado fuera de\n  Europa\n  → llevaba 14 meses\n  → y el contrato con el proveedor no cubría transferencia\n  corrección  se sustituyó por un identificador\n              seudonimizado y rotatorio; y el control\n              automático se añadió a la cadena  clase 251\n\nHALLAZGO 2\n  la exportación analítica nocturna incluía correo\n  electrónico y dirección, y se copiaba a un almacén en\n  otra región\n  → la exportación existía desde antes de la separación\n    por mercados                                ley 25\n  corrección  seudonimización en el origen y control de\n              esquema que detiene la publicación\n                                             clase 243\n\n→ los dos son de datos, ninguno da error, y los dos\n  llevaban más de un año                       ley 29\n```\n\n**La temporada alta, con el plan aplicado.**\n\n```text\nplan\n  capacidad para 9.200 pet/s, con vertido preparado\n  cuotas ampliadas en ambas regiones de cada mercado\n  objetivo de recuperación bajado a 30 min con secundaria\n    caliente durante 6 semanas\n  congelación parcial: estándar sí, alto impacto no\n                                            clase 260\n  guardia reforzada: 8 personas, turnos de 8 horas\n  y ensayo de conmutación 2 semanas antes\n\nlo que ocurrió\n  pico real                              10.870 pet/s\n  vertido activo                              49 min\n  peticiones rechazadas                        8,4 %\n  compras completadas               100 % de las\n                                    intentadas\n  incidentes de gravedad alta                      1\n    (una pasarela local degradada 26 min; método\n     alternativo ofrecido automáticamente)\n  ingresos de las 6 semanas             +37 % interanual\n```\n\nY la comparación con el año anterior:\n\n```text                                   año anterior    este año\npico soportado                     3.800 pet/s    9.200 pet/s\ncaídas del flujo de compra            2 h 40 min          0\ncompras completadas en el pico             41 %       100 %\nincidentes graves                             6           1\ncambios desplegados en las 6 semanas           0         214\n  incidentes causados por ellos               -           0\n\ncoste de infraestructura de las 6\n  semanas                              189.000     241.000\ningresos de las 6 semanas                  base       +37 %\n```\n\nY la lectura que el equipo llevó a la defensa:\n\n```text\nse gastaron 52.000 USD más en infraestructura durante la\ntemporada\ny se desplegaron 214 cambios donde antes 0\n\n→ y no hubo ni una caída del flujo de compra\n→ la congelación total del año anterior no había evitado\n  las 2 h 40 de caída: las había concentrado\n                                            clase 260\n```\n\n**La lección que este capstone deja**: la coherencia fuerte se aplicó al **6 % del catálogo** —los productos únicos, que son el 23 % del margen— y compensar la sobreventa del resto costó 11.000 USD al año frente a los 214.000 de aplicarla a todo. Y las dos pruebas que fallaron no eran de carga ni de fallo: eran **datos personales saliendo de Europa por dos caminos que llevaban más de un año abiertos** y que no producían ningún error.",
+  "pitfalls": [
+    {
+      "symptom": "El catálogo y la compra se diseñan igual y ninguno queda bien",
+      "cause": "Se ignoró la asimetría: cientos de lecturas por cada compra, con exigencias opuestas",
+      "fix": "Separa los recorridos: catálogo con réplicas y caché regional, compra con coherencia donde hace falta."
+    },
+    {
+      "symptom": "Aplicar coherencia fuerte a todo el inventario limita el caudal y encarece",
+      "cause": "No se distinguió el producto con reposición del producto único",
+      "fix": "Reserva optimista con reconciliación y compensación donde la sobreventa se puede compensar; coherencia fuerte solo donde no."
+    },
+    {
+      "symptom": "Durante el pico se decide sobre la marcha qué apagar",
+      "cause": "El orden de degradación no estaba acordado antes con negocio",
+      "fix": "Escribe y firma el orden de prioridad y la lista de lo que se acepta perder; en un incidente nadie tiene tiempo de decidirlo."
+    },
+    {
+      "symptom": "Se congela todo en temporada alta y aun así hay caídas",
+      "cause": "La congelación concentra el riesgo en vez de eliminarlo y retiene arreglos de capacidad",
+      "fix": "Congela solo el alto impacto, manten los cambios estándar con canario más lento y nunca congeles capacidad ni seguridad."
+    },
+    {
+      "symptom": "Un dato personal sale de su región sin que nadie lo note",
+      "cause": "Integraciones y exportaciones anteriores a la separación por mercados siguen activas",
+      "fix": "Añade control automático de residencia en la cadena y comprobación de esquema que detenga exportaciones con datos personales."
+    },
+    {
+      "symptom": "El plan de continuidad no funciona justo en temporada alta",
+      "cause": "Las cuotas de la región secundaria estaban en valores por defecto y el ensayo nunca levantó carga real",
+      "fix": "Amplía cuotas en ambas regiones y ensaya la conmutación con carga antes de que empiece la temporada."
+    }
+  ],
+  "checks": [
+    "¿Cuál es la restricción dominante del comercio y qué tres cosas decide?",
+    "¿Por qué se separan catálogo y compra y qué exige cada uno?",
+    "¿Dónde hace falta coherencia fuerte en este sector y dónde no?",
+    "¿Qué contiene la lista de lo que se acepta perder y por qué se escribe antes?",
+    "¿Qué pruebas negativas revelaron los fallos más graves y por qué no daban error?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2024). *Retail reference architectures and Well-Architected retail lens*.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/retail-lens/retail-lens.html"
+    },
+    {
+      "text": "Google Cloud (2024). *Retail and commerce architectures*.",
+      "url": "https://cloud.google.com/architecture/ecommerce-web-application"
+    },
+    {
+      "text": "Microsoft (2024). *E-commerce architecture on Azure*.",
+      "url": "https://learn.microsoft.com/azure/architecture/industries/retail/"
+    },
+    {
+      "text": "Helland, P. (2007). *Life beyond distributed transactions* — reservas y compensación.",
+      "url": "https://queue.acm.org/detail.cfm?id=3025012"
+    },
+    {
+      "text": "Reglamento (UE) 2016/679, RGPD — residencia y transferencias de datos personales.",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    }
+  ]
+}
