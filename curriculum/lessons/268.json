@@ -1,0 +1,118 @@
+{
+  "id": "268",
+  "purpose": "La ruta de fiabilidad: responder de que el sistema cumpla lo prometido, con un número acordado y la autoridad para actuar sobre él. La clase da lo que la distingue de «operar bien» —el objetivo negociado, el presupuesto de error y la potestad de frenar—, las competencias que se miden, y su modo de fracaso: **convertirse en el equipo que hace las guardias de los demás**.",
+  "outcomes": [
+    "**Definir** objetivos de nivel de servicio que representen al usuario.",
+    "**Usar** el presupuesto de error como mecanismo de decisión, no de informe.",
+    "**Negociar** el número con negocio y con producto, con sus costes.",
+    "**Evitar** convertirse en el equipo que absorbe la guardia ajena.",
+    "**Reconocer** el techo de la ruta y qué la continúa."
+  ],
+  "concepts": [
+    {
+      "term": "indicador de nivel de servicio",
+      "definition": "Medida de algo que el usuario experimenta: éxito de una operación, latencia, frescura."
+    },
+    {
+      "term": "objetivo de nivel de servicio",
+      "definition": "El valor acordado que ese indicador debe cumplir. Se negocia, no se declara."
+    },
+    {
+      "term": "presupuesto de error",
+      "definition": "Lo que sobra del objetivo. Se gasta desplegando; agotarlo tiene consecuencias acordadas."
+    },
+    {
+      "term": "potestad de frenar",
+      "definition": "Autoridad para detener despliegues cuando el presupuesto se agota. Sin ella, el objetivo es decorativo."
+    },
+    {
+      "term": "trabajo repetitivo",
+      "definition": "Tarea manual sin valor duradero que crece con el sistema. Su límite define esta ruta."
+    },
+    {
+      "term": "guardia prestada",
+      "definition": "Modo de fracaso en que el equipo de fiabilidad responde de servicios que no construye."
+    }
+  ],
+  "diagram": "flowchart TB\n    U[\"experiencia\\ndel usuario\"] --> I[\"INDICADOR\\nlo que el usuario nota\"]\n    I --> O[\"OBJETIVO\\nnegociado con negocio\"]\n    O --> P[\"PRESUPUESTO\\nDE ERROR\"]\n    P --> G{\"¿queda\\npresupuesto?\"}\n    G -->|\"sí\"| D[\"se despliega\\ncon libertad\"]\n    G -->|\"no\"| F[\"se frena\\ny se arregla\"]\n    F --> A[\"acciones de\\nfiabilidad\\npriorizadas\"]\n    A --> P\n    X[\"modo de fracaso:\\nGUARDIA PRESTADA\"] -.->|\"responde de lo\\nque no construye\"| F",
+  "foundations": [
+    {
+      "heading": "Qué distingue esta ruta",
+      "body": "No es «operar bien»: eso lo hace la parte 21 entera. Lo que define esta ruta son tres cosas que casi nunca están juntas.\n\n```text\n1  UN NÚMERO ACORDADO\n   no «que vaya bien», sino «el 99,9 % de las compras se\n   completan en menos de 2 segundos»\n   → acordado con negocio, no declarado por ingeniería\n\n2  UN MECANISMO QUE CONVIERTE EL NÚMERO EN DECISIONES\n   el presupuesto de error\n   → mientras quede, se despliega con libertad\n   → cuando se agota, se para y se arregla\n\n3  Y LA POTESTAD DE APLICARLO\n   → sin esto, el objetivo es un informe mensual que nadie\n     lee\n   → y esta es la parte que no es técnica y la que decide\n     si la ruta existe de verdad\n```\n\nY el indicador, que es donde se cometen los errores:\n\n```text\nUN BUEN INDICADOR\n  mide lo que el usuario experimenta\n  se mide donde el usuario está, no en el servidor\n  tiene un umbral claro de bueno y malo\n  y su caída significa que alguien está sufriendo\n\nUN MAL INDICADOR\n  disponibilidad de la máquina\n  uso de CPU\n  «la petición devolvió 200»\n    → aunque el contenido esté vacío         ley 29\n  y el promedio de latencia\n    → la media oculta la cola                clase 186\n\n→ la prueba: «si esto empeora, ¿lo nota alguien?»\n→ y la inversa, que es la que más falla:\n  «si algo empeora para el usuario, ¿esto lo refleja?»\n```\n\nY cómo se elige el objetivo, que se negocia:\n\n```text\nNO SE ELIGE «EL MÁS ALTO POSIBLE»\n  cada nueve adicional multiplica el coste\n  99,9 %    8,7 h al año de margen\n  99,95 %   4,4 h\n  99,99 %   52 min\n  → y pasar de 99,9 a 99,99 puede costar más que todo el\n    servicio\n\nSE ELIGE MIRANDO\n  qué nota el usuario de verdad\n    → si el cliente móvil ya falla el 0,4 % por la red,\n      un 99,99 % de servidor no lo nota nadie\n  qué prometen los contratos\n  qué cuesta cada nivel\n  y qué disponibilidad tienen las dependencias\n                                            clase 185\n\n→ y el objetivo debe ser PEOR que lo que hoy se consigue\n  por casualidad\n→ si el objetivo se cumple siempre sin esfuerzo, no está\n  midiendo nada útil\n```"
+    },
+    {
+      "heading": "El presupuesto de error como mecanismo",
+      "body": "El presupuesto de error solo sirve si tiene consecuencias acordadas de antemano. Si no, es una métrica más.\n\n```text\nCÓMO FUNCIONA\n  objetivo 99,9 % → presupuesto 0,1 %\n  en 30 días, unos 43 minutos de fallo total equivalente\n\n  cada incidente y cada despliegue fallido lo consumen\n  y se repone al empezar la ventana siguiente\n\nLAS CONSECUENCIAS, escritas ANTES\n  presupuesto > 50 %      se despliega con libertad; se\n                          pueden asumir riesgos\n  presupuesto < 25 %      solo cambios de bajo riesgo;\n                          revisión más estricta\n  presupuesto agotado     se congelan las funciones\n                          nuevas; el equipo trabaja en\n                          fiabilidad hasta reponerlo\n\n→ y esto último es lo que le da poder\n→ y es lo que hay que acordar con producto ANTES de que\n  ocurra, no durante\n```\n\nY lo que el mecanismo consigue, que es su verdadero propósito:\n\n```text\nCONVIERTE UNA DISCUSIÓN DE OPINIONES EN UNA DE DATOS\n  antes  «hay que ir más despacio» / «hay que entregar»\n  ahora  «queda el 18 % del presupuesto»\n\ny alinea incentivos\n  a producto le interesa que el sistema sea fiable, porque\n  si no, se le congelan las funciones\n  a ingeniería le interesa no ser conservadora de más,\n  porque el presupuesto sin gastar es margen\n  desaprovechado\n\n→ y ese segundo punto sorprende: gastar POCO presupuesto\n  también es una señal\n→ significa que se podría entregar más rápido o que el\n  objetivo está mal puesto\n```\n\nY los errores más comunes con el presupuesto:\n\n```text\n1  NO TENER CONSECUENCIAS\n   se informa y no pasa nada\n   → y entonces es un panel bonito\n\n2  PONER EL OBJETIVO DONDE YA SE CUMPLE\n   → presupuesto siempre lleno, nunca decide nada\n\n3  MEDIRLO SOBRE LA VENTANA EQUIVOCADA\n   30 días móviles funciona bien\n   → trimestral esconde; semanal es demasiado ruidoso\n\n4  EXCLUIR INCIDENTES «QUE NO CUENTAN»\n   → «esto fue del proveedor»\n   → el usuario no distingue de quién fue      clase 185\n   → y si se excluye, el número deja de representarlo\n\n5  Y TENER DEMASIADOS\n   → 3 a 5 objetivos por servicio; más no se gestionan\n```"
+    },
+    {
+      "heading": "Competencias, niveles y el trabajo repetitivo",
+      "body": "Lo que se mide en esta ruta, por nivel.\n\n```text\nNIVEL 2 · RESUELVO\n  define indicadores que representan al usuario\n  instrumenta y mide con corrección     clases 211, 257\n  diagnostica y arregla                     clase 258\n  escribe procedimientos y análisis posteriores\n                                      clases 111, 259\n  y responde de una guardia\n\nNIVEL 3 · DISEÑO\n  negocia objetivos con negocio y sostiene el número\n  diseña degradación y vertido de carga     clase 262\n  hace análisis de modos de fallo antes de que ocurran\n  dimensiona capacidad y márgenes\n  y dice que no a un despliegue, con argumento\n\nNIVEL 4 · CAMBIO EL SISTEMA\n  el presupuesto de error se respeta sin discusión porque\n  la organización lo acordó\n  la fiabilidad se diseña en los servicios nuevos, no se\n  añade después\n  y el trabajo repetitivo baja mientras el sistema crece\n```\n\nY el límite que define la salud de la ruta:\n\n```text\nEL LÍMITE AL TRABAJO REPETITIVO\n  la práctica clásica: no más del 50 % del tiempo\n  → y el resto, en trabajo que reduce el futuro trabajo\n\n  y si se pasa\n    se devuelve la guardia al equipo que construye\n    o se para de aceptar servicios nuevos\n\n→ este límite es lo que impide el modo de fracaso\n→ y hay que escribirlo antes de necesitarlo\n```\n\nY el modo de fracaso, que es el más frecuente de todas las rutas:\n\n```text\nLA GUARDIA PRESTADA\n  el equipo de fiabilidad acaba respondiendo de servicios\n  que no construye\n\n  cómo empieza\n    «vosotros sabéis operar mejor»\n    y el equipo de producto deja de recibir alertas\n\n  qué produce\n    quien construye no sufre lo que construye\n    → y entonces no lo arregla                clase 111\n    el equipo de fiabilidad se llena de trabajo repetitivo\n    y su conocimiento de cada servicio es superficial\n\n  cómo se evita\n    CRITERIOS DE ENTRADA para aceptar un servicio\n      señales definidas y objetivos acordados\n      procedimientos ejecutables            clase 259\n      despliegue progresivo y vuelta atrás  clase 260\n      y el equipo que lo construye COMPARTE la guardia\n    y criterios de SALIDA\n      → si el servicio deja de cumplirlos, se devuelve\n\n→ y devolver un servicio es la acción más impopular y más\n  necesaria de esta ruta\n```"
+    },
+    {
+      "heading": "Negociar el número y el techo de la ruta",
+      "body": "La parte que hace difícil esta especialidad no es medir: es sostener el número cuando incomoda.\n\n```text\nCÓMO SE NEGOCIA CON NEGOCIO\n  no se pregunta «¿qué disponibilidad quieres?»\n  → la respuesta siempre es «la máxima»\n\n  se pregunta\n    «¿cuánto vale para el negocio una hora de caída?»\n    «¿qué prefieres: esta función un mes antes o pasar de\n     99,9 a 99,95?»\n    «¿qué le pasa a un usuario cuando esto falla?»\n\n  y se presenta el coste de cada nivel\n    → con la cifra de la parte 19: la redundancia entre\n      regiones no es un ajuste, es otro sistema\n                                            clase 187\n```\n\nY cómo se sostiene:\n\n```text\nCUANDO EL PRESUPUESTO SE AGOTA Y HAY UN LANZAMIENTO\n  la conversación no es «¿lo paramos?»\n  es «acordamos esto; ¿queréis cambiar el acuerdo?»\n  → y cambiar el acuerdo es legítimo, si es explícito\n  → lo ilegítimo es ignorarlo\n\ny la salida honesta\n  «podemos lanzarlo si asumimos que el objetivo baja a\n  99,5 % este trimestre; ¿lo asumimos?»\n  → decisión de negocio, registrada\n\n→ el trabajo de esta ruta no es impedir: es hacer la\n  decisión VISIBLE\n```\n\nY el techo:\n\n```text\nEL TECHO\n  el sistema cumple, el presupuesto se respeta y el\n  trabajo repetitivo está bajo control\n  → y lo que limita entonces es la arquitectura o la\n    organización\n\ncontinuaciones\n  a  ARQUITECTURA                            clase 272\n     si el límite es cómo está construido\n  b  PLATAFORMA                              clase 267\n     si el límite es que cada equipo lo resuelve solo\n  c  o dirección técnica\n     si el límite es cómo se priorizan las decisiones\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ mis indicadores miden lo que el usuario experimenta\n☐ se miden donde el usuario está\n☐ el objetivo está acordado con negocio, no declarado\n☐ el objetivo no se cumple solo, por casualidad\n☐ hay entre 3 y 5 objetivos por servicio\n☐ el presupuesto de error tiene consecuencias escritas\n  antes\n☐ no se excluyen incidentes «que no cuentan»\n☐ la ventana es de 30 días móviles\n☐ existe potestad de frenar y se ha ejercido alguna vez\n☐ el trabajo repetitivo tiene límite escrito\n☐ hay criterios de entrada y de salida para aceptar\n  servicios\n☐ quien construye comparte la guardia\n☐ gastar poco presupuesto también se revisa\n```\n\nY el cierre que enlaza con la clase siguiente: la fiabilidad responde de que el sistema cumpla; queda quien responde de que un fallo no sea catastrófico ni deliberado. La ruta de seguridad es la materia de la clase 269."
+    }
+  ],
+  "worked_example": "**La ruta de fiabilidad en CloudShop: del panel que nadie miraba al presupuesto que paró un lanzamiento. Lo que sigue son los objetivos mal puestos que se corrigieron, la negociación que costó tres reuniones, y el servicio que hubo que devolver.**\n\n**Punto de partida: los objetivos que no medían nada.**\n\n```text\nlo que había, 14 objetivos declarados por ingeniería\n\n  objetivo                     valor    cumplido en 12 meses\n  disponibilidad de máquinas   99,95 %          12/12 meses\n  CPU media < 70 %                  -           12/12\n  latencia media < 200 ms           -           11/12\n  errores 5xx < 0,1 %          99,9 %           12/12\n  ...\n\n→ 12 de 14 se cumplían todos los meses\n→ y en esos 12 meses hubo 34 incidentes de gravedad alta\n\n→ los objetivos no medían lo que fallaba\n```\n\nY el ejemplo que lo dejó claro:\n\n```text\nel incidente del carrito perdido           clase 261\n  el 9 % de los usuarios perdía la sesión\n  → todas las peticiones devolvían 200\n  → la latencia, normal\n  → la CPU, normal\n  → los 14 objetivos, cumplidos\n\n→ el usuario perdía su compra y ningún número lo reflejaba\n```\n\n**La corrección: cuatro indicadores por recorrido.**\n\n```text\nse eligieron por RECORRIDO DE USUARIO, no por servicio\n\n  COMPRAR\n    éxito     % de intentos de compra que se completan\n    latencia  % que se completan en < 2 s\n  BUSCAR Y VER CATÁLOGO\n    éxito     % de búsquedas con resultado\n    latencia  % en < 800 ms\n  SEGUIMIENTO DE PEDIDO\n    frescura  % de consultas con estado de < 5 min de\n              antigüedad\n  DEVOLUCIONES\n    éxito     % de solicitudes que se registran\n\ny se miden en el CLIENTE, no en el servidor\n  → y ahí apareció una diferencia que nadie esperaba\n```\n\nY la diferencia:\n\n```text                            medido en      medido en\n                             el servidor      el cliente\néxito de compra                   99,94 %         98,71 %\n\n→ 1,23 puntos de diferencia\n→ causas: plazos del cliente móvil, errores de red del\n  usuario, y una versión de la aplicación con un fallo\n  que reintentaba mal                         clase 201\n\n→ y el 1,23 % eran unas 4.100 compras al mes\n→ ninguna aparecía en ningún panel\n```\n\n**La negociación del número: tres reuniones.**\n\n```text\nreunión 1  ingeniería propone 99,95 % para comprar\n           negocio dice «¿por qué no 99,99?»\n\nreunión 2  ingeniería lleva el coste\n             99,9 %   sistema actual + trabajo de\n                      fiabilidad          ~0 adicional\n             99,95 %  + redundancia de la base entre\n                      zonas y vertido de carga\n                                       +14.000 USD/mes\n             99,99 %  + segunda región activa, datos\n                      replicados, ensayos mensuales\n                                      +112.000 USD/mes\n                                      + 2 personas\n\n           y la pregunta que cambió la conversación\n             «¿cuánto vale una hora de caída del flujo de\n             compra?»\n             → negocio lo calculó: ~31.000 USD\n\nreunión 3  se acuerda\n             comprar        99,95 %\n             buscar         99,9 %\n             seguimiento    99,5 %\n             devoluciones   99,5 %\n\n           y el razonamiento escrito\n             99,99 % costaría 1,34 M USD/año para evitar\n             ~7,7 h de caída al año → ~239.000 USD de\n             impacto\n             → no se justifica\n```\n\nY las consecuencias, acordadas por escrito:\n\n```text\npresupuesto > 50 %   despliegue libre; se pueden probar\n                     cosas\npresupuesto < 25 %   solo cambios de bajo riesgo\npresupuesto agotado  se congelan funciones nuevas del\n                     recorrido afectado hasta reponerlo\n\ny la excepción\n  producto puede pedir una revisión del objetivo, por\n  escrito, con la nueva cifra y su vigencia\n```\n\n**El trimestre en que se aplicó.**\n\n```text\nmes 2  el presupuesto de «comprar» cae al 11 %\n       causa: dos incidentes y tres despliegues fallidos\nmes 2  había un lanzamiento previsto para 9 días después\n\nla conversación\n  no fue «¿lo paramos?»\n  fue «acordamos congelar; ¿queréis cambiar el acuerdo?»\n\nlo que decidió negocio\n  el lanzamiento se retrasó 3 semanas\n  y el equipo dedicó ese tiempo a\n    la instancia con disco degradado         clase 258\n    la verificación automática tras desplegar\n    y el vertido de carga                    clase 262\n\nresultado\n  presupuesto del mes siguiente        94 %\n  y el lanzamiento salió sin incidentes\n```\n\nY el dato que convenció a producto para el trimestre siguiente:\n\n```text\nlanzamientos con presupuesto > 50 %          11\n  con incidente asociado                      1\nlanzamientos con presupuesto < 25 %           4\n  con incidente asociado                      3\n\n→ el presupuesto predecía el riesgo del lanzamiento\n→ y a partir de ahí, producto empezó a mirarlo antes de\n  planificar fechas\n```\n\n**El servicio que hubo que devolver.**\n\n```text\ncriterios de entrada, escritos\n  señales definidas y objetivos acordados\n  procedimientos en grado 2 o superior     clase 259\n  despliegue progresivo con vuelta atrás   clase 260\n  y guardia compartida con el equipo que construye\n\nel servicio de recomendaciones entró en el mes 4\n  cumplía los cuatro\n\nmes 9\n  interrupciones de guardia por ese servicio     41 %\n    del total\n  procedimientos actualizados por su equipo        0\n  incidentes con acciones cerradas               2/9\n  y su equipo había dejado de compartir la guardia\n\nse aplicó el criterio de salida\n  → se devolvió el servicio a su equipo, con 4 semanas de\n    aviso\n  → conversación muy incómoda\n\ny lo que pasó a los 3 meses\n  interrupciones de ese servicio            -74 %\n  procedimientos actualizados                     6\n  y su equipo pidió volver a entrar\n\n→ y volvió, cumpliendo los criterios\n→ y el mecanismo funcionó: quien construye sufre lo que\n  construye, y entonces lo arregla            clase 111\n```\n\n**Las cifras a los 18 meses.**\n\n```text                                        antes     después\nobjetivos definidos                           14           6\n  que se cumplen siempre sin esfuerzo         12           0\nmedición en el cliente                        no          sí\nincidentes de gravedad alta               34/año      13/año\nincidentes no reflejados en ningún\n  objetivo                                 26/34        0/13\n\npresupuesto agotado (trimestres)               -       2 de 6\ncongelaciones aplicadas                        -           2\ncongelaciones ignoradas                        -           0\nrevisiones de objetivo pedidas por\n  producto, por escrito                        -           1\n\ntrabajo repetitivo del equipo             71 %          38 %\nservicios aceptados                            -          17\nservicios devueltos                            -           1\n```\n\n**La lección que esta clase deja**: catorce objetivos se cumplían todos los meses mientras ocurrían **34 incidentes graves al año**, porque medían máquinas y no recorridos. Y medir en el cliente en vez de en el servidor reveló **1,23 puntos** de diferencia —unas 4.100 compras al mes— que ningún panel del servidor podía mostrar.",
+  "pitfalls": [
+    {
+      "symptom": "Todos los objetivos se cumplen y hay incidentes graves cada mes",
+      "cause": "Los indicadores miden recursos y no recorridos de usuario",
+      "fix": "Define indicadores por recorrido, con umbral claro, y comprueba las dos direcciones: si empeora, ¿lo nota alguien? Si el usuario sufre, ¿esto lo refleja?"
+    },
+    {
+      "symptom": "El presupuesto de error se informa y nunca cambia nada",
+      "cause": "No hay consecuencias acordadas antes ni potestad de aplicarlas",
+      "fix": "Escribe las consecuencias por tramo antes de necesitarlas y acuérdalas con producto; sin consecuencias es un panel bonito."
+    },
+    {
+      "symptom": "El equipo de fiabilidad hace las guardias de servicios que no construye",
+      "cause": "Se aceptaron servicios sin criterios de entrada y quien los construye dejó de recibir alertas",
+      "fix": "Fija criterios de entrada y de salida, exige guardia compartida y devuelve el servicio cuando dejen de cumplirse."
+    },
+    {
+      "symptom": "Se discute el objetivo cada vez que hay un lanzamiento",
+      "cause": "El número se declaró en vez de negociarse con su coste",
+      "fix": "Lleva el coste de cada nivel y el valor de una hora de caída; y deja que cambiar el acuerdo sea legítimo, pero explícito y escrito."
+    },
+    {
+      "symptom": "Se excluyen incidentes del cómputo porque fueron del proveedor",
+      "cause": "Se confunde responsabilidad con experiencia del usuario",
+      "fix": "El usuario no distingue de quién fue el fallo; si se excluye, el número deja de representarlo y pierde su función."
+    },
+    {
+      "symptom": "El presupuesto nunca se gasta y el equipo se siente bien",
+      "cause": "El objetivo está por debajo de lo que se consigue sin esfuerzo, o se está siendo conservador de más",
+      "fix": "Revisa también el presupuesto sin gastar: indica que se podría entregar más rápido o que el objetivo está mal puesto."
+    }
+  ],
+  "checks": [
+    "¿Qué tres cosas definen esta ruta frente a operar bien?",
+    "¿Cómo se distingue un buen indicador de uno malo?",
+    "¿Qué hace útil al presupuesto de error y qué lo convierte en decoración?",
+    "¿Cómo empieza el modo de fracaso de la guardia prestada y cómo se evita?",
+    "¿Cómo se negocia un objetivo con negocio sin preguntar qué disponibilidad quiere?"
+  ],
+  "references": [
+    {
+      "text": "Beyer, B. y otros (2016). *Site Reliability Engineering*, caps. sobre SLO y presupuesto de error.",
+      "url": "https://sre.google/sre-book/service-level-objectives/"
+    },
+    {
+      "text": "Google (2018). *The Site Reliability Workbook*, cap. «Implementing SLOs».",
+      "url": "https://sre.google/workbook/implementing-slos/"
+    },
+    {
+      "text": "Wilkinson, A. y Hidalgo, A. (2020). *Implementing Service Level Objectives*.",
+      "url": "https://www.oreilly.com/library/view/implementing-service-level/9781492076803/"
+    },
+    {
+      "text": "AWS (2024). *Reliability Pillar: workload SLAs and SLOs*.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html"
+    },
+    {
+      "text": "Microsoft (2024). *Azure Well-Architected Framework: reliability targets*.",
+      "url": "https://learn.microsoft.com/azure/well-architected/reliability/metrics"
+    }
+  ]
+}
