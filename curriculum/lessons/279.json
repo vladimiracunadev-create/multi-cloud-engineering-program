@@ -1,0 +1,118 @@
+{
+  "id": "279",
+  "purpose": "Capstone de salud: privacidad e interoperabilidad. La clase da el encargo y la restricción que manda en este sector —**el daño de una filtración no se compensa con dinero, y aun así hay que compartir el dato con otros para que el paciente reciba atención**—, la tensión entre esas dos exigencias, y las pruebas negativas que la revelan.",
+  "outcomes": [
+    "**Identificar** la tensión entre privacidad e interoperabilidad y resolverla por capas.",
+    "**Diseñar** control de acceso por relación asistencial, no por rol.",
+    "**Aplicar** minimización, seudonimización y separación de identidad.",
+    "**Tratar** el acceso de emergencia sin abrir una puerta permanente.",
+    "**Verificar** el diseño con las pruebas negativas del sector."
+  ],
+  "concepts": [
+    {
+      "term": "relación asistencial",
+      "definition": "Vínculo entre profesional y paciente que justifica el acceso. Es lo que autoriza, no el cargo."
+    },
+    {
+      "term": "acceso de emergencia",
+      "definition": "Mecanismo que permite saltarse el control en urgencias, dejando rastro y con revisión posterior obligatoria."
+    },
+    {
+      "term": "minimización",
+      "definition": "Recoger y mostrar solo lo necesario para la finalidad concreta."
+    },
+    {
+      "term": "seudonimización",
+      "definition": "Separar los identificadores directos del dato clínico, con la correspondencia guardada aparte."
+    },
+    {
+      "term": "interoperabilidad",
+      "definition": "Que otro sistema pueda usar el dato con su significado intacto. Exige estándar, no solo formato."
+    },
+    {
+      "term": "consentimiento",
+      "definition": "Permiso del paciente sobre qué se comparte, con quién y para qué. Debe poder retirarse y aplicarse."
+    }
+  ],
+  "diagram": "flowchart TB\n    P[\"profesional\"] --> A{\"¿existe RELACIÓN\\nASISTENCIAL?\"}\n    A -->|\"sí\"| M[\"acceso mínimo\\nsegún finalidad\"]\n    A -->|\"no\"| E{\"¿emergencia\\ndeclarada?\"}\n    E -->|\"no\"| D[\"denegado\\ny registrado\"]\n    E -->|\"sí\"| U[\"acceso con\\nMOTIVO obligatorio\"]\n    U --> RV[\"REVISIÓN posterior\\nobligatoria · 100 %\"]\n    M --> L[\"registro de\\nlectura\"]\n    U --> L\n    C[\"consentimiento\"] -.->|\"filtra qué\\nse comparte\"| M\n    M --> I[\"INTERCAMBIO\\nestándar clínico\\nseudonimizado\"]",
+  "foundations": [
+    {
+      "heading": "El encargo y la tensión que lo define",
+      "body": "**El encargo.** Una plataforma que da soporte a una red de clínicas: historia clínica, resultados de laboratorio, imagen médica, citas y facturación. Debe intercambiar información con hospitales públicos, con laboratorios externos y con la aseguradora.\n\n```text\nCIFRAS DE PARTIDA\n  pacientes                                1,4 M\n  profesionales con acceso                 4.100\n  centros                                  62\n  estudios de imagen/mes                   41.000\n  intercambios con terceros/día            18.000\n  y el requisito legal\n    datos de salud: categoría especial\n    consentimiento explícito para usos secundarios\n    derecho de acceso y de supresión\n    y notificación de brecha en 72 horas\n```\n\nY la restricción que manda:\n\n```text\nEL DAÑO DE UNA FILTRACIÓN NO SE COMPENSA\n  un cobro duplicado se devuelve            clase 278\n  un pedido perdido se repone               clase 277\n  un diagnóstico filtrado no se puede deshacer\n  → afecta al empleo, al seguro, a la familia y a la\n    intimidad, de forma permanente\n\n→ y de ahí sale la primera consecuencia de diseño: el\n  radio de explosión de cualquier credencial de este\n  sistema tiene que ser mínimo               clase 269\n```\n\nY la tensión, que es lo que hace difícil el capstone:\n\n```text\nY AUN ASÍ HAY QUE COMPARTIRLO\n  un paciente que llega a urgencias necesita que su\n  alergia se conozca\n  un laboratorio externo tiene que devolver el resultado\n  el hospital público necesita el informe previo\n  y la aseguradora necesita justificar el pago\n\n→ la privacidad absoluta mata la atención\n→ y la interoperabilidad sin control mata la privacidad\n\n→ el diseño no elige entre las dos: las separa por CAPAS\n  qué se comparte (mínimo por finalidad)\n  con quién (relación y consentimiento)\n  con qué significado (estándar clínico)\n  y con qué rastro (todo acceso registrado)\n```"
+    },
+    {
+      "heading": "Acceso por relación, no por rol",
+      "body": "El error clásico del sector: dar acceso por cargo. Un médico no debe poder ver a cualquier paciente por ser médico.\n\n```text\nEL MODELO POR ROL, que falla\n  «rol: médico» → acceso a la historia clínica\n  → 4.100 profesionales pueden ver 1,4 M de historias\n  → radio de explosión: total\n  → y es indistinguible un acceso legítimo de una\n    curiosidad\n\nEL MODELO POR RELACIÓN ASISTENCIAL\n  el acceso lo autoriza el VÍNCULO, no el cargo\n    profesional asignado a una cita con ese paciente\n    profesional del servicio donde el paciente está\n      ingresado\n    profesional al que se le ha derivado el caso\n    o profesional del equipo del anterior, durante la\n      atención\n\n  y la relación tiene VIGENCIA\n    → termina cuando termina el episodio\n    → y con un margen definido, no indefinido\n\n→ pasa de «4.100 pueden ver a 1,4 M» a «cada profesional\n  ve, de media, a 340 pacientes activos»\n→ tres órdenes de magnitud de radio de explosión\n```\n\nY las dimensiones que se combinan:\n\n```text\nRELACIÓN     ¿hay vínculo asistencial vigente?\nFINALIDAD    ¿para qué? asistencia · facturación ·\n             investigación · calidad\n             → y cada finalidad ve un subconjunto distinto\nCONSENTIMIENTO ¿el paciente permite ese uso?\n             → y puede excluir apartados concretos\nSENSIBILIDAD  hay datos con protección reforzada\n             → salud mental, adicciones, reproductiva,\n               genética\n             → y estos exigen consentimiento explícito\n               adicional\n\n→ y las cuatro se evalúan en el momento del acceso, no al\n  crear la cuenta                            clase 231\n```\n\nY el caso que rompe cualquier control: la urgencia.\n\n```text\nEL ACCESO DE EMERGENCIA\n  un paciente inconsciente en urgencias, sin relación\n  previa\n  → si el control lo impide, el sistema se rodea o alguien\n    muere                                       ley 16\n\n  el diseño correcto\n    existe, y es UN CLIC\n    exige MOTIVO escrito, no una casilla\n    concede acceso limitado en alcance y en tiempo\n    genera un aviso inmediato al responsable de privacidad\n    y su revisión posterior es OBLIGATORIA, del 100 %\n\n→ la clave no es dificultar el acceso: es que sea\n  imposible que pase desapercibido\n→ y el número que se vigila es cuántos accesos de\n  emergencia hay por profesional y por mes\n  → uno es normal; treinta es un patrón\n```"
+    },
+    {
+      "heading": "Minimización, separación e interoperabilidad",
+      "body": "Cómo se reduce el daño posible antes de que ocurra.\n\n```text\nSEPARACIÓN DE IDENTIDAD Y CLÍNICA\n  los identificadores directos —nombre, documento,\n  dirección, teléfono— en un almacén\n  el dato clínico en otro, con un identificador interno\n  y la correspondencia, con acceso propio y registrado\n\n  → una filtración del almacén clínico no identifica a\n    nadie por sí sola\n  → y una del de identidad no dice nada clínico\n  → el coste: una unión más en cada consulta y disciplina\n    para no desnormalizar «por comodidad»\n\nMINIMIZACIÓN POR FINALIDAD\n  facturación no necesita el diagnóstico completo: necesita\n    el código de procedimiento\n  investigación no necesita identidad: necesita cohortes\n  calidad no necesita el texto libre\n\n  → y el texto libre es el mayor problema de la\n    minimización: contiene de todo y no se puede filtrar\n    por campo\n  → se trata como el dato más sensible del sistema\n\nY EL BORRADO\n  el derecho de supresión choca con la obligación de\n  conservar la historia clínica durante años\n  → se resuelve distinguiendo: lo asistencial se conserva\n    por obligación legal; lo secundario —marketing,\n    analítica— se borra\n  → y esa distinción tiene que estar en el modelo de datos\n    desde el principio, no añadirse después\n```\n\nY la interoperabilidad, que es más que un formato:\n\n```text\nCOMPARTIR NO ES ENVIAR UN FICHERO\n  hace falta que el receptor entienda lo mismo\n    identificadores de paciente que se puedan conciliar\n    vocabularios clínicos codificados, no texto\n    unidades explícitas\n    y contexto: quién lo midió, cuándo y con qué método\n\n→ un resultado de laboratorio sin unidad ni método no es\n  interoperable: es peligroso\n→ y aquí el contrato de datos de la parte 20 deja de ser\n  buena práctica y pasa a ser seguridad del paciente\n                                            clase 241\n\nY LA CONCILIACIÓN DE PACIENTES\n  el mismo paciente con identificadores distintos en dos\n  sistemas\n  → unirlos mal mezcla dos historias clínicas\n  → y ese es el error más grave posible en este sector\n  → por eso la conciliación automática exige umbral alto y\n    revisión humana en la zona dudosa\n```"
+    },
+    {
+      "heading": "Las pruebas negativas del capstone",
+      "body": "Varias de estas las ejecuta una inspección tal cual.\n\n```text\nDE ACCESO\n  ☐ un profesional sin relación con un paciente, ¿puede\n    verlo?\n  ☐ ¿sigue viéndolo tres meses después del alta?\n  ☐ ¿un administrativo de facturación ve el diagnóstico\n    completo?\n  ☐ ¿un profesional puede buscar por nombre a alguien con\n    quien no tiene relación?\n  ☐ ¿cuántos accesos de emergencia hubo el mes pasado y\n    cuántos se revisaron?\n  ☐ ¿alguien con permisos de administrador de base puede\n    leer datos clínicos?\n\nDE CONSENTIMIENTO\n  ☐ retirar un consentimiento: ¿deja de compartirse desde\n    ese momento?\n  ☐ ¿y lo ya compartido con terceros?\n  ☐ ¿los apartados con protección reforzada exigen\n    consentimiento adicional?\n\nDE MINIMIZACIÓN\n  ☐ ¿qué campos viajan a la aseguradora? ¿alguno sobra?\n  ☐ ¿la exportación para investigación permite\n    reidentificar?\n  ☐ ¿el texto libre sale del sistema en alguna\n    integración?\n  ☐ ¿los entornos de prueba tienen datos reales?\n\nDE INTEROPERABILIDAD\n  ☐ enviar un resultado sin unidad: ¿se rechaza?\n  ☐ dos pacientes con nombre y fecha de nacimiento\n    iguales: ¿se fusionan?\n  ☐ ¿un código clínico desconocido se descarta en silencio\n    o se detiene?                            clase 243\n  ☐ una imagen médica con metadatos identificativos:\n    ¿se limpian?\n\nDE OPERACIÓN Y BRECHA\n  ☐ simular una filtración: ¿en cuánto se detecta y se\n    puede notificar en 72 horas?\n  ☐ ¿se sabe exactamente qué registros se vieron\n    afectados?\n  ☐ ¿las copias contienen datos identificables y quién\n    accede a ellas?\n  ☐ restaurar la historia clínica: ¿cuánto tarda?\n```\n\n**El entregable del capstone:**\n\n```text\n1  el modelo de acceso por relación, finalidad,\n   consentimiento y sensibilidad\n2  el diseño del acceso de emergencia y su revisión\n3  la separación de identidad y clínica, con su coste\n4  el mapa de qué campos salen a cada tercero y por qué\n5  el diseño de conciliación de pacientes y su umbral\n6  el plan de respuesta a brecha, con el ensayo hecho\n7  la política de conservación y borrado, distinguiendo\n   finalidad\n8  y el resultado de las pruebas negativas, con lo que\n   falló\n```\n\nY el cierre que enlaza con la clase siguiente: aquí el límite lo pone la protección de una persona. En el siguiente sector lo pone la soberanía de un Estado sobre sus datos y su continuidad, con requisitos que no se negocian con ingeniería. Sector público es la materia de la clase 280."
+    }
+  ],
+  "worked_example": "**El capstone resuelto. Lo que sigue es el cambio de acceso por rol a acceso por relación con sus cifras, los accesos de emergencia que revelaron un patrón, y las cuatro pruebas que fallaron.**\n\n**El cambio de modelo de acceso.**\n\n```text\nANTES · por rol\n  profesionales con acceso a historia clínica     4.100\n  pacientes visibles por cada uno               1,4 M\n  accesos/mes                                  890.000\n  accesos revisados                                  0\n\n→ y una auditoría interna preguntó: «¿cuántos de esos\n  890.000 accesos eran legítimos?»\n→ la respuesta honesta era «no se puede saber»\n```\n\nY la medición previa al cambio, que fue lo que lo justificó:\n\n```text\nse cruzaron los accesos con las relaciones asistenciales\nexistentes en la agenda y en los ingresos\n\n  accesos con relación asistencial clara       847.100   95,2 %\n  accesos sin relación identificable            42.900    4,8 %\n\ny de esos 42.900, muestreo manual de 400\n  cobertura de compañero (equipo real, relación\n    no registrada)                              291   72,8 %\n  continuidad asistencial fuera de episodio       74   18,5 %\n  gestión administrativa legítima                 21    5,3 %\n  SIN JUSTIFICACIÓN APARENTE                      14    3,5 %\n\n→ extrapolado: ~1.500 accesos al mes sin justificación\n→ incluidos 3 casos de un profesional consultando a\n  personas de su municipio sin relación con la clínica\n```\n\nY el modelo nuevo:\n\n```text\nrelación asistencial derivada automáticamente de\n  cita asignada · ingreso activo · derivación ·\n  pertenencia al equipo tratante\nvigencia: episodio + 90 días\ny para todo lo demás, acceso de emergencia con motivo\n\nresultado a los 6 meses\n  pacientes visibles por profesional, media         340\n  accesos/mes                                   861.000\n  accesos denegados por falta de relación         4.100\n    de los cuales, convertidos en emergencia      2.900\n    y abandonados                                 1.200\n  accesos de emergencia/mes                       2.900\n  revisados                                        100 %\n```\n\nY lo que la revisión del 100 % encontró:\n\n```text\nde 2.900 accesos de emergencia mensuales\n  justificados por cobertura o continuidad       2.847\n  con motivo insuficiente, aclarados               41\n  ESCALADOS a privacidad                            12\n\ny el patrón que apareció al mirar por profesional\n  media de accesos de emergencia por profesional  0,7/mes\n  y un profesional con                             31/mes\n    → todos a pacientes sin ninguna relación con su\n      servicio\n    → investigación interna; caso confirmado de acceso\n      indebido\n\n→ con el modelo por rol, esos 31 accesos habrían sido\n  indistinguibles de los otros 890.000\n→ el control no impidió el acceso: lo hizo VISIBLE\n→ y eso es lo que se buscaba                clase 269\n```\n\n**Las cuatro pruebas que fallaron.**\n\n```text\nFALLO 1 · el entorno de prueba\n  ☐ ¿los entornos de prueba tienen datos reales?\n  → SÍ: una copia de producción de hacía 14 meses\n  → con 1,1 M de historias completas\n  → accesible por 34 personas, incluidos 6 proveedores\n    externos\n  → y sin registro de acceso\n\n  → era, con diferencia, el mayor riesgo del sistema\n  → y no estaba en ningún inventario de riesgo   ley 24\n\n  corrección\n    generación de datos sintéticos con la misma forma\n    y, donde hacía falta realismo, seudonimización\n    irreversible con desplazamiento de fechas\n    → los entornos dejaron de tener datos reales en 7\n      semanas\n\nFALLO 2 · el texto libre en la integración con la\n          aseguradora\n  el mensaje de facturación incluía el campo\n  «observaciones clínicas» completo\n  → porque la especificación original lo pedía «por si\n    acaso»                                       ley 25\n  → 4 años enviándolo\n\n  muestreo de 200 mensajes\n    con información clínica sensible en el texto     87\n    con datos de terceros (familiares)                9\n\n  corrección\n    el campo se retiró\n    y se añadió control de esquema que detiene el envío si\n    aparece un campo no declarado             clase 243\n\nFALLO 3 · retirada de consentimiento\n  retirar el consentimiento de uso secundario dejaba de\n  compartir a partir de ese momento\n  → y lo ya enviado al almacén de investigación seguía ahí\n  → y ese almacén permitía reidentificar por cruce de\n    fecha de nacimiento, código postal y fecha de episodio\n\n  corrección\n    el almacén de investigación pasó a guardar cohortes\n    con generalización de fechas y de zona\n    y la retirada de consentimiento dispara la eliminación\n    del registro individual, con acta\n\nFALLO 4 · conciliación de pacientes\n  dos pacientes con el mismo nombre y la misma fecha de\n  nacimiento\n  → el algoritmo los fusionó\n  → detectado en la prueba, no en producción\n\n  → si hubiera pasado en producción, dos historias\n    clínicas mezcladas\n  → que es el peor error posible de este sector\n\n  corrección\n    umbral de fusión automática elevado\n    zona dudosa a revisión humana obligatoria\n    y fusión REVERSIBLE, con registro de qué se unió\n```\n\n**El ensayo de brecha.**\n\n```text\nescenario  «una credencial de un profesional se usa desde\n           una dirección desconocida y descarga 4.100\n           historias en 40 minutos»\n\nlo que se midió\n  tiempo hasta detectar                        6 minutos\n    (regla de volumen de lectura anómalo por profesional)\n  tiempo hasta cortar el acceso                9 minutos\n  tiempo hasta saber QUÉ registros se vieron   3 h 20\n    → y esto era lo que había que medir\n  tiempo hasta poder notificar con precisión   4 h 10\n\n→ dentro de las 72 horas, con margen\n→ y el tramo largo fue reconstruir el alcance exacto, no\n  detectar\n\ncorrección\n  el registro de lecturas pasó a incluir el identificador\n  de cada registro consultado, no solo la sesión\n  → coste: +31 % de volumen de registro\n  → beneficio: alcance exacto en 11 minutos en el segundo\n    ensayo\n```\n\n**Las cifras finales del capstone.**\n\n```text                                        antes     después\npacientes visibles por profesional          1,4 M         340\naccesos sin justificación (estimado)     1.500/mes     ~0/mes\naccesos de emergencia revisados               0 %       100 %\ncasos de acceso indebido detectados             0           1\n\nentornos de prueba con datos reales             sí          no\ncampos innecesarios enviados a terceros          1           0\nreidentificación posible en investigación       sí          no\nfusiones erróneas de pacientes            no medido    0 (con\n                                                       revisión)\n\ndetección de brecha simulada                  n/d       6 min\nalcance exacto de la brecha                   n/d      11 min\nnotificación posible en 72 h                   no          sí\n\ncoste añadido (separación, registro,\n  datos sintéticos)                             -   21.000 USD/mes\n```\n\n**La lección que este capstone deja**: el modelo por rol permitía a 4.100 profesionales ver 1,4 millones de historias, y el cambio a relación asistencial no impidió los accesos indebidos —los hizo **visibles**: un profesional con 31 accesos de emergencia al mes frente a una media de 0,7 apareció en la primera revisión. Y el mayor riesgo del sistema no estaba en producción: era una copia completa de **1,1 millones de historias** en los entornos de prueba, accesible por 34 personas y sin registro.",
+  "pitfalls": [
+    {
+      "symptom": "Cualquier profesional puede consultar cualquier historia clínica",
+      "cause": "El acceso se concede por rol y no por relación asistencial",
+      "fix": "Deriva la relación de citas, ingresos y derivaciones, dale vigencia limitada y evalúa relación, finalidad, consentimiento y sensibilidad en el momento del acceso."
+    },
+    {
+      "symptom": "El control de acceso se rodea en urgencias",
+      "cause": "No existe una vía de emergencia y bloquear pone en riesgo al paciente",
+      "fix": "Ofrece acceso de emergencia a un clic con motivo escrito, aviso inmediato y revisión posterior del 100 %; el objetivo es visibilidad, no fricción."
+    },
+    {
+      "symptom": "Hay datos reales en entornos de prueba",
+      "cause": "Se copió producción por comodidad y nunca se revisó",
+      "fix": "Genera datos sintéticos con la misma forma y, donde haga falta realismo, seudonimiza de forma irreversible desplazando fechas."
+    },
+    {
+      "symptom": "Se envían campos innecesarios a un tercero",
+      "cause": "La especificación original pedía el campo completo y nadie lo revisó",
+      "fix": "Mapea qué campo sale a cada tercero con su finalidad y añade control de esquema que detenga el envío de campos no declarados."
+    },
+    {
+      "symptom": "Retirar el consentimiento no afecta a lo ya compartido",
+      "cause": "El almacén secundario guarda registros individuales reidentificables",
+      "fix": "Guarda cohortes generalizadas y haz que la retirada dispare la eliminación del registro individual, con acta."
+    },
+    {
+      "symptom": "Se fusionan dos pacientes distintos",
+      "cause": "El umbral de conciliación automática es bajo y la fusión es irreversible",
+      "fix": "Eleva el umbral, manda la zona dudosa a revisión humana y haz la fusión reversible con registro de qué se unió."
+    }
+  ],
+  "checks": [
+    "¿Cuál es la tensión que define este sector y cómo se resuelve por capas?",
+    "¿Por qué el acceso por rol falla y qué lo sustituye?",
+    "¿Cómo se diseña el acceso de emergencia sin abrir una puerta permanente?",
+    "¿Qué aporta separar identidad y dato clínico y qué cuesta?",
+    "¿Qué hace que un dato clínico sea interoperable y no solo transferible?"
+  ],
+  "references": [
+    {
+      "text": "HL7 (2024). *FHIR: Fast Healthcare Interoperability Resources*.",
+      "url": "https://www.hl7.org/fhir/"
+    },
+    {
+      "text": "Reglamento (UE) 2016/679, RGPD — datos de salud como categoría especial.",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "text": "AWS (2024). *Healthcare Industry Lens, Well-Architected Framework*.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/healthcare-industry-lens/healthcare-industry-lens.html"
+    },
+    {
+      "text": "Microsoft (2024). *Azure for healthcare: compliance and data protection*.",
+      "url": "https://learn.microsoft.com/azure/architecture/industries/healthcare/"
+    },
+    {
+      "text": "El Emam, K. (2013). *Guide to the De-Identification of Personal Health Information*.",
+      "url": "https://www.routledge.com/Guide-to-the-De-Identification-of-Personal-Health-Information/Emam/p/book/9781466579064"
+    }
+  ]
+}
