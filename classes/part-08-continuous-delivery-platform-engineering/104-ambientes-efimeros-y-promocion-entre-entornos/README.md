@@ -1,6 +1,6 @@
 # 104 — Ambientes efímeros y promoción entre entornos
 
-> [← Clase anterior](../../part-08-continuous-delivery-platform-engineering/103-gitops-con-argo-cd-o-flux/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-08-continuous-delivery-platform-engineering/105-feature-flags-y-separacion-deploy-release/README.md)
+> [← 103 · GitOps con Argo CD o Flux](../../part-08-continuous-delivery-platform-engineering/103-gitops-con-argo-cd-o-flux/README.md) · [Índice de la parte](../README.md) · [105 · Feature flags y separación deploy-release →](../../part-08-continuous-delivery-platform-engineering/105-feature-flags-y-separacion-deploy-release/README.md)
 
 **Parte:** 08 — Entrega continua y platform engineering<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -508,3 +508,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 103 · GitOps con Argo CD o Flux](../../part-08-continuous-delivery-platform-engineering/103-gitops-con-argo-cd-o-flux/README.md) | [Parte 08](../README.md) · [Programa](../../README.md) | [105 · Feature flags y separación deploy-release →](../../part-08-continuous-delivery-platform-engineering/105-feature-flags-y-separacion-deploy-release/README.md) |

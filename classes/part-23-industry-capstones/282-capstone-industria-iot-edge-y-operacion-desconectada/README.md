@@ -1,6 +1,6 @@
 # 282 — Capstone industria: IoT, edge y operación desconectada
 
-> [← Clase anterior](../../part-23-industry-capstones/281-capstone-media-streaming-y-distribucion-global/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-23-industry-capstones/283-capstone-saas-multi-tenancy-y-unit-economics/README.md)
+> [← 281 · Capstone media: streaming y distribución global](../../part-23-industry-capstones/281-capstone-media-streaming-y-distribucion-global/README.md) · [Índice de la parte](../README.md) · [283 · Capstone SaaS: multi-tenancy y unit economics →](../../part-23-industry-capstones/283-capstone-saas-multi-tenancy-y-unit-economics/README.md)
 
 **Parte:** 23 — Capstones por industria y defensa final<br>
 **Nivel:** experto · **Horas estimadas:** 8<br>
@@ -630,3 +630,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 281 · Capstone media: streaming y distribución global](../../part-23-industry-capstones/281-capstone-media-streaming-y-distribucion-global/README.md) | [Parte 23](../README.md) · [Programa](../../README.md) | [283 · Capstone SaaS: multi-tenancy y unit economics →](../../part-23-industry-capstones/283-capstone-saas-multi-tenancy-y-unit-economics/README.md) |

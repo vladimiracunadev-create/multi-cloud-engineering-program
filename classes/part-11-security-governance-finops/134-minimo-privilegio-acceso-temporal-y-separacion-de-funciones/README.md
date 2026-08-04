@@ -1,6 +1,6 @@
 # 134 — Mínimo privilegio, acceso temporal y separación de funciones
 
-> [← Clase anterior](../../part-11-security-governance-finops/133-zero-trust-y-defensa-en-profundidad/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-11-security-governance-finops/135-segmentacion-perimetro-waf-ddos-y-egress/README.md)
+> [← 133 · Zero Trust y defensa en profundidad](../../part-11-security-governance-finops/133-zero-trust-y-defensa-en-profundidad/README.md) · [Índice de la parte](../README.md) · [135 · Segmentación, perímetro, WAF, DDoS y egress →](../../part-11-security-governance-finops/135-segmentacion-perimetro-waf-ddos-y-egress/README.md)
 
 **Parte:** 11 — Seguridad, gobierno, cumplimiento y FinOps<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -551,3 +551,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 133 · Zero Trust y defensa en profundidad](../../part-11-security-governance-finops/133-zero-trust-y-defensa-en-profundidad/README.md) | [Parte 11](../README.md) · [Programa](../../README.md) | [135 · Segmentación, perímetro, WAF, DDoS y egress →](../../part-11-security-governance-finops/135-segmentacion-perimetro-waf-ddos-y-egress/README.md) |

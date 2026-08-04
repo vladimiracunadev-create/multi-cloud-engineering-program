@@ -1,6 +1,6 @@
 # 092 — Secretos y datos sensibles en IaC
 
-> [← Clase anterior](../../part-07-infrastructure-as-code-configuration/091-validacion-lint-pruebas-y-policy-as-code/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-07-infrastructure-as-code-configuration/093-cloudformation-bicep-pulumi-y-terraform/README.md)
+> [← 091 · Validación, lint, pruebas y policy as code](../../part-07-infrastructure-as-code-configuration/091-validacion-lint-pruebas-y-policy-as-code/README.md) · [Índice de la parte](../README.md) · [093 · CloudFormation, Bicep, Pulumi y Terraform →](../../part-07-infrastructure-as-code-configuration/093-cloudformation-bicep-pulumi-y-terraform/README.md)
 
 **Parte:** 07 — Infraestructura como código y configuración<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -556,3 +556,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 091 · Validación, lint, pruebas y policy as code](../../part-07-infrastructure-as-code-configuration/091-validacion-lint-pruebas-y-policy-as-code/README.md) | [Parte 07](../README.md) · [Programa](../../README.md) | [093 · CloudFormation, Bicep, Pulumi y Terraform →](../../part-07-infrastructure-as-code-configuration/093-cloudformation-bicep-pulumi-y-terraform/README.md) |

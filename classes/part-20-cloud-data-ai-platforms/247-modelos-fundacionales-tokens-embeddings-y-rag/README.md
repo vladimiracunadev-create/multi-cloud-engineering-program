@@ -1,6 +1,6 @@
 # 247 — Modelos fundacionales, tokens, embeddings y RAG
 
-> [← Clase anterior](../../part-20-cloud-data-ai-platforms/246-mlops-registro-promocion-drift-y-rollback/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-20-cloud-data-ai-platforms/248-bedrock-azure-ai-foundry-y-vertex-ai/README.md)
+> [← 246 · MLOps, registro, promoción, drift y rollback](../../part-20-cloud-data-ai-platforms/246-mlops-registro-promocion-drift-y-rollback/README.md) · [Índice de la parte](../README.md) · [248 · Bedrock, Azure AI Foundry y Vertex AI →](../../part-20-cloud-data-ai-platforms/248-bedrock-azure-ai-foundry-y-vertex-ai/README.md)
 
 **Parte:** 20 — Plataformas cloud de datos, analítica, IA y agentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -684,3 +684,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 246 · MLOps, registro, promoción, drift y rollback](../../part-20-cloud-data-ai-platforms/246-mlops-registro-promocion-drift-y-rollback/README.md) | [Parte 20](../README.md) · [Programa](../../README.md) | [248 · Bedrock, Azure AI Foundry y Vertex AI →](../../part-20-cloud-data-ai-platforms/248-bedrock-azure-ai-foundry-y-vertex-ai/README.md) |

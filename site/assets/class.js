@@ -60,3 +60,14 @@ if (document.querySelector(".mermaid")) {
     console.error("No se pudo renderizar Mermaid", error);
   });
 }
+
+// Salto entre clases con las flechas del teclado, salvo al escribir en un campo.
+document.addEventListener("keydown", (event) => {
+  if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) return;
+  const target = event.target;
+  if (target instanceof HTMLElement && (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))) return;
+  const rel = event.key === "ArrowLeft" ? "prev" : event.key === "ArrowRight" ? "next" : null;
+  if (!rel) return;
+  const link = document.querySelector(`a.pager-link[rel="${rel}"]`) || document.querySelector(`a.nav-link[rel="${rel}"]`);
+  if (link) window.location.href = link.getAttribute("href");
+});

@@ -1,6 +1,6 @@
 # 197 — CDN, caché, origin shielding y edge compute
 
-> [← Clase anterior](../../part-16-advanced-cloud-networking-edge/196-balanceo-l4-l7-proxies-tls-y-gestion-de-certificados/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-16-advanced-cloud-networking-edge/198-vpn-direct-connect-expressroute-e-interconnect/README.md)
+> [← 196 · Balanceo L4/L7, proxies, TLS y gestión de certificados](../../part-16-advanced-cloud-networking-edge/196-balanceo-l4-l7-proxies-tls-y-gestion-de-certificados/README.md) · [Índice de la parte](../README.md) · [198 · VPN, Direct Connect, ExpressRoute e Interconnect →](../../part-16-advanced-cloud-networking-edge/198-vpn-direct-connect-expressroute-e-interconnect/README.md)
 
 **Parte:** 16 — Redes cloud avanzadas, conectividad híbrida y edge<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -625,3 +625,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 196 · Balanceo L4/L7, proxies, TLS y gestión de certificados](../../part-16-advanced-cloud-networking-edge/196-balanceo-l4-l7-proxies-tls-y-gestion-de-certificados/README.md) | [Parte 16](../README.md) · [Programa](../../README.md) | [198 · VPN, Direct Connect, ExpressRoute e Interconnect →](../../part-16-advanced-cloud-networking-edge/198-vpn-direct-connect-expressroute-e-interconnect/README.md) |

@@ -1,6 +1,6 @@
 # 085 — Declarativo, imperativo, idempotencia y convergencia
 
-> [← Clase anterior](../../part-06-kubernetes-managed-platforms/084-proyecto-plataforma-kubernetes-portable/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-07-infrastructure-as-code-configuration/086-terraform-hcl-providers-resources-y-grafo/README.md)
+> [← 084 · Proyecto: plataforma Kubernetes portable](../../part-06-kubernetes-managed-platforms/084-proyecto-plataforma-kubernetes-portable/README.md) · [Índice de la parte](../README.md) · [086 · Terraform: HCL, providers, resources y grafo →](../../part-07-infrastructure-as-code-configuration/086-terraform-hcl-providers-resources-y-grafo/README.md)
 
 **Parte:** 07 — Infraestructura como código y configuración<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -487,3 +487,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 084 · Proyecto: plataforma Kubernetes portable](../../part-06-kubernetes-managed-platforms/084-proyecto-plataforma-kubernetes-portable/README.md) | [Parte 07](../README.md) · [Programa](../../README.md) | [086 · Terraform: HCL, providers, resources y grafo →](../../part-07-infrastructure-as-code-configuration/086-terraform-hcl-providers-resources-y-grafo/README.md) |

@@ -1,6 +1,6 @@
 # 194 — Routing, BGP, tránsito y propagación de rutas
 
-> [← Clase anterior](../../part-16-advanced-cloud-networking-edge/193-cidr-subnetting-y-planificacion-ip-a-escala/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-16-advanced-cloud-networking-edge/195-dns-autoritativo-recursivo-split-horizon-y-dnssec/README.md)
+> [← 193 · CIDR, subnetting y planificación IP a escala](../../part-16-advanced-cloud-networking-edge/193-cidr-subnetting-y-planificacion-ip-a-escala/README.md) · [Índice de la parte](../README.md) · [195 · DNS autoritativo, recursivo, split-horizon y DNSSEC →](../../part-16-advanced-cloud-networking-edge/195-dns-autoritativo-recursivo-split-horizon-y-dnssec/README.md)
 
 **Parte:** 16 — Redes cloud avanzadas, conectividad híbrida y edge<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -595,3 +595,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 193 · CIDR, subnetting y planificación IP a escala](../../part-16-advanced-cloud-networking-edge/193-cidr-subnetting-y-planificacion-ip-a-escala/README.md) | [Parte 16](../README.md) · [Programa](../../README.md) | [195 · DNS autoritativo, recursivo, split-horizon y DNSSEC →](../../part-16-advanced-cloud-networking-edge/195-dns-autoritativo-recursivo-split-horizon-y-dnssec/README.md) |

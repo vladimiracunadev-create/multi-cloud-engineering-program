@@ -1,6 +1,6 @@
 # 109 — Bases relacionales administradas y pooling
 
-> [← Clase anterior](../../part-08-continuous-delivery-platform-engineering/108-proyecto-fabrica-de-software-multi-cloud/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-09-data-messaging-serverless-integration/110-nosql-clave-valor-documento-columna-y-grafo/README.md)
+> [← 108 · Proyecto: fábrica de software multi-cloud](../../part-08-continuous-delivery-platform-engineering/108-proyecto-fabrica-de-software-multi-cloud/README.md) · [Índice de la parte](../README.md) · [110 · NoSQL: clave-valor, documento, columna y grafo →](../../part-09-data-messaging-serverless-integration/110-nosql-clave-valor-documento-columna-y-grafo/README.md)
 
 **Parte:** 09 — Datos, mensajería, serverless e integración<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -519,3 +519,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 108 · Proyecto: fábrica de software multi-cloud](../../part-08-continuous-delivery-platform-engineering/108-proyecto-fabrica-de-software-multi-cloud/README.md) | [Parte 09](../README.md) · [Programa](../../README.md) | [110 · NoSQL: clave-valor, documento, columna y grafo →](../../part-09-data-messaging-serverless-integration/110-nosql-clave-valor-documento-columna-y-grafo/README.md) |

@@ -1,6 +1,6 @@
 # 026 — IAM, roles, políticas, STS y federación
 
-> [← Clase anterior](../../part-02-aws-core-platform/025-organizations-cuentas-ou-scp-y-landing-zone/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-02-aws-core-platform/027-vpc-subredes-rutas-nat-endpoints-y-seguridad/README.md)
+> [← 025 · Organizations, cuentas, OU, SCP y landing zone](../../part-02-aws-core-platform/025-organizations-cuentas-ou-scp-y-landing-zone/README.md) · [Índice de la parte](../README.md) · [027 · VPC, subredes, rutas, NAT, endpoints y seguridad →](../../part-02-aws-core-platform/027-vpc-subredes-rutas-nat-endpoints-y-seguridad/README.md)
 
 **Parte:** 02 — AWS: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -433,3 +433,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 025 · Organizations, cuentas, OU, SCP y landing zone](../../part-02-aws-core-platform/025-organizations-cuentas-ou-scp-y-landing-zone/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [027 · VPC, subredes, rutas, NAT, endpoints y seguridad →](../../part-02-aws-core-platform/027-vpc-subredes-rutas-nat-endpoints-y-seguridad/README.md) |

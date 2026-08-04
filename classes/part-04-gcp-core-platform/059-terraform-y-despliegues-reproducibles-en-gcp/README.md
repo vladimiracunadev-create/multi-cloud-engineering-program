@@ -1,6 +1,6 @@
 # 059 — Terraform y despliegues reproducibles en GCP
 
-> [← Clase anterior](../../part-04-gcp-core-platform/058-cloud-kms-secret-manager-y-security-command-center/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-04-gcp-core-platform/060-proyecto-aplicacion-de-tres-capas-en-google-cloud/README.md)
+> [← 058 · Cloud KMS, Secret Manager y Security Command Center](../../part-04-gcp-core-platform/058-cloud-kms-secret-manager-y-security-command-center/README.md) · [Índice de la parte](../README.md) · [060 · Proyecto: aplicación de tres capas en Google Cloud →](../../part-04-gcp-core-platform/060-proyecto-aplicacion-de-tres-capas-en-google-cloud/README.md)
 
 **Parte:** 04 — Google Cloud: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -588,3 +588,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 058 · Cloud KMS, Secret Manager y Security Command Center](../../part-04-gcp-core-platform/058-cloud-kms-secret-manager-y-security-command-center/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [060 · Proyecto: aplicación de tres capas en Google Cloud →](../../part-04-gcp-core-platform/060-proyecto-aplicacion-de-tres-capas-en-google-cloud/README.md) |

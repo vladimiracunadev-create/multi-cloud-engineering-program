@@ -1,6 +1,6 @@
 # 213 — EKS, IRSA, GitOps y operación de clúster
 
-> [← Clase anterior](../../part-17-aws-production-architecture/212-ecr-ecs-fargate-alb-y-autoscaling/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-17-aws-production-architecture/214-budgets-cost-explorer-etiquetado-y-finops-automatizado/README.md)
+> [← 212 · ECR, ECS Fargate, ALB y autoscaling](../../part-17-aws-production-architecture/212-ecr-ecs-fargate-alb-y-autoscaling/README.md) · [Índice de la parte](../README.md) · [214 · Budgets, Cost Explorer, etiquetado y FinOps automatizado →](../../part-17-aws-production-architecture/214-budgets-cost-explorer-etiquetado-y-finops-automatizado/README.md)
 
 **Parte:** 17 — AWS: arquitectura, automatización y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -668,3 +668,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 212 · ECR, ECS Fargate, ALB y autoscaling](../../part-17-aws-production-architecture/212-ecr-ecs-fargate-alb-y-autoscaling/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [214 · Budgets, Cost Explorer, etiquetado y FinOps automatizado →](../../part-17-aws-production-architecture/214-budgets-cost-explorer-etiquetado-y-finops-automatizado/README.md) |

@@ -1,6 +1,6 @@
 # 240 — Proyecto: CloudShop productivo en Google Cloud
 
-> [← Clase anterior](../../part-19-gcp-production-architecture/239-scc-vpc-service-controls-kms-y-finops/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-20-cloud-data-ai-platforms/241-lakehouse-warehouse-mesh-y-contratos-de-datos/README.md)
+> [← 239 · SCC, VPC Service Controls, KMS y FinOps](../../part-19-gcp-production-architecture/239-scc-vpc-service-controls-kms-y-finops/README.md) · [Índice de la parte](../README.md) · [241 · Lakehouse, warehouse, mesh y contratos de datos →](../../part-20-cloud-data-ai-platforms/241-lakehouse-warehouse-mesh-y-contratos-de-datos/README.md)
 
 **Parte:** 19 — Google Cloud: arquitectura de datos y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 8<br>
@@ -638,3 +638,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 239 · SCC, VPC Service Controls, KMS y FinOps](../../part-19-gcp-production-architecture/239-scc-vpc-service-controls-kms-y-finops/README.md) | [Parte 19](../README.md) · [Programa](../../README.md) | [241 · Lakehouse, warehouse, mesh y contratos de datos →](../../part-20-cloud-data-ai-platforms/241-lakehouse-warehouse-mesh-y-contratos-de-datos/README.md) |

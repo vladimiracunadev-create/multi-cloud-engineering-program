@@ -1,6 +1,6 @@
 # 031 — RDS, DynamoDB y ElastiCache: decisión de datos
 
-> [← Clase anterior](../../part-02-aws-core-platform/030-s3-objetos-versionado-lifecycle-y-replicacion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/README.md)
+> [← 030 · S3: objetos, versionado, lifecycle y replicación](../../part-02-aws-core-platform/030-s3-objetos-versionado-lifecycle-y-replicacion/README.md) · [Índice de la parte](../README.md) · [032 · Lambda, API Gateway y Step Functions →](../../part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/README.md)
 
 **Parte:** 02 — AWS: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -387,3 +387,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 030 · S3: objetos, versionado, lifecycle y replicación](../../part-02-aws-core-platform/030-s3-objetos-versionado-lifecycle-y-replicacion/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [032 · Lambda, API Gateway y Step Functions →](../../part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/README.md) |

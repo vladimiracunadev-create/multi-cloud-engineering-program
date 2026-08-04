@@ -1,6 +1,6 @@
 # 224 — Service Bus, Event Grid y Event Hubs
 
-> [← Clase anterior](../../part-18-azure-production-architecture/223-azure-sql-cosmos-db-y-consistencia-distribuida/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-18-azure-production-architecture/225-azure-monitor-application-insights-y-opentelemetry/README.md)
+> [← 223 · Azure SQL, Cosmos DB y consistencia distribuida](../../part-18-azure-production-architecture/223-azure-sql-cosmos-db-y-consistencia-distribuida/README.md) · [Índice de la parte](../README.md) · [225 · Azure Monitor, Application Insights y OpenTelemetry →](../../part-18-azure-production-architecture/225-azure-monitor-application-insights-y-opentelemetry/README.md)
 
 **Parte:** 18 — Azure: arquitectura empresarial y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -636,3 +636,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 223 · Azure SQL, Cosmos DB y consistencia distribuida](../../part-18-azure-production-architecture/223-azure-sql-cosmos-db-y-consistencia-distribuida/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [225 · Azure Monitor, Application Insights y OpenTelemetry →](../../part-18-azure-production-architecture/225-azure-monitor-application-insights-y-opentelemetry/README.md) |

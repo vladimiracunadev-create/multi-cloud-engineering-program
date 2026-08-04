@@ -1,6 +1,6 @@
 # 039 — Virtual Network, subredes, NSG, UDR, peering y Private Link
 
-> [← Clase anterior](../../part-03-azure-core-platform/038-microsoft-entra-id-rbac-managed-identities-y-pim/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-03-azure-core-platform/040-virtual-machines-scale-sets-y-load-balancer/README.md)
+> [← 038 · Microsoft Entra ID, RBAC, managed identities y PIM](../../part-03-azure-core-platform/038-microsoft-entra-id-rbac-managed-identities-y-pim/README.md) · [Índice de la parte](../README.md) · [040 · Virtual Machines, Scale Sets y Load Balancer →](../../part-03-azure-core-platform/040-virtual-machines-scale-sets-y-load-balancer/README.md)
 
 **Parte:** 03 — Azure: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -559,3 +559,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 038 · Microsoft Entra ID, RBAC, managed identities y PIM](../../part-03-azure-core-platform/038-microsoft-entra-id-rbac-managed-identities-y-pim/README.md) | [Parte 03](../README.md) · [Programa](../../README.md) | [040 · Virtual Machines, Scale Sets y Load Balancer →](../../part-03-azure-core-platform/040-virtual-machines-scale-sets-y-load-balancer/README.md) |

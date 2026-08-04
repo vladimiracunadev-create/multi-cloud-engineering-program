@@ -1,6 +1,6 @@
 # 220 — Bicep, deployment stacks y Azure Verified Modules
 
-> [← Clase anterior](../../part-18-azure-production-architecture/219-hub-spoke-virtual-wan-private-link-y-dns-privado/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-18-azure-production-architecture/221-app-service-functions-y-container-apps-en-produccion/README.md)
+> [← 219 · Hub-spoke, Virtual WAN, Private Link y DNS privado](../../part-18-azure-production-architecture/219-hub-spoke-virtual-wan-private-link-y-dns-privado/README.md) · [Índice de la parte](../README.md) · [221 · App Service, Functions y Container Apps en producción →](../../part-18-azure-production-architecture/221-app-service-functions-y-container-apps-en-produccion/README.md)
 
 **Parte:** 18 — Azure: arquitectura empresarial y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -675,3 +675,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 219 · Hub-spoke, Virtual WAN, Private Link y DNS privado](../../part-18-azure-production-architecture/219-hub-spoke-virtual-wan-private-link-y-dns-privado/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [221 · App Service, Functions y Container Apps en producción →](../../part-18-azure-production-architecture/221-app-service-functions-y-container-apps-en-produccion/README.md) |

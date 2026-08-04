@@ -1,6 +1,6 @@
 # 170 — Gobierno federado y policy as code a escala
 
-> [← Clase anterior](../../part-14-advanced-platform-capstones-career/169-landing-zones-empresariales-y-vending-de-cuentas/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-14-advanced-platform-capstones-career/171-platform-as-a-product-y-roadmap-de-capacidades/README.md)
+> [← 169 · Landing zones empresariales y vending de cuentas](../../part-14-advanced-platform-capstones-career/169-landing-zones-empresariales-y-vending-de-cuentas/README.md) · [Índice de la parte](../README.md) · [171 · Platform as a Product y roadmap de capacidades →](../../part-14-advanced-platform-capstones-career/171-platform-as-a-product-y-roadmap-de-capacidades/README.md)
 
 **Parte:** 14 — Plataformas avanzadas, capstones y carrera<br>
 **Nivel:** experto-frontera · **Horas estimadas:** 4<br>
@@ -629,3 +629,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 169 · Landing zones empresariales y vending de cuentas](../../part-14-advanced-platform-capstones-career/169-landing-zones-empresariales-y-vending-de-cuentas/README.md) | [Parte 14](../README.md) · [Programa](../../README.md) | [171 · Platform as a Product y roadmap de capacidades →](../../part-14-advanced-platform-capstones-career/171-platform-as-a-product-y-roadmap-de-capacidades/README.md) |

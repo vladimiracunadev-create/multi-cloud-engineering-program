@@ -1,6 +1,6 @@
 # 120 — Proyecto: pipeline de pedidos orientado a eventos
 
-> [← Clase anterior](../../part-09-data-messaging-serverless-integration/119-workflows-y-orquestacion-durable/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-10-observability-sre-reliability/121-logs-metricas-trazas-y-eventos-como-senales/README.md)
+> [← 119 · Workflows y orquestación durable](../../part-09-data-messaging-serverless-integration/119-workflows-y-orquestacion-durable/README.md) · [Índice de la parte](../README.md) · [121 · Logs, métricas, trazas y eventos como señales →](../../part-10-observability-sre-reliability/121-logs-metricas-trazas-y-eventos-como-senales/README.md)
 
 **Parte:** 09 — Datos, mensajería, serverless e integración<br>
 **Nivel:** avanzado · **Horas estimadas:** 8<br>
@@ -545,3 +545,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 119 · Workflows y orquestación durable](../../part-09-data-messaging-serverless-integration/119-workflows-y-orquestacion-durable/README.md) | [Parte 09](../README.md) · [Programa](../../README.md) | [121 · Logs, métricas, trazas y eventos como señales →](../../part-10-observability-sre-reliability/121-logs-metricas-trazas-y-eventos-como-senales/README.md) |

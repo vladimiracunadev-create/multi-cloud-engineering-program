@@ -1,6 +1,6 @@
 # 186 — Capacidad, latencia, throughput y teoría de colas
 
-> [← Clase anterior](../../part-15-systems-architecture-engineering/185-disponibilidad-confiabilidad-y-analisis-de-puntos-de-fallo/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-15-systems-architecture-engineering/187-consistencia-particiones-relojes-y-consenso/README.md)
+> [← 185 · Disponibilidad, confiabilidad y análisis de puntos de fallo](../../part-15-systems-architecture-engineering/185-disponibilidad-confiabilidad-y-analisis-de-puntos-de-fallo/README.md) · [Índice de la parte](../README.md) · [187 · Consistencia, particiones, relojes y consenso →](../../part-15-systems-architecture-engineering/187-consistencia-particiones-relojes-y-consenso/README.md)
 
 **Parte:** 15 — Arquitectura de sistemas e ingeniería de requisitos<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -553,3 +553,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 185 · Disponibilidad, confiabilidad y análisis de puntos de fallo](../../part-15-systems-architecture-engineering/185-disponibilidad-confiabilidad-y-analisis-de-puntos-de-fallo/README.md) | [Parte 15](../README.md) · [Programa](../../README.md) | [187 · Consistencia, particiones, relojes y consenso →](../../part-15-systems-architecture-engineering/187-consistencia-particiones-relojes-y-consenso/README.md) |

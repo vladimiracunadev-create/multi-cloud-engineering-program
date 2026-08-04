@@ -1,6 +1,6 @@
 # 176 — Edge, IoT y procesamiento desconectado
 
-> [← Clase anterior](../../part-14-advanced-platform-capstones-career/175-workloads-de-ia-gpu-datos-y-mlops-multi-cloud/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-14-advanced-platform-capstones-career/177-soberania-digital-y-confidential-computing/README.md)
+> [← 175 · Workloads de IA, GPU, datos y MLOps multi-cloud](../../part-14-advanced-platform-capstones-career/175-workloads-de-ia-gpu-datos-y-mlops-multi-cloud/README.md) · [Índice de la parte](../README.md) · [177 · Soberanía digital y confidential computing →](../../part-14-advanced-platform-capstones-career/177-soberania-digital-y-confidential-computing/README.md)
 
 **Parte:** 14 — Plataformas avanzadas, capstones y carrera<br>
 **Nivel:** experto-frontera · **Horas estimadas:** 4<br>
@@ -680,3 +680,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 175 · Workloads de IA, GPU, datos y MLOps multi-cloud](../../part-14-advanced-platform-capstones-career/175-workloads-de-ia-gpu-datos-y-mlops-multi-cloud/README.md) | [Parte 14](../README.md) · [Programa](../../README.md) | [177 · Soberanía digital y confidential computing →](../../part-14-advanced-platform-capstones-career/177-soberania-digital-y-confidential-computing/README.md) |

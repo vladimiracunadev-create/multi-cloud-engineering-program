@@ -1,6 +1,6 @@
 # 056 — Pub/Sub, Cloud Tasks y Workflows
 
-> [← Clase anterior](../../part-04-gcp-core-platform/055-cloud-run-cloud-functions-y-api-gateway/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-04-gcp-core-platform/057-cloud-logging-monitoring-trace-y-audit-logs/README.md)
+> [← 055 · Cloud Run, Cloud Functions y API Gateway](../../part-04-gcp-core-platform/055-cloud-run-cloud-functions-y-api-gateway/README.md) · [Índice de la parte](../README.md) · [057 · Cloud Logging, Monitoring, Trace y Audit Logs →](../../part-04-gcp-core-platform/057-cloud-logging-monitoring-trace-y-audit-logs/README.md)
 
 **Parte:** 04 — Google Cloud: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -534,3 +534,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 055 · Cloud Run, Cloud Functions y API Gateway](../../part-04-gcp-core-platform/055-cloud-run-cloud-functions-y-api-gateway/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [057 · Cloud Logging, Monitoring, Trace y Audit Logs →](../../part-04-gcp-core-platform/057-cloud-logging-monitoring-trace-y-audit-logs/README.md) |

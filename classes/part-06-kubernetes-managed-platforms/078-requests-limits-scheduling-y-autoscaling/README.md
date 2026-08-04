@@ -1,6 +1,6 @@
 # 078 — Requests, limits, scheduling y autoscaling
 
-> [← Clase anterior](../../part-06-kubernetes-managed-platforms/077-volumes-persistentvolumes-csi-y-statefulsets/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-06-kubernetes-managed-platforms/079-probes-rollouts-rollback-y-poddisruptionbudget/README.md)
+> [← 077 · Volumes, PersistentVolumes, CSI y StatefulSets](../../part-06-kubernetes-managed-platforms/077-volumes-persistentvolumes-csi-y-statefulsets/README.md) · [Índice de la parte](../README.md) · [079 · Probes, rollouts, rollback y PodDisruptionBudget →](../../part-06-kubernetes-managed-platforms/079-probes-rollouts-rollback-y-poddisruptionbudget/README.md)
 
 **Parte:** 06 — Kubernetes y plataformas administradas<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -592,3 +592,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 077 · Volumes, PersistentVolumes, CSI y StatefulSets](../../part-06-kubernetes-managed-platforms/077-volumes-persistentvolumes-csi-y-statefulsets/README.md) | [Parte 06](../README.md) · [Programa](../../README.md) | [079 · Probes, rollouts, rollback y PodDisruptionBudget →](../../part-06-kubernetes-managed-platforms/079-probes-rollouts-rollback-y-poddisruptionbudget/README.md) |

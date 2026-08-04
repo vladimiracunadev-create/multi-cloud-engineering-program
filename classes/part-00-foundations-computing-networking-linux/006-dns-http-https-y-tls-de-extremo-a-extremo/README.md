@@ -1,6 +1,6 @@
 # 006 — DNS, HTTP, HTTPS y TLS de extremo a extremo
 
-> [← Clase anterior](../../part-00-foundations-computing-networking-linux/005-redes-por-capas-tcp-ip-puertos-y-sockets/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-00-foundations-computing-networking-linux/007-linux-usuarios-permisos-servicios-y-logs/README.md)
+> [← 005 · Redes por capas, TCP/IP, puertos y sockets](../../part-00-foundations-computing-networking-linux/005-redes-por-capas-tcp-ip-puertos-y-sockets/README.md) · [Índice de la parte](../README.md) · [007 · Linux: usuarios, permisos, servicios y logs →](../../part-00-foundations-computing-networking-linux/007-linux-usuarios-permisos-servicios-y-logs/README.md)
 
 **Parte:** 00 — Fundamentos de computación, redes y Linux<br>
 **Nivel:** inicial · **Horas estimadas:** 4<br>
@@ -276,3 +276,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 005 · Redes por capas, TCP/IP, puertos y sockets](../../part-00-foundations-computing-networking-linux/005-redes-por-capas-tcp-ip-puertos-y-sockets/README.md) | [Parte 00](../README.md) · [Programa](../../README.md) | [007 · Linux: usuarios, permisos, servicios y logs →](../../part-00-foundations-computing-networking-linux/007-linux-usuarios-permisos-servicios-y-logs/README.md) |

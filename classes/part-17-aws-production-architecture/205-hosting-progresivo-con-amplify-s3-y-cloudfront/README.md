@@ -1,6 +1,6 @@
 # 205 — Hosting progresivo con Amplify, S3 y CloudFront
 
-> [← Clase anterior](../../part-16-advanced-cloud-networking-edge/204-proyecto-red-multi-region-y-multi-cloud/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-17-aws-production-architecture/206-oidc-de-github-y-gitlab-hacia-aws-sin-secretos/README.md)
+> [← 204 · Proyecto: red multi-región y multi-cloud](../../part-16-advanced-cloud-networking-edge/204-proyecto-red-multi-region-y-multi-cloud/README.md) · [Índice de la parte](../README.md) · [206 · OIDC de GitHub y GitLab hacia AWS sin secretos →](../../part-17-aws-production-architecture/206-oidc-de-github-y-gitlab-hacia-aws-sin-secretos/README.md)
 
 **Parte:** 17 — AWS: arquitectura, automatización y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -617,3 +617,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 204 · Proyecto: red multi-región y multi-cloud](../../part-16-advanced-cloud-networking-edge/204-proyecto-red-multi-region-y-multi-cloud/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [206 · OIDC de GitHub y GitLab hacia AWS sin secretos →](../../part-17-aws-production-architecture/206-oidc-de-github-y-gitlab-hacia-aws-sin-secretos/README.md) |

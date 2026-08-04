@@ -1,6 +1,6 @@
 # 060 — Proyecto: aplicación de tres capas en Google Cloud
 
-> [← Clase anterior](../../part-04-gcp-core-platform/059-terraform-y-despliegues-reproducibles-en-gcp/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-05-containers-docker-oci/061-imagenes-capas-registros-y-estandar-oci/README.md)
+> [← 059 · Terraform y despliegues reproducibles en GCP](../../part-04-gcp-core-platform/059-terraform-y-despliegues-reproducibles-en-gcp/README.md) · [Índice de la parte](../README.md) · [061 · Imágenes, capas, registros y estándar OCI →](../../part-05-containers-docker-oci/061-imagenes-capas-registros-y-estandar-oci/README.md)
 
 **Parte:** 04 — Google Cloud: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 8<br>
@@ -606,3 +606,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 059 · Terraform y despliegues reproducibles en GCP](../../part-04-gcp-core-platform/059-terraform-y-despliegues-reproducibles-en-gcp/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [061 · Imágenes, capas, registros y estándar OCI →](../../part-05-containers-docker-oci/061-imagenes-capas-registros-y-estandar-oci/README.md) |

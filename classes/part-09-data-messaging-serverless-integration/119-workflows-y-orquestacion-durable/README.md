@@ -1,6 +1,6 @@
 # 119 — Workflows y orquestación durable
 
-> [← Clase anterior](../../part-09-data-messaging-serverless-integration/118-api-management-cuotas-versiones-y-monetizacion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-09-data-messaging-serverless-integration/120-proyecto-pipeline-de-pedidos-orientado-a-eventos/README.md)
+> [← 118 · API management, cuotas, versiones y monetización](../../part-09-data-messaging-serverless-integration/118-api-management-cuotas-versiones-y-monetizacion/README.md) · [Índice de la parte](../README.md) · [120 · Proyecto: pipeline de pedidos orientado a eventos →](../../part-09-data-messaging-serverless-integration/120-proyecto-pipeline-de-pedidos-orientado-a-eventos/README.md)
 
 **Parte:** 09 — Datos, mensajería, serverless e integración<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -559,3 +559,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 118 · API management, cuotas, versiones y monetización](../../part-09-data-messaging-serverless-integration/118-api-management-cuotas-versiones-y-monetizacion/README.md) | [Parte 09](../README.md) · [Programa](../../README.md) | [120 · Proyecto: pipeline de pedidos orientado a eventos →](../../part-09-data-messaging-serverless-integration/120-proyecto-pipeline-de-pedidos-orientado-a-eventos/README.md) |

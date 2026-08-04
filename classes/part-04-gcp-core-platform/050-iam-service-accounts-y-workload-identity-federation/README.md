@@ -1,6 +1,6 @@
 # 050 — IAM, service accounts y Workload Identity Federation
 
-> [← Clase anterior](../../part-04-gcp-core-platform/049-organizacion-folders-proyectos-billing-y-cuotas/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-04-gcp-core-platform/051-vpc-global-subredes-regionales-firewall-y-cloud-nat/README.md)
+> [← 049 · Organización, folders, proyectos, billing y cuotas](../../part-04-gcp-core-platform/049-organizacion-folders-proyectos-billing-y-cuotas/README.md) · [Índice de la parte](../README.md) · [051 · VPC global, subredes regionales, firewall y Cloud NAT →](../../part-04-gcp-core-platform/051-vpc-global-subredes-regionales-firewall-y-cloud-nat/README.md)
 
 **Parte:** 04 — Google Cloud: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -568,3 +568,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 049 · Organización, folders, proyectos, billing y cuotas](../../part-04-gcp-core-platform/049-organizacion-folders-proyectos-billing-y-cuotas/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [051 · VPC global, subredes regionales, firewall y Cloud NAT →](../../part-04-gcp-core-platform/051-vpc-global-subredes-regionales-firewall-y-cloud-nat/README.md) |

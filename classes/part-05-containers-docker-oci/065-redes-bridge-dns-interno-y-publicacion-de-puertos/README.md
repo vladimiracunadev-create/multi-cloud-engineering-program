@@ -1,6 +1,6 @@
 # 065 — Redes bridge, DNS interno y publicación de puertos
 
-> [← Clase anterior](../../part-05-containers-docker-oci/064-volumenes-bind-mounts-y-persistencia/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-05-containers-docker-oci/066-docker-compose-y-aplicaciones-multiservicio/README.md)
+> [← 064 · Volúmenes, bind mounts y persistencia](../../part-05-containers-docker-oci/064-volumenes-bind-mounts-y-persistencia/README.md) · [Índice de la parte](../README.md) · [066 · Docker Compose y aplicaciones multiservicio →](../../part-05-containers-docker-oci/066-docker-compose-y-aplicaciones-multiservicio/README.md)
 
 **Parte:** 05 — Contenedores, Docker y OCI<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -525,3 +525,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 064 · Volúmenes, bind mounts y persistencia](../../part-05-containers-docker-oci/064-volumenes-bind-mounts-y-persistencia/README.md) | [Parte 05](../README.md) · [Programa](../../README.md) | [066 · Docker Compose y aplicaciones multiservicio →](../../part-05-containers-docker-oci/066-docker-compose-y-aplicaciones-multiservicio/README.md) |

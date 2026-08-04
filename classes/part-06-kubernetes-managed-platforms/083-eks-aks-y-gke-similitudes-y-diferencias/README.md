@@ -1,6 +1,6 @@
 # 083 — EKS, AKS y GKE: similitudes y diferencias
 
-> [← Clase anterior](../../part-06-kubernetes-managed-platforms/082-logs-metricas-eventos-y-depuracion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-06-kubernetes-managed-platforms/084-proyecto-plataforma-kubernetes-portable/README.md)
+> [← 082 · Logs, métricas, eventos y depuración](../../part-06-kubernetes-managed-platforms/082-logs-metricas-eventos-y-depuracion/README.md) · [Índice de la parte](../README.md) · [084 · Proyecto: plataforma Kubernetes portable →](../../part-06-kubernetes-managed-platforms/084-proyecto-plataforma-kubernetes-portable/README.md)
 
 **Parte:** 06 — Kubernetes y plataformas administradas<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -537,3 +537,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 082 · Logs, métricas, eventos y depuración](../../part-06-kubernetes-managed-platforms/082-logs-metricas-eventos-y-depuracion/README.md) | [Parte 06](../README.md) · [Programa](../../README.md) | [084 · Proyecto: plataforma Kubernetes portable →](../../part-06-kubernetes-managed-platforms/084-proyecto-plataforma-kubernetes-portable/README.md) |

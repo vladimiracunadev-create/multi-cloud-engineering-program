@@ -1,6 +1,6 @@
 # 003 — Git, GitHub y trabajo reproducible
 
-> [← Clase anterior](../../part-00-foundations-computing-networking-linux/002-terminal-sistema-de-archivos-procesos-y-variables-de-entorno/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-00-foundations-computing-networking-linux/004-python-json-y-automatizacion-minima/README.md)
+> [← 002 · Terminal, sistema de archivos, procesos y variables de entorno](../../part-00-foundations-computing-networking-linux/002-terminal-sistema-de-archivos-procesos-y-variables-de-entorno/README.md) · [Índice de la parte](../README.md) · [004 · Python, JSON y automatización mínima →](../../part-00-foundations-computing-networking-linux/004-python-json-y-automatizacion-minima/README.md)
 
 **Parte:** 00 — Fundamentos de computación, redes y Linux<br>
 **Nivel:** inicial · **Horas estimadas:** 4<br>
@@ -259,3 +259,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 002 · Terminal, sistema de archivos, procesos y variables de entorno](../../part-00-foundations-computing-networking-linux/002-terminal-sistema-de-archivos-procesos-y-variables-de-entorno/README.md) | [Parte 00](../README.md) · [Programa](../../README.md) | [004 · Python, JSON y automatización mínima →](../../part-00-foundations-computing-networking-linux/004-python-json-y-automatizacion-minima/README.md) |

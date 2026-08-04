@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#111713">
-  <meta name="description" content="102 — Rolling, blue-green, canary y rollback ← Clase anterior ../../part-08-continuous-delivery-platform-engineering/101-sast-sca-secretos-sbom-y-firma-en-">
+  <meta name="description" content="102 — Rolling, blue-green, canary y rollback ← 101 · SAST, SCA, secretos, SBOM y firma en pipeline ../../part-08-continuous-delivery-platform-engineering/1">
   <meta property="og:type" content="website">
   <meta property="og:title" content="102 — Rolling, blue-green, canary y rollback">
-  <meta property="og:description" content="102 — Rolling, blue-green, canary y rollback ← Clase anterior ../../part-08-continuous-delivery-platform-engineering/101-sast-sca-secretos-sbom-y-firma-en-">
+  <meta property="og:description" content="102 — Rolling, blue-green, canary y rollback ← 101 · SAST, SCA, secretos, SBOM y firma en pipeline ../../part-08-continuous-delivery-platform-engineering/1">
   <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/102.html">
   <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/og-cover.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/102.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.0.0-r7">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "102 — Rolling, blue-green, canary y rollback", "description": "102 — Rolling, blue-green, canary y rollback ← Clase anterior ../../part-08-continuous-delivery-platform-engineering/101-sast-sca-secretos-sbom-y-firma-en-", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/102.html"}</script>
+  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "102 — Rolling, blue-green, canary y rollback", "description": "102 — Rolling, blue-green, canary y rollback ← 101 · SAST, SCA, secretos, SBOM y firma en pipeline ../../part-08-continuous-delivery-platform-engineering/1", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/102.html"}</script>
   <title>102 — Rolling, blue-green, canary y rollback · Multi-Cloud Engineering</title>
 </head>
 <body class="doc-page" data-page-type="lesson">
@@ -30,13 +30,14 @@
   <div class="doc-layout">
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/08.html">Parte 08</a><span>/</span><strong>102</strong></nav>
+      <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="101.html" rel="prev" title="SAST, SCA, secretos, SBOM y firma en pipeline">← 101</a><a class="pager-link index" href="../parts/08.html">Parte 08</a><a class="pager-link next" href="103.html" rel="next" title="GitOps con Argo CD o Flux">103 →</a></nav>
       <section class="lesson-status">
         <div><span class="kicker">Parte 08 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="102"> Clase completada</label>
       </section>
       <article class="markdown-body"><h1 id="102-rolling-blue-green-canary-y-rollback">102 — Rolling, blue-green, canary y rollback</h1>
 <blockquote>
-<p><a href="101.html">← Clase anterior</a> · <a href="../parts/08.html">Índice de la parte</a> · <a href="103.html">Clase siguiente →</a></p>
+<p><a href="101.html">← 101 · SAST, SCA, secretos, SBOM y firma en pipeline</a> · <a href="../parts/08.html">Índice de la parte</a> · <a href="103.html">103 · GitOps con Argo CD o Flux →</a></p>
 </blockquote>
 <p><strong>Parte:</strong> 08 — Entrega continua y platform engineering<br>
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
@@ -465,7 +466,23 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-08-continuous-delivery-platform-engineering/102-rolling-blue-green-canary-y-rollback/lesson.yaml">Contrato de clase</a> · <a href="../parts/08.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Anterior</th>
+<th>Índice</th>
+<th>Siguiente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="101.html">← 101 · SAST, SCA, secretos, SBOM y firma en pipeline</a></td>
+<td><a href="../parts/08.html">Parte 08</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-08-continuous-delivery-platform-engineering/102-rolling-blue-green-canary-y-rollback/../../README.md">Programa</a></td>
+<td><a href="103.html">103 · GitOps con Argo CD o Flux →</a></td>
+</tr>
+</tbody>
+</table></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>estrategia-despliegue</h2></div>
         <code>python classes/part-08-continuous-delivery-platform-engineering/102-rolling-blue-green-canary-y-rollback/lab.py --seed 42</code>
@@ -521,7 +538,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 </tbody>
 </table>
       </section>
-      <nav class="lesson-navigation"><a class="nav-link" href="101.html">← SAST, SCA, secretos, SBOM y firma en pipeline</a><a class="nav-link next" href="103.html">GitOps con Argo CD o Flux →</a></nav>
+      <nav class="lesson-navigation"><a class="nav-link" href="101.html" rel="prev">← <span>101 · SAST, SCA, secretos, SBOM y firma en pipeline</span></a><a class="nav-link next" href="103.html" rel="next"><span>103 · GitOps con Argo CD o Flux</span> →</a></nav>
     </main>
   </div>
 
@@ -529,6 +546,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-lo-que-una-estrategia-controla-y-lo-que-no">1. Lo que una estrategia controla, y lo que no</a><a class="toc-level-3" href="#2-el-requisito-comun-que-n-y-n1-convivan">2. El requisito común: que N y N+1 convivan</a><a class="toc-level-3" href="#3-un-canario-que-no-puede-detectar-nada">3. Un canario que no puede detectar nada</a><a class="toc-level-3" href="#4-revertir-lo-que-se-puede-y-lo-que-no">4. Revertir: lo que se puede y lo que no</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
+  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
 </body>
 </html>

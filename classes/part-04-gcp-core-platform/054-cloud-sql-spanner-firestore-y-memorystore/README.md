@@ -1,6 +1,6 @@
 # 054 — Cloud SQL, Spanner, Firestore y Memorystore
 
-> [← Clase anterior](../../part-04-gcp-core-platform/053-cloud-storage-clases-lifecycle-y-replicacion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-04-gcp-core-platform/055-cloud-run-cloud-functions-y-api-gateway/README.md)
+> [← 053 · Cloud Storage, clases, lifecycle y replicación](../../part-04-gcp-core-platform/053-cloud-storage-clases-lifecycle-y-replicacion/README.md) · [Índice de la parte](../README.md) · [055 · Cloud Run, Cloud Functions y API Gateway →](../../part-04-gcp-core-platform/055-cloud-run-cloud-functions-y-api-gateway/README.md)
 
 **Parte:** 04 — Google Cloud: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -553,3 +553,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 053 · Cloud Storage, clases, lifecycle y replicación](../../part-04-gcp-core-platform/053-cloud-storage-clases-lifecycle-y-replicacion/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [055 · Cloud Run, Cloud Functions y API Gateway →](../../part-04-gcp-core-platform/055-cloud-run-cloud-functions-y-api-gateway/README.md) |

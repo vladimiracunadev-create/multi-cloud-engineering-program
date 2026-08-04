@@ -1,6 +1,6 @@
 # 208 — DynamoDB por patrones de acceso y single-table design
 
-> [← Clase anterior](../../part-17-aws-production-architecture/207-sam-lambda-api-gateway-y-despliegue-serverless/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-17-aws-production-architecture/209-cognito-jwt-authorizers-waf-y-defensa-en-profundidad/README.md)
+> [← 207 · SAM, Lambda, API Gateway y despliegue serverless](../../part-17-aws-production-architecture/207-sam-lambda-api-gateway-y-despliegue-serverless/README.md) · [Índice de la parte](../README.md) · [209 · Cognito, JWT authorizers, WAF y defensa en profundidad →](../../part-17-aws-production-architecture/209-cognito-jwt-authorizers-waf-y-defensa-en-profundidad/README.md)
 
 **Parte:** 17 — AWS: arquitectura, automatización y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -647,3 +647,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 207 · SAM, Lambda, API Gateway y despliegue serverless](../../part-17-aws-production-architecture/207-sam-lambda-api-gateway-y-despliegue-serverless/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [209 · Cognito, JWT authorizers, WAF y defensa en profundidad →](../../part-17-aws-production-architecture/209-cognito-jwt-authorizers-waf-y-defensa-en-profundidad/README.md) |

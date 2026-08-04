@@ -1,6 +1,6 @@
 # 103 — GitOps con Argo CD o Flux
 
-> [← Clase anterior](../../part-08-continuous-delivery-platform-engineering/102-rolling-blue-green-canary-y-rollback/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-08-continuous-delivery-platform-engineering/104-ambientes-efimeros-y-promocion-entre-entornos/README.md)
+> [← 102 · Rolling, blue-green, canary y rollback](../../part-08-continuous-delivery-platform-engineering/102-rolling-blue-green-canary-y-rollback/README.md) · [Índice de la parte](../README.md) · [104 · Ambientes efímeros y promoción entre entornos →](../../part-08-continuous-delivery-platform-engineering/104-ambientes-efimeros-y-promocion-entre-entornos/README.md)
 
 **Parte:** 08 — Entrega continua y platform engineering<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -502,3 +502,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 102 · Rolling, blue-green, canary y rollback](../../part-08-continuous-delivery-platform-engineering/102-rolling-blue-green-canary-y-rollback/README.md) | [Parte 08](../README.md) · [Programa](../../README.md) | [104 · Ambientes efímeros y promoción entre entornos →](../../part-08-continuous-delivery-platform-engineering/104-ambientes-efimeros-y-promocion-entre-entornos/README.md) |

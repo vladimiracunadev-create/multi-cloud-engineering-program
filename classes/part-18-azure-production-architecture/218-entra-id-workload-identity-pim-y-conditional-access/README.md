@@ -1,6 +1,6 @@
 # 218 — Entra ID, workload identity, PIM y Conditional Access
 
-> [← Clase anterior](../../part-18-azure-production-architecture/217-enterprise-scale-landing-zones-y-management-groups/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-18-azure-production-architecture/219-hub-spoke-virtual-wan-private-link-y-dns-privado/README.md)
+> [← 217 · Enterprise-scale landing zones y management groups](../../part-18-azure-production-architecture/217-enterprise-scale-landing-zones-y-management-groups/README.md) · [Índice de la parte](../README.md) · [219 · Hub-spoke, Virtual WAN, Private Link y DNS privado →](../../part-18-azure-production-architecture/219-hub-spoke-virtual-wan-private-link-y-dns-privado/README.md)
 
 **Parte:** 18 — Azure: arquitectura empresarial y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -641,3 +641,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 217 · Enterprise-scale landing zones y management groups](../../part-18-azure-production-architecture/217-enterprise-scale-landing-zones-y-management-groups/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [219 · Hub-spoke, Virtual WAN, Private Link y DNS privado →](../../part-18-azure-production-architecture/219-hub-spoke-virtual-wan-private-link-y-dns-privado/README.md) |

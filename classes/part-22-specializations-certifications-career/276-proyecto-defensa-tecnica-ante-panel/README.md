@@ -1,6 +1,6 @@
 # 276 — Proyecto: defensa técnica ante panel
 
-> [← Clase anterior](../../part-22-specializations-certifications-career/275-portafolio-evidencia-readme-y-entrevista-de-sistemas/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-23-industry-capstones/277-capstone-retail-comercio-multi-region/README.md)
+> [← 275 · Portafolio, evidencia, README y entrevista de sistemas](../../part-22-specializations-certifications-career/275-portafolio-evidencia-readme-y-entrevista-de-sistemas/README.md) · [Índice de la parte](../README.md) · [277 · Capstone retail: comercio multi-región →](../../part-23-industry-capstones/277-capstone-retail-comercio-multi-region/README.md)
 
 **Parte:** 22 — Especializaciones, certificaciones y práctica profesional<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 8<br>
@@ -624,3 +624,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 275 · Portafolio, evidencia, README y entrevista de sistemas](../../part-22-specializations-certifications-career/275-portafolio-evidencia-readme-y-entrevista-de-sistemas/README.md) | [Parte 22](../README.md) · [Programa](../../README.md) | [277 · Capstone retail: comercio multi-región →](../../part-23-industry-capstones/277-capstone-retail-comercio-multi-region/README.md) |

@@ -1,6 +1,6 @@
 # 019 — Modelo de responsabilidad compartida por servicio
 
-> [← Clase anterior](../../part-01-cloud-principles-strategy-adoption/018-identidad-roles-politicas-y-federacion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-01-cloud-principles-strategy-adoption/020-tco-costos-variables-unit-economics-y-finops/README.md)
+> [← 018 · Identidad, roles, políticas y federación](../../part-01-cloud-principles-strategy-adoption/018-identidad-roles-politicas-y-federacion/README.md) · [Índice de la parte](../README.md) · [020 · TCO, costos variables, unit economics y FinOps →](../../part-01-cloud-principles-strategy-adoption/020-tco-costos-variables-unit-economics-y-finops/README.md)
 
 **Parte:** 01 — Principios, estrategia y adopción cloud<br>
 **Nivel:** inicial-intermedio · **Horas estimadas:** 4<br>
@@ -312,3 +312,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 018 · Identidad, roles, políticas y federación](../../part-01-cloud-principles-strategy-adoption/018-identidad-roles-politicas-y-federacion/README.md) | [Parte 01](../README.md) · [Programa](../../README.md) | [020 · TCO, costos variables, unit economics y FinOps →](../../part-01-cloud-principles-strategy-adoption/020-tco-costos-variables-unit-economics-y-finops/README.md) |

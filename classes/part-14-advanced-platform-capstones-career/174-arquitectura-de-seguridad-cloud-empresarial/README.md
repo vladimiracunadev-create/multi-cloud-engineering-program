@@ -1,6 +1,6 @@
 # 174 — Arquitectura de seguridad cloud empresarial
 
-> [← Clase anterior](../../part-14-advanced-platform-capstones-career/173-madurez-sre-y-confiabilidad-organizacional/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-14-advanced-platform-capstones-career/175-workloads-de-ia-gpu-datos-y-mlops-multi-cloud/README.md)
+> [← 173 · Madurez SRE y confiabilidad organizacional](../../part-14-advanced-platform-capstones-career/173-madurez-sre-y-confiabilidad-organizacional/README.md) · [Índice de la parte](../README.md) · [175 · Workloads de IA, GPU, datos y MLOps multi-cloud →](../../part-14-advanced-platform-capstones-career/175-workloads-de-ia-gpu-datos-y-mlops-multi-cloud/README.md)
 
 **Parte:** 14 — Plataformas avanzadas, capstones y carrera<br>
 **Nivel:** experto-frontera · **Horas estimadas:** 4<br>
@@ -668,3 +668,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 173 · Madurez SRE y confiabilidad organizacional](../../part-14-advanced-platform-capstones-career/173-madurez-sre-y-confiabilidad-organizacional/README.md) | [Parte 14](../README.md) · [Programa](../../README.md) | [175 · Workloads de IA, GPU, datos y MLOps multi-cloud →](../../part-14-advanced-platform-capstones-career/175-workloads-de-ia-gpu-datos-y-mlops-multi-cloud/README.md) |

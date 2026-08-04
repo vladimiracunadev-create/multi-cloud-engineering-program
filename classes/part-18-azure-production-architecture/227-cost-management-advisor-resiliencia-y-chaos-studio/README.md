@@ -1,6 +1,6 @@
 # 227 — Cost Management, Advisor, resiliencia y Chaos Studio
 
-> [← Clase anterior](../../part-18-azure-production-architecture/226-defender-for-cloud-policy-y-sentinel/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-18-azure-production-architecture/228-proyecto-cloudshop-productivo-en-azure/README.md)
+> [← 226 · Defender for Cloud, Policy y Sentinel](../../part-18-azure-production-architecture/226-defender-for-cloud-policy-y-sentinel/README.md) · [Índice de la parte](../README.md) · [228 · Proyecto: CloudShop productivo en Azure →](../../part-18-azure-production-architecture/228-proyecto-cloudshop-productivo-en-azure/README.md)
 
 **Parte:** 18 — Azure: arquitectura empresarial y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -671,3 +671,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 226 · Defender for Cloud, Policy y Sentinel](../../part-18-azure-production-architecture/226-defender-for-cloud-policy-y-sentinel/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [228 · Proyecto: CloudShop productivo en Azure →](../../part-18-azure-production-architecture/228-proyecto-cloudshop-productivo-en-azure/README.md) |

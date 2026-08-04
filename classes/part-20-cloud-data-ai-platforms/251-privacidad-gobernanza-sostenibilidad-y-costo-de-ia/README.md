@@ -1,6 +1,6 @@
 # 251 — Privacidad, gobernanza, sostenibilidad y costo de IA
 
-> [← Clase anterior](../../part-20-cloud-data-ai-platforms/250-evaluacion-de-ia-red-teaming-y-observabilidad/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-20-cloud-data-ai-platforms/252-proyecto-asistente-operativo-de-cloudshop/README.md)
+> [← 250 · Evaluación de IA, red teaming y observabilidad](../../part-20-cloud-data-ai-platforms/250-evaluacion-de-ia-red-teaming-y-observabilidad/README.md) · [Índice de la parte](../README.md) · [252 · Proyecto: asistente operativo de CloudShop →](../../part-20-cloud-data-ai-platforms/252-proyecto-asistente-operativo-de-cloudshop/README.md)
 
 **Parte:** 20 — Plataformas cloud de datos, analítica, IA y agentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -772,3 +772,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 250 · Evaluación de IA, red teaming y observabilidad](../../part-20-cloud-data-ai-platforms/250-evaluacion-de-ia-red-teaming-y-observabilidad/README.md) | [Parte 20](../README.md) · [Programa](../../README.md) | [252 · Proyecto: asistente operativo de CloudShop →](../../part-20-cloud-data-ai-platforms/252-proyecto-asistente-operativo-de-cloudshop/README.md) |

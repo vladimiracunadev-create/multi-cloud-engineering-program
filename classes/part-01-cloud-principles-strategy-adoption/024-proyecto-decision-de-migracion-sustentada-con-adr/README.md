@@ -1,6 +1,6 @@
 # 024 — Proyecto: decisión de migración sustentada con ADR
 
-> [← Clase anterior](../../part-01-cloud-principles-strategy-adoption/023-descubrimiento-y-clasificacion-de-workloads/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-02-aws-core-platform/025-organizations-cuentas-ou-scp-y-landing-zone/README.md)
+> [← 023 · Descubrimiento y clasificación de workloads](../../part-01-cloud-principles-strategy-adoption/023-descubrimiento-y-clasificacion-de-workloads/README.md) · [Índice de la parte](../README.md) · [025 · Organizations, cuentas, OU, SCP y landing zone →](../../part-02-aws-core-platform/025-organizations-cuentas-ou-scp-y-landing-zone/README.md)
 
 **Parte:** 01 — Principios, estrategia y adopción cloud<br>
 **Nivel:** inicial-intermedio · **Horas estimadas:** 8<br>
@@ -374,3 +374,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 023 · Descubrimiento y clasificación de workloads](../../part-01-cloud-principles-strategy-adoption/023-descubrimiento-y-clasificacion-de-workloads/README.md) | [Parte 01](../README.md) · [Programa](../../README.md) | [025 · Organizations, cuentas, OU, SCP y landing zone →](../../part-02-aws-core-platform/025-organizations-cuentas-ou-scp-y-landing-zone/README.md) |

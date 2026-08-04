@@ -1,6 +1,6 @@
 # 121 — Logs, métricas, trazas y eventos como señales
 
-> [← Clase anterior](../../part-09-data-messaging-serverless-integration/120-proyecto-pipeline-de-pedidos-orientado-a-eventos/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-10-observability-sre-reliability/122-logging-estructurado-correlacion-y-retencion/README.md)
+> [← 120 · Proyecto: pipeline de pedidos orientado a eventos](../../part-09-data-messaging-serverless-integration/120-proyecto-pipeline-de-pedidos-orientado-a-eventos/README.md) · [Índice de la parte](../README.md) · [122 · Logging estructurado, correlación y retención →](../../part-10-observability-sre-reliability/122-logging-estructurado-correlacion-y-retencion/README.md)
 
 **Parte:** 10 — Observabilidad, SRE y confiabilidad<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -521,3 +521,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 120 · Proyecto: pipeline de pedidos orientado a eventos](../../part-09-data-messaging-serverless-integration/120-proyecto-pipeline-de-pedidos-orientado-a-eventos/README.md) | [Parte 10](../README.md) · [Programa](../../README.md) | [122 · Logging estructurado, correlación y retención →](../../part-10-observability-sre-reliability/122-logging-estructurado-correlacion-y-retencion/README.md) |

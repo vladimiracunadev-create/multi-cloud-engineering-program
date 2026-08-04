@@ -1,6 +1,6 @@
 # 068 — Límites, health checks y apagado ordenado
 
-> [← Clase anterior](../../part-05-containers-docker-oci/067-registros-sbom-firma-y-procedencia-de-imagenes/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-05-containers-docker-oci/069-rootless-capabilities-seccomp-y-secretos/README.md)
+> [← 067 · Registros, SBOM, firma y procedencia de imágenes](../../part-05-containers-docker-oci/067-registros-sbom-firma-y-procedencia-de-imagenes/README.md) · [Índice de la parte](../README.md) · [069 · Rootless, capabilities, seccomp y secretos →](../../part-05-containers-docker-oci/069-rootless-capabilities-seccomp-y-secretos/README.md)
 
 **Parte:** 05 — Contenedores, Docker y OCI<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -568,3 +568,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 067 · Registros, SBOM, firma y procedencia de imágenes](../../part-05-containers-docker-oci/067-registros-sbom-firma-y-procedencia-de-imagenes/README.md) | [Parte 05](../README.md) · [Programa](../../README.md) | [069 · Rootless, capabilities, seccomp y secretos →](../../part-05-containers-docker-oci/069-rootless-capabilities-seccomp-y-secretos/README.md) |

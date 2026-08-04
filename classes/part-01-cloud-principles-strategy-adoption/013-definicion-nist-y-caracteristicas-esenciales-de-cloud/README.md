@@ -1,6 +1,6 @@
 # 013 — Definición NIST y características esenciales de cloud
 
-> [← Clase anterior](../../part-00-foundations-computing-networking-linux/012-proyecto-servicio-local-reproducible-y-observable/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-01-cloud-principles-strategy-adoption/014-regiones-zonas-de-disponibilidad-puntos-de-presencia-y-edge/README.md)
+> [← 012 · Proyecto: servicio local reproducible y observable](../../part-00-foundations-computing-networking-linux/012-proyecto-servicio-local-reproducible-y-observable/README.md) · [Índice de la parte](../README.md) · [014 · Regiones, zonas de disponibilidad, puntos de presencia y edge →](../../part-01-cloud-principles-strategy-adoption/014-regiones-zonas-de-disponibilidad-puntos-de-presencia-y-edge/README.md)
 
 **Parte:** 01 — Principios, estrategia y adopción cloud<br>
 **Nivel:** inicial-intermedio · **Horas estimadas:** 4<br>
@@ -264,3 +264,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 012 · Proyecto: servicio local reproducible y observable](../../part-00-foundations-computing-networking-linux/012-proyecto-servicio-local-reproducible-y-observable/README.md) | [Parte 01](../README.md) · [Programa](../../README.md) | [014 · Regiones, zonas de disponibilidad, puntos de presencia y edge →](../../part-01-cloud-principles-strategy-adoption/014-regiones-zonas-de-disponibilidad-puntos-de-presencia-y-edge/README.md) |

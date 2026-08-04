@@ -1,6 +1,6 @@
 # 113 — Colas, entrega, reintentos y dead-letter queues
 
-> [← Clase anterior](../../part-09-data-messaging-serverless-integration/112-object-storage-data-lake-y-formatos-columnares/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-09-data-messaging-serverless-integration/114-pub-sub-streams-particiones-y-orden/README.md)
+> [← 112 · Object storage, data lake y formatos columnares](../../part-09-data-messaging-serverless-integration/112-object-storage-data-lake-y-formatos-columnares/README.md) · [Índice de la parte](../README.md) · [114 · Pub/sub, streams, particiones y orden →](../../part-09-data-messaging-serverless-integration/114-pub-sub-streams-particiones-y-orden/README.md)
 
 **Parte:** 09 — Datos, mensajería, serverless e integración<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -542,3 +542,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 112 · Object storage, data lake y formatos columnares](../../part-09-data-messaging-serverless-integration/112-object-storage-data-lake-y-formatos-columnares/README.md) | [Parte 09](../README.md) · [Programa](../../README.md) | [114 · Pub/sub, streams, particiones y orden →](../../part-09-data-messaging-serverless-integration/114-pub-sub-streams-particiones-y-orden/README.md) |

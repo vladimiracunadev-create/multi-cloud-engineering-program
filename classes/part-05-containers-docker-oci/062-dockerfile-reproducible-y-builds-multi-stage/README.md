@@ -1,6 +1,6 @@
 # 062 — Dockerfile reproducible y builds multi-stage
 
-> [← Clase anterior](../../part-05-containers-docker-oci/061-imagenes-capas-registros-y-estandar-oci/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-05-containers-docker-oci/063-namespaces-cgroups-y-runtime-de-contenedores/README.md)
+> [← 061 · Imágenes, capas, registros y estándar OCI](../../part-05-containers-docker-oci/061-imagenes-capas-registros-y-estandar-oci/README.md) · [Índice de la parte](../README.md) · [063 · Namespaces, cgroups y runtime de contenedores →](../../part-05-containers-docker-oci/063-namespaces-cgroups-y-runtime-de-contenedores/README.md)
 
 **Parte:** 05 — Contenedores, Docker y OCI<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -558,3 +558,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 061 · Imágenes, capas, registros y estándar OCI](../../part-05-containers-docker-oci/061-imagenes-capas-registros-y-estandar-oci/README.md) | [Parte 05](../README.md) · [Programa](../../README.md) | [063 · Namespaces, cgroups y runtime de contenedores →](../../part-05-containers-docker-oci/063-namespaces-cgroups-y-runtime-de-contenedores/README.md) |

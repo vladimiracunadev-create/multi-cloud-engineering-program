@@ -1,6 +1,6 @@
 # 089 — Variables, outputs, locals y data sources
 
-> [← Clase anterior](../../part-07-infrastructure-as-code-configuration/088-modulos-contratos-versiones-y-composicion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-07-infrastructure-as-code-configuration/090-plan-apply-drift-import-y-refactor-con-moved/README.md)
+> [← 088 · Módulos, contratos, versiones y composición](../../part-07-infrastructure-as-code-configuration/088-modulos-contratos-versiones-y-composicion/README.md) · [Índice de la parte](../README.md) · [090 · Plan, apply, drift, import y refactor con moved →](../../part-07-infrastructure-as-code-configuration/090-plan-apply-drift-import-y-refactor-con-moved/README.md)
 
 **Parte:** 07 — Infraestructura como código y configuración<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -594,3 +594,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 088 · Módulos, contratos, versiones y composición](../../part-07-infrastructure-as-code-configuration/088-modulos-contratos-versiones-y-composicion/README.md) | [Parte 07](../README.md) · [Programa](../../README.md) | [090 · Plan, apply, drift, import y refactor con moved →](../../part-07-infrastructure-as-code-configuration/090-plan-apply-drift-import-y-refactor-con-moved/README.md) |

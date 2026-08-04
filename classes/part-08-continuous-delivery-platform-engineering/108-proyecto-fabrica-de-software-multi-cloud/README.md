@@ -1,6 +1,6 @@
 # 108 — Proyecto: fábrica de software multi-cloud
 
-> [← Clase anterior](../../part-08-continuous-delivery-platform-engineering/107-developer-experience-dora-y-carga-cognitiva/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-09-data-messaging-serverless-integration/109-bases-relacionales-administradas-y-pooling/README.md)
+> [← 107 · Developer experience, DORA y carga cognitiva](../../part-08-continuous-delivery-platform-engineering/107-developer-experience-dora-y-carga-cognitiva/README.md) · [Índice de la parte](../README.md) · [109 · Bases relacionales administradas y pooling →](../../part-09-data-messaging-serverless-integration/109-bases-relacionales-administradas-y-pooling/README.md)
 
 **Parte:** 08 — Entrega continua y platform engineering<br>
 **Nivel:** avanzado · **Horas estimadas:** 8<br>
@@ -530,3 +530,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 107 · Developer experience, DORA y carga cognitiva](../../part-08-continuous-delivery-platform-engineering/107-developer-experience-dora-y-carga-cognitiva/README.md) | [Parte 08](../README.md) · [Programa](../../README.md) | [109 · Bases relacionales administradas y pooling →](../../part-09-data-messaging-serverless-integration/109-bases-relacionales-administradas-y-pooling/README.md) |

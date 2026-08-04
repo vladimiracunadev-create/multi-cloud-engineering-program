@@ -1,6 +1,6 @@
 # 046 — Key Vault, Defender for Cloud y Azure Policy
 
-> [← Clase anterior](../../part-03-azure-core-platform/045-azure-monitor-log-analytics-y-application-insights/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-03-azure-core-platform/047-bicep-plantillas-y-despliegues-por-alcance/README.md)
+> [← 045 · Azure Monitor, Log Analytics y Application Insights](../../part-03-azure-core-platform/045-azure-monitor-log-analytics-y-application-insights/README.md) · [Índice de la parte](../README.md) · [047 · Bicep, plantillas y despliegues por alcance →](../../part-03-azure-core-platform/047-bicep-plantillas-y-despliegues-por-alcance/README.md)
 
 **Parte:** 03 — Azure: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -549,3 +549,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 045 · Azure Monitor, Log Analytics y Application Insights](../../part-03-azure-core-platform/045-azure-monitor-log-analytics-y-application-insights/README.md) | [Parte 03](../README.md) · [Programa](../../README.md) | [047 · Bicep, plantillas y despliegues por alcance →](../../part-03-azure-core-platform/047-bicep-plantillas-y-despliegues-por-alcance/README.md) |

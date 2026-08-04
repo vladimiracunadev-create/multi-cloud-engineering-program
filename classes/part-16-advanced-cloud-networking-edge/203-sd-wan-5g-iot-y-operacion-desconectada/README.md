@@ -1,6 +1,6 @@
 # 203 — SD-WAN, 5G, IoT y operación desconectada
 
-> [← Clase anterior](../../part-16-advanced-cloud-networking-edge/202-ebpf-flow-logs-packet-capture-y-diagnostico/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-16-advanced-cloud-networking-edge/204-proyecto-red-multi-region-y-multi-cloud/README.md)
+> [← 202 · eBPF, flow logs, packet capture y diagnóstico](../../part-16-advanced-cloud-networking-edge/202-ebpf-flow-logs-packet-capture-y-diagnostico/README.md) · [Índice de la parte](../README.md) · [204 · Proyecto: red multi-región y multi-cloud →](../../part-16-advanced-cloud-networking-edge/204-proyecto-red-multi-region-y-multi-cloud/README.md)
 
 **Parte:** 16 — Redes cloud avanzadas, conectividad híbrida y edge<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -662,3 +662,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 202 · eBPF, flow logs, packet capture y diagnóstico](../../part-16-advanced-cloud-networking-edge/202-ebpf-flow-logs-packet-capture-y-diagnostico/README.md) | [Parte 16](../README.md) · [Programa](../../README.md) | [204 · Proyecto: red multi-región y multi-cloud →](../../part-16-advanced-cloud-networking-edge/204-proyecto-red-multi-region-y-multi-cloud/README.md) |

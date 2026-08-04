@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#111713">
-  <meta name="description" content="076 — ConfigMaps, Secrets y configuración externa ← Clase anterior ../../part-06-kubernetes-managed-platforms/075-services-dns-ingress-y-gateway-api/README">
+  <meta name="description" content="076 — ConfigMaps, Secrets y configuración externa ← 075 · Services, DNS, Ingress y Gateway API ../../part-06-kubernetes-managed-platforms/075-services-dns-">
   <meta property="og:type" content="website">
   <meta property="og:title" content="076 — ConfigMaps, Secrets y configuración externa">
-  <meta property="og:description" content="076 — ConfigMaps, Secrets y configuración externa ← Clase anterior ../../part-06-kubernetes-managed-platforms/075-services-dns-ingress-y-gateway-api/README">
+  <meta property="og:description" content="076 — ConfigMaps, Secrets y configuración externa ← 075 · Services, DNS, Ingress y Gateway API ../../part-06-kubernetes-managed-platforms/075-services-dns-">
   <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/076.html">
   <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/og-cover.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/076.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.0.0-r7">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "076 — ConfigMaps, Secrets y configuración externa", "description": "076 — ConfigMaps, Secrets y configuración externa ← Clase anterior ../../part-06-kubernetes-managed-platforms/075-services-dns-ingress-y-gateway-api/README", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/076.html"}</script>
+  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "076 — ConfigMaps, Secrets y configuración externa", "description": "076 — ConfigMaps, Secrets y configuración externa ← 075 · Services, DNS, Ingress y Gateway API ../../part-06-kubernetes-managed-platforms/075-services-dns-", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/076.html"}</script>
   <title>076 — ConfigMaps, Secrets y configuración externa · Multi-Cloud Engineering</title>
 </head>
 <body class="doc-page" data-page-type="lesson">
@@ -30,13 +30,14 @@
   <div class="doc-layout">
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/06.html">Parte 06</a><span>/</span><strong>076</strong></nav>
+      <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="075.html" rel="prev" title="Services, DNS, Ingress y Gateway API">← 075</a><a class="pager-link index" href="../parts/06.html">Parte 06</a><a class="pager-link next" href="077.html" rel="next" title="Volumes, PersistentVolumes, CSI y StatefulSets">077 →</a></nav>
       <section class="lesson-status">
         <div><span class="kicker">Parte 06 · intermedio-avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="076"> Clase completada</label>
       </section>
       <article class="markdown-body"><h1 id="076-configmaps-secrets-y-configuracion-externa">076 — ConfigMaps, Secrets y configuración externa</h1>
 <blockquote>
-<p><a href="075.html">← Clase anterior</a> · <a href="../parts/06.html">Índice de la parte</a> · <a href="077.html">Clase siguiente →</a></p>
+<p><a href="075.html">← 075 · Services, DNS, Ingress y Gateway API</a> · <a href="../parts/06.html">Índice de la parte</a> · <a href="077.html">077 · Volumes, PersistentVolumes, CSI y StatefulSets →</a></p>
 </blockquote>
 <p><strong>Parte:</strong> 06 — Kubernetes y plataformas administradas<br>
 <strong>Nivel:</strong> intermedio-avanzado · <strong>Horas estimadas:</strong> 4<br>
@@ -479,7 +480,23 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-06-kubernetes-managed-platforms/076-configmaps-secrets-y-configuracion-externa/lesson.yaml">Contrato de clase</a> · <a href="../parts/06.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Anterior</th>
+<th>Índice</th>
+<th>Siguiente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="075.html">← 075 · Services, DNS, Ingress y Gateway API</a></td>
+<td><a href="../parts/06.html">Parte 06</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-06-kubernetes-managed-platforms/076-configmaps-secrets-y-configuracion-externa/../../README.md">Programa</a></td>
+<td><a href="077.html">077 · Volumes, PersistentVolumes, CSI y StatefulSets →</a></td>
+</tr>
+</tbody>
+</table></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>configuracion-kubernetes</h2></div>
         <code>python classes/part-06-kubernetes-managed-platforms/076-configmaps-secrets-y-configuracion-externa/lab.py --seed 42</code>
@@ -535,7 +552,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 </tbody>
 </table>
       </section>
-      <nav class="lesson-navigation"><a class="nav-link" href="075.html">← Services, DNS, Ingress y Gateway API</a><a class="nav-link next" href="077.html">Volumes, PersistentVolumes, CSI y StatefulSets →</a></nav>
+      <nav class="lesson-navigation"><a class="nav-link" href="075.html" rel="prev">← <span>075 · Services, DNS, Ingress y Gateway API</span></a><a class="nav-link next" href="077.html" rel="next"><span>077 · Volumes, PersistentVolumes, CSI y StatefulSets</span> →</a></nav>
     </main>
   </div>
 
@@ -543,6 +560,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-cambiar-la-configuracion-no-cambia-nada">1. Cambiar la configuración no cambia nada</a><a class="toc-level-3" href="#2-un-secreto-no-esta-cifrado">2. Un secreto no está cifrado</a><a class="toc-level-3" href="#3-limites-y-que-no-cabe-aqui">3. Límites, y qué no cabe aquí</a><a class="toc-level-3" href="#4-quien-puede-leer-que">4. Quién puede leer qué</a><a class="toc-level-3" href="#5-el-contrato-de-configuracion-ya-en-tres-plataformas">5. El contrato de configuración, ya en tres plataformas</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
+  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
 </body>
 </html>

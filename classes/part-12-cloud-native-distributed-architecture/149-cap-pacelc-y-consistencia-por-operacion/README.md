@@ -1,6 +1,6 @@
 # 149 — CAP, PACELC y consistencia por operación
 
-> [← Clase anterior](../../part-12-cloud-native-distributed-architecture/148-monolito-modular-microservicios-y-funcion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-12-cloud-native-distributed-architecture/150-replicacion-particionado-y-consenso/README.md)
+> [← 148 · Monolito modular, microservicios y función](../../part-12-cloud-native-distributed-architecture/148-monolito-modular-microservicios-y-funcion/README.md) · [Índice de la parte](../README.md) · [150 · Replicación, particionado y consenso →](../../part-12-cloud-native-distributed-architecture/150-replicacion-particionado-y-consenso/README.md)
 
 **Parte:** 12 — Arquitectura cloud-native y sistemas distribuidos<br>
 **Nivel:** avanzado-experto · **Horas estimadas:** 4<br>
@@ -615,3 +615,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 148 · Monolito modular, microservicios y función](../../part-12-cloud-native-distributed-architecture/148-monolito-modular-microservicios-y-funcion/README.md) | [Parte 12](../README.md) · [Programa](../../README.md) | [150 · Replicación, particionado y consenso →](../../part-12-cloud-native-distributed-architecture/150-replicacion-particionado-y-consenso/README.md) |

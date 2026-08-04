@@ -1,6 +1,6 @@
 # 037 — Tenant, management groups, suscripciones y resource groups
 
-> [← Clase anterior](../../part-02-aws-core-platform/036-proyecto-aplicacion-de-tres-capas-en-aws/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-03-azure-core-platform/038-microsoft-entra-id-rbac-managed-identities-y-pim/README.md)
+> [← 036 · Proyecto: aplicación de tres capas en AWS](../../part-02-aws-core-platform/036-proyecto-aplicacion-de-tres-capas-en-aws/README.md) · [Índice de la parte](../README.md) · [038 · Microsoft Entra ID, RBAC, managed identities y PIM →](../../part-03-azure-core-platform/038-microsoft-entra-id-rbac-managed-identities-y-pim/README.md)
 
 **Parte:** 03 — Azure: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -386,3 +386,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 036 · Proyecto: aplicación de tres capas en AWS](../../part-02-aws-core-platform/036-proyecto-aplicacion-de-tres-capas-en-aws/README.md) | [Parte 03](../README.md) · [Programa](../../README.md) | [038 · Microsoft Entra ID, RBAC, managed identities y PIM →](../../part-03-azure-core-platform/038-microsoft-entra-id-rbac-managed-identities-y-pim/README.md) |

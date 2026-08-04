@@ -1,6 +1,6 @@
 # 223 — Azure SQL, Cosmos DB y consistencia distribuida
 
-> [← Clase anterior](../../part-18-azure-production-architecture/222-aks-workload-identity-ingress-y-gitops/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-18-azure-production-architecture/224-service-bus-event-grid-y-event-hubs/README.md)
+> [← 222 · AKS, workload identity, ingress y GitOps](../../part-18-azure-production-architecture/222-aks-workload-identity-ingress-y-gitops/README.md) · [Índice de la parte](../README.md) · [224 · Service Bus, Event Grid y Event Hubs →](../../part-18-azure-production-architecture/224-service-bus-event-grid-y-event-hubs/README.md)
 
 **Parte:** 18 — Azure: arquitectura empresarial y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -662,3 +662,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 222 · AKS, workload identity, ingress y GitOps](../../part-18-azure-production-architecture/222-aks-workload-identity-ingress-y-gitops/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [224 · Service Bus, Event Grid y Event Hubs →](../../part-18-azure-production-architecture/224-service-bus-event-grid-y-event-hubs/README.md) |

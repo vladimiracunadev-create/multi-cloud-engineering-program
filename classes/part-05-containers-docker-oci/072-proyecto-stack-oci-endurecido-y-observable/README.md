@@ -1,6 +1,6 @@
 # 072 — Proyecto: stack OCI endurecido y observable
 
-> [← Clase anterior](../../part-05-containers-docker-oci/071-migracion-de-una-aplicacion-legacy-a-contenedores/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-06-kubernetes-managed-platforms/073-api-server-etcd-scheduler-controllers-y-kubelet/README.md)
+> [← 071 · Migración de una aplicación legacy a contenedores](../../part-05-containers-docker-oci/071-migracion-de-una-aplicacion-legacy-a-contenedores/README.md) · [Índice de la parte](../README.md) · [073 · API server, etcd, scheduler, controllers y kubelet →](../../part-06-kubernetes-managed-platforms/073-api-server-etcd-scheduler-controllers-y-kubelet/README.md)
 
 **Parte:** 05 — Contenedores, Docker y OCI<br>
 **Nivel:** intermedio · **Horas estimadas:** 8<br>
@@ -518,3 +518,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 071 · Migración de una aplicación legacy a contenedores](../../part-05-containers-docker-oci/071-migracion-de-una-aplicacion-legacy-a-contenedores/README.md) | [Parte 05](../README.md) · [Programa](../../README.md) | [073 · API server, etcd, scheduler, controllers y kubelet →](../../part-06-kubernetes-managed-platforms/073-api-server-etcd-scheduler-controllers-y-kubelet/README.md) |

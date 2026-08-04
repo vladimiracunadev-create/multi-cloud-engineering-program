@@ -1,6 +1,6 @@
 # 219 — Hub-spoke, Virtual WAN, Private Link y DNS privado
 
-> [← Clase anterior](../../part-18-azure-production-architecture/218-entra-id-workload-identity-pim-y-conditional-access/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-18-azure-production-architecture/220-bicep-deployment-stacks-y-azure-verified-modules/README.md)
+> [← 218 · Entra ID, workload identity, PIM y Conditional Access](../../part-18-azure-production-architecture/218-entra-id-workload-identity-pim-y-conditional-access/README.md) · [Índice de la parte](../README.md) · [220 · Bicep, deployment stacks y Azure Verified Modules →](../../part-18-azure-production-architecture/220-bicep-deployment-stacks-y-azure-verified-modules/README.md)
 
 **Parte:** 18 — Azure: arquitectura empresarial y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -647,3 +647,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 218 · Entra ID, workload identity, PIM y Conditional Access](../../part-18-azure-production-architecture/218-entra-id-workload-identity-pim-y-conditional-access/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [220 · Bicep, deployment stacks y Azure Verified Modules →](../../part-18-azure-production-architecture/220-bicep-deployment-stacks-y-azure-verified-modules/README.md) |

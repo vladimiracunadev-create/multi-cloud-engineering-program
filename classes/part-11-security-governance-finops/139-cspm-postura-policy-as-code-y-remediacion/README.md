@@ -1,6 +1,6 @@
 # 139 — CSPM, postura, policy as code y remediación
 
-> [← Clase anterior](../../part-11-security-governance-finops/138-vulnerabilidades-imagenes-y-cadena-de-suministro/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-11-security-governance-finops/140-threat-modeling-con-stride-y-attack-paths/README.md)
+> [← 138 · Vulnerabilidades, imágenes y cadena de suministro](../../part-11-security-governance-finops/138-vulnerabilidades-imagenes-y-cadena-de-suministro/README.md) · [Índice de la parte](../README.md) · [140 · Threat modeling con STRIDE y attack paths →](../../part-11-security-governance-finops/140-threat-modeling-con-stride-y-attack-paths/README.md)
 
 **Parte:** 11 — Seguridad, gobierno, cumplimiento y FinOps<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -564,3 +564,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 138 · Vulnerabilidades, imágenes y cadena de suministro](../../part-11-security-governance-finops/138-vulnerabilidades-imagenes-y-cadena-de-suministro/README.md) | [Parte 11](../README.md) · [Programa](../../README.md) | [140 · Threat modeling con STRIDE y attack paths →](../../part-11-security-governance-finops/140-threat-modeling-con-stride-y-attack-paths/README.md) |

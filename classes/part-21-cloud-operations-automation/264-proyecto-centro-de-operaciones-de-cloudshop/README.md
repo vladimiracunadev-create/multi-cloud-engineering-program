@@ -1,6 +1,6 @@
 # 264 — Proyecto: centro de operaciones de CloudShop
 
-> [← Clase anterior](../../part-21-cloud-operations-automation/263-aiops-automatizacion-asistida-y-limites-humanos/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-22-specializations-certifications-career/265-ruta-cloud-engineer-y-mapa-de-competencias/README.md)
+> [← 263 · AIOps, automatización asistida y límites humanos](../../part-21-cloud-operations-automation/263-aiops-automatizacion-asistida-y-limites-humanos/README.md) · [Índice de la parte](../README.md) · [265 · Ruta Cloud Engineer y mapa de competencias →](../../part-22-specializations-certifications-career/265-ruta-cloud-engineer-y-mapa-de-competencias/README.md)
 
 **Parte:** 21 — Operación cloud, automatización y respuesta a incidentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 8<br>
@@ -654,3 +654,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 263 · AIOps, automatización asistida y límites humanos](../../part-21-cloud-operations-automation/263-aiops-automatizacion-asistida-y-limites-humanos/README.md) | [Parte 21](../README.md) · [Programa](../../README.md) | [265 · Ruta Cloud Engineer y mapa de competencias →](../../part-22-specializations-certifications-career/265-ruta-cloud-engineer-y-mapa-de-competencias/README.md) |

@@ -1,6 +1,6 @@
 # 188 — Contratos de API, eventos y compatibilidad evolutiva
 
-> [← Clase anterior](../../part-15-systems-architecture-engineering/187-consistencia-particiones-relojes-y-consenso/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-15-systems-architecture-engineering/189-modelado-de-amenazas-y-arquitectura-de-confianza-cero/README.md)
+> [← 187 · Consistencia, particiones, relojes y consenso](../../part-15-systems-architecture-engineering/187-consistencia-particiones-relojes-y-consenso/README.md) · [Índice de la parte](../README.md) · [189 · Modelado de amenazas y arquitectura de confianza cero →](../../part-15-systems-architecture-engineering/189-modelado-de-amenazas-y-arquitectura-de-confianza-cero/README.md)
 
 **Parte:** 15 — Arquitectura de sistemas e ingeniería de requisitos<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -583,3 +583,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 187 · Consistencia, particiones, relojes y consenso](../../part-15-systems-architecture-engineering/187-consistencia-particiones-relojes-y-consenso/README.md) | [Parte 15](../README.md) · [Programa](../../README.md) | [189 · Modelado de amenazas y arquitectura de confianza cero →](../../part-15-systems-architecture-engineering/189-modelado-de-amenazas-y-arquitectura-de-confianza-cero/README.md) |

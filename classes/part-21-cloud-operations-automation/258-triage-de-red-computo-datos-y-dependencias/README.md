@@ -1,6 +1,6 @@
 # 258 — Triage de red, cómputo, datos y dependencias
 
-> [← Clase anterior](../../part-21-cloud-operations-automation/257-alertas-on-call-escalamiento-y-comunicacion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-21-cloud-operations-automation/259-runbooks-ejecutables-y-auto-remediation/README.md)
+> [← 257 · Alertas, on-call, escalamiento y comunicación](../../part-21-cloud-operations-automation/257-alertas-on-call-escalamiento-y-comunicacion/README.md) · [Índice de la parte](../README.md) · [259 · Runbooks ejecutables y auto-remediation →](../../part-21-cloud-operations-automation/259-runbooks-ejecutables-y-auto-remediation/README.md)
 
 **Parte:** 21 — Operación cloud, automatización y respuesta a incidentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -679,3 +679,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 257 · Alertas, on-call, escalamiento y comunicación](../../part-21-cloud-operations-automation/257-alertas-on-call-escalamiento-y-comunicacion/README.md) | [Parte 21](../README.md) · [Programa](../../README.md) | [259 · Runbooks ejecutables y auto-remediation →](../../part-21-cloud-operations-automation/259-runbooks-ejecutables-y-auto-remediation/README.md) |

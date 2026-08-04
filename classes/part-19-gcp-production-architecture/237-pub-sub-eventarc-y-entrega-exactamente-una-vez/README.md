@@ -1,6 +1,6 @@
 # 237 — Pub/Sub, Eventarc y entrega exactamente-una-vez
 
-> [← Clase anterior](../../part-19-gcp-production-architecture/236-bigquery-dataflow-dataproc-y-gobernanza-de-datos/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-19-gcp-production-architecture/238-cloud-operations-trace-y-opentelemetry/README.md)
+> [← 236 · BigQuery, Dataflow, Dataproc y gobernanza de datos](../../part-19-gcp-production-architecture/236-bigquery-dataflow-dataproc-y-gobernanza-de-datos/README.md) · [Índice de la parte](../README.md) · [238 · Cloud Operations, Trace y OpenTelemetry →](../../part-19-gcp-production-architecture/238-cloud-operations-trace-y-opentelemetry/README.md)
 
 **Parte:** 19 — Google Cloud: arquitectura de datos y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -641,3 +641,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 236 · BigQuery, Dataflow, Dataproc y gobernanza de datos](../../part-19-gcp-production-architecture/236-bigquery-dataflow-dataproc-y-gobernanza-de-datos/README.md) | [Parte 19](../README.md) · [Programa](../../README.md) | [238 · Cloud Operations, Trace y OpenTelemetry →](../../part-19-gcp-production-architecture/238-cloud-operations-trace-y-opentelemetry/README.md) |

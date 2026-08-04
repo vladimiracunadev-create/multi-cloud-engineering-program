@@ -1,6 +1,6 @@
 # 100 — Pruebas, calidad y puertas de cambio
 
-> [← Clase anterior](../../part-08-continuous-delivery-platform-engineering/099-artefactos-inmutables-semver-y-promocion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-08-continuous-delivery-platform-engineering/101-sast-sca-secretos-sbom-y-firma-en-pipeline/README.md)
+> [← 099 · Artefactos inmutables, semver y promoción](../../part-08-continuous-delivery-platform-engineering/099-artefactos-inmutables-semver-y-promocion/README.md) · [Índice de la parte](../README.md) · [101 · SAST, SCA, secretos, SBOM y firma en pipeline →](../../part-08-continuous-delivery-platform-engineering/101-sast-sca-secretos-sbom-y-firma-en-pipeline/README.md)
 
 **Parte:** 08 — Entrega continua y platform engineering<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -555,3 +555,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 099 · Artefactos inmutables, semver y promoción](../../part-08-continuous-delivery-platform-engineering/099-artefactos-inmutables-semver-y-promocion/README.md) | [Parte 08](../README.md) · [Programa](../../README.md) | [101 · SAST, SCA, secretos, SBOM y firma en pipeline →](../../part-08-continuous-delivery-platform-engineering/101-sast-sca-secretos-sbom-y-firma-en-pipeline/README.md) |

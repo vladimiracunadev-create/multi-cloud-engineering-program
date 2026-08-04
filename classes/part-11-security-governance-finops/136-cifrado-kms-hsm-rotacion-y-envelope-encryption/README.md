@@ -1,6 +1,6 @@
 # 136 — Cifrado, KMS, HSM, rotación y envelope encryption
 
-> [← Clase anterior](../../part-11-security-governance-finops/135-segmentacion-perimetro-waf-ddos-y-egress/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-11-security-governance-finops/137-gestion-de-secretos-y-credenciales-de-workloads/README.md)
+> [← 135 · Segmentación, perímetro, WAF, DDoS y egress](../../part-11-security-governance-finops/135-segmentacion-perimetro-waf-ddos-y-egress/README.md) · [Índice de la parte](../README.md) · [137 · Gestión de secretos y credenciales de workloads →](../../part-11-security-governance-finops/137-gestion-de-secretos-y-credenciales-de-workloads/README.md)
 
 **Parte:** 11 — Seguridad, gobierno, cumplimiento y FinOps<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -561,3 +561,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 135 · Segmentación, perímetro, WAF, DDoS y egress](../../part-11-security-governance-finops/135-segmentacion-perimetro-waf-ddos-y-egress/README.md) | [Parte 11](../README.md) · [Programa](../../README.md) | [137 · Gestión de secretos y credenciales de workloads →](../../part-11-security-governance-finops/137-gestion-de-secretos-y-credenciales-de-workloads/README.md) |

@@ -1,6 +1,6 @@
 # 061 — Imágenes, capas, registros y estándar OCI
 
-> [← Clase anterior](../../part-04-gcp-core-platform/060-proyecto-aplicacion-de-tres-capas-en-google-cloud/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-05-containers-docker-oci/062-dockerfile-reproducible-y-builds-multi-stage/README.md)
+> [← 060 · Proyecto: aplicación de tres capas en Google Cloud](../../part-04-gcp-core-platform/060-proyecto-aplicacion-de-tres-capas-en-google-cloud/README.md) · [Índice de la parte](../README.md) · [062 · Dockerfile reproducible y builds multi-stage →](../../part-05-containers-docker-oci/062-dockerfile-reproducible-y-builds-multi-stage/README.md)
 
 **Parte:** 05 — Contenedores, Docker y OCI<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -505,3 +505,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 060 · Proyecto: aplicación de tres capas en Google Cloud](../../part-04-gcp-core-platform/060-proyecto-aplicacion-de-tres-capas-en-google-cloud/README.md) | [Parte 05](../README.md) · [Programa](../../README.md) | [062 · Dockerfile reproducible y builds multi-stage →](../../part-05-containers-docker-oci/062-dockerfile-reproducible-y-builds-multi-stage/README.md) |

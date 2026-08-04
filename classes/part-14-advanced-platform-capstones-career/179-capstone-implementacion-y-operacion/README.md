@@ -1,6 +1,6 @@
 # 179 — Capstone: implementación y operación
 
-> [← Clase anterior](../../part-14-advanced-platform-capstones-career/178-capstone-descubrimiento-y-diseno/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-14-advanced-platform-capstones-career/180-capstone-defensa-portafolio-y-plan-profesional/README.md)
+> [← 178 · Capstone: descubrimiento y diseño](../../part-14-advanced-platform-capstones-career/178-capstone-descubrimiento-y-diseno/README.md) · [Índice de la parte](../README.md) · [180 · Capstone: defensa, portafolio y plan profesional →](../../part-14-advanced-platform-capstones-career/180-capstone-defensa-portafolio-y-plan-profesional/README.md)
 
 **Parte:** 14 — Plataformas avanzadas, capstones y carrera<br>
 **Nivel:** experto-frontera · **Horas estimadas:** 8<br>
@@ -664,3 +664,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 178 · Capstone: descubrimiento y diseño](../../part-14-advanced-platform-capstones-career/178-capstone-descubrimiento-y-diseno/README.md) | [Parte 14](../README.md) · [Programa](../../README.md) | [180 · Capstone: defensa, portafolio y plan profesional →](../../part-14-advanced-platform-capstones-career/180-capstone-defensa-portafolio-y-plan-profesional/README.md) |

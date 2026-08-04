@@ -1,6 +1,6 @@
 # 209 — Cognito, JWT authorizers, WAF y defensa en profundidad
 
-> [← Clase anterior](../../part-17-aws-production-architecture/208-dynamodb-por-patrones-de-acceso-y-single-table-design/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-17-aws-production-architecture/210-eventbridge-sqs-dlq-replay-e-idempotencia/README.md)
+> [← 208 · DynamoDB por patrones de acceso y single-table design](../../part-17-aws-production-architecture/208-dynamodb-por-patrones-de-acceso-y-single-table-design/README.md) · [Índice de la parte](../README.md) · [210 · EventBridge, SQS, DLQ, replay e idempotencia →](../../part-17-aws-production-architecture/210-eventbridge-sqs-dlq-replay-e-idempotencia/README.md)
 
 **Parte:** 17 — AWS: arquitectura, automatización y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -639,3 +639,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 208 · DynamoDB por patrones de acceso y single-table design](../../part-17-aws-production-architecture/208-dynamodb-por-patrones-de-acceso-y-single-table-design/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [210 · EventBridge, SQS, DLQ, replay e idempotencia →](../../part-17-aws-production-architecture/210-eventbridge-sqs-dlq-replay-e-idempotencia/README.md) |

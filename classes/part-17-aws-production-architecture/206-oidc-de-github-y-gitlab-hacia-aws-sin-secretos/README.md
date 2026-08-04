@@ -1,6 +1,6 @@
 # 206 — OIDC de GitHub y GitLab hacia AWS sin secretos
 
-> [← Clase anterior](../../part-17-aws-production-architecture/205-hosting-progresivo-con-amplify-s3-y-cloudfront/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-17-aws-production-architecture/207-sam-lambda-api-gateway-y-despliegue-serverless/README.md)
+> [← 205 · Hosting progresivo con Amplify, S3 y CloudFront](../../part-17-aws-production-architecture/205-hosting-progresivo-con-amplify-s3-y-cloudfront/README.md) · [Índice de la parte](../README.md) · [207 · SAM, Lambda, API Gateway y despliegue serverless →](../../part-17-aws-production-architecture/207-sam-lambda-api-gateway-y-despliegue-serverless/README.md)
 
 **Parte:** 17 — AWS: arquitectura, automatización y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -622,3 +622,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 205 · Hosting progresivo con Amplify, S3 y CloudFront](../../part-17-aws-production-architecture/205-hosting-progresivo-con-amplify-s3-y-cloudfront/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [207 · SAM, Lambda, API Gateway y despliegue serverless →](../../part-17-aws-production-architecture/207-sam-lambda-api-gateway-y-despliegue-serverless/README.md) |

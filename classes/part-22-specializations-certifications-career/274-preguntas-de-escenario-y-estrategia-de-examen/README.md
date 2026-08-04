@@ -1,6 +1,6 @@
 # 274 — Preguntas de escenario y estrategia de examen
 
-> [← Clase anterior](../../part-22-specializations-certifications-career/273-mapeo-aws-azure-google-cloud-kubernetes-y-finops/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-22-specializations-certifications-career/275-portafolio-evidencia-readme-y-entrevista-de-sistemas/README.md)
+> [← 273 · Mapeo AWS, Azure, Google Cloud, Kubernetes y FinOps](../../part-22-specializations-certifications-career/273-mapeo-aws-azure-google-cloud-kubernetes-y-finops/README.md) · [Índice de la parte](../README.md) · [275 · Portafolio, evidencia, README y entrevista de sistemas →](../../part-22-specializations-certifications-career/275-portafolio-evidencia-readme-y-entrevista-de-sistemas/README.md)
 
 **Parte:** 22 — Especializaciones, certificaciones y práctica profesional<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -649,3 +649,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 273 · Mapeo AWS, Azure, Google Cloud, Kubernetes y FinOps](../../part-22-specializations-certifications-career/273-mapeo-aws-azure-google-cloud-kubernetes-y-finops/README.md) | [Parte 22](../README.md) · [Programa](../../README.md) | [275 · Portafolio, evidencia, README y entrevista de sistemas →](../../part-22-specializations-certifications-career/275-portafolio-evidencia-readme-y-entrevista-de-sistemas/README.md) |

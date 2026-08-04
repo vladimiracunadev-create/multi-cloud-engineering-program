@@ -86,6 +86,14 @@ button, input { font: inherit; letter-spacing: 0; }
 .nav-link { min-height: 60px; display: flex; align-items: center; padding: 12px 15px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; }
 .nav-link.next { justify-content: flex-end; text-align: right; }
 .nav-link.disabled { color: var(--muted); }
+.nav-link span { display: block; }
+.lesson-pager { display: flex; align-items: stretch; gap: 8px; margin: 14px 0 22px; font-family: ui-monospace, monospace; font-size: 13px; }
+.pager-link { display: flex; align-items: center; padding: 7px 12px; border: 1px solid var(--line); background: var(--surface); color: var(--text); text-decoration: none; white-space: nowrap; }
+.pager-link:hover { border-color: var(--cyan); color: var(--cyan); }
+.pager-link.index { flex: 1; justify-content: center; color: var(--muted); }
+.pager-link.next { margin-left: auto; }
+.pager-link.disabled { color: var(--muted); border-style: dashed; }
+.pager-link.disabled:hover { border-color: var(--line); color: var(--muted); }
 
 .part-content { width: min(1000px, calc(100% - 40px)); margin: 0 auto; padding: 36px 0 80px; }
 .part-intro > h1:first-child { font-size: clamp(30px, 4vw, 50px); }

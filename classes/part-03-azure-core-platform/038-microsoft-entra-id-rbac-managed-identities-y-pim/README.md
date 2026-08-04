@@ -1,6 +1,6 @@
 # 038 — Microsoft Entra ID, RBAC, managed identities y PIM
 
-> [← Clase anterior](../../part-03-azure-core-platform/037-tenant-management-groups-suscripciones-y-resource-groups/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-03-azure-core-platform/039-virtual-network-subredes-nsg-udr-peering-y-private-link/README.md)
+> [← 037 · Tenant, management groups, suscripciones y resource groups](../../part-03-azure-core-platform/037-tenant-management-groups-suscripciones-y-resource-groups/README.md) · [Índice de la parte](../README.md) · [039 · Virtual Network, subredes, NSG, UDR, peering y Private Link →](../../part-03-azure-core-platform/039-virtual-network-subredes-nsg-udr-peering-y-private-link/README.md)
 
 **Parte:** 03 — Azure: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -420,3 +420,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 037 · Tenant, management groups, suscripciones y resource groups](../../part-03-azure-core-platform/037-tenant-management-groups-suscripciones-y-resource-groups/README.md) | [Parte 03](../README.md) · [Programa](../../README.md) | [039 · Virtual Network, subredes, NSG, UDR, peering y Private Link →](../../part-03-azure-core-platform/039-virtual-network-subredes-nsg-udr-peering-y-private-link/README.md) |

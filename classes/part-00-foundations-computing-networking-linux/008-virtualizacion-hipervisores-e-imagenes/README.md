@@ -1,6 +1,6 @@
 # 008 — Virtualización, hipervisores e imágenes
 
-> [← Clase anterior](../../part-00-foundations-computing-networking-linux/007-linux-usuarios-permisos-servicios-y-logs/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-00-foundations-computing-networking-linux/009-apis-rest-autenticacion-y-contratos/README.md)
+> [← 007 · Linux: usuarios, permisos, servicios y logs](../../part-00-foundations-computing-networking-linux/007-linux-usuarios-permisos-servicios-y-logs/README.md) · [Índice de la parte](../README.md) · [009 · APIs REST, autenticación y contratos →](../../part-00-foundations-computing-networking-linux/009-apis-rest-autenticacion-y-contratos/README.md)
 
 **Parte:** 00 — Fundamentos de computación, redes y Linux<br>
 **Nivel:** inicial · **Horas estimadas:** 4<br>
@@ -286,3 +286,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 007 · Linux: usuarios, permisos, servicios y logs](../../part-00-foundations-computing-networking-linux/007-linux-usuarios-permisos-servicios-y-logs/README.md) | [Parte 00](../README.md) · [Programa](../../README.md) | [009 · APIs REST, autenticación y contratos →](../../part-00-foundations-computing-networking-linux/009-apis-rest-autenticacion-y-contratos/README.md) |

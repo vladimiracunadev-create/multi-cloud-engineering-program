@@ -1,6 +1,6 @@
 # 180 — Capstone: defensa, portafolio y plan profesional
 
-> [← Clase anterior](../../part-14-advanced-platform-capstones-career/179-capstone-implementacion-y-operacion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-15-systems-architecture-engineering/181-requisitos-funcionales-restricciones-y-atributos-de-calidad/README.md)
+> [← 179 · Capstone: implementación y operación](../../part-14-advanced-platform-capstones-career/179-capstone-implementacion-y-operacion/README.md) · [Índice de la parte](../README.md) · [181 · Requisitos funcionales, restricciones y atributos de calidad →](../../part-15-systems-architecture-engineering/181-requisitos-funcionales-restricciones-y-atributos-de-calidad/README.md)
 
 **Parte:** 14 — Plataformas avanzadas, capstones y carrera<br>
 **Nivel:** experto-frontera · **Horas estimadas:** 8<br>
@@ -588,3 +588,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 179 · Capstone: implementación y operación](../../part-14-advanced-platform-capstones-career/179-capstone-implementacion-y-operacion/README.md) | [Parte 14](../README.md) · [Programa](../../README.md) | [181 · Requisitos funcionales, restricciones y atributos de calidad →](../../part-15-systems-architecture-engineering/181-requisitos-funcionales-restricciones-y-atributos-de-calidad/README.md) |

@@ -1,6 +1,6 @@
 # 204 — Proyecto: red multi-región y multi-cloud
 
-> [← Clase anterior](../../part-16-advanced-cloud-networking-edge/203-sd-wan-5g-iot-y-operacion-desconectada/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-17-aws-production-architecture/205-hosting-progresivo-con-amplify-s3-y-cloudfront/README.md)
+> [← 203 · SD-WAN, 5G, IoT y operación desconectada](../../part-16-advanced-cloud-networking-edge/203-sd-wan-5g-iot-y-operacion-desconectada/README.md) · [Índice de la parte](../README.md) · [205 · Hosting progresivo con Amplify, S3 y CloudFront →](../../part-17-aws-production-architecture/205-hosting-progresivo-con-amplify-s3-y-cloudfront/README.md)
 
 **Parte:** 16 — Redes cloud avanzadas, conectividad híbrida y edge<br>
 **Nivel:** avanzado · **Horas estimadas:** 8<br>
@@ -623,3 +623,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 203 · SD-WAN, 5G, IoT y operación desconectada](../../part-16-advanced-cloud-networking-edge/203-sd-wan-5g-iot-y-operacion-desconectada/README.md) | [Parte 16](../README.md) · [Programa](../../README.md) | [205 · Hosting progresivo con Amplify, S3 y CloudFront →](../../part-17-aws-production-architecture/205-hosting-progresivo-con-amplify-s3-y-cloudfront/README.md) |

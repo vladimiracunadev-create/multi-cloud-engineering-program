@@ -1,6 +1,6 @@
 # 070 — Diagnóstico de CPU, memoria, red y filesystem
 
-> [← Clase anterior](../../part-05-containers-docker-oci/069-rootless-capabilities-seccomp-y-secretos/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-05-containers-docker-oci/071-migracion-de-una-aplicacion-legacy-a-contenedores/README.md)
+> [← 069 · Rootless, capabilities, seccomp y secretos](../../part-05-containers-docker-oci/069-rootless-capabilities-seccomp-y-secretos/README.md) · [Índice de la parte](../README.md) · [071 · Migración de una aplicación legacy a contenedores →](../../part-05-containers-docker-oci/071-migracion-de-una-aplicacion-legacy-a-contenedores/README.md)
 
 **Parte:** 05 — Contenedores, Docker y OCI<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -522,3 +522,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 069 · Rootless, capabilities, seccomp y secretos](../../part-05-containers-docker-oci/069-rootless-capabilities-seccomp-y-secretos/README.md) | [Parte 05](../README.md) · [Programa](../../README.md) | [071 · Migración de una aplicación legacy a contenedores →](../../part-05-containers-docker-oci/071-migracion-de-una-aplicacion-legacy-a-contenedores/README.md) |

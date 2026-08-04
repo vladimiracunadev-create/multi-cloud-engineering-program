@@ -1,6 +1,6 @@
 # 255 — Backups, restore testing, vaults e inmutabilidad
 
-> [← Clase anterior](../../part-21-cloud-operations-automation/254-patching-imagenes-doradas-y-gestion-de-configuracion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-21-cloud-operations-automation/256-administracion-remota-sin-ssh-permanente/README.md)
+> [← 254 · Patching, imágenes doradas y gestión de configuración](../../part-21-cloud-operations-automation/254-patching-imagenes-doradas-y-gestion-de-configuracion/README.md) · [Índice de la parte](../README.md) · [256 · Administración remota sin SSH permanente →](../../part-21-cloud-operations-automation/256-administracion-remota-sin-ssh-permanente/README.md)
 
 **Parte:** 21 — Operación cloud, automatización y respuesta a incidentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -729,3 +729,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 254 · Patching, imágenes doradas y gestión de configuración](../../part-21-cloud-operations-automation/254-patching-imagenes-doradas-y-gestion-de-configuracion/README.md) | [Parte 21](../README.md) · [Programa](../../README.md) | [256 · Administración remota sin SSH permanente →](../../part-21-cloud-operations-automation/256-administracion-remota-sin-ssh-permanente/README.md) |

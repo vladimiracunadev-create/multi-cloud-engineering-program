@@ -1,6 +1,6 @@
 # 091 — Validación, lint, pruebas y policy as code
 
-> [← Clase anterior](../../part-07-infrastructure-as-code-configuration/090-plan-apply-drift-import-y-refactor-con-moved/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-07-infrastructure-as-code-configuration/092-secretos-y-datos-sensibles-en-iac/README.md)
+> [← 090 · Plan, apply, drift, import y refactor con moved](../../part-07-infrastructure-as-code-configuration/090-plan-apply-drift-import-y-refactor-con-moved/README.md) · [Índice de la parte](../README.md) · [092 · Secretos y datos sensibles en IaC →](../../part-07-infrastructure-as-code-configuration/092-secretos-y-datos-sensibles-en-iac/README.md)
 
 **Parte:** 07 — Infraestructura como código y configuración<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -586,3 +586,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 090 · Plan, apply, drift, import y refactor con moved](../../part-07-infrastructure-as-code-configuration/090-plan-apply-drift-import-y-refactor-con-moved/README.md) | [Parte 07](../README.md) · [Programa](../../README.md) | [092 · Secretos y datos sensibles en IaC →](../../part-07-infrastructure-as-code-configuration/092-secretos-y-datos-sensibles-en-iac/README.md) |

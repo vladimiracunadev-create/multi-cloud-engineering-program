@@ -1,6 +1,6 @@
 # 096 — Proyecto: infraestructura multiambiente promovible
 
-> [← Clase anterior](../../part-07-infrastructure-as-code-configuration/095-plantillas-golden-paths-y-catalogo-interno/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-08-continuous-delivery-platform-engineering/097-integracion-continua-trunk-based-development-y-feedback/README.md)
+> [← 095 · Plantillas, golden paths y catálogo interno](../../part-07-infrastructure-as-code-configuration/095-plantillas-golden-paths-y-catalogo-interno/README.md) · [Índice de la parte](../README.md) · [097 · Integración continua, trunk-based development y feedback →](../../part-08-continuous-delivery-platform-engineering/097-integracion-continua-trunk-based-development-y-feedback/README.md)
 
 **Parte:** 07 — Infraestructura como código y configuración<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 8<br>
@@ -491,3 +491,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 095 · Plantillas, golden paths y catálogo interno](../../part-07-infrastructure-as-code-configuration/095-plantillas-golden-paths-y-catalogo-interno/README.md) | [Parte 07](../README.md) · [Programa](../../README.md) | [097 · Integración continua, trunk-based development y feedback →](../../part-08-continuous-delivery-platform-engineering/097-integracion-continua-trunk-based-development-y-feedback/README.md) |

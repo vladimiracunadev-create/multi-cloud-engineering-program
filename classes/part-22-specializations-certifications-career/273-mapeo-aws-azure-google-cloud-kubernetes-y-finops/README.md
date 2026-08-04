@@ -1,6 +1,6 @@
 # 273 — Mapeo AWS, Azure, Google Cloud, Kubernetes y FinOps
 
-> [← Clase anterior](../../part-22-specializations-certifications-career/272-ruta-cloud-solutions-architect/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-22-specializations-certifications-career/274-preguntas-de-escenario-y-estrategia-de-examen/README.md)
+> [← 272 · Ruta Cloud Solutions Architect](../../part-22-specializations-certifications-career/272-ruta-cloud-solutions-architect/README.md) · [Índice de la parte](../README.md) · [274 · Preguntas de escenario y estrategia de examen →](../../part-22-specializations-certifications-career/274-preguntas-de-escenario-y-estrategia-de-examen/README.md)
 
 **Parte:** 22 — Especializaciones, certificaciones y práctica profesional<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -616,3 +616,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 272 · Ruta Cloud Solutions Architect](../../part-22-specializations-certifications-career/272-ruta-cloud-solutions-architect/README.md) | [Parte 22](../README.md) · [Programa](../../README.md) | [274 · Preguntas de escenario y estrategia de examen →](../../part-22-specializations-certifications-career/274-preguntas-de-escenario-y-estrategia-de-examen/README.md) |

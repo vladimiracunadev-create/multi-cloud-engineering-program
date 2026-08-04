@@ -1,6 +1,6 @@
 # 098 — GitHub Actions: workflows, runners, permisos y caché
 
-> [← Clase anterior](../../part-08-continuous-delivery-platform-engineering/097-integracion-continua-trunk-based-development-y-feedback/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-08-continuous-delivery-platform-engineering/099-artefactos-inmutables-semver-y-promocion/README.md)
+> [← 097 · Integración continua, trunk-based development y feedback](../../part-08-continuous-delivery-platform-engineering/097-integracion-continua-trunk-based-development-y-feedback/README.md) · [Índice de la parte](../README.md) · [099 · Artefactos inmutables, semver y promoción →](../../part-08-continuous-delivery-platform-engineering/099-artefactos-inmutables-semver-y-promocion/README.md)
 
 **Parte:** 08 — Entrega continua y platform engineering<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -608,3 +608,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 097 · Integración continua, trunk-based development y feedback](../../part-08-continuous-delivery-platform-engineering/097-integracion-continua-trunk-based-development-y-feedback/README.md) | [Parte 08](../README.md) · [Programa](../../README.md) | [099 · Artefactos inmutables, semver y promoción →](../../part-08-continuous-delivery-platform-engineering/099-artefactos-inmutables-semver-y-promocion/README.md) |

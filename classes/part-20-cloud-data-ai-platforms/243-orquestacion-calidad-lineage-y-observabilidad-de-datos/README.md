@@ -1,6 +1,6 @@
 # 243 — Orquestación, calidad, lineage y observabilidad de datos
 
-> [← Clase anterior](../../part-20-cloud-data-ai-platforms/242-ingesta-batch-cdc-y-streaming/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-20-cloud-data-ai-platforms/244-feature-stores-training-pipelines-y-experiment-tracking/README.md)
+> [← 242 · Ingesta batch, CDC y streaming](../../part-20-cloud-data-ai-platforms/242-ingesta-batch-cdc-y-streaming/README.md) · [Índice de la parte](../README.md) · [244 · Feature stores, training pipelines y experiment tracking →](../../part-20-cloud-data-ai-platforms/244-feature-stores-training-pipelines-y-experiment-tracking/README.md)
 
 **Parte:** 20 — Plataformas cloud de datos, analítica, IA y agentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -657,3 +657,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 242 · Ingesta batch, CDC y streaming](../../part-20-cloud-data-ai-platforms/242-ingesta-batch-cdc-y-streaming/README.md) | [Parte 20](../README.md) · [Programa](../../README.md) | [244 · Feature stores, training pipelines y experiment tracking →](../../part-20-cloud-data-ai-platforms/244-feature-stores-training-pipelines-y-experiment-tracking/README.md) |

@@ -1,6 +1,6 @@
 # 020 — TCO, costos variables, unit economics y FinOps
 
-> [← Clase anterior](../../part-01-cloud-principles-strategy-adoption/019-modelo-de-responsabilidad-compartida-por-servicio/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-01-cloud-principles-strategy-adoption/021-well-architected-y-atributos-de-calidad/README.md)
+> [← 019 · Modelo de responsabilidad compartida por servicio](../../part-01-cloud-principles-strategy-adoption/019-modelo-de-responsabilidad-compartida-por-servicio/README.md) · [Índice de la parte](../README.md) · [021 · Well-Architected y atributos de calidad →](../../part-01-cloud-principles-strategy-adoption/021-well-architected-y-atributos-de-calidad/README.md)
 
 **Parte:** 01 — Principios, estrategia y adopción cloud<br>
 **Nivel:** inicial-intermedio · **Horas estimadas:** 4<br>
@@ -348,3 +348,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 019 · Modelo de responsabilidad compartida por servicio](../../part-01-cloud-principles-strategy-adoption/019-modelo-de-responsabilidad-compartida-por-servicio/README.md) | [Parte 01](../README.md) · [Programa](../../README.md) | [021 · Well-Architected y atributos de calidad →](../../part-01-cloud-principles-strategy-adoption/021-well-architected-y-atributos-de-calidad/README.md) |

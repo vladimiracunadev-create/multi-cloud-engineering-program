@@ -1,6 +1,6 @@
 # 229 — Resource Manager, folders, Shared VPC y guardrails
 
-> [← Clase anterior](../../part-18-azure-production-architecture/228-proyecto-cloudshop-productivo-en-azure/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-19-gcp-production-architecture/230-workload-identity-federation-iam-conditions-y-pam/README.md)
+> [← 228 · Proyecto: CloudShop productivo en Azure](../../part-18-azure-production-architecture/228-proyecto-cloudshop-productivo-en-azure/README.md) · [Índice de la parte](../README.md) · [230 · Workload Identity Federation, IAM Conditions y PAM →](../../part-19-gcp-production-architecture/230-workload-identity-federation-iam-conditions-y-pam/README.md)
 
 **Parte:** 19 — Google Cloud: arquitectura de datos y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -678,3 +678,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 228 · Proyecto: CloudShop productivo en Azure](../../part-18-azure-production-architecture/228-proyecto-cloudshop-productivo-en-azure/README.md) | [Parte 19](../README.md) · [Programa](../../README.md) | [230 · Workload Identity Federation, IAM Conditions y PAM →](../../part-19-gcp-production-architecture/230-workload-identity-federation-iam-conditions-y-pam/README.md) |

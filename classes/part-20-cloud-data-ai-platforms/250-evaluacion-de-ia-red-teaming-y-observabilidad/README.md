@@ -1,6 +1,6 @@
 # 250 — Evaluación de IA, red teaming y observabilidad
 
-> [← Clase anterior](../../part-20-cloud-data-ai-platforms/249-agentes-tools-memoria-permisos-y-guardrails/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-20-cloud-data-ai-platforms/251-privacidad-gobernanza-sostenibilidad-y-costo-de-ia/README.md)
+> [← 249 · Agentes, tools, memoria, permisos y guardrails](../../part-20-cloud-data-ai-platforms/249-agentes-tools-memoria-permisos-y-guardrails/README.md) · [Índice de la parte](../README.md) · [251 · Privacidad, gobernanza, sostenibilidad y costo de IA →](../../part-20-cloud-data-ai-platforms/251-privacidad-gobernanza-sostenibilidad-y-costo-de-ia/README.md)
 
 **Parte:** 20 — Plataformas cloud de datos, analítica, IA y agentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -732,3 +732,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 249 · Agentes, tools, memoria, permisos y guardrails](../../part-20-cloud-data-ai-platforms/249-agentes-tools-memoria-permisos-y-guardrails/README.md) | [Parte 20](../README.md) · [Programa](../../README.md) | [251 · Privacidad, gobernanza, sostenibilidad y costo de IA →](../../part-20-cloud-data-ai-platforms/251-privacidad-gobernanza-sostenibilidad-y-costo-de-ia/README.md) |

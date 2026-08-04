@@ -1,6 +1,6 @@
 # 075 — Services, DNS, Ingress y Gateway API
 
-> [← Clase anterior](../../part-06-kubernetes-managed-platforms/074-pods-replicasets-deployments-y-jobs/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-06-kubernetes-managed-platforms/076-configmaps-secrets-y-configuracion-externa/README.md)
+> [← 074 · Pods, ReplicaSets, Deployments y Jobs](../../part-06-kubernetes-managed-platforms/074-pods-replicasets-deployments-y-jobs/README.md) · [Índice de la parte](../README.md) · [076 · ConfigMaps, Secrets y configuración externa →](../../part-06-kubernetes-managed-platforms/076-configmaps-secrets-y-configuracion-externa/README.md)
 
 **Parte:** 06 — Kubernetes y plataformas administradas<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -560,3 +560,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 074 · Pods, ReplicaSets, Deployments y Jobs](../../part-06-kubernetes-managed-platforms/074-pods-replicasets-deployments-y-jobs/README.md) | [Parte 06](../README.md) · [Programa](../../README.md) | [076 · ConfigMaps, Secrets y configuración externa →](../../part-06-kubernetes-managed-platforms/076-configmaps-secrets-y-configuracion-externa/README.md) |

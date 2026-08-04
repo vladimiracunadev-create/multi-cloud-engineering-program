@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#111713">
-  <meta name="description" content="112 — Object storage, data lake y formatos columnares ← Clase anterior ../../part-09-data-messaging-serverless-integration/111-cache-invalidacion-ttl-y-con">
+  <meta name="description" content="112 — Object storage, data lake y formatos columnares ← 111 · Caché, invalidación, TTL y consistencia ../../part-09-data-messaging-serverless-integration/1">
   <meta property="og:type" content="website">
   <meta property="og:title" content="112 — Object storage, data lake y formatos columnares">
-  <meta property="og:description" content="112 — Object storage, data lake y formatos columnares ← Clase anterior ../../part-09-data-messaging-serverless-integration/111-cache-invalidacion-ttl-y-con">
+  <meta property="og:description" content="112 — Object storage, data lake y formatos columnares ← 111 · Caché, invalidación, TTL y consistencia ../../part-09-data-messaging-serverless-integration/1">
   <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/112.html">
   <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/og-cover.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/112.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.0.0-r7">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "112 — Object storage, data lake y formatos columnares", "description": "112 — Object storage, data lake y formatos columnares ← Clase anterior ../../part-09-data-messaging-serverless-integration/111-cache-invalidacion-ttl-y-con", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/112.html"}</script>
+  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "112 — Object storage, data lake y formatos columnares", "description": "112 — Object storage, data lake y formatos columnares ← 111 · Caché, invalidación, TTL y consistencia ../../part-09-data-messaging-serverless-integration/1", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/112.html"}</script>
   <title>112 — Object storage, data lake y formatos columnares · Multi-Cloud Engineering</title>
 </head>
 <body class="doc-page" data-page-type="lesson">
@@ -30,13 +30,14 @@
   <div class="doc-layout">
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/09.html">Parte 09</a><span>/</span><strong>112</strong></nav>
+      <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="111.html" rel="prev" title="Caché, invalidación, TTL y consistencia">← 111</a><a class="pager-link index" href="../parts/09.html">Parte 09</a><a class="pager-link next" href="113.html" rel="next" title="Colas, entrega, reintentos y dead-letter queues">113 →</a></nav>
       <section class="lesson-status">
         <div><span class="kicker">Parte 09 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="112"> Clase completada</label>
       </section>
       <article class="markdown-body"><h1 id="112-object-storage-data-lake-y-formatos-columnares">112 — Object storage, data lake y formatos columnares</h1>
 <blockquote>
-<p><a href="111.html">← Clase anterior</a> · <a href="../parts/09.html">Índice de la parte</a> · <a href="113.html">Clase siguiente →</a></p>
+<p><a href="111.html">← 111 · Caché, invalidación, TTL y consistencia</a> · <a href="../parts/09.html">Índice de la parte</a> · <a href="113.html">113 · Colas, entrega, reintentos y dead-letter queues →</a></p>
 </blockquote>
 <p><strong>Parte:</strong> 09 — Datos, mensajería, serverless e integración<br>
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
@@ -523,7 +524,23 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-09-data-messaging-serverless-integration/112-object-storage-data-lake-y-formatos-columnares/lesson.yaml">Contrato de clase</a> · <a href="../parts/09.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Anterior</th>
+<th>Índice</th>
+<th>Siguiente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="111.html">← 111 · Caché, invalidación, TTL y consistencia</a></td>
+<td><a href="../parts/09.html">Parte 09</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-09-data-messaging-serverless-integration/112-object-storage-data-lake-y-formatos-columnares/../../README.md">Programa</a></td>
+<td><a href="113.html">113 · Colas, entrega, reintentos y dead-letter queues →</a></td>
+</tr>
+</tbody>
+</table></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>diseno-data-lake</h2></div>
         <code>python classes/part-09-data-messaging-serverless-integration/112-object-storage-data-lake-y-formatos-columnares/lab.py --seed 42</code>
@@ -579,7 +596,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 </tbody>
 </table>
       </section>
-      <nav class="lesson-navigation"><a class="nav-link" href="111.html">← Caché, invalidación, TTL y consistencia</a><a class="nav-link next" href="113.html">Colas, entrega, reintentos y dead-letter queues →</a></nav>
+      <nav class="lesson-navigation"><a class="nav-link" href="111.html" rel="prev">← <span>111 · Caché, invalidación, TTL y consistencia</span></a><a class="nav-link next" href="113.html" rel="next"><span>113 · Colas, entrega, reintentos y dead-letter queues</span> →</a></nav>
     </main>
   </div>
 
@@ -587,6 +604,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-no-es-un-sistema-de-ficheros">1. No es un sistema de ficheros</a><a class="toc-level-3" href="#2-durabilidad-no-es-proteccion">2. Durabilidad no es protección</a><a class="toc-level-3" href="#3-columnar-la-aritmetica">3. Columnar: la aritmética</a><a class="toc-level-3" href="#4-cuando-hacen-falta-formatos-de-tabla">4. Cuándo hacen falta formatos de tabla</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
+  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
 </body>
 </html>

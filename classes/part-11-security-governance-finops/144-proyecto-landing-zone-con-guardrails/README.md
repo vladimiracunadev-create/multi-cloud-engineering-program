@@ -1,6 +1,6 @@
 # 144 — Proyecto: landing zone con guardrails
 
-> [← Clase anterior](../../part-11-security-governance-finops/143-optimizacion-de-costo-capacidad-y-sostenibilidad/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-12-cloud-native-distributed-architecture/145-requisitos-restricciones-y-atributos-de-calidad/README.md)
+> [← 143 · Optimización de costo, capacidad y sostenibilidad](../../part-11-security-governance-finops/143-optimizacion-de-costo-capacidad-y-sostenibilidad/README.md) · [Índice de la parte](../README.md) · [145 · Requisitos, restricciones y atributos de calidad →](../../part-12-cloud-native-distributed-architecture/145-requisitos-restricciones-y-atributos-de-calidad/README.md)
 
 **Parte:** 11 — Seguridad, gobierno, cumplimiento y FinOps<br>
 **Nivel:** avanzado · **Horas estimadas:** 8<br>
@@ -591,3 +591,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 143 · Optimización de costo, capacidad y sostenibilidad](../../part-11-security-governance-finops/143-optimizacion-de-costo-capacidad-y-sostenibilidad/README.md) | [Parte 11](../README.md) · [Programa](../../README.md) | [145 · Requisitos, restricciones y atributos de calidad →](../../part-12-cloud-native-distributed-architecture/145-requisitos-restricciones-y-atributos-de-calidad/README.md) |

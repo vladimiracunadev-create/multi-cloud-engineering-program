@@ -1,6 +1,6 @@
 # 087 — Estado remoto, locking, cifrado y recuperación
 
-> [← Clase anterior](../../part-07-infrastructure-as-code-configuration/086-terraform-hcl-providers-resources-y-grafo/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-07-infrastructure-as-code-configuration/088-modulos-contratos-versiones-y-composicion/README.md)
+> [← 086 · Terraform: HCL, providers, resources y grafo](../../part-07-infrastructure-as-code-configuration/086-terraform-hcl-providers-resources-y-grafo/README.md) · [Índice de la parte](../README.md) · [088 · Módulos, contratos, versiones y composición →](../../part-07-infrastructure-as-code-configuration/088-modulos-contratos-versiones-y-composicion/README.md)
 
 **Parte:** 07 — Infraestructura como código y configuración<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -579,3 +579,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 086 · Terraform: HCL, providers, resources y grafo](../../part-07-infrastructure-as-code-configuration/086-terraform-hcl-providers-resources-y-grafo/README.md) | [Parte 07](../README.md) · [Programa](../../README.md) | [088 · Módulos, contratos, versiones y composición →](../../part-07-infrastructure-as-code-configuration/088-modulos-contratos-versiones-y-composicion/README.md) |

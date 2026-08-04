@@ -1,6 +1,6 @@
 # 016 — Elasticidad, escalabilidad, disponibilidad y resiliencia
 
-> [← Clase anterior](../../part-01-cloud-principles-strategy-adoption/015-iaas-paas-saas-caas-y-faas/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-01-cloud-principles-strategy-adoption/017-tenancy-cuentas-suscripciones-proyectos-y-jerarquias/README.md)
+> [← 015 · IaaS, PaaS, SaaS, CaaS y FaaS](../../part-01-cloud-principles-strategy-adoption/015-iaas-paas-saas-caas-y-faas/README.md) · [Índice de la parte](../README.md) · [017 · Tenancy, cuentas, suscripciones, proyectos y jerarquías →](../../part-01-cloud-principles-strategy-adoption/017-tenancy-cuentas-suscripciones-proyectos-y-jerarquias/README.md)
 
 **Parte:** 01 — Principios, estrategia y adopción cloud<br>
 **Nivel:** inicial-intermedio · **Horas estimadas:** 4<br>
@@ -327,3 +327,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 015 · IaaS, PaaS, SaaS, CaaS y FaaS](../../part-01-cloud-principles-strategy-adoption/015-iaas-paas-saas-caas-y-faas/README.md) | [Parte 01](../README.md) · [Programa](../../README.md) | [017 · Tenancy, cuentas, suscripciones, proyectos y jerarquías →](../../part-01-cloud-principles-strategy-adoption/017-tenancy-cuentas-suscripciones-proyectos-y-jerarquias/README.md) |

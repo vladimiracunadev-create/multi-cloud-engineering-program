@@ -1,6 +1,6 @@
 # 073 — API server, etcd, scheduler, controllers y kubelet
 
-> [← Clase anterior](../../part-05-containers-docker-oci/072-proyecto-stack-oci-endurecido-y-observable/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-06-kubernetes-managed-platforms/074-pods-replicasets-deployments-y-jobs/README.md)
+> [← 072 · Proyecto: stack OCI endurecido y observable](../../part-05-containers-docker-oci/072-proyecto-stack-oci-endurecido-y-observable/README.md) · [Índice de la parte](../README.md) · [074 · Pods, ReplicaSets, Deployments y Jobs →](../../part-06-kubernetes-managed-platforms/074-pods-replicasets-deployments-y-jobs/README.md)
 
 **Parte:** 06 — Kubernetes y plataformas administradas<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -534,3 +534,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 072 · Proyecto: stack OCI endurecido y observable](../../part-05-containers-docker-oci/072-proyecto-stack-oci-endurecido-y-observable/README.md) | [Parte 06](../README.md) · [Programa](../../README.md) | [074 · Pods, ReplicaSets, Deployments y Jobs →](../../part-06-kubernetes-managed-platforms/074-pods-replicasets-deployments-y-jobs/README.md) |

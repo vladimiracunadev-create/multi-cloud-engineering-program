@@ -1,6 +1,6 @@
 # 042 — Azure SQL, Cosmos DB y Azure Cache for Redis
 
-> [← Clase anterior](../../part-03-azure-core-platform/041-blob-storage-files-redundancia-y-lifecycle/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-03-azure-core-platform/043-app-service-functions-y-container-apps/README.md)
+> [← 041 · Blob Storage, Files, redundancia y lifecycle](../../part-03-azure-core-platform/041-blob-storage-files-redundancia-y-lifecycle/README.md) · [Índice de la parte](../README.md) · [043 · App Service, Functions y Container Apps →](../../part-03-azure-core-platform/043-app-service-functions-y-container-apps/README.md)
 
 **Parte:** 03 — Azure: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -526,3 +526,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 041 · Blob Storage, Files, redundancia y lifecycle](../../part-03-azure-core-platform/041-blob-storage-files-redundancia-y-lifecycle/README.md) | [Parte 03](../README.md) · [Programa](../../README.md) | [043 · App Service, Functions y Container Apps →](../../part-03-azure-core-platform/043-app-service-functions-y-container-apps/README.md) |

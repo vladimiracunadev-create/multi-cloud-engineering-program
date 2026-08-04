@@ -1,6 +1,6 @@
 # 246 — MLOps, registro, promoción, drift y rollback
 
-> [← Clase anterior](../../part-20-cloud-data-ai-platforms/245-serving-online-batch-inference-y-escalado-de-modelos/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-20-cloud-data-ai-platforms/247-modelos-fundacionales-tokens-embeddings-y-rag/README.md)
+> [← 245 · Serving online, batch inference y escalado de modelos](../../part-20-cloud-data-ai-platforms/245-serving-online-batch-inference-y-escalado-de-modelos/README.md) · [Índice de la parte](../README.md) · [247 · Modelos fundacionales, tokens, embeddings y RAG →](../../part-20-cloud-data-ai-platforms/247-modelos-fundacionales-tokens-embeddings-y-rag/README.md)
 
 **Parte:** 20 — Plataformas cloud de datos, analítica, IA y agentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -712,3 +712,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 245 · Serving online, batch inference y escalado de modelos](../../part-20-cloud-data-ai-platforms/245-serving-online-batch-inference-y-escalado-de-modelos/README.md) | [Parte 20](../README.md) · [Programa](../../README.md) | [247 · Modelos fundacionales, tokens, embeddings y RAG →](../../part-20-cloud-data-ai-platforms/247-modelos-fundacionales-tokens-embeddings-y-rag/README.md) |

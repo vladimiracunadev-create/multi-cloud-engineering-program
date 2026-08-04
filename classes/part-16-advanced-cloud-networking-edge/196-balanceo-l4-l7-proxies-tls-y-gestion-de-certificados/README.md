@@ -1,6 +1,6 @@
 # 196 — Balanceo L4/L7, proxies, TLS y gestión de certificados
 
-> [← Clase anterior](../../part-16-advanced-cloud-networking-edge/195-dns-autoritativo-recursivo-split-horizon-y-dnssec/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-16-advanced-cloud-networking-edge/197-cdn-cache-origin-shielding-y-edge-compute/README.md)
+> [← 195 · DNS autoritativo, recursivo, split-horizon y DNSSEC](../../part-16-advanced-cloud-networking-edge/195-dns-autoritativo-recursivo-split-horizon-y-dnssec/README.md) · [Índice de la parte](../README.md) · [197 · CDN, caché, origin shielding y edge compute →](../../part-16-advanced-cloud-networking-edge/197-cdn-cache-origin-shielding-y-edge-compute/README.md)
 
 **Parte:** 16 — Redes cloud avanzadas, conectividad híbrida y edge<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -615,3 +615,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 195 · DNS autoritativo, recursivo, split-horizon y DNSSEC](../../part-16-advanced-cloud-networking-edge/195-dns-autoritativo-recursivo-split-horizon-y-dnssec/README.md) | [Parte 16](../README.md) · [Programa](../../README.md) | [197 · CDN, caché, origin shielding y edge compute →](../../part-16-advanced-cloud-networking-edge/197-cdn-cache-origin-shielding-y-edge-compute/README.md) |

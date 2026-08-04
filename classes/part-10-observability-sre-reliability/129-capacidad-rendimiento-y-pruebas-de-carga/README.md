@@ -1,6 +1,6 @@
 # 129 — Capacidad, rendimiento y pruebas de carga
 
-> [← Clase anterior](../../part-10-observability-sre-reliability/128-runbooks-playbooks-y-automatizacion-operativa/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-10-observability-sre-reliability/130-timeouts-retries-backoff-circuit-breaker-y-bulkhead/README.md)
+> [← 128 · Runbooks, playbooks y automatización operativa](../../part-10-observability-sre-reliability/128-runbooks-playbooks-y-automatizacion-operativa/README.md) · [Índice de la parte](../README.md) · [130 · Timeouts, retries, backoff, circuit breaker y bulkhead →](../../part-10-observability-sre-reliability/130-timeouts-retries-backoff-circuit-breaker-y-bulkhead/README.md)
 
 **Parte:** 10 — Observabilidad, SRE y confiabilidad<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -579,3 +579,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 128 · Runbooks, playbooks y automatización operativa](../../part-10-observability-sre-reliability/128-runbooks-playbooks-y-automatizacion-operativa/README.md) | [Parte 10](../README.md) · [Programa](../../README.md) | [130 · Timeouts, retries, backoff, circuit breaker y bulkhead →](../../part-10-observability-sre-reliability/130-timeouts-retries-backoff-circuit-breaker-y-bulkhead/README.md) |

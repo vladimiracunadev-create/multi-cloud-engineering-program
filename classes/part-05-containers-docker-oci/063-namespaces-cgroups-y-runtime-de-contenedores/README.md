@@ -1,6 +1,6 @@
 # 063 — Namespaces, cgroups y runtime de contenedores
 
-> [← Clase anterior](../../part-05-containers-docker-oci/062-dockerfile-reproducible-y-builds-multi-stage/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-05-containers-docker-oci/064-volumenes-bind-mounts-y-persistencia/README.md)
+> [← 062 · Dockerfile reproducible y builds multi-stage](../../part-05-containers-docker-oci/062-dockerfile-reproducible-y-builds-multi-stage/README.md) · [Índice de la parte](../README.md) · [064 · Volúmenes, bind mounts y persistencia →](../../part-05-containers-docker-oci/064-volumenes-bind-mounts-y-persistencia/README.md)
 
 **Parte:** 05 — Contenedores, Docker y OCI<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -549,3 +549,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 062 · Dockerfile reproducible y builds multi-stage](../../part-05-containers-docker-oci/062-dockerfile-reproducible-y-builds-multi-stage/README.md) | [Parte 05](../README.md) · [Programa](../../README.md) | [064 · Volúmenes, bind mounts y persistencia →](../../part-05-containers-docker-oci/064-volumenes-bind-mounts-y-persistencia/README.md) |

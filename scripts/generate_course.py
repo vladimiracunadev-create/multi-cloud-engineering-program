@@ -192,8 +192,16 @@ def lesson_readme(item: dict, part: dict, previous: dict | None, following: dict
     checks = "\n".join(
         f"{i}. {q}" for i, q in enumerate(written.get("checks") or FALLBACK_CHECKS, 1)
     )
-    prev_link = "Inicio del programa" if previous is None else f"[← Clase anterior](../../part-{previous['part']}-{previous['part_slug']}/{previous['id']}-{previous['slug']}/README.md)"
-    next_link = "Fin del programa" if following is None else f"[Clase siguiente →](../../part-{following['part']}-{following['part_slug']}/{following['id']}-{following['slug']}/README.md)"
+    prev_link = (
+        "**Inicio del programa**"
+        if previous is None
+        else f"[← {previous['id']} · {previous['title']}](../../part-{previous['part']}-{previous['part_slug']}/{previous['id']}-{previous['slug']}/README.md)"
+    )
+    next_link = (
+        "**Fin del programa**"
+        if following is None
+        else f"[{following['id']} · {following['title']} →](../../part-{following['part']}-{following['part_slug']}/{following['id']}-{following['slug']}/README.md)"
+    )
     expected = LAB_EXPECTATIONS[item["lab_kind"]]
     return f"""# {item['id']} — {item['title']}
 
@@ -304,6 +312,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| {prev_link} | [Parte {item['part']}](../README.md) · [Programa](../../README.md) | {next_link} |
 """
 
 

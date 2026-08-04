@@ -1,6 +1,6 @@
 # 033 — SQS, SNS y EventBridge
 
-> [← Clase anterior](../../part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-02-aws-core-platform/034-cloudwatch-cloudtrail-config-y-systems-manager/README.md)
+> [← 032 · Lambda, API Gateway y Step Functions](../../part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/README.md) · [Índice de la parte](../README.md) · [034 · CloudWatch, CloudTrail, Config y Systems Manager →](../../part-02-aws-core-platform/034-cloudwatch-cloudtrail-config-y-systems-manager/README.md)
 
 **Parte:** 02 — AWS: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -416,3 +416,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 032 · Lambda, API Gateway y Step Functions](../../part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [034 · CloudWatch, CloudTrail, Config y Systems Manager →](../../part-02-aws-core-platform/034-cloudwatch-cloudtrail-config-y-systems-manager/README.md) |

@@ -1,6 +1,6 @@
 # 118 — API management, cuotas, versiones y monetización
 
-> [← Clase anterior](../../part-09-data-messaging-serverless-integration/117-serverless-limites-cold-starts-y-concurrencia/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-09-data-messaging-serverless-integration/119-workflows-y-orquestacion-durable/README.md)
+> [← 117 · Serverless: límites, cold starts y concurrencia](../../part-09-data-messaging-serverless-integration/117-serverless-limites-cold-starts-y-concurrencia/README.md) · [Índice de la parte](../README.md) · [119 · Workflows y orquestación durable →](../../part-09-data-messaging-serverless-integration/119-workflows-y-orquestacion-durable/README.md)
 
 **Parte:** 09 — Datos, mensajería, serverless e integración<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -559,3 +559,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 117 · Serverless: límites, cold starts y concurrencia](../../part-09-data-messaging-serverless-integration/117-serverless-limites-cold-starts-y-concurrencia/README.md) | [Parte 09](../README.md) · [Programa](../../README.md) | [119 · Workflows y orquestación durable →](../../part-09-data-messaging-serverless-integration/119-workflows-y-orquestacion-durable/README.md) |

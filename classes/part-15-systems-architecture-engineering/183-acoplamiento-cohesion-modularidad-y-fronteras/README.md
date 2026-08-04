@@ -1,6 +1,6 @@
 # 183 — Acoplamiento, cohesión, modularidad y fronteras
 
-> [← Clase anterior](../../part-15-systems-architecture-engineering/182-contexto-contenedores-componentes-y-codigo-con-c4/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-15-systems-architecture-engineering/184-arquitectura-monolitica-modular-y-de-microservicios/README.md)
+> [← 182 · Contexto, contenedores, componentes y código con C4](../../part-15-systems-architecture-engineering/182-contexto-contenedores-componentes-y-codigo-con-c4/README.md) · [Índice de la parte](../README.md) · [184 · Arquitectura monolítica, modular y de microservicios →](../../part-15-systems-architecture-engineering/184-arquitectura-monolitica-modular-y-de-microservicios/README.md)
 
 **Parte:** 15 — Arquitectura de sistemas e ingeniería de requisitos<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -558,3 +558,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 182 · Contexto, contenedores, componentes y código con C4](../../part-15-systems-architecture-engineering/182-contexto-contenedores-componentes-y-codigo-con-c4/README.md) | [Parte 15](../README.md) · [Programa](../../README.md) | [184 · Arquitectura monolítica, modular y de microservicios →](../../part-15-systems-architecture-engineering/184-arquitectura-monolitica-modular-y-de-microservicios/README.md) |

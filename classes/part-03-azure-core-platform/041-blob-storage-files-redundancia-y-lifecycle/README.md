@@ -1,6 +1,6 @@
 # 041 — Blob Storage, Files, redundancia y lifecycle
 
-> [← Clase anterior](../../part-03-azure-core-platform/040-virtual-machines-scale-sets-y-load-balancer/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-03-azure-core-platform/042-azure-sql-cosmos-db-y-azure-cache-for-redis/README.md)
+> [← 040 · Virtual Machines, Scale Sets y Load Balancer](../../part-03-azure-core-platform/040-virtual-machines-scale-sets-y-load-balancer/README.md) · [Índice de la parte](../README.md) · [042 · Azure SQL, Cosmos DB y Azure Cache for Redis →](../../part-03-azure-core-platform/042-azure-sql-cosmos-db-y-azure-cache-for-redis/README.md)
 
 **Parte:** 03 — Azure: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -512,3 +512,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 040 · Virtual Machines, Scale Sets y Load Balancer](../../part-03-azure-core-platform/040-virtual-machines-scale-sets-y-load-balancer/README.md) | [Parte 03](../README.md) · [Programa](../../README.md) | [042 · Azure SQL, Cosmos DB y Azure Cache for Redis →](../../part-03-azure-core-platform/042-azure-sql-cosmos-db-y-azure-cache-for-redis/README.md) |

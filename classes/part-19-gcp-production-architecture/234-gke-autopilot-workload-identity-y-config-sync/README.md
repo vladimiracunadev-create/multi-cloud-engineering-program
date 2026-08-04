@@ -1,6 +1,6 @@
 # 234 — GKE Autopilot, Workload Identity y Config Sync
 
-> [← Clase anterior](../../part-19-gcp-production-architecture/233-cloud-run-functions-api-gateway-y-workflows/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-19-gcp-production-architecture/235-cloud-sql-spanner-firestore-y-bigtable/README.md)
+> [← 233 · Cloud Run, Functions, API Gateway y Workflows](../../part-19-gcp-production-architecture/233-cloud-run-functions-api-gateway-y-workflows/README.md) · [Índice de la parte](../README.md) · [235 · Cloud SQL, Spanner, Firestore y Bigtable →](../../part-19-gcp-production-architecture/235-cloud-sql-spanner-firestore-y-bigtable/README.md)
 
 **Parte:** 19 — Google Cloud: arquitectura de datos y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -650,3 +650,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 233 · Cloud Run, Functions, API Gateway y Workflows](../../part-19-gcp-production-architecture/233-cloud-run-functions-api-gateway-y-workflows/README.md) | [Parte 19](../README.md) · [Programa](../../README.md) | [235 · Cloud SQL, Spanner, Firestore y Bigtable →](../../part-19-gcp-production-architecture/235-cloud-sql-spanner-firestore-y-bigtable/README.md) |

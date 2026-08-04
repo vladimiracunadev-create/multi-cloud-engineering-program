@@ -1,6 +1,6 @@
 # 025 — Organizations, cuentas, OU, SCP y landing zone
 
-> [← Clase anterior](../../part-01-cloud-principles-strategy-adoption/024-proyecto-decision-de-migracion-sustentada-con-adr/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-02-aws-core-platform/026-iam-roles-politicas-sts-y-federacion/README.md)
+> [← 024 · Proyecto: decisión de migración sustentada con ADR](../../part-01-cloud-principles-strategy-adoption/024-proyecto-decision-de-migracion-sustentada-con-adr/README.md) · [Índice de la parte](../README.md) · [026 · IAM, roles, políticas, STS y federación →](../../part-02-aws-core-platform/026-iam-roles-politicas-sts-y-federacion/README.md)
 
 **Parte:** 02 — AWS: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -387,3 +387,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 024 · Proyecto: decisión de migración sustentada con ADR](../../part-01-cloud-principles-strategy-adoption/024-proyecto-decision-de-migracion-sustentada-con-adr/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [026 · IAM, roles, políticas, STS y federación →](../../part-02-aws-core-platform/026-iam-roles-politicas-sts-y-federacion/README.md) |

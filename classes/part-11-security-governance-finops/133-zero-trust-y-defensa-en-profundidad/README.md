@@ -1,6 +1,6 @@
 # 133 — Zero Trust y defensa en profundidad
 
-> [← Clase anterior](../../part-10-observability-sre-reliability/132-proyecto-operacion-sre-de-cloudshop/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-11-security-governance-finops/134-minimo-privilegio-acceso-temporal-y-separacion-de-funciones/README.md)
+> [← 132 · Proyecto: operación SRE de CloudShop](../../part-10-observability-sre-reliability/132-proyecto-operacion-sre-de-cloudshop/README.md) · [Índice de la parte](../README.md) · [134 · Mínimo privilegio, acceso temporal y separación de funciones →](../../part-11-security-governance-finops/134-minimo-privilegio-acceso-temporal-y-separacion-de-funciones/README.md)
 
 **Parte:** 11 — Seguridad, gobierno, cumplimiento y FinOps<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -549,3 +549,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 132 · Proyecto: operación SRE de CloudShop](../../part-10-observability-sre-reliability/132-proyecto-operacion-sre-de-cloudshop/README.md) | [Parte 11](../README.md) · [Programa](../../README.md) | [134 · Mínimo privilegio, acceso temporal y separación de funciones →](../../part-11-security-governance-finops/134-minimo-privilegio-acceso-temporal-y-separacion-de-funciones/README.md) |

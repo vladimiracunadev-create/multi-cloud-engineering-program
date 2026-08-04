@@ -1,6 +1,6 @@
 # 084 — Proyecto: plataforma Kubernetes portable
 
-> [← Clase anterior](../../part-06-kubernetes-managed-platforms/083-eks-aks-y-gke-similitudes-y-diferencias/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-07-infrastructure-as-code-configuration/085-declarativo-imperativo-idempotencia-y-convergencia/README.md)
+> [← 083 · EKS, AKS y GKE: similitudes y diferencias](../../part-06-kubernetes-managed-platforms/083-eks-aks-y-gke-similitudes-y-diferencias/README.md) · [Índice de la parte](../README.md) · [085 · Declarativo, imperativo, idempotencia y convergencia →](../../part-07-infrastructure-as-code-configuration/085-declarativo-imperativo-idempotencia-y-convergencia/README.md)
 
 **Parte:** 06 — Kubernetes y plataformas administradas<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 8<br>
@@ -529,3 +529,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 083 · EKS, AKS y GKE: similitudes y diferencias](../../part-06-kubernetes-managed-platforms/083-eks-aks-y-gke-similitudes-y-diferencias/README.md) | [Parte 06](../README.md) · [Programa](../../README.md) | [085 · Declarativo, imperativo, idempotencia y convergencia →](../../part-07-infrastructure-as-code-configuration/085-declarativo-imperativo-idempotencia-y-convergencia/README.md) |

@@ -1,6 +1,6 @@
 # 163 — Terraform multi-provider y separación de estados
 
-> [← Clase anterior](../../part-13-multicloud-hybrid-disaster-recovery/162-observabilidad-y-operacion-entre-proveedores/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-13-multicloud-hybrid-disaster-recovery/164-flotas-kubernetes-y-politicas-comunes/README.md)
+> [← 162 · Observabilidad y operación entre proveedores](../../part-13-multicloud-hybrid-disaster-recovery/162-observabilidad-y-operacion-entre-proveedores/README.md) · [Índice de la parte](../README.md) · [164 · Flotas Kubernetes y políticas comunes →](../../part-13-multicloud-hybrid-disaster-recovery/164-flotas-kubernetes-y-politicas-comunes/README.md)
 
 **Parte:** 13 — Multi-cloud, híbrido, migración y recuperación<br>
 **Nivel:** experto · **Horas estimadas:** 4<br>
@@ -631,3 +631,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 162 · Observabilidad y operación entre proveedores](../../part-13-multicloud-hybrid-disaster-recovery/162-observabilidad-y-operacion-entre-proveedores/README.md) | [Parte 13](../README.md) · [Programa](../../README.md) | [164 · Flotas Kubernetes y políticas comunes →](../../part-13-multicloud-hybrid-disaster-recovery/164-flotas-kubernetes-y-politicas-comunes/README.md) |

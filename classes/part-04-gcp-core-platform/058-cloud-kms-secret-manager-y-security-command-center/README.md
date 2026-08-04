@@ -1,6 +1,6 @@
 # 058 — Cloud KMS, Secret Manager y Security Command Center
 
-> [← Clase anterior](../../part-04-gcp-core-platform/057-cloud-logging-monitoring-trace-y-audit-logs/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-04-gcp-core-platform/059-terraform-y-despliegues-reproducibles-en-gcp/README.md)
+> [← 057 · Cloud Logging, Monitoring, Trace y Audit Logs](../../part-04-gcp-core-platform/057-cloud-logging-monitoring-trace-y-audit-logs/README.md) · [Índice de la parte](../README.md) · [059 · Terraform y despliegues reproducibles en GCP →](../../part-04-gcp-core-platform/059-terraform-y-despliegues-reproducibles-en-gcp/README.md)
 
 **Parte:** 04 — Google Cloud: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -520,3 +520,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 057 · Cloud Logging, Monitoring, Trace y Audit Logs](../../part-04-gcp-core-platform/057-cloud-logging-monitoring-trace-y-audit-logs/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [059 · Terraform y despliegues reproducibles en GCP →](../../part-04-gcp-core-platform/059-terraform-y-despliegues-reproducibles-en-gcp/README.md) |

@@ -1,6 +1,6 @@
 # 001 — Computación digital y modelo mental de la nube
 
-> Inicio del programa · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-00-foundations-computing-networking-linux/002-terminal-sistema-de-archivos-procesos-y-variables-de-entorno/README.md)
+> **Inicio del programa** · [Índice de la parte](../README.md) · [002 · Terminal, sistema de archivos, procesos y variables de entorno →](../../part-00-foundations-computing-networking-linux/002-terminal-sistema-de-archivos-procesos-y-variables-de-entorno/README.md)
 
 **Parte:** 00 — Fundamentos de computación, redes y Linux<br>
 **Nivel:** inicial · **Horas estimadas:** 4<br>
@@ -235,3 +235,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| **Inicio del programa** | [Parte 00](../README.md) · [Programa](../../README.md) | [002 · Terminal, sistema de archivos, procesos y variables de entorno →](../../part-00-foundations-computing-networking-linux/002-terminal-sistema-de-archivos-procesos-y-variables-de-entorno/README.md) |

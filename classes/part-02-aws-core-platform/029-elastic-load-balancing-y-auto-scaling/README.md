@@ -1,6 +1,6 @@
 # 029 — Elastic Load Balancing y Auto Scaling
 
-> [← Clase anterior](../../part-02-aws-core-platform/028-ec2-ami-ebs-y-seleccion-de-capacidad/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-02-aws-core-platform/030-s3-objetos-versionado-lifecycle-y-replicacion/README.md)
+> [← 028 · EC2, AMI, EBS y selección de capacidad](../../part-02-aws-core-platform/028-ec2-ami-ebs-y-seleccion-de-capacidad/README.md) · [Índice de la parte](../README.md) · [030 · S3: objetos, versionado, lifecycle y replicación →](../../part-02-aws-core-platform/030-s3-objetos-versionado-lifecycle-y-replicacion/README.md)
 
 **Parte:** 02 — AWS: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -386,3 +386,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 028 · EC2, AMI, EBS y selección de capacidad](../../part-02-aws-core-platform/028-ec2-ami-ebs-y-seleccion-de-capacidad/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [030 · S3: objetos, versionado, lifecycle y replicación →](../../part-02-aws-core-platform/030-s3-objetos-versionado-lifecycle-y-replicacion/README.md) |

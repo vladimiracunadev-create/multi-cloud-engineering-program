@@ -1,6 +1,6 @@
 # 280 — Capstone sector público: soberanía y continuidad
 
-> [← Clase anterior](../../part-23-industry-capstones/279-capstone-salud-privacidad-e-interoperabilidad/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-23-industry-capstones/281-capstone-media-streaming-y-distribucion-global/README.md)
+> [← 279 · Capstone salud: privacidad e interoperabilidad](../../part-23-industry-capstones/279-capstone-salud-privacidad-e-interoperabilidad/README.md) · [Índice de la parte](../README.md) · [281 · Capstone media: streaming y distribución global →](../../part-23-industry-capstones/281-capstone-media-streaming-y-distribucion-global/README.md)
 
 **Parte:** 23 — Capstones por industria y defensa final<br>
 **Nivel:** experto · **Horas estimadas:** 8<br>
@@ -662,3 +662,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 279 · Capstone salud: privacidad e interoperabilidad](../../part-23-industry-capstones/279-capstone-salud-privacidad-e-interoperabilidad/README.md) | [Parte 23](../README.md) · [Programa](../../README.md) | [281 · Capstone media: streaming y distribución global →](../../part-23-industry-capstones/281-capstone-media-streaming-y-distribucion-global/README.md) |

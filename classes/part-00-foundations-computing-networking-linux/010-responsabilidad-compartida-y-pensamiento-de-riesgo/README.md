@@ -1,6 +1,6 @@
 # 010 — Responsabilidad compartida y pensamiento de riesgo
 
-> [← Clase anterior](../../part-00-foundations-computing-networking-linux/009-apis-rest-autenticacion-y-contratos/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-00-foundations-computing-networking-linux/011-costo-energia-capacidad-y-medicion-basica/README.md)
+> [← 009 · APIs REST, autenticación y contratos](../../part-00-foundations-computing-networking-linux/009-apis-rest-autenticacion-y-contratos/README.md) · [Índice de la parte](../README.md) · [011 · Costo, energía, capacidad y medición básica →](../../part-00-foundations-computing-networking-linux/011-costo-energia-capacidad-y-medicion-basica/README.md)
 
 **Parte:** 00 — Fundamentos de computación, redes y Linux<br>
 **Nivel:** inicial · **Horas estimadas:** 4<br>
@@ -276,3 +276,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 009 · APIs REST, autenticación y contratos](../../part-00-foundations-computing-networking-linux/009-apis-rest-autenticacion-y-contratos/README.md) | [Parte 00](../README.md) · [Programa](../../README.md) | [011 · Costo, energía, capacidad y medición básica →](../../part-00-foundations-computing-networking-linux/011-costo-energia-capacidad-y-medicion-basica/README.md) |

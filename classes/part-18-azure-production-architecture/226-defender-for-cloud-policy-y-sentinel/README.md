@@ -1,6 +1,6 @@
 # 226 — Defender for Cloud, Policy y Sentinel
 
-> [← Clase anterior](../../part-18-azure-production-architecture/225-azure-monitor-application-insights-y-opentelemetry/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-18-azure-production-architecture/227-cost-management-advisor-resiliencia-y-chaos-studio/README.md)
+> [← 225 · Azure Monitor, Application Insights y OpenTelemetry](../../part-18-azure-production-architecture/225-azure-monitor-application-insights-y-opentelemetry/README.md) · [Índice de la parte](../README.md) · [227 · Cost Management, Advisor, resiliencia y Chaos Studio →](../../part-18-azure-production-architecture/227-cost-management-advisor-resiliencia-y-chaos-studio/README.md)
 
 **Parte:** 18 — Azure: arquitectura empresarial y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -676,3 +676,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 225 · Azure Monitor, Application Insights y OpenTelemetry](../../part-18-azure-production-architecture/225-azure-monitor-application-insights-y-opentelemetry/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [227 · Cost Management, Advisor, resiliencia y Chaos Studio →](../../part-18-azure-production-architecture/227-cost-management-advisor-resiliencia-y-chaos-studio/README.md) |

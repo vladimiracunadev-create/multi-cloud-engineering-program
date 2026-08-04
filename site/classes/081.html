@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#111713">
-  <meta name="description" content="081 — Helm, Kustomize y gestión de paquetes ← Clase anterior ../../part-06-kubernetes-managed-platforms/080-namespaces-rbac-networkpolicy-y-admission/READM">
+  <meta name="description" content="081 — Helm, Kustomize y gestión de paquetes ← 080 · Namespaces, RBAC, NetworkPolicy y admission ../../part-06-kubernetes-managed-platforms/080-namespaces-r">
   <meta property="og:type" content="website">
   <meta property="og:title" content="081 — Helm, Kustomize y gestión de paquetes">
-  <meta property="og:description" content="081 — Helm, Kustomize y gestión de paquetes ← Clase anterior ../../part-06-kubernetes-managed-platforms/080-namespaces-rbac-networkpolicy-y-admission/READM">
+  <meta property="og:description" content="081 — Helm, Kustomize y gestión de paquetes ← 080 · Namespaces, RBAC, NetworkPolicy y admission ../../part-06-kubernetes-managed-platforms/080-namespaces-r">
   <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/081.html">
   <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/og-cover.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/081.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.0.0-r7">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "081 — Helm, Kustomize y gestión de paquetes", "description": "081 — Helm, Kustomize y gestión de paquetes ← Clase anterior ../../part-06-kubernetes-managed-platforms/080-namespaces-rbac-networkpolicy-y-admission/READM", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/081.html"}</script>
+  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "081 — Helm, Kustomize y gestión de paquetes", "description": "081 — Helm, Kustomize y gestión de paquetes ← 080 · Namespaces, RBAC, NetworkPolicy y admission ../../part-06-kubernetes-managed-platforms/080-namespaces-r", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/081.html"}</script>
   <title>081 — Helm, Kustomize y gestión de paquetes · Multi-Cloud Engineering</title>
 </head>
 <body class="doc-page" data-page-type="lesson">
@@ -30,13 +30,14 @@
   <div class="doc-layout">
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/06.html">Parte 06</a><span>/</span><strong>081</strong></nav>
+      <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="080.html" rel="prev" title="Namespaces, RBAC, NetworkPolicy y admission">← 080</a><a class="pager-link index" href="../parts/06.html">Parte 06</a><a class="pager-link next" href="082.html" rel="next" title="Logs, métricas, eventos y depuración">082 →</a></nav>
       <section class="lesson-status">
         <div><span class="kicker">Parte 06 · intermedio-avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="081"> Clase completada</label>
       </section>
       <article class="markdown-body"><h1 id="081-helm-kustomize-y-gestion-de-paquetes">081 — Helm, Kustomize y gestión de paquetes</h1>
 <blockquote>
-<p><a href="080.html">← Clase anterior</a> · <a href="../parts/06.html">Índice de la parte</a> · <a href="082.html">Clase siguiente →</a></p>
+<p><a href="080.html">← 080 · Namespaces, RBAC, NetworkPolicy y admission</a> · <a href="../parts/06.html">Índice de la parte</a> · <a href="082.html">082 · Logs, métricas, eventos y depuración →</a></p>
 </blockquote>
 <p><strong>Parte:</strong> 06 — Kubernetes y plataformas administradas<br>
 <strong>Nivel:</strong> intermedio-avanzado · <strong>Horas estimadas:</strong> 4<br>
@@ -502,7 +503,23 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-06-kubernetes-managed-platforms/081-helm-kustomize-y-gestion-de-paquetes/lesson.yaml">Contrato de clase</a> · <a href="../parts/06.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Anterior</th>
+<th>Índice</th>
+<th>Siguiente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="080.html">← 080 · Namespaces, RBAC, NetworkPolicy y admission</a></td>
+<td><a href="../parts/06.html">Parte 06</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-06-kubernetes-managed-platforms/081-helm-kustomize-y-gestion-de-paquetes/../../README.md">Programa</a></td>
+<td><a href="082.html">082 · Logs, métricas, eventos y depuración →</a></td>
+</tr>
+</tbody>
+</table></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>paquete-kubernetes</h2></div>
         <code>python classes/part-06-kubernetes-managed-platforms/081-helm-kustomize-y-gestion-de-paquetes/lab.py --seed 42</code>
@@ -558,7 +575,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 </tbody>
 </table>
       </section>
-      <nav class="lesson-navigation"><a class="nav-link" href="080.html">← Namespaces, RBAC, NetworkPolicy y admission</a><a class="nav-link next" href="082.html">Logs, métricas, eventos y depuración →</a></nav>
+      <nav class="lesson-navigation"><a class="nav-link" href="080.html" rel="prev">← <span>080 · Namespaces, RBAC, NetworkPolicy y admission</span></a><a class="nav-link next" href="082.html" rel="next"><span>082 · Logs, métricas, eventos y depuración</span> →</a></nav>
     </main>
   </div>
 
@@ -566,6 +583,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-dos-filosofias-y-el-criterio-para-elegir">1. Dos filosofías, y el criterio para elegir</a><a class="toc-level-3" href="#2-el-estado-de-la-publicacion-y-como-se-atasca">2. El estado de la publicación, y cómo se atasca</a><a class="toc-level-3" href="#3-las-trampas-de-la-superposicion">3. Las trampas de la superposición</a><a class="toc-level-3" href="#4-generar-no-es-desplegar">4. Generar no es desplegar</a><a class="toc-level-3" href="#5-lo-que-ninguna-de-las-dos-debe-contener">5. Lo que ninguna de las dos debe contener</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
+  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
 </body>
 </html>

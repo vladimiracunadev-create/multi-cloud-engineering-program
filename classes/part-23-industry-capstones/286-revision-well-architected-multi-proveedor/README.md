@@ -1,6 +1,6 @@
 # 286 — Revisión Well-Architected multi-proveedor
 
-> [← Clase anterior](../../part-23-industry-capstones/285-game-day-integrado-y-respuesta-a-incidentes/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-23-industry-capstones/287-paquete-de-evidencia-costos-y-riesgos-residuales/README.md)
+> [← 285 · Game day integrado y respuesta a incidentes](../../part-23-industry-capstones/285-game-day-integrado-y-respuesta-a-incidentes/README.md) · [Índice de la parte](../README.md) · [287 · Paquete de evidencia, costos y riesgos residuales →](../../part-23-industry-capstones/287-paquete-de-evidencia-costos-y-riesgos-residuales/README.md)
 
 **Parte:** 23 — Capstones por industria y defensa final<br>
 **Nivel:** experto · **Horas estimadas:** 4<br>
@@ -613,3 +613,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 285 · Game day integrado y respuesta a incidentes](../../part-23-industry-capstones/285-game-day-integrado-y-respuesta-a-incidentes/README.md) | [Parte 23](../README.md) · [Programa](../../README.md) | [287 · Paquete de evidencia, costos y riesgos residuales →](../../part-23-industry-capstones/287-paquete-de-evidencia-costos-y-riesgos-residuales/README.md) |

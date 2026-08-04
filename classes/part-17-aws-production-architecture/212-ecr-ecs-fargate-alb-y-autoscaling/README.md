@@ -1,6 +1,6 @@
 # 212 — ECR, ECS Fargate, ALB y autoscaling
 
-> [← Clase anterior](../../part-17-aws-production-architecture/211-cloudwatch-x-ray-y-observabilidad-como-codigo/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-17-aws-production-architecture/213-eks-irsa-gitops-y-operacion-de-cluster/README.md)
+> [← 211 · CloudWatch, X-Ray y observabilidad como código](../../part-17-aws-production-architecture/211-cloudwatch-x-ray-y-observabilidad-como-codigo/README.md) · [Índice de la parte](../README.md) · [213 · EKS, IRSA, GitOps y operación de clúster →](../../part-17-aws-production-architecture/213-eks-irsa-gitops-y-operacion-de-cluster/README.md)
 
 **Parte:** 17 — AWS: arquitectura, automatización y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -633,3 +633,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 211 · CloudWatch, X-Ray y observabilidad como código](../../part-17-aws-production-architecture/211-cloudwatch-x-ray-y-observabilidad-como-codigo/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [213 · EKS, IRSA, GitOps y operación de clúster →](../../part-17-aws-production-architecture/213-eks-irsa-gitops-y-operacion-de-cluster/README.md) |

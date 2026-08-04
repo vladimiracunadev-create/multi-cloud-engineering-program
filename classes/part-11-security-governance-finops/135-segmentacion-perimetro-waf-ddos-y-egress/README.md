@@ -1,6 +1,6 @@
 # 135 — Segmentación, perímetro, WAF, DDoS y egress
 
-> [← Clase anterior](../../part-11-security-governance-finops/134-minimo-privilegio-acceso-temporal-y-separacion-de-funciones/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-11-security-governance-finops/136-cifrado-kms-hsm-rotacion-y-envelope-encryption/README.md)
+> [← 134 · Mínimo privilegio, acceso temporal y separación de funciones](../../part-11-security-governance-finops/134-minimo-privilegio-acceso-temporal-y-separacion-de-funciones/README.md) · [Índice de la parte](../README.md) · [136 · Cifrado, KMS, HSM, rotación y envelope encryption →](../../part-11-security-governance-finops/136-cifrado-kms-hsm-rotacion-y-envelope-encryption/README.md)
 
 **Parte:** 11 — Seguridad, gobierno, cumplimiento y FinOps<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -514,3 +514,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 134 · Mínimo privilegio, acceso temporal y separación de funciones](../../part-11-security-governance-finops/134-minimo-privilegio-acceso-temporal-y-separacion-de-funciones/README.md) | [Parte 11](../README.md) · [Programa](../../README.md) | [136 · Cifrado, KMS, HSM, rotación y envelope encryption →](../../part-11-security-governance-finops/136-cifrado-kms-hsm-rotacion-y-envelope-encryption/README.md) |

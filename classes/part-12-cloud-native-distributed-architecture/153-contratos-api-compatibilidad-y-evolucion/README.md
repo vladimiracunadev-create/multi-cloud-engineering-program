@@ -1,6 +1,6 @@
 # 153 — Contratos API, compatibilidad y evolución
 
-> [← Clase anterior](../../part-12-cloud-native-distributed-architecture/152-service-discovery-malla-y-comunicacion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-12-cloud-native-distributed-architecture/154-multi-tenancy-aislamiento-y-noisy-neighbor/README.md)
+> [← 152 · Service discovery, malla y comunicación](../../part-12-cloud-native-distributed-architecture/152-service-discovery-malla-y-comunicacion/README.md) · [Índice de la parte](../README.md) · [154 · Multi-tenancy, aislamiento y noisy neighbor →](../../part-12-cloud-native-distributed-architecture/154-multi-tenancy-aislamiento-y-noisy-neighbor/README.md)
 
 **Parte:** 12 — Arquitectura cloud-native y sistemas distribuidos<br>
 **Nivel:** avanzado-experto · **Horas estimadas:** 4<br>
@@ -595,3 +595,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 152 · Service discovery, malla y comunicación](../../part-12-cloud-native-distributed-architecture/152-service-discovery-malla-y-comunicacion/README.md) | [Parte 12](../README.md) · [Programa](../../README.md) | [154 · Multi-tenancy, aislamiento y noisy neighbor →](../../part-12-cloud-native-distributed-architecture/154-multi-tenancy-aislamiento-y-noisy-neighbor/README.md) |

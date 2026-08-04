@@ -1,6 +1,6 @@
 # 241 — Lakehouse, warehouse, mesh y contratos de datos
 
-> [← Clase anterior](../../part-19-gcp-production-architecture/240-proyecto-cloudshop-productivo-en-google-cloud/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-20-cloud-data-ai-platforms/242-ingesta-batch-cdc-y-streaming/README.md)
+> [← 240 · Proyecto: CloudShop productivo en Google Cloud](../../part-19-gcp-production-architecture/240-proyecto-cloudshop-productivo-en-google-cloud/README.md) · [Índice de la parte](../README.md) · [242 · Ingesta batch, CDC y streaming →](../../part-20-cloud-data-ai-platforms/242-ingesta-batch-cdc-y-streaming/README.md)
 
 **Parte:** 20 — Plataformas cloud de datos, analítica, IA y agentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -639,3 +639,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 240 · Proyecto: CloudShop productivo en Google Cloud](../../part-19-gcp-production-architecture/240-proyecto-cloudshop-productivo-en-google-cloud/README.md) | [Parte 20](../README.md) · [Programa](../../README.md) | [242 · Ingesta batch, CDC y streaming →](../../part-20-cloud-data-ai-platforms/242-ingesta-batch-cdc-y-streaming/README.md) |

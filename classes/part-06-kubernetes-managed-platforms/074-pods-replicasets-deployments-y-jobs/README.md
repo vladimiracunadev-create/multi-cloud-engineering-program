@@ -1,6 +1,6 @@
 # 074 — Pods, ReplicaSets, Deployments y Jobs
 
-> [← Clase anterior](../../part-06-kubernetes-managed-platforms/073-api-server-etcd-scheduler-controllers-y-kubelet/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-06-kubernetes-managed-platforms/075-services-dns-ingress-y-gateway-api/README.md)
+> [← 073 · API server, etcd, scheduler, controllers y kubelet](../../part-06-kubernetes-managed-platforms/073-api-server-etcd-scheduler-controllers-y-kubelet/README.md) · [Índice de la parte](../README.md) · [075 · Services, DNS, Ingress y Gateway API →](../../part-06-kubernetes-managed-platforms/075-services-dns-ingress-y-gateway-api/README.md)
 
 **Parte:** 06 — Kubernetes y plataformas administradas<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -538,3 +538,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 073 · API server, etcd, scheduler, controllers y kubelet](../../part-06-kubernetes-managed-platforms/073-api-server-etcd-scheduler-controllers-y-kubelet/README.md) | [Parte 06](../README.md) · [Programa](../../README.md) | [075 · Services, DNS, Ingress y Gateway API →](../../part-06-kubernetes-managed-platforms/075-services-dns-ingress-y-gateway-api/README.md) |

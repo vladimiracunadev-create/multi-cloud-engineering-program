@@ -1,6 +1,6 @@
 # 152 — Service discovery, malla y comunicación
 
-> [← Clase anterior](../../part-12-cloud-native-distributed-architecture/151-fallos-parciales-y-patrones-de-resiliencia/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-12-cloud-native-distributed-architecture/153-contratos-api-compatibilidad-y-evolucion/README.md)
+> [← 151 · Fallos parciales y patrones de resiliencia](../../part-12-cloud-native-distributed-architecture/151-fallos-parciales-y-patrones-de-resiliencia/README.md) · [Índice de la parte](../README.md) · [153 · Contratos API, compatibilidad y evolución →](../../part-12-cloud-native-distributed-architecture/153-contratos-api-compatibilidad-y-evolucion/README.md)
 
 **Parte:** 12 — Arquitectura cloud-native y sistemas distribuidos<br>
 **Nivel:** avanzado-experto · **Horas estimadas:** 4<br>
@@ -620,3 +620,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 151 · Fallos parciales y patrones de resiliencia](../../part-12-cloud-native-distributed-architecture/151-fallos-parciales-y-patrones-de-resiliencia/README.md) | [Parte 12](../README.md) · [Programa](../../README.md) | [153 · Contratos API, compatibilidad y evolución →](../../part-12-cloud-native-distributed-architecture/153-contratos-api-compatibilidad-y-evolucion/README.md) |

@@ -1,6 +1,6 @@
 # 028 — EC2, AMI, EBS y selección de capacidad
 
-> [← Clase anterior](../../part-02-aws-core-platform/027-vpc-subredes-rutas-nat-endpoints-y-seguridad/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-02-aws-core-platform/029-elastic-load-balancing-y-auto-scaling/README.md)
+> [← 027 · VPC, subredes, rutas, NAT, endpoints y seguridad](../../part-02-aws-core-platform/027-vpc-subredes-rutas-nat-endpoints-y-seguridad/README.md) · [Índice de la parte](../README.md) · [029 · Elastic Load Balancing y Auto Scaling →](../../part-02-aws-core-platform/029-elastic-load-balancing-y-auto-scaling/README.md)
 
 **Parte:** 02 — AWS: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -385,3 +385,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 027 · VPC, subredes, rutas, NAT, endpoints y seguridad](../../part-02-aws-core-platform/027-vpc-subredes-rutas-nat-endpoints-y-seguridad/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [029 · Elastic Load Balancing y Auto Scaling →](../../part-02-aws-core-platform/029-elastic-load-balancing-y-auto-scaling/README.md) |

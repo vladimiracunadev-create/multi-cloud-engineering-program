@@ -1,6 +1,6 @@
 # 157 — Motivaciones y anti-patrones de multi-cloud
 
-> [← Clase anterior](../../part-12-cloud-native-distributed-architecture/156-proyecto-revision-de-arquitectura-con-adr/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-13-multicloud-hybrid-disaster-recovery/158-portabilidad-capas-de-abstraccion-y-lock-in/README.md)
+> [← 156 · Proyecto: revisión de arquitectura con ADR](../../part-12-cloud-native-distributed-architecture/156-proyecto-revision-de-arquitectura-con-adr/README.md) · [Índice de la parte](../README.md) · [158 · Portabilidad, capas de abstracción y lock-in →](../../part-13-multicloud-hybrid-disaster-recovery/158-portabilidad-capas-de-abstraccion-y-lock-in/README.md)
 
 **Parte:** 13 — Multi-cloud, híbrido, migración y recuperación<br>
 **Nivel:** experto · **Horas estimadas:** 4<br>
@@ -611,3 +611,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 156 · Proyecto: revisión de arquitectura con ADR](../../part-12-cloud-native-distributed-architecture/156-proyecto-revision-de-arquitectura-con-adr/README.md) | [Parte 13](../README.md) · [Programa](../../README.md) | [158 · Portabilidad, capas de abstracción y lock-in →](../../part-13-multicloud-hybrid-disaster-recovery/158-portabilidad-capas-de-abstraccion-y-lock-in/README.md) |

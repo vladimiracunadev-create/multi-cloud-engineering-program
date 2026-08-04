@@ -1,6 +1,6 @@
 # 169 — Landing zones empresariales y vending de cuentas
 
-> [← Clase anterior](../../part-13-multicloud-hybrid-disaster-recovery/168-proyecto-continuidad-activa-pasiva-entre-nubes/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-14-advanced-platform-capstones-career/170-gobierno-federado-y-policy-as-code-a-escala/README.md)
+> [← 168 · Proyecto: continuidad activa-pasiva entre nubes](../../part-13-multicloud-hybrid-disaster-recovery/168-proyecto-continuidad-activa-pasiva-entre-nubes/README.md) · [Índice de la parte](../README.md) · [170 · Gobierno federado y policy as code a escala →](../../part-14-advanced-platform-capstones-career/170-gobierno-federado-y-policy-as-code-a-escala/README.md)
 
 **Parte:** 14 — Plataformas avanzadas, capstones y carrera<br>
 **Nivel:** experto-frontera · **Horas estimadas:** 4<br>
@@ -628,3 +628,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 168 · Proyecto: continuidad activa-pasiva entre nubes](../../part-13-multicloud-hybrid-disaster-recovery/168-proyecto-continuidad-activa-pasiva-entre-nubes/README.md) | [Parte 14](../README.md) · [Programa](../../README.md) | [170 · Gobierno federado y policy as code a escala →](../../part-14-advanced-platform-capstones-career/170-gobierno-federado-y-policy-as-code-a-escala/README.md) |

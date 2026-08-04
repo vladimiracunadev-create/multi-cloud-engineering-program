@@ -1,6 +1,6 @@
 # 052 — Compute Engine, managed instance groups y load balancing
 
-> [← Clase anterior](../../part-04-gcp-core-platform/051-vpc-global-subredes-regionales-firewall-y-cloud-nat/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-04-gcp-core-platform/053-cloud-storage-clases-lifecycle-y-replicacion/README.md)
+> [← 051 · VPC global, subredes regionales, firewall y Cloud NAT](../../part-04-gcp-core-platform/051-vpc-global-subredes-regionales-firewall-y-cloud-nat/README.md) · [Índice de la parte](../README.md) · [053 · Cloud Storage, clases, lifecycle y replicación →](../../part-04-gcp-core-platform/053-cloud-storage-clases-lifecycle-y-replicacion/README.md)
 
 **Parte:** 04 — Google Cloud: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -555,3 +555,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 051 · VPC global, subredes regionales, firewall y Cloud NAT](../../part-04-gcp-core-platform/051-vpc-global-subredes-regionales-firewall-y-cloud-nat/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [053 · Cloud Storage, clases, lifecycle y replicación →](../../part-04-gcp-core-platform/053-cloud-storage-clases-lifecycle-y-replicacion/README.md) |

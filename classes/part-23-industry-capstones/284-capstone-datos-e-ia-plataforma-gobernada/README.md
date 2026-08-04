@@ -1,6 +1,6 @@
 # 284 — Capstone datos e IA: plataforma gobernada
 
-> [← Clase anterior](../../part-23-industry-capstones/283-capstone-saas-multi-tenancy-y-unit-economics/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-23-industry-capstones/285-game-day-integrado-y-respuesta-a-incidentes/README.md)
+> [← 283 · Capstone SaaS: multi-tenancy y unit economics](../../part-23-industry-capstones/283-capstone-saas-multi-tenancy-y-unit-economics/README.md) · [Índice de la parte](../README.md) · [285 · Game day integrado y respuesta a incidentes →](../../part-23-industry-capstones/285-game-day-integrado-y-respuesta-a-incidentes/README.md)
 
 **Parte:** 23 — Capstones por industria y defensa final<br>
 **Nivel:** experto · **Horas estimadas:** 8<br>
@@ -634,3 +634,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 283 · Capstone SaaS: multi-tenancy y unit economics](../../part-23-industry-capstones/283-capstone-saas-multi-tenancy-y-unit-economics/README.md) | [Parte 23](../README.md) · [Programa](../../README.md) | [285 · Game day integrado y respuesta a incidentes →](../../part-23-industry-capstones/285-game-day-integrado-y-respuesta-a-incidentes/README.md) |

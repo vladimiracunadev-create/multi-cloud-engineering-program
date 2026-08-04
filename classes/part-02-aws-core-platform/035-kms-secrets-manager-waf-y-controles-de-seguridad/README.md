@@ -1,6 +1,6 @@
 # 035 — KMS, Secrets Manager, WAF y controles de seguridad
 
-> [← Clase anterior](../../part-02-aws-core-platform/034-cloudwatch-cloudtrail-config-y-systems-manager/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-02-aws-core-platform/036-proyecto-aplicacion-de-tres-capas-en-aws/README.md)
+> [← 034 · CloudWatch, CloudTrail, Config y Systems Manager](../../part-02-aws-core-platform/034-cloudwatch-cloudtrail-config-y-systems-manager/README.md) · [Índice de la parte](../README.md) · [036 · Proyecto: aplicación de tres capas en AWS →](../../part-02-aws-core-platform/036-proyecto-aplicacion-de-tres-capas-en-aws/README.md)
 
 **Parte:** 02 — AWS: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -428,3 +428,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 034 · CloudWatch, CloudTrail, Config y Systems Manager](../../part-02-aws-core-platform/034-cloudwatch-cloudtrail-config-y-systems-manager/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [036 · Proyecto: aplicación de tres capas en AWS →](../../part-02-aws-core-platform/036-proyecto-aplicacion-de-tres-capas-en-aws/README.md) |

@@ -1,6 +1,6 @@
 # 055 — Cloud Run, Cloud Functions y API Gateway
 
-> [← Clase anterior](../../part-04-gcp-core-platform/054-cloud-sql-spanner-firestore-y-memorystore/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-04-gcp-core-platform/056-pub-sub-cloud-tasks-y-workflows/README.md)
+> [← 054 · Cloud SQL, Spanner, Firestore y Memorystore](../../part-04-gcp-core-platform/054-cloud-sql-spanner-firestore-y-memorystore/README.md) · [Índice de la parte](../README.md) · [056 · Pub/Sub, Cloud Tasks y Workflows →](../../part-04-gcp-core-platform/056-pub-sub-cloud-tasks-y-workflows/README.md)
 
 **Parte:** 04 — Google Cloud: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -541,3 +541,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 054 · Cloud SQL, Spanner, Firestore y Memorystore](../../part-04-gcp-core-platform/054-cloud-sql-spanner-firestore-y-memorystore/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [056 · Pub/Sub, Cloud Tasks y Workflows →](../../part-04-gcp-core-platform/056-pub-sub-cloud-tasks-y-workflows/README.md) |

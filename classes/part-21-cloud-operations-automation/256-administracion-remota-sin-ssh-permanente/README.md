@@ -1,6 +1,6 @@
 # 256 — Administración remota sin SSH permanente
 
-> [← Clase anterior](../../part-21-cloud-operations-automation/255-backups-restore-testing-vaults-e-inmutabilidad/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-21-cloud-operations-automation/257-alertas-on-call-escalamiento-y-comunicacion/README.md)
+> [← 255 · Backups, restore testing, vaults e inmutabilidad](../../part-21-cloud-operations-automation/255-backups-restore-testing-vaults-e-inmutabilidad/README.md) · [Índice de la parte](../README.md) · [257 · Alertas, on-call, escalamiento y comunicación →](../../part-21-cloud-operations-automation/257-alertas-on-call-escalamiento-y-comunicacion/README.md)
 
 **Parte:** 21 — Operación cloud, automatización y respuesta a incidentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -704,3 +704,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 255 · Backups, restore testing, vaults e inmutabilidad](../../part-21-cloud-operations-automation/255-backups-restore-testing-vaults-e-inmutabilidad/README.md) | [Parte 21](../README.md) · [Programa](../../README.md) | [257 · Alertas, on-call, escalamiento y comunicación →](../../part-21-cloud-operations-automation/257-alertas-on-call-escalamiento-y-comunicacion/README.md) |

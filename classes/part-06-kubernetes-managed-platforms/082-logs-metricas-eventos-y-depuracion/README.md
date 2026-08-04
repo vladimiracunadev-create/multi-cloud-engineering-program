@@ -1,6 +1,6 @@
 # 082 — Logs, métricas, eventos y depuración
 
-> [← Clase anterior](../../part-06-kubernetes-managed-platforms/081-helm-kustomize-y-gestion-de-paquetes/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-06-kubernetes-managed-platforms/083-eks-aks-y-gke-similitudes-y-diferencias/README.md)
+> [← 081 · Helm, Kustomize y gestión de paquetes](../../part-06-kubernetes-managed-platforms/081-helm-kustomize-y-gestion-de-paquetes/README.md) · [Índice de la parte](../README.md) · [083 · EKS, AKS y GKE: similitudes y diferencias →](../../part-06-kubernetes-managed-platforms/083-eks-aks-y-gke-similitudes-y-diferencias/README.md)
 
 **Parte:** 06 — Kubernetes y plataformas administradas<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -541,3 +541,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 081 · Helm, Kustomize y gestión de paquetes](../../part-06-kubernetes-managed-platforms/081-helm-kustomize-y-gestion-de-paquetes/README.md) | [Parte 06](../README.md) · [Programa](../../README.md) | [083 · EKS, AKS y GKE: similitudes y diferencias →](../../part-06-kubernetes-managed-platforms/083-eks-aks-y-gke-similitudes-y-diferencias/README.md) |

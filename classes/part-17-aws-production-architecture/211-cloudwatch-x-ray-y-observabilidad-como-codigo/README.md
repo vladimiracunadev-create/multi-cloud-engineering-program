@@ -1,6 +1,6 @@
 # 211 — CloudWatch, X-Ray y observabilidad como código
 
-> [← Clase anterior](../../part-17-aws-production-architecture/210-eventbridge-sqs-dlq-replay-e-idempotencia/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-17-aws-production-architecture/212-ecr-ecs-fargate-alb-y-autoscaling/README.md)
+> [← 210 · EventBridge, SQS, DLQ, replay e idempotencia](../../part-17-aws-production-architecture/210-eventbridge-sqs-dlq-replay-e-idempotencia/README.md) · [Índice de la parte](../README.md) · [212 · ECR, ECS Fargate, ALB y autoscaling →](../../part-17-aws-production-architecture/212-ecr-ecs-fargate-alb-y-autoscaling/README.md)
 
 **Parte:** 17 — AWS: arquitectura, automatización y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -652,3 +652,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 210 · EventBridge, SQS, DLQ, replay e idempotencia](../../part-17-aws-production-architecture/210-eventbridge-sqs-dlq-replay-e-idempotencia/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [212 · ECR, ECS Fargate, ALB y autoscaling →](../../part-17-aws-production-architecture/212-ecr-ecs-fargate-alb-y-autoscaling/README.md) |

@@ -1,6 +1,6 @@
 # 077 — Volumes, PersistentVolumes, CSI y StatefulSets
 
-> [← Clase anterior](../../part-06-kubernetes-managed-platforms/076-configmaps-secrets-y-configuracion-externa/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-06-kubernetes-managed-platforms/078-requests-limits-scheduling-y-autoscaling/README.md)
+> [← 076 · ConfigMaps, Secrets y configuración externa](../../part-06-kubernetes-managed-platforms/076-configmaps-secrets-y-configuracion-externa/README.md) · [Índice de la parte](../README.md) · [078 · Requests, limits, scheduling y autoscaling →](../../part-06-kubernetes-managed-platforms/078-requests-limits-scheduling-y-autoscaling/README.md)
 
 **Parte:** 06 — Kubernetes y plataformas administradas<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -572,3 +572,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 076 · ConfigMaps, Secrets y configuración externa](../../part-06-kubernetes-managed-platforms/076-configmaps-secrets-y-configuracion-externa/README.md) | [Parte 06](../README.md) · [Programa](../../README.md) | [078 · Requests, limits, scheduling y autoscaling →](../../part-06-kubernetes-managed-platforms/078-requests-limits-scheduling-y-autoscaling/README.md) |

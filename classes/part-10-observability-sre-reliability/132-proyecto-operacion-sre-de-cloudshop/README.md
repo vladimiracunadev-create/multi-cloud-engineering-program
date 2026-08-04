@@ -1,6 +1,6 @@
 # 132 — Proyecto: operación SRE de CloudShop
 
-> [← Clase anterior](../../part-10-observability-sre-reliability/131-chaos-engineering-y-game-days/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-11-security-governance-finops/133-zero-trust-y-defensa-en-profundidad/README.md)
+> [← 131 · Chaos engineering y game days](../../part-10-observability-sre-reliability/131-chaos-engineering-y-game-days/README.md) · [Índice de la parte](../README.md) · [133 · Zero Trust y defensa en profundidad →](../../part-11-security-governance-finops/133-zero-trust-y-defensa-en-profundidad/README.md)
 
 **Parte:** 10 — Observabilidad, SRE y confiabilidad<br>
 **Nivel:** avanzado · **Horas estimadas:** 8<br>
@@ -580,3 +580,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 131 · Chaos engineering y game days](../../part-10-observability-sre-reliability/131-chaos-engineering-y-game-days/README.md) | [Parte 10](../README.md) · [Programa](../../README.md) | [133 · Zero Trust y defensa en profundidad →](../../part-11-security-governance-finops/133-zero-trust-y-defensa-en-profundidad/README.md) |

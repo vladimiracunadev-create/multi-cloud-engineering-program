@@ -1,6 +1,6 @@
 # 262 — Capacity planning, cuotas y gestión de demanda
 
-> [← Clase anterior](../../part-21-cloud-operations-automation/261-game-days-chaos-engineering-y-aprendizaje/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-21-cloud-operations-automation/263-aiops-automatizacion-asistida-y-limites-humanos/README.md)
+> [← 261 · Game days, chaos engineering y aprendizaje](../../part-21-cloud-operations-automation/261-game-days-chaos-engineering-y-aprendizaje/README.md) · [Índice de la parte](../README.md) · [263 · AIOps, automatización asistida y límites humanos →](../../part-21-cloud-operations-automation/263-aiops-automatizacion-asistida-y-limites-humanos/README.md)
 
 **Parte:** 21 — Operación cloud, automatización y respuesta a incidentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -605,3 +605,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 261 · Game days, chaos engineering y aprendizaje](../../part-21-cloud-operations-automation/261-game-days-chaos-engineering-y-aprendizaje/README.md) | [Parte 21](../README.md) · [Programa](../../README.md) | [263 · AIOps, automatización asistida y límites humanos →](../../part-21-cloud-operations-automation/263-aiops-automatizacion-asistida-y-limites-humanos/README.md) |

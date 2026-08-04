@@ -1,6 +1,6 @@
 # 146 — Twelve-Factor App y configuración cloud-native
 
-> [← Clase anterior](../../part-12-cloud-native-distributed-architecture/145-requisitos-restricciones-y-atributos-de-calidad/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-12-cloud-native-distributed-architecture/147-ddd-bounded-contexts-y-ownership-de-datos/README.md)
+> [← 145 · Requisitos, restricciones y atributos de calidad](../../part-12-cloud-native-distributed-architecture/145-requisitos-restricciones-y-atributos-de-calidad/README.md) · [Índice de la parte](../README.md) · [147 · DDD, bounded contexts y ownership de datos →](../../part-12-cloud-native-distributed-architecture/147-ddd-bounded-contexts-y-ownership-de-datos/README.md)
 
 **Parte:** 12 — Arquitectura cloud-native y sistemas distribuidos<br>
 **Nivel:** avanzado-experto · **Horas estimadas:** 4<br>
@@ -604,3 +604,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 145 · Requisitos, restricciones y atributos de calidad](../../part-12-cloud-native-distributed-architecture/145-requisitos-restricciones-y-atributos-de-calidad/README.md) | [Parte 12](../README.md) · [Programa](../../README.md) | [147 · DDD, bounded contexts y ownership de datos →](../../part-12-cloud-native-distributed-architecture/147-ddd-bounded-contexts-y-ownership-de-datos/README.md) |

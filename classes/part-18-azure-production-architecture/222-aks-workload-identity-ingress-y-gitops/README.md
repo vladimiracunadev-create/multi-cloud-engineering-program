@@ -1,6 +1,6 @@
 # 222 — AKS, workload identity, ingress y GitOps
 
-> [← Clase anterior](../../part-18-azure-production-architecture/221-app-service-functions-y-container-apps-en-produccion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-18-azure-production-architecture/223-azure-sql-cosmos-db-y-consistencia-distribuida/README.md)
+> [← 221 · App Service, Functions y Container Apps en producción](../../part-18-azure-production-architecture/221-app-service-functions-y-container-apps-en-produccion/README.md) · [Índice de la parte](../README.md) · [223 · Azure SQL, Cosmos DB y consistencia distribuida →](../../part-18-azure-production-architecture/223-azure-sql-cosmos-db-y-consistencia-distribuida/README.md)
 
 **Parte:** 18 — Azure: arquitectura empresarial y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -651,3 +651,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 221 · App Service, Functions y Container Apps en producción](../../part-18-azure-production-architecture/221-app-service-functions-y-container-apps-en-produccion/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [223 · Azure SQL, Cosmos DB y consistencia distribuida →](../../part-18-azure-production-architecture/223-azure-sql-cosmos-db-y-consistencia-distribuida/README.md) |

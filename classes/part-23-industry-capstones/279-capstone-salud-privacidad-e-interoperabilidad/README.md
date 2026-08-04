@@ -1,6 +1,6 @@
 # 279 — Capstone salud: privacidad e interoperabilidad
 
-> [← Clase anterior](../../part-23-industry-capstones/278-capstone-financiero-pagos-auditoria-y-recuperacion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-23-industry-capstones/280-capstone-sector-publico-soberania-y-continuidad/README.md)
+> [← 278 · Capstone financiero: pagos, auditoría y recuperación](../../part-23-industry-capstones/278-capstone-financiero-pagos-auditoria-y-recuperacion/README.md) · [Índice de la parte](../README.md) · [280 · Capstone sector público: soberanía y continuidad →](../../part-23-industry-capstones/280-capstone-sector-publico-soberania-y-continuidad/README.md)
 
 **Parte:** 23 — Capstones por industria y defensa final<br>
 **Nivel:** experto · **Horas estimadas:** 8<br>
@@ -589,3 +589,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 278 · Capstone financiero: pagos, auditoría y recuperación](../../part-23-industry-capstones/278-capstone-financiero-pagos-auditoria-y-recuperacion/README.md) | [Parte 23](../README.md) · [Programa](../../README.md) | [280 · Capstone sector público: soberanía y continuidad →](../../part-23-industry-capstones/280-capstone-sector-publico-soberania-y-continuidad/README.md) |

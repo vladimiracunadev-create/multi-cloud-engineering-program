@@ -1,6 +1,6 @@
 # 045 — Azure Monitor, Log Analytics y Application Insights
 
-> [← Clase anterior](../../part-03-azure-core-platform/044-service-bus-event-grid-y-event-hubs/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-03-azure-core-platform/046-key-vault-defender-for-cloud-y-azure-policy/README.md)
+> [← 044 · Service Bus, Event Grid y Event Hubs](../../part-03-azure-core-platform/044-service-bus-event-grid-y-event-hubs/README.md) · [Índice de la parte](../README.md) · [046 · Key Vault, Defender for Cloud y Azure Policy →](../../part-03-azure-core-platform/046-key-vault-defender-for-cloud-y-azure-policy/README.md)
 
 **Parte:** 03 — Azure: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -542,3 +542,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 044 · Service Bus, Event Grid y Event Hubs](../../part-03-azure-core-platform/044-service-bus-event-grid-y-event-hubs/README.md) | [Parte 03](../README.md) · [Programa](../../README.md) | [046 · Key Vault, Defender for Cloud y Azure Policy →](../../part-03-azure-core-platform/046-key-vault-defender-for-cloud-y-azure-policy/README.md) |

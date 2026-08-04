@@ -1,6 +1,6 @@
 # 049 — Organización, folders, proyectos, billing y cuotas
 
-> [← Clase anterior](../../part-03-azure-core-platform/048-proyecto-aplicacion-de-tres-capas-en-azure/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-04-gcp-core-platform/050-iam-service-accounts-y-workload-identity-federation/README.md)
+> [← 048 · Proyecto: aplicación de tres capas en Azure](../../part-03-azure-core-platform/048-proyecto-aplicacion-de-tres-capas-en-azure/README.md) · [Índice de la parte](../README.md) · [050 · IAM, service accounts y Workload Identity Federation →](../../part-04-gcp-core-platform/050-iam-service-accounts-y-workload-identity-federation/README.md)
 
 **Parte:** 04 — Google Cloud: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -529,3 +529,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 048 · Proyecto: aplicación de tres capas en Azure](../../part-03-azure-core-platform/048-proyecto-aplicacion-de-tres-capas-en-azure/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [050 · IAM, service accounts y Workload Identity Federation →](../../part-04-gcp-core-platform/050-iam-service-accounts-y-workload-identity-federation/README.md) |

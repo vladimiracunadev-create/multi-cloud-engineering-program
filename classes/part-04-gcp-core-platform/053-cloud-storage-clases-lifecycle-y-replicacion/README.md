@@ -1,6 +1,6 @@
 # 053 — Cloud Storage, clases, lifecycle y replicación
 
-> [← Clase anterior](../../part-04-gcp-core-platform/052-compute-engine-managed-instance-groups-y-load-balancing/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-04-gcp-core-platform/054-cloud-sql-spanner-firestore-y-memorystore/README.md)
+> [← 052 · Compute Engine, managed instance groups y load balancing](../../part-04-gcp-core-platform/052-compute-engine-managed-instance-groups-y-load-balancing/README.md) · [Índice de la parte](../README.md) · [054 · Cloud SQL, Spanner, Firestore y Memorystore →](../../part-04-gcp-core-platform/054-cloud-sql-spanner-firestore-y-memorystore/README.md)
 
 **Parte:** 04 — Google Cloud: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -526,3 +526,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 052 · Compute Engine, managed instance groups y load balancing](../../part-04-gcp-core-platform/052-compute-engine-managed-instance-groups-y-load-balancing/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [054 · Cloud SQL, Spanner, Firestore y Memorystore →](../../part-04-gcp-core-platform/054-cloud-sql-spanner-firestore-y-memorystore/README.md) |

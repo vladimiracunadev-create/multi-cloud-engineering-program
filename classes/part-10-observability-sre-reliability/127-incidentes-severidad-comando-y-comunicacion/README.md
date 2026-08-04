@@ -1,6 +1,6 @@
 # 127 — Incidentes, severidad, comando y comunicación
 
-> [← Clase anterior](../../part-10-observability-sre-reliability/126-sli-slo-sla-y-presupuesto-de-error/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-10-observability-sre-reliability/128-runbooks-playbooks-y-automatizacion-operativa/README.md)
+> [← 126 · SLI, SLO, SLA y presupuesto de error](../../part-10-observability-sre-reliability/126-sli-slo-sla-y-presupuesto-de-error/README.md) · [Índice de la parte](../README.md) · [128 · Runbooks, playbooks y automatización operativa →](../../part-10-observability-sre-reliability/128-runbooks-playbooks-y-automatizacion-operativa/README.md)
 
 **Parte:** 10 — Observabilidad, SRE y confiabilidad<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -544,3 +544,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 126 · SLI, SLO, SLA y presupuesto de error](../../part-10-observability-sre-reliability/126-sli-slo-sla-y-presupuesto-de-error/README.md) | [Parte 10](../README.md) · [Programa](../../README.md) | [128 · Runbooks, playbooks y automatización operativa →](../../part-10-observability-sre-reliability/128-runbooks-playbooks-y-automatizacion-operativa/README.md) |

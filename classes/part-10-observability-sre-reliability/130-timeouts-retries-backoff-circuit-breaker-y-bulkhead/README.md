@@ -1,6 +1,6 @@
 # 130 — Timeouts, retries, backoff, circuit breaker y bulkhead
 
-> [← Clase anterior](../../part-10-observability-sre-reliability/129-capacidad-rendimiento-y-pruebas-de-carga/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-10-observability-sre-reliability/131-chaos-engineering-y-game-days/README.md)
+> [← 129 · Capacidad, rendimiento y pruebas de carga](../../part-10-observability-sre-reliability/129-capacidad-rendimiento-y-pruebas-de-carga/README.md) · [Índice de la parte](../README.md) · [131 · Chaos engineering y game days →](../../part-10-observability-sre-reliability/131-chaos-engineering-y-game-days/README.md)
 
 **Parte:** 10 — Observabilidad, SRE y confiabilidad<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -589,3 +589,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 129 · Capacidad, rendimiento y pruebas de carga](../../part-10-observability-sre-reliability/129-capacidad-rendimiento-y-pruebas-de-carga/README.md) | [Parte 10](../README.md) · [Programa](../../README.md) | [131 · Chaos engineering y game days →](../../part-10-observability-sre-reliability/131-chaos-engineering-y-game-days/README.md) |

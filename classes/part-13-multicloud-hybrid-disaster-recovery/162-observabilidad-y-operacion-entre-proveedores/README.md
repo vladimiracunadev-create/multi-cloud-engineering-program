@@ -1,6 +1,6 @@
 # 162 — Observabilidad y operación entre proveedores
 
-> [← Clase anterior](../../part-13-multicloud-hybrid-disaster-recovery/161-replicacion-de-datos-soberania-y-costos-de-egress/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-13-multicloud-hybrid-disaster-recovery/163-terraform-multi-provider-y-separacion-de-estados/README.md)
+> [← 161 · Replicación de datos, soberanía y costos de egress](../../part-13-multicloud-hybrid-disaster-recovery/161-replicacion-de-datos-soberania-y-costos-de-egress/README.md) · [Índice de la parte](../README.md) · [163 · Terraform multi-provider y separación de estados →](../../part-13-multicloud-hybrid-disaster-recovery/163-terraform-multi-provider-y-separacion-de-estados/README.md)
 
 **Parte:** 13 — Multi-cloud, híbrido, migración y recuperación<br>
 **Nivel:** experto · **Horas estimadas:** 4<br>
@@ -599,3 +599,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 161 · Replicación de datos, soberanía y costos de egress](../../part-13-multicloud-hybrid-disaster-recovery/161-replicacion-de-datos-soberania-y-costos-de-egress/README.md) | [Parte 13](../README.md) · [Programa](../../README.md) | [163 · Terraform multi-provider y separación de estados →](../../part-13-multicloud-hybrid-disaster-recovery/163-terraform-multi-provider-y-separacion-de-estados/README.md) |

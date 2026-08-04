@@ -1,6 +1,6 @@
 # 185 — Disponibilidad, confiabilidad y análisis de puntos de fallo
 
-> [← Clase anterior](../../part-15-systems-architecture-engineering/184-arquitectura-monolitica-modular-y-de-microservicios/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-15-systems-architecture-engineering/186-capacidad-latencia-throughput-y-teoria-de-colas/README.md)
+> [← 184 · Arquitectura monolítica, modular y de microservicios](../../part-15-systems-architecture-engineering/184-arquitectura-monolitica-modular-y-de-microservicios/README.md) · [Índice de la parte](../README.md) · [186 · Capacidad, latencia, throughput y teoría de colas →](../../part-15-systems-architecture-engineering/186-capacidad-latencia-throughput-y-teoria-de-colas/README.md)
 
 **Parte:** 15 — Arquitectura de sistemas e ingeniería de requisitos<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -601,3 +601,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 184 · Arquitectura monolítica, modular y de microservicios](../../part-15-systems-architecture-engineering/184-arquitectura-monolitica-modular-y-de-microservicios/README.md) | [Parte 15](../README.md) · [Programa](../../README.md) | [186 · Capacidad, latencia, throughput y teoría de colas →](../../part-15-systems-architecture-engineering/186-capacidad-latencia-throughput-y-teoria-de-colas/README.md) |

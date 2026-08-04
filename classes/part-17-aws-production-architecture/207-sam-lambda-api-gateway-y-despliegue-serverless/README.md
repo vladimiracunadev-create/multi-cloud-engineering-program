@@ -1,6 +1,6 @@
 # 207 — SAM, Lambda, API Gateway y despliegue serverless
 
-> [← Clase anterior](../../part-17-aws-production-architecture/206-oidc-de-github-y-gitlab-hacia-aws-sin-secretos/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-17-aws-production-architecture/208-dynamodb-por-patrones-de-acceso-y-single-table-design/README.md)
+> [← 206 · OIDC de GitHub y GitLab hacia AWS sin secretos](../../part-17-aws-production-architecture/206-oidc-de-github-y-gitlab-hacia-aws-sin-secretos/README.md) · [Índice de la parte](../README.md) · [208 · DynamoDB por patrones de acceso y single-table design →](../../part-17-aws-production-architecture/208-dynamodb-por-patrones-de-acceso-y-single-table-design/README.md)
 
 **Parte:** 17 — AWS: arquitectura, automatización y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -669,3 +669,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 206 · OIDC de GitHub y GitLab hacia AWS sin secretos](../../part-17-aws-production-architecture/206-oidc-de-github-y-gitlab-hacia-aws-sin-secretos/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [208 · DynamoDB por patrones de acceso y single-table design →](../../part-17-aws-production-architecture/208-dynamodb-por-patrones-de-acceso-y-single-table-design/README.md) |

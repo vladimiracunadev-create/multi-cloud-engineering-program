@@ -1,6 +1,6 @@
 # 151 — Fallos parciales y patrones de resiliencia
 
-> [← Clase anterior](../../part-12-cloud-native-distributed-architecture/150-replicacion-particionado-y-consenso/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-12-cloud-native-distributed-architecture/152-service-discovery-malla-y-comunicacion/README.md)
+> [← 150 · Replicación, particionado y consenso](../../part-12-cloud-native-distributed-architecture/150-replicacion-particionado-y-consenso/README.md) · [Índice de la parte](../README.md) · [152 · Service discovery, malla y comunicación →](../../part-12-cloud-native-distributed-architecture/152-service-discovery-malla-y-comunicacion/README.md)
 
 **Parte:** 12 — Arquitectura cloud-native y sistemas distribuidos<br>
 **Nivel:** avanzado-experto · **Horas estimadas:** 4<br>
@@ -618,3 +618,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 150 · Replicación, particionado y consenso](../../part-12-cloud-native-distributed-architecture/150-replicacion-particionado-y-consenso/README.md) | [Parte 12](../README.md) · [Programa](../../README.md) | [152 · Service discovery, malla y comunicación →](../../part-12-cloud-native-distributed-architecture/152-service-discovery-malla-y-comunicacion/README.md) |

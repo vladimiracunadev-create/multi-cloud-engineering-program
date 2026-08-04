@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#111713">
-  <meta name="description" content="032 — Lambda, API Gateway y Step Functions ← Clase anterior ../../part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/README.md · Ín">
+  <meta name="description" content="032 — Lambda, API Gateway y Step Functions ← 031 · RDS, DynamoDB y ElastiCache: decisión de datos ../../part-02-aws-core-platform/031-rds-dynamodb-y-elasti">
   <meta property="og:type" content="website">
   <meta property="og:title" content="032 — Lambda, API Gateway y Step Functions">
-  <meta property="og:description" content="032 — Lambda, API Gateway y Step Functions ← Clase anterior ../../part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/README.md · Ín">
+  <meta property="og:description" content="032 — Lambda, API Gateway y Step Functions ← 031 · RDS, DynamoDB y ElastiCache: decisión de datos ../../part-02-aws-core-platform/031-rds-dynamodb-y-elasti">
   <meta property="og:url" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/032.html">
   <meta property="og:image" content="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/assets/og-cover.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/032.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.0.0-r7">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "032 — Lambda, API Gateway y Step Functions", "description": "032 — Lambda, API Gateway y Step Functions ← Clase anterior ../../part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/README.md · Ín", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/032.html"}</script>
+  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "032 — Lambda, API Gateway y Step Functions", "description": "032 — Lambda, API Gateway y Step Functions ← 031 · RDS, DynamoDB y ElastiCache: decisión de datos ../../part-02-aws-core-platform/031-rds-dynamodb-y-elasti", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/032.html"}</script>
   <title>032 — Lambda, API Gateway y Step Functions · Multi-Cloud Engineering</title>
 </head>
 <body class="doc-page" data-page-type="lesson">
@@ -30,13 +30,14 @@
   <div class="doc-layout">
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/02.html">Parte 02</a><span>/</span><strong>032</strong></nav>
+      <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="031.html" rel="prev" title="RDS, DynamoDB y ElastiCache: decisión de datos">← 031</a><a class="pager-link index" href="../parts/02.html">Parte 02</a><a class="pager-link next" href="033.html" rel="next" title="SQS, SNS y EventBridge">033 →</a></nav>
       <section class="lesson-status">
         <div><span class="kicker">Parte 02 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="032"> Clase completada</label>
       </section>
       <article class="markdown-body"><h1 id="032-lambda-api-gateway-y-step-functions">032 — Lambda, API Gateway y Step Functions</h1>
 <blockquote>
-<p><a href="031.html">← Clase anterior</a> · <a href="../parts/02.html">Índice de la parte</a> · <a href="033.html">Clase siguiente →</a></p>
+<p><a href="031.html">← 031 · RDS, DynamoDB y ElastiCache: decisión de datos</a> · <a href="../parts/02.html">Índice de la parte</a> · <a href="033.html">033 · SQS, SNS y EventBridge →</a></p>
 </blockquote>
 <p><strong>Parte:</strong> 02 — AWS: plataforma esencial<br>
 <strong>Nivel:</strong> intermedio · <strong>Horas estimadas:</strong> 4<br>
@@ -449,7 +450,23 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/lesson.yaml">Contrato de clase</a> · <a href="../parts/02.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Anterior</th>
+<th>Índice</th>
+<th>Siguiente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="031.html">← 031 · RDS, DynamoDB y ElastiCache: decisión de datos</a></td>
+<td><a href="../parts/02.html">Parte 02</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/../../README.md">Programa</a></td>
+<td><a href="033.html">033 · SQS, SNS y EventBridge →</a></td>
+</tr>
+</tbody>
+</table></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>api-serverless-aws</h2></div>
         <code>python classes/part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/lab.py --seed 42</code>
@@ -505,7 +522,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 </tbody>
 </table>
       </section>
-      <nav class="lesson-navigation"><a class="nav-link" href="031.html">← RDS, DynamoDB y ElastiCache: decisión de datos</a><a class="nav-link next" href="033.html">SQS, SNS y EventBridge →</a></nav>
+      <nav class="lesson-navigation"><a class="nav-link" href="031.html" rel="prev">← <span>031 · RDS, DynamoDB y ElastiCache: decisión de datos</span></a><a class="nav-link next" href="033.html" rel="next"><span>033 · SQS, SNS y EventBridge</span> →</a></nav>
     </main>
   </div>
 
@@ -513,6 +530,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-concurrencia-es-el-recurso-que-se-agota-no-la-cpu">1. La concurrencia es el recurso que se agota, no la CPU</a><a class="toc-level-3" href="#2-arranque-en-frio-comparar-con-el-percentil-del-slo">2. Arranque en frío: comparar con el percentil del SLO</a><a class="toc-level-3" href="#3-funciones-y-bases-de-datos-relacionales-el-choque-de-modelos">3. Funciones y bases de datos relacionales: el choque de modelos</a><a class="toc-level-3" href="#4-los-limites-del-gateway-y-como-se-rodean">4. Los límites del gateway y cómo se rodean</a><a class="toc-level-3" href="#5-orquestacion-frente-a-coreografia">5. Orquestación frente a coreografía</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
+  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
 </body>
 </html>

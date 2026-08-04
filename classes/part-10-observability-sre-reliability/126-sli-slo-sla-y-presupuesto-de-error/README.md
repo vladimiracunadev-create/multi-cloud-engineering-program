@@ -1,6 +1,6 @@
 # 126 — SLI, SLO, SLA y presupuesto de error
 
-> [← Clase anterior](../../part-10-observability-sre-reliability/125-dashboards-alertas-accionables-y-fatiga/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-10-observability-sre-reliability/127-incidentes-severidad-comando-y-comunicacion/README.md)
+> [← 125 · Dashboards, alertas accionables y fatiga](../../part-10-observability-sre-reliability/125-dashboards-alertas-accionables-y-fatiga/README.md) · [Índice de la parte](../README.md) · [127 · Incidentes, severidad, comando y comunicación →](../../part-10-observability-sre-reliability/127-incidentes-severidad-comando-y-comunicacion/README.md)
 
 **Parte:** 10 — Observabilidad, SRE y confiabilidad<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -568,3 +568,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 125 · Dashboards, alertas accionables y fatiga](../../part-10-observability-sre-reliability/125-dashboards-alertas-accionables-y-fatiga/README.md) | [Parte 10](../README.md) · [Programa](../../README.md) | [127 · Incidentes, severidad, comando y comunicación →](../../part-10-observability-sre-reliability/127-incidentes-severidad-comando-y-comunicacion/README.md) |

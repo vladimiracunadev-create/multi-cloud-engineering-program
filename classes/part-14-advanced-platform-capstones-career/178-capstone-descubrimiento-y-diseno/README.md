@@ -1,6 +1,6 @@
 # 178 — Capstone: descubrimiento y diseño
 
-> [← Clase anterior](../../part-14-advanced-platform-capstones-career/177-soberania-digital-y-confidential-computing/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-14-advanced-platform-capstones-career/179-capstone-implementacion-y-operacion/README.md)
+> [← 177 · Soberanía digital y confidential computing](../../part-14-advanced-platform-capstones-career/177-soberania-digital-y-confidential-computing/README.md) · [Índice de la parte](../README.md) · [179 · Capstone: implementación y operación →](../../part-14-advanced-platform-capstones-career/179-capstone-implementacion-y-operacion/README.md)
 
 **Parte:** 14 — Plataformas avanzadas, capstones y carrera<br>
 **Nivel:** experto-frontera · **Horas estimadas:** 8<br>
@@ -607,3 +607,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 177 · Soberanía digital y confidential computing](../../part-14-advanced-platform-capstones-career/177-soberania-digital-y-confidential-computing/README.md) | [Parte 14](../README.md) · [Programa](../../README.md) | [179 · Capstone: implementación y operación →](../../part-14-advanced-platform-capstones-career/179-capstone-implementacion-y-operacion/README.md) |

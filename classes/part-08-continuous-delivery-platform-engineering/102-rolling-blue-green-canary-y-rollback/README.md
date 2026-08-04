@@ -1,6 +1,6 @@
 # 102 — Rolling, blue-green, canary y rollback
 
-> [← Clase anterior](../../part-08-continuous-delivery-platform-engineering/101-sast-sca-secretos-sbom-y-firma-en-pipeline/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-08-continuous-delivery-platform-engineering/103-gitops-con-argo-cd-o-flux/README.md)
+> [← 101 · SAST, SCA, secretos, SBOM y firma en pipeline](../../part-08-continuous-delivery-platform-engineering/101-sast-sca-secretos-sbom-y-firma-en-pipeline/README.md) · [Índice de la parte](../README.md) · [103 · GitOps con Argo CD o Flux →](../../part-08-continuous-delivery-platform-engineering/103-gitops-con-argo-cd-o-flux/README.md)
 
 **Parte:** 08 — Entrega continua y platform engineering<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -497,3 +497,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 101 · SAST, SCA, secretos, SBOM y firma en pipeline](../../part-08-continuous-delivery-platform-engineering/101-sast-sca-secretos-sbom-y-firma-en-pipeline/README.md) | [Parte 08](../README.md) · [Programa](../../README.md) | [103 · GitOps con Argo CD o Flux →](../../part-08-continuous-delivery-platform-engineering/103-gitops-con-argo-cd-o-flux/README.md) |

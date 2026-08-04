@@ -1,6 +1,6 @@
 # 036 — Proyecto: aplicación de tres capas en AWS
 
-> [← Clase anterior](../../part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-03-azure-core-platform/037-tenant-management-groups-suscripciones-y-resource-groups/README.md)
+> [← 035 · KMS, Secrets Manager, WAF y controles de seguridad](../../part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/README.md) · [Índice de la parte](../README.md) · [037 · Tenant, management groups, suscripciones y resource groups →](../../part-03-azure-core-platform/037-tenant-management-groups-suscripciones-y-resource-groups/README.md)
 
 **Parte:** 02 — AWS: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 8<br>
@@ -422,3 +422,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 035 · KMS, Secrets Manager, WAF y controles de seguridad](../../part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [037 · Tenant, management groups, suscripciones y resource groups →](../../part-03-azure-core-platform/037-tenant-management-groups-suscripciones-y-resource-groups/README.md) |

@@ -1,6 +1,6 @@
 # 288 — Defensa final, retrospectiva y plan de 12 meses
 
-> [← Clase anterior](../../part-23-industry-capstones/287-paquete-de-evidencia-costos-y-riesgos-residuales/README.md) · [Índice de la parte](../README.md) · Fin del programa
+> [← 287 · Paquete de evidencia, costos y riesgos residuales](../../part-23-industry-capstones/287-paquete-de-evidencia-costos-y-riesgos-residuales/README.md) · [Índice de la parte](../README.md) · **Fin del programa**
 
 **Parte:** 23 — Capstones por industria y defensa final<br>
 **Nivel:** experto · **Horas estimadas:** 8<br>
@@ -653,3 +653,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 287 · Paquete de evidencia, costos y riesgos residuales](../../part-23-industry-capstones/287-paquete-de-evidencia-costos-y-riesgos-residuales/README.md) | [Parte 23](../README.md) · [Programa](../../README.md) | **Fin del programa** |

@@ -1,6 +1,6 @@
 # 002 — Terminal, sistema de archivos, procesos y variables de entorno
 
-> [← Clase anterior](../../part-00-foundations-computing-networking-linux/001-computacion-digital-y-modelo-mental-de-la-nube/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-00-foundations-computing-networking-linux/003-git-github-y-trabajo-reproducible/README.md)
+> [← 001 · Computación digital y modelo mental de la nube](../../part-00-foundations-computing-networking-linux/001-computacion-digital-y-modelo-mental-de-la-nube/README.md) · [Índice de la parte](../README.md) · [003 · Git, GitHub y trabajo reproducible →](../../part-00-foundations-computing-networking-linux/003-git-github-y-trabajo-reproducible/README.md)
 
 **Parte:** 00 — Fundamentos de computación, redes y Linux<br>
 **Nivel:** inicial · **Horas estimadas:** 4<br>
@@ -259,3 +259,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 001 · Computación digital y modelo mental de la nube](../../part-00-foundations-computing-networking-linux/001-computacion-digital-y-modelo-mental-de-la-nube/README.md) | [Parte 00](../README.md) · [Programa](../../README.md) | [003 · Git, GitHub y trabajo reproducible →](../../part-00-foundations-computing-networking-linux/003-git-github-y-trabajo-reproducible/README.md) |

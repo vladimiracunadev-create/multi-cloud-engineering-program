@@ -1,6 +1,6 @@
 # 076 — ConfigMaps, Secrets y configuración externa
 
-> [← Clase anterior](../../part-06-kubernetes-managed-platforms/075-services-dns-ingress-y-gateway-api/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-06-kubernetes-managed-platforms/077-volumes-persistentvolumes-csi-y-statefulsets/README.md)
+> [← 075 · Services, DNS, Ingress y Gateway API](../../part-06-kubernetes-managed-platforms/075-services-dns-ingress-y-gateway-api/README.md) · [Índice de la parte](../README.md) · [077 · Volumes, PersistentVolumes, CSI y StatefulSets →](../../part-06-kubernetes-managed-platforms/077-volumes-persistentvolumes-csi-y-statefulsets/README.md)
 
 **Parte:** 06 — Kubernetes y plataformas administradas<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -521,3 +521,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 075 · Services, DNS, Ingress y Gateway API](../../part-06-kubernetes-managed-platforms/075-services-dns-ingress-y-gateway-api/README.md) | [Parte 06](../README.md) · [Programa](../../README.md) | [077 · Volumes, PersistentVolumes, CSI y StatefulSets →](../../part-06-kubernetes-managed-platforms/077-volumes-persistentvolumes-csi-y-statefulsets/README.md) |

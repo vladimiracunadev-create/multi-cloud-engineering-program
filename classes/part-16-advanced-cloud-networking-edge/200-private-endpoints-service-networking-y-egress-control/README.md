@@ -1,6 +1,6 @@
 # 200 — Private endpoints, service networking y egress control
 
-> [← Clase anterior](../../part-16-advanced-cloud-networking-edge/199-transit-gateway-virtual-wan-y-network-connectivity-center/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-16-advanced-cloud-networking-edge/201-service-mesh-mtls-y-gestion-de-trafico-este-oeste/README.md)
+> [← 199 · Transit Gateway, Virtual WAN y Network Connectivity Center](../../part-16-advanced-cloud-networking-edge/199-transit-gateway-virtual-wan-y-network-connectivity-center/README.md) · [Índice de la parte](../README.md) · [201 · Service mesh, mTLS y gestión de tráfico este-oeste →](../../part-16-advanced-cloud-networking-edge/201-service-mesh-mtls-y-gestion-de-trafico-este-oeste/README.md)
 
 **Parte:** 16 — Redes cloud avanzadas, conectividad híbrida y edge<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -613,3 +613,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 199 · Transit Gateway, Virtual WAN y Network Connectivity Center](../../part-16-advanced-cloud-networking-edge/199-transit-gateway-virtual-wan-y-network-connectivity-center/README.md) | [Parte 16](../README.md) · [Programa](../../README.md) | [201 · Service mesh, mTLS y gestión de tráfico este-oeste →](../../part-16-advanced-cloud-networking-edge/201-service-mesh-mtls-y-gestion-de-trafico-este-oeste/README.md) |

@@ -1,6 +1,6 @@
 # 168 — Proyecto: continuidad activa-pasiva entre nubes
 
-> [← Clase anterior](../../part-13-multicloud-hybrid-disaster-recovery/167-las-7r-de-migracion-y-oleadas/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-14-advanced-platform-capstones-career/169-landing-zones-empresariales-y-vending-de-cuentas/README.md)
+> [← 167 · Las 7R de migración y oleadas](../../part-13-multicloud-hybrid-disaster-recovery/167-las-7r-de-migracion-y-oleadas/README.md) · [Índice de la parte](../README.md) · [169 · Landing zones empresariales y vending de cuentas →](../../part-14-advanced-platform-capstones-career/169-landing-zones-empresariales-y-vending-de-cuentas/README.md)
 
 **Parte:** 13 — Multi-cloud, híbrido, migración y recuperación<br>
 **Nivel:** experto · **Horas estimadas:** 8<br>
@@ -649,3 +649,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 167 · Las 7R de migración y oleadas](../../part-13-multicloud-hybrid-disaster-recovery/167-las-7r-de-migracion-y-oleadas/README.md) | [Parte 13](../README.md) · [Programa](../../README.md) | [169 · Landing zones empresariales y vending de cuentas →](../../part-14-advanced-platform-capstones-career/169-landing-zones-empresariales-y-vending-de-cuentas/README.md) |

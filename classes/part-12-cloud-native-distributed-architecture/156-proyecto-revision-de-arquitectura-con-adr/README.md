@@ -1,6 +1,6 @@
 # 156 — Proyecto: revisión de arquitectura con ADR
 
-> [← Clase anterior](../../part-12-cloud-native-distributed-architecture/155-rendimiento-costo-seguridad-y-operabilidad/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-13-multicloud-hybrid-disaster-recovery/157-motivaciones-y-anti-patrones-de-multi-cloud/README.md)
+> [← 155 · Rendimiento, costo, seguridad y operabilidad](../../part-12-cloud-native-distributed-architecture/155-rendimiento-costo-seguridad-y-operabilidad/README.md) · [Índice de la parte](../README.md) · [157 · Motivaciones y anti-patrones de multi-cloud →](../../part-13-multicloud-hybrid-disaster-recovery/157-motivaciones-y-anti-patrones-de-multi-cloud/README.md)
 
 **Parte:** 12 — Arquitectura cloud-native y sistemas distribuidos<br>
 **Nivel:** avanzado-experto · **Horas estimadas:** 8<br>
@@ -623,3 +623,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 155 · Rendimiento, costo, seguridad y operabilidad](../../part-12-cloud-native-distributed-architecture/155-rendimiento-costo-seguridad-y-operabilidad/README.md) | [Parte 12](../README.md) · [Programa](../../README.md) | [157 · Motivaciones y anti-patrones de multi-cloud →](../../part-13-multicloud-hybrid-disaster-recovery/157-motivaciones-y-anti-patrones-de-multi-cloud/README.md) |

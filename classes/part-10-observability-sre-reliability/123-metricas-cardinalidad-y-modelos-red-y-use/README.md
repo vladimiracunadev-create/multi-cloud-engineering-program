@@ -1,6 +1,6 @@
 # 123 — Métricas, cardinalidad y modelos RED y USE
 
-> [← Clase anterior](../../part-10-observability-sre-reliability/122-logging-estructurado-correlacion-y-retencion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-10-observability-sre-reliability/124-tracing-distribuido-y-opentelemetry/README.md)
+> [← 122 · Logging estructurado, correlación y retención](../../part-10-observability-sre-reliability/122-logging-estructurado-correlacion-y-retencion/README.md) · [Índice de la parte](../README.md) · [124 · Tracing distribuido y OpenTelemetry →](../../part-10-observability-sre-reliability/124-tracing-distribuido-y-opentelemetry/README.md)
 
 **Parte:** 10 — Observabilidad, SRE y confiabilidad<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -546,3 +546,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 122 · Logging estructurado, correlación y retención](../../part-10-observability-sre-reliability/122-logging-estructurado-correlacion-y-retencion/README.md) | [Parte 10](../README.md) · [Programa](../../README.md) | [124 · Tracing distribuido y OpenTelemetry →](../../part-10-observability-sre-reliability/124-tracing-distribuido-y-opentelemetry/README.md) |

@@ -1,6 +1,6 @@
 # 032 — Lambda, API Gateway y Step Functions
 
-> [← Clase anterior](../../part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-02-aws-core-platform/033-sqs-sns-y-eventbridge/README.md)
+> [← 031 · RDS, DynamoDB y ElastiCache: decisión de datos](../../part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/README.md) · [Índice de la parte](../README.md) · [033 · SQS, SNS y EventBridge →](../../part-02-aws-core-platform/033-sqs-sns-y-eventbridge/README.md)
 
 **Parte:** 02 — AWS: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -421,3 +421,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 031 · RDS, DynamoDB y ElastiCache: decisión de datos](../../part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [033 · SQS, SNS y EventBridge →](../../part-02-aws-core-platform/033-sqs-sns-y-eventbridge/README.md) |

@@ -1,6 +1,6 @@
 # 287 — Paquete de evidencia, costos y riesgos residuales
 
-> [← Clase anterior](../../part-23-industry-capstones/286-revision-well-architected-multi-proveedor/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-23-industry-capstones/288-defensa-final-retrospectiva-y-plan-de-12-meses/README.md)
+> [← 286 · Revisión Well-Architected multi-proveedor](../../part-23-industry-capstones/286-revision-well-architected-multi-proveedor/README.md) · [Índice de la parte](../README.md) · [288 · Defensa final, retrospectiva y plan de 12 meses →](../../part-23-industry-capstones/288-defensa-final-retrospectiva-y-plan-de-12-meses/README.md)
 
 **Parte:** 23 — Capstones por industria y defensa final<br>
 **Nivel:** experto · **Horas estimadas:** 4<br>
@@ -625,3 +625,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 286 · Revisión Well-Architected multi-proveedor](../../part-23-industry-capstones/286-revision-well-architected-multi-proveedor/README.md) | [Parte 23](../README.md) · [Programa](../../README.md) | [288 · Defensa final, retrospectiva y plan de 12 meses →](../../part-23-industry-capstones/288-defensa-final-retrospectiva-y-plan-de-12-meses/README.md) |

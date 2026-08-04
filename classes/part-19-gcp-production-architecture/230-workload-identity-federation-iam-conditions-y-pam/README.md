@@ -1,6 +1,6 @@
 # 230 — Workload Identity Federation, IAM Conditions y PAM
 
-> [← Clase anterior](../../part-19-gcp-production-architecture/229-resource-manager-folders-shared-vpc-y-guardrails/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-19-gcp-production-architecture/231-red-global-load-balancing-psc-y-cloud-dns/README.md)
+> [← 229 · Resource Manager, folders, Shared VPC y guardrails](../../part-19-gcp-production-architecture/229-resource-manager-folders-shared-vpc-y-guardrails/README.md) · [Índice de la parte](../README.md) · [231 · Red global, load balancing, PSC y Cloud DNS →](../../part-19-gcp-production-architecture/231-red-global-load-balancing-psc-y-cloud-dns/README.md)
 
 **Parte:** 19 — Google Cloud: arquitectura de datos y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -659,3 +659,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 229 · Resource Manager, folders, Shared VPC y guardrails](../../part-19-gcp-production-architecture/229-resource-manager-folders-shared-vpc-y-guardrails/README.md) | [Parte 19](../README.md) · [Programa](../../README.md) | [231 · Red global, load balancing, PSC y Cloud DNS →](../../part-19-gcp-production-architecture/231-red-global-load-balancing-psc-y-cloud-dns/README.md) |

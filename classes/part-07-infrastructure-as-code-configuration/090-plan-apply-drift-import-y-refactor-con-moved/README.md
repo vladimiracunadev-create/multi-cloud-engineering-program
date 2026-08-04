@@ -1,6 +1,6 @@
 # 090 — Plan, apply, drift, import y refactor con moved
 
-> [← Clase anterior](../../part-07-infrastructure-as-code-configuration/089-variables-outputs-locals-y-data-sources/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-07-infrastructure-as-code-configuration/091-validacion-lint-pruebas-y-policy-as-code/README.md)
+> [← 089 · Variables, outputs, locals y data sources](../../part-07-infrastructure-as-code-configuration/089-variables-outputs-locals-y-data-sources/README.md) · [Índice de la parte](../README.md) · [091 · Validación, lint, pruebas y policy as code →](../../part-07-infrastructure-as-code-configuration/091-validacion-lint-pruebas-y-policy-as-code/README.md)
 
 **Parte:** 07 — Infraestructura como código y configuración<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -551,3 +551,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 089 · Variables, outputs, locals y data sources](../../part-07-infrastructure-as-code-configuration/089-variables-outputs-locals-y-data-sources/README.md) | [Parte 07](../README.md) · [Programa](../../README.md) | [091 · Validación, lint, pruebas y policy as code →](../../part-07-infrastructure-as-code-configuration/091-validacion-lint-pruebas-y-policy-as-code/README.md) |

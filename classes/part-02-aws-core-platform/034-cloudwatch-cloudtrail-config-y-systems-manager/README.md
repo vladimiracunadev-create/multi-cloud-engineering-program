@@ -1,6 +1,6 @@
 # 034 — CloudWatch, CloudTrail, Config y Systems Manager
 
-> [← Clase anterior](../../part-02-aws-core-platform/033-sqs-sns-y-eventbridge/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/README.md)
+> [← 033 · SQS, SNS y EventBridge](../../part-02-aws-core-platform/033-sqs-sns-y-eventbridge/README.md) · [Índice de la parte](../README.md) · [035 · KMS, Secrets Manager, WAF y controles de seguridad →](../../part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/README.md)
 
 **Parte:** 02 — AWS: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -405,3 +405,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 033 · SQS, SNS y EventBridge](../../part-02-aws-core-platform/033-sqs-sns-y-eventbridge/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [035 · KMS, Secrets Manager, WAF y controles de seguridad →](../../part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/README.md) |

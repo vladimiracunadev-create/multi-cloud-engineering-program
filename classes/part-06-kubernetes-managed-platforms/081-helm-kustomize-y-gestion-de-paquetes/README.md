@@ -1,6 +1,6 @@
 # 081 — Helm, Kustomize y gestión de paquetes
 
-> [← Clase anterior](../../part-06-kubernetes-managed-platforms/080-namespaces-rbac-networkpolicy-y-admission/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-06-kubernetes-managed-platforms/082-logs-metricas-eventos-y-depuracion/README.md)
+> [← 080 · Namespaces, RBAC, NetworkPolicy y admission](../../part-06-kubernetes-managed-platforms/080-namespaces-rbac-networkpolicy-y-admission/README.md) · [Índice de la parte](../README.md) · [082 · Logs, métricas, eventos y depuración →](../../part-06-kubernetes-managed-platforms/082-logs-metricas-eventos-y-depuracion/README.md)
 
 **Parte:** 06 — Kubernetes y plataformas administradas<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 4<br>
@@ -556,3 +556,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 080 · Namespaces, RBAC, NetworkPolicy y admission](../../part-06-kubernetes-managed-platforms/080-namespaces-rbac-networkpolicy-y-admission/README.md) | [Parte 06](../README.md) · [Programa](../../README.md) | [082 · Logs, métricas, eventos y depuración →](../../part-06-kubernetes-managed-platforms/082-logs-metricas-eventos-y-depuracion/README.md) |

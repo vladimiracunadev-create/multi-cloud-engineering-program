@@ -1,6 +1,6 @@
 # 138 — Vulnerabilidades, imágenes y cadena de suministro
 
-> [← Clase anterior](../../part-11-security-governance-finops/137-gestion-de-secretos-y-credenciales-de-workloads/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-11-security-governance-finops/139-cspm-postura-policy-as-code-y-remediacion/README.md)
+> [← 137 · Gestión de secretos y credenciales de workloads](../../part-11-security-governance-finops/137-gestion-de-secretos-y-credenciales-de-workloads/README.md) · [Índice de la parte](../README.md) · [139 · CSPM, postura, policy as code y remediación →](../../part-11-security-governance-finops/139-cspm-postura-policy-as-code-y-remediacion/README.md)
 
 **Parte:** 11 — Seguridad, gobierno, cumplimiento y FinOps<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -569,3 +569,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 137 · Gestión de secretos y credenciales de workloads](../../part-11-security-governance-finops/137-gestion-de-secretos-y-credenciales-de-workloads/README.md) | [Parte 11](../README.md) · [Programa](../../README.md) | [139 · CSPM, postura, policy as code y remediación →](../../part-11-security-governance-finops/139-cspm-postura-policy-as-code-y-remediacion/README.md) |

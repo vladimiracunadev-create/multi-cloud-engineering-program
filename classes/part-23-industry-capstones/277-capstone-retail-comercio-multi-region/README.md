@@ -1,6 +1,6 @@
 # 277 — Capstone retail: comercio multi-región
 
-> [← Clase anterior](../../part-22-specializations-certifications-career/276-proyecto-defensa-tecnica-ante-panel/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-23-industry-capstones/278-capstone-financiero-pagos-auditoria-y-recuperacion/README.md)
+> [← 276 · Proyecto: defensa técnica ante panel](../../part-22-specializations-certifications-career/276-proyecto-defensa-tecnica-ante-panel/README.md) · [Índice de la parte](../README.md) · [278 · Capstone financiero: pagos, auditoría y recuperación →](../../part-23-industry-capstones/278-capstone-financiero-pagos-auditoria-y-recuperacion/README.md)
 
 **Parte:** 23 — Capstones por industria y defensa final<br>
 **Nivel:** experto · **Horas estimadas:** 8<br>
@@ -597,3 +597,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 276 · Proyecto: defensa técnica ante panel](../../part-22-specializations-certifications-career/276-proyecto-defensa-tecnica-ante-panel/README.md) | [Parte 23](../README.md) · [Programa](../../README.md) | [278 · Capstone financiero: pagos, auditoría y recuperación →](../../part-23-industry-capstones/278-capstone-financiero-pagos-auditoria-y-recuperacion/README.md) |

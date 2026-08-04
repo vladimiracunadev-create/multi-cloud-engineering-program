@@ -1,6 +1,6 @@
 # 064 — Volúmenes, bind mounts y persistencia
 
-> [← Clase anterior](../../part-05-containers-docker-oci/063-namespaces-cgroups-y-runtime-de-contenedores/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-05-containers-docker-oci/065-redes-bridge-dns-interno-y-publicacion-de-puertos/README.md)
+> [← 063 · Namespaces, cgroups y runtime de contenedores](../../part-05-containers-docker-oci/063-namespaces-cgroups-y-runtime-de-contenedores/README.md) · [Índice de la parte](../README.md) · [065 · Redes bridge, DNS interno y publicación de puertos →](../../part-05-containers-docker-oci/065-redes-bridge-dns-interno-y-publicacion-de-puertos/README.md)
 
 **Parte:** 05 — Contenedores, Docker y OCI<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -501,3 +501,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 063 · Namespaces, cgroups y runtime de contenedores](../../part-05-containers-docker-oci/063-namespaces-cgroups-y-runtime-de-contenedores/README.md) | [Parte 05](../README.md) · [Programa](../../README.md) | [065 · Redes bridge, DNS interno y publicación de puertos →](../../part-05-containers-docker-oci/065-redes-bridge-dns-interno-y-publicacion-de-puertos/README.md) |

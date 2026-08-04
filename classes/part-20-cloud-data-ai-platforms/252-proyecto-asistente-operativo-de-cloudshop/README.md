@@ -1,6 +1,6 @@
 # 252 — Proyecto: asistente operativo de CloudShop
 
-> [← Clase anterior](../../part-20-cloud-data-ai-platforms/251-privacidad-gobernanza-sostenibilidad-y-costo-de-ia/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-21-cloud-operations-automation/253-inventario-etiquetado-cmdb-y-ownership/README.md)
+> [← 251 · Privacidad, gobernanza, sostenibilidad y costo de IA](../../part-20-cloud-data-ai-platforms/251-privacidad-gobernanza-sostenibilidad-y-costo-de-ia/README.md) · [Índice de la parte](../README.md) · [253 · Inventario, etiquetado, CMDB y ownership →](../../part-21-cloud-operations-automation/253-inventario-etiquetado-cmdb-y-ownership/README.md)
 
 **Parte:** 20 — Plataformas cloud de datos, analítica, IA y agentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 8<br>
@@ -808,3 +808,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 251 · Privacidad, gobernanza, sostenibilidad y costo de IA](../../part-20-cloud-data-ai-platforms/251-privacidad-gobernanza-sostenibilidad-y-costo-de-ia/README.md) | [Parte 20](../README.md) · [Programa](../../README.md) | [253 · Inventario, etiquetado, CMDB y ownership →](../../part-21-cloud-operations-automation/253-inventario-etiquetado-cmdb-y-ownership/README.md) |

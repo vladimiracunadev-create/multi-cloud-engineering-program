@@ -1,6 +1,6 @@
 # 263 — AIOps, automatización asistida y límites humanos
 
-> [← Clase anterior](../../part-21-cloud-operations-automation/262-capacity-planning-cuotas-y-gestion-de-demanda/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-21-cloud-operations-automation/264-proyecto-centro-de-operaciones-de-cloudshop/README.md)
+> [← 262 · Capacity planning, cuotas y gestión de demanda](../../part-21-cloud-operations-automation/262-capacity-planning-cuotas-y-gestion-de-demanda/README.md) · [Índice de la parte](../README.md) · [264 · Proyecto: centro de operaciones de CloudShop →](../../part-21-cloud-operations-automation/264-proyecto-centro-de-operaciones-de-cloudshop/README.md)
 
 **Parte:** 21 — Operación cloud, automatización y respuesta a incidentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -656,3 +656,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 262 · Capacity planning, cuotas y gestión de demanda](../../part-21-cloud-operations-automation/262-capacity-planning-cuotas-y-gestion-de-demanda/README.md) | [Parte 21](../README.md) · [Programa](../../README.md) | [264 · Proyecto: centro de operaciones de CloudShop →](../../part-21-cloud-operations-automation/264-proyecto-centro-de-operaciones-de-cloudshop/README.md) |

@@ -1,6 +1,6 @@
 # 159 — Federación de identidad entre nubes
 
-> [← Clase anterior](../../part-13-multicloud-hybrid-disaster-recovery/158-portabilidad-capas-de-abstraccion-y-lock-in/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-13-multicloud-hybrid-disaster-recovery/160-conectividad-transito-dns-y-service-discovery/README.md)
+> [← 158 · Portabilidad, capas de abstracción y lock-in](../../part-13-multicloud-hybrid-disaster-recovery/158-portabilidad-capas-de-abstraccion-y-lock-in/README.md) · [Índice de la parte](../README.md) · [160 · Conectividad, tránsito, DNS y service discovery →](../../part-13-multicloud-hybrid-disaster-recovery/160-conectividad-transito-dns-y-service-discovery/README.md)
 
 **Parte:** 13 — Multi-cloud, híbrido, migración y recuperación<br>
 **Nivel:** experto · **Horas estimadas:** 4<br>
@@ -622,3 +622,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 158 · Portabilidad, capas de abstracción y lock-in](../../part-13-multicloud-hybrid-disaster-recovery/158-portabilidad-capas-de-abstraccion-y-lock-in/README.md) | [Parte 13](../README.md) · [Programa](../../README.md) | [160 · Conectividad, tránsito, DNS y service discovery →](../../part-13-multicloud-hybrid-disaster-recovery/160-conectividad-transito-dns-y-service-discovery/README.md) |

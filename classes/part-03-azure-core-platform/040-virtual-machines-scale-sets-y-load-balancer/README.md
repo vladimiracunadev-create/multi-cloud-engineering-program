@@ -1,6 +1,6 @@
 # 040 — Virtual Machines, Scale Sets y Load Balancer
 
-> [← Clase anterior](../../part-03-azure-core-platform/039-virtual-network-subredes-nsg-udr-peering-y-private-link/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-03-azure-core-platform/041-blob-storage-files-redundancia-y-lifecycle/README.md)
+> [← 039 · Virtual Network, subredes, NSG, UDR, peering y Private Link](../../part-03-azure-core-platform/039-virtual-network-subredes-nsg-udr-peering-y-private-link/README.md) · [Índice de la parte](../README.md) · [041 · Blob Storage, Files, redundancia y lifecycle →](../../part-03-azure-core-platform/041-blob-storage-files-redundancia-y-lifecycle/README.md)
 
 **Parte:** 03 — Azure: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -479,3 +479,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 039 · Virtual Network, subredes, NSG, UDR, peering y Private Link](../../part-03-azure-core-platform/039-virtual-network-subredes-nsg-udr-peering-y-private-link/README.md) | [Parte 03](../README.md) · [Programa](../../README.md) | [041 · Blob Storage, Files, redundancia y lifecycle →](../../part-03-azure-core-platform/041-blob-storage-files-redundancia-y-lifecycle/README.md) |

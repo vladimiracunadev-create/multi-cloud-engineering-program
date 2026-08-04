@@ -1,6 +1,6 @@
 # 147 — DDD, bounded contexts y ownership de datos
 
-> [← Clase anterior](../../part-12-cloud-native-distributed-architecture/146-twelve-factor-app-y-configuracion-cloud-native/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-12-cloud-native-distributed-architecture/148-monolito-modular-microservicios-y-funcion/README.md)
+> [← 146 · Twelve-Factor App y configuración cloud-native](../../part-12-cloud-native-distributed-architecture/146-twelve-factor-app-y-configuracion-cloud-native/README.md) · [Índice de la parte](../README.md) · [148 · Monolito modular, microservicios y función →](../../part-12-cloud-native-distributed-architecture/148-monolito-modular-microservicios-y-funcion/README.md)
 
 **Parte:** 12 — Arquitectura cloud-native y sistemas distribuidos<br>
 **Nivel:** avanzado-experto · **Horas estimadas:** 4<br>
@@ -607,3 +607,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 146 · Twelve-Factor App y configuración cloud-native](../../part-12-cloud-native-distributed-architecture/146-twelve-factor-app-y-configuracion-cloud-native/README.md) | [Parte 12](../README.md) · [Programa](../../README.md) | [148 · Monolito modular, microservicios y función →](../../part-12-cloud-native-distributed-architecture/148-monolito-modular-microservicios-y-funcion/README.md) |

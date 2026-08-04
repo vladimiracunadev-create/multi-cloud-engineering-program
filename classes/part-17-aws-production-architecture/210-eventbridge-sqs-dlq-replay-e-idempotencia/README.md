@@ -1,6 +1,6 @@
 # 210 — EventBridge, SQS, DLQ, replay e idempotencia
 
-> [← Clase anterior](../../part-17-aws-production-architecture/209-cognito-jwt-authorizers-waf-y-defensa-en-profundidad/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-17-aws-production-architecture/211-cloudwatch-x-ray-y-observabilidad-como-codigo/README.md)
+> [← 209 · Cognito, JWT authorizers, WAF y defensa en profundidad](../../part-17-aws-production-architecture/209-cognito-jwt-authorizers-waf-y-defensa-en-profundidad/README.md) · [Índice de la parte](../README.md) · [211 · CloudWatch, X-Ray y observabilidad como código →](../../part-17-aws-production-architecture/211-cloudwatch-x-ray-y-observabilidad-como-codigo/README.md)
 
 **Parte:** 17 — AWS: arquitectura, automatización y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -638,3 +638,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 209 · Cognito, JWT authorizers, WAF y defensa en profundidad](../../part-17-aws-production-architecture/209-cognito-jwt-authorizers-waf-y-defensa-en-profundidad/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [211 · CloudWatch, X-Ray y observabilidad como código →](../../part-17-aws-production-architecture/211-cloudwatch-x-ray-y-observabilidad-como-codigo/README.md) |

@@ -1,6 +1,6 @@
 # 140 — Threat modeling con STRIDE y attack paths
 
-> [← Clase anterior](../../part-11-security-governance-finops/139-cspm-postura-policy-as-code-y-remediacion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-11-security-governance-finops/141-cumplimiento-residencia-privacidad-y-evidencia/README.md)
+> [← 139 · CSPM, postura, policy as code y remediación](../../part-11-security-governance-finops/139-cspm-postura-policy-as-code-y-remediacion/README.md) · [Índice de la parte](../README.md) · [141 · Cumplimiento, residencia, privacidad y evidencia →](../../part-11-security-governance-finops/141-cumplimiento-residencia-privacidad-y-evidencia/README.md)
 
 **Parte:** 11 — Seguridad, gobierno, cumplimiento y FinOps<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -580,3 +580,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 139 · CSPM, postura, policy as code y remediación](../../part-11-security-governance-finops/139-cspm-postura-policy-as-code-y-remediacion/README.md) | [Parte 11](../README.md) · [Programa](../../README.md) | [141 · Cumplimiento, residencia, privacidad y evidencia →](../../part-11-security-governance-finops/141-cumplimiento-residencia-privacidad-y-evidencia/README.md) |

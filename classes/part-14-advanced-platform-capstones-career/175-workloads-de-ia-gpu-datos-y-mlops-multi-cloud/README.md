@@ -1,6 +1,6 @@
 # 175 — Workloads de IA, GPU, datos y MLOps multi-cloud
 
-> [← Clase anterior](../../part-14-advanced-platform-capstones-career/174-arquitectura-de-seguridad-cloud-empresarial/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-14-advanced-platform-capstones-career/176-edge-iot-y-procesamiento-desconectado/README.md)
+> [← 174 · Arquitectura de seguridad cloud empresarial](../../part-14-advanced-platform-capstones-career/174-arquitectura-de-seguridad-cloud-empresarial/README.md) · [Índice de la parte](../README.md) · [176 · Edge, IoT y procesamiento desconectado →](../../part-14-advanced-platform-capstones-career/176-edge-iot-y-procesamiento-desconectado/README.md)
 
 **Parte:** 14 — Plataformas avanzadas, capstones y carrera<br>
 **Nivel:** experto-frontera · **Horas estimadas:** 4<br>
@@ -670,3 +670,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 174 · Arquitectura de seguridad cloud empresarial](../../part-14-advanced-platform-capstones-career/174-arquitectura-de-seguridad-cloud-empresarial/README.md) | [Parte 14](../README.md) · [Programa](../../README.md) | [176 · Edge, IoT y procesamiento desconectado →](../../part-14-advanced-platform-capstones-career/176-edge-iot-y-procesamiento-desconectado/README.md) |

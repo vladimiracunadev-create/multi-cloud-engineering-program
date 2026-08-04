@@ -1,6 +1,6 @@
 # 285 — Game day integrado y respuesta a incidentes
 
-> [← Clase anterior](../../part-23-industry-capstones/284-capstone-datos-e-ia-plataforma-gobernada/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-23-industry-capstones/286-revision-well-architected-multi-proveedor/README.md)
+> [← 284 · Capstone datos e IA: plataforma gobernada](../../part-23-industry-capstones/284-capstone-datos-e-ia-plataforma-gobernada/README.md) · [Índice de la parte](../README.md) · [286 · Revisión Well-Architected multi-proveedor →](../../part-23-industry-capstones/286-revision-well-architected-multi-proveedor/README.md)
 
 **Parte:** 23 — Capstones por industria y defensa final<br>
 **Nivel:** experto · **Horas estimadas:** 4<br>
@@ -645,3 +645,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 284 · Capstone datos e IA: plataforma gobernada](../../part-23-industry-capstones/284-capstone-datos-e-ia-plataforma-gobernada/README.md) | [Parte 23](../README.md) · [Programa](../../README.md) | [286 · Revisión Well-Architected multi-proveedor →](../../part-23-industry-capstones/286-revision-well-architected-multi-proveedor/README.md) |

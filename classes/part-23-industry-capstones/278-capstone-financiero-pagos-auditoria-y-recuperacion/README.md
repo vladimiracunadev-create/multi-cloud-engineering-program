@@ -1,6 +1,6 @@
 # 278 — Capstone financiero: pagos, auditoría y recuperación
 
-> [← Clase anterior](../../part-23-industry-capstones/277-capstone-retail-comercio-multi-region/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-23-industry-capstones/279-capstone-salud-privacidad-e-interoperabilidad/README.md)
+> [← 277 · Capstone retail: comercio multi-región](../../part-23-industry-capstones/277-capstone-retail-comercio-multi-region/README.md) · [Índice de la parte](../README.md) · [279 · Capstone salud: privacidad e interoperabilidad →](../../part-23-industry-capstones/279-capstone-salud-privacidad-e-interoperabilidad/README.md)
 
 **Parte:** 23 — Capstones por industria y defensa final<br>
 **Nivel:** experto · **Horas estimadas:** 8<br>
@@ -636,3 +636,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 277 · Capstone retail: comercio multi-región](../../part-23-industry-capstones/277-capstone-retail-comercio-multi-region/README.md) | [Parte 23](../README.md) · [Programa](../../README.md) | [279 · Capstone salud: privacidad e interoperabilidad →](../../part-23-industry-capstones/279-capstone-salud-privacidad-e-interoperabilidad/README.md) |

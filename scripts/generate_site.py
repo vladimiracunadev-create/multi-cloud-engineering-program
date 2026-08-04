@@ -133,14 +133,29 @@ def class_page(item: dict, catalog: list[dict], index: int) -> str:
     previous = catalog[index - 1] if index else None
     following = catalog[index + 1] if index + 1 < len(catalog) else None
     previous_link = (
-        f'<a class="nav-link" href="{previous["id"]}.html">← {html.escape(previous["title"])}</a>'
+        f'<a class="nav-link" href="{previous["id"]}.html" rel="prev">← <span>{previous["id"]} · {html.escape(previous["title"])}</span></a>'
         if previous
         else '<span class="nav-link disabled">Inicio del programa</span>'
     )
     following_link = (
-        f'<a class="nav-link next" href="{following["id"]}.html">{html.escape(following["title"])} →</a>'
+        f'<a class="nav-link next" href="{following["id"]}.html" rel="next"><span>{following["id"]} · {html.escape(following["title"])}</span> →</a>'
         if following
         else '<span class="nav-link disabled next">Fin del programa</span>'
+    )
+    previous_compact = (
+        f'<a class="pager-link" href="{previous["id"]}.html" rel="prev" title="{html.escape(previous["title"])}">← {previous["id"]}</a>'
+        if previous
+        else '<span class="pager-link disabled">← inicio</span>'
+    )
+    following_compact = (
+        f'<a class="pager-link next" href="{following["id"]}.html" rel="next" title="{html.escape(following["title"])}">{following["id"]} →</a>'
+        if following
+        else '<span class="pager-link disabled next">fin →</span>'
+    )
+    pager = (
+        f'<nav class="lesson-pager" aria-label="Navegación entre clases">{previous_compact}'
+        f'<a class="pager-link index" href="../parts/{item["part"]}.html">Parte {item["part"]}</a>'
+        f'{following_compact}</nav>'
     )
     command = f"python {folder.relative_to(ROOT).as_posix()}/lab.py --seed 42"
     page_body = f"""
@@ -155,6 +170,7 @@ def class_page(item: dict, catalog: list[dict], index: int) -> str:
   <div class="doc-layout">
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/{item['part']}.html">Parte {item['part']}</a><span>/</span><strong>{item['id']}</strong></nav>
+      {pager}
       <section class="lesson-status">
         <div><span class="kicker">Parte {item['part']} · {html.escape(item['level'])}</span><strong>{item['estimated_hours']} horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="{item['id']}"> Clase completada</label>
@@ -183,11 +199,29 @@ def class_page(item: dict, catalog: list[dict], index: int) -> str:
     )
 
 
-def part_page(part_id: str, items: list[dict]) -> str:
+def part_page(part_id: str, items: list[dict], part_ids: list[str]) -> str:
     part_folder = source_path(items[0]).parent
     md_path = part_folder / "README.md"
     md_text = md_path.read_text(encoding="utf-8")
     rendered = render_markdown(md_text)
+    position = part_ids.index(part_id)
+    prev_part = part_ids[position - 1] if position else None
+    next_part = part_ids[position + 1] if position + 1 < len(part_ids) else None
+    part_pager = (
+        '<nav class="lesson-pager" aria-label="Navegación entre partes">'
+        + (
+            f'<a class="pager-link" href="{prev_part}.html" rel="prev">← Parte {prev_part}</a>'
+            if prev_part
+            else '<span class="pager-link disabled">← inicio</span>'
+        )
+        + '<a class="pager-link index" href="../index.html">Programa</a>'
+        + (
+            f'<a class="pager-link next" href="{next_part}.html" rel="next">Parte {next_part} →</a>'
+            if next_part
+            else '<span class="pager-link disabled next">fin →</span>'
+        )
+        + "</nav>"
+    )
     cards = "".join(
         f"""<article class="part-class" data-class-id="{item['id']}">
           <label><input type="checkbox" data-lesson-complete="{item['id']}"><span>{item['id']}</span></label>
@@ -202,8 +236,10 @@ def part_page(part_id: str, items: list[dict]) -> str:
   </header>
   <main class="part-content">
     <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte {part_id}</strong></nav>
+    {part_pager}
     <article class="markdown-body part-intro">{rendered}</article>
     <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div>{cards}</section>
+    {part_pager}
   </main>
 """
     return page_shell(
@@ -245,9 +281,10 @@ def build() -> None:
     for index, item in enumerate(catalog):
         (CLASSES_OUT / f"{item['id']}.html").write_text(class_page(item, catalog, index), encoding="utf-8")
 
-    for part_id in sorted({item["part"] for item in catalog}):
+    part_ids = sorted({item["part"] for item in catalog})
+    for part_id in part_ids:
         items = [item for item in catalog if item["part"] == part_id]
-        (PARTS_OUT / f"{part_id}.html").write_text(part_page(part_id, items), encoding="utf-8")
+        (PARTS_OUT / f"{part_id}.html").write_text(part_page(part_id, items, part_ids), encoding="utf-8")
 
     urls = [f"{PAGES_URL}/"]
     urls.extend(f"{PAGES_URL}/parts/{part_id}.html" for part_id in sorted({x['part'] for x in catalog}))

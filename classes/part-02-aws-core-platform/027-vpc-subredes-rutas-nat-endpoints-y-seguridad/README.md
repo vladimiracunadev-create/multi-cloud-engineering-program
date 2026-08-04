@@ -1,6 +1,6 @@
 # 027 — VPC, subredes, rutas, NAT, endpoints y seguridad
 
-> [← Clase anterior](../../part-02-aws-core-platform/026-iam-roles-politicas-sts-y-federacion/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-02-aws-core-platform/028-ec2-ami-ebs-y-seleccion-de-capacidad/README.md)
+> [← 026 · IAM, roles, políticas, STS y federación](../../part-02-aws-core-platform/026-iam-roles-politicas-sts-y-federacion/README.md) · [Índice de la parte](../README.md) · [028 · EC2, AMI, EBS y selección de capacidad →](../../part-02-aws-core-platform/028-ec2-ami-ebs-y-seleccion-de-capacidad/README.md)
 
 **Parte:** 02 — AWS: plataforma esencial<br>
 **Nivel:** intermedio · **Horas estimadas:** 4<br>
@@ -399,3 +399,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 026 · IAM, roles, políticas, STS y federación](../../part-02-aws-core-platform/026-iam-roles-politicas-sts-y-federacion/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [028 · EC2, AMI, EBS y selección de capacidad →](../../part-02-aws-core-platform/028-ec2-ami-ebs-y-seleccion-de-capacidad/README.md) |

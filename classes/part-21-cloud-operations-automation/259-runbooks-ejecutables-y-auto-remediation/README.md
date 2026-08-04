@@ -1,6 +1,6 @@
 # 259 — Runbooks ejecutables y auto-remediation
 
-> [← Clase anterior](../../part-21-cloud-operations-automation/258-triage-de-red-computo-datos-y-dependencias/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-21-cloud-operations-automation/260-change-management-ventanas-y-rollback/README.md)
+> [← 258 · Triage de red, cómputo, datos y dependencias](../../part-21-cloud-operations-automation/258-triage-de-red-computo-datos-y-dependencias/README.md) · [Índice de la parte](../README.md) · [260 · Change management, ventanas y rollback →](../../part-21-cloud-operations-automation/260-change-management-ventanas-y-rollback/README.md)
 
 **Parte:** 21 — Operación cloud, automatización y respuesta a incidentes<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -634,3 +634,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 258 · Triage de red, cómputo, datos y dependencias](../../part-21-cloud-operations-automation/258-triage-de-red-computo-datos-y-dependencias/README.md) | [Parte 21](../README.md) · [Programa](../../README.md) | [260 · Change management, ventanas y rollback →](../../part-21-cloud-operations-automation/260-change-management-ventanas-y-rollback/README.md) |

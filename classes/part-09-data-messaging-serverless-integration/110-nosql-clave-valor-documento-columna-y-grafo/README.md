@@ -1,6 +1,6 @@
 # 110 — NoSQL: clave-valor, documento, columna y grafo
 
-> [← Clase anterior](../../part-09-data-messaging-serverless-integration/109-bases-relacionales-administradas-y-pooling/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-09-data-messaging-serverless-integration/111-cache-invalidacion-ttl-y-consistencia/README.md)
+> [← 109 · Bases relacionales administradas y pooling](../../part-09-data-messaging-serverless-integration/109-bases-relacionales-administradas-y-pooling/README.md) · [Índice de la parte](../README.md) · [111 · Caché, invalidación, TTL y consistencia →](../../part-09-data-messaging-serverless-integration/111-cache-invalidacion-ttl-y-consistencia/README.md)
 
 **Parte:** 09 — Datos, mensajería, serverless e integración<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -497,3 +497,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 109 · Bases relacionales administradas y pooling](../../part-09-data-messaging-serverless-integration/109-bases-relacionales-administradas-y-pooling/README.md) | [Parte 09](../README.md) · [Programa](../../README.md) | [111 · Caché, invalidación, TTL y consistencia →](../../part-09-data-messaging-serverless-integration/111-cache-invalidacion-ttl-y-consistencia/README.md) |

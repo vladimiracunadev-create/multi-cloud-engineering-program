@@ -1,6 +1,6 @@
 # 141 — Cumplimiento, residencia, privacidad y evidencia
 
-> [← Clase anterior](../../part-11-security-governance-finops/140-threat-modeling-con-stride-y-attack-paths/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-11-security-governance-finops/142-finops-showback-chargeback-budgets-y-anomalias/README.md)
+> [← 140 · Threat modeling con STRIDE y attack paths](../../part-11-security-governance-finops/140-threat-modeling-con-stride-y-attack-paths/README.md) · [Índice de la parte](../README.md) · [142 · FinOps: showback, chargeback, budgets y anomalías →](../../part-11-security-governance-finops/142-finops-showback-chargeback-budgets-y-anomalias/README.md)
 
 **Parte:** 11 — Seguridad, gobierno, cumplimiento y FinOps<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -590,3 +590,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 140 · Threat modeling con STRIDE y attack paths](../../part-11-security-governance-finops/140-threat-modeling-con-stride-y-attack-paths/README.md) | [Parte 11](../README.md) · [Programa](../../README.md) | [142 · FinOps: showback, chargeback, budgets y anomalías →](../../part-11-security-governance-finops/142-finops-showback-chargeback-budgets-y-anomalias/README.md) |

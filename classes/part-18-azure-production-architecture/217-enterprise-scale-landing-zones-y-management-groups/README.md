@@ -1,6 +1,6 @@
 # 217 — Enterprise-scale landing zones y management groups
 
-> [← Clase anterior](../../part-17-aws-production-architecture/216-proyecto-cloudshop-productivo-en-aws/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-18-azure-production-architecture/218-entra-id-workload-identity-pim-y-conditional-access/README.md)
+> [← 216 · Proyecto: CloudShop productivo en AWS](../../part-17-aws-production-architecture/216-proyecto-cloudshop-productivo-en-aws/README.md) · [Índice de la parte](../README.md) · [218 · Entra ID, workload identity, PIM y Conditional Access →](../../part-18-azure-production-architecture/218-entra-id-workload-identity-pim-y-conditional-access/README.md)
 
 **Parte:** 18 — Azure: arquitectura empresarial y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -631,3 +631,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 216 · Proyecto: CloudShop productivo en AWS](../../part-17-aws-production-architecture/216-proyecto-cloudshop-productivo-en-aws/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [218 · Entra ID, workload identity, PIM y Conditional Access →](../../part-18-azure-production-architecture/218-entra-id-workload-identity-pim-y-conditional-access/README.md) |

@@ -1,6 +1,6 @@
 # 192 — Proyecto: arquitectura completa de CloudShop
 
-> [← Clase anterior](../../part-15-systems-architecture-engineering/191-architecture-review-y-comunicacion-con-stakeholders/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-16-advanced-cloud-networking-edge/193-cidr-subnetting-y-planificacion-ip-a-escala/README.md)
+> [← 191 · Architecture review y comunicación con stakeholders](../../part-15-systems-architecture-engineering/191-architecture-review-y-comunicacion-con-stakeholders/README.md) · [Índice de la parte](../README.md) · [193 · CIDR, subnetting y planificación IP a escala →](../../part-16-advanced-cloud-networking-edge/193-cidr-subnetting-y-planificacion-ip-a-escala/README.md)
 
 **Parte:** 15 — Arquitectura de sistemas e ingeniería de requisitos<br>
 **Nivel:** intermedio-avanzado · **Horas estimadas:** 8<br>
@@ -644,3 +644,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 191 · Architecture review y comunicación con stakeholders](../../part-15-systems-architecture-engineering/191-architecture-review-y-comunicacion-con-stakeholders/README.md) | [Parte 15](../README.md) · [Programa](../../README.md) | [193 · CIDR, subnetting y planificación IP a escala →](../../part-16-advanced-cloud-networking-edge/193-cidr-subnetting-y-planificacion-ip-a-escala/README.md) |

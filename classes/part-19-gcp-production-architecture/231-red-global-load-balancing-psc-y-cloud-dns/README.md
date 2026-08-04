@@ -1,6 +1,6 @@
 # 231 — Red global, load balancing, PSC y Cloud DNS
 
-> [← Clase anterior](../../part-19-gcp-production-architecture/230-workload-identity-federation-iam-conditions-y-pam/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-19-gcp-production-architecture/232-terraform-infrastructure-manager-y-policy-validation/README.md)
+> [← 230 · Workload Identity Federation, IAM Conditions y PAM](../../part-19-gcp-production-architecture/230-workload-identity-federation-iam-conditions-y-pam/README.md) · [Índice de la parte](../README.md) · [232 · Terraform, Infrastructure Manager y policy validation →](../../part-19-gcp-production-architecture/232-terraform-infrastructure-manager-y-policy-validation/README.md)
 
 **Parte:** 19 — Google Cloud: arquitectura de datos y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -642,3 +642,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 230 · Workload Identity Federation, IAM Conditions y PAM](../../part-19-gcp-production-architecture/230-workload-identity-federation-iam-conditions-y-pam/README.md) | [Parte 19](../README.md) · [Programa](../../README.md) | [232 · Terraform, Infrastructure Manager y policy validation →](../../part-19-gcp-production-architecture/232-terraform-infrastructure-manager-y-policy-validation/README.md) |

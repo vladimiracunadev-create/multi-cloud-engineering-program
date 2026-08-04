@@ -1,6 +1,6 @@
 # 221 — App Service, Functions y Container Apps en producción
 
-> [← Clase anterior](../../part-18-azure-production-architecture/220-bicep-deployment-stacks-y-azure-verified-modules/README.md) · [Índice de la parte](../README.md) · [Clase siguiente →](../../part-18-azure-production-architecture/222-aks-workload-identity-ingress-y-gitops/README.md)
+> [← 220 · Bicep, deployment stacks y Azure Verified Modules](../../part-18-azure-production-architecture/220-bicep-deployment-stacks-y-azure-verified-modules/README.md) · [Índice de la parte](../README.md) · [222 · AKS, workload identity, ingress y GitOps →](../../part-18-azure-production-architecture/222-aks-workload-identity-ingress-y-gitops/README.md)
 
 **Parte:** 18 — Azure: arquitectura empresarial y operación en producción<br>
 **Nivel:** avanzado · **Horas estimadas:** 4<br>
@@ -624,3 +624,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ---
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
+
+| Anterior | Índice | Siguiente |
+|---|---|---|
+| [← 220 · Bicep, deployment stacks y Azure Verified Modules](../../part-18-azure-production-architecture/220-bicep-deployment-stacks-y-azure-verified-modules/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [222 · AKS, workload identity, ingress y GitOps →](../../part-18-azure-production-architecture/222-aks-workload-identity-ingress-y-gitops/README.md) |
