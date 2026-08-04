@@ -1,0 +1,118 @@
+{
+  "id": "259",
+  "purpose": "Convertir procedimientos escritos en procedimientos que se ejecutan. La clase distingue los tres grados —documentado, asistido y automático—, da el criterio para subir de grado sin automatizar lo que no se debe, y monta la remediación automática con sus dos requisitos innegociables: **saber cuándo NO actuar y dejar rastro de lo que hizo**.",
+  "outcomes": [
+    "**Distinguir** procedimiento documentado, asistido y automático.",
+    "**Decidir** qué se automatiza y qué se queda con humano en el bucle.",
+    "**Escribir** procedimientos que no envejecen porque se ejecutan.",
+    "**Montar** remediación automática con límites y rastro.",
+    "**Evitar** que la automatización empeore el incidente."
+  ],
+  "concepts": [
+    {
+      "term": "procedimiento",
+      "definition": "Guía de respuesta para una situación conocida. Su valor está en ser correcta cuando se usa, no en existir."
+    },
+    {
+      "term": "procedimiento asistido",
+      "definition": "Documento donde los pasos son ejecutables desde él, con confirmación humana."
+    },
+    {
+      "term": "remediación automática",
+      "definition": "Acción correctiva disparada por una señal, sin intervención humana."
+    },
+    {
+      "term": "límite de acción",
+      "definition": "Cuántas veces y en qué condiciones puede actuar la automatización antes de parar y pedir ayuda."
+    },
+    {
+      "term": "interruptor de la automatización",
+      "definition": "Forma de desactivarla al instante, sin desplegar."
+    },
+    {
+      "term": "deriva del procedimiento",
+      "definition": "El documento describe un sistema que ya no existe. El estado por defecto de todo procedimiento escrito."
+    }
+  ],
+  "diagram": "flowchart TB\n    S[\"situación\\nconocida\"] --> G1[\"GRADO 1\\ndocumentado\\ntexto que alguien lee\"]\n    G1 --> G2[\"GRADO 2\\nasistido\\npasos ejecutables\\ncon confirmación\"]\n    G2 --> G3[\"GRADO 3\\nautomático\\nse dispara solo\"]\n    G3 --> L{\"¿condiciones\\nde seguridad?\"}\n    L -->|\"no\"| P[\"NO ACTÚA\\nescala a persona\"]\n    L -->|\"sí\"| A[\"actúa\\ny deja rastro\"]\n    A --> V{\"¿resolvió?\"}\n    V -->|\"no, 2ª vez\"| P\n    V -->|\"sí\"| R[\"registra\\ny sigue contando\"]\n    G1 -.->|\"deriva\"| X[\"el documento\\nya no describe\\nel sistema\"]",
+  "foundations": [
+    {
+      "heading": "Los tres grados",
+      "body": "Un procedimiento no es un documento: es una capacidad de respuesta. Y tiene tres grados según cuánto trabajo humano exige.\n\n```text\nGRADO 1 · DOCUMENTADO\n  texto que alguien lee y traduce a comandos\n  ventaja  barato de escribir\n  problema DERIVA\n           el documento envejece y nadie se entera hasta\n           el incidente\n           → y a las 03:00 nadie descubre que el comando\n             ya no existe\n\nGRADO 2 · ASISTIDO\n  el procedimiento contiene los pasos EJECUTABLES\n  → un cuaderno, un flujo de trabajo, un asistente de chat\n  → cada paso se ejecuta desde el documento, con\n    confirmación\n\n  ventaja  no hay traducción ni erratas\n           y si un paso se rompe, se rompe al ejecutarlo:\n           la deriva se detecta\n           el rastro sale gratis            clase 257\n  → y es el grado que más valor aporta por el esfuerzo\n\nGRADO 3 · AUTOMÁTICO\n  una señal dispara la acción, sin persona\n  ventaja  segundos en vez de minutos, y de noche igual\n           que de día\n  riesgo   puede empeorar el incidente\n  → y por eso necesita condiciones, límites y rastro\n```\n\nY el criterio para subir de grado:\n\n```text\nde 1 a 2  SIEMPRE que el procedimiento se use más de una\n          vez al trimestre\n          → el coste es bajo y elimina la deriva\n\nde 2 a 3  cuando las tres se cumplen\n          a  el diagnóstico es INEQUÍVOCO\n             la señal identifica la situación sin\n             ambigüedad\n          b  la acción es SEGURA si el diagnóstico fuera\n             erróneo\n             → «¿qué pasa si actúa cuando no debía?»\n          c  la frecuencia lo justifica\n             → automatizar lo que ocurre una vez al año\n               produce automatización sin probar, que es\n               peor que nada\n\n→ y si (b) no se cumple, se queda en grado 2 aunque duela\n```\n\nY los candidatos naturales de cada grado:\n\n```text\nGRADO 3, claros\n  retirar una instancia que falla la comprobación de salud\n  reiniciar un proceso con fuga detectada\n  ampliar un volumen que llega al 85 %\n  rotar un certificado a punto de caducar   clase 196\n  limpiar registros antiguos\n  reintentar un flujo de datos fallido       clase 244\n  revertir un despliegue cuyo canario falla  clase 102\n\nGRADO 2, y no más\n  conmutar de región                         clase 187\n  restaurar desde copia                      clase 189\n  cambiar el enrutado del tráfico\n  desactivar una función\n  todo lo que toque datos de forma no reversible\n\nGRADO 1 basta\n  lo que ocurre una vez al año y es complejo\n  → pero entonces hay que ENSAYARLO         clase 261\n```"
+    },
+    {
+      "heading": "Procedimientos que no envejecen",
+      "body": "La deriva es el estado por defecto: el sistema cambia y el documento no.\n\n```text\nLO QUE LA CAUSA\n  el documento vive lejos del código\n  quien cambia el sistema no sabe que existe el documento\n  y nadie lo lee hasta que hay un incidente\n\nLO QUE LA EVITA\n  1  que los pasos sean EJECUTABLES\n     → si el paso está roto, falla al ejecutarlo\n  2  que se EJECUTEN aunque no haya incidente\n     → ensayos periódicos                    clase 261\n  3  que vivan con el código del servicio\n     → y se revisen en el mismo cambio\n  4  que la alerta ENLACE al procedimiento   clase 257\n     → y si el enlace está roto, se ve en cada alerta\n```\n\nY qué contiene un procedimiento útil:\n\n```text\nENCABEZADO\n  para qué alerta / síntoma\n  cuál es el impacto en el usuario\n  y cuál es la acción de MITIGACIÓN inmediata\n  → arriba del todo, no al final\n\nDIAGNÓSTICO\n  las tres o cuatro comprobaciones que discriminan\n  con las consultas ENLAZADAS, no descritas   clase 258\n\nACCIÓN, por escenario\n  si A → hacer X\n  si B → hacer Y\n  si nada encaja → escalar a quien           clase 257\n\nY LO QUE NO HAY QUE HACER\n  → «no reinicies la base: tarda 40 minutos en recuperar»\n  → esta sección evita más daño que ninguna otra\n\nVERIFICACIÓN\n  cómo se sabe que quedó arreglado\n  → una señal concreta, no «comprobar que va bien»\n```\n\nY lo que NO debe contener:\n\n```text\nexplicaciones de arquitectura       → en la documentación\nhistoria del incidente que lo originó\nlistas de comandos sin contexto de cuándo usarlos\ny nada que ocupe más de una pantalla antes de la primera\n  acción útil\n\n→ un procedimiento se lee a las 03:00, con prisa y con\n  ruido\n→ y el criterio de calidad es: ¿lo puede seguir alguien\n  que no construyó el servicio?\n→ que es exactamente lo que se prueba en el ensayo\n                                              clase 261\n```"
+    },
+    {
+      "heading": "Remediación automática, con límites",
+      "body": "Automatizar la respuesta es lo que convierte incidentes en no-eventos. Y también lo que convierte un problema pequeño en uno grande, si falta lo siguiente.\n\n```text\nREQUISITO 1 · SABER CUÁNDO NO ACTUAR\n  condiciones de seguridad antes de cada acción\n    ¿cuántos objetivos sanos quedan?\n      → si retirar esta instancia deja menos del mínimo,\n        NO retirar\n    ¿es un fallo local o general?\n      → si fallan TODAS, el problema no es la instancia\n      → y reiniciarlas todas destruye lo que quedaba\n    ¿hay un despliegue en curso?\n    ¿ya actuó por lo mismo hace poco?\n\nREQUISITO 2 · LÍMITE DE ACCIONES\n  «como mucho N veces por ventana»\n    → y a la N+1, no actúa: ESCALA\n  → porque si la acción no resolvió dos veces, el\n    diagnóstico es falso\n  → y el bucle de remediación es un modo de fallo real\n\nREQUISITO 3 · RASTRO\n  qué señal la disparó, qué comprobó, qué hizo, con qué\n  resultado\n  → visible en el mismo sitio que los cambios humanos\n                                              clase 258\n  → una automatización sin rastro convierte cada incidente\n    en un misterio\n\nREQUISITO 4 · INTERRUPTOR\n  desactivarla al instante, sin desplegar     clase 105\n  → y quien coordina el incidente debe poder usarlo\n\nREQUISITO 5 · QUE AVISE\n  actuó, luego se cuenta\n  → aviso, no alerta: nadie tiene que despertarse\n                                              clase 257\n  → pero si actúa 40 veces en una semana, eso SÍ es una\n    alerta: hay un problema que nadie está viendo\n```\n\nY la métrica que revela si la automatización tapa problemas:\n\n```text\nCUÁNTAS VECES ACTÚA, por causa y por semana\n  estable y baja      bien\n  creciendo           hay un problema de fondo\n  muy alta            la automatización es una tirita\n\n→ y ese contador es lo que impide que la remediación\n  automática se convierta en la forma de no arreglar nada\n→ que es su mayor riesgo, y no es técnico\n```\n\nY el escalón entre grado 2 y 3, que casi siempre conviene:\n\n```text\nMODO SOMBRA\n  la automatización evalúa y REGISTRA lo que HABRÍA hecho\n  sin hacerlo\n  → dos o cuatro semanas\n  → y se revisa: ¿habría acertado siempre?\n\n→ y aquí se descubren las condiciones que faltaban\n→ es el mismo patrón de las políticas en aviso  clase 217\n→ y del canario                                 clase 102\n```"
+    },
+    {
+      "heading": "Los modos de fallo de la automatización",
+      "body": "Automatizar la respuesta introduce fallos nuevos. Conviene conocerlos antes de sufrirlos.\n\n```text\n1  EL BUCLE\n   la acción dispara la señal que dispara la acción\n   → escalar por CPU, y el arranque consume CPU\n   → reiniciar por plazo, y el reinicio causa plazos\n   defensa  límite de acciones y ventana de calma\n\n2  LA REMEDIACIÓN QUE ESCONDE\n   reinicia el proceso con fuga cada 6 horas, en silencio\n   → y nadie arregla la fuga en dos años\n   defensa  contador visible y revisión periódica\n\n3  LA ACCIÓN CORRECTA EN EL MOMENTO EQUIVOCADO\n   retirar instancias no sanas está bien\n   → salvo durante un despliegue, donde no estar sano es\n     temporal\n   defensa  condición «¿hay cambio en curso?»\n\n4  LA AUTOMATIZACIÓN QUE NO SE PROBÓ\n   escrita hace 14 meses, nunca disparada\n   → y cuando dispara, falla por permisos             ley 15\n   defensa  ejercitarla en los ensayos            clase 261\n\n5  LA QUE ACTÚA SOBRE UN DIAGNÓSTICO CORRELACIONAL\n   «si la latencia sube, escalar»\n   → y la latencia subía por una dependencia lenta\n   → escalar multiplicó la carga sobre ella      clase 201\n   defensa  el criterio (a): diagnóstico inequívoco\n\n6  Y LA QUE NADIE SABE QUE EXISTE\n   el incidente se comporta de forma inexplicable porque\n   algo está actuando\n   defensa  rastro en la línea de cambios       clase 258\n   → y un inventario de automatizaciones activas\n```\n\nY el papel de los procedimientos en el ciclo completo:\n\n```text\nincidente → análisis posterior → acción             clase 111\n  y la acción tiene tres formas, en orden de valor\n    1  eliminar la causa\n    2  automatizar la respuesta\n    3  documentar la respuesta\n\n→ y (2) sin intentar (1) es deuda\n→ pero (2) mientras (1) se hace bien es correcto\n→ y (3) sola, sin plazo para subir de grado, es lo que\n  produce carpetas de documentos muertos\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ cada alerta accionable enlaza a un procedimiento\n☐ los procedimientos empiezan por impacto y mitigación\n☐ los pasos son ejecutables, no descritos\n☐ tienen sección de «lo que NO hay que hacer»\n☐ tienen verificación con señal concreta\n☐ viven con el código y se revisan en el mismo cambio\n☐ se ejecutan en los ensayos, no solo en incidentes\n☐ lo automatizado cumple diagnóstico inequívoco y acción\n  segura\n☐ toda remediación tiene condiciones de seguridad\n☐ tiene límite de acciones por ventana y escala al\n  superarlo\n☐ deja rastro en la línea de cambios\n☐ tiene interruptor sin despliegue\n☐ se estrenó en modo sombra\n☐ hay contador de actuaciones por causa, revisado\n☐ existe inventario de automatizaciones activas\n```\n\nY el cierre que enlaza con la clase siguiente: la mayor fuente de incidentes es el cambio, y el triaje lo confirmó: el 58 % se resolvió revirtiendo uno. Gestionar el cambio —ventanas, congelaciones y vuelta atrás— es la materia de la clase 260."
+    }
+  ],
+  "worked_example": "**CloudShop convierte 34 procedimientos en capacidad de respuesta. Lo que sigue es el inventario que encontró que 19 de 34 estaban rotos, la primera remediación automática que causó un incidente, y las cifras a los nueve meses.**\n\n**Punto de partida: el inventario.**\n\n```text\n34 procedimientos escritos, en tres sitios distintos\n  wiki del equipo            18\n  repositorio de la\n  plataforma                  9\n  documentos sueltos          7\n\ny la prueba: coger cada uno y EJECUTARLO en un entorno\nde ensayo\n\n     funciona íntegro                       11\n     algún comando ya no existe             13\n     referencia a un servicio retirado       4\n     permisos insuficientes para quien\n     estaría de guardia                      2\n     el procedimiento describe un sistema\n     que ya no es así                        4\n\n     rotos, en total                     19/34   56 %\n     antigüedad media de la última\n     edición                            14 meses\n```\n\nY el hallazgo que más molestó:\n\n```text\nel procedimiento de conmutación de región\n  escrito con mucho detalle, 6 páginas\n  nunca ejecutado\n  → el nombre del grupo de recursos secundario había\n    cambiado hacía 8 meses\n  → y tres de los pasos requerían un permiso que el rol de\n    guardia no tenía                       clases 189, 231\n\n→ el procedimiento del que más dependía el plan de\n  continuidad era el más roto\n→ ley 15, otra vez\n```\n\n**La conversión, por grados.**\n\n```text\nde los 34\n  se retiraron por obsoletos                      9\n  quedaron 25\n\n  a GRADO 2 (asistido)                           25\n    cuadernos ejecutables enlazados desde la alerta\n    esfuerzo medio por procedimiento         3.5 horas\n\n  y de esos, subieron a GRADO 3 (automático)      8\n```\n\nY los ocho que subieron, con su criterio:\n\n```text                              inequívoco  seguro  frec/mes\nretirar instancia no sana              sí        sí      31\nreiniciar proceso con fuga             sí        sí      12\nampliar volumen al 85 %                sí        sí       6\nrotar certificado < 21 días            sí        sí       4\nreintentar flujo de datos fallido      sí        sí      18\nrevertir despliegue con canario malo   sí        sí       3\nlimpiar registros antiguos             sí        sí       9\nliberar conexiones huérfanas           sí        sí       7\n```\n\nY los que se quedaron en grado 2, con el motivo:\n\n```text\nconmutar de región          acción no segura si el\n                            diagnóstico falla\nrestaurar desde copia       no reversible\ndesviar tráfico entre       impacto amplio; decisión de\nproveedores                 negocio\ndesactivar función de pago  decisión de negocio\nampliar cuota de la base    coste; requiere aprobación\n\n→ el criterio (b) fue el que descartó a la mayoría\n```\n\n**El incidente que causó la primera remediación automática.**\n\n```text\nsemana 3\n  la automatización de «retirar instancia no sana» actuó\n  correctamente 14 veces\n\nsemana 4, martes, 09:12\n  una dependencia común empieza a responder lento\n  → las comprobaciones de salud de 9 de 11 instancias\n    empiezan a fallar por plazo\n\n09:12  retira una\n09:12  retira otra\n09:13  retira otra\n  ...\n09:14  quedan 2 instancias sirviendo todo el tráfico\n09:14  las 2 se saturan y también fallan\n09:15  servicio caído por completo\n\ntiempo desde el primer síntoma hasta la caída total\n                                             3 minutos\n\ny sin la automatización\n  el servicio habría estado LENTO, no caído\n  → la automatización convirtió una degradación en una\n    caída\n```\n\nY lo que faltaba, exactamente:\n\n```text\nla condición de MÍNIMO SANO\n  «no retirar si quedarían menos de N sanas»\n\ny la condición de FALLO GENERAL\n  «si falla más del 50 % a la vez, el problema no son las\n  instancias»\n  → no actuar; escalar\n\ny el LÍMITE POR VENTANA\n  «como mucho 2 retiradas cada 10 minutos»\n\n→ las tres se añadieron\n→ y se añadió el interruptor, que en ese incidente no\n  existía: hubo que desplegar para pararla, 11 minutos más\n```\n\nY el cambio de proceso que siguió:\n\n```text\nninguna remediación entra sin\n  a  4 semanas en modo sombra\n  b  condiciones de seguridad revisadas por otra persona\n  c  interruptor probado\n  d  contador de actuaciones en el panel\n  e  y un ensayo donde se dispara a propósito  clase 261\n\n→ las 7 restantes pasaron por esto\n→ y en modo sombra, 2 de las 7 revelaron condiciones que\n  faltaban\n    reintentar flujo de datos → habría reintentado un\n      fallo por datos malos indefinidamente     clase 244\n    limpiar registros → habría borrado durante una\n      investigación abierta\n```\n\n**Las cifras a los nueve meses.**\n\n```text                                        antes     después\nprocedimientos                                 34          25\n  ejecutables (grado 2 o 3)                     0          25\n  rotos al probarlos                        19/34        1/25\n  antigüedad media de la última edición   14 meses    19 días\n\nsituaciones resueltas sin persona             0/mes    73/mes\ntiempo medio de respuesta a esas\n  situaciones                              18 min       40 seg\ninterrupciones de guardia por turno            9.4         2.6\ninterrupciones fuera de horario por turno      3.1         0.7\n\nincidentes causados por la automatización        -           1\n  tras añadir condiciones y sombra                -           0\n```\n\nY el contador que reveló un problema de fondo:\n\n```text\n«reiniciar proceso con fuga» empezó actuando 12 veces/mes\n  mes 4      19\n  mes 5      31\n  mes 6      47\n\n→ la revisión del contador lo detectó\n→ la fuga se había agravado con un cambio del mes 4\n→ y sin el contador, la automatización lo habría escondido\n  indefinidamente\n\nse arregló la fuga\n  mes 7       2\n  mes 8       0\n```\n\nY el coste, para dimensionar:\n\n```text\nconversión de 25 procedimientos a grado 2   88 horas\n8 remediaciones automáticas                 96 horas\nmodo sombra y ajustes                       34 horas\n                                           ─────────\n                                           218 horas\n\ny el retorno, solo en interrupciones evitadas\n  73 situaciones/mes × 18 min = 22 horas/mes\n  → recuperado en 10 meses en tiempo directo\n  → y el valor real está en las 2.4 interrupciones\n    nocturnas por turno que dejaron de ocurrir\n```\n\n**La lección que esta clase deja**: los 34 procedimientos existían y **19 estaban rotos** —incluido el de conmutación de región, el más importante— porque un documento que nunca se ejecuta no tiene forma de avisar de que ha envejecido. Y la primera remediación automática convirtió una degradación en una **caída total en tres minutos**, no por estar mal programada, sino por no saber **cuándo no actuar**.",
+  "pitfalls": [
+    {
+      "symptom": "El procedimiento no funciona cuando se necesita a las 03:00",
+      "cause": "Es texto que nadie ha ejecutado desde que se escribió",
+      "fix": "Conviértelo en pasos ejecutables y ejercítalo en los ensayos; la deriva solo se detecta ejecutando."
+    },
+    {
+      "symptom": "La remediación automática convirtió una degradación en una caída",
+      "cause": "No tenía condición de mínimo sano ni detección de fallo general",
+      "fix": "Antes de cada acción comprueba cuántos objetivos sanos quedan y si el fallo es local o general; si es general, no actúes y escala."
+    },
+    {
+      "symptom": "Una automatización actúa sin parar y nadie arregla la causa",
+      "cause": "No hay contador visible ni revisión de cuántas veces actúa",
+      "fix": "Mide actuaciones por causa y semana, y revísalo; si crece, hay un problema de fondo que la automatización tapa."
+    },
+    {
+      "symptom": "Durante un incidente el sistema hace cosas que nadie ordenó",
+      "cause": "La remediación no deja rastro ni hay inventario de lo que está activo",
+      "fix": "Registra cada actuación en la línea de cambios y manten un inventario de automatizaciones con su interruptor."
+    },
+    {
+      "symptom": "Hubo que desplegar para parar la automatización durante el incidente",
+      "cause": "No existía interruptor independiente del despliegue",
+      "fix": "Toda remediación necesita desactivarse al instante mediante una bandera, y quien coordina debe poder usarla."
+    },
+    {
+      "symptom": "Se automatizó algo que se usa una vez al año y falló al dispararse",
+      "cause": "Frecuencia insuficiente para que la automatización esté probada",
+      "fix": "Si ocurre raramente, quédate en grado 2 y ensáyalo; la automatización sin uso es automatización sin probar."
+    }
+  ],
+  "checks": [
+    "¿Cuáles son los tres grados y qué criterio permite subir de 2 a 3?",
+    "¿Qué hace que un procedimiento envejezca y qué lo evita?",
+    "¿Qué condiciones de seguridad necesita toda remediación automática?",
+    "¿Para qué sirve el modo sombra y qué suele revelar?",
+    "¿Qué indica que una automatización está tapando un problema en vez de resolverlo?"
+  ],
+  "references": [
+    {
+      "text": "Beyer, B. y otros (2018). *The Site Reliability Workbook*, cap. «Automation and toil».",
+      "url": "https://sre.google/workbook/eliminating-toil/"
+    },
+    {
+      "text": "AWS (2024). *Systems Manager Automation runbooks*.",
+      "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-documents.html"
+    },
+    {
+      "text": "Microsoft (2024). *Azure Automation runbooks*.",
+      "url": "https://learn.microsoft.com/azure/automation/automation-runbook-types"
+    },
+    {
+      "text": "Google Cloud (2024). *Automated remediation with Cloud Functions and alerting*.",
+      "url": "https://cloud.google.com/architecture/automated-remediation-cloud-monitoring"
+    },
+    {
+      "text": "Limoncelli, T. (2020). *Operational excellence in April Fools' pranks* — sobre automatización probada frente a escrita.",
+      "url": "https://queue.acm.org/detail.cfm?id=3380780"
+    }
+  ]
+}
