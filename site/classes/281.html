@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> experto · <strong>Horas estimadas:</strong> 8<br>
 <strong>Laboratorio:</strong> <code>capstone</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>capstone media: streaming y distribución global</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Capstone de medios: streaming y distribución global. La clase da el encargo y la restricción que manda —<strong>el coste por byte servido y la calidad percibida en el dispositivo del espectador deciden todo lo demás</strong>—, por qué aquí el borde no es una optimización sino la arquitectura, y las pruebas negativas de un sector donde el pico se produce por un evento que se anuncia con meses de antelación.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> capstone media: streaming y distribución global con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>media-capstone</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Explicar</strong> por qué el coste por byte reordena todas las decisiones.</li>
+<li><strong>Diseñar</strong> la cadena de vídeo desde la ingesta hasta el reproductor.</li>
+<li><strong>Medir</strong> calidad percibida y no disponibilidad de servidor.</li>
+<li><strong>Planificar</strong> un evento en directo con capacidad y con degradación.</li>
+<li><strong>Verificar</strong> el diseño con las pruebas negativas del sector.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,24 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>capstone</code></td>
-<td>Define su papel en <strong>capstone media: streaming y distribución global</strong> y cómo observarlo en un sistema real.</td>
+<td><code>coste por byte servido</code></td>
+<td>La unidad económica del sector. Domina sobre cómputo y almacenamiento.</td>
 </tr>
 <tr>
-<td><code>media</code></td>
-<td>Define su papel en <strong>capstone media: streaming y distribución global</strong> y cómo observarlo en un sistema real.</td>
+<td><code>tasa de acierto en el borde</code></td>
+<td>Porcentaje de bytes servidos desde la caché. Un punto de mejora vale mucho dinero.</td>
 </tr>
 <tr>
-<td><code>streaming</code></td>
-<td>Define su papel en <strong>capstone media: streaming y distribución global</strong> y cómo observarlo en un sistema real.</td>
+<td><code>calidad percibida</code></td>
+<td>Lo que experimenta el espectador: tiempo hasta el primer fotograma, cortes y resolución media.</td>
 </tr>
 <tr>
-<td><code>distribución</code></td>
-<td>Define su papel en <strong>capstone media: streaming y distribución global</strong> y cómo observarlo en un sistema real.</td>
+<td><code>tasa de bits adaptativa</code></td>
+<td>El reproductor elige la calidad según la red. Traslada la decisión al dispositivo.</td>
 </tr>
 <tr>
-<td><code>global</code></td>
-<td>Define su papel en <strong>capstone media: streaming y distribución global</strong> y cómo observarlo en un sistema real.</td>
+<td><code>directo frente a bajo demanda</code></td>
+<td>El directo no admite reproceso ni reintento largo: lo que se pierde, se pierde.</td>
+</tr>
+<tr>
+<td><code>purga de caché</code></td>
+<td>Invalidar contenido distribuido. Cara, lenta y necesaria; se diseña desde el principio.</td>
 </tr>
 </tbody>
 </table>
@@ -93,72 +94,414 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Capstone media: streaming y distribución global&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    I[&quot;ingesta\ncámara o fichero&quot;] --&gt; T[&quot;transcodificación\nescalera de calidades&quot;]
+    T --&gt; E[&quot;empaquetado\nsegmentos + manifiesto&quot;]
+    E --&gt; O[&quot;origen&quot;]
+    O --&gt; B[&quot;BORDE\ncaché distribuida&quot;]
+    B --&gt; R[&quot;reproductor\ntasa adaptativa&quot;]
+    R --&gt; M[&quot;MEDIDAS DEL CLIENTE\nprimer fotograma · cortes\nresolución media&quot;]
+    M -.-&gt;|&quot;realimenta&quot;| T
+    D[&quot;DRM y\ntokens&quot;] -.-&gt; B
+    C[&quot;coste por byte&quot;] -.-&gt;|&quot;decide\ntodo&quot;| B
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-el-encargo-y-la-unidad-que-decide">1. El encargo y la unidad que decide</h3>
+<p><strong>El encargo.</strong> Una plataforma de vídeo: catálogo bajo demanda, canales en directo, un evento anual con audiencia masiva, y distribución en 40 países con derechos por territorio.</p>
+<pre><code class="language-text">CIFRAS DE PARTIDA
+  horas de catálogo                        41.000
+  espectadores simultáneos, día normal     180.000
+  espectadores simultáneos, evento anual   2,4 M
+  tráfico servido/mes                      14 PB
+  países con derechos distintos            40
+  y el reparto del coste
+    distribución de bytes                  71 %
+    transcodificación                      14 %
+    almacenamiento                          9 %
+    resto                                   6 %
+</code></pre>
+<p>Y la restricción que manda:</p>
+<pre><code class="language-text">EL COSTE POR BYTE SERVIDO MANDA SOBRE EL RESTO
+  el 71 % del coste es mover bytes
+  → y de ahí sale que la arquitectura sea la red de
+    distribución, y no los servicios de cómputo
+
+y la aritmética que lo hace evidente
+  14 PB/mes
+  1 punto de tasa de acierto en el borde = 140 TB que no
+    salen del origen
+  → y cada punto de acierto vale decenas de miles al mes
+
+→ por eso decisiones que en otros sectores son detalles
+  aquí son estructurales
+    tamaño de segmento
+    cabeceras de caché
+    nombres de fichero y su variabilidad
+    y la escalera de calidades
+</code></pre>
+<p>Y la segunda restricción, que es la que define el producto:</p>
+<pre><code class="language-text">LO QUE IMPORTA ES LA CALIDAD PERCIBIDA, NO LA
+DISPONIBILIDAD DEL SERVIDOR
+  un servidor al 100 % con vídeo que se corta es un fallo
+  → y ninguna métrica de servidor lo detecta
+
+las medidas que importan, todas en el CLIENTE
+  tiempo hasta el primer fotograma
+  porcentaje de sesiones con al menos un corte
+  tiempo total en pausa por almacenamiento intermedio
+  resolución media servida
+  y errores de inicio de reproducción
+
+→ y este es el mismo principio de la clase 268 llevado al
+  extremo: si no se mide en el dispositivo, no se mide
+</code></pre>
+<h3 id="2-la-cadena-de-video">2. La cadena de vídeo</h3>
+<p>Del origen al ojo, con las decisiones de cada tramo.</p>
+<pre><code class="language-text">INGESTA
+  bajo demanda: ficheros maestros a un almacén
+  directo: flujo redundante desde dos rutas distintas
+  → y en directo, la redundancia de ingesta es lo único
+    que salva un evento: si se pierde ahí, no hay
+    reproceso
+
+TRANSCODIFICACIÓN
+  una escalera de calidades por título
+  decisión  escalera fija frente a escalera por contenido
+  → una animación y un partido de fútbol no necesitan la
+    misma tasa de bits para verse igual
+  → la escalera por contenido reduce bytes entre un 15 %
+    y un 30 % sin pérdida percibida
+  empeora   más cómputo de análisis y más complejidad
+  y en directo no hay tiempo: escalera fija por tipo de
+    canal
+
+EMPAQUETADO
+  segmentos y manifiesto
+  decisión  tamaño de segmento
+    segmentos cortos  → menos retardo en directo, más
+                        peticiones, peor acierto de caché
+    segmentos largos  → mejor acierto, más retardo
+  → y esta decisión sola mueve el coste y la experiencia
+    a la vez
+
+DISTRIBUCIÓN
+  el borde es la arquitectura
+  claves de caché estables: sin parámetros variables en la
+    ruta
+  → un identificador de sesión en la ruta destruye el
+    acierto de caché y multiplica la factura
+  y jerarquía de caché: borde → intermedio → origen
+  → el intermedio protege el origen en un pico
+
+REPRODUCTOR
+  tasa adaptativa: el cliente decide
+  → y ahí está la mayor parte de la calidad percibida
+  buffer inicial frente a tiempo hasta el primer fotograma
+  → más buffer, menos cortes, arranque más lento
+  y comunicación de medidas al servicio de análisis
+
+DERECHOS Y ACCESO
+  tokens firmados con caducidad corta y con territorio
+  cifrado de contenido con licencias por dispositivo
+  → y el bloqueo por territorio se comprueba en el borde,
+    no en el origen
+</code></pre>
+<p>Y la purga, que hay que diseñar antes de necesitarla:</p>
+<pre><code class="language-text">RETIRAR UN CONTENIDO DE 40 PAÍSES
+  por caducidad de derechos, por orden judicial o por
+  error
+  → y hacerlo en minutos, no en horas
+
+  lo que lo hace posible
+    versionado en la ruta en vez de purga masiva
+    tokens de acceso con caducidad corta
+    → así retirar el permiso vale casi tanto como purgar
+    y purga selectiva para lo urgente
+
+→ y probarlo: la purga es una de esas capacidades que
+  nadie ha ejercitado hasta que hace falta   ley 22
+</code></pre>
+<h3 id="3-el-evento-en-directo">3. El evento en directo</h3>
+<p>El sector tiene un pico peculiar: se conoce con meses de antelación y no admite fallo.</p>
+<pre><code class="language-text">LO QUE LO DIFERENCIA
+  la fecha se sabe                          clase 262
+  la audiencia se puede estimar con histórico
+  y NO HAY SEGUNDA OPORTUNIDAD: el partido ocurre una vez
+
+y las formas de fallar, en orden de gravedad
+  1  perder la ingesta               → no hay contenido
+  2  saturar el origen               → todos afectados
+  3  agotar la capacidad del borde   → región afectada
+  4  fallar la autorización          → nadie entra
+  5  degradar la calidad             → aceptable
+</code></pre>
+<p>Y el plan, que es sobre todo de reserva y de ensayo:</p>
+<pre><code class="language-text">CAPACIDAD RESERVADA CON ANTELACIÓN
+  el borde se contrata; no se autoescala solo
+  → y hay que avisar al proveedor de distribución con
+    semanas
+
+CALENTAMIENTO DE CACHÉ
+  el contenido estático y los manifiestos, precargados
+
+AUTORIZACIÓN, QUE ES EL CUELLO REAL
+  2,4 M de espectadores entran en 4 minutos
+  → el pico no es de vídeo: es de LOGIN y de emisión de
+    tokens
+  → y ahí se cae la mayoría de los eventos
+  mitigación: tokens emitidos con antelación, ventana de
+    entrada escalonada y capacidad específica para
+    identidad                                clase 209
+
+DEGRADACIÓN DECIDIDA ANTES
+  1  se apagan recomendaciones y catálogo enriquecido
+  2  se limita la calidad máxima
+  3  se sirve una calidad única si hace falta
+  4  y se vierte el acceso a bajo demanda
+  → todo antes que perder el directo    clase 262
+
+Y ENSAYO CON CARGA SINTÉTICA
+  al menos dos, uno a 3 semanas y otro a 1
+                                            clase 261
+</code></pre>
+<h3 id="4-las-pruebas-negativas-del-capstone">4. Las pruebas negativas del capstone</h3>
+<p>Lo que hay que ejecutar para saber si el diseño aguanta.</p>
+<pre><code class="language-text">DE COSTE Y CACHÉ
+  ☐ ¿cuál es la tasa de acierto en el borde por tipo de
+    contenido?
+  ☐ ¿hay algún parámetro variable en las rutas que rompa
+    la clave de caché?
+  ☐ ¿cuánto tráfico llega al origen y por qué?
+  ☐ ¿cuál es el coste por hora vista y su tendencia?
+
+DE CALIDAD PERCIBIDA
+  ☐ ¿qué porcentaje de sesiones tiene al menos un corte?
+  ☐ ¿tiempo hasta el primer fotograma, percentil 95, por
+    país?
+  ☐ ¿resolución media servida por tipo de red?
+  ☐ simular una red de 3 Mbps con pérdidas: ¿qué hace el
+    reproductor?
+
+DE FALLO
+  ☐ caer el origen durante 10 minutos: ¿siguen las
+    sesiones activas?
+  ☐ caer una región de borde: ¿se redistribuye o falla?
+  ☐ perder una de las dos rutas de ingesta en directo:
+    ¿se nota?
+  ☐ el servicio de licencias no responde: ¿qué ve el
+    espectador?
+
+DE DERECHOS Y ACCESO
+  ☐ un espectador fuera de territorio con un enlace
+    directo: ¿accede?
+  ☐ un token caducado reutilizado: ¿funciona?
+  ☐ retirar un título de 40 países: ¿cuánto tarda y se
+    verifica?
+  ☐ ¿un enlace de segmento se puede compartir y consumir
+    sin autorización?
+
+DEL EVENTO
+  ☐ ensayo con carga sintética al 120 % de lo estimado
+  ☐ 2,4 M de autorizaciones en 4 minutos: ¿aguanta
+    identidad?
+  ☐ ¿la degradación por prioridad se ejecuta sola o
+    requiere una persona?
+  ☐ ¿quién puede activar la calidad única y en cuánto
+    tiempo?
+</code></pre>
+<p><strong>El entregable del capstone:</strong></p>
+<pre><code class="language-text">1  la cadena completa con las decisiones de cada tramo
+2  la política de caché y su tasa de acierto objetivo
+3  las métricas de calidad percibida y sus objetivos
+                                            clase 268
+4  el diseño de derechos por territorio y de retirada de
+   contenido
+5  el plan del evento: capacidad, autorización,
+   degradación y ensayos
+6  el coste por hora vista, base y evento
+7  y el resultado de las pruebas negativas, con lo que
+   falló
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: aquí la red es la arquitectura y el espectador siempre está conectado. En el siguiente sector el dispositivo está lejos, la conexión falla durante días y el sistema tiene que seguir funcionando sin ella. Industria, dispositivos y operación desconectada es la materia de la clase 282.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>capstone media: streaming y distribución global</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>El capstone resuelto. Lo que sigue es el parámetro en la ruta que costaba 61.000 USD al mes, el evento que se cayó por identidad y no por vídeo, y las cifras de calidad percibida antes y después.</strong></p>
+<p><strong>El parámetro que rompía la caché.</strong></p>
+<pre><code class="language-text">situación
+  tasa de acierto en el borde                    71 %
+  tráfico al origen                          4,1 PB/mes
+  coste del origen y su salida            81.000 USD/mes
+
+la investigación empezó por una pregunta simple
+  «¿por qué el 29 % de los bytes va al origen si el
+  catálogo es estático?»
+
+lo que se encontró, agrupando peticiones al origen
+  por tipo de recurso
+    segmentos de vídeo                            88 %
+    manifiestos                                    9 %
+    imágenes y otros                               3 %
+
+  y dentro de los segmentos, por patrón de ruta
+    → el reproductor añadía un identificador de sesión
+      como parámetro de consulta
+    → y la configuración del borde incluía los parámetros
+      en la clave de caché
+
+→ cada espectador pedía SU copia de cada segmento
+→ la caché servía solo lo que un mismo espectador repetía
+</code></pre>
+<p>Y la corrección:</p>
+<pre><code class="language-text">el identificador de sesión pasó a una cabecera que no
+forma parte de la clave
+y la clave de caché se normalizó explícitamente
+
+resultado a las 2 semanas
+  tasa de acierto                        71 % → 96,4 %
+  tráfico al origen                  4,1 PB → 0,5 PB/mes
+  coste del origen y su salida    81.000 → 20.000 USD/mes
+
+  ahorro                              61.000 USD/mes
+  esfuerzo                            9 horas
+</code></pre>
+<p>Y la lectura:</p>
+<pre><code class="language-text">el parámetro llevaba 3 años
+y nadie lo había mirado porque el sistema FUNCIONABA
+→ la calidad percibida era buena; solo el coste era malo
+→ y sin unidad económica —coste por hora vista— nada lo
+  señalaba                                clase 270
+
+coste por hora vista
+  antes                                 0,0141 USD
+  después                               0,0038 USD
+</code></pre>
+<p><strong>El evento que se cayó por identidad.</strong></p>
+<pre><code class="language-text">el evento del año anterior
+  espectadores esperados                     1,9 M
+  capacidad de borde contratada              sí, al 130 %
+  ensayo de carga de vídeo                   sí, superado
+
+lo que pasó
+  20:57  se abre la entrada
+  20:58  340.000 peticiones de autorización en 60 segundos
+  20:58  el servicio de identidad se satura
+  20:59  los reintentos del cliente multiplican la carga
+         por 3                                clase 201
+  21:02  el 61 % de los espectadores no puede entrar
+  21:14  se restablece, con el evento empezado
+
+  vídeo servido durante toda la caída        perfecto
+  → la infraestructura de vídeo estaba ociosa
+
+→ el cuello no era el vídeo: era la puerta
+</code></pre>
+<p>Y el rediseño para el año siguiente:</p>
+<pre><code class="language-text">1  TOKENS EMITIDOS CON ANTELACIÓN
+   quien tenía la aplicación abierta recibía su token
+   desde 2 horas antes, renovado en segundo plano
+   → el 71 % de la audiencia entró sin pedir autorización
+     en el minuto crítico
+
+2  ENTRADA ESCALONADA
+   la sala se abre por lotes de usuarios, con 15 segundos
+   de separación, indicado en la interfaz
+   → «tu acceso se activa en 12 s»
+
+3  CAPACIDAD ESPECÍFICA PARA IDENTIDAD
+   dimensionada para el pico de entrada, no para el uso
+   medio                                    clase 262
+
+4  REINTENTOS DEL CLIENTE CON RETROCESO Y JITTER
+   → y esto solo bajó la carga de pico un 43 %
+
+5  Y ENSAYO ESPECÍFICO DE AUTORIZACIÓN
+   2,4 M de autorizaciones en 4 minutos, sintéticas
+</code></pre>
+<p>Y el evento del año siguiente:</p>
+<pre><code class="language-text">espectadores simultáneos, pico              2,41 M
+autorizaciones en el minuto de apertura     418.000
+fallos de autorización                        0,03 %
+tiempo hasta el primer fotograma, p95         2,1 s
+sesiones con al menos un corte                 1,7 %
+degradación activada                          nivel 1
+  (recomendaciones y catálogo enriquecido apagados,
+   19 minutos)
+incidentes                                          0
+
+y el coste del evento
+  distribución                       214.000 USD
+  capacidad reservada de identidad     9.000 USD
+  → y esos 9.000 eran lo que faltaba el año anterior
+</code></pre>
+<p><strong>La escalera por contenido.</strong></p>
+<pre><code class="language-text">prueba con 200 títulos, comparando escalera fija y
+escalera calculada por contenido
+
+                          bytes    calidad percibida
+                                   (evaluación ciega,
+                                    40 personas)
+  escalera fija            100 %       referencia
+  por contenido             78 %       indistinguible
+                                       en 191 de 200
+                                       peor en 4
+                                       mejor en 5
+
+→ -22 % de bytes en el catálogo
+→ y de los 4 peores, 3 eran contenido con mucho grano y
+  se corrigieron con un mínimo por perfil
+
+efecto anual
+  bytes servidos                  14 PB → 11,2 PB/mes
+  ahorro de distribución          ~47.000 USD/mes
+  coste de transcodificación      +8.000 USD/mes
+  neto                            ~39.000 USD/mes
+</code></pre>
+<p><strong>La retirada de contenido, probada.</strong></p>
+<pre><code class="language-text">escenario  caducan los derechos de una serie en 12 países
+           a medianoche
+
+primer intento, con purga masiva
+  purga de 41.000 objetos en 12 territorios
+  tiempo hasta que dejó de servirse         3 h 20 min
+  → y durante ese tiempo se sirvió contenido sin derechos
+  → riesgo contractual real
+
+rediseño
+  el acceso pasa por token firmado con territorio y con
+  caducidad de 5 minutos
+  → retirar los derechos invalida la emisión de tokens
+    nuevos
+  → el contenido deja de ser accesible en 5 minutos
+  → la purga sigue existiendo, para limpiar, sin urgencia
+
+segundo ensayo
+  tiempo hasta dejar de servirse            4 min 40 s
+  → y verificado desde 12 puntos de medición
+</code></pre>
+<p><strong>Las cifras finales del capstone.</strong></p>
+<p>```text                                        antes     después
+tasa de acierto en el borde                  71 %      96,4 %
+tráfico al origen                       4,1 PB/mes   0,5 PB/mes
+bytes servidos                            14 PB      11,2 PB
+coste por hora vista                     0,0141      0,0031</p>
+<p>tiempo hasta el primer fotograma p95       4,8 s       1,9 s
+sesiones con al menos un corte             6,4 %       1,7 %
+resolución media servida                  720p        1080p</p>
+<p>fallos de autorización en el evento        61 %       0,03 %
+incidentes en el evento                       1           0
+tiempo de retirada de contenido        3 h 20 min    4 min 40 s</p>
+<pre><code>
+Y la observación final del equipo:
+
+```text
+de las tres mejoras grandes
+  la caché                        9 horas de trabajo
+  la escalera por contenido       6 semanas
+  la entrada escalonada           4 semanas
+
+→ la de 9 horas ahorró más que las otras dos juntas
+→ y llevaba tres años delante de todo el mundo
+</code></pre>
+<p><strong>La lección que este capstone deja</strong>: un identificador de sesión en la ruta de los segmentos hacía que cada espectador pidiera <strong>su propia copia de cada trozo de vídeo</strong>, y corregirlo costó nueve horas y <strong>61.000 USD al mes</strong>; llevaba tres años sin que nadie lo notara porque la calidad percibida era buena y solo el coste era malo. Y el evento que falló no falló por vídeo: la infraestructura de vídeo estuvo ociosa mientras <strong>el 61 % de los espectadores no podía cruzar la puerta</strong>.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-23-industry-capstones/281-capstone-media-streaming-y-distribucion-global/lab.py
@@ -199,29 +542,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>La tasa de acierto en el borde es baja y el origen recibe mucho tráfico</td>
+<td>Hay parámetros variables en la ruta que forman parte de la clave de caché</td>
+<td>Normaliza explícitamente la clave de caché y mueve identificadores de sesión a cabeceras que no la compongan.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Los servidores están sanos y los espectadores se quejan de cortes</td>
+<td>Se mide disponibilidad de servidor y no calidad percibida</td>
+<td>Instrumenta el reproductor: tiempo hasta el primer fotograma, sesiones con corte, tiempo en pausa y resolución media, por país y tipo de red.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Un evento en directo falla al abrirse aunque el vídeo aguante</td>
+<td>El pico real es de autorización y no de vídeo, y los reintentos lo multiplican</td>
+<td>Emite tokens con antelación, escalona la entrada, dimensiona identidad para el pico y aplica retroceso con dispersión en el cliente.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Retirar un contenido por derechos tarda horas</td>
+<td>Se depende de la purga masiva de la caché</td>
+<td>Controla el acceso con tokens de caducidad corta por territorio: revocar la emisión corta el acceso en minutos y la purga limpia sin urgencia.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>El coste sube con la audiencia y nadie sabe si es razonable</td>
+<td>No hay unidad económica: se mira la factura y no el coste por hora vista</td>
+<td>Define coste por hora vista y sigue su tendencia; es lo que hace visible un desperdicio que funciona bien.</td>
+</tr>
+<tr>
+<td>El directo se pierde y no hay forma de recuperarlo</td>
+<td>La ingesta no era redundante y el directo no admite reproceso</td>
+<td>Duplica la ingesta por rutas distintas y ensáyalo cortando una; lo que se pierde en directo no se recupera.</td>
 </tr>
 </tbody>
 </table>
@@ -232,17 +580,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Por qué el coste por byte reordena las decisiones de este sector?</li>
+<li>¿Qué decisiones de la cadena afectan a la vez al coste y a la experiencia?</li>
+<li>¿Qué métricas de calidad percibida hay que medir y dónde?</li>
+<li>¿Cuál es el cuello de botella real de un evento en directo masivo?</li>
+<li>¿Cómo se retira un contenido de muchos territorios en minutos?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Building Evolutionary Architectures — Ford, Parsons y Kua.</li>
-<li>Release It! — Michael Nygard.</li>
-<li>Accelerate — Forsgren, Humble y Kim.</li>
+<li>Bitmovin (2024). <em>Video Developer Report</em> — métricas de calidad de experiencia. <a href="https://bitmovin.com/video-developer-report/">https://bitmovin.com/video-developer-report/</a></li>
+<li>Netflix Technology Blog (2018). <em>Dynamic optimizer: per-title and per-shot encoding</em>. <a href="https://netflixtechblog.com/dynamic-optimizer-a-perceptual-video-encoding-optimization-framework-e19f1e3a277f">https://netflixtechblog.com/dynamic-optimizer-a-perceptual-video-encoding-optimization-framework-e19f1e3a277f</a></li>
+<li>AWS (2024). <em>Media and entertainment reference architectures</em>. <a href="https://aws.amazon.com/media/resources/">https://aws.amazon.com/media/resources/</a></li>
+<li>Google Cloud (2024). <em>Live streaming and video-on-demand architectures</em>. <a href="https://cloud.google.com/architecture/live-streaming-and-video-on-demand">https://cloud.google.com/architecture/live-streaming-and-video-on-demand</a></li>
+<li>CTA (2020). <em>CTA-5004: Common Media Client Data</em> — medición desde el reproductor. <a href="https://cdn.cta.tech/cta/media/media/resources/standards/pdfs/cta-5004-final.pdf">https://cdn.cta.tech/cta/media/media/resources/standards/pdfs/cta-5004-final.pdf</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -310,7 +660,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-encargo-y-la-unidad-que-decide">1. El encargo y la unidad que decide</a><a class="toc-level-3" href="#2-la-cadena-de-video">2. La cadena de vídeo</a><a class="toc-level-3" href="#3-el-evento-en-directo">3. El evento en directo</a><a class="toc-level-3" href="#4-las-pruebas-negativas-del-capstone">4. Las pruebas negativas del capstone</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>

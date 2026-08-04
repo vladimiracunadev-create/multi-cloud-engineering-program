@@ -1,0 +1,118 @@
+{
+  "id": "281",
+  "purpose": "Capstone de medios: streaming y distribución global. La clase da el encargo y la restricción que manda —**el coste por byte servido y la calidad percibida en el dispositivo del espectador deciden todo lo demás**—, por qué aquí el borde no es una optimización sino la arquitectura, y las pruebas negativas de un sector donde el pico se produce por un evento que se anuncia con meses de antelación.",
+  "outcomes": [
+    "**Explicar** por qué el coste por byte reordena todas las decisiones.",
+    "**Diseñar** la cadena de vídeo desde la ingesta hasta el reproductor.",
+    "**Medir** calidad percibida y no disponibilidad de servidor.",
+    "**Planificar** un evento en directo con capacidad y con degradación.",
+    "**Verificar** el diseño con las pruebas negativas del sector."
+  ],
+  "concepts": [
+    {
+      "term": "coste por byte servido",
+      "definition": "La unidad económica del sector. Domina sobre cómputo y almacenamiento."
+    },
+    {
+      "term": "tasa de acierto en el borde",
+      "definition": "Porcentaje de bytes servidos desde la caché. Un punto de mejora vale mucho dinero."
+    },
+    {
+      "term": "calidad percibida",
+      "definition": "Lo que experimenta el espectador: tiempo hasta el primer fotograma, cortes y resolución media."
+    },
+    {
+      "term": "tasa de bits adaptativa",
+      "definition": "El reproductor elige la calidad según la red. Traslada la decisión al dispositivo."
+    },
+    {
+      "term": "directo frente a bajo demanda",
+      "definition": "El directo no admite reproceso ni reintento largo: lo que se pierde, se pierde."
+    },
+    {
+      "term": "purga de caché",
+      "definition": "Invalidar contenido distribuido. Cara, lenta y necesaria; se diseña desde el principio."
+    }
+  ],
+  "diagram": "flowchart TB\n    I[\"ingesta\\ncámara o fichero\"] --> T[\"transcodificación\\nescalera de calidades\"]\n    T --> E[\"empaquetado\\nsegmentos + manifiesto\"]\n    E --> O[\"origen\"]\n    O --> B[\"BORDE\\ncaché distribuida\"]\n    B --> R[\"reproductor\\ntasa adaptativa\"]\n    R --> M[\"MEDIDAS DEL CLIENTE\\nprimer fotograma · cortes\\nresolución media\"]\n    M -.->|\"realimenta\"| T\n    D[\"DRM y\\ntokens\"] -.-> B\n    C[\"coste por byte\"] -.->|\"decide\\ntodo\"| B",
+  "foundations": [
+    {
+      "heading": "El encargo y la unidad que decide",
+      "body": "**El encargo.** Una plataforma de vídeo: catálogo bajo demanda, canales en directo, un evento anual con audiencia masiva, y distribución en 40 países con derechos por territorio.\n\n```text\nCIFRAS DE PARTIDA\n  horas de catálogo                        41.000\n  espectadores simultáneos, día normal     180.000\n  espectadores simultáneos, evento anual   2,4 M\n  tráfico servido/mes                      14 PB\n  países con derechos distintos            40\n  y el reparto del coste\n    distribución de bytes                  71 %\n    transcodificación                      14 %\n    almacenamiento                          9 %\n    resto                                   6 %\n```\n\nY la restricción que manda:\n\n```text\nEL COSTE POR BYTE SERVIDO MANDA SOBRE EL RESTO\n  el 71 % del coste es mover bytes\n  → y de ahí sale que la arquitectura sea la red de\n    distribución, y no los servicios de cómputo\n\ny la aritmética que lo hace evidente\n  14 PB/mes\n  1 punto de tasa de acierto en el borde = 140 TB que no\n    salen del origen\n  → y cada punto de acierto vale decenas de miles al mes\n\n→ por eso decisiones que en otros sectores son detalles\n  aquí son estructurales\n    tamaño de segmento\n    cabeceras de caché\n    nombres de fichero y su variabilidad\n    y la escalera de calidades\n```\n\nY la segunda restricción, que es la que define el producto:\n\n```text\nLO QUE IMPORTA ES LA CALIDAD PERCIBIDA, NO LA\nDISPONIBILIDAD DEL SERVIDOR\n  un servidor al 100 % con vídeo que se corta es un fallo\n  → y ninguna métrica de servidor lo detecta\n\nlas medidas que importan, todas en el CLIENTE\n  tiempo hasta el primer fotograma\n  porcentaje de sesiones con al menos un corte\n  tiempo total en pausa por almacenamiento intermedio\n  resolución media servida\n  y errores de inicio de reproducción\n\n→ y este es el mismo principio de la clase 268 llevado al\n  extremo: si no se mide en el dispositivo, no se mide\n```"
+    },
+    {
+      "heading": "La cadena de vídeo",
+      "body": "Del origen al ojo, con las decisiones de cada tramo.\n\n```text\nINGESTA\n  bajo demanda: ficheros maestros a un almacén\n  directo: flujo redundante desde dos rutas distintas\n  → y en directo, la redundancia de ingesta es lo único\n    que salva un evento: si se pierde ahí, no hay\n    reproceso\n\nTRANSCODIFICACIÓN\n  una escalera de calidades por título\n  decisión  escalera fija frente a escalera por contenido\n  → una animación y un partido de fútbol no necesitan la\n    misma tasa de bits para verse igual\n  → la escalera por contenido reduce bytes entre un 15 %\n    y un 30 % sin pérdida percibida\n  empeora   más cómputo de análisis y más complejidad\n  y en directo no hay tiempo: escalera fija por tipo de\n    canal\n\nEMPAQUETADO\n  segmentos y manifiesto\n  decisión  tamaño de segmento\n    segmentos cortos  → menos retardo en directo, más\n                        peticiones, peor acierto de caché\n    segmentos largos  → mejor acierto, más retardo\n  → y esta decisión sola mueve el coste y la experiencia\n    a la vez\n\nDISTRIBUCIÓN\n  el borde es la arquitectura\n  claves de caché estables: sin parámetros variables en la\n    ruta\n  → un identificador de sesión en la ruta destruye el\n    acierto de caché y multiplica la factura\n  y jerarquía de caché: borde → intermedio → origen\n  → el intermedio protege el origen en un pico\n\nREPRODUCTOR\n  tasa adaptativa: el cliente decide\n  → y ahí está la mayor parte de la calidad percibida\n  buffer inicial frente a tiempo hasta el primer fotograma\n  → más buffer, menos cortes, arranque más lento\n  y comunicación de medidas al servicio de análisis\n\nDERECHOS Y ACCESO\n  tokens firmados con caducidad corta y con territorio\n  cifrado de contenido con licencias por dispositivo\n  → y el bloqueo por territorio se comprueba en el borde,\n    no en el origen\n```\n\nY la purga, que hay que diseñar antes de necesitarla:\n\n```text\nRETIRAR UN CONTENIDO DE 40 PAÍSES\n  por caducidad de derechos, por orden judicial o por\n  error\n  → y hacerlo en minutos, no en horas\n\n  lo que lo hace posible\n    versionado en la ruta en vez de purga masiva\n    tokens de acceso con caducidad corta\n    → así retirar el permiso vale casi tanto como purgar\n    y purga selectiva para lo urgente\n\n→ y probarlo: la purga es una de esas capacidades que\n  nadie ha ejercitado hasta que hace falta   ley 22\n```"
+    },
+    {
+      "heading": "El evento en directo",
+      "body": "El sector tiene un pico peculiar: se conoce con meses de antelación y no admite fallo.\n\n```text\nLO QUE LO DIFERENCIA\n  la fecha se sabe                          clase 262\n  la audiencia se puede estimar con histórico\n  y NO HAY SEGUNDA OPORTUNIDAD: el partido ocurre una vez\n\ny las formas de fallar, en orden de gravedad\n  1  perder la ingesta               → no hay contenido\n  2  saturar el origen               → todos afectados\n  3  agotar la capacidad del borde   → región afectada\n  4  fallar la autorización          → nadie entra\n  5  degradar la calidad             → aceptable\n```\n\nY el plan, que es sobre todo de reserva y de ensayo:\n\n```text\nCAPACIDAD RESERVADA CON ANTELACIÓN\n  el borde se contrata; no se autoescala solo\n  → y hay que avisar al proveedor de distribución con\n    semanas\n\nCALENTAMIENTO DE CACHÉ\n  el contenido estático y los manifiestos, precargados\n\nAUTORIZACIÓN, QUE ES EL CUELLO REAL\n  2,4 M de espectadores entran en 4 minutos\n  → el pico no es de vídeo: es de LOGIN y de emisión de\n    tokens\n  → y ahí se cae la mayoría de los eventos\n  mitigación: tokens emitidos con antelación, ventana de\n    entrada escalonada y capacidad específica para\n    identidad                                clase 209\n\nDEGRADACIÓN DECIDIDA ANTES\n  1  se apagan recomendaciones y catálogo enriquecido\n  2  se limita la calidad máxima\n  3  se sirve una calidad única si hace falta\n  4  y se vierte el acceso a bajo demanda\n  → todo antes que perder el directo    clase 262\n\nY ENSAYO CON CARGA SINTÉTICA\n  al menos dos, uno a 3 semanas y otro a 1\n                                            clase 261\n```"
+    },
+    {
+      "heading": "Las pruebas negativas del capstone",
+      "body": "Lo que hay que ejecutar para saber si el diseño aguanta.\n\n```text\nDE COSTE Y CACHÉ\n  ☐ ¿cuál es la tasa de acierto en el borde por tipo de\n    contenido?\n  ☐ ¿hay algún parámetro variable en las rutas que rompa\n    la clave de caché?\n  ☐ ¿cuánto tráfico llega al origen y por qué?\n  ☐ ¿cuál es el coste por hora vista y su tendencia?\n\nDE CALIDAD PERCIBIDA\n  ☐ ¿qué porcentaje de sesiones tiene al menos un corte?\n  ☐ ¿tiempo hasta el primer fotograma, percentil 95, por\n    país?\n  ☐ ¿resolución media servida por tipo de red?\n  ☐ simular una red de 3 Mbps con pérdidas: ¿qué hace el\n    reproductor?\n\nDE FALLO\n  ☐ caer el origen durante 10 minutos: ¿siguen las\n    sesiones activas?\n  ☐ caer una región de borde: ¿se redistribuye o falla?\n  ☐ perder una de las dos rutas de ingesta en directo:\n    ¿se nota?\n  ☐ el servicio de licencias no responde: ¿qué ve el\n    espectador?\n\nDE DERECHOS Y ACCESO\n  ☐ un espectador fuera de territorio con un enlace\n    directo: ¿accede?\n  ☐ un token caducado reutilizado: ¿funciona?\n  ☐ retirar un título de 40 países: ¿cuánto tarda y se\n    verifica?\n  ☐ ¿un enlace de segmento se puede compartir y consumir\n    sin autorización?\n\nDEL EVENTO\n  ☐ ensayo con carga sintética al 120 % de lo estimado\n  ☐ 2,4 M de autorizaciones en 4 minutos: ¿aguanta\n    identidad?\n  ☐ ¿la degradación por prioridad se ejecuta sola o\n    requiere una persona?\n  ☐ ¿quién puede activar la calidad única y en cuánto\n    tiempo?\n```\n\n**El entregable del capstone:**\n\n```text\n1  la cadena completa con las decisiones de cada tramo\n2  la política de caché y su tasa de acierto objetivo\n3  las métricas de calidad percibida y sus objetivos\n                                            clase 268\n4  el diseño de derechos por territorio y de retirada de\n   contenido\n5  el plan del evento: capacidad, autorización,\n   degradación y ensayos\n6  el coste por hora vista, base y evento\n7  y el resultado de las pruebas negativas, con lo que\n   falló\n```\n\nY el cierre que enlaza con la clase siguiente: aquí la red es la arquitectura y el espectador siempre está conectado. En el siguiente sector el dispositivo está lejos, la conexión falla durante días y el sistema tiene que seguir funcionando sin ella. Industria, dispositivos y operación desconectada es la materia de la clase 282."
+    }
+  ],
+  "worked_example": "**El capstone resuelto. Lo que sigue es el parámetro en la ruta que costaba 61.000 USD al mes, el evento que se cayó por identidad y no por vídeo, y las cifras de calidad percibida antes y después.**\n\n**El parámetro que rompía la caché.**\n\n```text\nsituación\n  tasa de acierto en el borde                    71 %\n  tráfico al origen                          4,1 PB/mes\n  coste del origen y su salida            81.000 USD/mes\n\nla investigación empezó por una pregunta simple\n  «¿por qué el 29 % de los bytes va al origen si el\n  catálogo es estático?»\n\nlo que se encontró, agrupando peticiones al origen\n  por tipo de recurso\n    segmentos de vídeo                            88 %\n    manifiestos                                    9 %\n    imágenes y otros                               3 %\n\n  y dentro de los segmentos, por patrón de ruta\n    → el reproductor añadía un identificador de sesión\n      como parámetro de consulta\n    → y la configuración del borde incluía los parámetros\n      en la clave de caché\n\n→ cada espectador pedía SU copia de cada segmento\n→ la caché servía solo lo que un mismo espectador repetía\n```\n\nY la corrección:\n\n```text\nel identificador de sesión pasó a una cabecera que no\nforma parte de la clave\ny la clave de caché se normalizó explícitamente\n\nresultado a las 2 semanas\n  tasa de acierto                        71 % → 96,4 %\n  tráfico al origen                  4,1 PB → 0,5 PB/mes\n  coste del origen y su salida    81.000 → 20.000 USD/mes\n\n  ahorro                              61.000 USD/mes\n  esfuerzo                            9 horas\n```\n\nY la lectura:\n\n```text\nel parámetro llevaba 3 años\ny nadie lo había mirado porque el sistema FUNCIONABA\n→ la calidad percibida era buena; solo el coste era malo\n→ y sin unidad económica —coste por hora vista— nada lo\n  señalaba                                clase 270\n\ncoste por hora vista\n  antes                                 0,0141 USD\n  después                               0,0038 USD\n```\n\n**El evento que se cayó por identidad.**\n\n```text\nel evento del año anterior\n  espectadores esperados                     1,9 M\n  capacidad de borde contratada              sí, al 130 %\n  ensayo de carga de vídeo                   sí, superado\n\nlo que pasó\n  20:57  se abre la entrada\n  20:58  340.000 peticiones de autorización en 60 segundos\n  20:58  el servicio de identidad se satura\n  20:59  los reintentos del cliente multiplican la carga\n         por 3                                clase 201\n  21:02  el 61 % de los espectadores no puede entrar\n  21:14  se restablece, con el evento empezado\n\n  vídeo servido durante toda la caída        perfecto\n  → la infraestructura de vídeo estaba ociosa\n\n→ el cuello no era el vídeo: era la puerta\n```\n\nY el rediseño para el año siguiente:\n\n```text\n1  TOKENS EMITIDOS CON ANTELACIÓN\n   quien tenía la aplicación abierta recibía su token\n   desde 2 horas antes, renovado en segundo plano\n   → el 71 % de la audiencia entró sin pedir autorización\n     en el minuto crítico\n\n2  ENTRADA ESCALONADA\n   la sala se abre por lotes de usuarios, con 15 segundos\n   de separación, indicado en la interfaz\n   → «tu acceso se activa en 12 s»\n\n3  CAPACIDAD ESPECÍFICA PARA IDENTIDAD\n   dimensionada para el pico de entrada, no para el uso\n   medio                                    clase 262\n\n4  REINTENTOS DEL CLIENTE CON RETROCESO Y JITTER\n   → y esto solo bajó la carga de pico un 43 %\n\n5  Y ENSAYO ESPECÍFICO DE AUTORIZACIÓN\n   2,4 M de autorizaciones en 4 minutos, sintéticas\n```\n\nY el evento del año siguiente:\n\n```text\nespectadores simultáneos, pico              2,41 M\nautorizaciones en el minuto de apertura     418.000\nfallos de autorización                        0,03 %\ntiempo hasta el primer fotograma, p95         2,1 s\nsesiones con al menos un corte                 1,7 %\ndegradación activada                          nivel 1\n  (recomendaciones y catálogo enriquecido apagados,\n   19 minutos)\nincidentes                                          0\n\ny el coste del evento\n  distribución                       214.000 USD\n  capacidad reservada de identidad     9.000 USD\n  → y esos 9.000 eran lo que faltaba el año anterior\n```\n\n**La escalera por contenido.**\n\n```text\nprueba con 200 títulos, comparando escalera fija y\nescalera calculada por contenido\n\n                          bytes    calidad percibida\n                                   (evaluación ciega,\n                                    40 personas)\n  escalera fija            100 %       referencia\n  por contenido             78 %       indistinguible\n                                       en 191 de 200\n                                       peor en 4\n                                       mejor en 5\n\n→ -22 % de bytes en el catálogo\n→ y de los 4 peores, 3 eran contenido con mucho grano y\n  se corrigieron con un mínimo por perfil\n\nefecto anual\n  bytes servidos                  14 PB → 11,2 PB/mes\n  ahorro de distribución          ~47.000 USD/mes\n  coste de transcodificación      +8.000 USD/mes\n  neto                            ~39.000 USD/mes\n```\n\n**La retirada de contenido, probada.**\n\n```text\nescenario  caducan los derechos de una serie en 12 países\n           a medianoche\n\nprimer intento, con purga masiva\n  purga de 41.000 objetos en 12 territorios\n  tiempo hasta que dejó de servirse         3 h 20 min\n  → y durante ese tiempo se sirvió contenido sin derechos\n  → riesgo contractual real\n\nrediseño\n  el acceso pasa por token firmado con territorio y con\n  caducidad de 5 minutos\n  → retirar los derechos invalida la emisión de tokens\n    nuevos\n  → el contenido deja de ser accesible en 5 minutos\n  → la purga sigue existiendo, para limpiar, sin urgencia\n\nsegundo ensayo\n  tiempo hasta dejar de servirse            4 min 40 s\n  → y verificado desde 12 puntos de medición\n```\n\n**Las cifras finales del capstone.**\n\n```text                                        antes     después\ntasa de acierto en el borde                  71 %      96,4 %\ntráfico al origen                       4,1 PB/mes   0,5 PB/mes\nbytes servidos                            14 PB      11,2 PB\ncoste por hora vista                     0,0141      0,0031\n\ntiempo hasta el primer fotograma p95       4,8 s       1,9 s\nsesiones con al menos un corte             6,4 %       1,7 %\nresolución media servida                  720p        1080p\n\nfallos de autorización en el evento        61 %       0,03 %\nincidentes en el evento                       1           0\ntiempo de retirada de contenido        3 h 20 min    4 min 40 s\n```\n\nY la observación final del equipo:\n\n```text\nde las tres mejoras grandes\n  la caché                        9 horas de trabajo\n  la escalera por contenido       6 semanas\n  la entrada escalonada           4 semanas\n\n→ la de 9 horas ahorró más que las otras dos juntas\n→ y llevaba tres años delante de todo el mundo\n```\n\n**La lección que este capstone deja**: un identificador de sesión en la ruta de los segmentos hacía que cada espectador pidiera **su propia copia de cada trozo de vídeo**, y corregirlo costó nueve horas y **61.000 USD al mes**; llevaba tres años sin que nadie lo notara porque la calidad percibida era buena y solo el coste era malo. Y el evento que falló no falló por vídeo: la infraestructura de vídeo estuvo ociosa mientras **el 61 % de los espectadores no podía cruzar la puerta**.",
+  "pitfalls": [
+    {
+      "symptom": "La tasa de acierto en el borde es baja y el origen recibe mucho tráfico",
+      "cause": "Hay parámetros variables en la ruta que forman parte de la clave de caché",
+      "fix": "Normaliza explícitamente la clave de caché y mueve identificadores de sesión a cabeceras que no la compongan."
+    },
+    {
+      "symptom": "Los servidores están sanos y los espectadores se quejan de cortes",
+      "cause": "Se mide disponibilidad de servidor y no calidad percibida",
+      "fix": "Instrumenta el reproductor: tiempo hasta el primer fotograma, sesiones con corte, tiempo en pausa y resolución media, por país y tipo de red."
+    },
+    {
+      "symptom": "Un evento en directo falla al abrirse aunque el vídeo aguante",
+      "cause": "El pico real es de autorización y no de vídeo, y los reintentos lo multiplican",
+      "fix": "Emite tokens con antelación, escalona la entrada, dimensiona identidad para el pico y aplica retroceso con dispersión en el cliente."
+    },
+    {
+      "symptom": "Retirar un contenido por derechos tarda horas",
+      "cause": "Se depende de la purga masiva de la caché",
+      "fix": "Controla el acceso con tokens de caducidad corta por territorio: revocar la emisión corta el acceso en minutos y la purga limpia sin urgencia."
+    },
+    {
+      "symptom": "El coste sube con la audiencia y nadie sabe si es razonable",
+      "cause": "No hay unidad económica: se mira la factura y no el coste por hora vista",
+      "fix": "Define coste por hora vista y sigue su tendencia; es lo que hace visible un desperdicio que funciona bien."
+    },
+    {
+      "symptom": "El directo se pierde y no hay forma de recuperarlo",
+      "cause": "La ingesta no era redundante y el directo no admite reproceso",
+      "fix": "Duplica la ingesta por rutas distintas y ensáyalo cortando una; lo que se pierde en directo no se recupera."
+    }
+  ],
+  "checks": [
+    "¿Por qué el coste por byte reordena las decisiones de este sector?",
+    "¿Qué decisiones de la cadena afectan a la vez al coste y a la experiencia?",
+    "¿Qué métricas de calidad percibida hay que medir y dónde?",
+    "¿Cuál es el cuello de botella real de un evento en directo masivo?",
+    "¿Cómo se retira un contenido de muchos territorios en minutos?"
+  ],
+  "references": [
+    {
+      "text": "Bitmovin (2024). *Video Developer Report* — métricas de calidad de experiencia.",
+      "url": "https://bitmovin.com/video-developer-report/"
+    },
+    {
+      "text": "Netflix Technology Blog (2018). *Dynamic optimizer: per-title and per-shot encoding*.",
+      "url": "https://netflixtechblog.com/dynamic-optimizer-a-perceptual-video-encoding-optimization-framework-e19f1e3a277f"
+    },
+    {
+      "text": "AWS (2024). *Media and entertainment reference architectures*.",
+      "url": "https://aws.amazon.com/media/resources/"
+    },
+    {
+      "text": "Google Cloud (2024). *Live streaming and video-on-demand architectures*.",
+      "url": "https://cloud.google.com/architecture/live-streaming-and-video-on-demand"
+    },
+    {
+      "text": "CTA (2020). *CTA-5004: Common Media Client Data* — medición desde el reproductor.",
+      "url": "https://cdn.cta.tech/cta/media/media/resources/standards/pdfs/cta-5004-final.pdf"
+    }
+  ]
+}
