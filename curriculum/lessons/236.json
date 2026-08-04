@@ -1,0 +1,118 @@
+{
+  "id": "236",
+  "purpose": "Operar la plataforma analítica de Google Cloud, que es la pieza más madura de esta nube y la que más problemas produce de dos tipos concretos: **coste, porque una consulta mal escrita puede costar cientos de euros en segundos, y gobierno, porque el acceso a datos personales se concede en la primera semana y nadie lo revisa después**. La clase cubre el modelo de facturación, el diseño de tablas, el procesamiento por lotes y continuo, y el control de acceso a nivel de columna y de fila.",
+  "outcomes": [
+    "**Elegir** el modelo de facturación adecuado y evitar las sorpresas.",
+    "**Diseñar** tablas particionadas y agrupadas para reducir lo que se lee.",
+    "**Elegir** entre procesamiento continuo, por lotes y gestionado.",
+    "**Controlar** el acceso a columnas y filas con datos sensibles.",
+    "**Gobernar** el linaje, la calidad y la retención de los datos."
+  ],
+  "concepts": [
+    {
+      "term": "facturación por consulta",
+      "definition": "Se paga por bytes leídos. Una consulta sin filtro sobre una tabla grande cuesta mucho."
+    },
+    {
+      "term": "capacidad reservada",
+      "definition": "Modelo de precio por capacidad de proceso contratada, con coste previsible."
+    },
+    {
+      "term": "partición",
+      "definition": "División física de una tabla, normalmente por fecha. Permite leer solo lo necesario."
+    },
+    {
+      "term": "agrupación",
+      "definition": "Ordenación física por columnas dentro de la partición. Reduce lo leído en filtros por esas columnas."
+    },
+    {
+      "term": "enmascaramiento de columna",
+      "definition": "Transformación del valor según quién consulta, sin duplicar la tabla."
+    },
+    {
+      "term": "linaje",
+      "definition": "Registro de de dónde viene cada tabla y qué la consume. Necesario para retirar y para auditar."
+    }
+  ],
+  "diagram": "flowchart TB\n    M{\"modelo de precio\"}\n    M -->|\"uso irregular,\\npoco volumen\"| M1[\"POR CONSULTA\\npagas bytes leídos\"]\n    M -->|\"uso alto y\\ncontinuo\"| M2[\"CAPACIDAD\\nreservada\"]\n    M1 --> L[\"LÍMITES\\npor consulta y\\npor usuario\"]\n    T[\"diseño de tabla\"] --> T1[\"PARTICIÓN\\npor fecha\"]\n    T --> T2[\"AGRUPACIÓN\\npor columnas de filtro\"]\n    T1 --> R[\"leer menos =\\npagar menos\"]\n    T2 --> R\n    A[\"acceso\"] --> A1[\"por conjunto\\ny por tabla\"]\n    A --> A2[\"por COLUMNA\\ncon etiquetas\"]\n    A --> A3[\"por FILA\\ncon políticas\"]\n    A --> A4[\"enmascaramiento\\nsegún quién consulta\"]\n    G[\"gobierno\"] --> G1[\"linaje: de dónde\\nviene y quién consume\"]\n    G --> G2[\"retención por tabla\"]",
+  "foundations": [
+    {
+      "heading": "El coste, que es lo primero",
+      "body": "Aquí el coste no es un asunto de fin de mes: **una consulta puede costar cientos de euros en segundos**, y por eso se aborda antes que el diseño.\n\n```text\nPOR CONSULTA\n  se paga por BYTES LEÍDOS, no por filas devueltas\n  → «select * from tabla limit 10» sobre 40 TB lee 40 TB\n  → el límite no reduce lo leído\n  + sin coste cuando no se consulta\n  − impredecible; una consulta mal escrita cuesta mucho\n\nCAPACIDAD RESERVADA\n  se paga por capacidad de proceso, con compromiso\n  + coste previsible y consultas «gratis» dentro de la\n    capacidad\n  − hay que dimensionarla, y las consultas compiten entre sí\n\nCRITERIO\n  uso irregular o bajo   → por consulta, CON LÍMITES\n  uso alto y continuo    → capacidad reservada\n  y lo habitual: capacidad para lo productivo y por\n  consulta para exploración, con límites\n```\n\nY los límites que hay que poner el primer día:\n\n```text\nLÍMITE DE BYTES POR CONSULTA\n  «ninguna consulta puede leer más de X»\n  → rechaza antes de ejecutar\n  → y es lo único que impide el susto de una consulta\n\nCUOTA DIARIA POR USUARIO Y POR PROYECTO\n\nY LA COSTUMBRE DE ESTIMAR ANTES\n  la herramienta dice cuántos bytes leerá una consulta\n  ANTES de ejecutarla\n  → y esa estimación debe estar en la formación de\n    cualquiera que consulte                     ley 26\n```\n\nY las tres causas de coste que se repiten:\n\n```text\n1  SELECCIONAR TODAS LAS COLUMNAS\n   el almacenamiento es por columnas: leer 3 de 80 cuesta\n   una fracción\n   → «select *» es el error más caro y el más común\n\n2  NO FILTRAR POR LA COLUMNA DE PARTICIÓN\n   una consulta sin filtro de fecha lee la tabla entera\n   → se puede EXIGIR el filtro en la definición de la tabla\n\n3  CONSULTAS PROGRAMADAS QUE NADIE REVISA\n   un panel que refresca cada 5 minutos sobre una tabla\n   grande\n   → y nadie mira su coste                        ley 15\n```"
+    },
+    {
+      "heading": "Diseñar para leer menos",
+      "body": "Todo el rendimiento y el coste dependen de cuántos bytes se leen. Hay dos mecanismos.\n\n```text\nPARTICIÓN\n  divide la tabla, normalmente por fecha\n  → una consulta con filtro de fecha lee solo esas\n    particiones\n\n  y la opción que evita sustos\n    exigir el filtro de partición en la tabla\n    → una consulta sin él FALLA en vez de leer todo\n\nAGRUPACIÓN\n  ordena físicamente por hasta cuatro columnas dentro de\n  la partición\n  → filtrar por la primera columna de agrupación reduce\n    mucho lo leído\n  → el orden importa: se agrupa por lo que más se filtra\n\n→ y las dos juntas son lo que convierte una tabla de 40 TB\n  en consultas de 2 GB\n```\n\nY el resto de decisiones de modelado:\n\n```text\nDESNORMALIZAR\n  las uniones cuestan; repetir datos suele salir más barato\n  → aquí, al contrario que en una base transaccional\n\nCAMPOS ANIDADOS Y REPETIDOS\n  guardar las líneas de un pedido dentro del pedido\n  → evita la unión y reduce lo leído\n\nVISTAS MATERIALIZADAS\n  agregados precalculados que se refrescan solos\n  → las consultas los usan automáticamente\n  → y reducen mucho el coste de los paneles\n\nTABLAS EXTERNAS\n  consultar ficheros del almacén sin cargarlos\n  → cómodo, y más lento y más caro por consulta\n  → para datos poco consultados\n```\n\n**El almacenamiento**, con su propia palanca:\n\n```text\nlas particiones que no se modifican pasan a un precio de\nalmacenamiento menor, solas\n→ y la RETENCIÓN por partición retira lo antiguo\n→ sin retención, la tabla crece indefinidamente   ley 25\n\ny una decisión que hay que tomar\n  ¿cuántos años de histórico hacen falta de verdad?\n  → casi siempre menos de los que se guardan\n  → y lo que haga falta por norma, en almacenamiento\n    barato                                   clase 239\n```\n\nY la carga de datos, con lo que decide el coste:\n\n```text\nCARGA POR LOTES        gratuita o muy barata\nINSERCIÓN CONTINUA     se paga por fila, y suma\nESCRITURA POR FLUJO    el mecanismo moderno, más barato\n\n→ si el retraso aceptable es de minutos, la carga por lotes\n  cada pocos minutos es mucho más barata que la inserción\n  fila a fila\n→ y esa es una decisión de arquitectura, no de\n  implementación                              clase 242\n```"
+    },
+    {
+      "heading": "Procesar: continuo, por lotes y gestionado",
+      "body": "Hay tres formas de transformar datos y se eligen por lo que hay que hacer, no por preferencia.\n\n```text\nCONSULTAS PROGRAMADAS Y VISTAS MATERIALIZADAS\n  la transformación se escribe en SQL, dentro del almacén\n  + lo más simple; sin infraestructura\n  + y el linaje se registra solo\n  − limitado a lo que SQL puede hacer\n  → y es lo que resuelve la mayoría de los casos\n\nPROCESAMIENTO UNIFICADO (Dataflow)\n  el mismo código para lotes y para flujo continuo\n  + gestiona ventanas, datos que llegan tarde y estado\n  + escala solo\n  − más que operar, y hay que entender el modelo\n  → para transformaciones complejas o continuas de verdad\n\nMOTOR DE CÓDIGO ABIERTO GESTIONADO (Dataproc)\n  para trabajos existentes que ya están escritos\n  + migración directa de lo que ya hay\n  − hay que gestionar clústeres, aunque sean efímeros\n  → y para trabajos nuevos, rara vez es la elección\n```\n\nY el criterio:\n\n```text\n¿se puede escribir en SQL y el retraso de minutos vale?\n  → consulta programada o vista materializada\n¿hace falta procesamiento continuo con ventanas y estado?\n  → procesamiento unificado\n¿hay trabajos que ya existen y funcionan?\n  → motor gestionado, con fecha de revisión      ley 25\n```\n\nY lo que hay que resolver en el procesamiento continuo, que es lo mismo de la clase 116:\n\n```text\nDATOS QUE LLEGAN TARDE\n  una ventana cerrada y un dato de hace 3 horas\n  → decidir: descartar, reprocesar o corregir\n  → y declararlo                              clase 242\n\nEXACTAMENTE UNA VEZ\n  se consigue con identificadores y deduplicación\n  → no viene gratis                          clase 237\n\nY EL RETRASO\n  vigilado, con alerta                          ley 13\n  → «el flujo lleva N minutos de retraso» es la señal que\n    dice que algo va mal antes de que falte un dato\n```\n\nY la orquestación:\n\n```text\nlos trabajos dependen unos de otros\n→ hace falta un orquestador que sepa el orden, reintente y\n  avise                                       clase 243\n→ y no un conjunto de trabajos programados por hora\n  esperando que el anterior haya terminado\n```"
+    },
+    {
+      "heading": "Gobierno: acceso, linaje y retención",
+      "body": "**El acceso a datos sensibles** es donde este tipo de plataformas produce los hallazgos más incómodos.\n\n```text\nLOS NIVELES DE CONTROL\n  por conjunto de datos y por tabla\n    → el habitual, y el más grueso\n  POR COLUMNA\n    las columnas se etiquetan; el acceso se concede por\n    etiqueta\n    → «quien no tenga la etiqueta de datos personales no ve\n      esas columnas»\n  POR FILA\n    políticas que filtran según quién consulta\n    → «cada país ve sus propias filas»\n  ENMASCARAMIENTO\n    la columna se transforma según quién consulta\n    → un analista ve el correo con formato pero sin valor\n    → sin duplicar la tabla\n```\n\nY el problema que resuelven, que es el de la clase 230:\n\n```text\nsin control por columna, dar acceso a una tabla es dar\nacceso a CUANTO contiene\n→ y por eso el acceso se concede al conjunto entero\n→ y por eso los equipos de análisis acaban viendo datos\n  personales completos que no necesitan\n\ncon etiquetas de columna\n  el acceso a la tabla no incluye las columnas etiquetadas\n  → y la mayoría de los análisis funcionan igual\n```\n\nY la disciplina:\n\n```text\n1  CLASIFICAR las columnas: la plataforma puede detectar\n   datos personales automáticamente\n2  ETIQUETAR las sensibles\n3  QUITAR el acceso amplio y conceder por etiqueta\n4  y REVISAR trimestralmente quién la tiene   clase 230\n```\n\n**El linaje**, que hace posible retirar y auditar:\n\n```text\nqué tablas alimentan a cuáles\nqué consultas y paneles consumen cada tabla\ny de dónde vino cada dato\n\n→ sin linaje, retirar una tabla es imposible: nadie sabe\n  quién la usa                                    ley 20\n→ y ante una petición de borrado de datos personales,\n  tampoco se sabe dónde se copiaron   clases 139, 251\n```\n\nY lo que hay que vigilar en esta plataforma:\n\n```text\ncoste por consulta, por usuario y por panel\nconsultas que leen más de X bytes\ntablas sin partición ni agrupación\ntablas sin retención\ntablas sin consumidores en 90 días        → candidatas a\n                                            retirar\nacceso a columnas sensibles, por identidad\nretraso de los flujos continuos\ny trabajos que fallan sin que nadie lo mire      ley 13\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ hay límite de bytes por consulta\n☐ hay cuota diaria por usuario y por proyecto\n☐ las tablas grandes están particionadas\n☐ se exige el filtro de partición donde procede\n☐ están agrupadas por las columnas de filtro habituales\n☐ los paneles usan vistas materializadas\n☐ hay retención por tabla\n☐ la ingesta usa lotes o escritura por flujo, no inserción\n  fila a fila\n☐ las columnas sensibles están clasificadas y etiquetadas\n☐ el acceso se concede por etiqueta, no al conjunto entero\n☐ hay políticas de fila donde aplica\n☐ el linaje está activado y se consulta\n☐ hay alerta de retraso de los flujos y de trabajos\n  fallidos\n☐ se revisan las tablas sin consumidores\n```\n\nY el cierre que enlaza con la clase siguiente: con datos operativos y analíticos resueltos, queda la mensajería que los conecta, que en esta nube tiene una propiedad que se anuncia mucho y conviene entender bien. Es la materia de la clase 237."
+    }
+  ],
+  "worked_example": "**CloudShop monta su plataforma analítica en Google Cloud. Lo que sigue son las tres consultas que costaban 4.100 € al mes, el acceso a datos personales que tenían 41 personas, y el rediseño de tablas que redujo el coste un 88 %.**\n\n**La factura, al revisar:**\n\n```text\ncoste mensual del almacén analítico          7.900 €\n  consultas                                  6.200 €\n  almacenamiento                             1.400 €\n  inserción continua                           300 €\n\nlas consultas, por origen\n  paneles programados                        4.100 €  ←\n  exploración de analistas                   1.400 €\n  transformaciones programadas                 700 €\n```\n\nY el desglose de los paneles:\n\n```text\npanel                     refresco   bytes/ejec.   €/mes\nventas en tiempo real       5 min       2,1 TB    2.900\nocupación por almacén      15 min       0,9 TB      810\nembudo de conversión        1 h         3,4 TB      390\n\n→ tres consultas, 4.100 €/mes\n→ y los tres paneles los abría alguien 2 o 3 veces al día\n```\n\nY el diagnóstico de la primera:\n\n```text\nla consulta del panel de ventas\n  select * from pedidos p join lineas l ... where\n  fecha >= current_date() - 30\n\n  la tabla pedidos                          14 TB\n  la tabla lineas                           26 TB\n  ninguna estaba particionada\n  → el filtro de fecha no reducía nada: se leía todo\n  → y «select *» traía 80 columnas de las que se usaban 6\n\n  bytes leídos por ejecución                 2,1 TB\n  ejecuciones al mes                         8.640\n```\n\n**El rediseño de tablas:**\n\n```text\npedidos\n  partición    por fecha de pedido, diaria\n  agrupación   por país, canal, estado\n  filtro de partición    EXIGIDO\n\nlineas\n  partición    por fecha del pedido (heredada)\n  agrupación   por producto\n  o mejor: las líneas ANIDADAS dentro de pedidos\n  → se eligió anidarlas: elimina la unión\n\ny las consultas reescritas\n  columnas explícitas, no «select *»\n  filtro de fecha, obligatorio\n\nbytes por ejecución del panel de ventas   2,1 TB → 1,4 GB\n```\n\nY las vistas materializadas:\n\n```text\nlos tres paneles consultaban agregados diarios\n→ vista materializada con el agregado, refrescada sola\n→ los paneles la usan automáticamente\n\nbytes por ejecución                       1,4 GB → 12 MB\n\ncoste de los tres paneles          4.100 € → 41 €/mes\n```\n\n**Los límites, puestos después del susto:**\n\n```text\nun analista ejecutó una consulta exploratoria sin filtro\nsobre la tabla de eventos de 61 TB\n  bytes leídos                                61 TB\n  coste de esa consulta                       310 €\n  duración                                     94 s\n\n→ y no había nada que lo impidiera\n\nlímites puestos\n  bytes máximos por consulta                   200 GB\n    → salvo excepción con aprobación\n  cuota diaria por usuario                       2 TB\n  cuota diaria por proyecto de exploración      20 TB\n\ny formación\n  la estimación previa de bytes, en la guía de\n  incorporación\n  → y un aviso en la herramienta cuando la estimación\n    supera 50 GB\n\nconsultas rechazadas por límite, primer mes          61\n  de ellas, errores reales del analista               57\n  con excepción aprobada                               4\n```\n\n**El acceso a datos personales.**\n\n```text\nal inventariar\n  personas con acceso al conjunto de datos de clientes  41\n  de ellas, que necesitaban ver datos personales\n  completos                                              3\n\n  → los otros 38 hacían análisis agregados y no\n    necesitaban el correo, el teléfono ni la dirección\n  → pero el acceso se concede al conjunto, y el conjunto\n    los incluye                               clase 230\n\ny la clasificación automática encontró\n  columnas con datos personales                         61\n    en tablas donde nadie sabía que los había             9\n      · una tabla de análisis de campañas con correos\n      · dos tablas temporales de una migración de 2023\n        que nunca se borraron                     ley 25\n```\n\nY la corrección:\n\n```text\nclasificación y etiquetado de las 61 columnas\netiquetas jerárquicas\n  personal-directo    (nombre, correo, teléfono,\n                      dirección)\n  personal-indirecto  (identificador, dispositivo)\n  financiero\n\nacceso concedido por etiqueta, no por conjunto\n  personal-directo                    3 personas\n  personal-indirecto                 12 personas\n  financiero                          6 personas\n  el resto del conjunto              41 personas\n\ny enmascaramiento para los casos intermedios\n  el correo se ve como «a***@dominio.com»\n  → suficiente para verificar y sin exponer el valor\n\ny las políticas de fila\n  el equipo de cada país ve solo las filas de su país\n\ny las 3 tablas con datos que nadie sabía\n  2 borradas (temporales de la migración)\n  1 seudonimizada\n```\n\nY la comprobación:\n\n```text\nprueba negativa\n  un analista sin la etiqueta consulta la columna de\n  correo\n  → la consulta falla, indicando qué etiqueta falta\n  un analista de España consulta filas de Portugal\n  → devuelve 0 filas\n  → y ambas se ejecutan en cada despliegue del gobierno\n                                                    ley 22\n```\n\n**El procesamiento, ajustado:**\n\n```text\nantes\n  inserción continua fila a fila desde la aplicación\n  41.000 eventos/s → 300 €/mes de inserción\n  y transformaciones en un motor gestionado con un clúster\n  siempre encendido                            410 €/mes\n\ndespués\n  los eventos van al servicio de mensajería y de ahí en\n  lotes cada 60 s                       clase 237\n    coste de ingesta                     300 € → 18 €\n  las transformaciones que caben en SQL, como consultas\n    programadas                                      9\n  las que no, en procesamiento unificado             2\n    clúster gestionado retirado           410 € → 140 €\n\ny el retraso declarado\n  eventos disponibles para consulta      ≤ 90 s\n  con alerta si supera 5 min                    ley 13\n```\n\n**La retención y el linaje:**\n\n```text\nretención por tabla\n  eventos brutos                        90 días\n  agregados diarios                      5 años\n  tablas de trabajo                      7 días\n\n  almacenamiento                  1.400 € → 310 €\n\nlinaje activado\n  tablas sin consumidores en 90 días                 34\n    → 28 borradas tras avisar\n    →  6 resultaron alimentar informes trimestrales\n  y ante la primera petición de borrado de datos de un\n  cliente\n    tablas donde aparecía, según el linaje              7\n    tablas que el equipo creía                          2\n                                          clases 139, 251\n```\n\n**El resultado:**\n\n```text                                        antes     después\ncoste mensual del almacén                 7.900 €       610 €\n  paneles                                 4.100 €        41 €\n  exploración                             1.400 €       120 €\n  almacenamiento                          1.400 €       310 €\n  ingesta                                   300 €        18 €\nbytes por ejecución del panel de ventas    2,1 TB      12 MB\npersonas con acceso a datos personales        41           3\ncolumnas sensibles sin clasificar              61           0\ntablas con datos personales desconocidos        3           0\ntablas sin consumidores                        34           6\nconsultas que pueden leer la tabla entera  cualquiera       0\n```\n\n**La lección que esta clase deja**: tres paneles que alguien abría dos veces al día costaban **cuatro mil cien euros al mes**, y el problema no era la plataforma sino tablas sin particionar consultadas con «select *». Y cuarenta y una personas tenían acceso a datos personales completos porque **el acceso se concede al conjunto y el conjunto los incluye**; solo tres los necesitaban, y el resto siguió trabajando igual con las columnas enmascaradas.",
+  "pitfalls": [
+    {
+      "symptom": "Una consulta cuesta cientos de euros en segundos",
+      "cause": "Se paga por bytes leídos y no hay límite ni filtro de partición",
+      "fix": "Pon límite de bytes por consulta y cuota por usuario, particiona las tablas y exige el filtro de partición."
+    },
+    {
+      "symptom": "Los paneles dominan la factura",
+      "cause": "Refrescan consultas pesadas sobre tablas grandes muchas veces al día",
+      "fix": "Usa vistas materializadas con los agregados y revisa el coste por panel."
+    },
+    {
+      "symptom": "El filtro de fecha no reduce el coste",
+      "cause": "La tabla no está particionada por esa columna",
+      "fix": "Particiona por la columna de filtro habitual y agrupa por las siguientes más usadas."
+    },
+    {
+      "symptom": "Todo el equipo de análisis ve datos personales completos",
+      "cause": "El acceso se concede al conjunto de datos, que los incluye",
+      "fix": "Clasifica y etiqueta las columnas sensibles, concede por etiqueta y usa enmascaramiento para los casos intermedios."
+    },
+    {
+      "symptom": "La ingesta continua cuesta más que el proceso",
+      "cause": "Se inserta fila a fila cuando el retraso aceptable es de minutos",
+      "fix": "Agrupa en lotes o usa la escritura por flujo; decide el retraso aceptable como decisión de arquitectura."
+    },
+    {
+      "symptom": "No se puede retirar una tabla porque nadie sabe quién la usa",
+      "cause": "No hay linaje registrado",
+      "fix": "Activa el linaje y revisa periódicamente las tablas sin consumidores."
+    }
+  ],
+  "checks": [
+    "¿Por qué un límite de filas no reduce el coste de una consulta?",
+    "¿Qué diferencia hay entre partición y agrupación, y para qué sirve cada una?",
+    "¿Qué problema resuelve el control de acceso por columna?",
+    "¿Cuándo conviene procesamiento unificado frente a consultas programadas?",
+    "¿Para qué hace falta el linaje además de para auditar?"
+  ],
+  "references": [
+    {
+      "text": "Google Cloud (2025). *BigQuery: controlling costs*.",
+      "url": "https://cloud.google.com/bigquery/docs/best-practices-costs"
+    },
+    {
+      "text": "Google Cloud (2025). *Partitioned and clustered tables*.",
+      "url": "https://cloud.google.com/bigquery/docs/partitioned-tables"
+    },
+    {
+      "text": "Google Cloud (2025). *Column-level and row-level security*.",
+      "url": "https://cloud.google.com/bigquery/docs/column-level-security-intro"
+    },
+    {
+      "text": "Google Cloud (2025). *Dataflow: unified batch and streaming*.",
+      "url": "https://cloud.google.com/dataflow/docs/concepts"
+    },
+    {
+      "text": "Google Cloud (2025). *Dataplex and data lineage*.",
+      "url": "https://cloud.google.com/dataplex/docs/about-data-lineage"
+    }
+  ]
+}
