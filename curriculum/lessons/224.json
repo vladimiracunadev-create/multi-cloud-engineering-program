@@ -1,0 +1,118 @@
+{
+  "id": "224",
+  "purpose": "Elegir entre los tres servicios de mensajería de Azure, que se confunden constantemente porque los tres «llevan mensajes» y resuelven cosas distintas. La clase separa el bus de mensajes empresarial, el enrutador de eventos y el flujo de gran volumen por lo que cada uno garantiza, desarrolla los mecanismos propios del primero —sesiones, transacciones, detección de duplicados— y aplica la disciplina de siempre: **idempotencia, cola de fallidos vigilada y reproceso probado**.",
+  "outcomes": [
+    "**Elegir** entre bus, enrutador y flujo según lo que se garantiza.",
+    "**Usar** sesiones, transacciones y detección de duplicados donde aportan.",
+    "**Configurar** bloqueo, reintentos y cola de fallidos coherentemente.",
+    "**Consumir** un flujo con posiciones y reparto por partición.",
+    "**Operar** los mensajes fallidos con alerta, diagnóstico y reproceso."
+  ],
+  "concepts": [
+    {
+      "term": "bus de mensajes",
+      "definition": "Colas y temas con garantías empresariales: orden por sesión, transacciones, detección de duplicados y cola de fallidos."
+    },
+    {
+      "term": "enrutador de eventos",
+      "definition": "Servicio que entrega eventos a destinos según filtros. Uno a muchos, con reintentos y destino de fallidos."
+    },
+    {
+      "term": "flujo de eventos",
+      "definition": "Registro particionado de gran volumen, con lectores independientes y reproceso por posición."
+    },
+    {
+      "term": "sesión",
+      "definition": "Agrupación de mensajes por clave que garantiza orden y entrega al mismo consumidor."
+    },
+    {
+      "term": "bloqueo del mensaje",
+      "definition": "Tiempo durante el que el mensaje tomado no se entrega a otro. Debe superar el proceso o hay duplicados."
+    },
+    {
+      "term": "detección de duplicados",
+      "definition": "Descarte de mensajes con el mismo identificador dentro de una ventana. No sustituye a la idempotencia."
+    }
+  ],
+  "diagram": "flowchart TB\n    Q{\"¿qué hace falta?\"}\n    Q -->|\"orden por clave,\\ntransacciones,\\nentrega fiable\"| B[\"BUS DE MENSAJES\"]\n    Q -->|\"reaccionar a lo que\\npasa, uno a muchos,\\nfiltros\"| E[\"ENRUTADOR DE EVENTOS\"]\n    Q -->|\"millones/s,\\nvarios lectores,\\nreproceso por posición\"| S[\"FLUJO\"]\n    B --> B1[\"cola · tema con\\nsuscripciones\"]\n    B --> B2[\"SESIONES\\norden por clave\"]\n    B --> B3[\"bloqueo > proceso\\no hay duplicados\"]\n    B --> B4[\"cola de fallidos\\nintegrada\"]\n    E --> E1[\"filtros por contenido\"]\n    E --> E2[\"reintentos y\\ndestino de fallidos\"]\n    S --> S1[\"particiones y clave\"]\n    S --> S2[\"posición del lector\"]\n    S --> S3[\"retención por tiempo\"]\n    B4 --> I[\"IDEMPOTENCIA\\nen cualquier caso\"]\n    E2 --> I\n    S3 --> I",
+  "foundations": [
+    {
+      "heading": "Tres servicios, tres propósitos",
+      "body": "Los tres transportan mensajes y garantizan cosas distintas. Elegir mal produce sistemas que funcionan hasta que hay carga o hay que reprocesar.\n\n```text\nBUS DE MENSAJES (Service Bus)\n  colas y temas con suscripciones\n  garantiza\n    entrega al menos una vez, con bloqueo y confirmación\n    ORDEN por sesión\n    transacciones entre entidades del propio bus\n    detección de duplicados en una ventana\n    cola de fallidos integrada\n    y mensajes programados y diferidos\n  para   pedidos, pagos, integraciones donde perder o\n         desordenar cuesta dinero\n  ojo    caudal moderado; no es para millones por segundo\n\nENRUTADOR DE EVENTOS (Event Grid)\n  entrega eventos a destinos según filtros de contenido\n  garantiza\n    entrega al menos una vez, con reintentos y retroceso\n    destino de fallidos\n    y filtros declarativos\n  para   reaccionar a lo que ocurre; uno a muchos\n         incluidos los eventos de la propia plataforma\n  ojo    NO garantiza orden\n\nFLUJO (Event Hubs)\n  registro particionado, con lectores independientes\n  garantiza\n    orden DENTRO de la partición\n    retención por tiempo y reproceso por posición\n    varios grupos de consumidores sin duplicar el\n      almacenamiento\n  para   telemetría, trazas, clics, sensores: gran volumen\n  ojo    el consumidor gestiona su posición; si la pierde,\n         reprocesa o se salta                  clase 116\n```\n\nY la combinación habitual, que es la que hay que reconocer:\n\n```text\nalgo ocurre → ENRUTADOR (uno a muchos, con filtros)\n            → COLA del bus por consumidor\n            → función o contenedor\n\ny por separado\n  telemetría de alto volumen → FLUJO → procesamiento y\n                               almacén analítico\n\n→ y la cola entre el enrutador y el consumidor sigue siendo\n  lo que amortigua y da control de reintentos  clase 210\n```\n\nY el error de elección más caro:\n\n```text\nusar el flujo como si fuera una cola\n  no hay bloqueo por mensaje ni confirmación individual\n  no hay cola de fallidos integrada\n  un mensaje venenoso bloquea la partición entera\n  → hay que implementar todo eso a mano\n\ny al revés: usar el bus para telemetría de alto volumen\n  → caudal insuficiente y coste alto\n```"
+    },
+    {
+      "heading": "Los mecanismos del bus",
+      "body": "El bus tiene mecanismos que no existen en otros servicios y que resuelven problemas concretos.\n\n```text\nSESIONES — orden por clave\n  los mensajes con la misma clave de sesión van al mismo\n  consumidor, en orden\n  → resuelve «los eventos de un pedido deben procesarse en\n    orden» sin serializar todo\n  coste\n    el caudal por sesión lo limita un solo consumidor\n    y el consumidor debe mantener la sesión bloqueada\n  → usar sesiones solo donde el orden importe   clase 203\n\nTRANSACCIONES\n  varias operaciones del bus en una unidad atómica\n  → recibir de una cola y enviar a otra, todo o nada\n  ojo   solo dentro del mismo espacio de nombres; NO\n        incluye la base de datos\n  → para eso sigue haciendo falta la tabla de salida\n                                                clase 118\n\nDETECCIÓN DE DUPLICADOS\n  descarta mensajes con el mismo identificador dentro de\n  una ventana de tiempo\n  + evita duplicados del PRODUCTOR que reintenta\n  − no cubre el reproceso ni la reentrega tras bloqueo\n    vencido\n  → NO sustituye a la idempotencia del consumidor\n                                                clase 210\n\nMENSAJES PROGRAMADOS Y DIFERIDOS\n  programado   se entrega a una hora futura\n  diferido     el consumidor lo aparta y lo recupera por su\n               número de secuencia\n  → útiles para reintentos con retroceso largo y para\n    esperar a que llegue otra cosa\n```\n\n**Los parámetros que producen duplicados**, con la misma aritmética de la clase 210:\n\n```text\nDURACIÓN DEL BLOQUEO\n  el mensaje tomado queda bloqueado ese tiempo\n  si el proceso tarda más, el bloqueo VENCE y el mensaje se\n  reentrega\n  → duplicados\n\n  dos soluciones\n    bloqueo mayor que el proceso máximo\n    o RENOVAR el bloqueo desde el consumidor mientras\n      trabaja\n    → la renovación automática existe en las bibliotecas y\n      hay que activarla\n\nRECUENTO MÁXIMO DE ENTREGAS\n  cuántas veces antes de ir a la cola de fallidos\n  típico 3 a 5\n\nTAMAÑO DE LOTE Y PREBÚSQUEDA\n  la prebúsqueda trae mensajes por adelantado\n  + menos latencia\n  − esos mensajes están bloqueados aunque no se procesen\n  → prebúsqueda alta con proceso lento = bloqueos vencidos\n    y duplicados\n```\n\nY la regla:\n\n```text\nprebúsqueda × tiempo de proceso < duración del bloqueo\n→ o se renueva el bloqueo activamente\n```"
+    },
+    {
+      "heading": "El flujo y sus posiciones",
+      "body": "El flujo funciona distinto y su operación tiene sus propias trampas.\n\n```text\nPARTICIONES\n  el caudal se reparte entre particiones\n  la CLAVE decide en cuál cae cada evento\n  → misma clave, misma partición, mismo orden  clase 116\n  → y una clave caliente satura una partición mientras las\n    demás están ociosas\n\n  y el número de particiones\n    condiciona el paralelismo máximo del consumo\n    → más consumidores que particiones = consumidores\n      ociosos\n\nPOSICIÓN DEL LECTOR\n  cada grupo de consumidores guarda por dónde va\n  → y esa posición hay que persistirla\n  → si se pierde, se reprocesa desde el principio o se\n    salta lo pendiente\n\n  LA REGLA\n    guardar la posición DESPUÉS de procesar, no antes\n    → guardarla antes produce pérdida silenciosa   ley 13\n    → guardarla después produce reproceso, que la\n      idempotencia absorbe\n\nRETENCIÓN\n  los eventos viven un tiempo, no hasta que se consumen\n  → si el consumidor está caído más que la retención, se\n    pierden eventos\n  → alerta por RETRASO del consumidor frente a la\n    retención                                     ley 13\n```\n\nY el mensaje venenoso, que aquí es más grave:\n\n```text\nen una cola, un mensaje que falla acaba en la cola de\nfallidos y los demás siguen\n\nen un flujo, si el consumidor falla y no avanza, la\nPARTICIÓN ENTERA se detiene\n→ hay que decidir qué hacer con lo que no se puede\n  procesar\n  · apartarlo a una cola de fallidos propia y avanzar\n  · o parar y alertar, si perder orden es inaceptable\n→ y esa decisión hay que escribirla; no viene dada\n```\n\nY la captura hacia almacenamiento, que ahorra trabajo:\n\n```text\nel flujo puede volcar automáticamente a almacenamiento de\nobjetos\n  → da el histórico para análisis sin escribir un\n    consumidor\n  → y el reproceso de meses se hace desde ahí, no desde el\n    flujo                                       clase 150\n```"
+    },
+    {
+      "heading": "Fallidos, reproceso y operación",
+      "body": "La disciplina es la misma de la clase 210, con las piezas de Azure.\n\n```text\nLA COLA DE FALLIDOS DEL BUS\n  cada cola y cada suscripción tiene la suya, integrada\n  los mensajes llegan con el MOTIVO y la descripción\n  → y eso es lo que permite distinguir veneno de\n    dependencia                                clase 210\n\n  y llegan también por\n    caducidad del mensaje\n    error de evaluación de una regla de suscripción\n    y tamaño excedido\n  → tres causas que no son «el consumidor falló»\n\nLAS ALERTAS\n  «hay mensajes en la cola de fallidos»          insuficiente\n  «el mensaje más antiguo supera 1 hora»         ← la útil\n  «la cola activa crece de forma sostenida»\n  «el retraso del consumidor del flujo se acerca a la\n   retención»                                    ← crítica\n```\n\nY el reproceso, con la lección de la clase 210:\n\n```text\nprocedimiento escrito, con límite de ritmo y por lotes\ncon posibilidad de reprocesar uno solo\nejecutado por alguien que no lo escribió           ley 22\ny los venenos, descartados con registro\n\n→ reprocesar todo de golpe dispara la concurrencia y tumba\n  lo que se acababa de recuperar               clase 207\n```\n\n**La idempotencia**, que sigue siendo obligatoria:\n\n```text\nla detección de duplicados del bus cubre al productor\nlas sesiones cubren el orden\nNINGUNA de las dos cubre\n  el bloqueo vencido y la reentrega\n  el reproceso desde la cola de fallidos\n  el reproceso del flujo desde una posición anterior\n\n→ clave de idempotencia del productor, registro con estados\n  y escritura condicionada                     clase 210\n```\n\n**Lo que hay que vigilar:**\n\n```text\nmensajes activos, programados y en cola de fallidos\nantigüedad del más viejo, en las tres\nbloqueos vencidos: señal directa de duración mal puesta\nentregas repetidas del mismo mensaje\nretraso del consumidor del flujo, en eventos y en tiempo\nunidades de caudal del flujo frente a lo consumido\ny el retraso entre que ocurre el hecho y se procesa\n  → la medida que le importa al negocio        clase 211\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ el servicio elegido corresponde a lo que hay que\n  garantizar\n☐ hay cola entre el enrutador y el consumidor\n☐ las sesiones se usan solo donde el orden importa\n☐ la duración del bloqueo supera el proceso, o se renueva\n☐ prebúsqueda × tiempo de proceso < duración del bloqueo\n☐ la detección de duplicados no se usa como sustituto de la\n  idempotencia\n☐ toda operación con efecto es idempotente\n☐ el número de particiones del flujo permite el paralelismo\n  necesario\n☐ la posición del lector se guarda DESPUÉS de procesar\n☐ está decidido qué hacer con un mensaje venenoso en el\n  flujo\n☐ hay alerta por antigüedad en la cola de fallidos\n☐ hay alerta de retraso del consumidor frente a la\n  retención\n☐ el procedimiento de reproceso existe y se ha ejecutado\n☐ los venenos se descartan con registro\n```\n\nY el cierre que enlaza con la clase siguiente: con datos y mensajería en pie, falta saber qué ocurre cuando algo va mal. Observabilidad en Azure, con instrumentación estándar, es la materia de la clase 225."
+    }
+  ],
+  "worked_example": "**CloudShop monta la mensajería de su plataforma en Azure. Lo que sigue son los tres errores de elección del primer diseño, el incidente del flujo que perdió cuatro horas de telemetría, y los parámetros que quedaron.**\n\n**El primer diseño, con las tres elecciones equivocadas:**\n\n```text\nconfirmación de pedido    → enrutador de eventos, directo\n                            a 3 funciones\ntelemetría de la web      → bus de mensajes\nintegración con el ERP    → enrutador de eventos\n```\n\nY lo que falló en cada una:\n\n```text\n1  CONFIRMACIÓN DE PEDIDO al enrutador, directo a funciones\n   sin cola en medio\n   → sin amortiguación: en campaña, las funciones escalaron\n     a 2.400 y tumbaron la base            clase 207\n   → sin control de reintentos por consumidor\n   → y sin cola de fallidos por consumidor: los tres\n     compartían destino de fallidos y no se distinguía\n     cuál había fallado\n\n   corrección\n     enrutador → 3 colas del bus → 3 consumidores\n     cada una con su bloqueo, reintentos y cola de fallidos\n\n2  TELEMETRÍA de la web al bus de mensajes\n   volumen                             41.000 eventos/s\n   el espacio de nombres del bus se saturó\n   coste estimado con el nivel necesario   3.900 €/mes\n\n   corrección\n     flujo de eventos, 8 particiones\n     coste                                  340 €/mes\n     y captura automática a almacenamiento para el\n     histórico                             clase 150\n\n3  INTEGRACIÓN CON EL ERP al enrutador\n   el ERP exigía procesar las líneas de un pedido EN ORDEN\n   el enrutador no garantiza orden\n   → líneas procesadas fuera de orden: 61 pedidos con\n     estado incorrecto en 3 semanas\n\n   corrección\n     cola del bus CON SESIONES, clave = identificador de\n     pedido\n     → orden garantizado dentro de cada pedido\n     → y paralelismo entre pedidos distintos\n```\n\n**El incidente del flujo: cuatro horas de telemetría perdidas.**\n\n```text\nsituación   el consumidor del flujo se desplegó con un\n            fallo y entró en bucle de reinicio\n            retención del flujo                    1 día\n            pero el consumidor guardaba su posición ANTES\n            de procesar\n\nqué pasó\n  al arrancar, el consumidor leía un lote, guardaba la\n  posición, y fallaba al procesar\n  al reiniciar, leía DESDE LA POSICIÓN GUARDADA\n  → los eventos de ese lote nunca se procesaron\n  → y no quedaba rastro: la posición decía que estaban\n    hechos\n\n  duración del bucle                            4 h 10\n  eventos perdidos                        ~610 millones\n  cómo se detectó   el panel de negocio mostró 0 visitas\n                    durante 4 horas               ley 15\n\nqué salvó el caso\n  la captura automática a almacenamiento seguía activa\n  → los eventos estaban ahí\n  → se reprocesaron desde los ficheros, en 6 h\n\ncorrecciones\n  1  la posición se guarda DESPUÉS de procesar\n     → produce reproceso, que la idempotencia absorbe\n  2  alerta de retraso del consumidor: «el retraso supera\n     el 50 % de la retención»\n  3  alerta de reinicios del consumidor       clase 221\n  4  y una comprobación de negocio: «visitas por minuto\n     por debajo del mínimo esperado»\n     → esta es la que lo habría detectado en 5 minutos\n                                                clase 211\n```\n\n**Los duplicados del bus, y el bloqueo.**\n\n```text\nsíntoma   bajo carga, algunos pedidos generaban dos\n          notificaciones\n\ndiagnóstico\n  duración del bloqueo                      30 s (defecto)\n  prebúsqueda                               20 mensajes\n  tiempo de proceso por mensaje             1,8 s\n\n  20 × 1,8 = 36 s > 30 s\n  → los últimos mensajes del lote perdían el bloqueo antes\n    de procesarse\n  → se reentregaban a otro consumidor\n\n  y la métrica que lo confirmaba\n    «bloqueos vencidos»: 340/hora en el pico\n    → estaba disponible y no estaba en ningún panel\n                                                    ley 15\n\ncorrecciones\n  duración del bloqueo                      30 s → 120 s\n  prebúsqueda                               20 → 10\n  renovación automática del bloqueo         activada\n  e idempotencia en el consumidor de notificaciones\n\nbloqueos vencidos                          340/h → 0\nnotificaciones duplicadas                    61 → 0\n```\n\n**La configuración final:**\n\n```text\nENRUTADOR DE EVENTOS\n  eventos de negocio y de la plataforma\n  filtros por tipo y por contenido\n  destino: colas del bus, nunca funciones directas\n  reintentos: 5 con retroceso; destino de fallidos\n  configurado\n\nBUS DE MENSAJES\n  cola             bloqueo  prebúsq.  entregas  sesiones\n  notificaciones    120 s     10         5        no\n  inventario        180 s     10         5        no\n  facturación       300 s      5         5        no\n  erp               240 s      1         3        SÍ\n  → la de sesiones con prebúsqueda 1: el orden importa más\n    que la latencia\n\n  detección de duplicados activada en la cola de pedidos,\n  ventana de 10 minutos\n  → y aun así, idempotencia en los cuatro consumidores\n\nFLUJO\n  8 particiones, clave = identificador de sesión de usuario\n  2 grupos de consumidores: proceso en tiempo real y\n    análisis\n  retención 3 días (subida desde 1)\n  captura automática a almacenamiento, cada 5 min\n  posición guardada después de procesar\n```\n\n**Las alertas montadas:**\n\n```text\nantigüedad del mensaje más viejo en cada cola de fallidos\n  umbral 1 hora → canal de guardia\ncola activa creciendo de forma sostenida\nbloqueos vencidos > 0\nretraso del consumidor del flujo > 50 % de la retención\neventos por minuto por debajo del mínimo esperado\n  → la de negocio, que detecta lo que las técnicas no\nreinicios de consumidores\n```\n\n**El reproceso, probado:**\n\n```text\nprimer ensayo\n  se dejaron 8.000 mensajes en la cola de fallidos a\n  propósito\n  quien lo ejecutó no había escrito el procedimiento\n  → 2 de 7 pasos necesitaron aclaración\n  → y el límite de ritmo estaba en el paso 4, no en el 1\n    → se movió al 1                            clase 216\n\nsegundo ensayo\n  8.000 mensajes reprocesados en 3 min\n  concurrencia máxima                          40\n  incidencias                                   0\n```\n\n**El resultado:**\n\n```text                                        antes     después\nnotificaciones duplicadas                     61           0\npedidos con estado incorrecto (orden)         61           0\neventos de telemetría perdidos           610 M            0\ncoste de la telemetría                   3.900 €       340 €\nbloqueos vencidos                        340/hora         0\ntiempo de detección de un consumidor\n  parado                                    4 h 10      5 min\nreprocesos ejecutados                          0           4\n  que causaron incidente                       —           0\n```\n\n**La lección que esta clase deja**: los tres errores del primer diseño fueron **de elección de servicio**, no de configuración: el enrutador directo a funciones sin amortiguar, el bus para telemetría de gran volumen y el enrutador para algo que necesitaba orden. Y el incidente más grave —seiscientos diez millones de eventos perdidos— lo causó **guardar la posición del lector antes de procesar**, un detalle de una línea que producía pérdida silenciosa; lo salvó una captura automática a almacenamiento que se había activado por otro motivo.",
+  "pitfalls": [
+    {
+      "symptom": "Un pico de eventos tumba la base de datos",
+      "cause": "El enrutador entrega directamente a las funciones, sin cola que amortigüe",
+      "fix": "Pon una cola por consumidor entre el enrutador y el proceso, con su bloqueo, reintentos y cola de fallidos propios."
+    },
+    {
+      "symptom": "Se procesan mensajes fuera de orden y el estado queda mal",
+      "cause": "Se eligió un servicio que no garantiza orden",
+      "fix": "Usa colas con sesiones y clave por entidad; el orden se garantiza dentro de la sesión y sigue habiendo paralelismo entre entidades."
+    },
+    {
+      "symptom": "Aparecen duplicados solo con carga alta",
+      "cause": "La prebúsqueda por el tiempo de proceso supera la duración del bloqueo",
+      "fix": "Aumenta el bloqueo, reduce la prebúsqueda y activa la renovación automática; vigila la métrica de bloqueos vencidos."
+    },
+    {
+      "symptom": "Se pierden eventos sin ningún error",
+      "cause": "La posición del lector se guarda antes de procesar",
+      "fix": "Guarda la posición después de procesar y absorbe el reproceso con idempotencia; alerta si el retraso se acerca a la retención."
+    },
+    {
+      "symptom": "Un mensaje incorrecto detiene todo el consumo",
+      "cause": "En un flujo, el consumidor no avanza y bloquea la partición entera",
+      "fix": "Decide y escribe qué hacer con el veneno: apartarlo a una cola propia y avanzar, o parar y alertar."
+    },
+    {
+      "symptom": "La factura de mensajería es muy alta para telemetría",
+      "cause": "Se usa el bus de mensajes para volúmenes que corresponden a un flujo",
+      "fix": "Usa el flujo para gran volumen, con captura automática a almacenamiento para el histórico."
+    }
+  ],
+  "checks": [
+    "¿Qué garantiza el bus que no garantiza el enrutador de eventos?",
+    "¿Qué relación deben cumplir prebúsqueda, tiempo de proceso y duración del bloqueo?",
+    "¿Por qué la detección de duplicados no sustituye a la idempotencia?",
+    "¿Cuándo se debe guardar la posición del lector de un flujo y por qué?",
+    "¿Qué ocurre con un mensaje venenoso en un flujo y qué hay que decidir?"
+  ],
+  "references": [
+    {
+      "text": "Microsoft (2025). *Azure Service Bus: message sessions, transactions and dead-letter queues*.",
+      "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview"
+    },
+    {
+      "text": "Microsoft (2025). *Azure Event Grid: event delivery and retry*.",
+      "url": "https://learn.microsoft.com/en-us/azure/event-grid/delivery-and-retry"
+    },
+    {
+      "text": "Microsoft (2025). *Azure Event Hubs: partitions, consumer groups and capture*.",
+      "url": "https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-features"
+    },
+    {
+      "text": "Microsoft (2025). *Choose between Azure messaging services*.",
+      "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/compare-messaging-services"
+    },
+    {
+      "text": "Hohpe, G. y Woolf, B. (2003). *Enterprise Integration Patterns*.",
+      "url": "https://www.enterpriseintegrationpatterns.com/"
+    }
+  ]
+}
