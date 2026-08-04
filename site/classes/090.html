@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/090.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "090 — Plan, apply, drift, import y refactor con moved", "description": "090 — Plan, apply, drift, import y refactor con moved Parte: 07 — Infraestructura como código y configuración<br Nivel: intermedio-avanzado · Horas estimad", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/090.html"}</script>
   <title>090 — Plan, apply, drift, import y refactor con moved · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/07.html">Parte 07</a><span>/</span><strong>090</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="089.html" rel="prev" title="Variables, outputs, locals y data sources">← 089</a><a class="pager-link index" href="../parts/07.html">Parte 07</a><a class="pager-link next" href="091.html" rel="next" title="Validación, lint, pruebas y policy as code">091 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf" download>📕 Parte 07 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 07 · intermedio-avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="090"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    E[&quot;ejecución&quot;] --&gt; F1[&quot;1 · REFRESCO\nconsulta el estado real&quot;]
-    F1 --&gt; F2[&quot;2 · PLAN\ncompara y calcula el cambio&quot;]
-    F2 --&gt; F3[&quot;3 · APLICACIÓN\nejecuta lo calculado&quot;]
-    F1 -.-&gt;|&quot;detecta&quot;| D[&quot;DESVIACIÓN&quot;]
-    D --&gt; C{&quot;clasificar · clase 085&quot;}
-    C --&gt; C1[&quot;manual: reconciliar y preguntar por qué&quot;]
-    C --&gt; C2[&quot;proveedor: declarar o ignorar&quot;]
-    C --&gt; C3[&quot;otro sistema: frontera de propiedad&quot;]
-    P[&quot;planificación PROGRAMADA&quot;] -.-&gt;|&quot;código de salida 2&quot;| AL[&quot;alerta de desviación&quot;]
-    S{&quot;operaciones quirúrgicas&quot;} --&gt; S1[&quot;-target · rompe la garantía&quot;]
-    S --&gt; S2[&quot;-replace · recreación deliberada&quot;]
-    S --&gt; S3[&quot;-refresh-only · solo actualizar el estado&quot;]
-    R[&quot;refactor&quot;] --&gt; M[&quot;moved / removed&quot;] --&gt; V[&quot;plan con CERO de todo&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/c666dcaaf74fef79.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-tres-fases-y-que-hace-cada-una">1. Tres fases, y qué hace cada una</h3>
 <p>Una ejecución tiene tres fases y confundirlas lleva a diagnósticos equivocados:</p>
@@ -478,7 +470,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-07-infrastructure-as-code-configuration/090-plan-apply-drift-import-y-refactor-con-moved/lesson.yaml">Contrato de clase</a> · <a href="../parts/07.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-07-infrastructure-as-code-configuration/090-plan-apply-drift-import-y-refactor-con-moved/../../../site/downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf">Parte 07 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-07-infrastructure-as-code-configuration/090-plan-apply-drift-import-y-refactor-con-moved/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>ciclo-cambio-iac</h2></div>
         <code>python classes/part-07-infrastructure-as-code-configuration/090-plan-apply-drift-import-y-refactor-con-moved/lab.py --seed 42</code>
@@ -542,6 +535,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-fases-y-que-hace-cada-una">1. Tres fases, y qué hace cada una</a><a class="toc-level-3" href="#2-la-desviacion-como-senal-programada">2. La desviación como señal programada</a><a class="toc-level-3" href="#3-leer-un-plan-por-donde-importa">3. Leer un plan por donde importa</a><a class="toc-level-3" href="#4-operaciones-quirurgicas-y-su-precio">4. Operaciones quirúrgicas y su precio</a><a class="toc-level-3" href="#5-refactorizar-sin-destruir">5. Refactorizar sin destruir</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

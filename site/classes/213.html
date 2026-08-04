@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/213.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "213 — EKS, IRSA, GitOps y operación de clúster", "description": "213 — EKS, IRSA, GitOps y operación de clúster Parte: 17 — AWS: arquitectura, automatización y operación en producción<br Nivel: avanzado · Horas estimadas", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/213.html"}</script>
   <title>213 — EKS, IRSA, GitOps y operación de clúster · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/17.html">Parte 17</a><span>/</span><strong>213</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="212.html" rel="prev" title="ECR, ECS Fargate, ALB y autoscaling">← 212</a><a class="pager-link index" href="../parts/17.html">Parte 17</a><a class="pager-link next" href="214.html" rel="next" title="Budgets, Cost Explorer, etiquetado y FinOps automatizado">214 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-17-aws-production-architecture.pdf" download>📕 Parte 17 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 17 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="213"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    Q{&quot;¿hace falta Kubernetes?&quot;}
-    Q --&gt;|&quot;pocos servicios,\nsin cargas especiales,\nequipo pequeño&quot;| N[&quot;NO · clase 212&quot;]
-    Q --&gt;|&quot;muchos equipos,\nnecesidad de\nextensibilidad,\nportabilidad real&quot;| S[&quot;SÍ&quot;]
-    S --&gt; I[&quot;IDENTIDAD\ncuenta de servicio →\nrol, sin secretos&quot;]
-    S --&gt; G[&quot;RECONCILIACIÓN\nrepositorio → clúster&quot;]
-    G --&gt; G1[&quot;alerta por ANTIGÜEDAD\nde la sincronización&quot;]
-    S --&gt; R[&quot;peticiones y límites&quot;]
-    R --&gt; R1[&quot;petición = lo que\nreserva y coloca&quot;]
-    R --&gt; R2[&quot;límite de memoria\n→ MUERTE&quot;]
-    R --&gt; R3[&quot;límite de CPU\n→ estrangulamiento&quot;]
-    S --&gt; U[&quot;ACTUALIZACIONES\nversión + complementos&quot;]
-    U --&gt; U1[&quot;ventana de soporte corta\n→ 2-3 al año, siempre&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/6141e13030c717d8.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-hace-falta-kubernetes">1. ¿Hace falta Kubernetes?</h3>
 <p>Es la pregunta que hay que contestar primero, y la respuesta honesta suele decepcionar.</p>
@@ -649,7 +642,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/213-eks-irsa-gitops-y-operacion-de-cluster/lesson.yaml">Contrato de clase</a> · <a href="../parts/17.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/213-eks-irsa-gitops-y-operacion-de-cluster/../../../site/downloads/partes/manual-parte-17-aws-production-architecture.pdf">Parte 17 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/213-eks-irsa-gitops-y-operacion-de-cluster/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/213-eks-irsa-gitops-y-operacion-de-cluster/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>aws-eks-gitops</h2></div>
         <code>python classes/part-17-aws-production-architecture/213-eks-irsa-gitops-y-operacion-de-cluster/lab.py --seed 42</code>
@@ -713,6 +707,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-hace-falta-kubernetes">1. ¿Hace falta Kubernetes?</a><a class="toc-level-3" href="#2-identidad-sin-credenciales">2. Identidad sin credenciales</a><a class="toc-level-3" href="#3-operar-desde-el-repositorio">3. Operar desde el repositorio</a><a class="toc-level-3" href="#4-peticiones-limites-y-actualizaciones">4. Peticiones, límites y actualizaciones</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

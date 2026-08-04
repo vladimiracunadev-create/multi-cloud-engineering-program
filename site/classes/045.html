@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/045.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "045 — Azure Monitor, Log Analytics y Application Insights", "description": "045 — Azure Monitor, Log Analytics y Application Insights Parte: 03 — Azure: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio:", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/045.html"}</script>
   <title>045 — Azure Monitor, Log Analytics y Application Insights · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/03.html">Parte 03</a><span>/</span><strong>045</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="044.html" rel="prev" title="Service Bus, Event Grid y Event Hubs">← 044</a><a class="pager-link index" href="../parts/03.html">Parte 03</a><a class="pager-link next" href="046.html" rel="next" title="Key Vault, Defender for Cloud y Azure Policy">046 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-03-azure-core-platform.pdf" download>📕 Parte 03 en PDF</a><a href="../downloads/nubes/manual-azure.pdf" download>☁️ Recorrido de Azure en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 03 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="045"> Clase completada</label>
@@ -92,24 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    subgraph orig[&quot;orígenes&quot;]
-        AL[&quot;registro de actividad&lt;br/&gt;quién hizo qué · plano de control&quot;]
-        RL[&quot;registros de recurso&lt;br/&gt;APAGADOS por defecto&quot;]
-        AG[&quot;agente + regla de recopilación&lt;br/&gt;sistema operativo invitado&quot;]
-        AI[&quot;Application Insights&lt;br/&gt;peticiones · dependencias · excepciones&quot;]
-    end
-    AL --&gt; DCR{&quot;configuración de diagnóstico&lt;br/&gt;y regla de recopilación&quot;}
-    RL --&gt; DCR
-    AG --&gt; DCR
-    AI --&gt; W
-    DCR --&gt;|&quot;filtrar AQUÍ&lt;br/&gt;antes de pagar&quot;| W[&quot;área de trabajo&lt;br/&gt;Log Analytics&quot;]
-    DCR --&gt;|&quot;lo voluminoso que solo se archiva&quot;| ST[&quot;almacenamiento · clase 041&quot;]
-    W --&gt; P{&quot;plan por tabla&quot;}
-    P --&gt; AN[&quot;análisis · KQL completo · alertas&quot;]
-    P --&gt; BA[&quot;básica · fracción del precio&lt;br/&gt;sin alertas&quot;]
-    W --&gt; Q[&quot;KQL: tasa de error · p95 ·&lt;br/&gt;traza por identificador de operación&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/e2c8369d89c421b5.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-nada-se-registra-hasta-que-alguien-lo-enciende">1. Nada se registra hasta que alguien lo enciende</h3>
 <p>Esta es la frase que hay que aprender antes que cualquier consulta. En Azure hay cuatro orígenes de telemetría y <strong>solo uno funciona sin configurar nada</strong>:</p>
@@ -555,7 +544,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/045-azure-monitor-log-analytics-y-application-insights/lesson.yaml">Contrato de clase</a> · <a href="../parts/03.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/045-azure-monitor-log-analytics-y-application-insights/../../../site/downloads/partes/manual-parte-03-azure-core-platform.pdf">Parte 03 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/045-azure-monitor-log-analytics-y-application-insights/../../../site/downloads/nubes/manual-azure.pdf">Recorrido de Azure en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/045-azure-monitor-log-analytics-y-application-insights/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>evidencia-operativa-azure</h2></div>
         <code>python classes/part-03-azure-core-platform/045-azure-monitor-log-analytics-y-application-insights/lab.py --seed 42</code>
@@ -619,6 +609,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-nada-se-registra-hasta-que-alguien-lo-enciende">1. Nada se registra hasta que alguien lo enciende</a><a class="toc-level-3" href="#2-metricas-y-registros-la-misma-senal-con-dos-precios">2. Métricas y registros: la misma señal con dos precios</a><a class="toc-level-3" href="#3-kql-suficiente-para-responder-las-cuatro-preguntas">3. KQL suficiente para responder las cuatro preguntas</a><a class="toc-level-3" href="#4-alertas-la-que-llega-en-un-minuto-y-la-que-llega-en-nueve">4. Alertas: la que llega en un minuto y la que llega en nueve</a><a class="toc-level-3" href="#5-operar-la-flota-sin-abrir-puertos-y-saber-que-cambio">5. Operar la flota sin abrir puertos, y saber qué cambió</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

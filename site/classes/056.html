@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/056.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "056 — Pub/Sub, Cloud Tasks y Workflows", "description": "056 — Pub/Sub, Cloud Tasks y Workflows Parte: 04 — Google Cloud: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: messaging ·", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/056.html"}</script>
   <title>056 — Pub/Sub, Cloud Tasks y Workflows · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/04.html">Parte 04</a><span>/</span><strong>056</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="055.html" rel="prev" title="Cloud Run, Cloud Functions y API Gateway">← 055</a><a class="pager-link index" href="../parts/04.html">Parte 04</a><a class="pager-link next" href="057.html" rel="next" title="Cloud Logging, Monitoring, Trace y Audit Logs">057 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-04-gcp-core-platform.pdf" download>📕 Parte 04 en PDF</a><a href="../downloads/nubes/manual-google-cloud.pdf" download>☁️ Recorrido de Google Cloud en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 04 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="056"> Clase completada</label>
@@ -92,18 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P[&quot;publicador&quot;] --&gt; T[&quot;TEMA&quot;]
-    T --&gt; S1[&quot;suscripción · extracción&lt;br/&gt;trabajo que alguien hace&quot;]
-    T --&gt; S2[&quot;suscripción · entrega HTTP&lt;br/&gt;a Cloud Run, con OIDC&quot;]
-    T --&gt; S3[&quot;suscripción · a BigQuery&lt;br/&gt;sin escribir código&quot;]
-    S1 --&gt; DL{&quot;¿fallidos configurados&lt;br/&gt;Y con permisos?&quot;}
-    DL --&gt;|&quot;no&quot;| L[&quot;reintenta indefinidamente&lt;br/&gt;o caduca en silencio&quot;]
-    DL --&gt;|&quot;sí&quot;| DLQ[&quot;tema de fallidos + alerta&quot;]
-    T -.-&gt;|&quot;búsqueda por marca de tiempo&quot;| RP[&quot;reproducir lo ya procesado&quot;]
-    X[&quot;destino que NO escala&lt;br/&gt;API de un tercero&quot;] --- CT[&quot;Cloud Tasks&lt;br/&gt;ritmo controlado por cola&quot;]
-    W[&quot;proceso con pasos y compensaciones&quot;] --- WF[&quot;Workflows · orquestación declarada&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/8112460c8dc49f3e.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-un-producto-y-la-decision-se-traslada-a-la-suscripcion">1. Un producto, y la decisión se traslada a la suscripción</h3>
 <p>La clase 044 separaba tres servicios con una pregunta: si el mensaje se consume, Service Bus; si se observa, Event Hubs; si se enruta, Event Grid. Aquí hay <strong>un tema</strong> y la respuesta está en cuántas suscripciones tiene y de qué tipo:</p>
@@ -509,7 +504,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-04-gcp-core-platform/056-pub-sub-cloud-tasks-y-workflows/lesson.yaml">Contrato de clase</a> · <a href="../parts/04.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-04-gcp-core-platform/056-pub-sub-cloud-tasks-y-workflows/../../../site/downloads/partes/manual-parte-04-gcp-core-platform.pdf">Parte 04 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-04-gcp-core-platform/056-pub-sub-cloud-tasks-y-workflows/../../../site/downloads/nubes/manual-google-cloud.pdf">Recorrido de Google Cloud en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-04-gcp-core-platform/056-pub-sub-cloud-tasks-y-workflows/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>flujo-eventos-gcp</h2></div>
         <code>python classes/part-04-gcp-core-platform/056-pub-sub-cloud-tasks-y-workflows/lab.py --seed 42</code>
@@ -573,6 +569,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-un-producto-y-la-decision-se-traslada-a-la-suscripcion">1. Un producto, y la decisión se traslada a la suscripción</a><a class="toc-level-3" href="#2-la-cola-de-fallidos-que-no-recibe-nada">2. La cola de fallidos que no recibe nada</a><a class="toc-level-3" href="#3-exactamente-una-vez-dicho-con-precision">3. «Exactamente una vez» dicho con precisión</a><a class="toc-level-3" href="#4-cloud-tasks-cuando-el-destino-no-puede-con-el-ritmo">4. Cloud Tasks: cuando el destino no puede con el ritmo</a><a class="toc-level-3" href="#5-reproducir-la-capacidad-que-repara-un-dano-detectado-tarde">5. Reproducir: la capacidad que repara un daño detectado tarde</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

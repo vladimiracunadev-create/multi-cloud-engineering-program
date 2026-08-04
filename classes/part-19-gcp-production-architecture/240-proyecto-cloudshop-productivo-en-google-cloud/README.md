@@ -639,6 +639,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 19 en PDF](../../../site/downloads/partes/manual-parte-19-gcp-production-architecture.pdf) · [Recorrido de Google Cloud en PDF](../../../site/downloads/nubes/manual-google-cloud.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 239 · SCC, VPC Service Controls, KMS y FinOps](../../part-19-gcp-production-architecture/239-scc-vpc-service-controls-kms-y-finops/README.md) | [Parte 19](../README.md) · [Programa](../../README.md) | [241 · Lakehouse, warehouse, mesh y contratos de datos →](../../part-20-cloud-data-ai-platforms/241-lakehouse-warehouse-mesh-y-contratos-de-datos/README.md) |

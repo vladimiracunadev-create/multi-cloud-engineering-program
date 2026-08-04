@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/206.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "206 — OIDC de GitHub y GitLab hacia AWS sin secretos", "description": "206 — OIDC de GitHub y GitLab hacia AWS sin secretos Parte: 17 — AWS: arquitectura, automatización y operación en producción<br Nivel: avanzado · Horas est", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/206.html"}</script>
   <title>206 — OIDC de GitHub y GitLab hacia AWS sin secretos · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/17.html">Parte 17</a><span>/</span><strong>206</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="205.html" rel="prev" title="Hosting progresivo con Amplify, S3 y CloudFront">← 205</a><a class="pager-link index" href="../parts/17.html">Parte 17</a><a class="pager-link next" href="207.html" rel="next" title="SAM, Lambda, API Gateway y despliegue serverless">207 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-17-aws-production-architecture.pdf" download>📕 Parte 17 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 17 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="206"> Clase completada</label>
@@ -92,18 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    W[&quot;trabajo de la canalización&quot;] --&gt; T[&quot;pide un testigo\nal sistema de integración&quot;]
-    T --&gt; T1[&quot;testigo firmado con\niss · aud · sub&quot;]
-    T1 --&gt; A[&quot;AWS STS\nassume-role-with-web-identity&quot;]
-    A --&gt; V{&quot;comprobaciones&quot;}
-    V --&gt; V1[&quot;¿emisor confiable?\nproveedor de identidad&quot;]
-    V --&gt; V2[&quot;¿audiencia correcta?&quot;]
-    V --&gt; V3[&quot;¿SUJETO permitido?\n← aquí están los errores&quot;]
-    V3 --&gt;|&quot;StringLike con *\nmal puesto&quot;| X[&quot;CUALQUIER repositorio\npuede asumir el rol&quot;]
-    V3 --&gt;|&quot;StringEquals\ncompleto&quot;| OK[&quot;credenciales temporales\n15-60 min&quot;]
-    OK --&gt; P[&quot;permisos mínimos\ndel rol&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/ddf17c2b2180ec6a.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-como-funciona-el-intercambio">1. Cómo funciona el intercambio</h3>
 <p>El mecanismo tiene cuatro piezas y conviene entenderlas antes de configurarlas.</p>
@@ -601,7 +596,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/206-oidc-de-github-y-gitlab-hacia-aws-sin-secretos/lesson.yaml">Contrato de clase</a> · <a href="../parts/17.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/206-oidc-de-github-y-gitlab-hacia-aws-sin-secretos/../../../site/downloads/partes/manual-parte-17-aws-production-architecture.pdf">Parte 17 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/206-oidc-de-github-y-gitlab-hacia-aws-sin-secretos/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/206-oidc-de-github-y-gitlab-hacia-aws-sin-secretos/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>aws-oidc-federation</h2></div>
         <code>python classes/part-17-aws-production-architecture/206-oidc-de-github-y-gitlab-hacia-aws-sin-secretos/lab.py --seed 42</code>
@@ -665,6 +661,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-como-funciona-el-intercambio">1. Cómo funciona el intercambio</a><a class="toc-level-3" href="#2-donde-se-cometen-los-errores-graves">2. Donde se cometen los errores graves</a><a class="toc-level-3" href="#3-permisos-del-rol-y-separacion">3. Permisos del rol y separación</a><a class="toc-level-3" href="#4-migrar-sin-romper">4. Migrar sin romper</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/253.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "253 — Inventario, etiquetado, CMDB y ownership", "description": "253 — Inventario, etiquetado, CMDB y ownership Parte: 21 — Operación cloud, automatización y respuesta a incidentes<br Nivel: avanzado · Horas estimadas: 4", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/253.html"}</script>
   <title>253 — Inventario, etiquetado, CMDB y ownership · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/21.html">Parte 21</a><span>/</span><strong>253</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="252.html" rel="prev" title="Proyecto: asistente operativo de CloudShop">← 252</a><a class="pager-link index" href="../parts/21.html">Parte 21</a><a class="pager-link next" href="254.html" rel="next" title="Patching, imágenes doradas y gestión de configuración">254 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-21-cloud-operations-automation.pdf" download>📕 Parte 21 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 21 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="253"> Clase completada</label>
@@ -92,22 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    D[&quot;DESCUBRIMIENTO\nautomático, continuo&quot;] --&gt; I[&quot;INVENTARIO\nqué existe&quot;]
-    I --&gt; R{&quot;¿tiene dueño?&quot;}
-    R --&gt;|no| H[&quot;HUÉRFANO\n← el hallazgo&quot;]
-    R --&gt;|sí| O[&quot;con dueño&quot;]
-    I --&gt; C{&quot;¿está declarado\nen código?&quot;}
-    C --&gt;|no| C1[&quot;DERIVA\ncreado fuera\ndel proceso&quot;]
-    I --&gt; U{&quot;¿se usa?&quot;}
-    U --&gt;|no| T[&quot;RETIRAR&quot;]
-    T --&gt; T1[&quot;1 detectar&quot;]
-    T1 --&gt; T2[&quot;2 avisar al dueño&quot;]
-    T2 --&gt; T3[&quot;3 APAGAR, no borrar&quot;]
-    T3 --&gt; T4[&quot;4 esperar&quot;]
-    T4 --&gt; T5[&quot;5 borrar&quot;]
-    O --&gt; M[&quot;relaciones:\nqué depende de qué&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/e7244b9c1ff282bf.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-tres-cosas-distintas">1. Tres cosas distintas</h3>
 <p>«Inventario», «base de configuración» y «mapa de dependencias» se usan como sinónimos y responden preguntas distintas.</p>
@@ -682,7 +673,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-21-cloud-operations-automation/253-inventario-etiquetado-cmdb-y-ownership/lesson.yaml">Contrato de clase</a> · <a href="../parts/21.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-21-cloud-operations-automation/253-inventario-etiquetado-cmdb-y-ownership/../../../site/downloads/partes/manual-parte-21-cloud-operations-automation.pdf">Parte 21 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-21-cloud-operations-automation/253-inventario-etiquetado-cmdb-y-ownership/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>cloud-inventory</h2></div>
         <code>python classes/part-21-cloud-operations-automation/253-inventario-etiquetado-cmdb-y-ownership/lab.py --seed 42</code>
@@ -746,6 +738,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-cosas-distintas">1. Tres cosas distintas</a><a class="toc-level-3" href="#2-el-dueno-y-como-se-asigna">2. El dueño, y cómo se asigna</a><a class="toc-level-3" href="#3-deriva-lo-que-existe-fuera-del-proceso">3. Deriva: lo que existe fuera del proceso</a><a class="toc-level-3" href="#4-retirar">4. Retirar</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

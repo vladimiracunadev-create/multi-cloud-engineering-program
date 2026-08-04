@@ -713,6 +713,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 18 en PDF](../../../site/downloads/partes/manual-parte-18-azure-production-architecture.pdf) · [Recorrido de Azure en PDF](../../../site/downloads/nubes/manual-azure.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 227 · Cost Management, Advisor, resiliencia y Chaos Studio](../../part-18-azure-production-architecture/227-cost-management-advisor-resiliencia-y-chaos-studio/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [229 · Resource Manager, folders, Shared VPC y guardrails →](../../part-19-gcp-production-architecture/229-resource-manager-folders-shared-vpc-y-guardrails/README.md) |

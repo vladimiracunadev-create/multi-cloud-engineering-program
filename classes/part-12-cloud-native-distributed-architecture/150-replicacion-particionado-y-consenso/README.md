@@ -652,6 +652,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 12 en PDF](../../../site/downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 149 · CAP, PACELC y consistencia por operación](../../part-12-cloud-native-distributed-architecture/149-cap-pacelc-y-consistencia-por-operacion/README.md) | [Parte 12](../README.md) · [Programa](../../README.md) | [151 · Fallos parciales y patrones de resiliencia →](../../part-12-cloud-native-distributed-architecture/151-fallos-parciales-y-patrones-de-resiliencia/README.md) |

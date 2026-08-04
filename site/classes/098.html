@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/098.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "098 — GitHub Actions: workflows, runners, permisos y caché", "description": "098 — GitHub Actions: workflows, runners, permisos y caché Parte: 08 — Entrega continua y platform engineering<br Nivel: avanzado · Horas estimadas: 4<br L", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/098.html"}</script>
   <title>098 — GitHub Actions: workflows, runners, permisos y caché · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/08.html">Parte 08</a><span>/</span><strong>098</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="097.html" rel="prev" title="Integración continua, trunk-based development y feedback">← 097</a><a class="pager-link index" href="../parts/08.html">Parte 08</a><a class="pager-link next" href="099.html" rel="next" title="Artefactos inmutables, semver y promoción">099 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf" download>📕 Parte 08 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 08 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="098"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    EV[&quot;evento&quot;] --&gt; W[&quot;flujo de trabajo&quot;]
-    W --&gt; J[&quot;trabajos&quot;] --&gt; S[&quot;pasos&quot;]
-    S --&gt; R{&quot;¿dónde se ejecuta?&quot;}
-    R --&gt;|&quot;ejecutor del proveedor&quot;| RA[&quot;efímero y aislado&quot;]
-    R --&gt;|&quot;ejecutor propio&quot;| RB[&quot;DENTRO de tu red&quot;]
-    RB -.-&gt;|&quot;si acepta propuestas externas&quot;| X1[&quot;ejecución de código ajeno\nen la red interna&quot;]
-    EV -.-&gt;|&quot;disparador con privilegios&quot;| P[&quot;secretos + escritura&quot;]
-    P -.-&gt;|&quot;+ descargar el código de la propuesta&quot;| X2[&quot;código ajeno con credenciales propias&quot;]
-    S -.-&gt;|&quot;interpolar campos del evento&quot;| X3[&quot;inyección: el texto se vuelve código&quot;]
-    A[&quot;acción de terceros&quot;] -.-&gt;|&quot;por etiqueta&quot;| X4[&quot;quien mueve la etiqueta\nejecuta en tu canalización&quot;]
-    C[&quot;caché&quot;] -.-&gt;|&quot;escrita desde una rama ajena&quot;| X5[&quot;envenenamiento&quot;]
-    OK[&quot;identidad federada&quot;] --&gt; N[&quot;sin claves de larga duración&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/791555cc4db19802.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-el-modelo-y-donde-entra-codigo-ajeno">1. El modelo, y dónde entra código ajeno</h3>
 <p>La estructura es sencilla y lo importante es dónde se cruza con código que la organización no controla:</p>
@@ -540,7 +533,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-08-continuous-delivery-platform-engineering/098-github-actions-workflows-runners-permisos-y-cache/lesson.yaml">Contrato de clase</a> · <a href="../parts/08.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-08-continuous-delivery-platform-engineering/098-github-actions-workflows-runners-permisos-y-cache/../../../site/downloads/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf">Parte 08 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-08-continuous-delivery-platform-engineering/098-github-actions-workflows-runners-permisos-y-cache/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>pipeline-github-actions</h2></div>
         <code>python classes/part-08-continuous-delivery-platform-engineering/098-github-actions-workflows-runners-permisos-y-cache/lab.py --seed 42</code>
@@ -604,6 +598,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-modelo-y-donde-entra-codigo-ajeno">1. El modelo, y dónde entra código ajeno</a><a class="toc-level-3" href="#2-los-cuatro-caminos-de-escalada">2. Los cuatro caminos de escalada</a><a class="toc-level-3" href="#3-permisos-secretos-e-identidad">3. Permisos, secretos e identidad</a><a class="toc-level-3" href="#4-cache-reutilizacion-y-tiempo-de-respuesta">4. Caché, reutilización y tiempo de respuesta</a><a class="toc-level-3" href="#5-la-auditoria-de-la-canalizacion">5. La auditoría de la canalización</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

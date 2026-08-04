@@ -656,6 +656,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 18 en PDF](../../../site/downloads/partes/manual-parte-18-azure-production-architecture.pdf) · [Recorrido de Azure en PDF](../../../site/downloads/nubes/manual-azure.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 224 · Service Bus, Event Grid y Event Hubs](../../part-18-azure-production-architecture/224-service-bus-event-grid-y-event-hubs/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [226 · Defender for Cloud, Policy y Sentinel →](../../part-18-azure-production-architecture/226-defender-for-cloud-policy-y-sentinel/README.md) |

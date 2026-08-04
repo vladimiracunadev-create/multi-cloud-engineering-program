@@ -280,6 +280,21 @@ footer strong, footer span { display: block; } footer span { color: var(--muted)
   .segmented { grid-column: auto; }
   .header-actions .icon-button:first-of-type { display: none; }
 }
+
+.panel-block { margin-top: 46px; }
+.panel-block .section-title h2 { margin: 4px 0 8px; }
+.section-lead { max-width: 82ch; color: var(--muted); margin: 0 0 18px; }
+.downloads-subtitle { margin: 28px 0 12px; font-size: 15px; }
+.download-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.download-grid.parts { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+.download-card { display: grid; gap: 4px; align-content: start; padding: 13px 15px; border: 1px solid var(--line); background: var(--surface); color: var(--text); text-decoration: none; }
+.download-card:hover { border-color: var(--green); background: var(--surface-2); }
+.download-card strong { font-size: 14px; }
+.download-card span { color: var(--muted); font-size: 11px; }
+.download-card.wide { grid-column: 1 / -1; border-left: 3px solid var(--amber); }
+.download-card.small { padding: 10px 12px; }
+.download-card.small strong { color: var(--amber); font-family: ui-monospace, monospace; font-size: 12px; }
+.download-card .meta { font-size: 10px; }
   </style>
   <title>Multi-Cloud Engineering Program</title>
 </head>
@@ -323,7 +338,8 @@ footer strong, footer span { display: block; } footer span { color: var(--muted)
             <a class="button primary" id="continue-course" href="classes/001.html">▶ Continuar</a>
             <button class="button secondary" data-view-target="roadmap">Ver roadmap</button>
             <a class="button secondary" href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program">Código fuente</a>
-            <a class="button secondary" href="downloads/multi-cloud-engineering-manual-v2.0.pdf" download>Manual · 2.779 páginas</a>
+            <a class="button secondary" href="downloads/multi-cloud-engineering-manual-v2.0.pdf" download>Manual · 2.883 páginas</a>
+            <a class="button secondary" href="#manuales">Manuales por nube y parte</a>
           </div>
         </div>
         <div class="hero-progress">
@@ -374,6 +390,18 @@ footer strong, footer span { display: block; } footer span { color: var(--muted)
             <a href="parts/16.html"><span class="capability-color violet"></span><div><strong>Producción, edge, IA y capstones</strong><small>Partes 16–20, 23 · AWS/Azure/GCP productivos · datos e IA</small></div><b>72 clases</b></a>
           </div>
         </div>
+      </section>
+      <section class="panel-block" id="manuales">
+        <div class="section-title"><span class="kicker">Descargas</span><h2>Manuales en PDF</h2></div>
+        <p class="section-lead">El manual integral son 2.883 páginas: sirve para consultar. Para estudiar, cada nube y cada parte tienen el suyo, generados desde las mismas fuentes.</p>
+        <div class="download-grid">
+          <a class="download-card wide" href="downloads/multi-cloud-engineering-manual-v2.0.pdf" download>
+            <strong>📚 Manual integral</strong><span>288 clases · 288 evaluaciones · 2.883 páginas</span>
+          </a>
+          <a class="download-card" href="downloads/nubes/manual-aws.pdf" download><strong>☁️ AWS</strong><span>27 clases · 255 páginas</span></a><a class="download-card" href="downloads/nubes/manual-azure.pdf" download><strong>☁️ Azure</strong><span>28 clases · 287 páginas</span></a><a class="download-card" href="downloads/nubes/manual-google-cloud.pdf" download><strong>☁️ Google Cloud</strong><span>27 clases · 279 páginas</span></a>
+        </div>
+        <h3 class="downloads-subtitle">Por parte</h3>
+        <div class="download-grid parts"><a class="download-card small" href="downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf" download><strong>Parte 00</strong><span>Fundamentos de computación, redes y Linux</span><span class="meta">84 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf" download><strong>Parte 01</strong><span>Principios, estrategia y adopción cloud</span><span class="meta">92 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-02-aws-core-platform.pdf" download><strong>Parte 02</strong><span>AWS: plataforma esencial</span><span class="meta">102 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-03-azure-core-platform.pdf" download><strong>Parte 03</strong><span>Azure: plataforma esencial</span><span class="meta">122 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-04-gcp-core-platform.pdf" download><strong>Parte 04</strong><span>Google Cloud: plataforma esencial</span><span class="meta">126 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-05-containers-docker-oci.pdf" download><strong>Parte 05</strong><span>Contenedores, Docker y OCI</span><span class="meta">124 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-06-kubernetes-managed-platforms.pdf" download><strong>Parte 06</strong><span>Kubernetes y plataformas administradas</span><span class="meta">122 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf" download><strong>Parte 07</strong><span>Infraestructura como código y configuración</span><span class="meta">119 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf" download><strong>Parte 08</strong><span>Entrega continua y platform engineering</span><span class="meta">113 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-09-data-messaging-serverless-integration.pdf" download><strong>Parte 09</strong><span>Datos, mensajería, serverless e integración</span><span class="meta">116 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-10-observability-sre-reliability.pdf" download><strong>Parte 10</strong><span>Observabilidad, SRE y confiabilidad</span><span class="meta">116 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-11-security-governance-finops.pdf" download><strong>Parte 11</strong><span>Seguridad, gobierno, cumplimiento y FinOps</span><span class="meta">122 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf" download><strong>Parte 12</strong><span>Arquitectura cloud-native y sistemas distribuidos</span><span class="meta">122 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf" download><strong>Parte 13</strong><span>Multi-cloud, híbrido, migración y recuperación</span><span class="meta">122 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf" download><strong>Parte 14</strong><span>Plataformas avanzadas, capstones y carrera</span><span class="meta">125 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-15-systems-architecture-engineering.pdf" download><strong>Parte 15</strong><span>Arquitectura de sistemas e ingeniería de requisitos</span><span class="meta">120 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-16-advanced-cloud-networking-edge.pdf" download><strong>Parte 16</strong><span>Redes cloud avanzadas, conectividad híbrida y edge</span><span class="meta">128 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-17-aws-production-architecture.pdf" download><strong>Parte 17</strong><span>AWS: arquitectura, automatización y operación en producción</span><span class="meta">132 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-18-azure-production-architecture.pdf" download><strong>Parte 18</strong><span>Azure: arquitectura empresarial y operación en producción</span><span class="meta">133 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-19-gcp-production-architecture.pdf" download><strong>Parte 19</strong><span>Google Cloud: arquitectura de datos y operación en producción</span><span class="meta">132 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-20-cloud-data-ai-platforms.pdf" download><strong>Parte 20</strong><span>Plataformas cloud de datos, analítica, IA y agentes</span><span class="meta">139 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-21-cloud-operations-automation.pdf" download><strong>Parte 21</strong><span>Operación cloud, automatización y respuesta a incidentes</span><span class="meta">142 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-22-specializations-certifications-career.pdf" download><strong>Parte 22</strong><span>Especializaciones, certificaciones y práctica profesional</span><span class="meta">130 páginas</span></a><a class="download-card small" href="downloads/partes/manual-parte-23-industry-capstones.pdf" download><strong>Parte 23</strong><span>Capstones por industria y defensa final</span><span class="meta">132 páginas</span></a></div>
       </section>
     </section>
 
@@ -439,6 +467,6 @@ footer strong, footer span { display: block; } footer span { color: var(--muted)
   </footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=2.1.0-r1" defer></script>
+  <script src="app.js?v=2.2.0-r1" defer></script>
 </body>
 </html>

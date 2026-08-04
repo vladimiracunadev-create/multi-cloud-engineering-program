@@ -2,6 +2,8 @@
 
 > [← Parte 22](../part-22-specializations-certifications-career/README.md) · [Índice completo](../README.md) · Fin
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-23-industry-capstones.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** experto · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Integrar arquitectura, implementación, operación, costo y comunicación en casos industriales completos.

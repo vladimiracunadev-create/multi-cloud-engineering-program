@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/082.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "082 — Logs, métricas, eventos y depuración", "description": "082 — Logs, métricas, eventos y depuración Parte: 06 — Kubernetes y plataformas administradas<br Nivel: intermedio-avanzado · Horas estimadas: 4<br Laborat", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/082.html"}</script>
   <title>082 — Logs, métricas, eventos y depuración · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/06.html">Parte 06</a><span>/</span><strong>082</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="081.html" rel="prev" title="Helm, Kustomize y gestión de paquetes">← 081</a><a class="pager-link index" href="../parts/06.html">Parte 06</a><a class="pager-link next" href="083.html" rel="next" title="EKS, AKS y GKE: similitudes y diferencias">083 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-06-kubernetes-managed-platforms.pdf" download>📕 Parte 06 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 06 · intermedio-avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="082"> Clase completada</label>
@@ -92,18 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    Q{&quot;¿qué pregunta?&quot;} --&gt;|&quot;¿por qué el objeto está así?&quot;| E[&quot;SUCESOS · caducan en 1 h&quot;]
-    Q --&gt;|&quot;¿qué dijo el proceso?&quot;| L[&quot;REGISTROS · rotan en el nodo&quot;]
-    Q --&gt;|&quot;¿se está cumpliendo lo declarado?&quot;| S[&quot;métricas de ESTADO&quot;]
-    Q --&gt;|&quot;¿va justo de algo?&quot;| R[&quot;métricas de RECURSOS&quot;]
-    Q --&gt;|&quot;¿por dónde pasó la petición?&quot;| T[&quot;trazas · clases 045 · 057&quot;]
-    E -.-&gt;|&quot;si no se exportan&quot;| X1[&quot;la causa de anoche no existe&quot;]
-    L -.-&gt;|&quot;si no se recogen&quot;| X2[&quot;el contenedor locuaz borra su historia&quot;]
-    S --&gt; A[&quot;réplicas declaradas − disponibles &gt; 0\ndurante N min → ALERTA&quot;]
-    A -.-&gt; LEY[&quot;la ley de la clase 073, medida&quot;]
-    R --&gt; P[&quot;presión por recurso · clase 070&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/3a977fb5d9ee7339.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-cuatro-senales-cuatro-preguntas-y-dos-que-caducan">1. Cuatro señales, cuatro preguntas, y dos que caducan</h3>
 <p>En un clúster hay cuatro fuentes y cada una responde algo distinto. Usar la equivocada es la causa habitual de un diagnóstico largo:</p>
@@ -537,7 +532,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-06-kubernetes-managed-platforms/082-logs-metricas-eventos-y-depuracion/lesson.yaml">Contrato de clase</a> · <a href="../parts/06.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-06-kubernetes-managed-platforms/082-logs-metricas-eventos-y-depuracion/../../../site/downloads/partes/manual-parte-06-kubernetes-managed-platforms.pdf">Parte 06 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-06-kubernetes-managed-platforms/082-logs-metricas-eventos-y-depuracion/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>diagnostico-kubernetes</h2></div>
         <code>python classes/part-06-kubernetes-managed-platforms/082-logs-metricas-eventos-y-depuracion/lab.py --seed 42</code>
@@ -601,6 +597,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-cuatro-senales-cuatro-preguntas-y-dos-que-caducan">1. Cuatro señales, cuatro preguntas, y dos que caducan</a><a class="toc-level-3" href="#2-estado-y-recursos-dos-familias-que-no-se-sustituyen">2. Estado y recursos: dos familias que no se sustituyen</a><a class="toc-level-3" href="#3-el-orden-que-acota-un-diagnostico">3. El orden que acota un diagnóstico</a><a class="toc-level-3" href="#4-lo-que-cuesta-y-lo-que-nadie-consulta">4. Lo que cuesta, y lo que nadie consulta</a><a class="toc-level-3" href="#5-lo-que-ya-se-puede-afirmar-sobre-observabilidad">5. Lo que ya se puede afirmar sobre observabilidad</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

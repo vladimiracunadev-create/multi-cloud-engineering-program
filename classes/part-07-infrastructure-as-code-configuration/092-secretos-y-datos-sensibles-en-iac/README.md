@@ -557,6 +557,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 07 en PDF](../../../site/downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 091 · Validación, lint, pruebas y policy as code](../../part-07-infrastructure-as-code-configuration/091-validacion-lint-pruebas-y-policy-as-code/README.md) | [Parte 07](../README.md) · [Programa](../../README.md) | [093 · CloudFormation, Bicep, Pulumi y Terraform →](../../part-07-infrastructure-as-code-configuration/093-cloudformation-bicep-pulumi-y-terraform/README.md) |

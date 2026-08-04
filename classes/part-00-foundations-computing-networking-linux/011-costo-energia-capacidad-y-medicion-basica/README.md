@@ -316,6 +316,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 00 en PDF](../../../site/downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 010 · Responsabilidad compartida y pensamiento de riesgo](../../part-00-foundations-computing-networking-linux/010-responsabilidad-compartida-y-pensamiento-de-riesgo/README.md) | [Parte 00](../README.md) · [Programa](../../README.md) | [012 · Proyecto: servicio local reproducible y observable →](../../part-00-foundations-computing-networking-linux/012-proyecto-servicio-local-reproducible-y-observable/README.md) |

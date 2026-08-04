@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/202.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "202 — eBPF, flow logs, packet capture y diagnóstico", "description": "202 — eBPF, flow logs, packet capture y diagnóstico Parte: 16 — Redes cloud avanzadas, conectividad híbrida y edge<br Nivel: avanzado · Horas estimadas: 4<", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/202.html"}</script>
   <title>202 — eBPF, flow logs, packet capture y diagnóstico · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/16.html">Parte 16</a><span>/</span><strong>202</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="201.html" rel="prev" title="Service mesh, mTLS y gestión de tráfico este-oeste">← 201</a><a class="pager-link index" href="../parts/16.html">Parte 16</a><a class="pager-link next" href="203.html" rel="next" title="SD-WAN, 5G, IoT y operación desconectada">203 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-16-advanced-cloud-networking-edge.pdf" download>📕 Parte 16 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 16 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="202"> Clase completada</label>
@@ -92,22 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P[&quot;¿qué pregunta tengo?&quot;] --&gt; Q1{&quot;¿quién habla\ncon quién?&quot;}
-    Q1 --&gt;|sí| F[&quot;REGISTROS DE FLUJO\nbarato, siempre activo&quot;]
-    P --&gt; Q2{&quot;¿se está\nrechazando algo?&quot;}
-    Q2 --&gt;|sí| F
-    P --&gt; Q3{&quot;¿qué proceso\nabre esta conexión?&quot;}
-    Q3 --&gt;|sí| B[&quot;eBPF\nvincula socket,\nproceso y contenedor&quot;]
-    P --&gt; Q4{&quot;¿por qué esta\nconexión va lenta\no se corta?&quot;}
-    Q4 --&gt;|sí| C[&quot;CAPTURA\nfiltrada y acotada&quot;]
-    C --&gt; C1[&quot;retransmisiones&quot;]
-    C --&gt; C2[&quot;ventana cero&quot;]
-    C --&gt; C3[&quot;quién cierra primero&quot;]
-    C --&gt; C4[&quot;handshake TLS&quot;]
-    E[&quot;cifrado&quot;] --&gt; E1[&quot;tamaños, tiempos\ny dirección siguen visibles&quot;]
-    E --&gt; E2[&quot;instrumentar en\nlos extremos&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/130fc0ac9ecfff20.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-tres-herramientas-tres-preguntas">1. Tres herramientas, tres preguntas</h3>
 <p>El error que más tiempo cuesta es empezar capturando paquetes. Cada herramienta responde preguntas distintas y hay que ir de la barata a la cara.</p>
@@ -595,7 +586,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-16-advanced-cloud-networking-edge/202-ebpf-flow-logs-packet-capture-y-diagnostico/lesson.yaml">Contrato de clase</a> · <a href="../parts/16.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-16-advanced-cloud-networking-edge/202-ebpf-flow-logs-packet-capture-y-diagnostico/../../../site/downloads/partes/manual-parte-16-advanced-cloud-networking-edge.pdf">Parte 16 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-16-advanced-cloud-networking-edge/202-ebpf-flow-logs-packet-capture-y-diagnostico/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>network-evidence</h2></div>
         <code>python classes/part-16-advanced-cloud-networking-edge/202-ebpf-flow-logs-packet-capture-y-diagnostico/lab.py --seed 42</code>
@@ -659,6 +651,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-herramientas-tres-preguntas">1. Tres herramientas, tres preguntas</a><a class="toc-level-3" href="#2-leer-registros-de-flujo">2. Leer registros de flujo</a><a class="toc-level-3" href="#3-captura-de-paquetes-que-buscar">3. Captura de paquetes: qué buscar</a><a class="toc-level-3" href="#4-cuando-el-trafico-va-cifrado">4. Cuando el tráfico va cifrado</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

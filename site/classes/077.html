@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/077.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "077 — Volumes, PersistentVolumes, CSI y StatefulSets", "description": "077 — Volumes, PersistentVolumes, CSI y StatefulSets Parte: 06 — Kubernetes y plataformas administradas<br Nivel: intermedio-avanzado · Horas estimadas: 4<", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/077.html"}</script>
   <title>077 — Volumes, PersistentVolumes, CSI y StatefulSets · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/06.html">Parte 06</a><span>/</span><strong>077</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="076.html" rel="prev" title="ConfigMaps, Secrets y configuración externa">← 076</a><a class="pager-link index" href="../parts/06.html">Parte 06</a><a class="pager-link next" href="078.html" rel="next" title="Requests, limits, scheduling y autoscaling">078 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-06-kubernetes-managed-platforms.pdf" download>📕 Parte 06 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 06 · intermedio-avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="077"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P[&quot;pod&quot;] --&gt; PVC[&quot;reclamación de volumen&quot;]
-    PVC --&gt; SC[&quot;clase de almacenamiento&quot;]
-    SC --&gt; PV[&quot;volumen real · disco del proveedor&quot;]
-    SC --&gt; B{&quot;¿cuándo se crea?&quot;}
-    B --&gt;|&quot;inmediata&quot;| Z1[&quot;elige zona SIN saber el nodo&lt;br/&gt;→ el pod queda atado a esa zona&quot;]
-    B --&gt;|&quot;diferida&quot;| Z2[&quot;espera al pod · se crea en la zona correcta&quot;]
-    PV --&gt; A{&quot;modo de acceso&quot;}
-    A --&gt;|&quot;bloque&quot;| U[&quot;UN escritor · clase 064&quot;]
-    A --&gt;|&quot;sistema compartido&quot;| M[&quot;varios · otra semántica&quot;]
-    SS[&quot;conjunto con estado&quot;] --&gt; ID[&quot;nombre estable · volumen propio · orden&quot;]
-    ID -.-&gt;|&quot;NO garantiza&quot;| EX[&quot;exclusión durante una partición&quot;]
-    PVC -.-&gt;|&quot;política de recuperación&quot;| DEL[&quot;al borrar la reclamación&lt;br/&gt;¿se borran los datos?&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/588989441655bc9c.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-cuatro-objetos-encadenados-y-cual-falla-en-cada-caso">1. Cuatro objetos encadenados, y cuál falla en cada caso</h3>
 <p>El almacenamiento en Kubernetes es una cadena de cuatro objetos, y saber cuál es cuál convierte «el pod no arranca» en un diagnóstico de treinta segundos:</p>
@@ -552,7 +545,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-06-kubernetes-managed-platforms/077-volumes-persistentvolumes-csi-y-statefulsets/lesson.yaml">Contrato de clase</a> · <a href="../parts/06.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-06-kubernetes-managed-platforms/077-volumes-persistentvolumes-csi-y-statefulsets/../../../site/downloads/partes/manual-parte-06-kubernetes-managed-platforms.pdf">Parte 06 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-06-kubernetes-managed-platforms/077-volumes-persistentvolumes-csi-y-statefulsets/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>estado-kubernetes</h2></div>
         <code>python classes/part-06-kubernetes-managed-platforms/077-volumes-persistentvolumes-csi-y-statefulsets/lab.py --seed 42</code>
@@ -616,6 +610,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-cuatro-objetos-encadenados-y-cual-falla-en-cada-caso">1. Cuatro objetos encadenados, y cuál falla en cada caso</a><a class="toc-level-3" href="#2-el-volumen-elige-zona-antes-que-el-planificador">2. El volumen elige zona antes que el planificador</a><a class="toc-level-3" href="#3-identidad-estable-no-es-exclusion">3. Identidad estable no es exclusión</a><a class="toc-level-3" href="#4-el-ciclo-de-vida-del-dato">4. El ciclo de vida del dato</a><a class="toc-level-3" href="#5-la-pregunta-que-hay-que-hacer-antes-de-crear-un-volumen">5. La pregunta que hay que hacer antes de crear un volumen</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/177.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "177 — Soberanía digital y confidential computing", "description": "177 — Soberanía digital y confidential computing Parte: 14 — Plataformas avanzadas, capstones y carrera<br Nivel: experto-frontera · Horas estimadas: 4<br", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/177.html"}</script>
   <title>177 — Soberanía digital y confidential computing · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/14.html">Parte 14</a><span>/</span><strong>177</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="176.html" rel="prev" title="Edge, IoT y procesamiento desconectado">← 176</a><a class="pager-link index" href="../parts/14.html">Parte 14</a><a class="pager-link next" href="178.html" rel="next" title="Capstone: descubrimiento y diseño">178 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf" download>📕 Parte 14 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 14 · experto-frontera</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="177"> Clase completada</label>
@@ -92,23 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    S[&quot;«soberanía»&quot;] --&gt; S1[&quot;1 · RESIDENCIA\ndónde están los datos · 141&quot;]
-    S --&gt; S2[&quot;2 · CONTROL OPERATIVO\nquién accede, incluido el proveedor&quot;]
-    S --&gt; S3[&quot;3 · INDEPENDENCIA TÉCNICA\ncoste de salida · 158&quot;]
-    S --&gt; S4[&quot;4 · JURISDICCIÓN\nqué derecho obliga&quot;]
-    S1 --&gt; R1[&quot;respuesta técnica clara&quot;]
-    S2 --&gt; R2[&quot;respuesta técnica parcial&quot;]
-    S3 --&gt; R3[&quot;se mide, no se resuelve&quot;]
-    S4 --&gt; R4[&quot;NO tiene respuesta técnica&quot;]
-    T{&quot;¿contra quién?&quot;} --&gt;|&quot;otro cliente&quot;| T1[&quot;aislamiento normal · 154&quot;]
-    T --&gt;|&quot;un atacante&quot;| T2[&quot;parte 11&quot;]
-    T --&gt;|&quot;personal del proveedor&quot;| T3[&quot;controles operativos,\nclaves externas, cómputo confidencial&quot;]
-    T --&gt;|&quot;un requerimiento legal&quot;| T4[&quot;contrato, jurisdicción\ny dónde vive la clave&quot;]
-    C[&quot;cómputo confidencial&quot;] --&gt; C1[&quot;protege del anfitrión&quot;]
-    C --&gt; C2[&quot;NO protege de tus propios fallos&quot;]
-    C --&gt; C3[&quot;la confianza se traslada\nal fabricante del hardware&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/edaca7ab45f60152.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-cuatro-exigencias-no-una">1. Cuatro exigencias, no una</h3>
 <p>«Soberanía» se usa para cuatro cosas distintas, y confundirlas produce compras caras que no resuelven lo que preocupaba:</p>
@@ -647,7 +637,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/177-soberania-digital-y-confidential-computing/lesson.yaml">Contrato de clase</a> · <a href="../parts/14.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/177-soberania-digital-y-confidential-computing/../../../site/downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf">Parte 14 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/177-soberania-digital-y-confidential-computing/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>decision-soberania</h2></div>
         <code>python classes/part-14-advanced-platform-capstones-career/177-soberania-digital-y-confidential-computing/lab.py --seed 42</code>
@@ -711,6 +702,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-cuatro-exigencias-no-una">1. Cuatro exigencias, no una</a><a class="toc-level-3" href="#2-contra-quien-se-protege">2. Contra quién se protege</a><a class="toc-level-3" href="#3-computo-confidencial-sin-exageraciones">3. Cómputo confidencial, sin exageraciones</a><a class="toc-level-3" href="#4-lo-que-casi-siempre-se-pide-de-verdad">4. Lo que casi siempre se pide de verdad</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

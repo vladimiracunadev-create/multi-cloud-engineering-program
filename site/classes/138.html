@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/138.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "138 — Vulnerabilidades, imágenes y cadena de suministro", "description": "138 — Vulnerabilidades, imágenes y cadena de suministro Parte: 11 — Seguridad, gobierno, cumplimiento y FinOps<br Nivel: avanzado · Horas estimadas: 4<br L", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/138.html"}</script>
   <title>138 — Vulnerabilidades, imágenes y cadena de suministro · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/11.html">Parte 11</a><span>/</span><strong>138</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="137.html" rel="prev" title="Gestión de secretos y credenciales de workloads">← 137</a><a class="pager-link index" href="../parts/11.html">Parte 11</a><a class="pager-link next" href="139.html" rel="next" title="CSPM, postura, policy as code y remediación">139 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-11-security-governance-finops.pdf" download>📕 Parte 11 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 11 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="138"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    T[&quot;decenas de miles\nde hallazgos&quot;] --&gt; F1{&quot;¿tiene corrección?&quot;}
-    F1 --&gt;|&quot;no&quot;| S[&quot;seguimiento y control\ncompensatorio&quot;]
-    F1 --&gt;|&quot;sí&quot;| F2{&quot;¿explotación conocida?&quot;}
-    F2 --&gt;|&quot;no&quot;| B[&quot;cadencia de base\ny actualización rutinaria&quot;]
-    F2 --&gt;|&quot;sí&quot;| F3{&quot;¿alcanzable en el código?&quot;}
-    F3 --&gt;|&quot;no&quot;| J[&quot;declaración justificada · 101&quot;]
-    F3 --&gt;|&quot;sí&quot;| F4{&quot;¿expuesto o crítico?&quot;}
-    F4 --&gt;|&quot;no&quot;| P[&quot;plazo largo&quot;]
-    F4 --&gt;|&quot;sí&quot;| U[&quot;URGENTE · plazo corto&quot;]
-    O[&quot;origen del hallazgo&quot;] --&gt; O1[&quot;imagen base → cadencia&quot;]
-    O --&gt; O2[&quot;directas → actualizar&quot;]
-    O --&gt; O3[&quot;transitivas → subir la madre\no forzar versión&quot;]
-    O --&gt; O4[&quot;código propio → arreglar&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/424effb5e3ec5cdb.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-escala-obliga-a-priorizar">1. La escala obliga a priorizar</h3>
 <p>Los números de una organización mediana, para no engañarse:</p>
@@ -531,7 +523,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/138-vulnerabilidades-imagenes-y-cadena-de-suministro/lesson.yaml">Contrato de clase</a> · <a href="../parts/11.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/138-vulnerabilidades-imagenes-y-cadena-de-suministro/../../../site/downloads/partes/manual-parte-11-security-governance-finops.pdf">Parte 11 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/138-vulnerabilidades-imagenes-y-cadena-de-suministro/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>informe-supply-chain</h2></div>
         <code>python classes/part-11-security-governance-finops/138-vulnerabilidades-imagenes-y-cadena-de-suministro/lab.py --seed 42</code>
@@ -595,6 +588,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-escala-obliga-a-priorizar">1. La escala obliga a priorizar</a><a class="toc-level-3" href="#2-corregir-por-familias">2. Corregir por familias</a><a class="toc-level-3" href="#3-cuando-el-ataque-llega-por-la-dependencia">3. Cuando el ataque llega por la dependencia</a><a class="toc-level-3" href="#4-plazos-excepciones-y-lo-que-no-tiene-arreglo">4. Plazos, excepciones y lo que no tiene arreglo</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

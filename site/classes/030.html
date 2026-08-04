@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/030.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "030 — S3: objetos, versionado, lifecycle y replicación", "description": "030 — S3: objetos, versionado, lifecycle y replicación Parte: 02 — AWS: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: stora", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/030.html"}</script>
   <title>030 — S3: objetos, versionado, lifecycle y replicación · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/02.html">Parte 02</a><span>/</span><strong>030</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="029.html" rel="prev" title="Elastic Load Balancing y Auto Scaling">← 029</a><a class="pager-link index" href="../parts/02.html">Parte 02</a><a class="pager-link next" href="031.html" rel="next" title="RDS, DynamoDB y ElastiCache: decisión de datos">031 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-02-aws-core-platform.pdf" download>📕 Parte 02 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 02 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="030"> Clase completada</label>
@@ -88,16 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P[&quot;PUT objeto&quot;] --&gt; V{{&quot;¿versionado?&quot;}}
-    V --&gt;|&quot;sí&quot;| V1[&quot;versión nueva&lt;br/&gt;las anteriores se conservan&quot;]
-    V --&gt;|&quot;no&quot;| SOB[&quot;sobrescribe&lt;br/&gt;el anterior se pierde&quot;]
-    D[&quot;DELETE objeto&quot;] --&gt; V2{{&quot;¿versionado?&quot;}}
-    V2 --&gt;|&quot;sí&quot;| M[&quot;marcador de borrado&lt;br/&gt;el objeto sigue ahí y se paga&quot;]
-    V2 --&gt;|&quot;no&quot;| X[&quot;eliminado&quot;]
-    M -.-&gt;|&quot;DeleteObjectVersion&quot;| X
-    X -.-&gt;|&quot;bloqueo de objetos&lt;br/&gt;en modo cumplimiento&quot;| B[&quot;IMPOSIBLE hasta&lt;br/&gt;que expire la retención&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/aeb03f31f5df761f.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-versionado-y-bloqueo-protegen-de-cosas-distintas">1. Versionado y bloqueo protegen de cosas distintas</h3>
 <p>Se confunden y cubren riesgos que no se solapan:</p>
@@ -462,7 +459,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/030-s3-objetos-versionado-lifecycle-y-replicacion/lesson.yaml">Contrato de clase</a> · <a href="../parts/02.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/030-s3-objetos-versionado-lifecycle-y-replicacion/../../../site/downloads/partes/manual-parte-02-aws-core-platform.pdf">Parte 02 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/030-s3-objetos-versionado-lifecycle-y-replicacion/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/030-s3-objetos-versionado-lifecycle-y-replicacion/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>bucket-gobernado-aws</h2></div>
         <code>python classes/part-02-aws-core-platform/030-s3-objetos-versionado-lifecycle-y-replicacion/lab.py --seed 42</code>
@@ -526,6 +524,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-versionado-y-bloqueo-protegen-de-cosas-distintas">1. Versionado y bloqueo protegen de cosas distintas</a><a class="toc-level-3" href="#2-el-marcador-de-borrado-explica-la-factura-que-no-baja">2. El marcador de borrado explica la factura que no baja</a><a class="toc-level-3" href="#3-clases-de-almacenamiento-el-ahorro-que-a-veces-no-lo-es">3. Clases de almacenamiento: el ahorro que a veces no lo es</a><a class="toc-level-3" href="#4-bloquear-el-acceso-publico-en-todos-los-niveles">4. Bloquear el acceso público en todos los niveles</a><a class="toc-level-3" href="#5-replicacion-no-es-copia-de-seguridad">5. Replicación no es copia de seguridad</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

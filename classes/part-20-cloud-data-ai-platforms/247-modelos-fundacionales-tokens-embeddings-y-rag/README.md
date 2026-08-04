@@ -685,6 +685,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 20 en PDF](../../../site/downloads/partes/manual-parte-20-cloud-data-ai-platforms.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 246 · MLOps, registro, promoción, drift y rollback](../../part-20-cloud-data-ai-platforms/246-mlops-registro-promocion-drift-y-rollback/README.md) | [Parte 20](../README.md) · [Programa](../../README.md) | [248 · Bedrock, Azure AI Foundry y Vertex AI →](../../part-20-cloud-data-ai-platforms/248-bedrock-azure-ai-foundry-y-vertex-ai/README.md) |

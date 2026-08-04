@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/092.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "092 — Secretos y datos sensibles en IaC", "description": "092 — Secretos y datos sensibles en IaC Parte: 07 — Infraestructura como código y configuración<br Nivel: intermedio-avanzado · Horas estimadas: 4<br Labor", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/092.html"}</script>
   <title>092 — Secretos y datos sensibles en IaC · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/07.html">Parte 07</a><span>/</span><strong>092</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="091.html" rel="prev" title="Validación, lint, pruebas y policy as code">← 091</a><a class="pager-link index" href="../parts/07.html">Parte 07</a><a class="pager-link next" href="093.html" rel="next" title="CloudFormation, Bicep, Pulumi y Terraform">093 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf" download>📕 Parte 07 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 07 · intermedio-avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="092"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    S[&quot;un secreto pasa por la plantilla&quot;] --&gt; R1[&quot;repositorio · y su historial&quot;]
-    S --&gt; R2[&quot;ESTADO · en claro&quot;]
-    S --&gt; R3[&quot;fichero de plan&quot;]
-    S --&gt; R4[&quot;registros de la ejecución&quot;]
-    S --&gt; R5[&quot;salidas del módulo raíz&quot;]
-    S --&gt; R6[&quot;registros del proveedor&quot;]
-    E{&quot;estrategias, en orden&quot;} --&gt; E1[&quot;1 · NO tenerlo:\nlo genera el servicio o\nla identidad sustituye la credencial&quot;]
-    E --&gt; E2[&quot;2 · referenciarlo:\nla plantilla dice DÓNDE está&quot;]
-    E --&gt; E3[&quot;3 · materializarlo:\ny aceptar el rastro, y rotar&quot;]
-    E1 -.-&gt;|&quot;elimina&quot;| R2
-    E2 -.-&gt;|&quot;elimina&quot;| R2
-    E3 -.-&gt;|&quot;deja&quot;| R2
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/c6bf84fbb3ab0643.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-seis-rastros-y-solo-uno-es-el-repositorio">1. Seis rastros, y solo uno es el repositorio</h3>
 <p>Cuando un secreto pasa por una plantilla, queda en más sitios de los que se supone. Conviene la lista completa porque las auditorías suelen revisar el primero y ninguno de los otros cinco:</p>
@@ -516,7 +509,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-07-infrastructure-as-code-configuration/092-secretos-y-datos-sensibles-en-iac/lesson.yaml">Contrato de clase</a> · <a href="../parts/07.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-07-infrastructure-as-code-configuration/092-secretos-y-datos-sensibles-en-iac/../../../site/downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf">Parte 07 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-07-infrastructure-as-code-configuration/092-secretos-y-datos-sensibles-en-iac/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>modelo-secretos-iac</h2></div>
         <code>python classes/part-07-infrastructure-as-code-configuration/092-secretos-y-datos-sensibles-en-iac/lab.py --seed 42</code>
@@ -580,6 +574,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-seis-rastros-y-solo-uno-es-el-repositorio">1. Seis rastros, y solo uno es el repositorio</a><a class="toc-level-3" href="#2-tres-estrategias-y-la-primera-es-la-que-resuelve">2. Tres estrategias, y la primera es la que resuelve</a><a class="toc-level-3" href="#3-lo-que-la-marca-de-sensible-hace-y-no-hace">3. Lo que la marca de sensible hace y no hace</a><a class="toc-level-3" href="#4-rotar-sin-producir-desviacion">4. Rotar sin producir desviación</a><a class="toc-level-3" href="#5-la-auditoria-de-los-seis-rastros">5. La auditoría de los seis rastros</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

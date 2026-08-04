@@ -434,6 +434,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 02 en PDF](../../../site/downloads/partes/manual-parte-02-aws-core-platform.pdf) · [Recorrido de AWS en PDF](../../../site/downloads/nubes/manual-aws.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 025 · Organizations, cuentas, OU, SCP y landing zone](../../part-02-aws-core-platform/025-organizations-cuentas-ou-scp-y-landing-zone/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [027 · VPC, subredes, rutas, NAT, endpoints y seguridad →](../../part-02-aws-core-platform/027-vpc-subredes-rutas-nat-endpoints-y-seguridad/README.md) |

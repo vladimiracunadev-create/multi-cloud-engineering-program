@@ -640,6 +640,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 17 en PDF](../../../site/downloads/partes/manual-parte-17-aws-production-architecture.pdf) · [Recorrido de AWS en PDF](../../../site/downloads/nubes/manual-aws.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 208 · DynamoDB por patrones de acceso y single-table design](../../part-17-aws-production-architecture/208-dynamodb-por-patrones-de-acceso-y-single-table-design/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [210 · EventBridge, SQS, DLQ, replay e idempotencia →](../../part-17-aws-production-architecture/210-eventbridge-sqs-dlq-replay-e-idempotencia/README.md) |

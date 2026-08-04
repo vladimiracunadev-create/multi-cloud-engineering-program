@@ -9,4 +9,4 @@ class assets change, so browsers and the service worker fetch the new files
 instead of serving a stale cached copy.
 """
 
-ASSET_VERSION = "2.1.0-r1"
+ASSET_VERSION = "2.2.0-r1"

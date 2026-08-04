@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/187.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "187 — Consistencia, particiones, relojes y consenso", "description": "187 — Consistencia, particiones, relojes y consenso Parte: 15 — Arquitectura de sistemas e ingeniería de requisitos<br Nivel: intermedio-avanzado · Horas e", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/187.html"}</script>
   <title>187 — Consistencia, particiones, relojes y consenso · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/15.html">Parte 15</a><span>/</span><strong>187</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="186.html" rel="prev" title="Capacidad, latencia, throughput y teoría de colas">← 186</a><a class="pager-link index" href="../parts/15.html">Parte 15</a><a class="pager-link next" href="188.html" rel="next" title="Contratos de API, eventos y compatibilidad evolutiva">188 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-15-systems-architecture-engineering.pdf" download>📕 Parte 15 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 15 · intermedio-avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="187"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P{&quot;¿hay partición\nde red AHORA?&quot;}
-    P --&gt;|no| N[&quot;CAP no dice nada\n→ el compromiso real es\nLATENCIA vs consistencia&quot;]
-    P --&gt;|sí| E{&quot;¿qué se elige?&quot;}
-    E --&gt; C[&quot;CONSISTENCIA\nrechazar y no responder&quot;]
-    E --&gt; A[&quot;DISPONIBILIDAD\nresponder con dato\nposiblemente viejo&quot;]
-    O[&quot;decidir POR OPERACIÓN&quot;] --&gt; O1[&quot;reservar plaza\n→ fuerte, o se vende dos veces&quot;]
-    O --&gt; O2[&quot;ver catálogo\n→ eventual, nadie lo nota&quot;]
-    O --&gt; O3[&quot;ver mi reserva\n→ de sesión&quot;]
-    O --&gt; O4[&quot;cobrar\n→ idempotente + fuerte&quot;]
-    R[&quot;ordenar sucesos&quot;] --&gt; R1[&quot;reloj de pared: NO\nderiva y salta&quot;]
-    R --&gt; R2[&quot;reloj lógico o versión&quot;]
-    R --&gt; R3[&quot;consenso si hace falta\nacuerdo, no solo orden&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/262339b3de37514a.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-cap-bien-enunciado">1. CAP, bien enunciado</h3>
 <p>El teorema se cita constantemente y casi siempre mal. Su enunciado correcto es estrecho:</p>
@@ -551,7 +544,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/187-consistencia-particiones-relojes-y-consenso/lesson.yaml">Contrato de clase</a> · <a href="../parts/15.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/187-consistencia-particiones-relojes-y-consenso/../../../site/downloads/partes/manual-parte-15-systems-architecture-engineering.pdf">Parte 15 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/187-consistencia-particiones-relojes-y-consenso/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>consistency-model</h2></div>
         <code>python classes/part-15-systems-architecture-engineering/187-consistencia-particiones-relojes-y-consenso/lab.py --seed 42</code>
@@ -615,6 +609,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-cap-bien-enunciado">1. CAP, bien enunciado</a><a class="toc-level-3" href="#2-los-relojes-no-ordenan-nada">2. Los relojes no ordenan nada</a><a class="toc-level-3" href="#3-consenso-que-resuelve-y-que-cuesta">3. Consenso: qué resuelve y qué cuesta</a><a class="toc-level-3" href="#4-consistencia-eventual-sin-que-se-note">4. Consistencia eventual sin que se note</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

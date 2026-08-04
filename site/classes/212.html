@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/212.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "212 — ECR, ECS Fargate, ALB y autoscaling", "description": "212 — ECR, ECS Fargate, ALB y autoscaling Parte: 17 — AWS: arquitectura, automatización y operación en producción<br Nivel: avanzado · Horas estimadas: 4<b", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/212.html"}</script>
   <title>212 — ECR, ECS Fargate, ALB y autoscaling · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/17.html">Parte 17</a><span>/</span><strong>212</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="211.html" rel="prev" title="CloudWatch, X-Ray y observabilidad como código">← 211</a><a class="pager-link index" href="../parts/17.html">Parte 17</a><a class="pager-link next" href="213.html" rel="next" title="EKS, IRSA, GitOps y operación de clúster">213 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-17-aws-production-architecture.pdf" download>📕 Parte 17 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 17 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="212"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    B[&quot;construcción&quot;] --&gt; R[&quot;REGISTRO\netiqueta inmutable\n= huella del contenido&quot;]
-    R --&gt; R1[&quot;exploración al subir\ny CONTINUA&quot;]
-    R --&gt; R2[&quot;caducidad:\nsin ella crece sin fin&quot;]
-    R --&gt; S[&quot;servicio&quot;]
-    S --&gt; S1[&quot;capacidad gestionada\no máquinas propias&quot;]
-    S --&gt; S2[&quot;comprobación de salud\ncon periodo de gracia&quot;]
-    S --&gt; S3[&quot;drenaje &gt; plazo\nmás largo&quot;]
-    S --&gt; S4[&quot;parada elegante:\natender la señal&quot;]
-    S --&gt; E[&quot;ESCALADO&quot;]
-    E --&gt; E1[&quot;¿CPU?\ncasi nunca&quot;]
-    E --&gt; E2[&quot;peticiones por tarea\no profundidad de cola&quot;]
-    E --&gt; E3[&quot;retraso = detección\n+ decisión + arranque&quot;]
-    E3 --&gt; E4[&quot;margen que lo cubra&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/f21e47bb66b22d0c.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-el-registro-y-la-higiene-de-imagenes">1. El registro y la higiene de imágenes</h3>
 <p>El registro parece un detalle y produce dos problemas caros: imágenes que cambian bajo el mismo nombre y crecimiento sin límite.</p>
@@ -635,7 +627,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/212-ecr-ecs-fargate-alb-y-autoscaling/lesson.yaml">Contrato de clase</a> · <a href="../parts/17.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/212-ecr-ecs-fargate-alb-y-autoscaling/../../../site/downloads/partes/manual-parte-17-aws-production-architecture.pdf">Parte 17 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/212-ecr-ecs-fargate-alb-y-autoscaling/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/212-ecr-ecs-fargate-alb-y-autoscaling/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>aws-ecs-platform</h2></div>
         <code>python classes/part-17-aws-production-architecture/212-ecr-ecs-fargate-alb-y-autoscaling/lab.py --seed 42</code>
@@ -699,6 +692,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-registro-y-la-higiene-de-imagenes">1. El registro y la higiene de imágenes</a><a class="toc-level-3" href="#2-capacidad-gestionada-o-propia">2. Capacidad: gestionada o propia</a><a class="toc-level-3" href="#3-servicio-y-balanceador-sin-cortar-peticiones">3. Servicio y balanceador sin cortar peticiones</a><a class="toc-level-3" href="#4-escalar-con-la-senal-correcta">4. Escalar con la señal correcta</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/137.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "137 — Gestión de secretos y credenciales de workloads", "description": "137 — Gestión de secretos y credenciales de workloads Parte: 11 — Seguridad, gobierno, cumplimiento y FinOps<br Nivel: avanzado · Horas estimadas: 4<br Lab", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/137.html"}</script>
   <title>137 — Gestión de secretos y credenciales de workloads · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/11.html">Parte 11</a><span>/</span><strong>137</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="136.html" rel="prev" title="Cifrado, KMS, HSM, rotación y envelope encryption">← 136</a><a class="pager-link index" href="../parts/11.html">Parte 11</a><a class="pager-link next" href="138.html" rel="next" title="Vulnerabilidades, imágenes y cadena de suministro">138 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-11-security-governance-finops.pdf" download>📕 Parte 11 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 11 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="137"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    O{&quot;¿hace falta un secreto?&quot;} --&gt;|&quot;el destino acepta\nidentidad federada&quot;| A[&quot;1 · SIN SECRETO\ntestigo del entorno → credencial temporal&quot;]
-    O --&gt;|&quot;el destino emite\ncredenciales&quot;| B[&quot;2 · DINÁMICA\ncreada al usar, caduca sola&quot;]
-    O --&gt;|&quot;secreto propio de un tercero&quot;| C[&quot;3 · ALMACÉN\nentregado según identidad&quot;]
-    C --&gt; D{&quot;entrega&quot;}
-    D --&gt;|&quot;variable de entorno&quot;| E[&quot;NO se rota sin reiniciar&quot;]
-    D --&gt;|&quot;fichero montado&quot;| F[&quot;rotable si se relee&quot;]
-    D --&gt;|&quot;consulta al usar&quot;| G[&quot;rotable · añade dependencia&quot;]
-    A --&gt; H[&quot;arranque de confianza:\n¿con qué demuestra quién es?&quot;]
-    C --&gt; H
-    B --&gt; I[&quot;rotación con ventana\nde dos credenciales&quot;]
-    F --&gt; I
-    G --&gt; I
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/8826c6968a1584f4.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-ordenar-por-lo-que-elimina">1. Ordenar por lo que elimina</h3>
 <p>La escala, de la que hace desaparecer el problema a la que solo lo administra:</p>
@@ -525,7 +518,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/137-gestion-de-secretos-y-credenciales-de-workloads/lesson.yaml">Contrato de clase</a> · <a href="../parts/11.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/137-gestion-de-secretos-y-credenciales-de-workloads/../../../site/downloads/partes/manual-parte-11-security-governance-finops.pdf">Parte 11 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/137-gestion-de-secretos-y-credenciales-de-workloads/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>ciclo-secretos</h2></div>
         <code>python classes/part-11-security-governance-finops/137-gestion-de-secretos-y-credenciales-de-workloads/lab.py --seed 42</code>
@@ -589,6 +583,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-ordenar-por-lo-que-elimina">1. Ordenar por lo que elimina</a><a class="toc-level-3" href="#2-como-llega-el-valor-y-por-que-eso-decide-la-rotacion">2. Cómo llega el valor, y por qué eso decide la rotación</a><a class="toc-level-3" href="#3-rotar-sin-cortar">3. Rotar sin cortar</a><a class="toc-level-3" href="#4-el-rastro-y-que-hacer-cuando-se-filtra">4. El rastro, y qué hacer cuando se filtra</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

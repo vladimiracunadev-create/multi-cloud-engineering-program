@@ -2,6 +2,8 @@
 
 > [← Parte 02](../part-02-aws-core-platform/README.md) · [Índice completo](../README.md) · [Parte 04 →](../part-04-gcp-core-platform/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-03-azure-core-platform.pdf) · [Recorrido de Azure en PDF](../../site/downloads/nubes/manual-azure.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** intermedio · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Diseñar y operar una carga empresarial en Azure desde su jerarquía de gobierno.

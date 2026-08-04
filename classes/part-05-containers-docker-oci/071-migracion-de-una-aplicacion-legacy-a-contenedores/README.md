@@ -528,6 +528,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 05 en PDF](../../../site/downloads/partes/manual-parte-05-containers-docker-oci.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 070 · Diagnóstico de CPU, memoria, red y filesystem](../../part-05-containers-docker-oci/070-diagnostico-de-cpu-memoria-red-y-filesystem/README.md) | [Parte 05](../README.md) · [Programa](../../README.md) | [072 · Proyecto: stack OCI endurecido y observable →](../../part-05-containers-docker-oci/072-proyecto-stack-oci-endurecido-y-observable/README.md) |

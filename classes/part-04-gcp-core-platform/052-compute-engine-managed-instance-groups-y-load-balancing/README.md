@@ -556,6 +556,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 04 en PDF](../../../site/downloads/partes/manual-parte-04-gcp-core-platform.pdf) · [Recorrido de Google Cloud en PDF](../../../site/downloads/nubes/manual-google-cloud.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 051 · VPC global, subredes regionales, firewall y Cloud NAT](../../part-04-gcp-core-platform/051-vpc-global-subredes-regionales-firewall-y-cloud-nat/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [053 · Cloud Storage, clases, lifecycle y replicación →](../../part-04-gcp-core-platform/053-cloud-storage-clases-lifecycle-y-replicacion/README.md) |

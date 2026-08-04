@@ -665,6 +665,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 19 en PDF](../../../site/downloads/partes/manual-parte-19-gcp-production-architecture.pdf) · [Recorrido de Google Cloud en PDF](../../../site/downloads/nubes/manual-google-cloud.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 231 · Red global, load balancing, PSC y Cloud DNS](../../part-19-gcp-production-architecture/231-red-global-load-balancing-psc-y-cloud-dns/README.md) | [Parte 19](../README.md) · [Programa](../../README.md) | [233 · Cloud Run, Functions, API Gateway y Workflows →](../../part-19-gcp-production-architecture/233-cloud-run-functions-api-gateway-y-workflows/README.md) |

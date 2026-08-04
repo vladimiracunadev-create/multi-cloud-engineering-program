@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/156.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "156 — Proyecto: revisión de arquitectura con ADR", "description": "156 — Proyecto: revisión de arquitectura con ADR Parte: 12 — Arquitectura cloud-native y sistemas distribuidos<br Nivel: avanzado-experto · Horas estimadas", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/156.html"}</script>
   <title>156 — Proyecto: revisión de arquitectura con ADR · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/12.html">Parte 12</a><span>/</span><strong>156</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="155.html" rel="prev" title="Rendimiento, costo, seguridad y operabilidad">← 155</a><a class="pager-link index" href="../parts/12.html">Parte 12</a><a class="pager-link next" href="157.html" rel="next" title="Motivaciones y anti-patrones de multi-cloud">157 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf" download>📕 Parte 12 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 12 · avanzado-experto</span><strong>8 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="156"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    R[&quot;revisión de arquitectura&quot;] --&gt; R1[&quot;1 · escenarios de la clase 145\n¿siguen siendo válidos?&quot;]
-    R1 --&gt; R2[&quot;2 · comparar con el sistema REAL\ntrazas · flujos · escritores&quot;]
-    R2 --&gt; R3[&quot;3 · medir los cuatro atributos · 155&quot;]
-    R3 --&gt; R4[&quot;4 · listar divergencias y decidir&quot;]
-    R4 --&gt; R5[&quot;5 · registrar decisiones&quot;]
-    R5 --&gt; A[&quot;registro de decisión&quot;]
-    A --&gt; A1[&quot;qué se decidió y qué opciones había&quot;]
-    A --&gt; A2[&quot;qué mejora y qué empeora, con cifras&quot;]
-    A --&gt; A3[&quot;qué prioridad lo decidió&quot;]
-    A --&gt; A4[&quot;premisas dadas por ciertas&quot;]
-    A --&gt; A5[&quot;QUÉ HARÍA REVISARLO&quot;]
-    A5 --&gt; M[&quot;medida del registro:\ndecisiones revisadas al\ncumplirse su premisa&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/7b5eaa1c36d98c44.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-revisar-sin-escribir-un-informe">1. Revisar sin escribir un informe</h3>
 <p>Una revisión de arquitectura útil cabe en medio día y produce cambios, no un documento. Sus cinco pasos:</p>
@@ -568,7 +561,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/156-proyecto-revision-de-arquitectura-con-adr/lesson.yaml">Contrato de clase</a> · <a href="../parts/12.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/156-proyecto-revision-de-arquitectura-con-adr/../../../site/downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf">Parte 12 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/156-proyecto-revision-de-arquitectura-con-adr/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>architecture-review</h2></div>
         <code>python classes/part-12-cloud-native-distributed-architecture/156-proyecto-revision-de-arquitectura-con-adr/lab.py --seed 42</code>
@@ -632,6 +626,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-revisar-sin-escribir-un-informe">1. Revisar sin escribir un informe</a><a class="toc-level-3" href="#2-el-registro-de-decisiones">2. El registro de decisiones</a><a class="toc-level-3" href="#3-calificacion-de-las-cinco-predicciones">3. Calificación de las cinco predicciones</a><a class="toc-level-3" href="#4-la-ley-21-el-recuento-y-la-hipotesis-de-la-parte-13">4. La ley 21, el recuento y la hipótesis de la parte 13</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

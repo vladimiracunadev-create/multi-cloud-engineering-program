@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/209.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "209 — Cognito, JWT authorizers, WAF y defensa en profundidad", "description": "209 — Cognito, JWT authorizers, WAF y defensa en profundidad Parte: 17 — AWS: arquitectura, automatización y operación en producción<br Nivel: avanzado · H", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/209.html"}</script>
   <title>209 — Cognito, JWT authorizers, WAF y defensa en profundidad · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/17.html">Parte 17</a><span>/</span><strong>209</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="208.html" rel="prev" title="DynamoDB por patrones de acceso y single-table design">← 208</a><a class="pager-link index" href="../parts/17.html">Parte 17</a><a class="pager-link next" href="210.html" rel="next" title="EventBridge, SQS, DLQ, replay e idempotencia">210 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-17-aws-production-architecture.pdf" download>📕 Parte 17 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 17 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="209"> Clase completada</label>
@@ -92,22 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    U[&quot;usuario&quot;] --&gt; C[&quot;grupo de usuarios\nautentica&quot;]
-    C --&gt; T1[&quot;testigo de IDENTIDAD\nquién es\n→ para mostrar&quot;]
-    C --&gt; T2[&quot;testigo de ACCESO\nqué puede\n→ a la API&quot;]
-    C --&gt; T3[&quot;testigo de REFRESCO\n→ nunca al navegador\nsin protección&quot;]
-    T2 --&gt; W[&quot;CloudFront + WAF&quot;]
-    W --&gt; W1[&quot;reglas gestionadas\n→ modo CUENTA primero&quot;]
-    W --&gt; W2[&quot;límite de ritmo&quot;]
-    W --&gt; W3[&quot;reputación y geo&quot;]
-    W --&gt; A{&quot;autorizador&quot;}
-    A --&gt;|&quot;testigo estándar&quot;| A1[&quot;integrado\nsin código&quot;]
-    A --&gt;|&quot;reglas propias,\nmulti-inquilino&quot;| A2[&quot;propio\ncon caché&quot;]
-    A1 --&gt; F[&quot;función&quot;]
-    A2 --&gt; F
-    F --&gt; V[&quot;y VOLVER a comprobar\nla autorización de negocio&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/6f13fee064ed0e61.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-los-tres-testigos-y-cual-va-a-donde">1. Los tres testigos, y cuál va a dónde</h3>
 <p>Cognito emite tres testigos y confundirlos es la causa de la mitad de los problemas.</p>
@@ -625,7 +616,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/209-cognito-jwt-authorizers-waf-y-defensa-en-profundidad/lesson.yaml">Contrato de clase</a> · <a href="../parts/17.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/209-cognito-jwt-authorizers-waf-y-defensa-en-profundidad/../../../site/downloads/partes/manual-parte-17-aws-production-architecture.pdf">Parte 17 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/209-cognito-jwt-authorizers-waf-y-defensa-en-profundidad/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/209-cognito-jwt-authorizers-waf-y-defensa-en-profundidad/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>aws-identity-edge</h2></div>
         <code>python classes/part-17-aws-production-architecture/209-cognito-jwt-authorizers-waf-y-defensa-en-profundidad/lab.py --seed 42</code>
@@ -689,6 +681,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-los-tres-testigos-y-cual-va-a-donde">1. Los tres testigos, y cuál va a dónde</a><a class="toc-level-3" href="#2-validar-bien-un-testigo">2. Validar bien un testigo</a><a class="toc-level-3" href="#3-filtrado-de-aplicacion-sin-romper-el-negocio">3. Filtrado de aplicación sin romper el negocio</a><a class="toc-level-3" href="#4-capas-y-que-cubre-cada-una">4. Capas, y qué cubre cada una</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

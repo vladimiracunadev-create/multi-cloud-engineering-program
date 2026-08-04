@@ -663,6 +663,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 18 en PDF](../../../site/downloads/partes/manual-parte-18-azure-production-architecture.pdf) · [Recorrido de Azure en PDF](../../../site/downloads/nubes/manual-azure.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 222 · AKS, workload identity, ingress y GitOps](../../part-18-azure-production-architecture/222-aks-workload-identity-ingress-y-gitops/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [224 · Service Bus, Event Grid y Event Hubs →](../../part-18-azure-production-architecture/224-service-bus-event-grid-y-event-hubs/README.md) |

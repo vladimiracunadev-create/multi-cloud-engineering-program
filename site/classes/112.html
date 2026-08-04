@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/112.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "112 — Object storage, data lake y formatos columnares", "description": "112 — Object storage, data lake y formatos columnares Parte: 09 — Datos, mensajería, serverless e integración<br Nivel: avanzado · Horas estimadas: 4<br La", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/112.html"}</script>
   <title>112 — Object storage, data lake y formatos columnares · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/09.html">Parte 09</a><span>/</span><strong>112</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="111.html" rel="prev" title="Caché, invalidación, TTL y consistencia">← 111</a><a class="pager-link index" href="../parts/09.html">Parte 09</a><a class="pager-link next" href="113.html" rel="next" title="Colas, entrega, reintentos y dead-letter queues">113 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-09-data-messaging-serverless-integration.pdf" download>📕 Parte 09 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 09 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="112"> Clase completada</label>
@@ -92,18 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    S[&quot;origen: 109, 110, eventos&quot;] --&gt; B[&quot;zona bruta\ntal como llegó&quot;]
-    B --&gt; C[&quot;zona curada\ncolumnar + particionada&quot;]
-    C --&gt; Q[&quot;consultas no previstas&quot;]
-    C --&gt; T{&quot;¿hace falta\nformato de tabla?&quot;}
-    T --&gt;|&quot;escrituras concurrentes,\ncorrecciones, esquema que cambia&quot;| TF[&quot;confirmación atómica\nevolución de esquema\nconsulta a un instante&quot;]
-    T --&gt;|&quot;solo añadir y leer&quot;| PL[&quot;ficheros y catálogo bastan&quot;]
-    C --&gt; P{&quot;partición&quot;}
-    P --&gt;|&quot;demasiado fina&quot;| SM[&quot;millones de ficheros diminutos&quot;]
-    P --&gt;|&quot;clave que no se filtra&quot;| NP[&quot;no poda nada&quot;]
-    B -.-&gt; V[&quot;versionado + inmutabilidad:\nla durabilidad NO protege del borrado&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/72614cdedf38c202.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-no-es-un-sistema-de-ficheros">1. No es un sistema de ficheros</h3>
 <p>El almacenamiento de objetos parece un disco con carpetas y no lo es. Las diferencias no son cosméticas: cada una rompe un patrón habitual.</p>
@@ -521,7 +516,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-09-data-messaging-serverless-integration/112-object-storage-data-lake-y-formatos-columnares/lesson.yaml">Contrato de clase</a> · <a href="../parts/09.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-09-data-messaging-serverless-integration/112-object-storage-data-lake-y-formatos-columnares/../../../site/downloads/partes/manual-parte-09-data-messaging-serverless-integration.pdf">Parte 09 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-09-data-messaging-serverless-integration/112-object-storage-data-lake-y-formatos-columnares/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>diseno-data-lake</h2></div>
         <code>python classes/part-09-data-messaging-serverless-integration/112-object-storage-data-lake-y-formatos-columnares/lab.py --seed 42</code>
@@ -585,6 +581,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-no-es-un-sistema-de-ficheros">1. No es un sistema de ficheros</a><a class="toc-level-3" href="#2-durabilidad-no-es-proteccion">2. Durabilidad no es protección</a><a class="toc-level-3" href="#3-columnar-la-aritmetica">3. Columnar: la aritmética</a><a class="toc-level-3" href="#4-cuando-hacen-falta-formatos-de-tabla">4. Cuándo hacen falta formatos de tabla</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

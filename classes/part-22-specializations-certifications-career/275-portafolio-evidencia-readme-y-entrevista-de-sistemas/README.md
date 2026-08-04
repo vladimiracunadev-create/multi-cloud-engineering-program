@@ -663,6 +663,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 22 en PDF](../../../site/downloads/partes/manual-parte-22-specializations-certifications-career.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 274 · Preguntas de escenario y estrategia de examen](../../part-22-specializations-certifications-career/274-preguntas-de-escenario-y-estrategia-de-examen/README.md) | [Parte 22](../README.md) · [Programa](../../README.md) | [276 · Proyecto: defensa técnica ante panel →](../../part-22-specializations-certifications-career/276-proyecto-defensa-tecnica-ante-panel/README.md) |

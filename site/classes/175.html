@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/175.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "175 — Workloads de IA, GPU, datos y MLOps multi-cloud", "description": "175 — Workloads de IA, GPU, datos y MLOps multi-cloud Parte: 14 — Plataformas avanzadas, capstones y carrera<br Nivel: experto-frontera · Horas estimadas:", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/175.html"}</script>
   <title>175 — Workloads de IA, GPU, datos y MLOps multi-cloud · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/14.html">Parte 14</a><span>/</span><strong>175</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="174.html" rel="prev" title="Arquitectura de seguridad cloud empresarial">← 174</a><a class="pager-link index" href="../parts/14.html">Parte 14</a><a class="pager-link next" href="176.html" rel="next" title="Edge, IoT y procesamiento desconectado">176 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf" download>📕 Parte 14 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 14 · experto-frontera</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="175"> Clase completada</label>
@@ -92,24 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    D[&quot;datos&quot;] --&gt; P[&quot;canalización · parte 09&quot;]
-    P --&gt; F[&quot;características\nUN escritor · ley 21&quot;]
-    F --&gt; T[&quot;entrenamiento\nacelerador escaso&quot;]
-    F --&gt; S[&quot;servicio de inferencia&quot;]
-    T --&gt; M[&quot;modelo versionado · 099&quot;]
-    M --&gt; S
-    T --&gt; A{&quot;aprovechamiento&quot;}
-    A --&gt;|&quot;ocioso&quot;| L[&quot;pérdida pura&quot;]
-    A --&gt;|&quot;por lotes y compartido&quot;| OK[&quot;coste aceptable&quot;]
-    A --&gt;|&quot;interrumpible&quot;| C[&quot;exige punto de control · 143&quot;]
-    D --&gt; Q{&quot;¿de dónde salen?&quot;}
-    Q --&gt; Q1[&quot;procedencia y permiso · 141&quot;]
-    Q --&gt; Q2[&quot;residencia del entrenamiento&quot;]
-    Q --&gt; Q3[&quot;el modelo es DERIVADO:\nborrar el dato no lo borra&quot;]
-    S --&gt; V[&quot;registro de inferencia:\ndatos personales sin clasificar&quot;]
-    S --&gt; W[&quot;calidad: el modelo falla\ncon todo en verde · 132&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/84a51e3f5eff70d0.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-que-es-nuevo-y-que-no">1. Qué es nuevo y qué no</h3>
 <p>Conviene separar antes de empezar, porque la mayor parte del trabajo ya está hecha:</p>
@@ -618,7 +607,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/175-workloads-de-ia-gpu-datos-y-mlops-multi-cloud/lesson.yaml">Contrato de clase</a> · <a href="../parts/14.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/175-workloads-de-ia-gpu-datos-y-mlops-multi-cloud/../../../site/downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf">Parte 14 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/175-workloads-de-ia-gpu-datos-y-mlops-multi-cloud/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>arquitectura-ia-cloud</h2></div>
         <code>python classes/part-14-advanced-platform-capstones-career/175-workloads-de-ia-gpu-datos-y-mlops-multi-cloud/lab.py --seed 42</code>
@@ -682,6 +672,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-que-es-nuevo-y-que-no">1. Qué es nuevo y qué no</a><a class="toc-level-3" href="#2-un-hardware-que-no-espera">2. Un hardware que no espera</a><a class="toc-level-3" href="#3-de-donde-salen-los-datos">3. De dónde salen los datos</a><a class="toc-level-3" href="#4-lo-irreversible-los-dos-escritores-y-la-calidad">4. Lo irreversible, los dos escritores y la calidad</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

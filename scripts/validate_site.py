@@ -49,11 +49,16 @@ def validate() -> list[str]:
             "assessment",
             "data-lesson-complete",
             "application/ld+json",
-            "language-mermaid",
+            'figure class="diagram"',
             f"class.js?v={ASSET_VERSION}",
         ):
             if marker not in text:
                 errors.append(f"{page.relative_to(ROOT)} missing {marker}")
+        if "language-mermaid" in text:
+            errors.append(f"{page.relative_to(ROOT)} tiene un diagrama sin renderizar")
+        for reference in re.findall(r'assets/diagrams/([0-9a-f]+\.svg)', text):
+            if not (SITE / "assets" / "diagrams" / reference).exists():
+                errors.append(f"{page.relative_to(ROOT)} apunta a un diagrama inexistente: {reference}")
 
     index = (SITE / "index.html").read_text(encoding="utf-8")
     for marker in ("og:title", "twitter:card", "curriculum-view", "analytics-view", "roadmap-view", "load-more", f"v={ASSET_VERSION}"):
@@ -75,10 +80,19 @@ def validate() -> list[str]:
     if 'cached || caches.match("./index.html")' in worker:
         errors.append("site/service-worker.js must not return HTML for failed asset requests")
 
+    # Los diagramas van pre-renderizados: si volviera una dependencia externa,
+    # el portal sin conexion y la aplicacion Android se quedarian sin ellos.
     class_script = (SITE / "assets" / "class.js").read_text(encoding="utf-8")
-    for marker in ("mermaid@11.15.0", "startOnLoad: false", "await mermaid.run"):
-        if marker not in class_script:
-            errors.append(f"site/assets/class.js missing Mermaid renderer marker: {marker}")
+    for forbidden in ("cdn.jsdelivr.net", "unpkg.com", "cdnjs.cloudflare.com"):
+        if forbidden in class_script:
+            errors.append(f"site/assets/class.js depende de un CDN externo: {forbidden}")
+
+    svgs = sorted((SITE / "assets" / "diagrams").glob("*.svg"))
+    if len(svgs) < 200:
+        errors.append(f"faltan diagramas renderizados: solo {len(svgs)} SVG publicados")
+    for svg in svgs:
+        if svg.stat().st_size == 0 or "<svg" not in svg.read_text(encoding="utf-8")[:400]:
+            errors.append(f"diagrama invalido: {svg.name}")
     return errors
 
 

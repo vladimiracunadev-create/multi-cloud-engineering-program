@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "multicloud-engineering-program"
-version = "2.1.0"
+version = "2.2.0"
 description = "Programa educativo en español: cloud engineering de cero a nivel experto"
 requires-python = ">=3.11"
 license = {text = "MIT"}
 
 [project.optional-dependencies]
 site = ["markdown==3.10.2"]
-manual = ["reportlab==4.4.3", "pypdf==5.9.0"]
+manual = ["reportlab==5.0.0", "pypdf==6.14.2"]
 
 [project.scripts]
 multicloud-program = "multicloud_program.cli:main"

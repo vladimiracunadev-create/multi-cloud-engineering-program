@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/134.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "134 — Mínimo privilegio, acceso temporal y separación de funciones", "description": "134 — Mínimo privilegio, acceso temporal y separación de funciones Parte: 11 — Seguridad, gobierno, cumplimiento y FinOps<br Nivel: avanzado · Horas estima", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/134.html"}</script>
   <title>134 — Mínimo privilegio, acceso temporal y separación de funciones · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/11.html">Parte 11</a><span>/</span><strong>134</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="133.html" rel="prev" title="Zero Trust y defensa en profundidad">← 133</a><a class="pager-link index" href="../parts/11.html">Parte 11</a><a class="pager-link next" href="135.html" rel="next" title="Segmentación, perímetro, WAF, DDoS y egress">135 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-11-security-governance-finops.pdf" download>📕 Parte 11 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 11 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="134"> Clase completada</label>
@@ -92,18 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    U[&quot;uso real registrado&quot;] --&gt; D[&quot;deducir el conjunto\nde permisos&quot;]
-    D --&gt; R[&quot;rol pequeño y compuesto&quot;]
-    R --&gt; B[&quot;frontera de permisos:\ntecho que nadie supera&quot;]
-    B --&gt; T{&quot;¿sensible?&quot;}
-    T --&gt;|&quot;no&quot;| P[&quot;concedido, con retirada\nautomática por desuso&quot;]
-    T --&gt;|&quot;sí&quot;| J[&quot;CONCESIÓN TEMPORAL\npedir · aprobar · usar · caducar&quot;]
-    J --&gt; S{&quot;¿el aprobador es\notra persona?&quot;}
-    S --&gt;|&quot;sí&quot;| OK[&quot;separación de funciones&quot;]
-    S --&gt;|&quot;no se puede&quot;| C[&quot;compensar con detección\ny revisión posterior&quot;]
-    E[&quot;emergencia&quot;] --&gt; G[&quot;credencial preparada:\navisa al usarse · siempre se revisa\ny se rota después&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/64784d7e36c41ed7.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-deducir-los-permisos-del-uso">1. Deducir los permisos del uso</h3>
 <p>El privilegio mínimo falla casi siempre por la misma razón: <strong>nadie sabe qué permisos hacen falta</strong>, así que se conceden de más «por si acaso» y nunca se quitan.</p>
@@ -506,7 +501,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/134-minimo-privilegio-acceso-temporal-y-separacion-de-funciones/lesson.yaml">Contrato de clase</a> · <a href="../parts/11.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/134-minimo-privilegio-acceso-temporal-y-separacion-de-funciones/../../../site/downloads/partes/manual-parte-11-security-governance-finops.pdf">Parte 11 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/134-minimo-privilegio-acceso-temporal-y-separacion-de-funciones/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>revision-accesos</h2></div>
         <code>python classes/part-11-security-governance-finops/134-minimo-privilegio-acceso-temporal-y-separacion-de-funciones/lab.py --seed 42</code>
@@ -570,6 +566,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-deducir-los-permisos-del-uso">1. Deducir los permisos del uso</a><a class="toc-level-3" href="#2-que-caduquen-por-defecto">2. Que caduquen por defecto</a><a class="toc-level-3" href="#3-separacion-de-funciones-y-acceso-de-emergencia">3. Separación de funciones y acceso de emergencia</a><a class="toc-level-3" href="#4-retirar-sin-depender-de-nadie">4. Retirar sin depender de nadie</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -667,6 +667,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 19 en PDF](../../../site/downloads/partes/manual-parte-19-gcp-production-architecture.pdf) · [Recorrido de Google Cloud en PDF](../../../site/downloads/nubes/manual-google-cloud.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 235 · Cloud SQL, Spanner, Firestore y Bigtable](../../part-19-gcp-production-architecture/235-cloud-sql-spanner-firestore-y-bigtable/README.md) | [Parte 19](../README.md) · [Programa](../../README.md) | [237 · Pub/Sub, Eventarc y entrega exactamente-una-vez →](../../part-19-gcp-production-architecture/237-pub-sub-eventarc-y-entrega-exactamente-una-vez/README.md) |

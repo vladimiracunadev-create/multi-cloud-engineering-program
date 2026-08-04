@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/244.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "244 — Feature stores, training pipelines y experiment tracking", "description": "244 — Feature stores, training pipelines y experiment tracking Parte: 20 — Plataformas cloud de datos, analítica, IA y agentes<br Nivel: avanzado · Horas e", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/244.html"}</script>
   <title>244 — Feature stores, training pipelines y experiment tracking · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/20.html">Parte 20</a><span>/</span><strong>244</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="243.html" rel="prev" title="Orquestación, calidad, lineage y observabilidad de datos">← 243</a><a class="pager-link index" href="../parts/20.html">Parte 20</a><a class="pager-link next" href="245.html" rel="next" title="Serving online, batch inference y escalado de modelos">245 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-20-cloud-data-ai-platforms.pdf" download>📕 Parte 20 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 20 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="244"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    D[&quot;definición del atributo\nUNA SOLA VEZ&quot;] --&gt; E[&quot;cálculo por lotes\n→ entrenamiento&quot;]
-    D --&gt; S[&quot;cálculo en línea\n→ servicio&quot;]
-    E --&gt; T[&quot;conjunto de\nentrenamiento&quot;]
-    T --&gt; T1[&quot;UNIÓN TEMPORAL\nel valor EN EL INSTANTE\nde la etiqueta&quot;]
-    T1 --&gt;|&quot;si no&quot;| F[&quot;FUGA:\nel modelo ve el futuro&quot;]
-    S --&gt; M[&quot;modelo servido&quot;]
-    E -.-&gt;|&quot;si las definiciones\ndifieren&quot;| X[&quot;DESVÍO\nentrenamiento-servicio&quot;]
-    X --&gt; X1[&quot;el modelo funciona en\nel laboratorio y no en\nproducción&quot;]
-    R[&quot;reproducibilidad&quot;] --&gt; R1[&quot;código versionado&quot;]
-    R --&gt; R2[&quot;DATOS versionados&quot;]
-    R --&gt; R3[&quot;parámetros y semilla&quot;]
-    R --&gt; R4[&quot;entorno&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/1a2c1de1b67a03f8.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-el-desvio-entre-entrenar-y-servir">1. El desvío entre entrenar y servir</h3>
 <p>Es el problema más caro de esta parte y el más difícil de detectar, porque <strong>el modelo funciona en el laboratorio</strong>.</p>
@@ -678,7 +671,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-20-cloud-data-ai-platforms/244-feature-stores-training-pipelines-y-experiment-tracking/lesson.yaml">Contrato de clase</a> · <a href="../parts/20.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-20-cloud-data-ai-platforms/244-feature-stores-training-pipelines-y-experiment-tracking/../../../site/downloads/partes/manual-parte-20-cloud-data-ai-platforms.pdf">Parte 20 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-20-cloud-data-ai-platforms/244-feature-stores-training-pipelines-y-experiment-tracking/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>ml-platform</h2></div>
         <code>python classes/part-20-cloud-data-ai-platforms/244-feature-stores-training-pipelines-y-experiment-tracking/lab.py --seed 42</code>
@@ -742,6 +736,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-desvio-entre-entrenar-y-servir">1. El desvío entre entrenar y servir</a><a class="toc-level-3" href="#2-el-almacen-de-atributos-y-cuando">2. El almacén de atributos, y cuándo</a><a class="toc-level-3" href="#3-reproducir-un-experimento">3. Reproducir un experimento</a><a class="toc-level-3" href="#4-etiquetas-conjuntos-y-lo-que-se-olvida">4. Etiquetas, conjuntos y lo que se olvida</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

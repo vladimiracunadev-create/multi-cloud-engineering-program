@@ -693,6 +693,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 21 en PDF](../../../site/downloads/partes/manual-parte-21-cloud-operations-automation.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 253 · Inventario, etiquetado, CMDB y ownership](../../part-21-cloud-operations-automation/253-inventario-etiquetado-cmdb-y-ownership/README.md) | [Parte 21](../README.md) · [Programa](../../README.md) | [255 · Backups, restore testing, vaults e inmutabilidad →](../../part-21-cloud-operations-automation/255-backups-restore-testing-vaults-e-inmutabilidad/README.md) |

@@ -2,6 +2,8 @@
 
 > Programa · [Índice completo](../README.md) · [Parte 01 →](../part-01-cloud-principles-strategy-adoption/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** inicial · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Construir el vocabulario y las destrezas técnicas que la nube da por supuestas.

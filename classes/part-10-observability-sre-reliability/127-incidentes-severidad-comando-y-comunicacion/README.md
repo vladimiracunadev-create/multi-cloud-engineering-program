@@ -545,6 +545,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 10 en PDF](../../../site/downloads/partes/manual-parte-10-observability-sre-reliability.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 126 · SLI, SLO, SLA y presupuesto de error](../../part-10-observability-sre-reliability/126-sli-slo-sla-y-presupuesto-de-error/README.md) | [Parte 10](../README.md) · [Programa](../../README.md) | [128 · Runbooks, playbooks y automatización operativa →](../../part-10-observability-sre-reliability/128-runbooks-playbooks-y-automatizacion-operativa/README.md) |

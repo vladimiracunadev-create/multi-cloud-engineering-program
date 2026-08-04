@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/048.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "048 — Proyecto: aplicación de tres capas en Azure", "description": "048 — Proyecto: aplicación de tres capas en Azure Parte: 03 — Azure: plataforma esencial<br Nivel: intermedio · Horas estimadas: 8<br Laboratorio: capstone", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/048.html"}</script>
   <title>048 — Proyecto: aplicación de tres capas en Azure · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/03.html">Parte 03</a><span>/</span><strong>048</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="047.html" rel="prev" title="Bicep, plantillas y despliegues por alcance">← 047</a><a class="pager-link index" href="../parts/03.html">Parte 03</a><a class="pager-link next" href="049.html" rel="next" title="Organización, folders, proyectos, billing y cuotas">049 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-03-azure-core-platform.pdf" download>📕 Parte 03 en PDF</a><a href="../downloads/nubes/manual-azure.pdf" download>☁️ Recorrido de Azure en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 03 · intermedio</span><strong>8 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="048"> Clase completada</label>
@@ -92,25 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    subgraph e[&quot;entrada&quot;]
-        FD[&quot;Front Door · WAF&lt;br/&gt;clase 040&quot;] --&gt; AGW[&quot;Application Gateway&lt;br/&gt;en la red del hub · 039&quot;]
-    end
-    AGW --&gt; WEB[&quot;App Service · plan propio&lt;br/&gt;clase 043&quot;]
-    WEB --&gt;|&quot;identidad administrada · 038&quot;| KV[&quot;Key Vault · RBAC&lt;br/&gt;clase 046&quot;]
-    WEB --&gt;|&quot;punto de conexión privado · 039&quot;| SQL[&quot;Azure SQL · vCore&lt;br/&gt;clase 042&quot;]
-    WEB --&gt; RED[&quot;Cache for Redis&lt;br/&gt;allkeys-lru · 042&quot;]
-    WEB --&gt; SB[&quot;Service Bus&lt;br/&gt;fallidos alertados · 044&quot;]
-    SB --&gt; FN[&quot;Functions · app propia&lt;br/&gt;clase 043&quot;]
-    SB --&gt; CA[&quot;Container Apps&lt;br/&gt;escala por cola · 043&quot;]
-    FN --&gt; ST[&quot;Almacenamiento ZRS&lt;br/&gt;5 interruptores · 041&quot;]
-    WEB -.-&gt; MON[&quot;Azure Monitor&lt;br/&gt;métricas rápidas · 045&quot;]
-    FN -.-&gt; MON
-    CA -.-&gt; MON
-    subgraph g[&quot;gobierno&quot;]
-        BIC[&quot;Bicep · estado al crear · 047&quot;] --- POL[&quot;Azure Policy · vigila después · 046&quot;]
-    end
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/8e8c4a5e717928f9.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-de-donde-sale-cada-decision-y-que-trampa-evito">1. De dónde sale cada decisión, y qué trampa evitó</h3>
 <p>La arquitectura de la entrega no es una elección de servicios: es el resultado de once decisiones con su alternativa descartada. La tabla que hay que poder defender:</p>
@@ -644,7 +632,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/048-proyecto-aplicacion-de-tres-capas-en-azure/lesson.yaml">Contrato de clase</a> · <a href="../parts/03.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/048-proyecto-aplicacion-de-tres-capas-en-azure/../../../site/downloads/partes/manual-parte-03-azure-core-platform.pdf">Parte 03 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/048-proyecto-aplicacion-de-tres-capas-en-azure/../../../site/downloads/nubes/manual-azure.pdf">Recorrido de Azure en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/048-proyecto-aplicacion-de-tres-capas-en-azure/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>plataforma-azure</h2></div>
         <code>python classes/part-03-azure-core-platform/048-proyecto-aplicacion-de-tres-capas-en-azure/lab.py --seed 42</code>
@@ -708,6 +697,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-de-donde-sale-cada-decision-y-que-trampa-evito">1. De dónde sale cada decisión, y qué trampa evitó</a><a class="toc-level-3" href="#2-lo-portable-y-lo-del-proveedor-con-las-excepciones-senaladas">2. Lo portable y lo del proveedor, con las excepciones señaladas</a><a class="toc-level-3" href="#3-la-linea-base-en-dos-capas-que-es-el-entregable-que-mas-dura">3. La línea base en dos capas, que es el entregable que más dura</a><a class="toc-level-3" href="#4-tres-fallos-provocados-y-lo-que-enseno-cada-uno">4. Tres fallos provocados y lo que enseñó cada uno</a><a class="toc-level-3" href="#5-la-entrega-la-comparacion-honesta-y-la-pregunta-que-abre-la-parte-04">5. La entrega, la comparación honesta y la pregunta que abre la parte 04</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

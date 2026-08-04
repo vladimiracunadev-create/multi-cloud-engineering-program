@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/185.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "185 — Disponibilidad, confiabilidad y análisis de puntos de fallo", "description": "185 — Disponibilidad, confiabilidad y análisis de puntos de fallo Parte: 15 — Arquitectura de sistemas e ingeniería de requisitos<br Nivel: intermedio-avan", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/185.html"}</script>
   <title>185 — Disponibilidad, confiabilidad y análisis de puntos de fallo · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/15.html">Parte 15</a><span>/</span><strong>185</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="184.html" rel="prev" title="Arquitectura monolítica, modular y de microservicios">← 184</a><a class="pager-link index" href="../parts/15.html">Parte 15</a><a class="pager-link next" href="186.html" rel="next" title="Capacidad, latencia, throughput y teoría de colas">186 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-15-systems-architecture-engineering.pdf" download>📕 Parte 15 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 15 · intermedio-avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="185"> Clase completada</label>
@@ -92,22 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    S[&quot;disponibilidad del flujo&quot;] --&gt; D[&quot;listar dependencias&quot;]
-    D --&gt; H{&quot;¿dura o blanda?&quot;}
-    H --&gt;|dura| M[&quot;MULTIPLICA\nA × B × C&quot;]
-    H --&gt;|blanda| N[&quot;no entra\nen el producto&quot;]
-    M --&gt; T[&quot;TECHO\nno se supera con esfuerzo&quot;]
-    T --&gt; P[&quot;análisis de puntos de fallo&quot;]
-    P --&gt; P1[&quot;¿qué pasa si esto\nDESAPARECE?&quot;]
-    P --&gt; P2[&quot;¿qué pasa si\nresponde MAL?&quot;]
-    P --&gt; P3[&quot;¿quién es la única\npersona que sabe?&quot;]
-    P --&gt; P4[&quot;¿qué procedimiento\nnunca se ejecutó?&quot;]
-    P1 --&gt; R[&quot;redundancia:\n¿independiente de verdad?&quot;]
-    R --&gt; C{&quot;¿causa común?&quot;}
-    C --&gt;|sí| C1[&quot;la redundancia\nno cuenta&quot;]
-    C --&gt;|no| C2[&quot;1 - (1-A)ⁿ&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/9874c239f97c0b14.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-aritmetica-que-casi-nadie-hace">1. La aritmética que casi nadie hace</h3>
 <p>La disponibilidad prometida se calcula, no se declara. Y el cálculo es elemental, lo que hace más llamativo que se omita.</p>
@@ -572,7 +563,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/185-disponibilidad-confiabilidad-y-analisis-de-puntos-de-fallo/lesson.yaml">Contrato de clase</a> · <a href="../parts/15.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/185-disponibilidad-confiabilidad-y-analisis-de-puntos-de-fallo/../../../site/downloads/partes/manual-parte-15-systems-architecture-engineering.pdf">Parte 15 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/185-disponibilidad-confiabilidad-y-analisis-de-puntos-de-fallo/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>failure-mode-analysis</h2></div>
         <code>python classes/part-15-systems-architecture-engineering/185-disponibilidad-confiabilidad-y-analisis-de-puntos-de-fallo/lab.py --seed 42</code>
@@ -636,6 +628,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-aritmetica-que-casi-nadie-hace">1. La aritmética que casi nadie hace</a><a class="toc-level-3" href="#2-duras-blandas-y-como-convertir">2. Duras, blandas y cómo convertir</a><a class="toc-level-3" href="#3-analisis-de-puntos-de-fallo-hecho-de-verdad">3. Análisis de puntos de fallo, hecho de verdad</a><a class="toc-level-3" href="#4-donde-no-invertir">4. Dónde no invertir</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

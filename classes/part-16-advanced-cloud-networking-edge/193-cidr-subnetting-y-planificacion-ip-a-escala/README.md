@@ -598,6 +598,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 16 en PDF](../../../site/downloads/partes/manual-parte-16-advanced-cloud-networking-edge.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 192 · Proyecto: arquitectura completa de CloudShop](../../part-15-systems-architecture-engineering/192-proyecto-arquitectura-completa-de-cloudshop/README.md) | [Parte 16](../README.md) · [Programa](../../README.md) | [194 · Routing, BGP, tránsito y propagación de rutas →](../../part-16-advanced-cloud-networking-edge/194-routing-bgp-transito-y-propagacion-de-rutas/README.md) |

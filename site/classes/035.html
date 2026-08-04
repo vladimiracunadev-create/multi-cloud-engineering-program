@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/035.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "035 — KMS, Secrets Manager, WAF y controles de seguridad", "description": "035 — KMS, Secrets Manager, WAF y controles de seguridad Parte: 02 — AWS: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: sec", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/035.html"}</script>
   <title>035 — KMS, Secrets Manager, WAF y controles de seguridad · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/02.html">Parte 02</a><span>/</span><strong>035</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="034.html" rel="prev" title="CloudWatch, CloudTrail, Config y Systems Manager">← 034</a><a class="pager-link index" href="../parts/02.html">Parte 02</a><a class="pager-link next" href="036.html" rel="next" title="Proyecto: aplicación de tres capas en AWS">036 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-02-aws-core-platform.pdf" download>📕 Parte 02 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 02 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="035"> Clase completada</label>
@@ -88,17 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    U[&quot;tráfico&quot;] --&gt; SH[&quot;Shield · volumétrico&quot;]
-    SH --&gt; WAF[&quot;WAF · reglas de aplicación&lt;br/&gt;modo cuenta primero&quot;]
-    WAF --&gt; ALB[&quot;balanceador&quot;]
-    ALB --&gt; APP[&quot;aplicación&quot;]
-    APP --&gt;|&quot;lee al arrancar\ny en cada rotación&quot;| SM[&quot;Secrets Manager&quot;]
-    SM -.-&gt;|&quot;rota sin desplegar&quot;| DB[(&quot;base de datos&quot;)]
-    APP --&gt; S3[(&quot;S3 cifrado&quot;)]
-    S3 -.-&gt;|&quot;clave de datos&quot;| KMS[&quot;KMS · clave del cliente&quot;]
-    KMS -.-&gt;|&quot;la política de clave\npuede denegar aunque\nel permiso de S3 conceda&quot;| S3
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/51d291b74b7d1d92.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-tres-tipos-de-clave-tres-niveles-de-control">1. Tres tipos de clave, tres niveles de control</h3>
 <table>
@@ -424,7 +420,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/lesson.yaml">Contrato de clase</a> · <a href="../parts/02.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/../../../site/downloads/partes/manual-parte-02-aws-core-platform.pdf">Parte 02 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>controles-aws</h2></div>
         <code>python classes/part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/lab.py --seed 42</code>
@@ -488,6 +485,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-tipos-de-clave-tres-niveles-de-control">1. Tres tipos de clave, tres niveles de control</a><a class="toc-level-3" href="#2-rotacion-de-claves-lo-que-rota-y-lo-que-no">2. Rotación de claves: lo que rota y lo que no</a><a class="toc-level-3" href="#3-rotar-secretos-sin-cortar-conexiones">3. Rotar secretos sin cortar conexiones</a><a class="toc-level-3" href="#4-filtrado-en-el-borde-medir-antes-de-bloquear">4. Filtrado en el borde: medir antes de bloquear</a><a class="toc-level-3" href="#5-cada-control-necesita-su-prueba-negativa">5. Cada control necesita su prueba negativa</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

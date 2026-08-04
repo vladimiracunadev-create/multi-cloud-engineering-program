@@ -631,6 +631,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 23 en PDF](../../../site/downloads/partes/manual-parte-23-industry-capstones.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 281 · Capstone media: streaming y distribución global](../../part-23-industry-capstones/281-capstone-media-streaming-y-distribucion-global/README.md) | [Parte 23](../README.md) · [Programa](../../README.md) | [283 · Capstone SaaS: multi-tenancy y unit economics →](../../part-23-industry-capstones/283-capstone-saas-multi-tenancy-y-unit-economics/README.md) |

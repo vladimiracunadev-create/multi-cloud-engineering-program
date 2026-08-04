@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/168.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "168 — Proyecto: continuidad activa-pasiva entre nubes", "description": "168 — Proyecto: continuidad activa-pasiva entre nubes Parte: 13 — Multi-cloud, híbrido, migración y recuperación<br Nivel: experto · Horas estimadas: 8<br", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/168.html"}</script>
   <title>168 — Proyecto: continuidad activa-pasiva entre nubes · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/13.html">Parte 13</a><span>/</span><strong>168</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="167.html" rel="prev" title="Las 7R de migración y oleadas">← 167</a><a class="pager-link index" href="../parts/13.html">Parte 13</a><a class="pager-link next" href="169.html" rel="next" title="Landing zones empresariales y vending de cuentas">169 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf" download>📕 Parte 13 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 13 · experto</span><strong>8 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="168"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P[&quot;proveedor A · sirve&quot;] --&gt;|&quot;hechos, un sentido · 161&quot;| B[&quot;proveedor B · preparado&quot;]
-    P --&gt; I[&quot;identidad federada · 159&quot;]
-    B --&gt; I
-    P --&gt; O[&quot;decisiones unificadas · 162&quot;]
-    B --&gt; O
-    S[&quot;sonda externa a los dos&quot;] --&gt; O
-    O --&gt; D{&quot;criterio escrito · 166&quot;}
-    D --&gt;|&quot;se cumple&quot;| C[&quot;conmutar&quot;]
-    C --&gt; C1[&quot;detectar · decidir · ejecutar\nverificar · redirigir&quot;]
-    C --&gt; C2[&quot;el origen deja de poder escribir\ny volver exige decisión · ley 21&quot;]
-    E[&quot;ENSAYAR&quot;] --&gt; C
-    E --&gt; L[&quot;ley 22: lo que nunca se ha\nejecutado no funciona&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/123d667facef35f9.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-lo-que-la-parte-deja-montado">1. Lo que la parte deja montado</h3>
 <p>Las once clases anteriores forman un recorrido con una conclusión clara sobre el nivel:</p>
@@ -596,7 +589,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/168-proyecto-continuidad-activa-pasiva-entre-nubes/lesson.yaml">Contrato de clase</a> · <a href="../parts/13.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/168-proyecto-continuidad-activa-pasiva-entre-nubes/../../../site/downloads/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf">Parte 13 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/168-proyecto-continuidad-activa-pasiva-entre-nubes/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>plataforma-multicloud</h2></div>
         <code>python classes/part-13-multicloud-hybrid-disaster-recovery/168-proyecto-continuidad-activa-pasiva-entre-nubes/lab.py --seed 42</code>
@@ -660,6 +654,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-lo-que-la-parte-deja-montado">1. Lo que la parte deja montado</a><a class="toc-level-3" href="#2-el-proyecto">2. El proyecto</a><a class="toc-level-3" href="#3-calificacion-de-las-cinco-predicciones">3. Calificación de las cinco predicciones</a><a class="toc-level-3" href="#4-la-ley-22-el-recuento-y-la-hipotesis-de-la-parte-14">4. La ley 22, el recuento y la hipótesis de la parte 14</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

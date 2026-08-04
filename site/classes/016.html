@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/016.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "016 — Elasticidad, escalabilidad, disponibilidad y resiliencia", "description": "016 — Elasticidad, escalabilidad, disponibilidad y resiliencia Parte: 01 — Principios, estrategia y adopción cloud<br Nivel: inicial-intermedio · Horas est", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/016.html"}</script>
   <title>016 — Elasticidad, escalabilidad, disponibilidad y resiliencia · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/01.html">Parte 01</a><span>/</span><strong>016</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="015.html" rel="prev" title="IaaS, PaaS, SaaS, CaaS y FaaS">← 015</a><a class="pager-link index" href="../parts/01.html">Parte 01</a><a class="pager-link next" href="017.html" rel="next" title="Tenancy, cuentas, suscripciones, proyectos y jerarquías">017 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf" download>📕 Parte 01 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 01 · inicial-intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="016"> Clase completada</label>
@@ -88,14 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    E[&quot;Escalabilidad&lt;br/&gt;¿puedo crecer?&quot;] --&gt; EL[&quot;Elasticidad&lt;br/&gt;¿crezco y decrezco solo?&quot;]
-    D[&quot;Disponibilidad&lt;br/&gt;¿responde ahora?&quot;] --&gt; R[&quot;Resiliencia&lt;br/&gt;¿sobrevive al fallo?&quot;]
-    EL -.-&gt;|&quot;sin escalabilidad&lt;br/&gt;no hay nada que ajustar&quot;| E
-    R -.-&gt;|&quot;la resiliencia PRODUCE&lt;br/&gt;disponibilidad, no al revés&quot;| D
-    E --- X{{&quot;independientes:&lt;br/&gt;un sistema puede escalar&lt;br/&gt;y no sobrevivir&quot;}}
-    D --- X
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/2b569f5fb21016af.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-cuatro-propiedades-cuatro-preguntas-distintas">1. Cuatro propiedades, cuatro preguntas distintas</h3>
 <p>El vocabulario se usa mal a diario y cada confusión tiene un coste concreto:</p>
@@ -414,7 +413,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-01-cloud-principles-strategy-adoption/016-elasticidad-escalabilidad-disponibilidad-y-resiliencia/lesson.yaml">Contrato de clase</a> · <a href="../parts/01.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-01-cloud-principles-strategy-adoption/016-elasticidad-escalabilidad-disponibilidad-y-resiliencia/../../../site/downloads/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf">Parte 01 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-01-cloud-principles-strategy-adoption/016-elasticidad-escalabilidad-disponibilidad-y-resiliencia/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>modelo-de-capacidad</h2></div>
         <code>python classes/part-01-cloud-principles-strategy-adoption/016-elasticidad-escalabilidad-disponibilidad-y-resiliencia/lab.py --seed 42</code>
@@ -478,6 +478,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-cuatro-propiedades-cuatro-preguntas-distintas">1. Cuatro propiedades, cuatro preguntas distintas</a><a class="toc-level-3" href="#2-la-ley-de-amdahl-pone-el-techo">2. La ley de Amdahl pone el techo</a><a class="toc-level-3" href="#3-la-ley-universal-de-escalabilidad-cuando-anadir-nodos-empeora">3. La ley universal de escalabilidad: cuando añadir nodos empeora</a><a class="toc-level-3" href="#4-disponibilidad-dos-palancas-una-mucho-mas-barata">4. Disponibilidad: dos palancas, una mucho más barata</a><a class="toc-level-3" href="#5-autoescalado-que-no-oscila">5. Autoescalado que no oscila</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/027.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "027 — VPC, subredes, rutas, NAT, endpoints y seguridad", "description": "027 — VPC, subredes, rutas, NAT, endpoints y seguridad Parte: 02 — AWS: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: netwo", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/027.html"}</script>
   <title>027 — VPC, subredes, rutas, NAT, endpoints y seguridad · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/02.html">Parte 02</a><span>/</span><strong>027</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="026.html" rel="prev" title="IAM, roles, políticas, STS y federación">← 026</a><a class="pager-link index" href="../parts/02.html">Parte 02</a><a class="pager-link next" href="028.html" rel="next" title="EC2, AMI, EBS y selección de capacidad">028 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-02-aws-core-platform.pdf" download>📕 Parte 02 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 02 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="027"> Clase completada</label>
@@ -88,16 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    IGW[&quot;Internet Gateway&quot;] --&gt; PUB[&quot;Subred pública&lt;br/&gt;ruta 0.0.0.0/0 → IGW&quot;]
-    PUB --&gt; NAT[&quot;NAT Gateway&quot;]
-    NAT --&gt; PRIV[&quot;Subred privada&lt;br/&gt;ruta 0.0.0.0/0 → NAT&quot;]
-    PRIV --&gt; APP[&quot;aplicación&quot;]
-    APP -.-&gt;|&quot;gratis, no pasa por NAT&quot;| EPG[&quot;Endpoint gateway&lt;br/&gt;S3 · DynamoDB&quot;]
-    APP -.-&gt;|&quot;por hora + GB, más barato que NAT&quot;| EPI[&quot;Endpoint de interfaz&lt;br/&gt;ECR · Secrets · SSM&quot;]
-    APP --&gt;|&quot;todo lo demás:&lt;br/&gt;0,045 USD/GB&quot;| NAT
-    ISO[&quot;Subred aislada&lt;br/&gt;sin ruta a 0.0.0.0/0&quot;] --- DB[(&quot;base de datos&quot;)]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/a2b5ff7c4f2890bf.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-planificar-el-cidr-antes-de-crear-nada">1. Planificar el CIDR antes de crear nada</h3>
 <p>El rango de una VPC <strong>no se puede cambiar</strong>; solo se pueden añadir bloques secundarios, con restricciones. Un error aquí se paga durante años.</p>
@@ -411,7 +408,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/027-vpc-subredes-rutas-nat-endpoints-y-seguridad/lesson.yaml">Contrato de clase</a> · <a href="../parts/02.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/027-vpc-subredes-rutas-nat-endpoints-y-seguridad/../../../site/downloads/partes/manual-parte-02-aws-core-platform.pdf">Parte 02 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/027-vpc-subredes-rutas-nat-endpoints-y-seguridad/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/027-vpc-subredes-rutas-nat-endpoints-y-seguridad/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>vpc-aws</h2></div>
         <code>python classes/part-02-aws-core-platform/027-vpc-subredes-rutas-nat-endpoints-y-seguridad/lab.py --seed 42</code>
@@ -475,6 +473,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-planificar-el-cidr-antes-de-crear-nada">1. Planificar el CIDR antes de crear nada</a><a class="toc-level-3" href="#2-publica-o-privada-lo-decide-la-tabla-de-rutas">2. Pública o privada lo decide la tabla de rutas</a><a class="toc-level-3" href="#3-grupo-de-seguridad-y-acl-con-estado-y-sin-estado">3. Grupo de seguridad y ACL: con estado y sin estado</a><a class="toc-level-3" href="#4-nat-gateway-la-partida-cara-que-nadie-mira">4. NAT gateway: la partida cara que nadie mira</a><a class="toc-level-3" href="#5-diagnostico-de-conectividad-de-abajo-hacia-arriba">5. Diagnóstico de conectividad, de abajo hacia arriba</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

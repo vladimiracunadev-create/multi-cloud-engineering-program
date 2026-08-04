@@ -535,6 +535,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 04 en PDF](../../../site/downloads/partes/manual-parte-04-gcp-core-platform.pdf) · [Recorrido de Google Cloud en PDF](../../../site/downloads/nubes/manual-google-cloud.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 055 · Cloud Run, Cloud Functions y API Gateway](../../part-04-gcp-core-platform/055-cloud-run-cloud-functions-y-api-gateway/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [057 · Cloud Logging, Monitoring, Trace y Audit Logs →](../../part-04-gcp-core-platform/057-cloud-logging-monitoring-trace-y-audit-logs/README.md) |

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/151.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "151 — Fallos parciales y patrones de resiliencia", "description": "151 — Fallos parciales y patrones de resiliencia Parte: 12 — Arquitectura cloud-native y sistemas distribuidos<br Nivel: avanzado-experto · Horas estimadas", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/151.html"}</script>
   <title>151 — Fallos parciales y patrones de resiliencia · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/12.html">Parte 12</a><span>/</span><strong>151</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="150.html" rel="prev" title="Replicación, particionado y consenso">← 150</a><a class="pager-link index" href="../parts/12.html">Parte 12</a><a class="pager-link next" href="152.html" rel="next" title="Service discovery, malla y comunicación">152 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf" download>📕 Parte 12 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 12 · avanzado-experto</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="151"> Clase completada</label>
@@ -104,25 +109,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    L[&quot;llamada remota&quot;] --&gt; R{&quot;cuatro resultados&quot;}
-    R --&gt; R1[&quot;funcionó y lo sabes&quot;]
-    R --&gt; R2[&quot;FUNCIONÓ Y NO LO SABES\n← aquí está todo el dolor&quot;]
-    R --&gt; R3[&quot;falló y lo sabes&quot;]
-    R --&gt; R4[&quot;falló y no lo sabes&quot;]
-    R2 --&gt; I[&quot;idempotencia obligatoria · 116&quot;]
-    F[&quot;modos de fallo&quot;] --&gt; F1[&quot;caída limpia · el mejor&quot;]
-    F --&gt; F2[&quot;lento · 130&quot;]
-    F --&gt; F3[&quot;parcial: unas peticiones sí&quot;]
-    F --&gt; F4[&quot;responde datos incorrectos&quot;]
-    F --&gt; F5[&quot;GRIS: él se cree sano&quot;]
-    F5 --&gt; H[&quot;salud superficial para vivir,\nprofunda para recibir tráfico\n+ fracción sana mínima&quot;]
-    S[&quot;sobrecarga&quot;] --&gt; M{&quot;¿el sistema hace\nMÁS trabajo al fallar?&quot;}
-    M --&gt;|&quot;sí&quot;| MM[&quot;fallo metaestable:\nsigue caído sin causa&quot;]
-    M --&gt;|&quot;no&quot;| CW[&quot;trabajo constante&quot;]
-    C[&quot;radio&quot;] --&gt; CE[&quot;celdas: 1 de N clientes&quot;]
-    C --&gt; SH[&quot;reparto por sorteo&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/075927afb90d61d6.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-lo-que-hace-distinto-un-fallo-repartido">1. Lo que hace distinto un fallo repartido</h3>
 <p>En un solo proceso, una llamada funciona o lanza un error. En cuanto hay red, hay <strong>cuatro</strong> resultados:</p>
@@ -577,7 +565,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/151-fallos-parciales-y-patrones-de-resiliencia/lesson.yaml">Contrato de clase</a> · <a href="../parts/12.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/151-fallos-parciales-y-patrones-de-resiliencia/../../../site/downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf">Parte 12 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/151-fallos-parciales-y-patrones-de-resiliencia/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>mapa-fallos</h2></div>
         <code>python classes/part-12-cloud-native-distributed-architecture/151-fallos-parciales-y-patrones-de-resiliencia/lab.py --seed 42</code>
@@ -641,6 +630,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-lo-que-hace-distinto-un-fallo-repartido">1. Lo que hace distinto un fallo repartido</a><a class="toc-level-3" href="#2-el-fallo-gris-y-las-comprobaciones-que-mienten">2. El fallo gris y las comprobaciones que mienten</a><a class="toc-level-3" href="#3-el-fallo-que-se-sostiene-solo">3. El fallo que se sostiene solo</a><a class="toc-level-3" href="#4-acotar-el-radio">4. Acotar el radio</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/189.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "189 — Modelado de amenazas y arquitectura de confianza cero", "description": "189 — Modelado de amenazas y arquitectura de confianza cero Parte: 15 — Arquitectura de sistemas e ingeniería de requisitos<br Nivel: intermedio-avanzado ·", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/189.html"}</script>
   <title>189 — Modelado de amenazas y arquitectura de confianza cero · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/15.html">Parte 15</a><span>/</span><strong>189</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="188.html" rel="prev" title="Contratos de API, eventos y compatibilidad evolutiva">← 188</a><a class="pager-link index" href="../parts/15.html">Parte 15</a><a class="pager-link next" href="190.html" rel="next" title="ADRs, fitness functions y gobierno de decisiones">190 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-15-systems-architecture-engineering.pdf" download>📕 Parte 15 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 15 · intermedio-avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="189"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    Q1[&quot;1 · ¿en qué estamos\ntrabajando?&quot;] --&gt; D[&quot;diagrama de flujo de datos\ncon FRONTERAS de confianza&quot;]
-    D --&gt; Q2[&quot;2 · ¿qué puede salir mal?&quot;]
-    Q2 --&gt; S[&quot;STRIDE por elemento\ny por flujo&quot;]
-    S --&gt; Q3[&quot;3 · ¿qué hacemos?&quot;]
-    Q3 --&gt; M1[&quot;mitigar&quot;]
-    Q3 --&gt; M2[&quot;trasladar&quot;]
-    Q3 --&gt; M3[&quot;eliminar la función&quot;]
-    Q3 --&gt; M4[&quot;ACEPTAR\ncon nombre y fecha&quot;]
-    M1 --&gt; Q4[&quot;4 · ¿lo hicimos bien?&quot;]
-    M4 --&gt; Q4
-    Q4 --&gt; V[&quot;prueba negativa\npor cada mitigación&quot;]
-    P[&quot;prioridad&quot;] --&gt; P1[&quot;por ALCANCE medido,\nno por probabilidad\nestimada a ojo&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/ba0e68a7869ec54f.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-las-cuatro-preguntas">1. Las cuatro preguntas</h3>
 <p>El modelado de amenazas se convierte en burocracia cuando se plantea como un formulario. Planteado como cuatro preguntas, cabe en una sesión de dos horas y produce decisiones.</p>
@@ -323,22 +316,8 @@ documentados como implantados                        ley 22
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
 <p><strong>El equipo de reservas hace el modelo de amenazas antes de construir. Lo que sigue es la sesión de dos horas: el diagrama con fronteras, las diecinueve amenazas encontradas, las cinco que se aceptaron por escrito y las tres pruebas negativas que fallaron.</strong></p>
 <p><strong>El diagrama de flujo de datos, con fronteras:</strong></p>
-<pre><code class="language-mermaid">flowchart LR
-    U[&quot;usuario&quot;] --&gt;|&quot;datos personales,\ntarjeta&quot;| B{&quot;frontera 1\ninternet → borde&quot;}
-    B --&gt; API[&quot;API de reservas&quot;]
-    API --&gt; F2{&quot;frontera 2\nservicio → datos&quot;}
-    F2 --&gt; DB[(&quot;reservas\nPII + estado&quot;)]
-    API --&gt; F3{&quot;frontera 3\nnosotros → pasarela&quot;}
-    F3 --&gt; PAY[&quot;pasarela de pago&quot;]
-    PAY --&gt;|&quot;webhook&quot;| F4{&quot;frontera 4\ntercero → nosotros&quot;}
-    F4 --&gt; API
-    PIPE[&quot;canalización&quot;] --&gt; F5{&quot;frontera 5\nCI → producción&quot;}
-    F5 --&gt; API
-    ADMIN[&quot;persona de guardia&quot;] --&gt; F6{&quot;frontera 6\nhumano → sistema&quot;}
-    F6 --&gt; DB
-    API --&gt; F7{&quot;frontera 7\nproducción → analítica&quot;}
-    F7 --&gt; BQ[(&quot;almacén analítico&quot;)]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/f9cc455176405812.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <p>Y la observación de la sesión:</p>
 <pre><code class="language-text">las fronteras 4, 5 y 7 no estaban en el diagrama de
 arquitectura original
@@ -597,7 +576,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/189-modelado-de-amenazas-y-arquitectura-de-confianza-cero/lesson.yaml">Contrato de clase</a> · <a href="../parts/15.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/189-modelado-de-amenazas-y-arquitectura-de-confianza-cero/../../../site/downloads/partes/manual-parte-15-systems-architecture-engineering.pdf">Parte 15 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/189-modelado-de-amenazas-y-arquitectura-de-confianza-cero/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>system-threat-model</h2></div>
         <code>python classes/part-15-systems-architecture-engineering/189-modelado-de-amenazas-y-arquitectura-de-confianza-cero/lab.py --seed 42</code>
@@ -661,6 +641,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-las-cuatro-preguntas">1. Las cuatro preguntas</a><a class="toc-level-3" href="#2-que-puede-salir-mal-sin-olvidar-categorias">2. Qué puede salir mal, sin olvidar categorías</a><a class="toc-level-3" href="#3-confianza-cero-en-concreto">3. Confianza cero, en concreto</a><a class="toc-level-3" href="#4-lo-que-se-acepta-sin-mitigar">4. Lo que se acepta sin mitigar</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

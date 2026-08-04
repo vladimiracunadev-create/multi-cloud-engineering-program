@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/183.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "183 — Acoplamiento, cohesión, modularidad y fronteras", "description": "183 — Acoplamiento, cohesión, modularidad y fronteras Parte: 15 — Arquitectura de sistemas e ingeniería de requisitos<br Nivel: intermedio-avanzado · Horas", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/183.html"}</script>
   <title>183 — Acoplamiento, cohesión, modularidad y fronteras · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/15.html">Parte 15</a><span>/</span><strong>183</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="182.html" rel="prev" title="Contexto, contenedores, componentes y código con C4">← 182</a><a class="pager-link index" href="../parts/15.html">Parte 15</a><a class="pager-link next" href="184.html" rel="next" title="Arquitectura monolítica, modular y de microservicios">184 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-15-systems-architecture-engineering.pdf" download>📕 Parte 15 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 15 · intermedio-avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="183"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    A[&quot;acoplamiento, de barato a caro&quot;] --&gt; A1[&quot;1 · por mensaje\ncontrato explícito&quot;]
-    A1 --&gt; A2[&quot;2 · por parámetro&quot;]
-    A2 --&gt; A3[&quot;3 · por contrato de API&quot;]
-    A3 --&gt; A4[&quot;4 · temporal\nA necesita que B esté vivo&quot;]
-    A4 --&gt; A5[&quot;5 · por despliegue\nhay que subirlos juntos&quot;]
-    A5 --&gt; A6[&quot;6 · por conocimiento\nA sabe cómo funciona B&quot;]
-    A6 --&gt; A7[&quot;7 · POR DATOS\ndos escriben el mismo almacén&quot;]
-    F[&quot;dónde va la frontera&quot;] --&gt; F1[&quot;quién ESCRIBE cada dato&quot;]
-    F --&gt; F2[&quot;a qué RITMO cambia&quot;]
-    F --&gt; F3[&quot;qué se despliega junto\nporque debe&quot;]
-    F1 --&gt; X[&quot;frontera correcta&quot;]
-    F2 --&gt; X
-    F3 --&gt; X
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/222f64670e20ed10.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-acoplamiento-siete-tipos-por-coste">1. Acoplamiento: siete tipos, por coste</h3>
 <p>Decir «hay que reducir el acoplamiento» no ayuda: todo sistema útil está acoplado. Lo que importa es <strong>de qué tipo</strong>, porque el coste varía en dos órdenes de magnitud.</p>
@@ -529,7 +521,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/183-acoplamiento-cohesion-modularidad-y-fronteras/lesson.yaml">Contrato de clase</a> · <a href="../parts/15.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/183-acoplamiento-cohesion-modularidad-y-fronteras/../../../site/downloads/partes/manual-parte-15-systems-architecture-engineering.pdf">Parte 15 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/183-acoplamiento-cohesion-modularidad-y-fronteras/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>module-map</h2></div>
         <code>python classes/part-15-systems-architecture-engineering/183-acoplamiento-cohesion-modularidad-y-fronteras/lab.py --seed 42</code>
@@ -593,6 +586,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-acoplamiento-siete-tipos-por-coste">1. Acoplamiento: siete tipos, por coste</a><a class="toc-level-3" href="#2-cohesion-que-pertenece-junto">2. Cohesión: qué pertenece junto</a><a class="toc-level-3" href="#3-donde-va-la-frontera-de-verdad">3. Dónde va la frontera de verdad</a><a class="toc-level-3" href="#4-modularidad-sin-repartir-en-servicios">4. Modularidad sin repartir en servicios</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

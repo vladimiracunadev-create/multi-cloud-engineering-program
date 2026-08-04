@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/095.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "095 — Plantillas, golden paths y catálogo interno", "description": "095 — Plantillas, golden paths y catálogo interno Parte: 07 — Infraestructura como código y configuración<br Nivel: intermedio-avanzado · Horas estimadas:", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/095.html"}</script>
   <title>095 — Plantillas, golden paths y catálogo interno · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/07.html">Parte 07</a><span>/</span><strong>095</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="094.html" rel="prev" title="Ansible e imagen dorada para configuración">← 094</a><a class="pager-link index" href="../parts/07.html">Parte 07</a><a class="pager-link next" href="096.html" rel="next" title="Proyecto: infraestructura multiambiente promovible">096 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf" download>📕 Parte 07 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 07 · intermedio-avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="095"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    E[&quot;equipo de producto&quot;] --&gt; Q{&quot;¿lo habitual?&quot;}
-    Q --&gt;|&quot;sí&quot;| A[&quot;CAMINO ASFALTADO\nandamiaje → servicio en minutos&quot;]
-    Q --&gt;|&quot;no&quot;| V[&quot;VÍA DE ESCAPE\ndocumentada, con soporte acotado&quot;]
-    A --&gt; P[&quot;repositorio · canalización ·\ninfraestructura · observabilidad · guardia&quot;]
-    P --&gt; C[&quot;catálogo: responsable y enlaces&quot;]
-    V -.-&gt;|&quot;cada desvío es INFORMACIÓN&quot;| M[&quot;¿falta algo en el asfaltado?&quot;]
-    M -.-&gt; A
-    A --&gt; U{&quot;actualizar 60 servicios&quot;}
-    U --&gt;|&quot;módulo compartido&quot;| U1[&quot;suben todos al actualizar&quot;]
-    U --&gt;|&quot;copia generada&quot;| U2[&quot;cambio automático propuesto\nservicio a servicio&quot;]
-    MED[&quot;medir&quot;] --&gt; M1[&quot;adopción&quot;]
-    MED --&gt; M2[&quot;tiempo hasta el primer despliegue&quot;]
-    MED --&gt; M3[&quot;peticiones de soporte&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/53fcd3b7f2e44f0d.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-asfaltado-no-obligatorio">1. Asfaltado, no obligatorio</h3>
 <p>Un equipo de plataforma que ha construido lo de las clases 085 a 094 tiene módulos versionados, políticas, canalizaciones e imágenes probadas. Y aun así, un equipo de producto puede tardar días en poner en marcha un servicio nuevo. La diferencia no es de capacidad: es de <strong>acceso</strong>.</p>
@@ -510,7 +502,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-07-infrastructure-as-code-configuration/095-plantillas-golden-paths-y-catalogo-interno/lesson.yaml">Contrato de clase</a> · <a href="../parts/07.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-07-infrastructure-as-code-configuration/095-plantillas-golden-paths-y-catalogo-interno/../../../site/downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf">Parte 07 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-07-infrastructure-as-code-configuration/095-plantillas-golden-paths-y-catalogo-interno/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>plantilla-plataforma</h2></div>
         <code>python classes/part-07-infrastructure-as-code-configuration/095-plantillas-golden-paths-y-catalogo-interno/lab.py --seed 42</code>
@@ -574,6 +567,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-asfaltado-no-obligatorio">1. Asfaltado, no obligatorio</a><a class="toc-level-3" href="#2-el-andamiaje-y-lo-que-produce">2. El andamiaje y lo que produce</a><a class="toc-level-3" href="#3-actualizar-sesenta-servicios">3. Actualizar sesenta servicios</a><a class="toc-level-3" href="#4-el-catalogo-responde-la-pregunta-de-ocho-partes">4. El catálogo responde la pregunta de ocho partes</a><a class="toc-level-3" href="#5-los-dos-fracasos-y-como-se-ven">5. Los dos fracasos, y cómo se ven</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

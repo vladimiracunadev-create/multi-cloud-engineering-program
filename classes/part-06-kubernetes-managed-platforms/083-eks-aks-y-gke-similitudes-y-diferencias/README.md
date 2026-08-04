@@ -538,6 +538,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 06 en PDF](../../../site/downloads/partes/manual-parte-06-kubernetes-managed-platforms.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 082 · Logs, métricas, eventos y depuración](../../part-06-kubernetes-managed-platforms/082-logs-metricas-eventos-y-depuracion/README.md) | [Parte 06](../README.md) · [Programa](../../README.md) | [084 · Proyecto: plataforma Kubernetes portable →](../../part-06-kubernetes-managed-platforms/084-proyecto-plataforma-kubernetes-portable/README.md) |

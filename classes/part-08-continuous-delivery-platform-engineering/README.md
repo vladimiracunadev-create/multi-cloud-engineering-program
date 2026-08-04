@@ -2,6 +2,8 @@
 
 > [← Parte 07](../part-07-infrastructure-as-code-configuration/README.md) · [Índice completo](../README.md) · [Parte 09 →](../part-09-data-messaging-serverless-integration/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Diseñar un flujo de entrega rápido, seguro y observable para equipos de producto.

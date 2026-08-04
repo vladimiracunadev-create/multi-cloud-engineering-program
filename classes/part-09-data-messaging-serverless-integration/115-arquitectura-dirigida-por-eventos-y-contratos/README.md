@@ -558,6 +558,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 09 en PDF](../../../site/downloads/partes/manual-parte-09-data-messaging-serverless-integration.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 114 · Pub/sub, streams, particiones y orden](../../part-09-data-messaging-serverless-integration/114-pub-sub-streams-particiones-y-orden/README.md) | [Parte 09](../README.md) · [Programa](../../README.md) | [116 · Sagas, outbox, idempotencia y deduplicación →](../../part-09-data-messaging-serverless-integration/116-sagas-outbox-idempotencia-y-deduplicacion/README.md) |

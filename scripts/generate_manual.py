@@ -15,9 +15,12 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
+from reportlab.lib.utils import ImageReader
 from reportlab.platypus import (
     BaseDocTemplate,
     Frame,
+    Image,
+    KeepTogether,
     PageBreak,
     PageTemplate,
     Paragraph,
@@ -27,6 +30,8 @@ from reportlab.platypus import (
     TableStyle,
 )
 from reportlab.platypus.tableofcontents import TableOfContents
+
+import diagrams as diagram_store
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "output/pdf/multi-cloud-engineering-manual-v2.0.pdf"
@@ -121,12 +126,14 @@ styles.add(ParagraphStyle(
 
 
 class ManualDocTemplate(BaseDocTemplate):
-    def __init__(self, filename: str):
+    def __init__(self, filename: str, *, footer: str = "Manual integral", title: str | None = None):
         super().__init__(
             filename, pagesize=A4, leftMargin=17 * mm, rightMargin=17 * mm,
-            topMargin=18 * mm, bottomMargin=17 * mm, title="Multi-Cloud Engineering Program - Manual completo",
+            topMargin=18 * mm, bottomMargin=17 * mm,
+            title=title or "Multi-Cloud Engineering Program - Manual completo",
             author="Vladimir Acuña", subject="Programa completo de ingeniería multi-cloud",
         )
+        self.footer_label = footer
         frame = Frame(self.leftMargin, self.bottomMargin, self.width, self.height, id="body")
         self.addPageTemplates(PageTemplate(id="manual", frames=frame, onPage=self._decorate_page))
 
@@ -136,7 +143,7 @@ class ManualDocTemplate(BaseDocTemplate):
         canvas.line(17 * mm, 14 * mm, 193 * mm, 14 * mm)
         canvas.setFillColor(colors.HexColor("#627D98"))
         canvas.setFont("Helvetica", 7.5)
-        canvas.drawString(17 * mm, 9.5 * mm, "Multi-Cloud Engineering Program · Manual integral")
+        canvas.drawString(17 * mm, 9.5 * mm, f"Multi-Cloud Engineering Program · {self.footer_label}")
         canvas.drawRightString(193 * mm, 9.5 * mm, f"Página {doc.page}")
         canvas.restoreState()
 
@@ -192,6 +199,28 @@ def table_flow(rows: list[list[str]]):
     )
 
 
+# Ancho util del marco de texto del manual, en puntos.
+DIAGRAM_MAX_WIDTH = 165 * mm
+DIAGRAM_MAX_HEIGHT = 215 * mm
+
+
+def diagram_flow(source: str):
+    """El diagrama ya renderizado, escalado para caber en la caja de texto.
+
+    Sin esto los diagramas salian como texto Mermaid: correcto como
+    especificacion e ilegible como figura.
+    """
+    png = diagram_store.rendered(source, "png")
+    if png is None:
+        return None
+    reader = ImageReader(str(png))
+    width, height = reader.getSize()
+    scale = min(DIAGRAM_MAX_WIDTH / width, DIAGRAM_MAX_HEIGHT / height, 1.0)
+    image = Image(str(png), width=width * scale, height=height * scale)
+    image.hAlign = "CENTER"
+    return image
+
+
 def markdown_flowables(path: Path, *, top_style: str = "ManualPart", toc_level: int | None = None):
     lines = path.read_text(encoding="utf-8").splitlines()
     result = []
@@ -219,13 +248,23 @@ def markdown_flowables(path: Path, *, top_style: str = "ManualPart", toc_level: 
                 result.extend([table_flow(rows), Spacer(1, 3 * mm)])
             table.clear()
 
+    fence_language = ""
+
     for raw in lines:
         line = raw.rstrip()
         if line.startswith("```"):
             flush_paragraph(); flush_table()
             if in_code:
-                result.append(Preformatted("\n".join(code) or " ", styles["ManualCode"], maxLineLength=102))
+                # Los diagramas se dibujan; el resto del codigo se transcribe.
+                image = diagram_flow("\n".join(code)) if fence_language == "mermaid" else None
+                if image is not None:
+                    result.extend([Spacer(1, 4 * mm), image, Spacer(1, 4 * mm)])
+                else:
+                    result.append(Preformatted("\n".join(code) or " ", styles["ManualCode"], maxLineLength=102))
                 code.clear()
+                fence_language = ""
+            else:
+                fence_language = line[3:].strip().lower()
             in_code = not in_code
             continue
         if in_code:

@@ -773,6 +773,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 20 en PDF](../../../site/downloads/partes/manual-parte-20-cloud-data-ai-platforms.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 250 · Evaluación de IA, red teaming y observabilidad](../../part-20-cloud-data-ai-platforms/250-evaluacion-de-ia-red-teaming-y-observabilidad/README.md) | [Parte 20](../README.md) · [Programa](../../README.md) | [252 · Proyecto: asistente operativo de CloudShop →](../../part-20-cloud-data-ai-platforms/252-proyecto-asistente-operativo-de-cloudshop/README.md) |

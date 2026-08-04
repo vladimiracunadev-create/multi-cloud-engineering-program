@@ -10,17 +10,42 @@ from pathlib import Path
 
 import markdown
 
+import diagrams as diagram_store
 from asset_version import ASSET_VERSION
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 CLASSES_OUT = SITE / "classes"
 PARTS_OUT = SITE / "parts"
+DIAGRAMS_OUT = SITE / "assets" / "diagrams"
 CATALOG_PATH = ROOT / "curriculum" / "catalog.json"
 REPO_URL = "https://github.com/vladimiracunadev-create/multi-cloud-engineering-program"
 PAGES_URL = "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program"
 
 MD_EXTENSIONS = ["extra", "toc", "sane_lists"]
+
+
+def embed_diagrams(markdown_text: str, asset_prefix: str) -> str:
+    """Sustituye cada bloque Mermaid por su SVG ya renderizado.
+
+    Antes se dibujaban en el navegador con Mermaid traido de un CDN: funcionaba
+    en el portal y dejaba la aplicacion Android sin diagramas, porque no tiene
+    red. Con el SVG ya hecho se ven igual en las tres superficies.
+    """
+
+    def replace(match: re.Match[str]) -> str:
+        source = match.group(1)
+        svg = diagram_store.rendered(source, "svg")
+        if svg is None:
+            return match.group(0)
+        return (
+            f'<figure class="diagram">'
+            f'<img src="{asset_prefix}assets/diagrams/{svg.name}" alt="Diagrama del contenido de la clase" '
+            f'loading="lazy" decoding="async">'
+            f"</figure>\n"
+        )
+
+    return diagram_store.MERMAID_BLOCK.sub(replace, markdown_text)
 
 
 def render_markdown(text: str) -> str:
@@ -135,13 +160,27 @@ def strip_readme_nav(markdown_text: str) -> str:
     return README_NAV.sub("", markdown_text).rstrip() + "\n"
 
 
+# Las partes propias de cada proveedor, para ofrecer su cuaderno en la clase.
+CLOUD_PARTS = {
+    "02": ("aws", "AWS"), "17": ("aws", "AWS"),
+    "03": ("azure", "Azure"), "18": ("azure", "Azure"),
+    "04": ("google-cloud", "Google Cloud"), "19": ("google-cloud", "Google Cloud"),
+}
+
+
+def cloud_of(item: dict) -> tuple[str, str] | None:
+    return CLOUD_PARTS.get(item["part"])
+
+
 def class_page(item: dict, catalog: list[dict], index: int) -> str:
     folder = source_path(item)
     lesson_md = strip_readme_nav((folder / "README.md").read_text(encoding="utf-8"))
     assessment_md = (folder / "assessment.md").read_text(encoding="utf-8")
     lookup = {x["id"]: x["slug"] for x in catalog}
     lookup["source"] = folder.relative_to(ROOT).as_posix()
-    lesson_html = render_markdown(rewrite_class_links(lesson_md, lookup, item["part"]))
+    lesson_html = render_markdown(
+        embed_diagrams(rewrite_class_links(lesson_md, lookup, item["part"]), "../")
+    )
     assessment_html = render_markdown(assessment_md)
     toc = toc_from_html(lesson_html)
     previous = catalog[index - 1] if index else None
@@ -171,6 +210,12 @@ def class_page(item: dict, catalog: list[dict], index: int) -> str:
         f'<a class="pager-link index" href="../parts/{item["part"]}.html">Parte {item["part"]}</a>'
         f'{following_compact}</nav>'
     )
+    cloud = cloud_of(item)
+    cloud_download = (
+        f'<a href="../downloads/nubes/manual-{cloud[0]}.pdf" download>☁️ Recorrido de {cloud[1]} en PDF</a>'
+        if cloud
+        else ""
+    )
     command = f"python {folder.relative_to(ROOT).as_posix()}/lab.py --seed 42"
     page_body = f"""
   <header class="doc-topbar">
@@ -185,6 +230,11 @@ def class_page(item: dict, catalog: list[dict], index: int) -> str:
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/{item['part']}.html">Parte {item['part']}</a><span>/</span><strong>{item['id']}</strong></nav>
       {pager}
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-{item['part']}-{item['part_slug']}.pdf" download>📕 Parte {item['part']} en PDF</a>{cloud_download}
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte {item['part']} · {html.escape(item['level'])}</span><strong>{item['estimated_hours']} horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="{item['id']}"> Clase completada</label>
@@ -240,7 +290,7 @@ def part_page(part_id: str, items: list[dict], part_ids: list[str]) -> str:
     part_folder = source_path(items[0]).parent
     md_path = part_folder / "README.md"
     md_text = md_path.read_text(encoding="utf-8")
-    rendered = render_markdown(rewrite_part_links(md_text))
+    rendered = render_markdown(embed_diagrams(rewrite_part_links(md_text), "../"))
     position = part_ids.index(part_id)
     prev_part = part_ids[position - 1] if position else None
     next_part = part_ids[position + 1] if position + 1 < len(part_ids) else None
@@ -274,6 +324,11 @@ def part_page(part_id: str, items: list[dict], part_ids: list[str]) -> str:
   <main class="part-content">
     <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><strong>Parte {part_id}</strong></nav>
     {part_pager}
+    <section class="downloads-strip">
+      <span class="kicker">Descargar</span>
+      <a href="../downloads/partes/manual-parte-{part_id}-{items[0]['part_slug']}.pdf" download>📕 Manual de esta parte (PDF)</a>
+      <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+    </section>
     <article class="markdown-body part-intro">{rendered}</article>
     <section class="part-class-list"><div class="section-title"><span class="kicker">Recorrido</span><h2>Clases de la parte</h2></div>{cards}</section>
     {part_pager}
@@ -312,8 +367,13 @@ def build() -> None:
     )
     shutil.rmtree(CLASSES_OUT, ignore_errors=True)
     shutil.rmtree(PARTS_OUT, ignore_errors=True)
+    shutil.rmtree(DIAGRAMS_OUT, ignore_errors=True)
     CLASSES_OUT.mkdir(parents=True)
     PARTS_OUT.mkdir(parents=True)
+    DIAGRAMS_OUT.mkdir(parents=True)
+
+    for svg in sorted(diagram_store.DIAGRAMS.glob("*.svg")):
+        shutil.copy2(svg, DIAGRAMS_OUT / svg.name)
 
     for index, item in enumerate(catalog):
         (CLASSES_OUT / f"{item['id']}.html").write_text(class_page(item, catalog, index), encoding="utf-8")

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/100.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "100 — Pruebas, calidad y puertas de cambio", "description": "100 — Pruebas, calidad y puertas de cambio Parte: 08 — Entrega continua y platform engineering<br Nivel: avanzado · Horas estimadas: 4<br Laboratorio: test", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/100.html"}</script>
   <title>100 — Pruebas, calidad y puertas de cambio · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/08.html">Parte 08</a><span>/</span><strong>100</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="099.html" rel="prev" title="Artefactos inmutables, semver y promoción">← 099</a><a class="pager-link index" href="../parts/08.html">Parte 08</a><a class="pager-link next" href="101.html" rel="next" title="SAST, SCA, secretos, SBOM y firma en pipeline">101 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf" download>📕 Parte 08 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 08 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="100"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    N{&quot;¿qué puede detectar?&quot;} --&gt;|&quot;lógica de una unidad&quot;| U[&quot;unitaria · ms · muy estable&quot;]
-    N --&gt;|&quot;integración con una dependencia real&quot;| I[&quot;integración · segundos&quot;]
-    N --&gt;|&quot;acuerdo entre dos servicios&quot;| C[&quot;CONTRATO · verificado en ambos lados&quot;]
-    N --&gt;|&quot;el sistema completo&quot;| E[&quot;extremo a extremo · minutos · frágil&quot;]
-    N --&gt;|&quot;comportamiento con tráfico real&quot;| P[&quot;en producción · clases 102 · 105&quot;]
-    U --&gt; G{&quot;¿es puerta?&quot;}
-    I --&gt; G
-    C --&gt; G
-    E --&gt; G
-    G --&gt;|&quot;sí: detiene el cambio&quot;| G1[&quot;puerta&quot;]
-    G --&gt;|&quot;no: solo informa&quot;| G2[&quot;informe · no llamarlo puerta&quot;]
-    D[&quot;doble de prueba&quot;] -.-&gt;|&quot;oculta&quot;| X[&quot;el fallo de integración real&quot;]
-    COV[&quot;cobertura&quot;] -.-&gt;|&quot;como objetivo&quot;| Y[&quot;pruebas que no comprueban nada&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/6e13a62b2224e33f.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-forma-la-decide-la-arquitectura-no-el-dogma">1. La forma la decide la arquitectura, no el dogma</h3>
 <p>La pirámide de pruebas se enseña como una proporción fija y es un compromiso entre dos magnitudes:</p>
@@ -498,7 +490,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-08-continuous-delivery-platform-engineering/100-pruebas-calidad-y-puertas-de-cambio/lesson.yaml">Contrato de clase</a> · <a href="../parts/08.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-08-continuous-delivery-platform-engineering/100-pruebas-calidad-y-puertas-de-cambio/../../../site/downloads/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf">Parte 08 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-08-continuous-delivery-platform-engineering/100-pruebas-calidad-y-puertas-de-cambio/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>quality-gates</h2></div>
         <code>python classes/part-08-continuous-delivery-platform-engineering/100-pruebas-calidad-y-puertas-de-cambio/lab.py --seed 42</code>
@@ -562,6 +555,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-forma-la-decide-la-arquitectura-no-el-dogma">1. La forma la decide la arquitectura, no el dogma</a><a class="toc-level-3" href="#2-los-dobles-y-el-contrato">2. Los dobles y el contrato</a><a class="toc-level-3" href="#3-la-cobertura-dice-lo-que-no-esta-probado">3. La cobertura dice lo que no está probado</a><a class="toc-level-3" href="#4-puerta-o-informe-decidirlo-explicitamente">4. Puerta o informe: decidirlo explícitamente</a><a class="toc-level-3" href="#5-lo-que-solo-se-puede-comprobar-en-produccion">5. Lo que solo se puede comprobar en producción</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -14,3 +14,4 @@ tmp/
 # Firma de la APK: la clave privada nunca va al repositorio.
 output/android/release.keystore
 output/android/*.idsig
+node_modules/

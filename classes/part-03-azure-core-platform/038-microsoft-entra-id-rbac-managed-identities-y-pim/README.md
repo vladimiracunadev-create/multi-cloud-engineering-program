@@ -421,6 +421,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 03 en PDF](../../../site/downloads/partes/manual-parte-03-azure-core-platform.pdf) · [Recorrido de Azure en PDF](../../../site/downloads/nubes/manual-azure.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 037 · Tenant, management groups, suscripciones y resource groups](../../part-03-azure-core-platform/037-tenant-management-groups-suscripciones-y-resource-groups/README.md) | [Parte 03](../README.md) · [Programa](../../README.md) | [039 · Virtual Network, subredes, NSG, UDR, peering y Private Link →](../../part-03-azure-core-platform/039-virtual-network-subredes-nsg-udr-peering-y-private-link/README.md) |

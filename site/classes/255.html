@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/255.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "255 — Backups, restore testing, vaults e inmutabilidad", "description": "255 — Backups, restore testing, vaults e inmutabilidad Parte: 21 — Operación cloud, automatización y respuesta a incidentes<br Nivel: avanzado · Horas esti", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/255.html"}</script>
   <title>255 — Backups, restore testing, vaults e inmutabilidad · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/21.html">Parte 21</a><span>/</span><strong>255</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="254.html" rel="prev" title="Patching, imágenes doradas y gestión de configuración">← 254</a><a class="pager-link index" href="../parts/21.html">Parte 21</a><a class="pager-link next" href="256.html" rel="next" title="Administración remota sin SSH permanente">256 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-21-cloud-operations-automation.pdf" download>📕 Parte 21 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 21 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="255"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    Q{&quot;¿de qué protege?&quot;}
-    Q --&gt;|&quot;fallo de\ninfraestructura&quot;| R[&quot;RÉPLICA\nsincronizada&quot;]
-    Q --&gt;|&quot;borrado o error\nque se propaga&quot;| B[&quot;COPIA\npunto en el tiempo&quot;]
-    R --&gt;|&quot;un borrado se\nreplica al instante&quot;| X[&quot;NO protege&quot;]
-    B --&gt; B1[&quot;INMUTABLE\nno se puede borrar\nantes del plazo&quot;]
-    B --&gt; B2[&quot;AISLADA\nfuera del alcance de\nlas credenciales&quot;]
-    B --&gt; B3[&quot;con frecuencia y\nretención decididas&quot;]
-    B1 --&gt; E[&quot;ENSAYO DE\nRESTAURACIÓN&quot;]
-    E --&gt; E1[&quot;restaurar de verdad&quot;]
-    E --&gt; E2[&quot;CRONOMETRAR&quot;]
-    E --&gt; E3[&quot;comprobar que los\ndatos SIRVEN&quot;]
-    E3 --&gt; M[&quot;objetivos MEDIDOS&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/4139391d5067144f.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-copia-replica-y-version">1. Copia, réplica y versión</h3>
 <p>Tres cosas que se confunden y protegen de amenazas distintas. Confundirlas es el error inicial.</p>
@@ -702,7 +695,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-21-cloud-operations-automation/255-backups-restore-testing-vaults-e-inmutabilidad/lesson.yaml">Contrato de clase</a> · <a href="../parts/21.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-21-cloud-operations-automation/255-backups-restore-testing-vaults-e-inmutabilidad/../../../site/downloads/partes/manual-parte-21-cloud-operations-automation.pdf">Parte 21 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-21-cloud-operations-automation/255-backups-restore-testing-vaults-e-inmutabilidad/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>backup-restore</h2></div>
         <code>python classes/part-21-cloud-operations-automation/255-backups-restore-testing-vaults-e-inmutabilidad/lab.py --seed 42</code>
@@ -766,6 +760,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-copia-replica-y-version">1. Copia, réplica y versión</a><a class="toc-level-3" href="#2-proteger-las-copias">2. Proteger las copias</a><a class="toc-level-3" href="#3-el-ensayo-de-restauracion">3. El ensayo de restauración</a><a class="toc-level-3" href="#4-lo-que-las-copias-no-cubren">4. Lo que las copias no cubren</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

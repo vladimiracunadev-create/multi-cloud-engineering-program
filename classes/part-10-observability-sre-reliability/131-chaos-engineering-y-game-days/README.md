@@ -567,6 +567,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 10 en PDF](../../../site/downloads/partes/manual-parte-10-observability-sre-reliability.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 130 · Timeouts, retries, backoff, circuit breaker y bulkhead](../../part-10-observability-sre-reliability/130-timeouts-retries-backoff-circuit-breaker-y-bulkhead/README.md) | [Parte 10](../README.md) · [Programa](../../README.md) | [132 · Proyecto: operación SRE de CloudShop →](../../part-10-observability-sre-reliability/132-proyecto-operacion-sre-de-cloudshop/README.md) |

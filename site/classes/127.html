@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/127.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "127 — Incidentes, severidad, comando y comunicación", "description": "127 — Incidentes, severidad, comando y comunicación Parte: 10 — Observabilidad, SRE y confiabilidad<br Nivel: avanzado · Horas estimadas: 4<br Laboratorio:", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/127.html"}</script>
   <title>127 — Incidentes, severidad, comando y comunicación · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/10.html">Parte 10</a><span>/</span><strong>127</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="126.html" rel="prev" title="SLI, SLO, SLA y presupuesto de error">← 126</a><a class="pager-link index" href="../parts/10.html">Parte 10</a><a class="pager-link next" href="128.html" rel="next" title="Runbooks, playbooks y automatización operativa">128 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-10-observability-sre-reliability.pdf" download>📕 Parte 10 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 10 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="127"> Clase completada</label>
@@ -92,23 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    A[&quot;alerta o aviso&quot;] --&gt; D{&quot;¿afecta a usuarios\no puede afectar pronto?&quot;}
-    D --&gt;|&quot;sí&quot;| DEC[&quot;DECLARAR\ncualquiera puede&quot;]
-    D --&gt;|&quot;duda&quot;| DEC
-    DEC --&gt; S[&quot;gravedad por impacto&quot;]
-    DEC --&gt; R[&quot;papeles: mando · resolución\ncomunicación · cronología&quot;]
-    R --&gt; M[&quot;MITIGAR primero&quot;]
-    M --&gt; M1[&quot;revertir · 102&quot;]
-    M --&gt; M2[&quot;apagar interruptor · 105&quot;]
-    M --&gt; M3[&quot;escalar o limitar · 118&quot;]
-    M --&gt; M4[&quot;degradar o conmutar&quot;]
-    M --&gt; C{&quot;¿mitigado?&quot;}
-    C --&gt;|&quot;no&quot;| U[&quot;UN cambio cada vez,\nanunciado y reversible&quot;]
-    U --&gt; C
-    C --&gt;|&quot;sí&quot;| K[&quot;comunicar y cerrar&quot;]
-    K --&gt; P[&quot;revisión sin culpa:\n¿por qué lo permitió el sistema?&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/aac76ae54a4a5a0c.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-declarar-pronto">1. Declarar pronto</h3>
 <p>El error más común no es gestionar mal un incidente: es <strong>no llamarlo incidente</strong> hasta que lleva cuarenta minutos.</p>
@@ -505,7 +495,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-10-observability-sre-reliability/127-incidentes-severidad-comando-y-comunicacion/lesson.yaml">Contrato de clase</a> · <a href="../parts/10.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-10-observability-sre-reliability/127-incidentes-severidad-comando-y-comunicacion/../../../site/downloads/partes/manual-parte-10-observability-sre-reliability.pdf">Parte 10 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-10-observability-sre-reliability/127-incidentes-severidad-comando-y-comunicacion/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>plan-incidente</h2></div>
         <code>python classes/part-10-observability-sre-reliability/127-incidentes-severidad-comando-y-comunicacion/lab.py --seed 42</code>
@@ -569,6 +560,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-declarar-pronto">1. Declarar pronto</a><a class="toc-level-3" href="#2-papeles-y-los-dos-fallos-que-evitan">2. Papeles, y los dos fallos que evitan</a><a class="toc-level-3" href="#3-mitigar-primero">3. Mitigar primero</a><a class="toc-level-3" href="#4-comunicar-y-revisar-sin-culpa">4. Comunicar, y revisar sin culpa</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

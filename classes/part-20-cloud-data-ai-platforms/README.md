@@ -2,6 +2,8 @@
 
 > [← Parte 19](../part-19-gcp-production-architecture/README.md) · [Índice completo](../README.md) · [Parte 21 →](../part-21-cloud-operations-automation/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-20-cloud-data-ai-platforms.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Diseñar plataformas gobernadas para batch, streaming, ML, IA generativa y agentes.

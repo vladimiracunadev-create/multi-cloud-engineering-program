@@ -526,6 +526,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 05 en PDF](../../../site/downloads/partes/manual-parte-05-containers-docker-oci.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 064 · Volúmenes, bind mounts y persistencia](../../part-05-containers-docker-oci/064-volumenes-bind-mounts-y-persistencia/README.md) | [Parte 05](../README.md) · [Programa](../../README.md) | [066 · Docker Compose y aplicaciones multiservicio →](../../part-05-containers-docker-oci/066-docker-compose-y-aplicaciones-multiservicio/README.md) |

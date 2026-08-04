@@ -581,6 +581,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 11 en PDF](../../../site/downloads/partes/manual-parte-11-security-governance-finops.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 139 · CSPM, postura, policy as code y remediación](../../part-11-security-governance-finops/139-cspm-postura-policy-as-code-y-remediacion/README.md) | [Parte 11](../README.md) · [Programa](../../README.md) | [141 · Cumplimiento, residencia, privacidad y evidencia →](../../part-11-security-governance-finops/141-cumplimiento-residencia-privacidad-y-evidencia/README.md) |

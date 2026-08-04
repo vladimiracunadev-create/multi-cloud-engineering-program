@@ -2,6 +2,8 @@
 
 > [← Parte 03](../part-03-azure-core-platform/README.md) · [Índice completo](../README.md) · [Parte 05 →](../part-05-containers-docker-oci/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-04-gcp-core-platform.pdf) · [Recorrido de Google Cloud en PDF](../../site/downloads/nubes/manual-google-cloud.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** intermedio · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Diseñar y operar una carga en Google Cloud con proyectos, identidades y datos bien delimitados.

@@ -631,6 +631,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 14 en PDF](../../../site/downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 170 · Gobierno federado y policy as code a escala](../../part-14-advanced-platform-capstones-career/170-gobierno-federado-y-policy-as-code-a-escala/README.md) | [Parte 14](../README.md) · [Programa](../../README.md) | [172 · Modelo operativo FinOps y economía unitaria →](../../part-14-advanced-platform-capstones-career/172-modelo-operativo-finops-y-economia-unitaria/README.md) |

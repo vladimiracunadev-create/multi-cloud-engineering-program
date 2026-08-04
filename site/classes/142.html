@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/142.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "142 — FinOps: showback, chargeback, budgets y anomalías", "description": "142 — FinOps: showback, chargeback, budgets y anomalías Parte: 11 — Seguridad, gobierno, cumplimiento y FinOps<br Nivel: avanzado · Horas estimadas: 4<br L", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/142.html"}</script>
   <title>142 — FinOps: showback, chargeback, budgets y anomalías · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/11.html">Parte 11</a><span>/</span><strong>142</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="141.html" rel="prev" title="Cumplimiento, residencia, privacidad y evidencia">← 141</a><a class="pager-link index" href="../parts/11.html">Parte 11</a><a class="pager-link next" href="143.html" rel="next" title="Optimización de costo, capacidad y sostenibilidad">143 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-11-security-governance-finops.pdf" download>📕 Parte 11 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 11 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="142"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    F[&quot;factura&quot;] --&gt; A{&quot;¿se puede atribuir?&quot;}
-    A --&gt;|&quot;no&quot;| X[&quot;nada de lo demás funciona:\netiquetas obligatorias · 139&quot;]
-    A --&gt;|&quot;sí&quot;| D[&quot;directo: por etiqueta,\ncuenta o proyecto&quot;]
-    A --&gt;|&quot;compartido&quot;| S[&quot;reparto EXPLICABLE\nno necesariamente justo&quot;]
-    D --&gt; U[&quot;coste por unidad de negocio&quot;]
-    S --&gt; U
-    U --&gt; V[&quot;visible donde se decide:\ncambio propuesto · panel · guardia&quot;]
-    V --&gt; P{&quot;vigilancia&quot;}
-    P --&gt;|&quot;previsión&quot;| B[&quot;avisa ANTES de gastarlo&quot;]
-    P --&gt;|&quot;desviación por servicio&quot;| AN[&quot;con estacionalidad&quot;]
-    AN --&gt; L[&quot;ley 19: el autoescalado\nconvierte una avería\nen una factura&quot;]
-    U --&gt; W[&quot;desperdicio por abandono:\nes falta de dueño&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/6452c48b7e11a837.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-sin-atribucion-no-hay-nada">1. Sin atribución no hay nada</h3>
 <p>La primera pregunta ante cualquier factura no es «cómo bajarla», sino <strong>de quién es</strong>.</p>
@@ -548,7 +541,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/142-finops-showback-chargeback-budgets-y-anomalias/lesson.yaml">Contrato de clase</a> · <a href="../parts/11.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/142-finops-showback-chargeback-budgets-y-anomalias/../../../site/downloads/partes/manual-parte-11-security-governance-finops.pdf">Parte 11 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/142-finops-showback-chargeback-budgets-y-anomalias/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>modelo-asignacion-costos</h2></div>
         <code>python classes/part-11-security-governance-finops/142-finops-showback-chargeback-budgets-y-anomalias/lab.py --seed 42</code>
@@ -612,6 +606,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-sin-atribucion-no-hay-nada">1. Sin atribución no hay nada</a><a class="toc-level-3" href="#2-mostrar-cobrar-y-el-coste-unitario">2. Mostrar, cobrar y el coste unitario</a><a class="toc-level-3" href="#3-avisar-antes-de-gastarlo">3. Avisar antes de gastarlo</a><a class="toc-level-3" href="#4-el-desperdicio-que-es-falta-de-dueno">4. El desperdicio que es falta de dueño</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

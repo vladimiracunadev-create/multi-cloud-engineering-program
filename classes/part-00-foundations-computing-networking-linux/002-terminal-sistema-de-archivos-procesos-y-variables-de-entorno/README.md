@@ -260,6 +260,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 00 en PDF](../../../site/downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 001 · Computación digital y modelo mental de la nube](../../part-00-foundations-computing-networking-linux/001-computacion-digital-y-modelo-mental-de-la-nube/README.md) | [Parte 00](../README.md) · [Programa](../../README.md) | [003 · Git, GitHub y trabajo reproducible →](../../part-00-foundations-computing-networking-linux/003-git-github-y-trabajo-reproducible/README.md) |

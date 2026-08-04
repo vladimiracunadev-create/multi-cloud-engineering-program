@@ -515,6 +515,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 11 en PDF](../../../site/downloads/partes/manual-parte-11-security-governance-finops.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 134 · Mínimo privilegio, acceso temporal y separación de funciones](../../part-11-security-governance-finops/134-minimo-privilegio-acceso-temporal-y-separacion-de-funciones/README.md) | [Parte 11](../README.md) · [Programa](../../README.md) | [136 · Cifrado, KMS, HSM, rotación y envelope encryption →](../../part-11-security-governance-finops/136-cifrado-kms-hsm-rotacion-y-envelope-encryption/README.md) |

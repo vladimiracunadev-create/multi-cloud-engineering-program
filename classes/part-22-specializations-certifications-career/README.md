@@ -2,6 +2,8 @@
 
 > [← Parte 21](../part-21-cloud-operations-automation/README.md) · [Índice completo](../README.md) · [Parte 23 →](../part-23-industry-capstones/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-22-specializations-certifications-career.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** intermedio-avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Transformar el conocimiento transversal en perfiles demostrables, preparación certificable y comunicación profesional.

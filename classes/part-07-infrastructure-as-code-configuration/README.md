@@ -2,6 +2,8 @@
 
 > [← Parte 06](../part-06-kubernetes-managed-platforms/README.md) · [Índice completo](../README.md) · [Parte 08 →](../part-08-continuous-delivery-platform-engineering/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** intermedio-avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Convertir infraestructura y políticas en cambios revisables, probables y repetibles.

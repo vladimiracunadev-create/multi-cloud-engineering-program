@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/015.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "015 — IaaS, PaaS, SaaS, CaaS y FaaS", "description": "015 — IaaS, PaaS, SaaS, CaaS y FaaS Parte: 01 — Principios, estrategia y adopción cloud<br Nivel: inicial-intermedio · Horas estimadas: 4<br Laboratorio: d", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/015.html"}</script>
   <title>015 — IaaS, PaaS, SaaS, CaaS y FaaS · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/01.html">Parte 01</a><span>/</span><strong>015</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="014.html" rel="prev" title="Regiones, zonas de disponibilidad, puntos de presencia y edge">← 014</a><a class="pager-link index" href="../parts/01.html">Parte 01</a><a class="pager-link next" href="016.html" rel="next" title="Elasticidad, escalabilidad, disponibilidad y resiliencia">016 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf" download>📕 Parte 01 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 01 · inicial-intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="015"> Clase completada</label>
@@ -88,17 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    Q1{{&quot;¿Ejecución continua&lt;br/&gt;o por eventos?&quot;}}
-    Q1 --&gt;|&quot;continua&quot;| Q2{{&quot;¿Necesitas controlar&lt;br/&gt;el sistema operativo?&quot;}}
-    Q1 --&gt;|&quot;por eventos&lt;br/&gt;e intermitente&quot;| Q3{{&quot;¿Cabe en los límites&lt;br/&gt;de la plataforma?&quot;}}
-    Q2 --&gt;|&quot;sí: núcleo, drivers,&lt;br/&gt;agentes&quot;| IAAS[&quot;IaaS&quot;]
-    Q2 --&gt;|&quot;no&quot;| CAAS[&quot;CaaS · contenedores&quot;]
-    Q3 --&gt;|&quot;sí: duración, memoria,&lt;br/&gt;tamaño de paquete&quot;| FAAS[&quot;FaaS · funciones&quot;]
-    Q3 --&gt;|&quot;no&quot;| CAAS
-    IAAS -.-&gt;|&quot;cedes: parcheo, escalado&quot;| CAAS
-    CAAS -.-&gt;|&quot;cedes: runtime, capacidad&quot;| FAAS
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/e1c7d06d5980cfc0.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-cada-escalon-cede-operacion-y-recibe-limites">1. Cada escalón cede operación y recibe límites</h3>
 <p>Subir de modelo no es «más fácil»: es un intercambio explícito. Se entrega trabajo operativo y se aceptan restricciones que antes no existían.</p>
@@ -368,7 +364,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-01-cloud-principles-strategy-adoption/015-iaas-paas-saas-caas-y-faas/lesson.yaml">Contrato de clase</a> · <a href="../parts/01.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-01-cloud-principles-strategy-adoption/015-iaas-paas-saas-caas-y-faas/../../../site/downloads/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf">Parte 01 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-01-cloud-principles-strategy-adoption/015-iaas-paas-saas-caas-y-faas/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>matriz-de-servicios</h2></div>
         <code>python classes/part-01-cloud-principles-strategy-adoption/015-iaas-paas-saas-caas-y-faas/lab.py --seed 42</code>
@@ -432,6 +429,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-cada-escalon-cede-operacion-y-recibe-limites">1. Cada escalón cede operación y recibe límites</a><a class="toc-level-3" href="#2-el-punto-de-cruce-economico-se-calcula-no-se-opina">2. El punto de cruce económico se calcula, no se opina</a><a class="toc-level-3" href="#3-el-arranque-en-frio-importa-menos-de-lo-que-se-teme-y-mas-de-lo-que-se-mide">3. El arranque en frío importa menos de lo que se teme y más de lo que se mide</a><a class="toc-level-3" href="#4-bloqueo-tres-componentes-con-costes-de-salida-distintos">4. Bloqueo: tres componentes con costes de salida distintos</a><a class="toc-level-3" href="#5-caas-y-faas-no-son-escalones-son-respuestas-distintas">5. CaaS y FaaS no son escalones, son respuestas distintas</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -642,6 +642,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 20 en PDF](../../../site/downloads/partes/manual-parte-20-cloud-data-ai-platforms.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 247 · Modelos fundacionales, tokens, embeddings y RAG](../../part-20-cloud-data-ai-platforms/247-modelos-fundacionales-tokens-embeddings-y-rag/README.md) | [Parte 20](../README.md) · [Programa](../../README.md) | [249 · Agentes, tools, memoria, permisos y guardrails →](../../part-20-cloud-data-ai-platforms/249-agentes-tools-memoria-permisos-y-guardrails/README.md) |

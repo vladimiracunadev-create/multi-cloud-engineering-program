@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/144.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "144 — Proyecto: landing zone con guardrails", "description": "144 — Proyecto: landing zone con guardrails Parte: 11 — Seguridad, gobierno, cumplimiento y FinOps<br Nivel: avanzado · Horas estimadas: 8<br Laboratorio:", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/144.html"}</script>
   <title>144 — Proyecto: landing zone con guardrails · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/11.html">Parte 11</a><span>/</span><strong>144</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="143.html" rel="prev" title="Optimización de costo, capacidad y sostenibilidad">← 143</a><a class="pager-link index" href="../parts/11.html">Parte 11</a><a class="pager-link next" href="145.html" rel="next" title="Requisitos, restricciones y atributos de calidad">145 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-11-security-governance-finops.pdf" download>📕 Parte 11 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 11 · avanzado</span><strong>8 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="144"> Clase completada</label>
@@ -92,18 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    O[&quot;organización&quot;] --&gt; E{&quot;estructura&quot;}
-    E --&gt; E1[&quot;cuenta por equipo y entorno · 133&quot;]
-    E --&gt; E2[&quot;cuentas de servicio:\nregistro · red · seguridad&quot;]
-    O --&gt; P[&quot;CONTROLES PREVENTIVOS · 139\nregiones · registro · borrado\netiquetas · acceso público&quot;]
-    E1 --&gt; I[&quot;identidad federada · 134, 137\nsin acceso permanente&quot;]
-    E1 --&gt; N[&quot;red: denegar por defecto\ny control de salida · 135&quot;]
-    E1 --&gt; L[&quot;registro centralizado\ninalterable · 134, 141&quot;]
-    E1 --&gt; C[&quot;atribución obligatoria · 142\ny presupuesto por equipo&quot;]
-    P --&gt; V[&quot;detección continua · 139&quot;]
-    V --&gt; W[&quot;lo que no tiene dueño\nen 30 días se apaga · ley 20&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/3b9546e695d8e7a8.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-que-va-en-la-base-y-en-que-orden">1. Qué va en la base y en qué orden</h3>
 <p>Una zona de aterrizaje no es un producto: es <strong>el conjunto de decisiones que después no se pueden cambiar sin migrar</strong>. Por eso el criterio de orden es cuál hace imposible a las demás.</p>
@@ -562,7 +557,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/144-proyecto-landing-zone-con-guardrails/lesson.yaml">Contrato de clase</a> · <a href="../parts/11.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/144-proyecto-landing-zone-con-guardrails/../../../site/downloads/partes/manual-parte-11-security-governance-finops.pdf">Parte 11 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/144-proyecto-landing-zone-con-guardrails/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>landing-zone-gobernada</h2></div>
         <code>python classes/part-11-security-governance-finops/144-proyecto-landing-zone-con-guardrails/lab.py --seed 42</code>
@@ -626,6 +622,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-que-va-en-la-base-y-en-que-orden">1. Qué va en la base y en qué orden</a><a class="toc-level-3" href="#2-el-proyecto">2. El proyecto</a><a class="toc-level-3" href="#3-calificacion-de-las-cinco-predicciones">3. Calificación de las cinco predicciones</a><a class="toc-level-3" href="#4-la-ley-20-el-recuento-y-la-hipotesis-de-la-parte-12">4. La ley 20, el recuento y la hipótesis de la parte 12</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

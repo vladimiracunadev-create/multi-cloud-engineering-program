@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/203.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "203 — SD-WAN, 5G, IoT y operación desconectada", "description": "203 — SD-WAN, 5G, IoT y operación desconectada Parte: 16 — Redes cloud avanzadas, conectividad híbrida y edge<br Nivel: avanzado · Horas estimadas: 4<br La", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/203.html"}</script>
   <title>203 — SD-WAN, 5G, IoT y operación desconectada · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/16.html">Parte 16</a><span>/</span><strong>203</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="202.html" rel="prev" title="eBPF, flow logs, packet capture y diagnóstico">← 202</a><a class="pager-link index" href="../parts/16.html">Parte 16</a><a class="pager-link next" href="204.html" rel="next" title="Proyecto: red multi-región y multi-cloud">204 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-16-advanced-cloud-networking-edge.pdf" download>📕 Parte 16 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 16 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="203"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    S[&quot;cientos de sedes&quot;] --&gt; SD[&quot;SD-WAN\npolítica central,\nvarios enlaces por sede&quot;]
-    SD --&gt; SD1[&quot;elige camino\nPOR APLICACIÓN&quot;]
-    SD --&gt; SD2[&quot;cifrado entre sedes&quot;]
-    SD --&gt; SD3[&quot;despliegue sin\ntécnico en sitio&quot;]
-    D[&quot;dispositivo o tienda&quot;] --&gt; O{&quot;¿hay conexión?&quot;}
-    O --&gt;|sí| N[&quot;opera normal\ny sincroniza&quot;]
-    O --&gt;|no| L[&quot;OPERA IGUAL\ncon estado local&quot;]
-    L --&gt; Q[&quot;cola de salida\npersistente y ordenada&quot;]
-    Q --&gt; R[&quot;al reconectar:\nreconciliar&quot;]
-    R --&gt; R1[&quot;idempotencia\npor identificador&quot;]
-    R --&gt; R2[&quot;conflictos:\nregla escrita, no reloj&quot;]
-    R --&gt; R3[&quot;lo irreconciliable\na revisión humana&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/ca467256b5131164.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-muchas-sedes-redes-definidas-por-software">1. Muchas sedes: redes definidas por software</h3>
 <p>Conectar tres oficinas se hace con túneles. Conectar cuatrocientas tiendas, no.</p>
@@ -642,7 +635,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-16-advanced-cloud-networking-edge/203-sd-wan-5g-iot-y-operacion-desconectada/lesson.yaml">Contrato de clase</a> · <a href="../parts/16.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-16-advanced-cloud-networking-edge/203-sd-wan-5g-iot-y-operacion-desconectada/../../../site/downloads/partes/manual-parte-16-advanced-cloud-networking-edge.pdf">Parte 16 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-16-advanced-cloud-networking-edge/203-sd-wan-5g-iot-y-operacion-desconectada/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>edge-topology</h2></div>
         <code>python classes/part-16-advanced-cloud-networking-edge/203-sd-wan-5g-iot-y-operacion-desconectada/lab.py --seed 42</code>
@@ -706,6 +700,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-muchas-sedes-redes-definidas-por-software">1. Muchas sedes: redes definidas por software</a><a class="toc-level-3" href="#2-5g-lo-que-aporta-y-lo-que-se-le-atribuye">2. 5G: lo que aporta y lo que se le atribuye</a><a class="toc-level-3" href="#3-operar-sin-conexion">3. Operar sin conexión</a><a class="toc-level-3" href="#4-reconciliar-y-operar-la-flota">4. Reconciliar, y operar la flota</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -562,6 +562,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 11 en PDF](../../../site/downloads/partes/manual-parte-11-security-governance-finops.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 135 · Segmentación, perímetro, WAF, DDoS y egress](../../part-11-security-governance-finops/135-segmentacion-perimetro-waf-ddos-y-egress/README.md) | [Parte 11](../README.md) · [Programa](../../README.md) | [137 · Gestión de secretos y credenciales de workloads →](../../part-11-security-governance-finops/137-gestion-de-secretos-y-credenciales-de-workloads/README.md) |

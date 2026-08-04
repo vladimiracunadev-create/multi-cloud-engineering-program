@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/064.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "064 — Volúmenes, bind mounts y persistencia", "description": "064 — Volúmenes, bind mounts y persistencia Parte: 05 — Contenedores, Docker y OCI<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: storage · Esta", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/064.html"}</script>
   <title>064 — Volúmenes, bind mounts y persistencia · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/05.html">Parte 05</a><span>/</span><strong>064</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="063.html" rel="prev" title="Namespaces, cgroups y runtime de contenedores">← 063</a><a class="pager-link index" href="../parts/05.html">Parte 05</a><a class="pager-link next" href="065.html" rel="next" title="Redes bridge, DNS interno y publicación de puertos">065 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-05-containers-docker-oci.pdf" download>📕 Parte 05 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 05 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="064"> Clase completada</label>
@@ -92,19 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    C[&quot;contenedor&quot;] --&gt; W[&quot;capa de escritura&lt;br/&gt;EFÍMERA y lenta&quot;]
-    C --&gt; M{&quot;¿qué debe sobrevivir?&quot;}
-    M --&gt;|&quot;datos del servicio&quot;| V[&quot;volumen gestionado&quot;]
-    M --&gt;|&quot;código en desarrollo&lt;br/&gt;o socket del anfitrión&quot;| B[&quot;montaje del anfitrión&quot;]
-    M --&gt;|&quot;temporales y secretos&quot;| T[&quot;montaje en memoria&quot;]
-    T -.-&gt;|&quot;cuenta contra memory.max&quot;| OOM[&quot;terminación por memoria · clase 063&quot;]
-    V --&gt; D{&quot;¿dónde vive de verdad?&quot;}
-    D --&gt;|&quot;disco de bloque&quot;| BL[&quot;UN escritor por volumen&quot;]
-    D --&gt;|&quot;sistema compartido&quot;| NFS[&quot;varios lectores/escritores&lt;br/&gt;otra semántica de bloqueo&quot;]
-    V -.-&gt;|&quot;docker volume prune&quot;| X[&quot;BORRADO · es un dato, no infraestructura&quot;]
-    B -.-&gt;|&quot;identificadores distintos&quot;| P[&quot;permission denied&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/ea2027ef42663e44.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-lo-efimero-es-el-diseno-no-un-defecto">1. Lo efímero es el diseño, no un defecto</h3>
 <p>Un contenedor arranca con las capas de la imagen en solo lectura y una <strong>capa de escritura</strong> encima. Todo lo que escriba va ahí, y esa capa se destruye con el contenedor.</p>
@@ -487,7 +481,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-05-containers-docker-oci/064-volumenes-bind-mounts-y-persistencia/lesson.yaml">Contrato de clase</a> · <a href="../parts/05.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-05-containers-docker-oci/064-volumenes-bind-mounts-y-persistencia/../../../site/downloads/partes/manual-parte-05-containers-docker-oci.pdf">Parte 05 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-05-containers-docker-oci/064-volumenes-bind-mounts-y-persistencia/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>persistencia-contenedor</h2></div>
         <code>python classes/part-05-containers-docker-oci/064-volumenes-bind-mounts-y-persistencia/lab.py --seed 42</code>
@@ -551,6 +546,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-lo-efimero-es-el-diseno-no-un-defecto">1. Lo efímero es el diseño, no un defecto</a><a class="toc-level-3" href="#2-el-desajuste-de-identificadores-y-por-que-777-no-es-la-correccion">2. El desajuste de identificadores, y por qué 777 no es la corrección</a><a class="toc-level-3" href="#3-el-montaje-en-memoria-cuenta-contra-la-memoria">3. El montaje en memoria cuenta contra la memoria</a><a class="toc-level-3" href="#4-almacenamiento-en-red-un-escritor-y-la-semantica-que-cambia">4. Almacenamiento en red: un escritor, y la semántica que cambia</a><a class="toc-level-3" href="#5-un-volumen-con-datos-necesita-una-restauracion-probada">5. Un volumen con datos necesita una restauración probada</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

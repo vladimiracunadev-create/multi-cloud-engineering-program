@@ -686,6 +686,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 19 en PDF](../../../site/downloads/partes/manual-parte-19-gcp-production-architecture.pdf) · [Recorrido de Google Cloud en PDF](../../../site/downloads/nubes/manual-google-cloud.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 232 · Terraform, Infrastructure Manager y policy validation](../../part-19-gcp-production-architecture/232-terraform-infrastructure-manager-y-policy-validation/README.md) | [Parte 19](../README.md) · [Programa](../../README.md) | [234 · GKE Autopilot, Workload Identity y Config Sync →](../../part-19-gcp-production-architecture/234-gke-autopilot-workload-identity-y-config-sync/README.md) |

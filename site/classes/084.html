@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/084.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "084 — Proyecto: plataforma Kubernetes portable", "description": "084 — Proyecto: plataforma Kubernetes portable Parte: 06 — Kubernetes y plataformas administradas<br Nivel: intermedio-avanzado · Horas estimadas: 8<br Lab", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/084.html"}</script>
   <title>084 — Proyecto: plataforma Kubernetes portable · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/06.html">Parte 06</a><span>/</span><strong>084</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="083.html" rel="prev" title="EKS, AKS y GKE: similitudes y diferencias">← 083</a><a class="pager-link index" href="../parts/06.html">Parte 06</a><a class="pager-link next" href="085.html" rel="next" title="Declarativo, imperativo, idempotencia y convergencia">085 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-06-kubernetes-managed-platforms.pdf" download>📕 Parte 06 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 06 · intermedio-avanzado</span><strong>8 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="084"> Clase completada</label>
@@ -92,24 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    subgraph port[&quot;capa PORTABLE · 94 %&quot;]
-        M[&quot;manifiestos de carga&quot;] --&gt; I[&quot;imágenes por huella · 061-067&quot;]
-        M --&gt; C[&quot;contrato de la aplicación · 068&quot;]
-        M --&gt; O[&quot;instrumentación · 082&quot;]
-    end
-    subgraph prov[&quot;capa del PROVEEDOR · se reescribe&quot;]
-        R[&quot;plan de direcciones · 083&quot;] --&gt; N[&quot;complemento de red · 080&quot;]
-        N --&gt; ID[&quot;federación de identidad · 083&quot;]
-        ID --&gt; S[&quot;clases de almacenamiento · 077&quot;]
-        S --&gt; E[&quot;entrada y balanceador · 075&quot;]
-    end
-    port --&gt; K[&quot;clúster&quot;]
-    prov --&gt; K
-    K --&gt; L{&quot;leyes nuevas de la parte&quot;}
-    L --&gt; L1[&quot;un bucle que no funciona\nno produce ningún error&quot;]
-    L --&gt; L2[&quot;lo que se decide al crear\nno se cambia después&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/fdde5f4c9f4082ff.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-plataforma-entregada-y-de-donde-sale-cada-decision">1. La plataforma entregada y de dónde sale cada decisión</h3>
 <p>Doce decisiones, con su alternativa descartada y la trampa que evita:</p>
@@ -573,7 +562,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-06-kubernetes-managed-platforms/084-proyecto-plataforma-kubernetes-portable/lesson.yaml">Contrato de clase</a> · <a href="../parts/06.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-06-kubernetes-managed-platforms/084-proyecto-plataforma-kubernetes-portable/../../../site/downloads/partes/manual-parte-06-kubernetes-managed-platforms.pdf">Parte 06 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-06-kubernetes-managed-platforms/084-proyecto-plataforma-kubernetes-portable/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>plataforma-kubernetes</h2></div>
         <code>python classes/part-06-kubernetes-managed-platforms/084-proyecto-plataforma-kubernetes-portable/lab.py --seed 42</code>
@@ -637,6 +627,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-plataforma-entregada-y-de-donde-sale-cada-decision">1. La plataforma entregada y de dónde sale cada decisión</a><a class="toc-level-3" href="#2-la-hipotesis-de-la-clase-072-calificada">2. La hipótesis de la clase 072, calificada</a><a class="toc-level-3" href="#3-dos-leyes-nuevas-con-sus-apariciones">3. Dos leyes nuevas, con sus apariciones</a><a class="toc-level-3" href="#4-tres-fallos-provocados-y-lo-que-enseno-cada-uno">4. Tres fallos provocados y lo que enseñó cada uno</a><a class="toc-level-3" href="#5-la-entrega-y-la-pregunta-que-abre-la-parte-07">5. La entrega y la pregunta que abre la parte 07</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

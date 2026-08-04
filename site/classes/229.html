@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/229.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "229 — Resource Manager, folders, Shared VPC y guardrails", "description": "229 — Resource Manager, folders, Shared VPC y guardrails Parte: 19 — Google Cloud: arquitectura de datos y operación en producción<br Nivel: avanzado · Hor", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/229.html"}</script>
   <title>229 — Resource Manager, folders, Shared VPC y guardrails · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/19.html">Parte 19</a><span>/</span><strong>229</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="228.html" rel="prev" title="Proyecto: CloudShop productivo en Azure">← 228</a><a class="pager-link index" href="../parts/19.html">Parte 19</a><a class="pager-link next" href="230.html" rel="next" title="Workload Identity Federation, IAM Conditions y PAM">230 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-19-gcp-production-architecture.pdf" download>📕 Parte 19 en PDF</a><a href="../downloads/nubes/manual-google-cloud.pdf" download>☁️ Recorrido de Google Cloud en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 19 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="229"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    O[&quot;ORGANIZACIÓN\npolíticas que nadie\nquita desde abajo&quot;] --&gt; F1[&quot;carpeta: plataforma&quot;]
-    O --&gt; F2[&quot;carpeta: producción&quot;]
-    O --&gt; F3[&quot;carpeta: no producción&quot;]
-    O --&gt; F4[&quot;carpeta: sandbox&quot;]
-    F1 --&gt; H[&quot;proyecto ANFITRIÓN\nde red compartida&quot;]
-    F2 --&gt; P1[&quot;proyecto: pedidos-prod&quot;]
-    F2 --&gt; P2[&quot;proyecto: catálogo-prod&quot;]
-    H -.-&gt;|&quot;subredes cedidas&quot;| P1
-    H -.-&gt; P2
-    P1 --&gt; Q[&quot;cuota por proyecto,\nservicio y región&quot;]
-    D{&quot;dos controles distintos&quot;} --&gt; D1[&quot;POLÍTICA DE ORG.\nqué se puede configurar&quot;]
-    D --&gt; D2[&quot;PERMISO\nquién puede hacer qué&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/ef97c5530f9c80c6.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-jerarquia-y-por-que-el-proyecto-es-fuerte">1. La jerarquía, y por qué el proyecto es fuerte</h3>
 <p>La estructura tiene tres niveles y el del medio es opcional, pero el de abajo tiene más peso que sus equivalentes en otras nubes.</p>
@@ -656,7 +649,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-19-gcp-production-architecture/229-resource-manager-folders-shared-vpc-y-guardrails/lesson.yaml">Contrato de clase</a> · <a href="../parts/19.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-19-gcp-production-architecture/229-resource-manager-folders-shared-vpc-y-guardrails/../../../site/downloads/partes/manual-parte-19-gcp-production-architecture.pdf">Parte 19 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-19-gcp-production-architecture/229-resource-manager-folders-shared-vpc-y-guardrails/../../../site/downloads/nubes/manual-google-cloud.pdf">Recorrido de Google Cloud en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-19-gcp-production-architecture/229-resource-manager-folders-shared-vpc-y-guardrails/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>gcp-foundation</h2></div>
         <code>python classes/part-19-gcp-production-architecture/229-resource-manager-folders-shared-vpc-y-guardrails/lab.py --seed 42</code>
@@ -720,6 +714,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-jerarquia-y-por-que-el-proyecto-es-fuerte">1. La jerarquía, y por qué el proyecto es fuerte</a><a class="toc-level-3" href="#2-politicas-de-organizacion-y-permisos-dos-cosas">2. Políticas de organización y permisos: dos cosas</a><a class="toc-level-3" href="#3-red-compartida-separar-operar-de-usar">3. Red compartida: separar operar de usar</a><a class="toc-level-3" href="#4-facturacion-entrega-y-correccion">4. Facturación, entrega y corrección</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

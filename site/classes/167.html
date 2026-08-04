@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/167.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "167 — Las 7R de migración y oleadas", "description": "167 — Las 7R de migración y oleadas Parte: 13 — Multi-cloud, híbrido, migración y recuperación<br Nivel: experto · Horas estimadas: 4<br Laboratorio: migra", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/167.html"}</script>
   <title>167 — Las 7R de migración y oleadas · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/13.html">Parte 13</a><span>/</span><strong>167</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="166.html" rel="prev" title="Backup, RTO, RPO y patrones de disaster recovery">← 166</a><a class="pager-link index" href="../parts/13.html">Parte 13</a><a class="pager-link next" href="168.html" rel="next" title="Proyecto: continuidad activa-pasiva entre nubes">168 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf" download>📕 Parte 13 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 13 · experto</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="167"> Clase completada</label>
@@ -92,23 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    I[&quot;descubrir lo que existe&quot;] --&gt; D{&quot;por carga&quot;}
-    D --&gt;|&quot;nadie la usa&quot;| R1[&quot;RETIRAR · lo más rentable&quot;]
-    D --&gt;|&quot;no toca ahora&quot;| R2[&quot;MANTENER · con fecha y motivo&quot;]
-    D --&gt;|&quot;urge y no aporta cambiar&quot;| R3[&quot;REHOSPEDAR · rápido, sin beneficio&quot;]
-    D --&gt;|&quot;un componente puede ser gestionado&quot;| R4[&quot;CAMBIAR DE PLATAFORMA\nmejor relación&quot;]
-    D --&gt;|&quot;es genérico · 147&quot;| R5[&quot;COMPRAR&quot;]
-    D --&gt;|&quot;diferencia el negocio&quot;| R6[&quot;REESCRIBIR · caro&quot;]
-    D --&gt;|&quot;estado de máquinas compatible&quot;| R7[&quot;TRASLADAR EN BLOQUE&quot;]
-    R3 --&gt; O[&quot;OLEADAS&quot;]
-    R4 --&gt; O
-    O --&gt; O1[&quot;pequeña y reversible&quot;]
-    O --&gt; O2[&quot;dependencias juntas o antes&quot;]
-    O --&gt; O3[&quot;convivencia: UN escritor · ley 21&quot;]
-    O3 --&gt; P[&quot;punto de no retorno\ncuando el destino escribe&quot;]
-    O --&gt; V[&quot;validar: tráfico en espejo\ny paridad de negocio&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/7c3ca0a37d642ae9.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-siete-formas-y-la-que-se-salta">1. Siete formas, y la que se salta</h3>
 <pre><code class="language-text">RETIRAR
@@ -613,7 +603,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/167-las-7r-de-migracion-y-oleadas/lesson.yaml">Contrato de clase</a> · <a href="../parts/13.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/167-las-7r-de-migracion-y-oleadas/../../../site/downloads/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf">Parte 13 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/167-las-7r-de-migracion-y-oleadas/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>roadmap-migracion</h2></div>
         <code>python classes/part-13-multicloud-hybrid-disaster-recovery/167-las-7r-de-migracion-y-oleadas/lab.py --seed 42</code>
@@ -677,6 +668,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-siete-formas-y-la-que-se-salta">1. Siete formas, y la que se salta</a><a class="toc-level-3" href="#2-descubrir-que-decide-el-proyecto">2. Descubrir, que decide el proyecto</a><a class="toc-level-3" href="#3-oleadas-y-convivencia">3. Oleadas y convivencia</a><a class="toc-level-3" href="#4-lo-que-siempre-sale-mal-y-como-se-valida">4. Lo que siempre sale mal, y cómo se valida</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

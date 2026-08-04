@@ -635,6 +635,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 17 en PDF](../../../site/downloads/partes/manual-parte-17-aws-production-architecture.pdf) · [Recorrido de AWS en PDF](../../../site/downloads/nubes/manual-aws.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 215 · Multi-región, Route 53, failover y game day](../../part-17-aws-production-architecture/215-multi-region-route-53-failover-y-game-day/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [217 · Enterprise-scale landing zones y management groups →](../../part-18-azure-production-architecture/217-enterprise-scale-landing-zones-y-management-groups/README.md) |

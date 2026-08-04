@@ -423,6 +423,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 02 en PDF](../../../site/downloads/partes/manual-parte-02-aws-core-platform.pdf) · [Recorrido de AWS en PDF](../../../site/downloads/nubes/manual-aws.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 035 · KMS, Secrets Manager, WAF y controles de seguridad](../../part-02-aws-core-platform/035-kms-secrets-manager-waf-y-controles-de-seguridad/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [037 · Tenant, management groups, suscripciones y resource groups →](../../part-03-azure-core-platform/037-tenant-management-groups-suscripciones-y-resource-groups/README.md) |

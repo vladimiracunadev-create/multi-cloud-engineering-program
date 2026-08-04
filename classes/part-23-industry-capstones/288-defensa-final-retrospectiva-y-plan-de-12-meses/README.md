@@ -654,6 +654,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 23 en PDF](../../../site/downloads/partes/manual-parte-23-industry-capstones.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 287 · Paquete de evidencia, costos y riesgos residuales](../../part-23-industry-capstones/287-paquete-de-evidencia-costos-y-riesgos-residuales/README.md) | [Parte 23](../README.md) · [Programa](../../README.md) | **Fin del programa** |

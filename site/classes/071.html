@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/071.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "071 — Migración de una aplicación legacy a contenedores", "description": "071 — Migración de una aplicación legacy a contenedores Parte: 05 — Contenedores, Docker y OCI<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: mi", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/071.html"}</script>
   <title>071 — Migración de una aplicación legacy a contenedores · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/05.html">Parte 05</a><span>/</span><strong>071</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="070.html" rel="prev" title="Diagnóstico de CPU, memoria, red y filesystem">← 070</a><a class="pager-link index" href="../parts/05.html">Parte 05</a><a class="pager-link next" href="072.html" rel="next" title="Proyecto: stack OCI endurecido y observable">072 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-05-containers-docker-oci.pdf" download>📕 Parte 05 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 05 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="071"> Clase completada</label>
@@ -92,27 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    A[&quot;aplicación heredada&quot;] --&gt; I[&quot;1 · INVENTARIO de supuestos&quot;]
-    I --&gt; I1[&quot;¿dónde escribe?&quot;]
-    I --&gt; I2[&quot;¿qué identidad necesita?&quot;]
-    I --&gt; I3[&quot;¿qué escucha y qué llama?&quot;]
-    I --&gt; I4[&quot;¿dónde guarda estado?&quot;]
-    I --&gt; I5[&quot;¿qué ejecuta por su cuenta?&quot;]
-    I --&gt; I6[&quot;¿cómo arranca y para?&quot;]
-    I1 --&gt; T[&quot;2 · TRADUCCIÓN&quot;]
-    I2 --&gt; T
-    I3 --&gt; T
-    I4 --&gt; T
-    I5 --&gt; T
-    I6 --&gt; T
-    T --&gt; P[&quot;3 · empaquetado · clase 062&quot;]
-    P --&gt; M[&quot;4 · desvío progresivo de tráfico&quot;]
-    M --&gt; V{&quot;¿las métricas empeoraron?&quot;}
-    V --&gt;|&quot;sí&quot;| B[&quot;vuelta atrás inmediata&quot;]
-    V --&gt;|&quot;no&quot;| MAS[&quot;aumentar la fracción&quot;]
-    I5 -.-&gt;|&quot;si no se traduce&quot;| X[&quot;la tarea se ejecuta&lt;br/&gt;una vez POR RÉPLICA&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/23de57832f16bb2a.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-el-inventario-va-antes-que-el-dockerfile">1. El inventario va antes que el Dockerfile</h3>
 <p>La migración fallida tiene una firma reconocible: empieza escribiendo el <code>Dockerfile</code>, consigue que la aplicación arranque en un día, y a partir de ahí acumula problemas durante meses. Ninguno de esos problemas es del empaquetado.</p>
@@ -525,7 +511,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-05-containers-docker-oci/071-migracion-de-una-aplicacion-legacy-a-contenedores/lesson.yaml">Contrato de clase</a> · <a href="../parts/05.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-05-containers-docker-oci/071-migracion-de-una-aplicacion-legacy-a-contenedores/../../../site/downloads/partes/manual-parte-05-containers-docker-oci.pdf">Parte 05 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-05-containers-docker-oci/071-migracion-de-una-aplicacion-legacy-a-contenedores/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>plan-modernizacion</h2></div>
         <code>python classes/part-05-containers-docker-oci/071-migracion-de-una-aplicacion-legacy-a-contenedores/lab.py --seed 42</code>
@@ -589,6 +576,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-inventario-va-antes-que-el-dockerfile">1. El inventario va antes que el Dockerfile</a><a class="toc-level-3" href="#2-los-seis-patrones-heredados-y-su-traduccion">2. Los seis patrones heredados y su traducción</a><a class="toc-level-3" href="#3-la-tarea-programada-que-se-ejecuta-tres-veces">3. La tarea programada que se ejecuta tres veces</a><a class="toc-level-3" href="#4-migrar-por-partes-con-vuelta-atras">4. Migrar por partes, con vuelta atrás</a><a class="toc-level-3" href="#5-cuando-no-contenerizar">5. Cuándo no contenerizar</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

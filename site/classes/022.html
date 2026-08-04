@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/022.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "022 — Cloud Adoption Framework y modelo operativo", "description": "022 — Cloud Adoption Framework y modelo operativo Parte: 01 — Principios, estrategia y adopción cloud<br Nivel: inicial-intermedio · Horas estimadas: 4<br", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/022.html"}</script>
   <title>022 — Cloud Adoption Framework y modelo operativo · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/01.html">Parte 01</a><span>/</span><strong>022</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="021.html" rel="prev" title="Well-Architected y atributos de calidad">← 021</a><a class="pager-link index" href="../parts/01.html">Parte 01</a><a class="pager-link next" href="023.html" rel="next" title="Descubrimiento y clasificación de workloads">023 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf" download>📕 Parte 01 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 01 · inicial-intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="022"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    subgraph mal[&quot;Organización en silos&quot;]
-        D1[&quot;Desarrollo&quot;] --&gt;|&quot;ticket&quot;| O1[&quot;Operaciones&quot;]
-        O1 --&gt;|&quot;ticket&quot;| S1[&quot;Seguridad&quot;]
-    end
-    subgraph bien[&quot;Equipos alineados al flujo&quot;]
-        E1[&quot;Equipo pedidos&lt;br/&gt;construye y opera&quot;]
-        E2[&quot;Equipo catálogo&lt;br/&gt;construye y opera&quot;]
-        P[&quot;Plataforma&lt;br/&gt;autoservicio&quot;]
-        E1 --&gt;|&quot;consume&quot;| P
-        E2 --&gt;|&quot;consume&quot;| P
-    end
-    mal -.-&gt;|&quot;produce&quot;| A1[&quot;Arquitectura acoplada:&lt;br/&gt;3 equipos = 3 fronteras&quot;]
-    bien -.-&gt;|&quot;produce&quot;| A2[&quot;Servicios independientes&lt;br/&gt;con dueño claro&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/70723fca86bb34c2.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-ley-de-conway-usada-al-reves">1. La ley de Conway, usada al revés</h3>
 <p>Conway observó en 1968 que <strong>las organizaciones producen diseños que copian sus estructuras de comunicación</strong>. La formulación es descriptiva, pero su uso práctico es prescriptivo: si quieres una arquitectura concreta, organiza los equipos con esa forma.</p>
@@ -394,7 +386,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-01-cloud-principles-strategy-adoption/022-cloud-adoption-framework-y-modelo-operativo/lesson.yaml">Contrato de clase</a> · <a href="../parts/01.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-01-cloud-principles-strategy-adoption/022-cloud-adoption-framework-y-modelo-operativo/../../../site/downloads/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf">Parte 01 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-01-cloud-principles-strategy-adoption/022-cloud-adoption-framework-y-modelo-operativo/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>backlog-de-adopcion</h2></div>
         <code>python classes/part-01-cloud-principles-strategy-adoption/022-cloud-adoption-framework-y-modelo-operativo/lab.py --seed 42</code>
@@ -458,6 +451,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-ley-de-conway-usada-al-reves">1. La ley de Conway, usada al revés</a><a class="toc-level-3" href="#2-tres-modelos-operativos-y-cuando-falla-cada-uno">2. Tres modelos operativos y cuándo falla cada uno</a><a class="toc-level-3" href="#3-carga-cognitiva-el-limite-que-no-se-negocia">3. Carga cognitiva: el límite que no se negocia</a><a class="toc-level-3" href="#4-camino-dorado-voluntario-y-bueno-o-no-funciona">4. Camino dorado: voluntario y bueno, o no funciona</a><a class="toc-level-3" href="#5-olas-con-criterio-de-salida-no-con-fechas">5. Olas con criterio de salida, no con fechas</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

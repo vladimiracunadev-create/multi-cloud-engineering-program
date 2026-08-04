@@ -2,6 +2,8 @@
 
 > [← Parte 01](../part-01-cloud-principles-strategy-adoption/README.md) · [Índice completo](../README.md) · [Parte 03 →](../part-03-azure-core-platform/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-02-aws-core-platform.pdf) · [Recorrido de AWS en PDF](../../site/downloads/nubes/manual-aws.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** intermedio · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Diseñar y operar una carga completa en AWS con controles explícitos.

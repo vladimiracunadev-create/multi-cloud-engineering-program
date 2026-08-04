@@ -2,6 +2,8 @@
 
 > [← Parte 05](../part-05-containers-docker-oci/README.md) · [Índice completo](../README.md) · [Parte 07 →](../part-07-infrastructure-as-code-configuration/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-06-kubernetes-managed-platforms.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** intermedio-avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Operar cargas declarativas y portables sobre EKS, AKS o GKE.

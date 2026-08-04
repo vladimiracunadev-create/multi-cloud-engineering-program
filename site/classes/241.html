@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/241.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "241 — Lakehouse, warehouse, mesh y contratos de datos", "description": "241 — Lakehouse, warehouse, mesh y contratos de datos Parte: 20 — Plataformas cloud de datos, analítica, IA y agentes<br Nivel: avanzado · Horas estimadas:", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/241.html"}</script>
   <title>241 — Lakehouse, warehouse, mesh y contratos de datos · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/20.html">Parte 20</a><span>/</span><strong>241</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="240.html" rel="prev" title="Proyecto: CloudShop productivo en Google Cloud">← 240</a><a class="pager-link index" href="../parts/20.html">Parte 20</a><a class="pager-link next" href="242.html" rel="next" title="Ingesta batch, CDC y streaming">242 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-20-cloud-data-ai-platforms.pdf" download>📕 Parte 20 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 20 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="241"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    Q{&quot;¿quién responde de\nque el dato sea correcto?&quot;}
-    Q --&gt;|&quot;un equipo central&quot;| A[&quot;ALMACÉN\nconsistente, con\ncuello de botella&quot;]
-    Q --&gt;|&quot;un equipo central,\ncon más volumen y\nmás formatos&quot;| B[&quot;LAGO UNIFICADO&quot;]
-    Q --&gt;|&quot;cada dominio,\ncon contrato&quot;| C[&quot;MALLA&quot;]
-    C --&gt; C1[&quot;exige plataforma\ncomún&quot;]
-    C --&gt; C2[&quot;exige contratos&quot;]
-    C --&gt; C3[&quot;exige dueños reales&quot;]
-    C3 --&gt;|&quot;si falta alguna&quot;| C4[&quot;caos con nombre\nbonito&quot;]
-    K[&quot;CONTRATO&quot;] --&gt; K1[&quot;esquema y tipos&quot;]
-    K --&gt; K2[&quot;SEMÁNTICA\nqué significa cada campo&quot;]
-    K --&gt; K3[&quot;frescura y calidad\ncon cifras&quot;]
-    K --&gt; K4[&quot;compatibilidad y\nretirada&quot;]
-    K --&gt; K5[&quot;dueño y consumidores&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/32344804b34268be.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-tres-formas-un-criterio">1. Tres formas, un criterio</h3>
 <p>Las tres arquitecturas se comparan mal cuando se comparan por tecnología. El criterio que decide es otro.</p>
@@ -629,7 +621,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-20-cloud-data-ai-platforms/241-lakehouse-warehouse-mesh-y-contratos-de-datos/lesson.yaml">Contrato de clase</a> · <a href="../parts/20.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-20-cloud-data-ai-platforms/241-lakehouse-warehouse-mesh-y-contratos-de-datos/../../../site/downloads/partes/manual-parte-20-cloud-data-ai-platforms.pdf">Parte 20 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-20-cloud-data-ai-platforms/241-lakehouse-warehouse-mesh-y-contratos-de-datos/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>data-architecture</h2></div>
         <code>python classes/part-20-cloud-data-ai-platforms/241-lakehouse-warehouse-mesh-y-contratos-de-datos/lab.py --seed 42</code>
@@ -693,6 +686,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-formas-un-criterio">1. Tres formas, un criterio</a><a class="toc-level-3" href="#2-el-lago-que-si-funciona">2. El lago que sí funciona</a><a class="toc-level-3" href="#3-el-contrato-de-datos">3. El contrato de datos</a><a class="toc-level-3" href="#4-por-que-se-incumplen-y-como-evitarlo">4. Por qué se incumplen, y cómo evitarlo</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

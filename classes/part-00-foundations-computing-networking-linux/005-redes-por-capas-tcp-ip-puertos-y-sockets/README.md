@@ -292,6 +292,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 00 en PDF](../../../site/downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 004 · Python, JSON y automatización mínima](../../part-00-foundations-computing-networking-linux/004-python-json-y-automatizacion-minima/README.md) | [Parte 00](../README.md) · [Programa](../../README.md) | [006 · DNS, HTTP, HTTPS y TLS de extremo a extremo →](../../part-00-foundations-computing-networking-linux/006-dns-http-https-y-tls-de-extremo-a-extremo/README.md) |

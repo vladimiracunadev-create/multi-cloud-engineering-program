@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/026.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "026 — IAM, roles, políticas, STS y federación", "description": "026 — IAM, roles, políticas, STS y federación Parte: 02 — AWS: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: iam · Estado:", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/026.html"}</script>
   <title>026 — IAM, roles, políticas, STS y federación · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/02.html">Parte 02</a><span>/</span><strong>026</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="025.html" rel="prev" title="Organizations, cuentas, OU, SCP y landing zone">← 025</a><a class="pager-link index" href="../parts/02.html">Parte 02</a><a class="pager-link next" href="027.html" rel="next" title="VPC, subredes, rutas, NAT, endpoints y seguridad">027 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-02-aws-core-platform.pdf" download>📕 Parte 02 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 02 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="026"> Clase completada</label>
@@ -88,19 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P[&quot;Petición&quot;] --&gt; D1{{&quot;¿Deny explícito&lt;br/&gt;en cualquier política?&quot;}}
-    D1 --&gt;|&quot;sí&quot;| N1[&quot;DENEGADA · sin apelación&quot;]
-    D1 --&gt;|&quot;no&quot;| D2{{&quot;¿La SCP lo permite?&quot;}}
-    D2 --&gt;|&quot;no&quot;| N2[&quot;DENEGADA · revisa la SCP&quot;]
-    D2 --&gt;|&quot;sí&quot;| D3{{&quot;¿Límite de permisos&lt;br/&gt;lo permite?&quot;}}
-    D3 --&gt;|&quot;no&quot;| N3[&quot;DENEGADA · revisa el límite&quot;]
-    D3 --&gt;|&quot;sí&quot;| D4{{&quot;¿Política de identidad&lt;br/&gt;o de recurso concede?&quot;}}
-    D4 --&gt;|&quot;no&quot;| N4[&quot;DENEGADA · implícita&quot;]
-    D4 --&gt;|&quot;sí&quot;| D5{{&quot;¿Se cumplen las&lt;br/&gt;condiciones?&quot;}}
-    D5 --&gt;|&quot;no&quot;| N1
-    D5 --&gt;|&quot;sí&quot;| OK[&quot;PERMITIDA&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/8601cd7d3163a9ae.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-el-orden-de-evaluacion-y-como-leer-el-error">1. El orden de evaluación, y cómo leer el error</h3>
 <p>AWS evalúa cada petición en una secuencia fija. Conocerla convierte «no tengo permiso» en un diagnóstico de un minuto:</p>
@@ -405,7 +399,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/026-iam-roles-politicas-sts-y-federacion/lesson.yaml">Contrato de clase</a> · <a href="../parts/02.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/026-iam-roles-politicas-sts-y-federacion/../../../site/downloads/partes/manual-parte-02-aws-core-platform.pdf">Parte 02 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/026-iam-roles-politicas-sts-y-federacion/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/026-iam-roles-politicas-sts-y-federacion/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>politica-iam-aws</h2></div>
         <code>python classes/part-02-aws-core-platform/026-iam-roles-politicas-sts-y-federacion/lab.py --seed 42</code>
@@ -469,6 +464,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-orden-de-evaluacion-y-como-leer-el-error">1. El orden de evaluación, y cómo leer el error</a><a class="toc-level-3" href="#2-condiciones-donde-una-politica-deja-de-ser-un-cheque-en-blanco">2. Condiciones: donde una política deja de ser un cheque en blanco</a><a class="toc-level-3" href="#3-federacion-oidc-desplegar-sin-ningun-secreto">3. Federación OIDC: desplegar sin ningún secreto</a><a class="toc-level-3" href="#4-limites-de-permisos-delegar-sin-permitir-escalada">4. Límites de permisos: delegar sin permitir escalada</a><a class="toc-level-3" href="#5-privilegio-minimo-con-las-herramientas-de-aws">5. Privilegio mínimo con las herramientas de AWS</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -341,6 +341,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 01 en PDF](../../../site/downloads/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 021 · Well-Architected y atributos de calidad](../../part-01-cloud-principles-strategy-adoption/021-well-architected-y-atributos-de-calidad/README.md) | [Parte 01](../README.md) · [Programa](../../README.md) | [023 · Descubrimiento y clasificación de workloads →](../../part-01-cloud-principles-strategy-adoption/023-descubrimiento-y-clasificacion-de-workloads/README.md) |

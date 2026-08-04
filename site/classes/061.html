@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/061.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "061 — Imágenes, capas, registros y estándar OCI", "description": "061 — Imágenes, capas, registros y estándar OCI Parte: 05 — Contenedores, Docker y OCI<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: container", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/061.html"}</script>
   <title>061 — Imágenes, capas, registros y estándar OCI · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/05.html">Parte 05</a><span>/</span><strong>061</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="060.html" rel="prev" title="Proyecto: aplicación de tres capas en Google Cloud">← 060</a><a class="pager-link index" href="../parts/05.html">Parte 05</a><a class="pager-link next" href="062.html" rel="next" title="Dockerfile reproducible y builds multi-stage">062 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-05-containers-docker-oci.pdf" download>📕 Parte 05 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 05 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="061"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    T[&quot;etiqueta · MUTABLE&lt;br/&gt;tienda:v8&quot;] -.-&gt;|&quot;puede reapuntar sin avisar&quot;| M
-    D[&quot;huella · INMUTABLE&lt;br/&gt;tienda@sha256:9f2c…&quot;] --&gt; M{&quot;manifiesto&quot;}
-    M --&gt; C[&quot;configuración&lt;br/&gt;entrypoint · cmd · env · user&quot;]
-    M --&gt; L1[&quot;capa 1 · sha256:…&quot;]
-    M --&gt; L2[&quot;capa 2 · sha256:…&quot;]
-    M --&gt; L3[&quot;capa 3 · sha256:…&quot;]
-    L1 --&gt; U[&quot;sistema de ficheros de unión&quot;]
-    L2 --&gt; U
-    L3 --&gt; U
-    L3 -.-&gt;|&quot;fichero de borrado&quot;| H[&quot;OCULTA lo de la capa 1&lt;br/&gt;no lo elimina&quot;]
-    IDX[&quot;índice de imágenes&quot;] --&gt; M64[&quot;manifiesto amd64&quot;]
-    IDX --&gt; MA[&quot;manifiesto arm64&quot;]
-    T -.-&gt; IDX
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/ac4438cdcf397891.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-tres-especificaciones-y-lo-que-queda-fuera">1. Tres especificaciones, y lo que queda fuera</h3>
 <p>«Contenedor OCI» no es una cosa sino tres normas que encajan:</p>
@@ -460,7 +452,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-05-containers-docker-oci/061-imagenes-capas-registros-y-estandar-oci/lesson.yaml">Contrato de clase</a> · <a href="../parts/05.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-05-containers-docker-oci/061-imagenes-capas-registros-y-estandar-oci/../../../site/downloads/partes/manual-parte-05-containers-docker-oci.pdf">Parte 05 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-05-containers-docker-oci/061-imagenes-capas-registros-y-estandar-oci/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>inspeccion-imagen</h2></div>
         <code>python classes/part-05-containers-docker-oci/061-imagenes-capas-registros-y-estandar-oci/lab.py --seed 42</code>
@@ -524,6 +517,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-especificaciones-y-lo-que-queda-fuera">1. Tres especificaciones, y lo que queda fuera</a><a class="toc-level-3" href="#2-la-etiqueta-miente-la-huella-no">2. La etiqueta miente; la huella no</a><a class="toc-level-3" href="#3-las-capas-apilan-y-tapan-lo-borrado-sigue-dentro">3. Las capas apilan y tapan: lo borrado sigue dentro</a><a class="toc-level-3" href="#4-una-etiqueta-varias-arquitecturas">4. Una etiqueta, varias arquitecturas</a><a class="toc-level-3" href="#5-la-configuracion-lo-que-el-motor-aplica-y-lo-que-solo-documenta">5. La configuración: lo que el motor aplica y lo que solo documenta</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/040.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "040 — Virtual Machines, Scale Sets y Load Balancer", "description": "040 — Virtual Machines, Scale Sets y Load Balancer Parte: 03 — Azure: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: compute", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/040.html"}</script>
   <title>040 — Virtual Machines, Scale Sets y Load Balancer · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/03.html">Parte 03</a><span>/</span><strong>040</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="039.html" rel="prev" title="Virtual Network, subredes, NSG, UDR, peering y Private Link">← 039</a><a class="pager-link index" href="../parts/03.html">Parte 03</a><a class="pager-link next" href="041.html" rel="next" title="Blob Storage, Files, redundancia y lifecycle">041 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-03-azure-core-platform.pdf" download>📕 Parte 03 en PDF</a><a href="../downloads/nubes/manual-azure.pdf" download>☁️ Recorrido de Azure en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 03 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="040"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    REQ[&quot;requisito medible&lt;br/&gt;IOPS · latencia · SLO · presupuesto&quot;] --&gt; T{&quot;¿qué fallo hay que sobrevivir?&quot;}
-    T --&gt;|&quot;mantenimiento del anfitrión&quot;| AS[&quot;conjunto de disponibilidad&lt;br/&gt;dominios de error y actualización&quot;]
-    T --&gt;|&quot;caída de un centro de datos&quot;| AZ[&quot;zonas de disponibilidad&quot;]
-    T --&gt;|&quot;demanda variable&quot;| SS[&quot;conjunto de escalado&lt;br/&gt;orquestación flexible&quot;]
-    AS --&gt; D{&quot;caudal de disco&quot;}
-    AZ --&gt; D
-    SS --&gt; D
-    D --&gt; MIN[&quot;real = mín(límite del disco,&lt;br/&gt;límite de la máquina)&quot;]
-    MIN --&gt; LB{&quot;ámbito del reparto&quot;}
-    LB --&gt;|&quot;capa 4 regional&quot;| L4[&quot;Load Balancer&quot;]
-    LB --&gt;|&quot;capa 7 regional&quot;| L7[&quot;Application Gateway&quot;]
-    LB --&gt;|&quot;global, conmuta en segundos&quot;| FD[&quot;Front Door&quot;]
-    LB --&gt;|&quot;global por DNS,&lt;br/&gt;conmuta según TTL&quot;| TM[&quot;Traffic Manager&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/c6361fcb84020958.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-las-letras-del-tamano-son-la-especificacion">1. Las letras del tamaño son la especificación</h3>
 <p>La clase 028 dejó establecido que el nombre de una instancia es una especificación, no una etiqueta. En Azure el alfabeto es otro y el orden importa:</p>
@@ -521,7 +513,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/040-virtual-machines-scale-sets-y-load-balancer/lesson.yaml">Contrato de clase</a> · <a href="../parts/03.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/040-virtual-machines-scale-sets-y-load-balancer/../../../site/downloads/partes/manual-parte-03-azure-core-platform.pdf">Parte 03 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/040-virtual-machines-scale-sets-y-load-balancer/../../../site/downloads/nubes/manual-azure.pdf">Recorrido de Azure en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/040-virtual-machines-scale-sets-y-load-balancer/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>servicio-elastico-azure</h2></div>
         <code>python classes/part-03-azure-core-platform/040-virtual-machines-scale-sets-y-load-balancer/lab.py --seed 42</code>
@@ -585,6 +578,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-las-letras-del-tamano-son-la-especificacion">1. Las letras del tamaño son la especificación</a><a class="toc-level-3" href="#2-dos-limites-de-disco-y-casi-siempre-manda-el-que-no-compraste">2. Dos límites de disco, y casi siempre manda el que no compraste</a><a class="toc-level-3" href="#3-tres-formas-de-sobrevivir-y-no-todas-se-combinan">3. Tres formas de sobrevivir y no todas se combinan</a><a class="toc-level-3" href="#4-cuatro-balanceadores-y-la-conmutacion-que-depende-del-ttl">4. Cuatro balanceadores y la conmutación que depende del TTL</a><a class="toc-level-3" href="#5-excedente-30-segundos-cambian-el-diseno">5. Excedente: 30 segundos cambian el diseño</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

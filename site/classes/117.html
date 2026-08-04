@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/117.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "117 — Serverless: límites, cold starts y concurrencia", "description": "117 — Serverless: límites, cold starts y concurrencia Parte: 09 — Datos, mensajería, serverless e integración<br Nivel: avanzado · Horas estimadas: 4<br La", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/117.html"}</script>
   <title>117 — Serverless: límites, cold starts y concurrencia · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/09.html">Parte 09</a><span>/</span><strong>117</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="116.html" rel="prev" title="Sagas, outbox, idempotencia y deduplicación">← 116</a><a class="pager-link index" href="../parts/09.html">Parte 09</a><a class="pager-link next" href="118.html" rel="next" title="API management, cuotas, versiones y monetización">118 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-09-data-messaging-serverless-integration.pdf" download>📕 Parte 09 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 09 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="117"> Clase completada</label>
@@ -96,19 +101,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    T[&quot;tráfico&quot;] --&gt; C[&quot;concurrencia =\npeticiones/s × duración&quot;]
-    C --&gt; I[&quot;N instancias&quot;]
-    I --&gt; F{&quot;¿instancia disponible?&quot;}
-    F --&gt;|&quot;sí&quot;| W[&quot;arranque en caliente&quot;]
-    F --&gt;|&quot;no&quot;| K[&quot;arranque en FRÍO:\nentorno + intérprete + inicialización&quot;]
-    I --&gt; D[(&quot;dependencia · 109&quot;)]
-    D --&gt; X{&quot;N × 1 conexión\n¿supera el techo?&quot;}
-    X --&gt;|&quot;sí&quot;| B[&quot;agotamiento:\nla función escala, la base no&quot;]
-    I --&gt; R[&quot;concurrencia reservada:\nprotege a la base\ny a las demás funciones&quot;]
-    W --&gt; RESP[&quot;responder&quot;]
-    RESP --&gt; FR[&quot;instancia CONGELADA:\nlo lanzado en segundo plano\nse detiene&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/b62d16ebe33bb540.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-aritmetica-que-lo-explica-todo">1. La aritmética que lo explica todo</h3>
 <p>En un servidor tradicional, un proceso atiende muchas peticiones a la vez. Aquí no:</p>
@@ -502,7 +496,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-09-data-messaging-serverless-integration/117-serverless-limites-cold-starts-y-concurrencia/lesson.yaml">Contrato de clase</a> · <a href="../parts/09.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-09-data-messaging-serverless-integration/117-serverless-limites-cold-starts-y-concurrencia/../../../site/downloads/partes/manual-parte-09-data-messaging-serverless-integration.pdf">Parte 09 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-09-data-messaging-serverless-integration/117-serverless-limites-cold-starts-y-concurrencia/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>funcion-operable</h2></div>
         <code>python classes/part-09-data-messaging-serverless-integration/117-serverless-limites-cold-starts-y-concurrencia/lab.py --seed 42</code>
@@ -566,6 +561,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-aritmetica-que-lo-explica-todo">1. La aritmética que lo explica todo</a><a class="toc-level-3" href="#2-el-arranque-en-frio-y-cuando-importa">2. El arranque en frío, y cuándo importa</a><a class="toc-level-3" href="#3-los-limites-que-obligan-a-disenar-distinto">3. Los límites que obligan a diseñar distinto</a><a class="toc-level-3" href="#4-concurrencia-proteger-a-la-base-y-a-las-demas">4. Concurrencia: proteger a la base y a las demás</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

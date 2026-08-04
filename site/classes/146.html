@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/146.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "146 — Twelve-Factor App y configuración cloud-native", "description": "146 — Twelve-Factor App y configuración cloud-native Parte: 12 — Arquitectura cloud-native y sistemas distribuidos<br Nivel: avanzado-experto · Horas estim", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/146.html"}</script>
   <title>146 — Twelve-Factor App y configuración cloud-native · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/12.html">Parte 12</a><span>/</span><strong>146</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="145.html" rel="prev" title="Requisitos, restricciones y atributos de calidad">← 145</a><a class="pager-link index" href="../parts/12.html">Parte 12</a><a class="pager-link next" href="147.html" rel="next" title="DDD, bounded contexts y ownership de datos">147 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf" download>📕 Parte 12 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 12 · avanzado-experto</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="146"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P[&quot;plataforma que no sabe\nqué es esta aplicación&quot;] --&gt; Q{&quot;¿puede operarla?&quot;}
-    Q --&gt; A1[&quot;arrancar rápido\ny validar su configuración&quot;]
-    Q --&gt; A2[&quot;escalar añadiendo copias&quot;]
-    Q --&gt; A3[&quot;reemplazar cualquier copia&quot;]
-    Q --&gt; A4[&quot;matarla con una señal\ny que termine limpio&quot;]
-    C[&quot;configuración&quot;] --&gt; C1[&quot;en la IMAGEN: lo que no cambia&quot;]
-    C --&gt; C2[&quot;en el DESPLIEGUE: por entorno&quot;]
-    C --&gt; C3[&quot;en EJECUCIÓN: lo que rota\no cambia el comportamiento · 105, 137&quot;]
-    S[&quot;'sin estado'&quot;] --&gt; S1[&quot;caché en memoria&quot;]
-    S --&gt; S2[&quot;ficheros temporales&quot;]
-    S --&gt; S3[&quot;temporizadores en curso&quot;]
-    S --&gt; S4[&quot;contadores acumulados&quot;]
-    S1 --&gt; N[&quot;el estado no desaparece:\nse mueve fuera&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/0a74311ae8081b65.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-el-criterio-y-lo-que-sigue-siendo-cierto">1. El criterio, y lo que sigue siendo cierto</h3>
 <p>La lista clásica de doce propiedades se escribió para una plataforma concreta y se cita como dogma. Conviene juzgarla por lo que de verdad persigue:</p>
@@ -581,7 +573,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/146-twelve-factor-app-y-configuracion-cloud-native/lesson.yaml">Contrato de clase</a> · <a href="../parts/12.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/146-twelve-factor-app-y-configuracion-cloud-native/../../../site/downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf">Parte 12 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/146-twelve-factor-app-y-configuracion-cloud-native/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>revision-twelve-factor</h2></div>
         <code>python classes/part-12-cloud-native-distributed-architecture/146-twelve-factor-app-y-configuracion-cloud-native/lab.py --seed 42</code>
@@ -645,6 +638,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-criterio-y-lo-que-sigue-siendo-cierto">1. El criterio, y lo que sigue siendo cierto</a><a class="toc-level-3" href="#2-las-tres-que-hoy-se-aplican-mal">2. Las tres que hoy se aplican mal</a><a class="toc-level-3" href="#3-lo-que-falta-en-la-lista">3. Lo que falta en la lista</a><a class="toc-level-3" href="#4-el-estado-que-siempre-esta">4. El estado que siempre está</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

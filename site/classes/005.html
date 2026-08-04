@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/005.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "005 — Redes por capas, TCP/IP, puertos y sockets", "description": "005 — Redes por capas, TCP/IP, puertos y sockets Parte: 00 — Fundamentos de computación, redes y Linux<br Nivel: inicial · Horas estimadas: 4<br Laboratori", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/005.html"}</script>
   <title>005 — Redes por capas, TCP/IP, puertos y sockets · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/00.html">Parte 00</a><span>/</span><strong>005</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="004.html" rel="prev" title="Python, JSON y automatización mínima">← 004</a><a class="pager-link index" href="../parts/00.html">Parte 00</a><a class="pager-link next" href="006.html" rel="next" title="DNS, HTTP, HTTPS y TLS de extremo a extremo">006 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf" download>📕 Parte 00 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 00 · inicial</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="005"> Clase completada</label>
@@ -88,13 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    A[&quot;Aplicación · HTTP, DNS&lt;br/&gt;diagnóstico: curl, dig&quot;] --&gt; T[&quot;Transporte · TCP, UDP&lt;br/&gt;puertos, fiabilidad&lt;br/&gt;diagnóstico: ss, nc&quot;]
-    T --&gt; R[&quot;Red · IP&lt;br/&gt;direccionamiento y rutas&lt;br/&gt;diagnóstico: ip route, traceroute&quot;]
-    R --&gt; E[&quot;Enlace · Ethernet, ARP&lt;br/&gt;MTU y trama&quot;]
-    E --&gt; F[&quot;Físico · fibra, radio&quot;]
-    F -.-&gt;|&quot;el diagnóstico sube:&lt;br/&gt;si falla abajo, no mires arriba&quot;| A
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/c647e6f55bae4cba.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-cada-capa-garantiza-una-cosa-y-solo-una">1. Cada capa garantiza una cosa y solo una</h3>
 <p>El valor del modelo por capas no es taxonómico: es que <strong>acota dónde buscar</strong>. Cada capa promete algo concreto y no se hace cargo de lo demás:</p>
@@ -352,7 +352,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-00-foundations-computing-networking-linux/005-redes-por-capas-tcp-ip-puertos-y-sockets/lesson.yaml">Contrato de clase</a> · <a href="../parts/00.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-00-foundations-computing-networking-linux/005-redes-por-capas-tcp-ip-puertos-y-sockets/../../../site/downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf">Parte 00 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-00-foundations-computing-networking-linux/005-redes-por-capas-tcp-ip-puertos-y-sockets/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>captura-y-mapa-de-red</h2></div>
         <code>python classes/part-00-foundations-computing-networking-linux/005-redes-por-capas-tcp-ip-puertos-y-sockets/lab.py --seed 42</code>
@@ -416,6 +417,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-cada-capa-garantiza-una-cosa-y-solo-una">1. Cada capa garantiza una cosa y solo una</a><a class="toc-level-3" href="#2-tcp-paga-con-tiempo-lo-que-ofrece-en-garantias">2. TCP paga con tiempo lo que ofrece en garantías</a><a class="toc-level-3" href="#3-puertos-cuadruplas-y-el-limite-real-de-conexiones">3. Puertos, cuádruplas y el límite real de conexiones</a><a class="toc-level-3" href="#4-el-estado-del-socket-dice-que-falla">4. El estado del socket dice qué falla</a><a class="toc-level-3" href="#5-el-producto-ancho-de-banda-retardo-pone-el-techo">5. El producto ancho de banda × retardo pone el techo</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

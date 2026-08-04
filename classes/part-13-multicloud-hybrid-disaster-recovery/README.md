@@ -2,6 +2,8 @@
 
 > [← Parte 12](../part-12-cloud-native-distributed-architecture/README.md) · [Índice completo](../README.md) · [Parte 14 →](../part-14-advanced-platform-capstones-career/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** experto · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Diseñar continuidad y portabilidad sin ocultar complejidad, latencia ni egress.

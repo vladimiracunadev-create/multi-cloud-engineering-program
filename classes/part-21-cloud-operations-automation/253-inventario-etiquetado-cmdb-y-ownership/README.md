@@ -708,6 +708,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 21 en PDF](../../../site/downloads/partes/manual-parte-21-cloud-operations-automation.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 252 · Proyecto: asistente operativo de CloudShop](../../part-20-cloud-data-ai-platforms/252-proyecto-asistente-operativo-de-cloudshop/README.md) | [Parte 21](../README.md) · [Programa](../../README.md) | [254 · Patching, imágenes doradas y gestión de configuración →](../../part-21-cloud-operations-automation/254-patching-imagenes-doradas-y-gestion-de-configuracion/README.md) |

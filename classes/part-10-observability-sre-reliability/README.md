@@ -2,6 +2,8 @@
 
 > [← Parte 09](../part-09-data-messaging-serverless-integration/README.md) · [Índice completo](../README.md) · [Parte 11 →](../part-11-security-governance-finops/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-10-observability-sre-reliability.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Operar sistemas mediante señales, objetivos y aprendizaje de incidentes.

@@ -539,6 +539,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 06 en PDF](../../../site/downloads/partes/manual-parte-06-kubernetes-managed-platforms.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 073 · API server, etcd, scheduler, controllers y kubelet](../../part-06-kubernetes-managed-platforms/073-api-server-etcd-scheduler-controllers-y-kubelet/README.md) | [Parte 06](../README.md) · [Programa](../../README.md) | [075 · Services, DNS, Ingress y Gateway API →](../../part-06-kubernetes-managed-platforms/075-services-dns-ingress-y-gateway-api/README.md) |

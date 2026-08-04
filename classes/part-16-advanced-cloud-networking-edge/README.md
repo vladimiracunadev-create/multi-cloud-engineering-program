@@ -2,6 +2,8 @@
 
 > [← Parte 15](../part-15-systems-architecture-engineering/README.md) · [Índice completo](../README.md) · [Parte 17 →](../part-17-aws-production-architecture/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-16-advanced-cloud-networking-edge.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Diseñar conectividad segura y observable entre regiones, proveedores, centros de datos y edge.

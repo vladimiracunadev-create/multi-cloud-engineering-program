@@ -39,27 +39,13 @@ document.querySelectorAll("[data-copy]").forEach((button) => {
   });
 });
 
+// Los diagramas llegan ya renderizados como SVG desde el generador: no hay
+// que traer Mermaid de un CDN, asi que tambien se ven sin conexion y en la
+// aplicacion Android. Si quedara algun bloque sin renderizar, se deja legible
+// como codigo en vez de dejar un hueco.
 document.querySelectorAll("pre > code.language-mermaid").forEach((code) => {
-  const container = document.createElement("div");
-  container.className = "mermaid";
-  container.setAttribute("role", "img");
-  container.setAttribute("aria-label", "Diagrama del contenido de la clase");
-  container.textContent = code.textContent;
-  code.parentElement.replaceWith(container);
+  code.parentElement.classList.add("mermaid-source");
 });
-
-if (document.querySelector(".mermaid")) {
-  import("https://cdn.jsdelivr.net/npm/mermaid@11.15.0/dist/mermaid.esm.min.mjs").then(async ({ default: mermaid }) => {
-    mermaid.initialize({ startOnLoad: false, theme: root.dataset.theme === "dark" ? "dark" : "neutral", securityLevel: "strict" });
-    await mermaid.run({ nodes: document.querySelectorAll(".mermaid") });
-  }).catch((error) => {
-    document.querySelectorAll(".mermaid").forEach((diagram) => {
-      diagram.classList.add("mermaid-error");
-      diagram.setAttribute("role", "alert");
-    });
-    console.error("No se pudo renderizar Mermaid", error);
-  });
-}
 
 // Salto entre clases con las flechas del teclado, salvo al escribir en un campo.
 document.addEventListener("keydown", (event) => {

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/215.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "215 — Multi-región, Route 53, failover y game day", "description": "215 — Multi-región, Route 53, failover y game day Parte: 17 — AWS: arquitectura, automatización y operación en producción<br Nivel: avanzado · Horas estima", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/215.html"}</script>
   <title>215 — Multi-región, Route 53, failover y game day · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/17.html">Parte 17</a><span>/</span><strong>215</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="214.html" rel="prev" title="Budgets, Cost Explorer, etiquetado y FinOps automatizado">← 214</a><a class="pager-link index" href="../parts/17.html">Parte 17</a><a class="pager-link next" href="216.html" rel="next" title="Proyecto: CloudShop productivo en AWS">216 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-17-aws-production-architecture.pdf" download>📕 Parte 17 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 17 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="215"> Clase completada</label>
@@ -92,23 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    O[&quot;objetivo de recuperación&quot;] --&gt; M{&quot;modo&quot;}
-    M --&gt;|&quot;horas · barato&quot;| M1[&quot;FRÍO\ndeclarado, apagado&quot;]
-    M --&gt;|&quot;minutos&quot;| M2[&quot;CALIENTE\nmínimo encendido,\ndatos replicados&quot;]
-    M --&gt;|&quot;segundos · caro&quot;| M3[&quot;ACTIVO-ACTIVO\ny hay que resolver\nla escritura&quot;]
-    M2 --&gt; C[&quot;conmutación&quot;]
-    C --&gt; C1[&quot;detección&quot;]
-    C --&gt; C2[&quot;DECISIÓN\n← suele dominar&quot;]
-    C --&gt; C3[&quot;redirección: TTL\n+ caché del cliente&quot;]
-    C --&gt; C4[&quot;promoción de datos&quot;]
-    C --&gt; C5[&quot;capacidad: escalado\ndesde casi cero&quot;]
-    C5 --&gt; G[&quot;EJERCICIO DIRIGIDO&quot;]
-    G --&gt; G1[&quot;hipótesis escrita&quot;]
-    G --&gt; G2[&quot;ventana y forma\nde parar&quot;]
-    G --&gt; G3[&quot;medir los cinco tramos&quot;]
-    G --&gt; G4[&quot;y la VUELTA&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/cbae87e26c25dc76.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-modos-multirregion-y-su-coste">1. Modos multirregión y su coste</h3>
 <p>La elección se hace por el objetivo de recuperación, y el objetivo se decide con el coste de la indisponibilidad, no con lo que suene bien.</p>
@@ -659,7 +649,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/215-multi-region-route-53-failover-y-game-day/lesson.yaml">Contrato de clase</a> · <a href="../parts/17.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/215-multi-region-route-53-failover-y-game-day/../../../site/downloads/partes/manual-parte-17-aws-production-architecture.pdf">Parte 17 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/215-multi-region-route-53-failover-y-game-day/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/215-multi-region-route-53-failover-y-game-day/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>aws-dr-drill</h2></div>
         <code>python classes/part-17-aws-production-architecture/215-multi-region-route-53-failover-y-game-day/lab.py --seed 42</code>
@@ -723,6 +714,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-modos-multirregion-y-su-coste">1. Modos multirregión y su coste</a><a class="toc-level-3" href="#2-conmutar-por-nombres-con-los-limites-reales">2. Conmutar por nombres, con los límites reales</a><a class="toc-level-3" href="#3-datos-que-se-pierde-y-que-se-bloquea">3. Datos: qué se pierde y qué se bloquea</a><a class="toc-level-3" href="#4-el-ejercicio-dirigido">4. El ejercicio dirigido</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

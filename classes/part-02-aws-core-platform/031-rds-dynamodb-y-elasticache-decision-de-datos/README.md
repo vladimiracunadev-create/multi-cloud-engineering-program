@@ -388,6 +388,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 02 en PDF](../../../site/downloads/partes/manual-parte-02-aws-core-platform.pdf) · [Recorrido de AWS en PDF](../../../site/downloads/nubes/manual-aws.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 030 · S3: objetos, versionado, lifecycle y replicación](../../part-02-aws-core-platform/030-s3-objetos-versionado-lifecycle-y-replicacion/README.md) | [Parte 02](../README.md) · [Programa](../../README.md) | [032 · Lambda, API Gateway y Step Functions →](../../part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/README.md) |

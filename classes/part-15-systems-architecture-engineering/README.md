@@ -2,6 +2,8 @@
 
 > [← Parte 14](../part-14-advanced-platform-capstones-career/README.md) · [Índice completo](../README.md) · [Parte 16 →](../part-16-advanced-cloud-networking-edge/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-15-systems-architecture-engineering.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** intermedio-avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Pasar de requisitos ambiguos a arquitecturas comprobables antes de elegir servicios cloud.

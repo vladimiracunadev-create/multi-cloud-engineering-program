@@ -2,6 +2,8 @@
 
 > [← Parte 16](../part-16-advanced-cloud-networking-edge/README.md) · [Índice completo](../README.md) · [Parte 18 →](../part-18-azure-production-architecture/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-17-aws-production-architecture.pdf) · [Recorrido de AWS en PDF](../../site/downloads/nubes/manual-aws.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Integrar los casos AWS existentes en una ruta de producción con seguridad, costo, evidencia y destrucción.

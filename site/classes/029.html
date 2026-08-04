@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/029.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "029 — Elastic Load Balancing y Auto Scaling", "description": "029 — Elastic Load Balancing y Auto Scaling Parte: 02 — AWS: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: reliability · Es", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/029.html"}</script>
   <title>029 — Elastic Load Balancing y Auto Scaling · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/02.html">Parte 02</a><span>/</span><strong>029</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="028.html" rel="prev" title="EC2, AMI, EBS y selección de capacidad">← 028</a><a class="pager-link index" href="../parts/02.html">Parte 02</a><a class="pager-link next" href="030.html" rel="next" title="S3: objetos, versionado, lifecycle y replicación">030 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-02-aws-core-platform.pdf" download>📕 Parte 02 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 02 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="029"> Clase completada</label>
@@ -88,17 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    C[&quot;clientes&quot;] --&gt; ALB[&quot;Balanceador de aplicación&lt;br/&gt;termina TLS · enruta por ruta&quot;]
-    ALB --&gt; TG[&quot;Grupo de destino&lt;br/&gt;health check /health/ready&quot;]
-    TG --&gt; I1[&quot;instancia 1 · healthy&quot;]
-    TG --&gt; I2[&quot;instancia 2 · healthy&quot;]
-    TG --&gt; I3[&quot;instancia 3 · draining&lt;br/&gt;termina lo que tiene&quot;]
-    ASG[&quot;Auto Scaling&quot;] -.-&gt;|&quot;crea y retira&quot;| TG
-    ASG --&gt; M{{&quot;métrica objetivo:&lt;br/&gt;peticiones por destino&quot;}}
-    M --&gt;|&quot;por encima&quot;| UP[&quot;+1 instancia&lt;br/&gt;gracia 180 s&quot;]
-    M --&gt;|&quot;por debajo&quot;| DOWN[&quot;−1 instancia&lt;br/&gt;drenado 60 s&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/f5d3daeee9fbb268.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-cuatro-balanceadores-tres-decisiones">1. Cuatro balanceadores, tres decisiones</h3>
 <table>
@@ -426,7 +422,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/029-elastic-load-balancing-y-auto-scaling/lesson.yaml">Contrato de clase</a> · <a href="../parts/02.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/029-elastic-load-balancing-y-auto-scaling/../../../site/downloads/partes/manual-parte-02-aws-core-platform.pdf">Parte 02 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/029-elastic-load-balancing-y-auto-scaling/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/029-elastic-load-balancing-y-auto-scaling/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>servicio-elastico-aws</h2></div>
         <code>python classes/part-02-aws-core-platform/029-elastic-load-balancing-y-auto-scaling/lab.py --seed 42</code>
@@ -490,6 +487,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-cuatro-balanceadores-tres-decisiones">1. Cuatro balanceadores, tres decisiones</a><a class="toc-level-3" href="#2-la-comprobacion-de-estado-debe-reflejar-readiness">2. La comprobación de estado debe reflejar readiness</a><a class="toc-level-3" href="#3-autoescalado-los-cuatro-parametros-y-su-interaccion">3. Autoescalado: los cuatro parámetros y su interacción</a><a class="toc-level-3" href="#4-drenado-por-que-reducir-capacidad-pierde-peticiones">4. Drenado: por qué reducir capacidad pierde peticiones</a><a class="toc-level-3" href="#5-502-y-504-del-balanceador-senalan-cosas-distintas">5. 502 y 504 del balanceador señalan cosas distintas</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

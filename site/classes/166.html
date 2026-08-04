@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/166.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "166 — Backup, RTO, RPO y patrones de disaster recovery", "description": "166 — Backup, RTO, RPO y patrones de disaster recovery Parte: 13 — Multi-cloud, híbrido, migración y recuperación<br Nivel: experto · Horas estimadas: 4<br", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/166.html"}</script>
   <title>166 — Backup, RTO, RPO y patrones de disaster recovery · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/13.html">Parte 13</a><span>/</span><strong>166</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="165.html" rel="prev" title="Nube híbrida, edge y conectividad privada">← 165</a><a class="pager-link index" href="../parts/13.html">Parte 13</a><a class="pager-link next" href="167.html" rel="next" title="Las 7R de migración y oleadas">167 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf" download>📕 Parte 13 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 13 · experto</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="166"> Clase completada</label>
@@ -92,24 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    A[&quot;¿de qué protege cada cosa?&quot;] --&gt; A1[&quot;ALTA DISPONIBILIDAD\nfallo de un componente\nautomático&quot;]
-    A --&gt; A2[&quot;RECUPERACIÓN\nperder un emplazamiento\ncon decisión&quot;]
-    A --&gt; A3[&quot;COPIA\nborrado, corrupción, cifrado\nmalicioso&quot;]
-    A1 -.-&gt;|&quot;NO protege de&quot;| A3
-    A2 -.-&gt;|&quot;NO protege de&quot;| A3
-    A3 --&gt; R[&quot;una réplica replica\nfielmente el error&quot;]
-    T[&quot;plazo real&quot;] --&gt; T1[&quot;detectar&quot;]
-    T --&gt; T2[&quot;decidir&quot;]
-    T --&gt; T3[&quot;ejecutar&quot;]
-    T --&gt; T4[&quot;verificar&quot;]
-    T --&gt; T5[&quot;redirigir tráfico&quot;]
-    T3 -.-&gt;|&quot;lo único que se declara&quot;| D[&quot;por eso lo declarado\nno se parece a lo medido&quot;]
-    P[&quot;patrones&quot;] --&gt; P1[&quot;copia y restauración: horas-días&quot;]
-    P --&gt; P2[&quot;mínimo encendido: minutos-horas&quot;]
-    P --&gt; P3[&quot;reserva templada: minutos&quot;]
-    P --&gt; P4[&quot;activo-activo: casi cero · 157&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/ee7b2296345f3fe6.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-tres-cosas-distintas">1. Tres cosas distintas</h3>
 <p>Se mencionan juntas y protegen de amenazas distintas:</p>
@@ -612,7 +601,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/166-backup-rto-rpo-y-patrones-de-disaster-recovery/lesson.yaml">Contrato de clase</a> · <a href="../parts/13.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/166-backup-rto-rpo-y-patrones-de-disaster-recovery/../../../site/downloads/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf">Parte 13 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/166-backup-rto-rpo-y-patrones-de-disaster-recovery/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>plan-dr</h2></div>
         <code>python classes/part-13-multicloud-hybrid-disaster-recovery/166-backup-rto-rpo-y-patrones-de-disaster-recovery/lab.py --seed 42</code>
@@ -676,6 +666,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-cosas-distintas">1. Tres cosas distintas</a><a class="toc-level-3" href="#2-objetivos-por-escenario">2. Objetivos por escenario</a><a class="toc-level-3" href="#3-medir-el-plazo-de-verdad">3. Medir el plazo de verdad</a><a class="toc-level-3" href="#4-patrones-lo-que-no-se-replica-y-la-vuelta">4. Patrones, lo que no se replica y la vuelta</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

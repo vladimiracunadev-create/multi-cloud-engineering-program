@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/247.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "247 — Modelos fundacionales, tokens, embeddings y RAG", "description": "247 — Modelos fundacionales, tokens, embeddings y RAG Parte: 20 — Plataformas cloud de datos, analítica, IA y agentes<br Nivel: avanzado · Horas estimadas:", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/247.html"}</script>
   <title>247 — Modelos fundacionales, tokens, embeddings y RAG · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/20.html">Parte 20</a><span>/</span><strong>247</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="246.html" rel="prev" title="MLOps, registro, promoción, drift y rollback">← 246</a><a class="pager-link index" href="../parts/20.html">Parte 20</a><a class="pager-link next" href="248.html" rel="next" title="Bedrock, Azure AI Foundry y Vertex AI">248 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-20-cloud-data-ai-platforms.pdf" download>📕 Parte 20 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 20 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="247"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P[&quot;pregunta&quot;] --&gt; F{&quot;¿hace falta un\nmodelo fundacional?&quot;}
-    F --&gt;|&quot;búsqueda exacta,\ncálculo, regla&quot;| N[&quot;NO · usa lo de siempre&quot;]
-    F --&gt;|&quot;lenguaje natural\nsobre texto&quot;| R[&quot;RECUPERACIÓN\nAUMENTADA&quot;]
-    R --&gt; R1[&quot;1 · FRAGMENTAR\n← decide la calidad&quot;]
-    R1 --&gt; R2[&quot;2 · embebidos\ne índice vectorial&quot;]
-    R2 --&gt; R3[&quot;3 · recuperar\ncon FILTRO de permisos&quot;]
-    R3 --&gt; R4[&quot;4 · reordenar&quot;]
-    R4 --&gt; R5[&quot;5 · generar con\nlos fragmentos&quot;]
-    R5 --&gt; R6[&quot;6 · citar la fuente&quot;]
-    C[&quot;COSTE&quot;] --&gt; C1[&quot;testigos de entrada\n× precio&quot;]
-    C --&gt; C2[&quot;testigos de salida\n× precio (mayor)&quot;]
-    C --&gt; C3[&quot;latencia ≈ testigos\nde SALIDA&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/ec732e388e432155.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-testigos-coste-y-latencia">1. Testigos: coste y latencia</h3>
 <p>Casi todas las decisiones de ingeniería con estos modelos salen de una unidad: el testigo.</p>
@@ -659,7 +652,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-20-cloud-data-ai-platforms/247-modelos-fundacionales-tokens-embeddings-y-rag/lesson.yaml">Contrato de clase</a> · <a href="../parts/20.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-20-cloud-data-ai-platforms/247-modelos-fundacionales-tokens-embeddings-y-rag/../../../site/downloads/partes/manual-parte-20-cloud-data-ai-platforms.pdf">Parte 20 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-20-cloud-data-ai-platforms/247-modelos-fundacionales-tokens-embeddings-y-rag/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>rag-system</h2></div>
         <code>python classes/part-20-cloud-data-ai-platforms/247-modelos-fundacionales-tokens-embeddings-y-rag/lab.py --seed 42</code>
@@ -723,6 +717,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-testigos-coste-y-latencia">1. Testigos: coste y latencia</a><a class="toc-level-3" href="#2-embebidos-y-busqueda-vectorial">2. Embebidos y búsqueda vectorial</a><a class="toc-level-3" href="#3-recuperacion-aumentada-que-resuelve-y-que-no">3. Recuperación aumentada: qué resuelve y qué no</a><a class="toc-level-3" href="#4-cuando-no-hace-falta">4. Cuándo no hace falta</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

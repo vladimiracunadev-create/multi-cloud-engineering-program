@@ -513,6 +513,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 03 en PDF](../../../site/downloads/partes/manual-parte-03-azure-core-platform.pdf) · [Recorrido de Azure en PDF](../../../site/downloads/nubes/manual-azure.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 040 · Virtual Machines, Scale Sets y Load Balancer](../../part-03-azure-core-platform/040-virtual-machines-scale-sets-y-load-balancer/README.md) | [Parte 03](../README.md) · [Programa](../../README.md) | [042 · Azure SQL, Cosmos DB y Azure Cache for Redis →](../../part-03-azure-core-platform/042-azure-sql-cosmos-db-y-azure-cache-for-redis/README.md) |

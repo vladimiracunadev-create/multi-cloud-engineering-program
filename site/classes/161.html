@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/161.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "161 — Replicación de datos, soberanía y costos de egress", "description": "161 — Replicación de datos, soberanía y costos de egress Parte: 13 — Multi-cloud, híbrido, migración y recuperación<br Nivel: experto · Horas estimadas: 4<", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/161.html"}</script>
   <title>161 — Replicación de datos, soberanía y costos de egress · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/13.html">Parte 13</a><span>/</span><strong>161</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="160.html" rel="prev" title="Conectividad, tránsito, DNS y service discovery">← 160</a><a class="pager-link index" href="../parts/13.html">Parte 13</a><a class="pager-link next" href="162.html" rel="next" title="Observabilidad y operación entre proveedores">162 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf" download>📕 Parte 13 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 13 · experto</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="161"> Clase completada</label>
@@ -92,26 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    E{&quot;¿qué se factura?&quot;} --&gt; E1[&quot;dentro de una zona: normalmente no&quot;]
-    E --&gt; E2[&quot;ENTRE ZONAS: sí, y se olvida&quot;]
-    E --&gt; E3[&quot;entre regiones: sí&quot;]
-    E --&gt; E4[&quot;hacia internet: sí, por tramos&quot;]
-    E --&gt; E5[&quot;desde internet: normalmente no&quot;]
-    E5 --&gt; G[&quot;asimetría → gravedad de los datos&quot;]
-    R{&quot;replicar&quot;} --&gt; R1[&quot;continuo = ritmo de cambio × tiempo&quot;]
-    R --&gt; R2[&quot;migrar = tamaño total, una vez&quot;]
-    H[&quot;salida escondida&quot;] --&gt; H1[&quot;charla entre zonas · la mayor&quot;]
-    H --&gt; H2[&quot;telemetría enviada fuera · 132&quot;]
-    H --&gt; H3[&quot;copias a otro proveedor&quot;]
-    H --&gt; H4[&quot;descarga de imágenes&quot;]
-    H --&gt; H5[&quot;consultas que leen de otra región&quot;]
-    O[&quot;reducir, en orden&quot;] --&gt; O1[&quot;1 · no moverlo: llevar el cálculo&quot;]
-    O --&gt; O2[&quot;2 · filtrar y agregar en origen&quot;]
-    O --&gt; O3[&quot;3 · comprimir y columnar&quot;]
-    O --&gt; O4[&quot;4 · reparto consciente de zona&quot;]
-    O --&gt; O5[&quot;5 · enlace privado con tarifa menor&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/718e119dfad784db.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-que-se-factura-y-la-asimetria">1. Qué se factura, y la asimetría</h3>
 <p>El modelo de coste del movimiento de datos, con la forma que tiene en los tres proveedores:</p>
@@ -567,7 +554,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/161-replicacion-de-datos-soberania-y-costos-de-egress/lesson.yaml">Contrato de clase</a> · <a href="../parts/13.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/161-replicacion-de-datos-soberania-y-costos-de-egress/../../../site/downloads/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf">Parte 13 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/161-replicacion-de-datos-soberania-y-costos-de-egress/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>estrategia-datos-multicloud</h2></div>
         <code>python classes/part-13-multicloud-hybrid-disaster-recovery/161-replicacion-de-datos-soberania-y-costos-de-egress/lab.py --seed 42</code>
@@ -631,6 +619,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-que-se-factura-y-la-asimetria">1. Qué se factura, y la asimetría</a><a class="toc-level-3" href="#2-donde-se-esconde-la-salida">2. Dónde se esconde la salida</a><a class="toc-level-3" href="#3-reducir-en-el-orden-correcto">3. Reducir, en el orden correcto</a><a class="toc-level-3" href="#4-donde-vive-cada-dato">4. Dónde vive cada dato</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

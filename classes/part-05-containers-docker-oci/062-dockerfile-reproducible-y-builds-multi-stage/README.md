@@ -559,6 +559,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 05 en PDF](../../../site/downloads/partes/manual-parte-05-containers-docker-oci.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 061 · Imágenes, capas, registros y estándar OCI](../../part-05-containers-docker-oci/061-imagenes-capas-registros-y-estandar-oci/README.md) | [Parte 05](../README.md) · [Programa](../../README.md) | [063 · Namespaces, cgroups y runtime de contenedores →](../../part-05-containers-docker-oci/063-namespaces-cgroups-y-runtime-de-contenedores/README.md) |

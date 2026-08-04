@@ -648,6 +648,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 19 en PDF](../../../site/downloads/partes/manual-parte-19-gcp-production-architecture.pdf) · [Recorrido de Google Cloud en PDF](../../../site/downloads/nubes/manual-google-cloud.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 238 · Cloud Operations, Trace y OpenTelemetry](../../part-19-gcp-production-architecture/238-cloud-operations-trace-y-opentelemetry/README.md) | [Parte 19](../README.md) · [Programa](../../README.md) | [240 · Proyecto: CloudShop productivo en Google Cloud →](../../part-19-gcp-production-architecture/240-proyecto-cloudshop-productivo-en-google-cloud/README.md) |

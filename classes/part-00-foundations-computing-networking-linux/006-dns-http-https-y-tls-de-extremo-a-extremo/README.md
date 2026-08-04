@@ -277,6 +277,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 00 en PDF](../../../site/downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 005 · Redes por capas, TCP/IP, puertos y sockets](../../part-00-foundations-computing-networking-linux/005-redes-por-capas-tcp-ip-puertos-y-sockets/README.md) | [Parte 00](../README.md) · [Programa](../../README.md) | [007 · Linux: usuarios, permisos, servicios y logs →](../../part-00-foundations-computing-networking-linux/007-linux-usuarios-permisos-servicios-y-logs/README.md) |

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/136.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "136 — Cifrado, KMS, HSM, rotación y envelope encryption", "description": "136 — Cifrado, KMS, HSM, rotación y envelope encryption Parte: 11 — Seguridad, gobierno, cumplimiento y FinOps<br Nivel: avanzado · Horas estimadas: 4<br L", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/136.html"}</script>
   <title>136 — Cifrado, KMS, HSM, rotación y envelope encryption · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/11.html">Parte 11</a><span>/</span><strong>136</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="135.html" rel="prev" title="Segmentación, perímetro, WAF, DDoS y egress">← 135</a><a class="pager-link index" href="../parts/11.html">Parte 11</a><a class="pager-link next" href="137.html" rel="next" title="Gestión de secretos y credenciales de workloads">137 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-11-security-governance-finops.pdf" download>📕 Parte 11 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 11 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="136"> Clase completada</label>
@@ -92,19 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    Q{&quot;¿de qué quieres protegerte?&quot;} --&gt;|&quot;soporte robado\no dado de baja&quot;| R[&quot;cifrado en reposo\nel proveedor ya lo hace&quot;]
-    Q --&gt;|&quot;interceptar tráfico&quot;| T[&quot;cifrado en tránsito\nincluido el interno&quot;]
-    Q --&gt;|&quot;aplicación o credencial\ncomprometida&quot;| A{&quot;¿puede la aplicación\ndescifrar?&quot;}
-    A --&gt;|&quot;sí&quot;| N[&quot;el cifrado en reposo\nNO protege&quot;]
-    A --&gt;|&quot;no&quot;| C[&quot;cifrado en el cliente\no clave por inquilino&quot;]
-    N --&gt; S[&quot;lo que sí ayuda:\nseparar acceso a clave\nde acceso a dato&quot;]
-    S --&gt; E[&quot;sobres: clave de datos\ncifrada por clave maestra&quot;]
-    E --&gt; K[(&quot;servicio de claves&quot;)]
-    K --&gt; F1[&quot;límite de llamadas → caída&quot;]
-    K --&gt; F2[&quot;región de la clave → dependencia&quot;]
-    K --&gt; F3[&quot;borrado → pérdida irreversible&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/da0c6ba83e68df65.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-de-que-protege-cada-cosa">1. De qué protege cada cosa</h3>
 <p>La pregunta que ordena esta clase entera:</p>
@@ -522,7 +516,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/136-cifrado-kms-hsm-rotacion-y-envelope-encryption/lesson.yaml">Contrato de clase</a> · <a href="../parts/11.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/136-cifrado-kms-hsm-rotacion-y-envelope-encryption/../../../site/downloads/partes/manual-parte-11-security-governance-finops.pdf">Parte 11 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/136-cifrado-kms-hsm-rotacion-y-envelope-encryption/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>jerarquia-claves</h2></div>
         <code>python classes/part-11-security-governance-finops/136-cifrado-kms-hsm-rotacion-y-envelope-encryption/lab.py --seed 42</code>
@@ -586,6 +581,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-de-que-protege-cada-cosa">1. De qué protege cada cosa</a><a class="toc-level-3" href="#2-sobres-y-que-significa-rotar">2. Sobres, y qué significa rotar</a><a class="toc-level-3" href="#3-tres-fallos-operativos-que-cuestan-caro">3. Tres fallos operativos que cuestan caro</a><a class="toc-level-3" href="#4-certificados-y-cifrado-en-transito">4. Certificados y cifrado en tránsito</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

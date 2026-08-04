@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/210.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "210 — EventBridge, SQS, DLQ, replay e idempotencia", "description": "210 — EventBridge, SQS, DLQ, replay e idempotencia Parte: 17 — AWS: arquitectura, automatización y operación en producción<br Nivel: avanzado · Horas estim", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/210.html"}</script>
   <title>210 — EventBridge, SQS, DLQ, replay e idempotencia · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/17.html">Parte 17</a><span>/</span><strong>210</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="209.html" rel="prev" title="Cognito, JWT authorizers, WAF y defensa en profundidad">← 209</a><a class="pager-link index" href="../parts/17.html">Parte 17</a><a class="pager-link next" href="211.html" rel="next" title="CloudWatch, X-Ray y observabilidad como código">211 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-17-aws-production-architecture.pdf" download>📕 Parte 17 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 17 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="210"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P[&quot;productor&quot;] --&gt; B[&quot;BUS DE EVENTOS\nuno a muchos,\nreglas por contenido&quot;]
-    B --&gt; Q1[&quot;cola A&quot;]
-    B --&gt; Q2[&quot;cola B&quot;]
-    B --&gt; F1[&quot;función C&quot;]
-    Q1 --&gt; C[&quot;consumidor&quot;]
-    C --&gt; I{&quot;¿ya procesado\nesta clave?&quot;}
-    I --&gt;|sí| S[&quot;devolver el mismo\nresultado, sin efecto&quot;]
-    I --&gt;|no| E[&quot;procesar y registrar\nla clave, condicionado&quot;]
-    C --&gt;|&quot;falla N veces&quot;| D[&quot;COLA DE FALLIDOS&quot;]
-    D --&gt; A1[&quot;ALERTA por número\nY por ANTIGÜEDAD&quot;]
-    D --&gt; A2[&quot;diagnóstico:\n¿veneno o dependencia?&quot;]
-    D --&gt; A3[&quot;REPROCESO probado&quot;]
-    V[&quot;visibilidad&quot;] --&gt; V1[&quot;&gt; tiempo de proceso\nsi no, DUPLICADOS&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/ce7de6903d190d80.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-bus-cola-y-flujo-que-resuelve-cada-uno">1. Bus, cola y flujo: qué resuelve cada uno</h3>
 <p>Los tres transportan mensajes y no son intercambiables.</p>
@@ -628,7 +620,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/210-eventbridge-sqs-dlq-replay-e-idempotencia/lesson.yaml">Contrato de clase</a> · <a href="../parts/17.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/210-eventbridge-sqs-dlq-replay-e-idempotencia/../../../site/downloads/partes/manual-parte-17-aws-production-architecture.pdf">Parte 17 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/210-eventbridge-sqs-dlq-replay-e-idempotencia/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/210-eventbridge-sqs-dlq-replay-e-idempotencia/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>aws-event-platform</h2></div>
         <code>python classes/part-17-aws-production-architecture/210-eventbridge-sqs-dlq-replay-e-idempotencia/lab.py --seed 42</code>
@@ -692,6 +685,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-bus-cola-y-flujo-que-resuelve-cada-uno">1. Bus, cola y flujo: qué resuelve cada uno</a><a class="toc-level-3" href="#2-los-parametros-que-importan">2. Los parámetros que importan</a><a class="toc-level-3" href="#3-idempotencia-en-concreto">3. Idempotencia, en concreto</a><a class="toc-level-3" href="#4-la-cola-de-fallidos-operada-de-verdad">4. La cola de fallidos, operada de verdad</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

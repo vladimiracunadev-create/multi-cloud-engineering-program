@@ -448,6 +448,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 08 en PDF](../../../site/downloads/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 106 · Platform engineering e Internal Developer Platform](../../part-08-continuous-delivery-platform-engineering/106-platform-engineering-e-internal-developer-platform/README.md) | [Parte 08](../README.md) · [Programa](../../README.md) | [108 · Proyecto: fábrica de software multi-cloud →](../../part-08-continuous-delivery-platform-engineering/108-proyecto-fabrica-de-software-multi-cloud/README.md) |

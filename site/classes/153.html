@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/153.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "153 — Contratos API, compatibilidad y evolución", "description": "153 — Contratos API, compatibilidad y evolución Parte: 12 — Arquitectura cloud-native y sistemas distribuidos<br Nivel: avanzado-experto · Horas estimadas:", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/153.html"}</script>
   <title>153 — Contratos API, compatibilidad y evolución · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/12.html">Parte 12</a><span>/</span><strong>153</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="152.html" rel="prev" title="Service discovery, malla y comunicación">← 152</a><a class="pager-link index" href="../parts/12.html">Parte 12</a><a class="pager-link next" href="154.html" rel="next" title="Multi-tenancy, aislamiento y noisy neighbor">154 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf" download>📕 Parte 12 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 12 · avanzado-experto</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="153"> Clase completada</label>
@@ -92,22 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    C[&quot;el contrato incluye&quot;] --&gt; C1[&quot;forma de los datos&quot;]
-    C --&gt; C2[&quot;SIGNIFICADO de cada campo&quot;]
-    C --&gt; C3[&quot;códigos de error y qué hacer&quot;]
-    C --&gt; C4[&quot;tiempos esperados&quot;]
-    C --&gt; C5[&quot;límites de ritmo · 118&quot;]
-    C --&gt; C6[&quot;orden y unicidad&quot;]
-    C --&gt; C7[&quot;idempotencia · 116&quot;]
-    C --&gt; C8[&quot;efectos secundarios&quot;]
-    C1 -.-&gt;|&quot;solo esto\nestá en el esquema&quot;| E[&quot;el resto rompe\nsin que nada avise&quot;]
-    V{&quot;¿cómo se garantiza?&quot;} --&gt;|&quot;disciplina&quot;| V1[&quot;no funciona&quot;]
-    V --&gt;|&quot;esquema en la canalización&quot;| V2[&quot;cubre la forma · 115&quot;]
-    V --&gt;|&quot;contratos del consumidor&quot;| V3[&quot;cubre lo que se USA\ny dice quién consume&quot;]
-    V3 --&gt; P[&quot;la canalización del proveedor\nfalla si rompe a alguien&quot;]
-    T[&quot;cliente&quot;] --&gt; TT[&quot;lector tolerante:\nignora lo desconocido&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/c725535c3c01bad2.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-el-contrato-es-mas-que-el-esquema">1. El contrato es más que el esquema</h3>
 <p>Un esquema describe la forma de los datos. El contrato es <strong>todo lo que quien consume puede observar</strong>:</p>
@@ -550,7 +541,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/153-contratos-api-compatibilidad-y-evolucion/lesson.yaml">Contrato de clase</a> · <a href="../parts/12.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/153-contratos-api-compatibilidad-y-evolucion/../../../site/downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf">Parte 12 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/153-contratos-api-compatibilidad-y-evolucion/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>contrato-versionado</h2></div>
         <code>python classes/part-12-cloud-native-distributed-architecture/153-contratos-api-compatibilidad-y-evolucion/lab.py --seed 42</code>
@@ -614,6 +606,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-contrato-es-mas-que-el-esquema">1. El contrato es más que el esquema</a><a class="toc-level-3" href="#2-todo-lo-observable-acaba-siendo-contrato">2. Todo lo observable acaba siendo contrato</a><a class="toc-level-3" href="#3-comprobar-no-confiar">3. Comprobar, no confiar</a><a class="toc-level-3" href="#4-evolucionar-sin-versionar">4. Evolucionar sin versionar</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

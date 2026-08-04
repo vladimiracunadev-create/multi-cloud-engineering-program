@@ -506,6 +506,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 05 en PDF](../../../site/downloads/partes/manual-parte-05-containers-docker-oci.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 060 · Proyecto: aplicación de tres capas en Google Cloud](../../part-04-gcp-core-platform/060-proyecto-aplicacion-de-tres-capas-en-google-cloud/README.md) | [Parte 05](../README.md) · [Programa](../../README.md) | [062 · Dockerfile reproducible y builds multi-stage →](../../part-05-containers-docker-oci/062-dockerfile-reproducible-y-builds-multi-stage/README.md) |

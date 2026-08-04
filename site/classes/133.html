@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/133.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "133 — Zero Trust y defensa en profundidad", "description": "133 — Zero Trust y defensa en profundidad Parte: 11 — Seguridad, gobierno, cumplimiento y FinOps<br Nivel: avanzado · Horas estimadas: 4<br Laboratorio: se", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/133.html"}</script>
   <title>133 — Zero Trust y defensa en profundidad · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/11.html">Parte 11</a><span>/</span><strong>133</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="132.html" rel="prev" title="Proyecto: operación SRE de CloudShop">← 132</a><a class="pager-link index" href="../parts/11.html">Parte 11</a><a class="pager-link next" href="134.html" rel="next" title="Mínimo privilegio, acceso temporal y separación de funciones">134 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-11-security-governance-finops.pdf" download>📕 Parte 11 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 11 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="133"> Clase completada</label>
@@ -92,24 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P[&quot;petición&quot;] --&gt; V{&quot;se verifica en CADA acceso&quot;}
-    V --&gt; V1[&quot;identidad: persona o carga&quot;]
-    V --&gt; V2[&quot;estado del dispositivo&quot;]
-    V --&gt; V3[&quot;recurso y acción concretos&quot;]
-    V --&gt; V4[&quot;contexto: momento, origen, riesgo&quot;]
-    V1 --&gt; D{&quot;decisión&quot;}
-    V2 --&gt; D
-    V3 --&gt; D
-    V4 --&gt; D
-    D --&gt;|&quot;permitir&quot;| A[&quot;acceso mínimo y temporal · 134&quot;]
-    D --&gt;|&quot;denegar&quot;| N[&quot;registro y señal&quot;]
-    A --&gt; B{&quot;si roban esta credencial,\n¿hasta dónde se llega?&quot;}
-    B --&gt; B1[&quot;límite por identidad · 134&quot;]
-    B --&gt; B2[&quot;límite por red · 135&quot;]
-    B --&gt; B3[&quot;límite por cuenta o proyecto&quot;]
-    X[&quot;modelo de perímetro&quot;] -.-&gt;|&quot;un equipo comprometido&quot;| Y[&quot;= toda la red&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/7a6d32ec2a9e547d.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-por-que-el-perimetro-dejo-de-funcionar">1. Por qué el perímetro dejó de funcionar</h3>
 <p>El modelo tradicional divide el mundo en dos y confía en uno de los lados:</p>
@@ -516,7 +505,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/133-zero-trust-y-defensa-en-profundidad/lesson.yaml">Contrato de clase</a> · <a href="../parts/11.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/133-zero-trust-y-defensa-en-profundidad/../../../site/downloads/partes/manual-parte-11-security-governance-finops.pdf">Parte 11 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-11-security-governance-finops/133-zero-trust-y-defensa-en-profundidad/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>modelo-zero-trust</h2></div>
         <code>python classes/part-11-security-governance-finops/133-zero-trust-y-defensa-en-profundidad/lab.py --seed 42</code>
@@ -580,6 +570,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-por-que-el-perimetro-dejo-de-funcionar">1. Por qué el perímetro dejó de funcionar</a><a class="toc-level-3" href="#2-capas-que-de-verdad-son-capas">2. Capas que de verdad son capas</a><a class="toc-level-3" href="#3-suponer-la-brecha-y-medirla">3. Suponer la brecha, y medirla</a><a class="toc-level-3" href="#4-el-control-que-se-rodea">4. El control que se rodea</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

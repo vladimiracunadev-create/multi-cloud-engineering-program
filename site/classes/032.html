@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/032.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "032 — Lambda, API Gateway y Step Functions", "description": "032 — Lambda, API Gateway y Step Functions Parte: 02 — AWS: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: serverless · Esta", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/032.html"}</script>
   <title>032 — Lambda, API Gateway y Step Functions · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/02.html">Parte 02</a><span>/</span><strong>032</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="031.html" rel="prev" title="RDS, DynamoDB y ElastiCache: decisión de datos">← 031</a><a class="pager-link index" href="../parts/02.html">Parte 02</a><a class="pager-link next" href="033.html" rel="next" title="SQS, SNS y EventBridge">033 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-02-aws-core-platform.pdf" download>📕 Parte 02 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 02 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="032"> Clase completada</label>
@@ -88,17 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    API[&quot;API Gateway&quot;] --&gt; L1[&quot;Lambda: síncrona&lt;br/&gt;límite 29 s del gateway&quot;]
-    API --&gt; SF[&quot;Step Functions&quot;]
-    SF --&gt; L2[&quot;tarea 1&quot;] --&gt; L3[&quot;tarea 2&quot;] --&gt; L4[&quot;tarea 3&quot;]
-    SF -.-&gt;|&quot;reintentos, capturas&lt;br/&gt;y estado visible&quot;| SF
-    L1 --&gt; RDS[(&quot;RDS&quot;)]
-    L1 -.-&gt;|&quot;cada entorno abre\nsu conexión&quot;| P[&quot;RDS Proxy&lt;br/&gt;multiplexa&quot;]
-    P --&gt; RDS
-    C[&quot;Concurrencia de la cuenta&lt;br/&gt;1.000 por defecto&quot;] -.-&gt;|&quot;compartida&quot;| L1
-    C -.-&gt; L2
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/88f06ad090f24898.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-concurrencia-es-el-recurso-que-se-agota-no-la-cpu">1. La concurrencia es el recurso que se agota, no la CPU</h3>
 <p>Lambda no escala por CPU ni por memoria: escala creando entornos de ejecución. El número de entornos simultáneos es la <strong>concurrencia</strong>, y se calcula con la ley de Little de la clase 011:</p>
@@ -447,7 +443,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/lesson.yaml">Contrato de clase</a> · <a href="../parts/02.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/../../../site/downloads/partes/manual-parte-02-aws-core-platform.pdf">Parte 02 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>api-serverless-aws</h2></div>
         <code>python classes/part-02-aws-core-platform/032-lambda-api-gateway-y-step-functions/lab.py --seed 42</code>
@@ -511,6 +508,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-concurrencia-es-el-recurso-que-se-agota-no-la-cpu">1. La concurrencia es el recurso que se agota, no la CPU</a><a class="toc-level-3" href="#2-arranque-en-frio-comparar-con-el-percentil-del-slo">2. Arranque en frío: comparar con el percentil del SLO</a><a class="toc-level-3" href="#3-funciones-y-bases-de-datos-relacionales-el-choque-de-modelos">3. Funciones y bases de datos relacionales: el choque de modelos</a><a class="toc-level-3" href="#4-los-limites-del-gateway-y-como-se-rodean">4. Los límites del gateway y cómo se rodean</a><a class="toc-level-3" href="#5-orquestacion-frente-a-coreografia">5. Orquestación frente a coreografía</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

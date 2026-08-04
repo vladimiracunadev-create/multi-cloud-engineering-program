@@ -503,6 +503,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 08 en PDF](../../../site/downloads/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 102 · Rolling, blue-green, canary y rollback](../../part-08-continuous-delivery-platform-engineering/102-rolling-blue-green-canary-y-rollback/README.md) | [Parte 08](../README.md) · [Programa](../../README.md) | [104 · Ambientes efímeros y promoción entre entornos →](../../part-08-continuous-delivery-platform-engineering/104-ambientes-efimeros-y-promocion-entre-entornos/README.md) |

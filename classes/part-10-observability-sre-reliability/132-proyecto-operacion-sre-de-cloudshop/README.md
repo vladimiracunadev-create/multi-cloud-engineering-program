@@ -581,6 +581,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 10 en PDF](../../../site/downloads/partes/manual-parte-10-observability-sre-reliability.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 131 · Chaos engineering y game days](../../part-10-observability-sre-reliability/131-chaos-engineering-y-game-days/README.md) | [Parte 10](../README.md) · [Programa](../../README.md) | [133 · Zero Trust y defensa en profundidad →](../../part-11-security-governance-finops/133-zero-trust-y-defensa-en-profundidad/README.md) |

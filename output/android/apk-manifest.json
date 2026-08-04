@@ -8,8 +8,8 @@
   "target_sdk": 35,
   "build_tools": "36.1.0",
   "platform": "android-36",
-  "bundled_asset_files": 325,
-  "bundled_asset_bytes": 12152334,
-  "apk_bytes": 4141249,
-  "apk_sha256": "5ff4ca4d0aa512ad390de1a0465ec4084f834dfdd60f8ea0c2e0369a5e9f2094"
+  "bundled_asset_files": 616,
+  "bundled_asset_bytes": 20282087,
+  "apk_bytes": 5643163,
+  "apk_sha256": "b2c9afc79b8bf370913291183eb2d9ea116acd379a842319cfefb62aed4cf21c"
 }

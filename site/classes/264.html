@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/264.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "264 — Proyecto: centro de operaciones de CloudShop", "description": "264 — Proyecto: centro de operaciones de CloudShop Parte: 21 — Operación cloud, automatización y respuesta a incidentes<br Nivel: avanzado · Horas estimada", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/264.html"}</script>
   <title>264 — Proyecto: centro de operaciones de CloudShop · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/21.html">Parte 21</a><span>/</span><strong>264</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="263.html" rel="prev" title="AIOps, automatización asistida y límites humanos">← 263</a><a class="pager-link index" href="../parts/21.html">Parte 21</a><a class="pager-link next" href="265.html" rel="next" title="Ruta Cloud Engineer y mapa de competencias">265 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-21-cloud-operations-automation.pdf" download>📕 Parte 21 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 21 · avanzado</span><strong>8 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="264"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P1[&quot;1 · INVENTARIO Y\nPROPIEDAD · clase 253&quot;] --&gt; P2[&quot;2 · PARCHEO Y\nCONFIGURACIÓN · clase 254&quot;]
-    P2 --&gt; P3[&quot;3 · COPIAS Y\nRESTAURACIÓN · clase 255&quot;]
-    P3 --&gt; P4[&quot;4 · ACCESO\nSIN CLAVES · clase 256&quot;]
-    P4 --&gt; P5[&quot;5 · ALERTAS Y\nGUARDIA · clase 257&quot;]
-    P5 --&gt; P6[&quot;6 · TRIAJE\nclase 258&quot;]
-    P6 --&gt; P7[&quot;7 · PROCEDIMIENTOS\nY REMEDIACIÓN · clase 259&quot;]
-    P7 --&gt; P8[&quot;8 · GESTIÓN DEL\nCAMBIO · clase 260&quot;]
-    P8 --&gt; P9[&quot;9 · ENSAYOS\nclase 261&quot;]
-    P9 --&gt; P10[&quot;10 · CAPACIDAD\nclase 262&quot;]
-    P10 --&gt; P11[&quot;11 · ASISTENCIA\nclase 263&quot;]
-    P11 --&gt; V[&quot;PRUEBAS NEGATIVAS&quot;]
-    V --&gt; C[&quot;CIERRE DE PARTE 21\ncorrección · ley 30 ·\nhipótesis&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/fd8296194cf8b240.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-el-encargo-el-orden-y-el-entregable">1. El encargo, el orden y el entregable</h3>
 <p><strong>El encargo.</strong> CloudShop opera 41 servicios en tres nubes, con un equipo de plataforma de nueve personas y equipos de producto que despliegan solos. Hay que dejar la operación en un estado en que una persona que entra hoy pueda estar de guardia en seis semanas.</p>
@@ -666,7 +659,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-21-cloud-operations-automation/264-proyecto-centro-de-operaciones-de-cloudshop/lesson.yaml">Contrato de clase</a> · <a href="../parts/21.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-21-cloud-operations-automation/264-proyecto-centro-de-operaciones-de-cloudshop/../../../site/downloads/partes/manual-parte-21-cloud-operations-automation.pdf">Parte 21 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-21-cloud-operations-automation/264-proyecto-centro-de-operaciones-de-cloudshop/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>cloudshop-operations</h2></div>
         <code>python classes/part-21-cloud-operations-automation/264-proyecto-centro-de-operaciones-de-cloudshop/lab.py --seed 42</code>
@@ -730,6 +724,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-encargo-el-orden-y-el-entregable">1. El encargo, el orden y el entregable</a><a class="toc-level-3" href="#2-las-pruebas-negativas-de-la-parte">2. Las pruebas negativas de la parte</a><a class="toc-level-3" href="#3-correccion-de-las-cinco-predicciones-de-la-clase-252">3. Corrección de las cinco predicciones de la clase 252</a><a class="toc-level-3" href="#4-recuento-de-leyes-ley-30-e-hipotesis-de-la-parte-22">4. Recuento de leyes, ley 30 e hipótesis de la parte 22</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -2,6 +2,8 @@
 
 > [← Parte 18](../part-18-azure-production-architecture/README.md) · [Índice completo](../README.md) · [Parte 20 →](../part-20-cloud-data-ai-platforms/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-19-gcp-production-architecture.pdf) · [Recorrido de Google Cloud en PDF](../../site/downloads/nubes/manual-google-cloud.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Operar CloudShop con la red global, servicios administrados, seguridad y plataforma de datos de Google Cloud.

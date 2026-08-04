@@ -568,6 +568,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 10 en PDF](../../../site/downloads/partes/manual-parte-10-observability-sre-reliability.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 121 · Logs, métricas, trazas y eventos como señales](../../part-10-observability-sre-reliability/121-logs-metricas-trazas-y-eventos-como-senales/README.md) | [Parte 10](../README.md) · [Programa](../../README.md) | [123 · Métricas, cardinalidad y modelos RED y USE →](../../part-10-observability-sre-reliability/123-metricas-cardinalidad-y-modelos-red-y-use/README.md) |

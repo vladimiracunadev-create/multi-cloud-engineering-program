@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/154.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "154 — Multi-tenancy, aislamiento y noisy neighbor", "description": "154 — Multi-tenancy, aislamiento y noisy neighbor Parte: 12 — Arquitectura cloud-native y sistemas distribuidos<br Nivel: avanzado-experto · Horas estimada", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/154.html"}</script>
   <title>154 — Multi-tenancy, aislamiento y noisy neighbor · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/12.html">Parte 12</a><span>/</span><strong>154</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="153.html" rel="prev" title="Contratos API, compatibilidad y evolución">← 153</a><a class="pager-link index" href="../parts/12.html">Parte 12</a><a class="pager-link next" href="155.html" rel="next" title="Rendimiento, costo, seguridad y operabilidad">155 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf" download>📕 Parte 12 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 12 · avanzado-experto</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="154"> Clase completada</label>
@@ -92,22 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    D{&quot;seis dimensiones&quot;} --&gt; D1[&quot;DATOS: ¿puede ver los de otro?&quot;]
-    D --&gt; D2[&quot;RENDIMIENTO: ¿le estorba?&quot;]
-    D --&gt; D3[&quot;SEGURIDAD: ¿comparte credenciales?&quot;]
-    D --&gt; D4[&quot;DISPONIBILIDAD: ¿caen juntos?&quot;]
-    D --&gt; D5[&quot;OPERACIÓN: ¿se restaura uno solo?&quot;]
-    D --&gt; D6[&quot;COSTE: ¿se sabe lo que gasta?&quot;]
-    D1 --&gt; N{&quot;nivel&quot;}
-    N --&gt;|&quot;columna de inquilino&quot;| N1[&quot;barato · un olvido lo rompe&quot;]
-    N --&gt;|&quot;esquema por cliente&quot;| N2[&quot;medio&quot;]
-    N --&gt;|&quot;base por cliente&quot;| N3[&quot;fuerte · operación ×N&quot;]
-    N --&gt;|&quot;pila completa&quot;| N4[&quot;máximo · coste máximo&quot;]
-    D1 --&gt; G[&quot;garantía, no disciplina:\nfiltro impuesto por la BASE&quot;]
-    D2 --&gt; Q[&quot;cuota en CADA recurso:\nconexiones · concurrencia\nritmo · particiones · caché&quot;]
-    D5 --&gt; O[&quot;coste constante por cliente,\nno proporcional a N&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/8e644e442e16ffce.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-seis-dimensiones-no-una-decision">1. Seis dimensiones, no una decisión</h3>
 <p>La pregunta habitual —«¿compartido o dedicado?»— es demasiado gruesa. Lo que hay que decidir es <strong>por dimensión y por recurso</strong>:</p>
@@ -596,7 +587,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/154-multi-tenancy-aislamiento-y-noisy-neighbor/lesson.yaml">Contrato de clase</a> · <a href="../parts/12.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/154-multi-tenancy-aislamiento-y-noisy-neighbor/../../../site/downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf">Parte 12 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-12-cloud-native-distributed-architecture/154-multi-tenancy-aislamiento-y-noisy-neighbor/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>modelo-tenancy</h2></div>
         <code>python classes/part-12-cloud-native-distributed-architecture/154-multi-tenancy-aislamiento-y-noisy-neighbor/lab.py --seed 42</code>
@@ -660,6 +652,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-seis-dimensiones-no-una-decision">1. Seis dimensiones, no una decisión</a><a class="toc-level-3" href="#2-que-no-pueda-ver-lo-de-otro">2. Que no pueda ver lo de otro</a><a class="toc-level-3" href="#3-el-vecino-ruidoso">3. El vecino ruidoso</a><a class="toc-level-3" href="#4-lo-que-hay-que-hacer-cliente-a-cliente">4. Lo que hay que hacer cliente a cliente</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

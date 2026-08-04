@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/225.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "225 — Azure Monitor, Application Insights y OpenTelemetry", "description": "225 — Azure Monitor, Application Insights y OpenTelemetry Parte: 18 — Azure: arquitectura empresarial y operación en producción<br Nivel: avanzado · Horas", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/225.html"}</script>
   <title>225 — Azure Monitor, Application Insights y OpenTelemetry · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/18.html">Parte 18</a><span>/</span><strong>225</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="224.html" rel="prev" title="Service Bus, Event Grid y Event Hubs">← 224</a><a class="pager-link index" href="../parts/18.html">Parte 18</a><a class="pager-link next" href="226.html" rel="next" title="Defender for Cloud, Policy y Sentinel">226 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-18-azure-production-architecture.pdf" download>📕 Parte 18 en PDF</a><a href="../downloads/nubes/manual-azure.pdf" download>☁️ Recorrido de Azure en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 18 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="225"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    R[&quot;recursos&quot;] --&gt; D[&quot;configuración de\ndiagnóstico\n← sin ella, nada&quot;]
-    A[&quot;aplicaciones&quot;] --&gt; O[&quot;INSTRUMENTACIÓN\nESTÁNDAR\ntrazas · métricas · registros&quot;]
-    D --&gt; W[&quot;área de trabajo\nÚNICA por entorno&quot;]
-    O --&gt; W
-    W --&gt; C{&quot;coste&quot;}
-    C --&gt; C1[&quot;muestreo con factor\nregistrado&quot;]
-    C --&gt; C2[&quot;plan de tabla:\nanalítico · básico ·\narchivo&quot;]
-    C --&gt; C3[&quot;transformación en\nla recopilación&quot;]
-    C --&gt; C4[&quot;retención por tabla&quot;]
-    W --&gt; AL[&quot;alertas como código&quot;]
-    AL --&gt; AL1[&quot;por objetivo, no\npor recurso&quot;]
-    AL --&gt; AL2[&quot;con procedimiento\nenlazado&quot;]
-    AL --&gt; AL3[&quot;probadas provocando\nla condición&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/f2ff8404b9a067b2.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-un-destino-y-la-configuracion-que-casi-nadie-pone">1. Un destino, y la configuración que casi nadie pone</h3>
 <p>En Azure, <strong>un recurso no envía nada por defecto</strong>. La configuración de diagnóstico es lo que enruta sus registros y métricas, y si falta, ese recurso es invisible.</p>
@@ -642,7 +634,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-18-azure-production-architecture/225-azure-monitor-application-insights-y-opentelemetry/lesson.yaml">Contrato de clase</a> · <a href="../parts/18.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-18-azure-production-architecture/225-azure-monitor-application-insights-y-opentelemetry/../../../site/downloads/partes/manual-parte-18-azure-production-architecture.pdf">Parte 18 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-18-azure-production-architecture/225-azure-monitor-application-insights-y-opentelemetry/../../../site/downloads/nubes/manual-azure.pdf">Recorrido de Azure en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-18-azure-production-architecture/225-azure-monitor-application-insights-y-opentelemetry/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>azure-observability</h2></div>
         <code>python classes/part-18-azure-production-architecture/225-azure-monitor-application-insights-y-opentelemetry/lab.py --seed 42</code>
@@ -706,6 +699,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-un-destino-y-la-configuracion-que-casi-nadie-pone">1. Un destino, y la configuración que casi nadie pone</a><a class="toc-level-3" href="#2-instrumentar-con-el-estandar-abierto">2. Instrumentar con el estándar abierto</a><a class="toc-level-3" href="#3-alertas-y-objetivos-como-codigo">3. Alertas y objetivos, como código</a><a class="toc-level-3" href="#4-consultar-correlacionar-y-controlar-el-gasto">4. Consultar, correlacionar y controlar el gasto</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

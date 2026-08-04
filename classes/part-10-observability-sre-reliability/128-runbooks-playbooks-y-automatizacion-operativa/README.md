@@ -553,6 +553,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 10 en PDF](../../../site/downloads/partes/manual-parte-10-observability-sre-reliability.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 127 · Incidentes, severidad, comando y comunicación](../../part-10-observability-sre-reliability/127-incidentes-severidad-comando-y-comunicacion/README.md) | [Parte 10](../README.md) · [Programa](../../README.md) | [129 · Capacidad, rendimiento y pruebas de carga →](../../part-10-observability-sre-reliability/129-capacidad-rendimiento-y-pruebas-de-carga/README.md) |

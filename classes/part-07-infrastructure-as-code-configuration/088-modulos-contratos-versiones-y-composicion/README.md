@@ -593,6 +593,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 07 en PDF](../../../site/downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 087 · Estado remoto, locking, cifrado y recuperación](../../part-07-infrastructure-as-code-configuration/087-estado-remoto-locking-cifrado-y-recuperacion/README.md) | [Parte 07](../README.md) · [Programa](../../README.md) | [089 · Variables, outputs, locals y data sources →](../../part-07-infrastructure-as-code-configuration/089-variables-outputs-locals-y-data-sources/README.md) |

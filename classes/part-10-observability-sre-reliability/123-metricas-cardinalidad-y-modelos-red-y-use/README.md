@@ -547,6 +547,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 10 en PDF](../../../site/downloads/partes/manual-parte-10-observability-sre-reliability.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 122 · Logging estructurado, correlación y retención](../../part-10-observability-sre-reliability/122-logging-estructurado-correlacion-y-retencion/README.md) | [Parte 10](../README.md) · [Programa](../../README.md) | [124 · Tracing distribuido y OpenTelemetry →](../../part-10-observability-sre-reliability/124-tracing-distribuido-y-opentelemetry/README.md) |

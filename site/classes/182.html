@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/182.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "182 — Contexto, contenedores, componentes y código con C4", "description": "182 — Contexto, contenedores, componentes y código con C4 Parte: 15 — Arquitectura de sistemas e ingeniería de requisitos<br Nivel: intermedio-avanzado · H", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/182.html"}</script>
   <title>182 — Contexto, contenedores, componentes y código con C4 · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/15.html">Parte 15</a><span>/</span><strong>182</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="181.html" rel="prev" title="Requisitos funcionales, restricciones y atributos de calidad">← 181</a><a class="pager-link index" href="../parts/15.html">Parte 15</a><a class="pager-link next" href="183.html" rel="next" title="Acoplamiento, cohesión, modularidad y fronteras">183 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-15-systems-architecture-engineering.pdf" download>📕 Parte 15 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 15 · intermedio-avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="182"> Clase completada</label>
@@ -92,18 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    C1[&quot;C1 · CONTEXTO\nel sistema, sus usuarios\ny los sistemas externos&quot;] --&gt; Q1[&quot;conversación:\nalcance y fronteras\ncon negocio&quot;]
-    C1 --&gt; C2[&quot;C2 · CONTENEDORES\nunidades desplegables\ny cómo se hablan&quot;]
-    C2 --&gt; Q2[&quot;conversación:\ndecisiones técnicas,\noperación, despliegue&quot;]
-    C2 --&gt; C3[&quot;C3 · COMPONENTES\ndentro de UN contenedor&quot;]
-    C3 --&gt; Q3[&quot;conversación:\nfronteras internas,\nsolo donde duele&quot;]
-    C3 --&gt; C4[&quot;C4 · CÓDIGO\nse genera o no existe&quot;]
-    R[&quot;cada flecha&quot;] --&gt; R1[&quot;quién llama a quién&quot;]
-    R --&gt; R2[&quot;con qué protocolo&quot;]
-    R --&gt; R3[&quot;para qué&quot;]
-    R --&gt; R4[&quot;síncrona o no&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/e3cb5da832f68cb3.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-cuatro-niveles-una-conversacion-cada-uno">1. Cuatro niveles, una conversación cada uno</h3>
 <p>El error que arruina la mayoría de los diagramas es mezclar niveles: un dibujo con usuarios, servicios, tablas y clases a la vez no sirve para ninguna conversación.</p>
@@ -300,33 +295,8 @@ EXTERNOS
 → negocio creía que entraba en el proyecto           clase 181
 </code></pre>
 <p><strong>C2 · Contenedores, tal como estaba antes del rediseño.</strong></p>
-<pre><code class="language-mermaid">flowchart TB
-    subgraph Ext[&quot; &quot;]
-      PAY[&quot;Pasarela de pago\nexterno&quot;]
-      FACT[&quot;Facturación heredada\notro equipo&quot;]
-    end
-    APP[&quot;App móvil\nSwift / Kotlin&quot;]
-    WEB[&quot;Web pública\nNext.js&quot;]
-    CC[&quot;Consola de agentes\nReact&quot;]
-    API[&quot;API de reservas\nJava, App Service&quot;]
-    SEA[&quot;Servicio de búsqueda\nPython&quot;]
-    JOB[&quot;Trabajos programados\n6 scripts&quot;]
-    DB[(&quot;Base de reservas\nPostgreSQL&quot;)]
-    CACHE[(&quot;Caché\nRedis&quot;)]
-    Q[&quot;Cola de correo\nService Bus&quot;]
+<figure class="diagram"><img src="../assets/diagrams/024c5cf01fe53943.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
 
-    APP --&gt;|&quot;HTTPS/JSON · reservar y consultar · síncrona · dura&quot;| API
-    WEB --&gt;|&quot;HTTPS/JSON · reservar y consultar · síncrona · dura&quot;| API
-    CC --&gt;|&quot;HTTPS/JSON · gestionar reservas · síncrona · dura&quot;| API
-    WEB --&gt;|&quot;HTTPS/JSON · buscar disponibilidad · 3.000/s en pico&quot;| SEA
-    API --&gt;|&quot;SQL · ESCRIBE reservas&quot;| DB
-    SEA --&gt;|&quot;SQL · LEE inventario&quot;| DB
-    JOB --&gt;|&quot;SQL · ESCRIBE 4 tablas&quot;| DB
-    FACT --&gt;|&quot;SQL · LEE Y ESCRIBE estado de cobro&quot;| DB
-    SEA --&gt;|&quot;lee y escribe · caché de disponibilidad&quot;| CACHE
-    API --&gt;|&quot;HTTPS · cobrar · síncrona · DURA&quot;| PAY
-    API --&gt;|&quot;mensaje · avisar al cliente · asíncrona · blanda&quot;| Q
-</code></pre>
 <p>Y lo que el diagrama hizo evidente en cuanto se anotó quién escribe:</p>
 <pre><code class="language-text">tres contenedores ESCRIBEN la base de reservas
   la API, los trabajos programados y facturación heredada
@@ -493,7 +463,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/182-contexto-contenedores-componentes-y-codigo-con-c4/lesson.yaml">Contrato de clase</a> · <a href="../parts/15.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/182-contexto-contenedores-componentes-y-codigo-con-c4/../../../site/downloads/partes/manual-parte-15-systems-architecture-engineering.pdf">Parte 15 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/182-contexto-contenedores-componentes-y-codigo-con-c4/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>c4-model</h2></div>
         <code>python classes/part-15-systems-architecture-engineering/182-contexto-contenedores-componentes-y-codigo-con-c4/lab.py --seed 42</code>
@@ -557,6 +528,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-cuatro-niveles-una-conversacion-cada-uno">1. Cuatro niveles, una conversación cada uno</a><a class="toc-level-3" href="#2-las-flechas-son-el-contenido">2. Las flechas son el contenido</a><a class="toc-level-3" href="#3-los-diagramas-que-mienten">3. Los diagramas que mienten</a><a class="toc-level-3" href="#4-cuando-dibujar-y-cuando-no">4. Cuándo dibujar y cuándo no</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

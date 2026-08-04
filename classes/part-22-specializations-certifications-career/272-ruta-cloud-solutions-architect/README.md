@@ -596,6 +596,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 22 en PDF](../../../site/downloads/partes/manual-parte-22-specializations-certifications-career.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 271 · Ruta Cloud Data y AI Engineer](../../part-22-specializations-certifications-career/271-ruta-cloud-data-y-ai-engineer/README.md) | [Parte 22](../README.md) · [Programa](../../README.md) | [273 · Mapeo AWS, Azure, Google Cloud, Kubernetes y FinOps →](../../part-22-specializations-certifications-career/273-mapeo-aws-azure-google-cloud-kubernetes-y-finops/README.md) |

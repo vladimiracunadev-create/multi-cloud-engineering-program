@@ -2,6 +2,8 @@
 
 > [← Parte 17](../part-17-aws-production-architecture/README.md) · [Índice completo](../README.md) · [Parte 19 →](../part-19-gcp-production-architecture/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-18-azure-production-architecture.pdf) · [Recorrido de Azure en PDF](../../site/downloads/nubes/manual-azure.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Operar CloudShop sobre landing zones, PaaS, datos, identidad y observabilidad de Azure.

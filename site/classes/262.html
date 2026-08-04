@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/262.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "262 — Capacity planning, cuotas y gestión de demanda", "description": "262 — Capacity planning, cuotas y gestión de demanda Parte: 21 — Operación cloud, automatización y respuesta a incidentes<br Nivel: avanzado · Horas estima", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/262.html"}</script>
   <title>262 — Capacity planning, cuotas y gestión de demanda · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/21.html">Parte 21</a><span>/</span><strong>262</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="261.html" rel="prev" title="Game days, chaos engineering y aprendizaje">← 261</a><a class="pager-link index" href="../parts/21.html">Parte 21</a><a class="pager-link next" href="263.html" rel="next" title="AIOps, automatización asistida y límites humanos">263 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-21-cloud-operations-automation.pdf" download>📕 Parte 21 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 21 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="262"> Clase completada</label>
@@ -92,17 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    S[&quot;servicio&quot;] --&gt; R[&quot;1 · ¿QUÉ RECURSO\nSATURA PRIMERO?&quot;]
-    R --&gt; R1[&quot;CPU · memoria · red\nconexiones · IOPS\ncuota · dependencia&quot;]
-    R1 --&gt; C[&quot;2 · MEDIR EL CODO\nprueba de carga\nhasta romper&quot;]
-    C --&gt; P[&quot;3 · PROYECTAR DEMANDA\ncrecimiento + estacional\n+ eventos&quot;]
-    P --&gt; M{&quot;¿margen\nsuficiente?&quot;}
-    M --&gt;|&quot;sí&quot;| OK[&quot;vigilar\ny revisar&quot;]
-    M --&gt;|&quot;no&quot;| A1[&quot;ampliar capacidad&quot;]
-    M --&gt;|&quot;no puede\ncrecer&quot;| A2[&quot;GESTIONAR DEMANDA\nlímites · aplanar\nprioridad · vertido&quot;]
-    Q[&quot;cuotas&quot;] -.-&gt;|&quot;limitan antes\nque lo físico&quot;| M
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/100aa004e27c826a.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-encontrar-el-recurso-limitante">1. Encontrar el recurso limitante</h3>
 <p>La elasticidad no elimina la planificación de capacidad: la traslada. Ya no se planifica cuándo comprar, sino <strong>dónde está el techo y cuánto se tarda en llegar</strong>.</p>
@@ -597,7 +593,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-21-cloud-operations-automation/262-capacity-planning-cuotas-y-gestion-de-demanda/lesson.yaml">Contrato de clase</a> · <a href="../parts/21.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-21-cloud-operations-automation/262-capacity-planning-cuotas-y-gestion-de-demanda/../../../site/downloads/partes/manual-parte-21-cloud-operations-automation.pdf">Parte 21 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-21-cloud-operations-automation/262-capacity-planning-cuotas-y-gestion-de-demanda/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>capacity-plan</h2></div>
         <code>python classes/part-21-cloud-operations-automation/262-capacity-planning-cuotas-y-gestion-de-demanda/lab.py --seed 42</code>
@@ -661,6 +658,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-encontrar-el-recurso-limitante">1. Encontrar el recurso limitante</a><a class="toc-level-3" href="#2-el-codo-y-el-margen">2. El codo y el margen</a><a class="toc-level-3" href="#3-cuotas-el-techo-que-llega-antes">3. Cuotas: el techo que llega antes</a><a class="toc-level-3" href="#4-cuando-la-capacidad-no-puede-crecer">4. Cuando la capacidad no puede crecer</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

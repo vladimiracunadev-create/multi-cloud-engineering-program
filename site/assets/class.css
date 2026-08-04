@@ -118,3 +118,14 @@ button, input { font: inherit; letter-spacing: 0; }
   .markdown-body table { display: block; overflow-x: auto; }
   .part-content { width: min(100% - 24px, 1000px); }
 }
+
+/* Encoger un diagrama ancho para que quepa en un movil lo vuelve ilegible:
+   conserva un tamano minimo y desplazate en horizontal. */
+.diagram { margin: 26px 0; padding: 18px; border: 1px solid var(--line); background: #f7f8f7; text-align: center; overflow-x: auto; }
+.diagram img { width: 100%; max-width: 720px; min-width: 540px; height: auto; }
+.diagram figcaption { margin-top: 12px; color: #4a554d; font-family: ui-monospace, monospace; font-size: 12px; }
+.mermaid-source { border-left: 3px solid var(--amber); }
+
+.downloads-strip { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 0 0 22px; padding: 10px 14px; border: 1px solid var(--line); border-left: 3px solid var(--amber); background: var(--surface); font-size: 13px; }
+.downloads-strip a { color: var(--text); text-decoration: none; padding: 4px 9px; border: 1px solid var(--line); border-radius: 3px; }
+.downloads-strip a:hover { border-color: var(--green); color: var(--green); }

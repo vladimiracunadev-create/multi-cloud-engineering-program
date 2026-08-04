@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/116.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "116 — Sagas, outbox, idempotencia y deduplicación", "description": "116 — Sagas, outbox, idempotencia y deduplicación Parte: 09 — Datos, mensajería, serverless e integración<br Nivel: avanzado · Horas estimadas: 4<br Labora", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/116.html"}</script>
   <title>116 — Sagas, outbox, idempotencia y deduplicación · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/09.html">Parte 09</a><span>/</span><strong>116</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="115.html" rel="prev" title="Arquitectura dirigida por eventos y contratos">← 115</a><a class="pager-link index" href="../parts/09.html">Parte 09</a><a class="pager-link next" href="117.html" rel="next" title="Serverless: límites, cold starts y concurrencia">117 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-09-data-messaging-serverless-integration.pdf" download>📕 Parte 09 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 09 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="116"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    A[&quot;cambiar estado + publicar hecho&quot;] --&gt; B{&quot;¿en una transacción?&quot;}
-    B --&gt;|&quot;imposible:\nson dos sistemas&quot;| C[&quot;TABLA DE SALIDA&quot;]
-    C --&gt; C1[&quot;1 transacción:\ncambio + fila de evento&quot;]
-    C1 --&gt; C2[&quot;publicador lee y publica&quot;]
-    C2 --&gt; C3[&quot;al menos una vez\npor construcción&quot;]
-    C3 --&gt; D[&quot;consumidor&quot;]
-    D --&gt; E{&quot;¿ya procesado?&quot;}
-    E --&gt;|&quot;tabla de entrada\nMISMA transacción\nque el efecto&quot;| F[&quot;efecto una sola vez&quot;]
-    F --&gt; G{&quot;¿efecto externo?&quot;}
-    G --&gt;|&quot;acepta clave&quot;| H[&quot;pasar la clave\nde idempotencia&quot;]
-    G --&gt;|&quot;no la acepta&quot;| I[&quot;no hay idempotencia:\nsolo reducir la ventana&quot;]
-    F --&gt; S[&quot;secuencia con compensaciones\nlo irreversible, AL FINAL&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/9cc35480c308104b.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-doble-escritura-no-tiene-atajo">1. La doble escritura no tiene atajo</h3>
 <p>El problema aparece en cuanto un servicio guarda algo y publica un hecho:</p>
@@ -516,7 +509,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-09-data-messaging-serverless-integration/116-sagas-outbox-idempotencia-y-deduplicacion/lesson.yaml">Contrato de clase</a> · <a href="../parts/09.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-09-data-messaging-serverless-integration/116-sagas-outbox-idempotencia-y-deduplicacion/../../../site/downloads/partes/manual-parte-09-data-messaging-serverless-integration.pdf">Parte 09 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-09-data-messaging-serverless-integration/116-sagas-outbox-idempotencia-y-deduplicacion/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>transaccion-distribuida</h2></div>
         <code>python classes/part-09-data-messaging-serverless-integration/116-sagas-outbox-idempotencia-y-deduplicacion/lab.py --seed 42</code>
@@ -580,6 +574,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-doble-escritura-no-tiene-atajo">1. La doble escritura no tiene atajo</a><a class="toc-level-3" href="#2-idempotencia-de-verdad">2. Idempotencia de verdad</a><a class="toc-level-3" href="#3-cuando-no-hay-transaccion-que-abarque">3. Cuando no hay transacción que abarque</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

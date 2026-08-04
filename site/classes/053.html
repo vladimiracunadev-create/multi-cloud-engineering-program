@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/053.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "053 — Cloud Storage, clases, lifecycle y replicación", "description": "053 — Cloud Storage, clases, lifecycle y replicación Parte: 04 — Google Cloud: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/053.html"}</script>
   <title>053 — Cloud Storage, clases, lifecycle y replicación · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/04.html">Parte 04</a><span>/</span><strong>053</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="052.html" rel="prev" title="Compute Engine, managed instance groups y load balancing">← 052</a><a class="pager-link index" href="../parts/04.html">Parte 04</a><a class="pager-link next" href="054.html" rel="next" title="Cloud SQL, Spanner, Firestore y Memorystore">054 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-04-gcp-core-platform.pdf" download>📕 Parte 04 en PDF</a><a href="../downloads/nubes/manual-google-cloud.pdf" download>☁️ Recorrido de Google Cloud en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 04 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="053"> Clase completada</label>
@@ -92,22 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    B[&quot;bucket&quot;] --&gt; L{&quot;ubicación&quot;}
-    L --&gt;|&quot;una región&quot;| R[&quot;más barato · residencia estricta&quot;]
-    L --&gt;|&quot;birregión · TÚ eliges las dos&quot;| DR[&quot;replicación con RPO acordado&quot;]
-    L --&gt;|&quot;multirregión&quot;| MR[&quot;un continente · lectura cercana&quot;]
-    B --&gt; C{&quot;clase por objeto&quot;}
-    C --&gt; ST[&quot;Standard&quot;]
-    C --&gt; NL[&quot;Nearline · 30 días&quot;]
-    C --&gt; CL[&quot;Coldline · 90 días&quot;]
-    C --&gt; AR[&quot;Archive · 365 días&lt;br/&gt;SE LEE AL INSTANTE&quot;]
-    C -.-&gt;|&quot;si el acceso es impredecible&quot;| AC[&quot;Autoclass · sin cargo por recuperación&quot;]
-    B --&gt; A{&quot;control de acceso&quot;}
-    A --&gt;|&quot;correcto&quot;| U[&quot;uniforme · solo IAM&quot;]
-    A --&gt;|&quot;heredado&quot;| F[&quot;detallado · listas por objeto&quot;]
-    B --&gt; P[&quot;eliminación temporal 7 días&lt;br/&gt;objetos Y bucket&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/e1c440952eac06ef.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-ubicacion-se-elige-y-eso-resuelve-un-problema-de-la-clase-041">1. La ubicación se elige, y eso resuelve un problema de la clase 041</h3>
 <p>Un bucket tiene un nombre global —como el identificador de proyecto de la clase 049, único entre todos los clientes— y una <strong>ubicación</strong> que se fija al crearlo y no cambia:</p>
@@ -537,7 +528,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-04-gcp-core-platform/053-cloud-storage-clases-lifecycle-y-replicacion/lesson.yaml">Contrato de clase</a> · <a href="../parts/04.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-04-gcp-core-platform/053-cloud-storage-clases-lifecycle-y-replicacion/../../../site/downloads/partes/manual-parte-04-gcp-core-platform.pdf">Parte 04 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-04-gcp-core-platform/053-cloud-storage-clases-lifecycle-y-replicacion/../../../site/downloads/nubes/manual-google-cloud.pdf">Recorrido de Google Cloud en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-04-gcp-core-platform/053-cloud-storage-clases-lifecycle-y-replicacion/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>bucket-gobernado-gcp</h2></div>
         <code>python classes/part-04-gcp-core-platform/053-cloud-storage-clases-lifecycle-y-replicacion/lab.py --seed 42</code>
@@ -601,6 +593,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-ubicacion-se-elige-y-eso-resuelve-un-problema-de-la-clase-041">1. La ubicación se elige, y eso resuelve un problema de la clase 041</a><a class="toc-level-3" href="#2-enfriar-cuesta-operaciones-no-tiempo">2. Enfriar cuesta operaciones, no tiempo</a><a class="toc-level-3" href="#3-acceso-uniforme-sin-claves-y-sin-url-eternas">3. Acceso: uniforme, sin claves y sin URL eternas</a><a class="toc-level-3" href="#4-borrar-y-recuperar-el-hueco-de-la-clase-041-aqui-esta-cubierto">4. Borrar y recuperar: el hueco de la clase 041 aquí está cubierto</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

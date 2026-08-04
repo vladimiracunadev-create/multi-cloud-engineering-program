@@ -516,6 +516,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 08 en PDF](../../../site/downloads/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 096 · Proyecto: infraestructura multiambiente promovible](../../part-07-infrastructure-as-code-configuration/096-proyecto-infraestructura-multiambiente-promovible/README.md) | [Parte 08](../README.md) · [Programa](../../README.md) | [098 · GitHub Actions: workflows, runners, permisos y caché →](../../part-08-continuous-delivery-platform-engineering/098-github-actions-workflows-runners-permisos-y-cache/README.md) |

@@ -2,6 +2,8 @@
 
 > [← Parte 10](../part-10-observability-sre-reliability/README.md) · [Índice completo](../README.md) · [Parte 12 →](../part-12-cloud-native-distributed-architecture/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-11-security-governance-finops.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Construir guardrails que hagan segura y económicamente sostenible la autonomía.

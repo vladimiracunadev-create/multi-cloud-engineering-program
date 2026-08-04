@@ -5,7 +5,7 @@ flowchart TB
   Source["Fuente curricular: 24 partes"] --> Generator["Generadores y validadores"]
   Generator --> Lessons["288 clases y evaluaciones"]
   Generator --> Portal["PWA y páginas de clase"]
-  Generator --> Manual["Manual PDF de 2.779 páginas"]
+  Generator --> Manual["Manuales PDF: integral, por parte y por nube"]
   Portal --> Apk["APK Android con el sitio empaquetado"]
   Lessons --> Labs["Motores de práctica por dominio"]
   Labs --> Local["CloudShop local"]

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/041.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "041 — Blob Storage, Files, redundancia y lifecycle", "description": "041 — Blob Storage, Files, redundancia y lifecycle Parte: 03 — Azure: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: storage", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/041.html"}</script>
   <title>041 — Blob Storage, Files, redundancia y lifecycle · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/03.html">Parte 03</a><span>/</span><strong>041</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="040.html" rel="prev" title="Virtual Machines, Scale Sets y Load Balancer">← 040</a><a class="pager-link index" href="../parts/03.html">Parte 03</a><a class="pager-link next" href="042.html" rel="next" title="Azure SQL, Cosmos DB y Azure Cache for Redis">042 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-03-azure-core-platform.pdf" download>📕 Parte 03 en PDF</a><a href="../downloads/nubes/manual-azure.pdf" download>☁️ Recorrido de Azure en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 03 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="041"> Clase completada</label>
@@ -92,22 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    SA[&quot;cuenta de almacenamiento&lt;br/&gt;límites, redundancia y red se fijan AQUÍ&quot;] --&gt; B[&quot;blobs&quot;]
-    SA --&gt; F[&quot;archivos&quot;]
-    SA --&gt; Q[&quot;colas&quot;]
-    SA --&gt; T[&quot;tablas&quot;]
-    B --&gt; P{&quot;interruptores de protección&lt;br/&gt;independientes entre sí&quot;}
-    P --&gt; V[&quot;versionado&quot;]
-    P --&gt; SB[&quot;eliminación temporal de blob&quot;]
-    P --&gt; SC[&quot;eliminación temporal de contenedor&quot;]
-    P --&gt; IM[&quot;inmutabilidad · WORM&quot;]
-    B --&gt; A{&quot;quién accede&quot;}
-    A --&gt;|&quot;peor&quot;| K[&quot;clave de cuenta&lt;br/&gt;acceso total, sin identidad&quot;]
-    A --&gt;|&quot;irrevocable&quot;| S1[&quot;SAS firmada con la clave&quot;]
-    A --&gt;|&quot;correcto&quot;| S2[&quot;SAS de delegación de usuario&quot;]
-    A --&gt;|&quot;correcto&quot;| RB[&quot;Entra ID + roles de datos&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/00672744e38ce79f.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-cuenta-es-la-unidad-y-arrastra-todo-lo-que-hay-dentro">1. La cuenta es la unidad, y arrastra todo lo que hay dentro</h3>
 <p>En AWS el bucket es la unidad: sus políticas, su cifrado y su bloqueo de acceso público valen para él y para nadie más. En Azure la unidad es <strong>la cuenta de almacenamiento</strong>, y dentro de ella conviven cuatro servicios:</p>
@@ -552,7 +543,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/041-blob-storage-files-redundancia-y-lifecycle/lesson.yaml">Contrato de clase</a> · <a href="../parts/03.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/041-blob-storage-files-redundancia-y-lifecycle/../../../site/downloads/partes/manual-parte-03-azure-core-platform.pdf">Parte 03 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/041-blob-storage-files-redundancia-y-lifecycle/../../../site/downloads/nubes/manual-azure.pdf">Recorrido de Azure en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/041-blob-storage-files-redundancia-y-lifecycle/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>storage-gobernado-azure</h2></div>
         <code>python classes/part-03-azure-core-platform/041-blob-storage-files-redundancia-y-lifecycle/lab.py --seed 42</code>
@@ -616,6 +608,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-cuenta-es-la-unidad-y-arrastra-todo-lo-que-hay-dentro">1. La cuenta es la unidad, y arrastra todo lo que hay dentro</a><a class="toc-level-3" href="#2-redundancia-la-region-no-se-elige-y-la-conmutacion-la-inicias-tu">2. Redundancia: la región no se elige y la conmutación la inicias tú</a><a class="toc-level-3" href="#3-niveles-de-acceso-calcula-el-punto-de-equilibrio-antes-de-mover-nada">3. Niveles de acceso: calcula el punto de equilibrio antes de mover nada</a><a class="toc-level-3" href="#4-cuatro-interruptores-para-proteger-lo-mismo-y-ninguno-cubre-al-otro">4. Cuatro interruptores para proteger lo mismo, y ninguno cubre al otro</a><a class="toc-level-3" href="#5-claves-firmas-y-la-que-no-se-puede-revocar">5. Claves, firmas y la que no se puede revocar</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

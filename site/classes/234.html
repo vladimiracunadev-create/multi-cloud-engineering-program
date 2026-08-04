@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/234.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "234 — GKE Autopilot, Workload Identity y Config Sync", "description": "234 — GKE Autopilot, Workload Identity y Config Sync Parte: 19 — Google Cloud: arquitectura de datos y operación en producción<br Nivel: avanzado · Horas e", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/234.html"}</script>
   <title>234 — GKE Autopilot, Workload Identity y Config Sync · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/19.html">Parte 19</a><span>/</span><strong>234</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="233.html" rel="prev" title="Cloud Run, Functions, API Gateway y Workflows">← 233</a><a class="pager-link index" href="../parts/19.html">Parte 19</a><a class="pager-link next" href="235.html" rel="next" title="Cloud SQL, Spanner, Firestore y Bigtable">235 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-19-gcp-production-architecture.pdf" download>📕 Parte 19 en PDF</a><a href="../downloads/nubes/manual-google-cloud.pdf" download>☁️ Recorrido de Google Cloud en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 19 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="234"> Clase completada</label>
@@ -92,19 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    Q1{&quot;¿hace falta clúster?&quot;}
-    Q1 --&gt;|&quot;contenedores HTTP\ny trabajos&quot;| N[&quot;NO · clase 233&quot;]
-    Q1 --&gt;|&quot;operadores, GPU,\nplanificación fina,\nmuchos equipos&quot;| S[&quot;SÍ&quot;]
-    S --&gt; Q2{&quot;¿qué modo?&quot;}
-    Q2 --&gt;|&quot;sin nodos que\nmantener&quot;| M1[&quot;GESTIONADO\npagas lo que piden\nlos pods&quot;]
-    Q2 --&gt;|&quot;agentes propios,\nconfiguración de nodo,\ncontrol de coste fino&quot;| M2[&quot;ESTÁNDAR&quot;]
-    M1 --&gt; I[&quot;IDENTIDAD DE CARGA\ncuenta de K8s →\ncuenta de servicio&quot;]
-    M2 --&gt; I
-    I --&gt; D[&quot;RANGOS SECUNDARIOS\npods y servicios\n← lo que más consume&quot;]
-    D --&gt; G[&quot;reconciliación desde\nel repositorio&quot;]
-    G --&gt; G1[&quot;alerta por antigüedad\nde sincronización&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/a3f6f879380ec3f1.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-dos-modos-y-que-cambia-cada-uno">1. Dos modos, y qué cambia cada uno</h3>
 <p>La decisión más importante al crear el clúster es el modo, y aquí hay uno que no existe en las otras nubes.</p>
@@ -631,7 +625,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-19-gcp-production-architecture/234-gke-autopilot-workload-identity-y-config-sync/lesson.yaml">Contrato de clase</a> · <a href="../parts/19.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-19-gcp-production-architecture/234-gke-autopilot-workload-identity-y-config-sync/../../../site/downloads/partes/manual-parte-19-gcp-production-architecture.pdf">Parte 19 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-19-gcp-production-architecture/234-gke-autopilot-workload-identity-y-config-sync/../../../site/downloads/nubes/manual-google-cloud.pdf">Recorrido de Google Cloud en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-19-gcp-production-architecture/234-gke-autopilot-workload-identity-y-config-sync/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>gcp-gke-platform</h2></div>
         <code>python classes/part-19-gcp-production-architecture/234-gke-autopilot-workload-identity-y-config-sync/lab.py --seed 42</code>
@@ -695,6 +690,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-dos-modos-y-que-cambia-cada-uno">1. Dos modos, y qué cambia cada uno</a><a class="toc-level-3" href="#2-identidad-y-direcciones">2. Identidad y direcciones</a><a class="toc-level-3" href="#3-operar-desde-el-repositorio">3. Operar desde el repositorio</a><a class="toc-level-3" href="#4-coste-entrada-y-comprobaciones">4. Coste, entrada y comprobaciones</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

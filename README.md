@@ -10,9 +10,9 @@
 [![Pages](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/pages.yml/badge.svg?branch=main)](https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/)
 [![Security](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/security.yml)
 
-[![Version](https://img.shields.io/badge/version-2.1.0-e67e22?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.2.0-e67e22?style=for-the-badge)](CHANGELOG.md)
 [![Clases](https://img.shields.io/badge/clases-288%20·%2024%20partes-7c5cff?style=for-the-badge)](classes/README.md)
-[![Manual](https://img.shields.io/badge/manual-2.779%20páginas-007c83?style=for-the-badge)](site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+[![Manual](https://img.shields.io/badge/manual-2.883%20páginas-007c83?style=for-the-badge)](site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
 [![Android](https://img.shields.io/badge/android-APK%20offline-3ddc84?style=for-the-badge)](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-3fb950?style=for-the-badge)](LICENSE)
 
@@ -61,7 +61,7 @@ Un currículo **secuencial, basado en libros y orientado a evidencia**: 288 clas
 | 📚 Currículo | 288/288 clases; numeración continua 001–288 en 24 partes |
 | 🏆 Evaluación | 288 rúbricas de clase + criterios transversales + defensa final |
 | 🧪 Práctica | 288 entrypoints ejecutables, evidencia JSON, fallos controlados y cost gates |
-| 📕 Manual | 2.779 páginas generadas desde 607 archivos fuente versionados |
+| 📕 Manual | 2.883 páginas generadas desde 607 archivos fuente versionados |
 | 🖥️ Portal | PWA instalable, buscador, filtros, rutas, progreso local y modo offline |
 | 📱 Android | APK firmada de 4,0 MiB con las 288 clases dentro; funciona sin conexión |
 | 🏗️ Arquitectura | Requisitos, ADR, C4, sistemas distribuidos, integración, resiliencia y DR |
@@ -161,16 +161,29 @@ El portal se genera desde el mismo catálogo y los mismos Markdown que el manual
 
 ¿Prefieres el curso entero en un solo documento, para leer de corrido o estudiar sin conexión? El manual PDF contiene **todos los contenidos docentes del curso**, no un resumen:
 
-- 📄 **2.779 páginas A4** con índice y marcadores navegables;
+- 📄 **2.883 páginas A4** con índice y marcadores navegables;
 - 📚 siete guías pedagógicas y bibliográficas centrales;
 - 🗂️ 24 introducciones de parte y **288 lecciones completas**;
 - 🏆 **288 evaluaciones** con preguntas, reto, aceptación y escala;
-- 📊 tablas, diagramas Mermaid conservados como especificación y bloques de código;
+- 📊 tablas, **diagramas renderizados como figuras** y bloques de código;
 - 🔒 manifiesto SHA-256 que detecta si alguna de las **607 fuentes** cambió después de generarlo.
 
 📥 **[Descargar el manual completo](site/downloads/multi-cloud-engineering-manual-v2.0.pdf)** ·
 [🎞️ Presentación (PPTX)](site/downloads/multi-cloud-engineering-program-v2.0.pptx) ·
 [🔍 Manifiesto de integridad](output/pdf/manual-manifest.json)
+
+### 📗 Manuales por nube y por parte
+
+2.883 páginas sirven para consultar y no para estudiar en el metro. El mismo generador produce dos cortes más, con los mismos diagramas y las mismas fuentes, así que no pueden desincronizarse:
+
+| Corte | Qué contiene | Descargar |
+|---|---|---|
+| ☁️ **AWS** | partes 02 y 17 más las clases de otras partes que tratan AWS · 27 clases | [📕 PDF](site/downloads/nubes/manual-aws.pdf) |
+| ☁️ **Azure** | partes 03 y 18 más las clases sobre Azure · 28 clases | [📕 PDF](site/downloads/nubes/manual-azure.pdf) |
+| ☁️ **Google Cloud** | partes 04 y 19 más las clases sobre Google Cloud · 27 clases | [📕 PDF](site/downloads/nubes/manual-google-cloud.pdf) |
+| 🗂️ **Por parte** | 24 cuadernos, cada uno con su introducción, sus 12 clases y sus 12 evaluaciones | [ver la tabla del índice](classes/README.md) |
+
+Los tres cortes se generan con `python scripts/generate_manuals.py`, y cada clase y cada parte enlazan su propio PDF desde el README y desde el portal.
 
 > Se genera con `python scripts/generate_manual.py`, así que siempre refleja el contenido actual del repositorio.
 
@@ -256,7 +269,9 @@ python scripts/generate_site.py && python -m http.server 8080
 **Manual y aplicación Android:**
 
 ```bash
-python scripts/generate_manual.py   # manual PDF de 2.779 páginas
+python scripts/render_diagrams.py   # 291 diagramas a SVG y PNG (requiere mermaid-cli)
+python scripts/generate_manual.py   # manual integral de 2.883 páginas
+python scripts/generate_manuals.py  # 24 cuadernos por parte y 3 por nube
 python scripts/validate_manual.py   # páginas, cobertura y hash de las fuentes
 python scripts/build_apk.py         # APK firmada, requiere SDK de Android y JDK
 ```

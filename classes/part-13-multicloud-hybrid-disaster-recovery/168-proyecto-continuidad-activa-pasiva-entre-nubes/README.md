@@ -650,6 +650,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 13 en PDF](../../../site/downloads/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 167 · Las 7R de migración y oleadas](../../part-13-multicloud-hybrid-disaster-recovery/167-las-7r-de-migracion-y-oleadas/README.md) | [Parte 13](../README.md) · [Programa](../../README.md) | [169 · Landing zones empresariales y vending de cuentas →](../../part-14-advanced-platform-capstones-career/169-landing-zones-empresariales-y-vending-de-cuentas/README.md) |

@@ -609,6 +609,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 08 en PDF](../../../site/downloads/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 097 · Integración continua, trunk-based development y feedback](../../part-08-continuous-delivery-platform-engineering/097-integracion-continua-trunk-based-development-y-feedback/README.md) | [Parte 08](../README.md) · [Programa](../../README.md) | [099 · Artefactos inmutables, semver y promoción →](../../part-08-continuous-delivery-platform-engineering/099-artefactos-inmutables-semver-y-promocion/README.md) |

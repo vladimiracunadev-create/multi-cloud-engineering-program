@@ -527,6 +527,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 04 en PDF](../../../site/downloads/partes/manual-parte-04-gcp-core-platform.pdf) · [Recorrido de Google Cloud en PDF](../../../site/downloads/nubes/manual-google-cloud.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 052 · Compute Engine, managed instance groups y load balancing](../../part-04-gcp-core-platform/052-compute-engine-managed-instance-groups-y-load-balancing/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [054 · Cloud SQL, Spanner, Firestore y Memorystore →](../../part-04-gcp-core-platform/054-cloud-sql-spanner-firestore-y-memorystore/README.md) |

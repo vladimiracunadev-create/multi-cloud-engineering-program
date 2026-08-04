@@ -623,6 +623,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 17 en PDF](../../../site/downloads/partes/manual-parte-17-aws-production-architecture.pdf) · [Recorrido de AWS en PDF](../../../site/downloads/nubes/manual-aws.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 205 · Hosting progresivo con Amplify, S3 y CloudFront](../../part-17-aws-production-architecture/205-hosting-progresivo-con-amplify-s3-y-cloudfront/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [207 · SAM, Lambda, API Gateway y despliegue serverless →](../../part-17-aws-production-architecture/207-sam-lambda-api-gateway-y-despliegue-serverless/README.md) |

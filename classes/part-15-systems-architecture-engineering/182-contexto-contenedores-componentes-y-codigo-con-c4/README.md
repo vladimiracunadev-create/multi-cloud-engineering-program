@@ -512,6 +512,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 15 en PDF](../../../site/downloads/partes/manual-parte-15-systems-architecture-engineering.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 181 · Requisitos funcionales, restricciones y atributos de calidad](../../part-15-systems-architecture-engineering/181-requisitos-funcionales-restricciones-y-atributos-de-calidad/README.md) | [Parte 15](../README.md) · [Programa](../../README.md) | [183 · Acoplamiento, cohesión, modularidad y fronteras →](../../part-15-systems-architecture-engineering/183-acoplamiento-cohesion-modularidad-y-fronteras/README.md) |

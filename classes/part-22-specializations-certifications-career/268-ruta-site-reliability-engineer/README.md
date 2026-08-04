@@ -637,6 +637,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 22 en PDF](../../../site/downloads/partes/manual-parte-22-specializations-certifications-career.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 267 · Ruta Platform Engineer](../../part-22-specializations-certifications-career/267-ruta-platform-engineer/README.md) | [Parte 22](../README.md) · [Programa](../../README.md) | [269 · Ruta Cloud Security Engineer →](../../part-22-specializations-certifications-career/269-ruta-cloud-security-engineer/README.md) |

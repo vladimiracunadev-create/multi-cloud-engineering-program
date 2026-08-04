@@ -591,6 +591,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 11 en PDF](../../../site/downloads/partes/manual-parte-11-security-governance-finops.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 140 · Threat modeling con STRIDE y attack paths](../../part-11-security-governance-finops/140-threat-modeling-con-stride-y-attack-paths/README.md) | [Parte 11](../README.md) · [Programa](../../README.md) | [142 · FinOps: showback, chargeback, budgets y anomalías →](../../part-11-security-governance-finops/142-finops-showback-chargeback-budgets-y-anomalias/README.md) |

@@ -617,6 +617,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 22 en PDF](../../../site/downloads/partes/manual-parte-22-specializations-certifications-career.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 272 · Ruta Cloud Solutions Architect](../../part-22-specializations-certifications-career/272-ruta-cloud-solutions-architect/README.md) | [Parte 22](../README.md) · [Programa](../../README.md) | [274 · Preguntas de escenario y estrategia de examen →](../../part-22-specializations-certifications-career/274-preguntas-de-escenario-y-estrategia-de-examen/README.md) |

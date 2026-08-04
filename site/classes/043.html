@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/043.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "043 — App Service, Functions y Container Apps", "description": "043 — App Service, Functions y Container Apps Parte: 03 — Azure: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: serverless ·", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/043.html"}</script>
   <title>043 — App Service, Functions y Container Apps · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/03.html">Parte 03</a><span>/</span><strong>043</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="042.html" rel="prev" title="Azure SQL, Cosmos DB y Azure Cache for Redis">← 042</a><a class="pager-link index" href="../parts/03.html">Parte 03</a><a class="pager-link next" href="044.html" rel="next" title="Service Bus, Event Grid y Event Hubs">044 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-03-azure-core-platform.pdf" download>📕 Parte 03 en PDF</a><a href="../downloads/nubes/manual-azure.pdf" download>☁️ Recorrido de Azure en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 03 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="043"> Clase completada</label>
@@ -92,17 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    D{&quot;¿qué ejecuta el código?&quot;} --&gt;|&quot;aplicación web con estado de sesión&lt;br/&gt;y ciclo de vida largo&quot;| AS[&quot;App Service&quot;]
-    D --&gt;|&quot;reacción a eventos,&lt;br/&gt;trabajo discreto&quot;| FN[&quot;Functions&quot;]
-    D --&gt;|&quot;contenedor propio,&lt;br/&gt;consumo continuo&quot;| CA[&quot;Container Apps&quot;]
-    AS --&gt; U1[&quot;unidad que escala y factura:&lt;br/&gt;EL PLAN, no la aplicación&quot;]
-    FN --&gt; U2[&quot;unidad que escala:&lt;br/&gt;LA APLICACIÓN DE FUNCIONES,&lt;br/&gt;no la función&quot;]
-    CA --&gt; U3[&quot;unidad que escala:&lt;br/&gt;la revisión, según SUS reglas&quot;]
-    U1 --&gt; R[&quot;radio de impacto:&lt;br/&gt;quién se lleva por delante&lt;br/&gt;un vecino ruidoso&quot;]
-    U2 --&gt; R
-    U3 --&gt; R
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/b85a716b64fb4418.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-el-plan-es-la-unidad-no-la-aplicacion">1. El plan es la unidad, no la aplicación</h3>
 <p>Es la primera sorpresa al llegar de AWS, donde cada servicio escala por su cuenta. En App Service se compra un <strong>plan</strong> —un conjunto de máquinas— y las aplicaciones se asignan a él:</p>
@@ -526,7 +522,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/043-app-service-functions-y-container-apps/lesson.yaml">Contrato de clase</a> · <a href="../parts/03.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/043-app-service-functions-y-container-apps/../../../site/downloads/partes/manual-parte-03-azure-core-platform.pdf">Parte 03 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/043-app-service-functions-y-container-apps/../../../site/downloads/nubes/manual-azure.pdf">Recorrido de Azure en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/043-app-service-functions-y-container-apps/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>api-plataforma-azure</h2></div>
         <code>python classes/part-03-azure-core-platform/043-app-service-functions-y-container-apps/lab.py --seed 42</code>
@@ -590,6 +587,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-plan-es-la-unidad-no-la-aplicacion">1. El plan es la unidad, no la aplicación</a><a class="toc-level-3" href="#2-espacios-de-implementacion-que-viaja-y-que-se-queda">2. Espacios de implementación: qué viaja y qué se queda</a><a class="toc-level-3" href="#3-functions-el-plan-decide-tres-cosas-y-ninguna-es-el-precio">3. Functions: el plan decide tres cosas y ninguna es el precio</a><a class="toc-level-3" href="#4-container-apps-la-regla-que-apaga-al-que-tenia-trabajo">4. Container Apps: la regla que apaga al que tenía trabajo</a><a class="toc-level-3" href="#5-salir-a-la-red-privada-desde-una-plataforma-administrada">5. Salir a la red privada desde una plataforma administrada</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

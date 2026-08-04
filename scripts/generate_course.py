@@ -114,6 +114,14 @@ FALLBACK_CHECKS = [
 ]
 
 
+# Partes propias de cada proveedor, para ofrecer su cuaderno desde la clase.
+CLOUD_PARTS = {
+    "02": ("aws", "AWS"), "17": ("aws", "AWS"),
+    "03": ("azure", "Azure"), "18": ("azure", "Azure"),
+    "04": ("google-cloud", "Google Cloud"), "19": ("google-cloud", "Google Cloud"),
+}
+
+
 def lesson_readme(item: dict, part: dict, previous: dict | None, following: dict | None) -> str:
     written = authored_content(item["id"])
 
@@ -203,6 +211,12 @@ def lesson_readme(item: dict, part: dict, previous: dict | None, following: dict
         else f"[{following['id']} · {following['title']} →](../../part-{following['part']}-{following['part_slug']}/{following['id']}-{following['slug']}/README.md)"
     )
     expected = LAB_EXPECTATIONS[item["lab_kind"]]
+    cloud = CLOUD_PARTS.get(item["part"])
+    cloud_download = (
+        f" · [Recorrido de {cloud[1]} en PDF](../../../site/downloads/nubes/manual-{cloud[0]}.pdf)"
+        if cloud
+        else ""
+    )
     return f"""# {item['id']} — {item['title']}
 
 > {prev_link} · [Índice de la parte](../README.md) · {next_link}
@@ -313,6 +327,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte {item['part']} en PDF](../../../site/downloads/partes/manual-parte-{item['part']}-{item['part_slug']}.pdf){cloud_download} · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | {prev_link} | [Parte {item['part']}](../README.md) · [Programa](../../README.md) | {next_link} |
@@ -395,9 +411,17 @@ def part_readme(part_no: int, part: dict, items: list[dict]) -> str:
     books = "\n".join(f"- {book}." for book in part["books"])
     previous = "Programa" if part_no == 0 else f"[← Parte {part_no - 1:02d}](../part-{part_no - 1:02d}-{PARTS[part_no - 1]['slug']}/README.md)"
     following = "Fin" if part_no == len(PARTS) - 1 else f"[Parte {part_no + 1:02d} →](../part-{part_no + 1:02d}-{PARTS[part_no + 1]['slug']}/README.md)"
+    cloud = CLOUD_PARTS.get(f"{part_no:02d}")
+    cloud_download = (
+        f" · [Recorrido de {cloud[1]} en PDF](../../site/downloads/nubes/manual-{cloud[0]}.pdf)"
+        if cloud
+        else ""
+    )
     return f"""# Parte {part_no:02d} — {part['title']}
 
 > {previous} · [Índice completo](../README.md) · {following}
+
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-{part_no:02d}-{part['slug']}.pdf){cloud_download} · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
 
 **Nivel:** {part['level']} · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
@@ -451,17 +475,27 @@ def classes_index(catalog: list[dict]) -> str:
         start = part_no * 12 + 1
         end = start + 11
         path = f"part-{part_no:02d}-{part['slug']}/README.md"
-        rows.append(f"| {part_no:02d} | [{part['title']}]({path}) | {start:03d}–{end:03d} | 12 | {part['level']} |")
+        pdf = f"../site/downloads/partes/manual-parte-{part_no:02d}-{part['slug']}.pdf"
+        rows.append(
+            f"| {part_no:02d} | [{part['title']}]({path}) | {start:03d}–{end:03d} | 12 | "
+            f"{part['level']} | [📕 PDF]({pdf}) |"
+        )
     return f"""# Índice completo de clases
 
 **288 clases · 24 partes · 1.288 horas estimadas · inicial → experto**
+
+**📥 Manuales:** [integral](../site/downloads/multi-cloud-engineering-manual-v2.0.pdf) ·
+[AWS](../site/downloads/nubes/manual-aws.pdf) ·
+[Azure](../site/downloads/nubes/manual-azure.pdf) ·
+[Google Cloud](../site/downloads/nubes/manual-google-cloud.pdf) ·
+y el de cada parte en la última columna de la tabla.
 
 El orden es deliberado. Cada parte cierra con un proyecto que aporta evidencia al capstone
 continuo **CloudShop**. Quien ya domina fundamentos puede usar las rutas por rol, pero debe
 validar los prerrequisitos con los retos de entrada.
 
-| Parte | Tema | Clases | Cantidad | Nivel |
-|---:|---|---:|---:|---|
+| Parte | Tema | Clases | Cantidad | Nivel | Manual |
+|---:|---|---:|---:|---|---|
 {chr(10).join(rows)}
 
 ## Contrato de una clase

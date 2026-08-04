@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/252.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "252 — Proyecto: asistente operativo de CloudShop", "description": "252 — Proyecto: asistente operativo de CloudShop Parte: 20 — Plataformas cloud de datos, analítica, IA y agentes<br Nivel: avanzado · Horas estimadas: 8<br", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/252.html"}</script>
   <title>252 — Proyecto: asistente operativo de CloudShop · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/20.html">Parte 20</a><span>/</span><strong>252</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="251.html" rel="prev" title="Privacidad, gobernanza, sostenibilidad y costo de IA">← 251</a><a class="pager-link index" href="../parts/20.html">Parte 20</a><a class="pager-link next" href="253.html" rel="next" title="Inventario, etiquetado, CMDB y ownership">253 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-20-cloud-data-ai-platforms.pdf" download>📕 Parte 20 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 20 · avanzado</span><strong>8 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="252"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P1[&quot;1 · CONTRATOS Y\nARQUITECTURA · clase 241&quot;] --&gt; P2[&quot;2 · INGESTA\nclase 242&quot;]
-    P2 --&gt; P3[&quot;3 · ORQUESTACIÓN\nY CALIDAD · clase 243&quot;]
-    P3 --&gt; P4[&quot;4 · ATRIBUTOS Y\nCONJUNTOS · clase 244&quot;]
-    P4 --&gt; P5[&quot;5 · SERVICIO\nclase 245&quot;]
-    P5 --&gt; P6[&quot;6 · OPERACIÓN\nclase 246&quot;]
-    P6 --&gt; P7[&quot;7 · RECUPERACIÓN\nclase 247&quot;]
-    P7 --&gt; P8[&quot;8 · PROVEEDOR\nclase 248&quot;]
-    P8 --&gt; P9[&quot;9 · AGENTE\nclase 249&quot;]
-    P9 --&gt; P10[&quot;10 · EVALUACIÓN\nclase 250&quot;]
-    P10 --&gt; P11[&quot;11 · GOBIERNO\nclase 251&quot;]
-    P11 --&gt; V[&quot;PRUEBAS NEGATIVAS&quot;]
-    V --&gt; C[&quot;CIERRE DE PARTE 20\ncorrección · ley 29 ·\nhipótesis&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/07f40df13f1b0700.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-el-encargo-el-orden-y-el-entregable">1. El encargo, el orden y el entregable</h3>
 <p><strong>El encargo.</strong> Un asistente para el equipo de operaciones de CloudShop: que conteste preguntas sobre el estado del sistema y del negocio, resuma incidentes, y ejecute acciones acotadas.</p>
@@ -805,7 +798,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-20-cloud-data-ai-platforms/252-proyecto-asistente-operativo-de-cloudshop/lesson.yaml">Contrato de clase</a> · <a href="../parts/20.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-20-cloud-data-ai-platforms/252-proyecto-asistente-operativo-de-cloudshop/../../../site/downloads/partes/manual-parte-20-cloud-data-ai-platforms.pdf">Parte 20 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-20-cloud-data-ai-platforms/252-proyecto-asistente-operativo-de-cloudshop/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>cloudshop-ai-assistant</h2></div>
         <code>python classes/part-20-cloud-data-ai-platforms/252-proyecto-asistente-operativo-de-cloudshop/lab.py --seed 42</code>
@@ -869,6 +863,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-encargo-el-orden-y-el-entregable">1. El encargo, el orden y el entregable</a><a class="toc-level-3" href="#3-recuento-de-leyes-ley-29-e-hipotesis-de-la-parte-21">3. Recuento de leyes, ley 29 e hipótesis de la parte 21</a><a class="toc-level-3" href="#4-el-proyecto-resuelto">4. El proyecto, resuelto</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

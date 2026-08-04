@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/096.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "096 — Proyecto: infraestructura multiambiente promovible", "description": "096 — Proyecto: infraestructura multiambiente promovible Parte: 07 — Infraestructura como código y configuración<br Nivel: intermedio-avanzado · Horas esti", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/096.html"}</script>
   <title>096 — Proyecto: infraestructura multiambiente promovible · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/07.html">Parte 07</a><span>/</span><strong>096</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="095.html" rel="prev" title="Plantillas, golden paths y catálogo interno">← 095</a><a class="pager-link index" href="../parts/07.html">Parte 07</a><a class="pager-link next" href="097.html" rel="next" title="Integración continua, trunk-based development y feedback">097 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf" download>📕 Parte 07 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 07 · intermedio-avanzado</span><strong>8 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="096"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    R[&quot;repositorio · un código&quot;] --&gt; V1[&quot;dev.tfvars&quot;]
-    R --&gt; V2[&quot;pre.tfvars&quot;]
-    R --&gt; V3[&quot;pro.tfvars&quot;]
-    V1 --&gt; P[&quot;plan revisado · política sobre el resultado&quot;]
-    V2 --&gt; P
-    V3 --&gt; P
-    P --&gt; A[&quot;aplicar el plan GUARDADO&quot;]
-    A --&gt; C[&quot;verificar convergencia:\nsegunda planificación sin cambios&quot;]
-    D[&quot;detección programada&quot;] -.-&gt;|&quot;cada noche&quot;| DES{&quot;¿desviación?&quot;}
-    DES --&gt;|&quot;sí&quot;| N[&quot;notificación con nombre&quot;]
-    N -.-&gt;|&quot;efecto medido&quot;| B[&quot;los cambios manuales BAJAN&quot;]
-    L{&quot;leyes nuevas&quot;} --&gt; L1[&quot;una señal con demasiados\nelementos deja de ser señal&quot;]
-    L --&gt; L2[&quot;un control que ralentiza\nse desactiva o se rodea&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/ec6e28fa0cf45879.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-infraestructura-entregada-y-de-donde-sale-cada-decision">1. La infraestructura entregada y de dónde sale cada decisión</h3>
 <p>Doce decisiones con su alternativa descartada y la trampa que evita:</p>
@@ -541,7 +533,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-07-infrastructure-as-code-configuration/096-proyecto-infraestructura-multiambiente-promovible/lesson.yaml">Contrato de clase</a> · <a href="../parts/07.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-07-infrastructure-as-code-configuration/096-proyecto-infraestructura-multiambiente-promovible/../../../site/downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf">Parte 07 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-07-infrastructure-as-code-configuration/096-proyecto-infraestructura-multiambiente-promovible/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>plataforma-iac</h2></div>
         <code>python classes/part-07-infrastructure-as-code-configuration/096-proyecto-infraestructura-multiambiente-promovible/lab.py --seed 42</code>
@@ -605,6 +598,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-infraestructura-entregada-y-de-donde-sale-cada-decision">1. La infraestructura entregada y de dónde sale cada decisión</a><a class="toc-level-3" href="#2-la-hipotesis-de-la-clase-084-calificada">2. La hipótesis de la clase 084, calificada</a><a class="toc-level-3" href="#3-dos-leyes-nuevas-con-sus-apariciones">3. Dos leyes nuevas, con sus apariciones</a><a class="toc-level-3" href="#4-tres-fallos-provocados-y-lo-que-enseno-cada-uno">4. Tres fallos provocados y lo que enseñó cada uno</a><a class="toc-level-3" href="#5-la-entrega-y-la-pregunta-que-abre-la-parte-08">5. La entrega y la pregunta que abre la parte 08</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

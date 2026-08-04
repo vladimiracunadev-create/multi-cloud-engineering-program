@@ -595,6 +595,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 07 en PDF](../../../site/downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 088 · Módulos, contratos, versiones y composición](../../part-07-infrastructure-as-code-configuration/088-modulos-contratos-versiones-y-composicion/README.md) | [Parte 07](../README.md) · [Programa](../../README.md) | [090 · Plan, apply, drift, import y refactor con moved →](../../part-07-infrastructure-as-code-configuration/090-plan-apply-drift-import-y-refactor-con-moved/README.md) |

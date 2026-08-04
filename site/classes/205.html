@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/205.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "205 — Hosting progresivo con Amplify, S3 y CloudFront", "description": "205 — Hosting progresivo con Amplify, S3 y CloudFront Parte: 17 — AWS: arquitectura, automatización y operación en producción<br Nivel: avanzado · Horas es", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/205.html"}</script>
   <title>205 — Hosting progresivo con Amplify, S3 y CloudFront · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/17.html">Parte 17</a><span>/</span><strong>205</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="204.html" rel="prev" title="Proyecto: red multi-región y multi-cloud">← 204</a><a class="pager-link index" href="../parts/17.html">Parte 17</a><a class="pager-link next" href="206.html" rel="next" title="OIDC de GitHub y GitLab hacia AWS sin secretos">206 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-17-aws-production-architecture.pdf" download>📕 Parte 17 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 17 · avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="205"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    D{&quot;¿qué hace falta?&quot;}
-    D --&gt;|&quot;rápido, sin operar,\nramas de vista previa&quot;| A[&quot;AMPLIFY HOSTING&quot;]
-    D --&gt;|&quot;control fino de caché,\nmúltiples orígenes,\nWAF y políticas propias&quot;| S[&quot;S3 + CLOUDFRONT&quot;]
-    S --&gt; S1[&quot;bucket PRIVADO\nsin sitio web estático&quot;]
-    S1 --&gt; S2[&quot;control de acceso\nal origen&quot;]
-    S --&gt; S3[&quot;comportamientos\npor patrón de ruta&quot;]
-    S3 --&gt; S4[&quot;/assets/* → 1 año\ninmutable, con huella&quot;]
-    S3 --&gt; S5[&quot;/index.html → corto\ncon revalidación&quot;]
-    S3 --&gt; S6[&quot;/api/* → sin caché,\notro origen&quot;]
-    S --&gt; S7[&quot;404 → /index.html\nSOLO para rutas\nde la aplicación&quot;]
-    P[&quot;publicar&quot;] --&gt; P1[&quot;subir con huella&quot;]
-    P1 --&gt; P2[&quot;subir index.html\nal final&quot;]
-    P2 --&gt; P3[&quot;invalidar SOLO\n/index.html&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/fa6703dff6d79d27.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-gestionado-o-montado-a-mano">1. Gestionado o montado a mano</h3>
 <p>Las dos opciones sirven para lo mismo y se diferencian en control y en operación.</p>
@@ -607,7 +599,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/205-hosting-progresivo-con-amplify-s3-y-cloudfront/lesson.yaml">Contrato de clase</a> · <a href="../parts/17.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/205-hosting-progresivo-con-amplify-s3-y-cloudfront/../../../site/downloads/partes/manual-parte-17-aws-production-architecture.pdf">Parte 17 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/205-hosting-progresivo-con-amplify-s3-y-cloudfront/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-17-aws-production-architecture/205-hosting-progresivo-con-amplify-s3-y-cloudfront/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>aws-static-platform</h2></div>
         <code>python classes/part-17-aws-production-architecture/205-hosting-progresivo-con-amplify-s3-y-cloudfront/lab.py --seed 42</code>
@@ -671,6 +664,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-gestionado-o-montado-a-mano">1. Gestionado o montado a mano</a><a class="toc-level-3" href="#2-los-valores-por-defecto-que-hay-que-cambiar">2. Los valores por defecto que hay que cambiar</a><a class="toc-level-3" href="#3-las-tres-cosas-que-rompen">3. Las tres cosas que rompen</a><a class="toc-level-3" href="#4-publicar-y-operar">4. Publicar y operar</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -652,6 +652,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 18 en PDF](../../../site/downloads/partes/manual-parte-18-azure-production-architecture.pdf) · [Recorrido de Azure en PDF](../../../site/downloads/nubes/manual-azure.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 221 · App Service, Functions y Container Apps en producción](../../part-18-azure-production-architecture/221-app-service-functions-y-container-apps-en-produccion/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [223 · Azure SQL, Cosmos DB y consistencia distribuida →](../../part-18-azure-production-architecture/223-azure-sql-cosmos-db-y-consistencia-distribuida/README.md) |

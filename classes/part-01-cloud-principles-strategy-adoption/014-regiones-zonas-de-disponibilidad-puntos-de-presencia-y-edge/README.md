@@ -301,6 +301,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 01 en PDF](../../../site/downloads/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 013 · Definición NIST y características esenciales de cloud](../../part-01-cloud-principles-strategy-adoption/013-definicion-nist-y-caracteristicas-esenciales-de-cloud/README.md) | [Parte 01](../README.md) · [Programa](../../README.md) | [015 · IaaS, PaaS, SaaS, CaaS y FaaS →](../../part-01-cloud-principles-strategy-adoption/015-iaas-paas-saas-caas-y-faas/README.md) |

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/171.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "171 — Platform as a Product y roadmap de capacidades", "description": "171 — Platform as a Product y roadmap de capacidades Parte: 14 — Plataformas avanzadas, capstones y carrera<br Nivel: experto-frontera · Horas estimadas: 4", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/171.html"}</script>
   <title>171 — Platform as a Product y roadmap de capacidades · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/14.html">Parte 14</a><span>/</span><strong>171</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="170.html" rel="prev" title="Gobierno federado y policy as code a escala">← 170</a><a class="pager-link index" href="../parts/14.html">Parte 14</a><a class="pager-link next" href="172.html" rel="next" title="Modelo operativo FinOps y economía unitaria">172 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf" download>📕 Parte 14 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 14 · experto-frontera</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="171"> Clase completada</label>
@@ -92,26 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    C[&quot;mapa de capacidades&quot;] --&gt; N{&quot;nivel de cada una&quot;}
-    N --&gt; N0[&quot;0 · no existe&quot;]
-    N --&gt; N1[&quot;1 · manual, con ayuda&quot;]
-    N --&gt; N2[&quot;2 · automatizada, se pide&quot;]
-    N --&gt; N3[&quot;3 · autoservicio&quot;]
-    N --&gt; N4[&quot;4 · gobernada y medida&quot;]
-    D[&quot;señales de demanda&quot;] --&gt; D1[&quot;peticiones repetidas · 106&quot;]
-    D --&gt; D2[&quot;excepciones por control · 170&quot;]
-    D --&gt; D3[&quot;salidas del camino asfaltado&quot;]
-    D --&gt; D4[&quot;acciones de incidente · 127&quot;]
-    D --&gt; D5[&quot;respuestas de fricción · 107&quot;]
-    D --&gt; P[&quot;prioridad =\ntiempo ahorrado × equipos\n− coste de construir y MANTENER&quot;]
-    P --&gt; B{&quot;construir, comprar o adoptar&quot;}
-    B --&gt;|&quot;lo genérico&quot;| B1[&quot;adoptar lo del proveedor&quot;]
-    B --&gt;|&quot;lo que diferencia&quot;| B2[&quot;construir&quot;]
-    R[&quot;hoja de ruta&quot;] --&gt; R1[&quot;lo que se añade&quot;]
-    R --&gt; R2[&quot;lo que se RETIRA&quot;]
-    R2 --&gt; M[&quot;libera capacidad de mantener&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/953826a48981f92b.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-capacidades-no-funciones">1. Capacidades, no funciones</h3>
 <p>Una hoja de ruta hecha de funciones —«un portal nuevo», «integrar tal herramienta»— no permite decidir. Una hecha de <strong>capacidades</strong> sí, porque se expresa desde quien la usa:</p>
@@ -580,7 +567,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/171-platform-as-a-product-y-roadmap-de-capacidades/lesson.yaml">Contrato de clase</a> · <a href="../parts/14.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/171-platform-as-a-product-y-roadmap-de-capacidades/../../../site/downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf">Parte 14 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/171-platform-as-a-product-y-roadmap-de-capacidades/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>roadmap-plataforma</h2></div>
         <code>python classes/part-14-advanced-platform-capstones-career/171-platform-as-a-product-y-roadmap-de-capacidades/lab.py --seed 42</code>
@@ -644,6 +632,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-capacidades-no-funciones">1. Capacidades, no funciones</a><a class="toc-level-3" href="#2-que-construir-a-continuacion">2. Qué construir a continuación</a><a class="toc-level-3" href="#3-la-mitad-que-falta-retirar">3. La mitad que falta: retirar</a><a class="toc-level-3" href="#4-prometer-financiar-y-medir">4. Prometer, financiar y medir</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

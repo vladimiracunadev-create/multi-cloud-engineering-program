@@ -598,6 +598,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 06 en PDF](../../../site/downloads/partes/manual-parte-06-kubernetes-managed-platforms.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 078 · Requests, limits, scheduling y autoscaling](../../part-06-kubernetes-managed-platforms/078-requests-limits-scheduling-y-autoscaling/README.md) | [Parte 06](../README.md) · [Programa](../../README.md) | [080 · Namespaces, RBAC, NetworkPolicy y admission →](../../part-06-kubernetes-managed-platforms/080-namespaces-rbac-networkpolicy-y-admission/README.md) |

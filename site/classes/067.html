@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/067.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "067 — Registros, SBOM, firma y procedencia de imágenes", "description": "067 — Registros, SBOM, firma y procedencia de imágenes Parte: 05 — Contenedores, Docker y OCI<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: sup", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/067.html"}</script>
   <title>067 — Registros, SBOM, firma y procedencia de imágenes · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/05.html">Parte 05</a><span>/</span><strong>067</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="066.html" rel="prev" title="Docker Compose y aplicaciones multiservicio">← 066</a><a class="pager-link index" href="../parts/05.html">Parte 05</a><a class="pager-link next" href="068.html" rel="next" title="Límites, health checks y apagado ordenado">068 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-05-containers-docker-oci.pdf" download>📕 Parte 05 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 05 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="067"> Clase completada</label>
@@ -92,22 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    S[&quot;repositorio · commit&quot;] --&gt; B[&quot;canalización de construcción&quot;]
-    B --&gt; I[&quot;imagen · huella&quot;]
-    B --&gt; SB[&quot;inventario de componentes&quot;]
-    B --&gt; PR[&quot;declaración de procedencia&quot;]
-    B --&gt; FI[&quot;firma · identidad federada&quot;]
-    I --&gt; R[&quot;registro&quot;]
-    SB -.-&gt;|&quot;asociado por huella&quot;| R
-    PR -.-&gt; R
-    FI -.-&gt; R
-    R --&gt; A{&quot;admisión en el despliegue&quot;}
-    A --&gt;|&quot;sin firma válida&quot;| X1[&quot;RECHAZADA&quot;]
-    A --&gt;|&quot;procedencia ajena&quot;| X2[&quot;RECHAZADA&quot;]
-    A --&gt;|&quot;todo correcto&quot;| OK[&quot;se ejecuta&quot;]
-    SB --&gt; Q[&quot;¿nos afecta esta vulnerabilidad?&lt;br/&gt;minutos, no días&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/d8eaa9140382c9aa.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-tres-preguntas-tres-artefactos">1. Tres preguntas, tres artefactos</h3>
 <p>La clase 061 dejó que una imagen se identifica por su huella y que la huella es verificable. Eso responde a «¿es exactamente este contenido?» y no responde a nada más. Las tres preguntas que quedan, con el artefacto que contesta cada una:</p>
@@ -481,7 +472,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-05-containers-docker-oci/067-registros-sbom-firma-y-procedencia-de-imagenes/lesson.yaml">Contrato de clase</a> · <a href="../parts/05.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-05-containers-docker-oci/067-registros-sbom-firma-y-procedencia-de-imagenes/../../../site/downloads/partes/manual-parte-05-containers-docker-oci.pdf">Parte 05 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-05-containers-docker-oci/067-registros-sbom-firma-y-procedencia-de-imagenes/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>cadena-suministro-imagen</h2></div>
         <code>python classes/part-05-containers-docker-oci/067-registros-sbom-firma-y-procedencia-de-imagenes/lab.py --seed 42</code>
@@ -545,6 +537,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-preguntas-tres-artefactos">1. Tres preguntas, tres artefactos</a><a class="toc-level-3" href="#2-el-inventario-responder-nos-afecta-en-minutos">2. El inventario: responder «¿nos afecta?» en minutos</a><a class="toc-level-3" href="#3-firmar-sin-claves-y-verificar-de-verdad">3. Firmar sin claves, y verificar de verdad</a><a class="toc-level-3" href="#4-una-puerta-de-vulnerabilidades-que-el-equipo-no-desactive">4. Una puerta de vulnerabilidades que el equipo no desactive</a><a class="toc-level-3" href="#5-el-registro-como-control-no-como-almacen">5. El registro como control, no como almacén</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

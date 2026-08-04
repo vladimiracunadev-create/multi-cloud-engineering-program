@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/023.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "023 — Descubrimiento y clasificación de workloads", "description": "023 — Descubrimiento y clasificación de workloads Parte: 01 — Principios, estrategia y adopción cloud<br Nivel: inicial-intermedio · Horas estimadas: 4<br", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/023.html"}</script>
   <title>023 — Descubrimiento y clasificación de workloads · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/01.html">Parte 01</a><span>/</span><strong>023</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="022.html" rel="prev" title="Cloud Adoption Framework y modelo operativo">← 022</a><a class="pager-link index" href="../parts/01.html">Parte 01</a><a class="pager-link next" href="024.html" rel="next" title="Proyecto: decisión de migración sustentada con ADR">024 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf" download>📕 Parte 01 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 01 · inicial-intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="023"> Clase completada</label>
@@ -88,20 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    I[&quot;Inventario de cargas&quot;] --&gt; D[&quot;Descubrimiento pasivo&lt;br/&gt;30 días de tráfico&quot;]
-    D --&gt; G[&quot;Grupos de movimiento&lt;br/&gt;por acoplamiento observado&quot;]
-    G --&gt; C{{&quot;Por cada carga&quot;}}
-    C --&gt;|&quot;sin uso&quot;| R1[&quot;Retirar&quot;]
-    C --&gt;|&quot;restricción legal&lt;br/&gt;o técnica&quot;| R2[&quot;Retener&quot;]
-    C --&gt;|&quot;cambio mínimo&quot;| R3[&quot;Rehospedar&quot;]
-    C --&gt;|&quot;ajuste al gestionado&quot;| R4[&quot;Replataformar&quot;]
-    C --&gt;|&quot;existe SaaS&quot;| R5[&quot;Recomprar&quot;]
-    C --&gt;|&quot;alto valor y&lt;br/&gt;mal encaje&quot;| R6[&quot;Rearquitecturar&quot;]
-    R1 --&gt; P[&quot;Priorización&lt;br/&gt;valor × dificultad&quot;]
-    R3 --&gt; P
-    R4 --&gt; P
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/8a66e2ec1f280bad.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-unidad-de-decision-es-la-carga-no-el-servidor">1. La unidad de decisión es la carga, no el servidor</h3>
 <p>Un inventario de servidores responde «qué tenemos» y no responde ninguna de las preguntas que importan: qué depende de qué, qué se puede mover solo, qué se rompe si se parte.</p>
@@ -420,7 +413,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-01-cloud-principles-strategy-adoption/023-descubrimiento-y-clasificacion-de-workloads/lesson.yaml">Contrato de clase</a> · <a href="../parts/01.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-01-cloud-principles-strategy-adoption/023-descubrimiento-y-clasificacion-de-workloads/../../../site/downloads/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf">Parte 01 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-01-cloud-principles-strategy-adoption/023-descubrimiento-y-clasificacion-de-workloads/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>inventario-de-workloads</h2></div>
         <code>python classes/part-01-cloud-principles-strategy-adoption/023-descubrimiento-y-clasificacion-de-workloads/lab.py --seed 42</code>
@@ -484,6 +478,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-unidad-de-decision-es-la-carga-no-el-servidor">1. La unidad de decisión es la carga, no el servidor</a><a class="toc-level-3" href="#2-descubrir-dependencias-observando-no-preguntando">2. Descubrir dependencias observando, no preguntando</a><a class="toc-level-3" href="#3-las-siete-estrategias-con-su-criterio-de-eleccion">3. Las siete estrategias, con su criterio de elección</a><a class="toc-level-3" href="#4-grupos-de-movimiento-que-se-rompe-al-partir">4. Grupos de movimiento: qué se rompe al partir</a><a class="toc-level-3" href="#5-la-gravedad-de-los-datos-decide-mas-que-la-aplicacion">5. La gravedad de los datos decide más que la aplicación</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

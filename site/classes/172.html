@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/172.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "172 — Modelo operativo FinOps y economía unitaria", "description": "172 — Modelo operativo FinOps y economía unitaria Parte: 14 — Plataformas avanzadas, capstones y carrera<br Nivel: experto-frontera · Horas estimadas: 4<br", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/172.html"}</script>
   <title>172 — Modelo operativo FinOps y economía unitaria · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/14.html">Parte 14</a><span>/</span><strong>172</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="171.html" rel="prev" title="Platform as a Product y roadmap de capacidades">← 171</a><a class="pager-link index" href="../parts/14.html">Parte 14</a><a class="pager-link next" href="173.html" rel="next" title="Madurez SRE y confiabilidad organizacional">173 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf" download>📕 Parte 14 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 14 · experto-frontera</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="172"> Clase completada</label>
@@ -92,23 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    P[&quot;tres papeles&quot;] --&gt; P1[&quot;INGENIERÍA\ntoma las decisiones que cuestan&quot;]
-    P --&gt; P2[&quot;FINANZAS\nposee presupuesto y previsión&quot;]
-    P --&gt; P3[&quot;NEGOCIO\nposee la unidad que da sentido&quot;]
-    R[&quot;ritmo&quot;] --&gt; R1[&quot;diario · desviaciones · 142&quot;]
-    R --&gt; R2[&quot;semanal · cada equipo su gasto&quot;]
-    R --&gt; R3[&quot;mensual · coste por unidad\ny previsión frente a real&quot;]
-    R --&gt; R4[&quot;trimestral · compromisos\ny capacidad · 143&quot;]
-    R --&gt; R5[&quot;anual · contratos y arquitectura&quot;]
-    U[&quot;coste por unidad&quot;] --&gt; U1[&quot;directo, atribuido&quot;]
-    U --&gt; U2[&quot;compartido, repartido\nde forma EXPLICABLE&quot;]
-    U --&gt; U3[&quot;plataforma y soporte&quot;]
-    U --&gt; D[&quot;decisiones: precio, cliente rentable,\nfunción que compensa · 155&quot;]
-    F{&quot;modos de fallo&quot;} --&gt;|&quot;señalar culpables&quot;| F1[&quot;lo rodean · ley 16&quot;]
-    F --&gt;|&quot;informe mensual&quot;| F2[&quot;nadie lo mira · ley 15&quot;]
-    F --&gt;|&quot;cifra en el cambio&quot;| OK[&quot;cambia decisiones&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/66606bc95034a45a.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-tres-papeles-y-por-que-no-basta-una-persona">1. Tres papeles, y por qué no basta una persona</h3>
 <p>El error inicial de casi todas las organizaciones es nombrar a alguien responsable del coste de la nube. Y falla porque <strong>las decisiones que cuestan dinero están repartidas</strong>:</p>
@@ -592,7 +582,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/172-modelo-operativo-finops-y-economia-unitaria/lesson.yaml">Contrato de clase</a> · <a href="../parts/14.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/172-modelo-operativo-finops-y-economia-unitaria/../../../site/downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf">Parte 14 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/172-modelo-operativo-finops-y-economia-unitaria/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>operating-model-finops</h2></div>
         <code>python classes/part-14-advanced-platform-capstones-career/172-modelo-operativo-finops-y-economia-unitaria/lab.py --seed 42</code>
@@ -656,6 +647,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-papeles-y-por-que-no-basta-una-persona">1. Tres papeles, y por qué no basta una persona</a><a class="toc-level-3" href="#2-el-ritmo">2. El ritmo</a><a class="toc-level-3" href="#3-la-economia-unitaria">3. La economía unitaria</a><a class="toc-level-3" href="#4-los-dos-finales-conocidos">4. Los dos finales conocidos</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

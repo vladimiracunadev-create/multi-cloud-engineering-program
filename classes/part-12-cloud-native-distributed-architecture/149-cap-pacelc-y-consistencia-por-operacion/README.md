@@ -616,6 +616,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 12 en PDF](../../../site/downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 148 · Monolito modular, microservicios y función](../../part-12-cloud-native-distributed-architecture/148-monolito-modular-microservicios-y-funcion/README.md) | [Parte 12](../README.md) · [Programa](../../README.md) | [150 · Replicación, particionado y consenso →](../../part-12-cloud-native-distributed-architecture/150-replicacion-particionado-y-consenso/README.md) |

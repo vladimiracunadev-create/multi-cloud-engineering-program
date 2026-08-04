@@ -632,6 +632,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 18 en PDF](../../../site/downloads/partes/manual-parte-18-azure-production-architecture.pdf) · [Recorrido de Azure en PDF](../../../site/downloads/nubes/manual-azure.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 216 · Proyecto: CloudShop productivo en AWS](../../part-17-aws-production-architecture/216-proyecto-cloudshop-productivo-en-aws/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [218 · Entra ID, workload identity, PIM y Conditional Access →](../../part-18-azure-production-architecture/218-entra-id-workload-identity-pim-y-conditional-access/README.md) |

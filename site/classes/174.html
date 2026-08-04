@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/174.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "174 — Arquitectura de seguridad cloud empresarial", "description": "174 — Arquitectura de seguridad cloud empresarial Parte: 14 — Plataformas avanzadas, capstones y carrera<br Nivel: experto-frontera · Horas estimadas: 4<br", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/174.html"}</script>
   <title>174 — Arquitectura de seguridad cloud empresarial · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/14.html">Parte 14</a><span>/</span><strong>174</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="173.html" rel="prev" title="Madurez SRE y confiabilidad organizacional">← 173</a><a class="pager-link index" href="../parts/14.html">Parte 14</a><a class="pager-link next" href="175.html" rel="next" title="Workloads de IA, GPU, datos y MLOps multi-cloud">175 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf" download>📕 Parte 14 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 14 · experto-frontera</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="174"> Clase completada</label>
@@ -92,25 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    M[&quot;capacidades&quot;] --&gt; M1[&quot;identidad · 159&quot;]
-    M --&gt; M2[&quot;secretos · 137&quot;]
-    M --&gt; M3[&quot;red y salida · 135&quot;]
-    M --&gt; M4[&quot;protección del dato · 136, 141&quot;]
-    M --&gt; M5[&quot;cadena de suministro · 138&quot;]
-    M --&gt; M6[&quot;postura · 139&quot;]
-    M --&gt; M7[&quot;DETECCIÓN&quot;]
-    M --&gt; M8[&quot;RESPUESTA&quot;]
-    M7 --&gt; S[&quot;señales: auditoría, identidad,\nsalida, postura, vulnerabilidades&quot;]
-    S --&gt; F{&quot;embudo, como en 138&quot;}
-    F --&gt;|&quot;sin embudo&quot;| N[&quot;miles de alertas · ley 15&quot;]
-    F --&gt;|&quot;con embudo&quot;| A[&quot;pocas y accionables · 125&quot;]
-    M8 --&gt; I{&quot;incidente de seguridad&quot;}
-    I --&gt; I1[&quot;preservar evidencia\nANTES de tocar&quot;]
-    I --&gt; I2[&quot;canal fuera de banda&quot;]
-    I --&gt; I3[&quot;contener o erradicar&quot;]
-    I --&gt; I4[&quot;obligaciones de aviso · 141&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/a910593442199626.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-capacidades-y-donde-estan-los-huecos">1. Capacidades, y dónde están los huecos</h3>
 <p>A escala, la seguridad se gobierna igual que la plataforma: <strong>como capacidades con nivel</strong>, no como una lista de herramientas.</p>
@@ -625,7 +613,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/174-arquitectura-de-seguridad-cloud-empresarial/lesson.yaml">Contrato de clase</a> · <a href="../parts/14.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/174-arquitectura-de-seguridad-cloud-empresarial/../../../site/downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf">Parte 14 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/174-arquitectura-de-seguridad-cloud-empresarial/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>security-reference-architecture</h2></div>
         <code>python classes/part-14-advanced-platform-capstones-career/174-arquitectura-de-seguridad-cloud-empresarial/lab.py --seed 42</code>
@@ -689,6 +678,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-capacidades-y-donde-estan-los-huecos">1. Capacidades, y dónde están los huecos</a><a class="toc-level-3" href="#2-deteccion-sin-ahogarse">2. Detección sin ahogarse</a><a class="toc-level-3" href="#3-el-incidente-de-seguridad-es-distinto">3. El incidente de seguridad es distinto</a><a class="toc-level-3" href="#4-prioridad-medida-y-ejercicios">4. Prioridad, medida y ejercicios</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

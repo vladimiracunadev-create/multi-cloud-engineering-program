@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/179.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "179 — Capstone: implementación y operación", "description": "179 — Capstone: implementación y operación Parte: 14 — Plataformas avanzadas, capstones y carrera<br Nivel: experto-frontera · Horas estimadas: 8<br Labora", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/179.html"}</script>
   <title>179 — Capstone: implementación y operación · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/14.html">Parte 14</a><span>/</span><strong>179</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="178.html" rel="prev" title="Capstone: descubrimiento y diseño">← 178</a><a class="pager-link index" href="../parts/14.html">Parte 14</a><a class="pager-link next" href="180.html" rel="next" title="Capstone: defensa, portafolio y plan profesional">180 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf" download>📕 Parte 14 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 14 · experto-frontera</span><strong>8 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="179"> Clase completada</label>
@@ -92,22 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    O[&quot;orden de construcción&quot;] --&gt; O1[&quot;1 · BASE\ncuentas, identidad, red, controles&quot;]
-    O1 --&gt; O2[&quot;2 · DATOS\nescritores, esquemas, copias&quot;]
-    O2 --&gt; O3[&quot;3 · ENTREGA\ncanalización, puertas, escalonado&quot;]
-    O3 --&gt; O4[&quot;4 · OPERACIÓN\nseñales, objetivos, alertas,\nprocedimientos&quot;]
-    O4 --&gt; O5[&quot;5 · CONTINUIDAD\ncopias, ensayo, recuperación&quot;]
-    O5 --&gt; P[&quot;PRUEBAS NEGATIVAS&quot;]
-    P --&gt; P1[&quot;parte 08 · reversión, canario, firma&quot;]
-    P --&gt; P2[&quot;parte 09 · duplicados, conmutación, cache&quot;]
-    P --&gt; P3[&quot;parte 10 · ausencia, fallo gris, carga&quot;]
-    P --&gt; P4[&quot;parte 11 · controles, secretos, emergencia&quot;]
-    P --&gt; P5[&quot;parte 13 · continuidad y vuelta atrás&quot;]
-    P --&gt; R[&quot;resultados, INCLUIDOS los fallos&quot;]
-    R --&gt; M[&quot;medir antes y después,\nde la misma forma&quot;]
-    M --&gt; D[&quot;deuda declarada\ncon motivo y fecha&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/2203b55640ecb2d3.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-el-orden-de-construccion">1. El orden de construcción</h3>
 <p>Construir en el orden equivocado obliga a rehacer, y el criterio es el mismo de la clase 169: <strong>primero lo que condiciona a lo demás</strong>.</p>
@@ -632,7 +623,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/179-capstone-implementacion-y-operacion/lesson.yaml">Contrato de clase</a> · <a href="../parts/14.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/179-capstone-implementacion-y-operacion/../../../site/downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf">Parte 14 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/179-capstone-implementacion-y-operacion/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>evidencia-implementacion-final</h2></div>
         <code>python classes/part-14-advanced-platform-capstones-career/179-capstone-implementacion-y-operacion/lab.py --seed 42</code>
@@ -696,6 +688,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-orden-de-construccion">1. El orden de construcción</a><a class="toc-level-3" href="#2-las-pruebas-negativas-del-programa">2. Las pruebas negativas del programa</a><a class="toc-level-3" href="#3-medir-sin-enganarse">3. Medir sin engañarse</a><a class="toc-level-3" href="#4-lo-que-salio-mal-y-lo-que-no-se-hizo">4. Lo que salió mal y lo que no se hizo</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

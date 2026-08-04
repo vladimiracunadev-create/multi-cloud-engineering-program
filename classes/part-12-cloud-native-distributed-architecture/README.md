@@ -2,6 +2,8 @@
 
 > [← Parte 11](../part-11-security-governance-finops/README.md) · [Índice completo](../README.md) · [Parte 13 →](../part-13-multicloud-hybrid-disaster-recovery/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** avanzado-experto · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Tomar decisiones de arquitectura con compensaciones explícitas y evidencia.

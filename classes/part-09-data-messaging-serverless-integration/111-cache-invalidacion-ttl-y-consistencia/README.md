@@ -548,6 +548,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 09 en PDF](../../../site/downloads/partes/manual-parte-09-data-messaging-serverless-integration.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 110 · NoSQL: clave-valor, documento, columna y grafo](../../part-09-data-messaging-serverless-integration/110-nosql-clave-valor-documento-columna-y-grafo/README.md) | [Parte 09](../README.md) · [Programa](../../README.md) | [112 · Object storage, data lake y formatos columnares →](../../part-09-data-messaging-serverless-integration/112-object-storage-data-lake-y-formatos-columnares/README.md) |

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/025.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "025 — Organizations, cuentas, OU, SCP y landing zone", "description": "025 — Organizations, cuentas, OU, SCP y landing zone Parte: 02 — AWS: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: governa", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/025.html"}</script>
   <title>025 — Organizations, cuentas, OU, SCP y landing zone · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/02.html">Parte 02</a><span>/</span><strong>025</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="024.html" rel="prev" title="Proyecto: decisión de migración sustentada con ADR">← 024</a><a class="pager-link index" href="../parts/02.html">Parte 02</a><a class="pager-link next" href="026.html" rel="next" title="IAM, roles, políticas, STS y federación">026 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-02-aws-core-platform.pdf" download>📕 Parte 02 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 02 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="025"> Clase completada</label>
@@ -88,20 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    G[&quot;Cuenta de gestión&lt;br/&gt;sin cargas · sin SCP posible&quot;] --&gt; R[&quot;Raíz de la organización&quot;]
-    R --&gt; S[&quot;UO Security&quot;]
-    R --&gt; I[&quot;UO Infrastructure&quot;]
-    R --&gt; W[&quot;UO Workloads&quot;]
-    R --&gt; SB[&quot;UO Sandbox&quot;]
-    S --&gt; AUD[&quot;log-archive&lt;br/&gt;solo escritura&quot;]
-    S --&gt; SEC[&quot;security-tooling&quot;]
-    I --&gt; NET[&quot;network&lt;br/&gt;conectividad compartida&quot;]
-    W --&gt; P[&quot;UO Prod&quot;] --&gt; PA[&quot;pagos-prod&quot;]
-    W --&gt; NP[&quot;UO No-prod&quot;] --&gt; PB[&quot;pagos-dev&quot;]
-    R -.-&gt;|&quot;SCP: regiones permitidas&quot;| W
-    P -.-&gt;|&quot;SCP: prohíbe borrar logs&lt;br/&gt;y desactivar CloudTrail&quot;| PA
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/d00a1cc30c542f7d.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-cuenta-de-gestion-no-aloja-cargas">1. La cuenta de gestión no aloja cargas</h3>
 <p>AWS Organizations tiene una asimetría deliberada: <strong>la cuenta de gestión no puede tener SCP aplicadas sobre sí misma</strong>. Es la única de toda la organización sin barrera superior.</p>
@@ -372,7 +365,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/025-organizations-cuentas-ou-scp-y-landing-zone/lesson.yaml">Contrato de clase</a> · <a href="../parts/02.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/025-organizations-cuentas-ou-scp-y-landing-zone/../../../site/downloads/partes/manual-parte-02-aws-core-platform.pdf">Parte 02 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/025-organizations-cuentas-ou-scp-y-landing-zone/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/025-organizations-cuentas-ou-scp-y-landing-zone/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>landing-zone-aws</h2></div>
         <code>python classes/part-02-aws-core-platform/025-organizations-cuentas-ou-scp-y-landing-zone/lab.py --seed 42</code>
@@ -436,6 +430,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-cuenta-de-gestion-no-aloja-cargas">1. La cuenta de gestión no aloja cargas</a><a class="toc-level-3" href="#2-scp-el-orden-de-evaluacion-decide-el-diagnostico">2. SCP: el orden de evaluación decide el diagnóstico</a><a class="toc-level-3" href="#3-restringir-regiones-sin-romper-la-cuenta">3. Restringir regiones sin romper la cuenta</a><a class="toc-level-3" href="#4-cuentas-de-la-base-auditoria-red-y-seguridad">4. Cuentas de la base: auditoría, red y seguridad</a><a class="toc-level-3" href="#5-un-guardarrail-sin-prueba-negativa-es-una-intencion">5. Un guardarraíl sin prueba negativa es una intención</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

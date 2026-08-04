@@ -498,6 +498,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 08 en PDF](../../../site/downloads/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 101 · SAST, SCA, secretos, SBOM y firma en pipeline](../../part-08-continuous-delivery-platform-engineering/101-sast-sca-secretos-sbom-y-firma-en-pipeline/README.md) | [Parte 08](../README.md) · [Programa](../../README.md) | [103 · GitOps con Argo CD o Flux →](../../part-08-continuous-delivery-platform-engineering/103-gitops-con-argo-cd-o-flux/README.md) |

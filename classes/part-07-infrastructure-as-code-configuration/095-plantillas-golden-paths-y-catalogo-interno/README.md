@@ -566,6 +566,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 07 en PDF](../../../site/downloads/partes/manual-parte-07-infrastructure-as-code-configuration.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 094 · Ansible e imagen dorada para configuración](../../part-07-infrastructure-as-code-configuration/094-ansible-e-imagen-dorada-para-configuracion/README.md) | [Parte 07](../README.md) · [Programa](../../README.md) | [096 · Proyecto: infraestructura multiambiente promovible →](../../part-07-infrastructure-as-code-configuration/096-proyecto-infraestructura-multiambiente-promovible/README.md) |

@@ -639,6 +639,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 17 en PDF](../../../site/downloads/partes/manual-parte-17-aws-production-architecture.pdf) · [Recorrido de AWS en PDF](../../../site/downloads/nubes/manual-aws.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 209 · Cognito, JWT authorizers, WAF y defensa en profundidad](../../part-17-aws-production-architecture/209-cognito-jwt-authorizers-waf-y-defensa-en-profundidad/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [211 · CloudWatch, X-Ray y observabilidad como código →](../../part-17-aws-production-architecture/211-cloudwatch-x-ray-y-observabilidad-como-codigo/README.md) |

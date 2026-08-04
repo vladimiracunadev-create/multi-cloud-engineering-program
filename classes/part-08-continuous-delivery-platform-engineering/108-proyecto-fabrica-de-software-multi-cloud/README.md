@@ -531,6 +531,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 08 en PDF](../../../site/downloads/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 107 · Developer experience, DORA y carga cognitiva](../../part-08-continuous-delivery-platform-engineering/107-developer-experience-dora-y-carga-cognitiva/README.md) | [Parte 08](../README.md) · [Programa](../../README.md) | [109 · Bases relacionales administradas y pooling →](../../part-09-data-messaging-serverless-integration/109-bases-relacionales-administradas-y-pooling/README.md) |

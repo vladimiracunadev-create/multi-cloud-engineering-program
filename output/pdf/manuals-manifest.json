@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "parts": [
+    {
+      "part": "00",
+      "title": "Fundamentos de computación, redes y Linux",
+      "file": "output/pdf/partes/manual-parte-00-foundations-computing-networking-linux.pdf",
+      "class_count": 12,
+      "page_count": 84,
+      "bytes": 527959,
+      "sha256": "9c8f419dd4712cf5248877d5f1aa7a680a1f7806e069aa97346d99b6c199b091"
+    },
+    {
+      "part": "01",
+      "title": "Principios, estrategia y adopción cloud",
+      "file": "output/pdf/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf",
+      "class_count": 12,
+      "page_count": 94,
+      "bytes": 623823,
+      "sha256": "2614f33f623749fda6e26b4fce4a2344fbcdb1c0032436ed5c024c763bcf4244"
+    },
+    {
+      "part": "02",
+      "title": "AWS: plataforma esencial",
+      "file": "output/pdf/partes/manual-parte-02-aws-core-platform.pdf",
+      "class_count": 12,
+      "page_count": 102,
+      "bytes": 642445,
+      "sha256": "481ce1bec14d6b9dae176b5a2cec18766f3ccc3b6cc1d2d1bec76a8b9b22aedd"
+    },
+    {
+      "part": "03",
+      "title": "Azure: plataforma esencial",
+      "file": "output/pdf/partes/manual-parte-03-azure-core-platform.pdf",
+      "class_count": 12,
+      "page_count": 122,
+      "bytes": 864042,
+      "sha256": "e89ea7d0e1ca408b8f786ed324712a18a5faa54c6c03a9f6a3d9377c80c9ff71"
+    },
+    {
+      "part": "04",
+      "title": "Google Cloud: plataforma esencial",
+      "file": "output/pdf/partes/manual-parte-04-gcp-core-platform.pdf",
+      "class_count": 12,
+      "page_count": 127,
+      "bytes": 953505,
+      "sha256": "28d2c0a6cf189cda7e0c7bfb0a9f0b1f75a644322cc93e09df6e05f7b8882c9e"
+    },
+    {
+      "part": "05",
+      "title": "Contenedores, Docker y OCI",
+      "file": "output/pdf/partes/manual-parte-05-containers-docker-oci.pdf",
+      "class_count": 12,
+      "page_count": 124,
+      "bytes": 910579,
+      "sha256": "6a0de5bff23b642301bc6edf18a7f502691f7f07a93e7ab9b136ca062c5ca0c2"
+    },
+    {
+      "part": "06",
+      "title": "Kubernetes y plataformas administradas",
+      "file": "output/pdf/partes/manual-parte-06-kubernetes-managed-platforms.pdf",
+      "class_count": 12,
+      "page_count": 122,
+      "bytes": 852538,
+      "sha256": "4199f761403a2b4eb1475007a62375eb6bff7b90446d400cd364b27177d84529"
+    },
+    {
+      "part": "07",
+      "title": "Infraestructura como código y configuración",
+      "file": "output/pdf/partes/manual-parte-07-infrastructure-as-code-configuration.pdf",
+      "class_count": 12,
+      "page_count": 120,
+      "bytes": 770980,
+      "sha256": "93ade0a331b03e93b537c04e3556d62b75ea674edb4b62c5b06321b1fea0c2ee"
+    },
+    {
+      "part": "08",
+      "title": "Entrega continua y platform engineering",
+      "file": "output/pdf/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf",
+      "class_count": 12,
+      "page_count": 114,
+      "bytes": 810944,
+      "sha256": "57a388b9f87e1c4aa9f328e17f8f24d73ae6364622a885a5ca9fc615dacd0dc1"
+    },
+    {
+      "part": "09",
+      "title": "Datos, mensajería, serverless e integración",
+      "file": "output/pdf/partes/manual-parte-09-data-messaging-serverless-integration.pdf",
+      "class_count": 12,
+      "page_count": 118,
+      "bytes": 835322,
+      "sha256": "d31a14a9b94ca667d8ebd102c59e760cda001af3af74e499cee144bb6f8cdbd8"
+    },
+    {
+      "part": "10",
+      "title": "Observabilidad, SRE y confiabilidad",
+      "file": "output/pdf/partes/manual-parte-10-observability-sre-reliability.pdf",
+      "class_count": 12,
+      "page_count": 116,
+      "bytes": 839012,
+      "sha256": "c5aaf55bbeec14b165ae4238274c28ceddc019bf004357eed558c0e896ed50d7"
+    },
+    {
+      "part": "11",
+      "title": "Seguridad, gobierno, cumplimiento y FinOps",
+      "file": "output/pdf/partes/manual-parte-11-security-governance-finops.pdf",
+      "class_count": 12,
+      "page_count": 123,
+      "bytes": 884510,
+      "sha256": "0ca45828fbcb03378b940b700e529e78258db9b146c16c169012c521903b459c"
+    },
+    {
+      "part": "12",
+      "title": "Arquitectura cloud-native y sistemas distribuidos",
+      "file": "output/pdf/partes/manual-parte-12-cloud-native-distributed-architecture.pdf",
+      "class_count": 12,
+      "page_count": 123,
+      "bytes": 871833,
+      "sha256": "ad981e238da915836f43f3d332809c4dac000d38b441ef7c3a34d597a1e1be47"
+    },
+    {
+      "part": "13",
+      "title": "Multi-cloud, híbrido, migración y recuperación",
+      "file": "output/pdf/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf",
+      "class_count": 12,
+      "page_count": 123,
+      "bytes": 844472,
+      "sha256": "53bd794471a6e10e3db12bead2284e1d144b5c1daa8cb15622a304a738ac1500"
+    },
+    {
+      "part": "14",
+      "title": "Plataformas avanzadas, capstones y carrera",
+      "file": "output/pdf/partes/manual-parte-14-advanced-platform-capstones-career.pdf",
+      "class_count": 12,
+      "page_count": 126,
+      "bytes": 842176,
+      "sha256": "09258bc1df1de28c01ac296be5555f3d3a177b2e54ceb7d72cab947a44d61f9b"
+    },
+    {
+      "part": "15",
+      "title": "Arquitectura de sistemas e ingeniería de requisitos",
+      "file": "output/pdf/partes/manual-parte-15-systems-architecture-engineering.pdf",
+      "class_count": 12,
+      "page_count": 120,
+      "bytes": 905208,
+      "sha256": "409ba9b1d98bef91cadacd03d014c0171206eeea357c6dd4b92611e9f14d1cc9"
+    },
+    {
+      "part": "16",
+      "title": "Redes cloud avanzadas, conectividad híbrida y edge",
+      "file": "output/pdf/partes/manual-parte-16-advanced-cloud-networking-edge.pdf",
+      "class_count": 12,
+      "page_count": 129,
+      "bytes": 791181,
+      "sha256": "1f5bd2b4390a00d80d5e5d965eb3152fd9b0a797c5a1e1afae3d6337c95f1450"
+    },
+    {
+      "part": "17",
+      "title": "AWS: arquitectura, automatización y operación en producción",
+      "file": "output/pdf/partes/manual-parte-17-aws-production-architecture.pdf",
+      "class_count": 12,
+      "page_count": 134,
+      "bytes": 832485,
+      "sha256": "892d54d6074eac98b5221fac67496b6cc389407e40a82128cbc4f34842e3ec65"
+    },
+    {
+      "part": "18",
+      "title": "Azure: arquitectura empresarial y operación en producción",
+      "file": "output/pdf/partes/manual-parte-18-azure-production-architecture.pdf",
+      "class_count": 12,
+      "page_count": 133,
+      "bytes": 808941,
+      "sha256": "92102e72b0061dcaf6d0ceeb20b1af922a07644d94323f647a646f5e54f9f5b6"
+    },
+    {
+      "part": "19",
+      "title": "Google Cloud: arquitectura de datos y operación en producción",
+      "file": "output/pdf/partes/manual-parte-19-gcp-production-architecture.pdf",
+      "class_count": 12,
+      "page_count": 133,
+      "bytes": 785623,
+      "sha256": "9bd6409e06e66cdee37b42918bfcbc90ebf8bfb32b375c788463643ef6dd1770"
+    },
+    {
+      "part": "20",
+      "title": "Plataformas cloud de datos, analítica, IA y agentes",
+      "file": "output/pdf/partes/manual-parte-20-cloud-data-ai-platforms.pdf",
+      "class_count": 12,
+      "page_count": 140,
+      "bytes": 855002,
+      "sha256": "2faf40c1da153095d10bf2b866db690818b3c68c5cf5e907d9aa68f9f84cc136"
+    },
+    {
+      "part": "21",
+      "title": "Operación cloud, automatización y respuesta a incidentes",
+      "file": "output/pdf/partes/manual-parte-21-cloud-operations-automation.pdf",
+      "class_count": 12,
+      "page_count": 143,
+      "bytes": 767413,
+      "sha256": "16dbc37b5859290706c5d8498862db450208dc59ba6a2ed909f108f4de1d9109"
+    },
+    {
+      "part": "22",
+      "title": "Especializaciones, certificaciones y práctica profesional",
+      "file": "output/pdf/partes/manual-parte-22-specializations-certifications-career.pdf",
+      "class_count": 12,
+      "page_count": 131,
+      "bytes": 688571,
+      "sha256": "2747cc903f4437b9e8e2a6cd7b94dd30c7b85f0a488596a41721670e2b9f139c"
+    },
+    {
+      "part": "23",
+      "title": "Capstones por industria y defensa final",
+      "file": "output/pdf/partes/manual-parte-23-industry-capstones.pdf",
+      "class_count": 12,
+      "page_count": 134,
+      "bytes": 737560,
+      "sha256": "3d743e9ecebfbaedd96e14a3668efdec7db356d7a6a1da0b19545ce66cd189a5"
+    }
+  ],
+  "clouds": [
+    {
+      "cloud": "aws",
+      "name": "AWS",
+      "file": "output/pdf/nubes/manual-aws.pdf",
+      "parts": [
+        "02",
+        "17"
+      ],
+      "class_count": 27,
+      "class_ids": [
+        "025",
+        "026",
+        "027",
+        "028",
+        "029",
+        "030",
+        "031",
+        "032",
+        "033",
+        "034",
+        "035",
+        "036",
+        "083",
+        "093",
+        "205",
+        "206",
+        "207",
+        "208",
+        "209",
+        "210",
+        "211",
+        "212",
+        "213",
+        "214",
+        "215",
+        "216",
+        "273"
+      ],
+      "page_count": 257,
+      "bytes": 1629976,
+      "sha256": "1596da78d51c94e611ffdda6efafcd6291969260192343615ceab519b69a16fa"
+    },
+    {
+      "cloud": "azure",
+      "name": "Azure",
+      "file": "output/pdf/nubes/manual-azure.pdf",
+      "parts": [
+        "03",
+        "18"
+      ],
+      "class_count": 28,
+      "class_ids": [
+        "037",
+        "038",
+        "039",
+        "040",
+        "041",
+        "042",
+        "043",
+        "044",
+        "045",
+        "046",
+        "047",
+        "048",
+        "083",
+        "093",
+        "217",
+        "218",
+        "219",
+        "220",
+        "221",
+        "222",
+        "223",
+        "224",
+        "225",
+        "226",
+        "227",
+        "228",
+        "248",
+        "273"
+      ],
+      "page_count": 287,
+      "bytes": 1899498,
+      "sha256": "473656e59704e4ca48447f23665797ce53c4ba1e0a298752d0afdb2b118adb94"
+    },
+    {
+      "cloud": "google-cloud",
+      "name": "Google Cloud",
+      "file": "output/pdf/nubes/manual-google-cloud.pdf",
+      "parts": [
+        "04",
+        "19"
+      ],
+      "class_count": 27,
+      "class_ids": [
+        "049",
+        "050",
+        "051",
+        "052",
+        "053",
+        "054",
+        "055",
+        "056",
+        "057",
+        "058",
+        "059",
+        "060",
+        "083",
+        "114",
+        "229",
+        "230",
+        "231",
+        "232",
+        "233",
+        "234",
+        "235",
+        "236",
+        "237",
+        "238",
+        "239",
+        "240",
+        "273"
+      ],
+      "page_count": 281,
+      "bytes": 1896365,
+      "sha256": "7a774fe7db1f4cd8d393862bcae8545d58f8afe7c65020543087019758adf004"
+    }
+  ],
+  "total_files": 27,
+  "total_pages": 3760
+}

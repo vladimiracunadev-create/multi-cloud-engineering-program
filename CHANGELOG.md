@@ -1,9 +1,23 @@
 # Changelog
 
+## 2.2.0 — 2026-08-04
+
+- **diagramas visibles en las tres superficies**: los 291 diagramas se
+  pre-renderizan a SVG y PNG en el build. Antes el manual los imprimia como
+  texto Mermaid y la aplicacion Android los dejaba en blanco, porque se traian
+  de un CDN y no hay red; ahora no dependen de JavaScript ni de la red;
+- **manuales divididos**: 24 cuadernos por parte y 3 por nube —AWS, Azure y
+  Google Cloud—, generados por el mismo generador y desde las mismas fuentes;
+- cada clase y cada parte enlazan su PDF desde el README y desde el portal, y
+  el panel tiene una seccion de descargas con los 28 documentos;
+- manual integral de 2.883 paginas, con los diagramas dentro;
+- dependencias de generacion al dia: reportlab 5.0.0 y pypdf 6.14.2, ambas
+  comprobadas contra el recuento de paginas antes de adoptarlas.
+
 ## 2.1.0 — 2026-08-04
 
 - las 288 clases con contenido propio: cerradas las partes 21, 22 y 23;
-- manual integral regenerado a 2.779 páginas desde las 607 fuentes;
+- manual integral regenerado a 2.883 páginas desde las 607 fuentes;
 - aplicación Android: APK firmada de 4,0 MiB que empaqueta el curso entero y
   funciona sin conexión, construida sin Gradle con las herramientas del SDK;
 - navegación anterior/siguiente en las páginas de clase y parte, en el README de

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/191.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "191 — Architecture review y comunicación con stakeholders", "description": "191 — Architecture review y comunicación con stakeholders Parte: 15 — Arquitectura de sistemas e ingeniería de requisitos<br Nivel: intermedio-avanzado · H", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/191.html"}</script>
   <title>191 — Architecture review y comunicación con stakeholders · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/15.html">Parte 15</a><span>/</span><strong>191</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="190.html" rel="prev" title="ADRs, fitness functions y gobierno de decisiones">← 190</a><a class="pager-link index" href="../parts/15.html">Parte 15</a><a class="pager-link next" href="192.html" rel="next" title="Proyecto: arquitectura completa de CloudShop">192 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-15-systems-architecture-engineering.pdf" download>📕 Parte 15 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 15 · intermedio-avanzado</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="191"> Clase completada</label>
@@ -92,20 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    R[&quot;revisión de arquitectura&quot;] --&gt; R1[&quot;1 · escenarios de calidad\npriorizados con negocio&quot;]
-    R1 --&gt; R2[&quot;2 · recorrer cada escenario\nsobre el diseño&quot;]
-    R2 --&gt; R3[&quot;3 · anotar&quot;]
-    R3 --&gt; A[&quot;RIESGO\npuede impedir\ncumplir un atributo&quot;]
-    R3 --&gt; B[&quot;PUNTO SENSIBLE\nafecta a un atributo&quot;]
-    R3 --&gt; C[&quot;CESIÓN\nafecta a varios,\nen direcciones opuestas&quot;]
-    A --&gt; D[&quot;registrar y decidir&quot;]
-    C --&gt; D
-    P[&quot;comunicar&quot;] --&gt; P1[&quot;QUIEN PAGA\nqué se gana,\nqué cuesta,\nqué se arriesga&quot;]
-    P --&gt; P2[&quot;QUIEN OPERA\nqué se rompe,\ncómo se sabe,\nqué hago a las 3&quot;]
-    P --&gt; P3[&quot;QUIEN CONSTRUYE\nqué puedo cambiar\nsin pedir permiso&quot;]
-    P --&gt; P4[&quot;QUIEN LO SUFRE\nqué cambia para mí\ny cuándo&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/d09df5b1b92b452b.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-revision-por-escenarios">1. Revisión por escenarios</h3>
 <p>La revisión habitual —presentar el diagrama y pedir comentarios— produce observaciones sobre nombres, tecnologías preferidas y detalles visibles. No encuentra riesgos porque no pregunta nada concreto.</p>
@@ -579,7 +572,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/191-architecture-review-y-comunicacion-con-stakeholders/lesson.yaml">Contrato de clase</a> · <a href="../parts/15.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/191-architecture-review-y-comunicacion-con-stakeholders/../../../site/downloads/partes/manual-parte-15-systems-architecture-engineering.pdf">Parte 15 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-15-systems-architecture-engineering/191-architecture-review-y-comunicacion-con-stakeholders/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>architecture-review</h2></div>
         <code>python classes/part-15-systems-architecture-engineering/191-architecture-review-y-comunicacion-con-stakeholders/lab.py --seed 42</code>
@@ -643,6 +637,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-revision-por-escenarios">1. Revisión por escenarios</a><a class="toc-level-3" href="#2-como-se-conduce-en-la-practica">2. Cómo se conduce, en la práctica</a><a class="toc-level-3" href="#3-cuatro-audiencias-cuatro-preguntas">3. Cuatro audiencias, cuatro preguntas</a><a class="toc-level-3" href="#4-que-no-se-convierta-en-tramite">4. Que no se convierta en trámite</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

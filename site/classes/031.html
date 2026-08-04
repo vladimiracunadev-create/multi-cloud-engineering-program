@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/031.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "031 — RDS, DynamoDB y ElastiCache: decisión de datos", "description": "031 — RDS, DynamoDB y ElastiCache: decisión de datos Parte: 02 — AWS: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: data ·", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/031.html"}</script>
   <title>031 — RDS, DynamoDB y ElastiCache: decisión de datos · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/02.html">Parte 02</a><span>/</span><strong>031</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="030.html" rel="prev" title="S3: objetos, versionado, lifecycle y replicación">← 030</a><a class="pager-link index" href="../parts/02.html">Parte 02</a><a class="pager-link next" href="032.html" rel="next" title="Lambda, API Gateway y Step Functions">032 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-02-aws-core-platform.pdf" download>📕 Parte 02 en PDF</a><a href="../downloads/nubes/manual-aws.pdf" download>☁️ Recorrido de AWS en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 02 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="031"> Clase completada</label>
@@ -88,18 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    Q1{{&quot;¿Consultas ad hoc&lt;br/&gt;o conocidas de antemano?&quot;}}
-    Q1 --&gt;|&quot;ad hoc, uniones,&lt;br/&gt;agregaciones&quot;| REL[&quot;Relacional · RDS&quot;]
-    Q1 --&gt;|&quot;conocidas y acotadas&quot;| Q2{{&quot;¿Transacciones sobre\nvarias entidades?&quot;}}
-    Q2 --&gt;|&quot;sí, frecuentes&quot;| REL
-    Q2 --&gt;|&quot;no o puntuales&quot;| Q3{{&quot;¿Escala &gt; 10k ops/s\no crecimiento impredecible?&quot;}}
-    Q3 --&gt;|&quot;sí&quot;| NOSQL[&quot;DynamoDB&quot;]
-    Q3 --&gt;|&quot;no&quot;| REL
-    REL --&gt; C{{&quot;¿lecturas repetidas\nde lo mismo?&quot;}}
-    NOSQL --&gt; C
-    C --&gt;|&quot;sí, ratio &gt; 10:1&quot;| CACHE[&quot;ElastiCache&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/5c9249add135f64a.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-los-patrones-de-acceso-van-primero">1. Los patrones de acceso van primero</h3>
 <p>En un motor relacional se normaliza el modelo y después se consulta como haga falta: el optimizador se encarga. En un almacén de clave-valor no hay optimizador, así que <strong>el modelo debe derivarse de las consultas</strong>.</p>
@@ -389,7 +384,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/lesson.yaml">Contrato de clase</a> · <a href="../parts/02.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/../../../site/downloads/partes/manual-parte-02-aws-core-platform.pdf">Parte 02 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/../../../site/downloads/nubes/manual-aws.pdf">Recorrido de AWS en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>matriz-datos-aws</h2></div>
         <code>python classes/part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/lab.py --seed 42</code>
@@ -453,6 +449,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-los-patrones-de-acceso-van-primero">1. Los patrones de acceso van primero</a><a class="toc-level-3" href="#2-transacciones-que-se-pierde-y-que-cuesta-recuperarlo">2. Transacciones: qué se pierde y qué cuesta recuperarlo</a><a class="toc-level-3" href="#3-la-clave-de-particion-decide-si-escala">3. La clave de partición decide si escala</a><a class="toc-level-3" href="#4-cache-cuando-aporta-y-como-se-invalida">4. Caché: cuándo aporta y cómo se invalida</a><a class="toc-level-3" href="#5-el-coste-tambien-decide-y-a-veces-al-reves">5. El coste también decide, y a veces al revés</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

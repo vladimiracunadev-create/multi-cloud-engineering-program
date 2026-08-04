@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/012.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "012 — Proyecto: servicio local reproducible y observable", "description": "012 — Proyecto: servicio local reproducible y observable Parte: 00 — Fundamentos de computación, redes y Linux<br Nivel: inicial · Horas estimadas: 8<br La", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/012.html"}</script>
   <title>012 — Proyecto: servicio local reproducible y observable · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/00.html">Parte 00</a><span>/</span><strong>012</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="011.html" rel="prev" title="Costo, energía, capacidad y medición básica">← 011</a><a class="pager-link index" href="../parts/00.html">Parte 00</a><a class="pager-link next" href="013.html" rel="next" title="Definición NIST y características esenciales de cloud">013 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf" download>📕 Parte 00 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 00 · inicial</span><strong>8 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="012"> Clase completada</label>
@@ -88,16 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    CL[&quot;cliente&quot;] --&gt; LB[&quot;balanceador&quot;]
-    LB --&gt;|&quot;/health/ready&quot;| API[&quot;servicio CloudShop&quot;]
-    API --&gt; DB[(&quot;base de datos&lt;br/&gt;esencial&quot;)]
-    API -.-&gt;|&quot;opcional&quot;| CA[(&quot;caché&quot;)]
-    API -.-&gt;|&quot;opcional&quot;| REC[&quot;recomendaciones&quot;]
-    API --&gt; M[&quot;/metrics&lt;br/&gt;latencia, tráfico,&lt;br/&gt;errores, saturación&quot;]
-    DB -.-&gt;|&quot;cae → ready falla&lt;br/&gt;→ se retira del balanceador&quot;| LB
-    REC -.-&gt;|&quot;cae → responde sin&lt;br/&gt;recomendaciones: 200&quot;| CL
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/cef98df4d6c6f72c.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-liveness-y-readiness-responden-a-preguntas-opuestas">1. Liveness y readiness responden a preguntas opuestas</h3>
 <p>Confundirlas es el error que convierte una degradación en una caída total, y ocurre porque ambas «comprueban si el servicio está bien».</p>
@@ -414,7 +411,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-00-foundations-computing-networking-linux/012-proyecto-servicio-local-reproducible-y-observable/lesson.yaml">Contrato de clase</a> · <a href="../parts/00.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-00-foundations-computing-networking-linux/012-proyecto-servicio-local-reproducible-y-observable/../../../site/downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf">Parte 00 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-00-foundations-computing-networking-linux/012-proyecto-servicio-local-reproducible-y-observable/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>servicio-local</h2></div>
         <code>python classes/part-00-foundations-computing-networking-linux/012-proyecto-servicio-local-reproducible-y-observable/lab.py --seed 42</code>
@@ -478,6 +476,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-liveness-y-readiness-responden-a-preguntas-opuestas">1. Liveness y readiness responden a preguntas opuestas</a><a class="toc-level-3" href="#2-las-cuatro-senales-doradas-y-por-que-la-media-miente">2. Las cuatro señales doradas, y por qué la media miente</a><a class="toc-level-3" href="#3-degradar-en-vez-de-caer">3. Degradar en vez de caer</a><a class="toc-level-3" href="#4-una-linea-base-que-se-pueda-repetir">4. Una línea base que se pueda repetir</a><a class="toc-level-3" href="#5-reproducible-significa-sin-conocimiento-tacito">5. Reproducible significa sin conocimiento tácito</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

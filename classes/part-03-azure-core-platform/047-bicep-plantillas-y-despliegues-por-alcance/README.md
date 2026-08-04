@@ -508,6 +508,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 03 en PDF](../../../site/downloads/partes/manual-parte-03-azure-core-platform.pdf) · [Recorrido de Azure en PDF](../../../site/downloads/nubes/manual-azure.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 046 · Key Vault, Defender for Cloud y Azure Policy](../../part-03-azure-core-platform/046-key-vault-defender-for-cloud-y-azure-policy/README.md) | [Parte 03](../README.md) · [Programa](../../README.md) | [048 · Proyecto: aplicación de tres capas en Azure →](../../part-03-azure-core-platform/048-proyecto-aplicacion-de-tres-capas-en-azure/README.md) |

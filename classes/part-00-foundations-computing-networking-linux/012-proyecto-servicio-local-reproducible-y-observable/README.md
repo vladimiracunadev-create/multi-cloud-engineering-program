@@ -341,6 +341,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 00 en PDF](../../../site/downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 011 · Costo, energía, capacidad y medición básica](../../part-00-foundations-computing-networking-linux/011-costo-energia-capacidad-y-medicion-basica/README.md) | [Parte 00](../README.md) · [Programa](../../README.md) | [013 · Definición NIST y características esenciales de cloud →](../../part-01-cloud-principles-strategy-adoption/013-definicion-nist-y-caracteristicas-esenciales-de-cloud/README.md) |

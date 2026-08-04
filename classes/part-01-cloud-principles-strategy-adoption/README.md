@@ -2,6 +2,8 @@
 
 > [← Parte 00](../part-00-foundations-computing-networking-linux/README.md) · [Índice completo](../README.md) · [Parte 02 →](../part-02-aws-core-platform/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** inicial-intermedio · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Decidir cuándo, por qué y cómo adoptar nube con criterios técnicos y económicos.

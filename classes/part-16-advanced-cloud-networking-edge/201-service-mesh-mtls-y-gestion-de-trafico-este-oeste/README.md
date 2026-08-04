@@ -655,6 +655,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 16 en PDF](../../../site/downloads/partes/manual-parte-16-advanced-cloud-networking-edge.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 200 · Private endpoints, service networking y egress control](../../part-16-advanced-cloud-networking-edge/200-private-endpoints-service-networking-y-egress-control/README.md) | [Parte 16](../README.md) · [Programa](../../README.md) | [202 · eBPF, flow logs, packet capture y diagnóstico →](../../part-16-advanced-cloud-networking-edge/202-ebpf-flow-logs-packet-capture-y-diagnostico/README.md) |

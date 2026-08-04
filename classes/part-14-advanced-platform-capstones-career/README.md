@@ -2,6 +2,8 @@
 
 > [← Parte 13](../part-13-multicloud-hybrid-disaster-recovery/README.md) · [Índice completo](../README.md) · [Parte 15 →](../part-15-systems-architecture-engineering/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** experto-frontera · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Integrar tecnología, operación, gobierno y comunicación en evidencia profesional.

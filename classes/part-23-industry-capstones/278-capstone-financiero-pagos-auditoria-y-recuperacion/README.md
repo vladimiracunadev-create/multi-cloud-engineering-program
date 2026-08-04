@@ -637,6 +637,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 23 en PDF](../../../site/downloads/partes/manual-parte-23-industry-capstones.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 277 · Capstone retail: comercio multi-región](../../part-23-industry-capstones/277-capstone-retail-comercio-multi-region/README.md) | [Parte 23](../README.md) · [Programa](../../README.md) | [279 · Capstone salud: privacidad e interoperabilidad →](../../part-23-industry-capstones/279-capstone-salud-privacidad-e-interoperabilidad/README.md) |

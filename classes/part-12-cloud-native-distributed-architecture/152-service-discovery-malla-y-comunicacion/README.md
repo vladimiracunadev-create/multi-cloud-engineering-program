@@ -621,6 +621,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 12 en PDF](../../../site/downloads/partes/manual-parte-12-cloud-native-distributed-architecture.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 151 · Fallos parciales y patrones de resiliencia](../../part-12-cloud-native-distributed-architecture/151-fallos-parciales-y-patrones-de-resiliencia/README.md) | [Parte 12](../README.md) · [Programa](../../README.md) | [153 · Contratos API, compatibilidad y evolución →](../../part-12-cloud-native-distributed-architecture/153-contratos-api-compatibilidad-y-evolucion/README.md) |

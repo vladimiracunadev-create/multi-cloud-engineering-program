@@ -2,6 +2,8 @@
 
 > [← Parte 20](../part-20-cloud-data-ai-platforms/README.md) · [Índice completo](../README.md) · [Parte 22 →](../part-22-specializations-certifications-career/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-21-cloud-operations-automation.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Convertir la operación diaria en procesos observables, repetibles y progresivamente automatizados.

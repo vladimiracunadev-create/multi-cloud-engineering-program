@@ -635,6 +635,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 21 en PDF](../../../site/downloads/partes/manual-parte-21-cloud-operations-automation.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 258 · Triage de red, cómputo, datos y dependencias](../../part-21-cloud-operations-automation/258-triage-de-red-computo-datos-y-dependencias/README.md) | [Parte 21](../README.md) · [Programa](../../README.md) | [260 · Change management, ventanas y rollback →](../../part-21-cloud-operations-automation/260-change-management-ventanas-y-rollback/README.md) |

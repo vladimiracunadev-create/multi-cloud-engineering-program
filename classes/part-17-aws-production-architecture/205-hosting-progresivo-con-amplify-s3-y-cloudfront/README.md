@@ -618,6 +618,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 17 en PDF](../../../site/downloads/partes/manual-parte-17-aws-production-architecture.pdf) · [Recorrido de AWS en PDF](../../../site/downloads/nubes/manual-aws.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 204 · Proyecto: red multi-región y multi-cloud](../../part-16-advanced-cloud-networking-edge/204-proyecto-red-multi-region-y-multi-cloud/README.md) | [Parte 17](../README.md) · [Programa](../../README.md) | [206 · OIDC de GitHub y GitLab hacia AWS sin secretos →](../../part-17-aws-production-architecture/206-oidc-de-github-y-gitlab-hacia-aws-sin-secretos/README.md) |

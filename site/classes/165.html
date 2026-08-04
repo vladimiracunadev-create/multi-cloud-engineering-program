@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/165.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "165 — Nube híbrida, edge y conectividad privada", "description": "165 — Nube híbrida, edge y conectividad privada Parte: 13 — Multi-cloud, híbrido, migración y recuperación<br Nivel: experto · Horas estimadas: 4<br Labora", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/165.html"}</script>
   <title>165 — Nube híbrida, edge y conectividad privada · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/13.html">Parte 13</a><span>/</span><strong>165</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="164.html" rel="prev" title="Flotas Kubernetes y políticas comunes">← 164</a><a class="pager-link index" href="../parts/13.html">Parte 13</a><a class="pager-link next" href="166.html" rel="next" title="Backup, RTO, RPO y patrones de disaster recovery">166 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf" download>📕 Parte 13 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 13 · experto</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="165"> Clase completada</label>
@@ -92,22 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    M{&quot;¿por qué fuera de la nube?&quot;} --&gt;|&quot;latencia que la física impide&quot;| J[&quot;legítimo&quot;]
-    M --&gt;|&quot;volumen que no se puede enviar&quot;| J
-    M --&gt;|&quot;norma o soberanía&quot;| J
-    M --&gt;|&quot;debe funcionar sin conexión&quot;| J
-    M --&gt;|&quot;'la nube es cara'&quot;| N[&quot;hacer la cuenta antes · 143&quot;]
-    E[&quot;emplazamiento&quot;] --&gt; Q[&quot;¿quién puede tocarlo\ny en cuánto tiempo?&quot;]
-    Q --&gt;|&quot;horas&quot;| R1[&quot;se puede arriesgar más&quot;]
-    Q --&gt;|&quot;días o nunca&quot;| R2[&quot;vigilante de arranque\ny doble partición&quot;]
-    C{&quot;sin conexión&quot;} --&gt; C1[&quot;decide con estado LOCAL&quot;]
-    C1 --&gt; C2[&quot;el sitio es dueño de sus datos\nun solo escritor · ley 21&quot;]
-    C2 --&gt; C3[&quot;al volver: envía hechos\nno estado · 116&quot;]
-    S[&quot;acceso físico&quot;] --&gt; S1[&quot;cifrado en reposo: aquí SÍ · 136&quot;]
-    S --&gt; S2[&quot;credenciales cortas · 137&quot;]
-    S --&gt; S3[&quot;arranque verificado&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/8f8a0d4e850980f6.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-por-que-algo-vive-fuera">1. Por qué algo vive fuera</h3>
 <p>Los motivos, con la pregunta de siempre:</p>
@@ -622,7 +613,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/165-nube-hibrida-edge-y-conectividad-privada/lesson.yaml">Contrato de clase</a> · <a href="../parts/13.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/165-nube-hibrida-edge-y-conectividad-privada/../../../site/downloads/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf">Parte 13 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-13-multicloud-hybrid-disaster-recovery/165-nube-hibrida-edge-y-conectividad-privada/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>arquitectura-hibrida</h2></div>
         <code>python classes/part-13-multicloud-hybrid-disaster-recovery/165-nube-hibrida-edge-y-conectividad-privada/lab.py --seed 42</code>
@@ -686,6 +678,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-por-que-algo-vive-fuera">1. Por qué algo vive fuera</a><a class="toc-level-3" href="#2-funcionar-sin-conexion">2. Funcionar sin conexión</a><a class="toc-level-3" href="#3-actualizar-sin-poder-ir">3. Actualizar sin poder ir</a><a class="toc-level-3" href="#4-acceso-fisico-y-visibilidad">4. Acceso físico y visibilidad</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

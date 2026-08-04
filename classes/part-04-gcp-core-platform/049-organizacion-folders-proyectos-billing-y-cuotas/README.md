@@ -530,6 +530,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 04 en PDF](../../../site/downloads/partes/manual-parte-04-gcp-core-platform.pdf) · [Recorrido de Google Cloud en PDF](../../../site/downloads/nubes/manual-google-cloud.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 048 · Proyecto: aplicación de tres capas en Azure](../../part-03-azure-core-platform/048-proyecto-aplicacion-de-tres-capas-en-azure/README.md) | [Parte 04](../README.md) · [Programa](../../README.md) | [050 · IAM, service accounts y Workload Identity Federation →](../../part-04-gcp-core-platform/050-iam-service-accounts-y-workload-identity-federation/README.md) |

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/173.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "173 — Madurez SRE y confiabilidad organizacional", "description": "173 — Madurez SRE y confiabilidad organizacional Parte: 14 — Plataformas avanzadas, capstones y carrera<br Nivel: experto-frontera · Horas estimadas: 4<br", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/173.html"}</script>
   <title>173 — Madurez SRE y confiabilidad organizacional · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/14.html">Parte 14</a><span>/</span><strong>173</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="172.html" rel="prev" title="Modelo operativo FinOps y economía unitaria">← 172</a><a class="pager-link index" href="../parts/14.html">Parte 14</a><a class="pager-link next" href="174.html" rel="next" title="Arquitectura de seguridad cloud empresarial">174 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf" download>📕 Parte 14 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 14 · experto-frontera</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="173"> Clase completada</label>
@@ -92,21 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    M{&quot;modelo&quot;} --&gt;|&quot;en cada equipo&quot;| M1[&quot;integrado\n+ cerca del sistema\n− no escala ni difunde&quot;]
-    M --&gt;|&quot;equipo central&quot;| M2[&quot;central\n+ difunde práctica\n− acaba OPERANDO&quot;]
-    M --&gt;|&quot;capacidad de plataforma&quot;| M3[&quot;plataforma\n+ escala\n− lejos del dominio&quot;]
-    M2 --&gt; R[&quot;regla que lo evita:\nnadie asume la guardia\nde un servicio cuyo equipo\nno la lleve&quot;]
-    M2 --&gt; E[&quot;modelo de compromiso:\ncriterios de entrada\nY DE SALIDA&quot;]
-    S[&quot;madurez POR SERVICIO&quot;] --&gt; S1[&quot;objetivos definidos · 126&quot;]
-    S --&gt; S2[&quot;alertas accionables · 125&quot;]
-    S --&gt; S3[&quot;procedimientos ejecutables · 128&quot;]
-    S --&gt; S4[&quot;revisiones con acciones cerradas · 127&quot;]
-    S --&gt; S5[&quot;capacidad conocida · 129&quot;]
-    S --&gt; S6[&quot;ensayos ejecutados · 131&quot;]
-    I[&quot;muchas revisiones&quot;] --&gt; A[&quot;ANÁLISIS ENTRE INCIDENTES\ncausas repetidas&quot;]
-    A --&gt; D[&quot;decisión con datos\nfiabilidad frente a velocidad&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/3c70c94942c611f6.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-tres-modelos-y-sus-modos-de-fallo">1. Tres modelos y sus modos de fallo</h3>
 <pre><code class="language-text">INTEGRADO EN CADA EQUIPO
@@ -608,7 +600,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/173-madurez-sre-y-confiabilidad-organizacional/lesson.yaml">Contrato de clase</a> · <a href="../parts/14.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/173-madurez-sre-y-confiabilidad-organizacional/../../../site/downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf">Parte 14 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/173-madurez-sre-y-confiabilidad-organizacional/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>assessment-sre</h2></div>
         <code>python classes/part-14-advanced-platform-capstones-career/173-madurez-sre-y-confiabilidad-organizacional/lab.py --seed 42</code>
@@ -672,6 +665,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-modelos-y-sus-modos-de-fallo">1. Tres modelos y sus modos de fallo</a><a class="toc-level-3" href="#2-madurez-por-servicio-no-por-equipo">2. Madurez por servicio, no por equipo</a><a class="toc-level-3" href="#3-cuando-alguien-quiere-saltarse-la-regla">3. Cuando alguien quiere saltarse la regla</a><a class="toc-level-3" href="#4-aprender-entre-incidentes">4. Aprender entre incidentes</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

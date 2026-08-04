@@ -521,6 +521,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 05 en PDF](../../../site/downloads/partes/manual-parte-05-containers-docker-oci.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 066 · Docker Compose y aplicaciones multiservicio](../../part-05-containers-docker-oci/066-docker-compose-y-aplicaciones-multiservicio/README.md) | [Parte 05](../README.md) · [Programa](../../README.md) | [068 · Límites, health checks y apagado ordenado →](../../part-05-containers-docker-oci/068-limites-health-checks-y-apagado-ordenado/README.md) |

@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/004.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "004 — Python, JSON y automatización mínima", "description": "004 — Python, JSON y automatización mínima Parte: 00 — Fundamentos de computación, redes y Linux<br Nivel: inicial · Horas estimadas: 4<br Laboratorio: aut", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/004.html"}</script>
   <title>004 — Python, JSON y automatización mínima · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/00.html">Parte 00</a><span>/</span><strong>004</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="003.html" rel="prev" title="Git, GitHub y trabajo reproducible">← 003</a><a class="pager-link index" href="../parts/00.html">Parte 00</a><a class="pager-link next" href="005.html" rel="next" title="Redes por capas, TCP/IP, puertos y sockets">005 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf" download>📕 Parte 00 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 00 · inicial</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="004"> Clase completada</label>
@@ -88,14 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    API[&quot;Respuesta HTTP&lt;br/&gt;bytes&quot;] --&gt; D[&quot;json.loads()&quot;]
-    D --&gt; V{{&quot;¿cumple el contrato?&quot;}}
-    V --&gt;|&quot;no&quot;| E[&quot;error con contexto:&lt;br/&gt;campo, tipo esperado, recibido&quot;]
-    V --&gt;|&quot;sí&quot;| L[&quot;lógica de negocio&quot;]
-    L --&gt; S[&quot;json.dumps(sort_keys=True)&quot;]
-    S --&gt; O[&quot;salida determinista&lt;br/&gt;comparable byte a byte&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/228eda0dcf580dad.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-json-y-python-no-comparten-sistema-de-tipos">1. JSON y Python no comparten sistema de tipos</h3>
 <p>El mapeo parece directo hasta que deja de serlo:</p>
@@ -327,7 +326,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-00-foundations-computing-networking-linux/004-python-json-y-automatizacion-minima/lesson.yaml">Contrato de clase</a> · <a href="../parts/00.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-00-foundations-computing-networking-linux/004-python-json-y-automatizacion-minima/../../../site/downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf">Parte 00 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-00-foundations-computing-networking-linux/004-python-json-y-automatizacion-minima/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>script-de-diagnostico</h2></div>
         <code>python classes/part-00-foundations-computing-networking-linux/004-python-json-y-automatizacion-minima/lab.py --seed 42</code>
@@ -391,6 +391,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-json-y-python-no-comparten-sistema-de-tipos">1. JSON y Python no comparten sistema de tipos</a><a class="toc-level-3" href="#2-los-numeros-de-json-no-sirven-para-dinero">2. Los números de JSON no sirven para dinero</a><a class="toc-level-3" href="#3-validar-antes-de-confiar">3. Validar antes de confiar</a><a class="toc-level-3" href="#4-determinismo-la-propiedad-que-hace-verificable-un-laboratorio">4. Determinismo: la propiedad que hace verificable un laboratorio</a><a class="toc-level-3" href="#5-fallos-esperados-frente-a-fallos-inesperados">5. Fallos esperados frente a fallos inesperados</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

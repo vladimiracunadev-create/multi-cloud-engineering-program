@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/176.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "176 — Edge, IoT y procesamiento desconectado", "description": "176 — Edge, IoT y procesamiento desconectado Parte: 14 — Plataformas avanzadas, capstones y carrera<br Nivel: experto-frontera · Horas estimadas: 4<br Labo", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/176.html"}</script>
   <title>176 — Edge, IoT y procesamiento desconectado · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/14.html">Parte 14</a><span>/</span><strong>176</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="175.html" rel="prev" title="Workloads de IA, GPU, datos y MLOps multi-cloud">← 175</a><a class="pager-link index" href="../parts/14.html">Parte 14</a><a class="pager-link next" href="177.html" rel="next" title="Soberanía digital y confidential computing">177 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf" download>📕 Parte 14 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 14 · experto-frontera</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="176"> Clase completada</label>
@@ -92,22 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    D[&quot;cientos de miles\nde dispositivos&quot;] --&gt; I[&quot;identidad al fabricar\no al primer arranque · ley 14&quot;]
-    I --&gt; R[&quot;revocar UNO\nsin tocar el resto&quot;]
-    D --&gt; E{&quot;embudo de datos&quot;}
-    E --&gt; E1[&quot;filtrar en el dispositivo&quot;]
-    E --&gt; E2[&quot;agregar en la pasarela&quot;]
-    E --&gt; E3[&quot;muestrear&quot;]
-    E --&gt; E4[&quot;enviar lo que queda&quot;]
-    E1 -.-&gt;|&quot;lo descartado NO vuelve&quot;| Q[&quot;¿para qué preguntas\nson estos datos?&quot;]
-    D --&gt; U[&quot;actualizar&quot;]
-    U --&gt; U1[&quot;cohortes que representen\nla variedad real&quot;]
-    U --&gt; U2[&quot;parada automática\npor proporción de fallos&quot;]
-    U --&gt; U3[&quot;un fallo puede dejar\ndispositivos inalcanzables&quot;]
-    D --&gt; C[&quot;coste por dispositivo × N&quot;]
-    D --&gt; S[&quot;el dispositivo NO es de confianza · 165&quot;]
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/fd86323cce2541ba.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-que-cambia-con-la-escala">1. Qué cambia con la escala</h3>
 <p>La clase 165 trataba trescientas cuarenta tiendas. Con cuatrocientos mil dispositivos, cambian cinco cosas:</p>
@@ -639,7 +630,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/176-edge-iot-y-procesamiento-desconectado/lesson.yaml">Contrato de clase</a> · <a href="../parts/14.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/176-edge-iot-y-procesamiento-desconectado/../../../site/downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf">Parte 14 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-14-advanced-platform-capstones-career/176-edge-iot-y-procesamiento-desconectado/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>arquitectura-edge</h2></div>
         <code>python classes/part-14-advanced-platform-capstones-career/176-edge-iot-y-procesamiento-desconectado/lab.py --seed 42</code>
@@ -703,6 +695,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-que-cambia-con-la-escala">1. Qué cambia con la escala</a><a class="toc-level-3" href="#2-identidad-para-un-millon-de-cosas">2. Identidad para un millón de cosas</a><a class="toc-level-3" href="#3-el-embudo-de-datos">3. El embudo de datos</a><a class="toc-level-3" href="#4-actualizar-sin-poder-probarlo-todo">4. Actualizar sin poder probarlo todo</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

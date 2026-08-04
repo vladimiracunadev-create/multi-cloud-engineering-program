@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/046.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "046 — Key Vault, Defender for Cloud y Azure Policy", "description": "046 — Key Vault, Defender for Cloud y Azure Policy Parte: 03 — Azure: plataforma esencial<br Nivel: intermedio · Horas estimadas: 4<br Laboratorio: securit", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/046.html"}</script>
   <title>046 — Key Vault, Defender for Cloud y Azure Policy · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/03.html">Parte 03</a><span>/</span><strong>046</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><a class="pager-link" href="045.html" rel="prev" title="Azure Monitor, Log Analytics y Application Insights">← 045</a><a class="pager-link index" href="../parts/03.html">Parte 03</a><a class="pager-link next" href="047.html" rel="next" title="Bicep, plantillas y despliegues por alcance">047 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-03-azure-core-platform.pdf" download>📕 Parte 03 en PDF</a><a href="../downloads/nubes/manual-azure.pdf" download>☁️ Recorrido de Azure en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 03 · intermedio</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="046"> Clase completada</label>
@@ -92,24 +97,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    subgraph gov[&quot;gobierno · Azure Policy&quot;]
-        A[&quot;Audit&quot;] --&gt; INV[&quot;inventario de incumplimiento&quot;]
-        D[&quot;Deny&quot;] --&gt; REQ[&quot;guarda la PETICIÓN&lt;br/&gt;no toca lo existente&quot;]
-        M[&quot;Modify · DeployIfNotExists&quot;] --&gt; REM[&quot;tarea de corrección&lt;br/&gt;con identidad administrada&quot;]
-    end
-    subgraph sec[&quot;secretos · Key Vault&quot;]
-        RB[&quot;RBAC, no directivas de acceso&quot;] --&gt; PP[&quot;protección contra purga&quot;]
-        PP --&gt; CA[&quot;caché en memoria con TTL&lt;br/&gt;o se agota el límite&quot;]
-        CA --&gt; ROT[&quot;rotación con dos credenciales&lt;br/&gt;+ evento de caducidad próxima&quot;]
-    end
-    subgraph det[&quot;detección · Defender for Cloud&quot;]
-        CSPM[&quot;recomendaciones y puntuación&quot;] --&gt; PL[&quot;planes por tipo de recurso&quot;]
-        PL --&gt; NT[&quot;prueba negativa por control&quot;]
-    end
-    REM --&gt; NT
-    ROT --&gt; NT
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/9c9fbbecc4007e51.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-key-vault-el-modelo-de-permisos-decide-que-escalada-existe">1. Key Vault: el modelo de permisos decide qué escalada existe</h3>
 <p>Antes de guardar el primer secreto hay dos decisiones que se toman una vez y se sufren siempre.</p>
@@ -534,7 +523,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/046-key-vault-defender-for-cloud-y-azure-policy/lesson.yaml">Contrato de clase</a> · <a href="../parts/03.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/046-key-vault-defender-for-cloud-y-azure-policy/../../../site/downloads/partes/manual-parte-03-azure-core-platform.pdf">Parte 03 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/046-key-vault-defender-for-cloud-y-azure-policy/../../../site/downloads/nubes/manual-azure.pdf">Recorrido de Azure en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-03-azure-core-platform/046-key-vault-defender-for-cloud-y-azure-policy/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>controles-azure</h2></div>
         <code>python classes/part-03-azure-core-platform/046-key-vault-defender-for-cloud-y-azure-policy/lab.py --seed 42</code>
@@ -598,6 +588,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-key-vault-el-modelo-de-permisos-decide-que-escalada-existe">1. Key Vault: el modelo de permisos decide qué escalada existe</a><a class="toc-level-3" href="#2-claves-propias-control-real-y-responsabilidad-real">2. Claves propias: control real y responsabilidad real</a><a class="toc-level-3" href="#3-azure-policy-deny-guarda-la-puerta-y-no-limpia-la-casa">3. Azure Policy: Deny guarda la puerta y no limpia la casa</a><a class="toc-level-3" href="#4-defender-for-cloud-dos-mitades-y-una-puntuacion-que-no-es-la-meta">4. Defender for Cloud: dos mitades y una puntuación que no es la meta</a><a class="toc-level-3" href="#5-la-prueba-negativa-de-cada-control-de-esta-parte">5. La prueba negativa de cada control de esta parte</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

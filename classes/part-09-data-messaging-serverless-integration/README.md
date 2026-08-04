@@ -2,6 +2,8 @@
 
 > [← Parte 08](../part-08-continuous-delivery-platform-engineering/README.md) · [Índice completo](../README.md) · [Parte 10 →](../part-10-observability-sre-reliability/README.md)
 
+**📥 Descargar:** [Esta parte en PDF](../../site/downloads/partes/manual-parte-09-data-messaging-serverless-integration.pdf) · [Manual integral](../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 **Nivel:** avanzado · **Clases:** 12 · **Duración sugerida:** 6–8 semanas
 
 Elegir servicios de datos e integración por sus garantías y patrones de acceso.

@@ -498,6 +498,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 09 en PDF](../../../site/downloads/partes/manual-parte-09-data-messaging-serverless-integration.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 109 · Bases relacionales administradas y pooling](../../part-09-data-messaging-serverless-integration/109-bases-relacionales-administradas-y-pooling/README.md) | [Parte 09](../README.md) · [Programa](../../README.md) | [111 · Caché, invalidación, TTL y consistencia →](../../part-09-data-messaging-serverless-integration/111-cache-invalidacion-ttl-y-consistencia/README.md) |

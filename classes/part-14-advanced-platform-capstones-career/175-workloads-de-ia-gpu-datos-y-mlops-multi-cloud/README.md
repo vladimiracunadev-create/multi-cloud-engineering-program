@@ -671,6 +671,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 14 en PDF](../../../site/downloads/partes/manual-parte-14-advanced-platform-capstones-career.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 174 · Arquitectura de seguridad cloud empresarial](../../part-14-advanced-platform-capstones-career/174-arquitectura-de-seguridad-cloud-empresarial/README.md) | [Parte 14](../README.md) · [Programa](../../README.md) | [176 · Edge, IoT y procesamiento desconectado →](../../part-14-advanced-platform-capstones-career/176-edge-iot-y-procesamiento-desconectado/README.md) |

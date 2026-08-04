@@ -677,6 +677,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 18 en PDF](../../../site/downloads/partes/manual-parte-18-azure-production-architecture.pdf) · [Recorrido de Azure en PDF](../../../site/downloads/nubes/manual-azure.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 225 · Azure Monitor, Application Insights y OpenTelemetry](../../part-18-azure-production-architecture/225-azure-monitor-application-insights-y-opentelemetry/README.md) | [Parte 18](../README.md) · [Programa](../../README.md) | [227 · Cost Management, Advisor, resiliencia y Chaos Studio →](../../part-18-azure-production-architecture/227-cost-management-advisor-resiliencia-y-chaos-studio/README.md) |

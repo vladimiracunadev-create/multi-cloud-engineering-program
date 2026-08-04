@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/001.html">
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/class.css?v=2.1.0-r1">
+  <link rel="stylesheet" href="../assets/class.css?v=2.2.0-r1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "001 — Computación digital y modelo mental de la nube", "description": "001 — Computación digital y modelo mental de la nube Parte: 00 — Fundamentos de computación, redes y Linux<br Nivel: inicial · Horas estimadas: 4<br Labora", "provider": {"@type": "Person", "name": "Vladimir Acuña"}, "inLanguage": "es", "url": "https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/classes/001.html"}</script>
   <title>001 — Computación digital y modelo mental de la nube · Multi-Cloud Engineering</title>
 </head>
@@ -31,6 +31,11 @@
     <main class="lesson-content">
       <nav class="breadcrumbs"><a href="../index.html">Programa</a><span>/</span><a href="../parts/00.html">Parte 00</a><span>/</span><strong>001</strong></nav>
       <nav class="lesson-pager" aria-label="Navegación entre clases"><span class="pager-link disabled">← inicio</span><a class="pager-link index" href="../parts/00.html">Parte 00</a><a class="pager-link next" href="002.html" rel="next" title="Terminal, sistema de archivos, procesos y variables de entorno">002 →</a></nav>
+      <section class="downloads-strip">
+        <span class="kicker">Descargar</span>
+        <a href="../downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf" download>📕 Parte 00 en PDF</a>
+        <a href="../downloads/multi-cloud-engineering-manual-v2.0.pdf" download>📚 Manual integral</a>
+      </section>
       <section class="lesson-status">
         <div><span class="kicker">Parte 00 · inicial</span><strong>4 horas</strong></div>
         <label class="completion"><input type="checkbox" data-lesson-complete="001"> Clase completada</label>
@@ -88,19 +93,8 @@
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart TB
-    subgraph fisico[&quot;Lo que existe de verdad&quot;]
-        CPU[&quot;CPU · registros y caché&lt;br/&gt;1-4 ns&quot;] --&gt; RAM[&quot;Memoria principal&lt;br/&gt;~100 ns&quot;]
-        RAM --&gt; SSD[&quot;Almacenamiento NVMe&lt;br/&gt;~16 µs&quot;]
-        SSD --&gt; RED[&quot;Red del centro de datos&lt;br/&gt;~0,5 ms ida y vuelta&quot;]
-        RED --&gt; WAN[&quot;Enlace intercontinental&lt;br/&gt;~150 ms ida y vuelta&quot;]
-    end
-    subgraph alquiler[&quot;Lo que se alquila&quot;]
-        IAAS[&quot;IaaS · máquina y disco&quot;] --&gt; PAAS[&quot;PaaS · runtime gestionado&quot;]
-        PAAS --&gt; SAAS[&quot;SaaS · solo datos y configuración&quot;]
-    end
-    fisico -.-&gt;|&quot;virtualización y&lt;br/&gt;multi-tenencia&quot;| alquiler
-</code></pre>
+<figure class="diagram"><img src="../assets/diagrams/c9390eb2c9249e3c.svg" alt="Diagrama del contenido de la clase" loading="lazy" decoding="async"></figure>
+
 <h2 id="desarrollo">📖 Desarrollo</h2>
 <h3 id="1-la-jerarquia-de-memoria-manda-sobre-el-resto-del-diseno">1. La jerarquía de memoria manda sobre el resto del diseño</h3>
 <p>Un procesador moderno ejecuta del orden de 10⁹ instrucciones por segundo y por núcleo, pero pasa la mayor parte del tiempo esperando datos. Los órdenes de magnitud que hay que tener memorizados, popularizados por Jeff Dean en <em>Latency Numbers Every Programmer Should Know</em>:</p>
@@ -326,7 +320,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 <hr>
 <blockquote>
 <p><a href="#assessment">Evaluación</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-00-foundations-computing-networking-linux/001-computacion-digital-y-modelo-mental-de-la-nube/lesson.yaml">Contrato de clase</a> · <a href="../parts/00.html">Índice de la parte</a></p>
-</blockquote></article>
+</blockquote>
+<p><strong>📥 Descargar:</strong> <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-00-foundations-computing-networking-linux/001-computacion-digital-y-modelo-mental-de-la-nube/../../../site/downloads/partes/manual-parte-00-foundations-computing-networking-linux.pdf">Parte 00 en PDF</a> · <a href="https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/blob/main/classes/part-00-foundations-computing-networking-linux/001-computacion-digital-y-modelo-mental-de-la-nube/../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf">Manual integral</a></p></article>
       <section class="lab-command" id="laboratorio-ejecutable">
         <div><span class="kicker">Laboratorio ejecutable</span><h2>mapa-de-componentes</h2></div>
         <code>python classes/part-00-foundations-computing-networking-linux/001-computacion-digital-y-modelo-mental-de-la-nube/lab.py --seed 42</code>
@@ -390,6 +385,6 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
     <strong>En esta página</strong>
     <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-jerarquia-de-memoria-manda-sobre-el-resto-del-diseno">1. La jerarquía de memoria manda sobre el resto del diseño</a><a class="toc-level-3" href="#2-la-latencia-tiene-un-suelo-fisico-y-el-ancho-de-banda-no">2. La latencia tiene un suelo físico y el ancho de banda no</a><a class="toc-level-3" href="#3-que-define-a-la-nube-segun-nist-y-que-no">3. Qué define a la nube según NIST, y qué no</a><a class="toc-level-3" href="#4-los-modelos-de-servicio-son-fronteras-de-responsabilidad">4. Los modelos de servicio son fronteras de responsabilidad</a><a class="toc-level-3" href="#5-elasticidad-el-cambio-economico-no-el-tecnico">5. Elasticidad: el cambio económico, no el técnico</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
-  <script type="module" src="../assets/class.js?v=2.1.0-r1"></script>
+  <script type="module" src="../assets/class.js?v=2.2.0-r1"></script>
 </body>
 </html>

@@ -566,6 +566,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 > [Evaluación](assessment.md) · [Contrato de clase](lesson.yaml) · [Índice de la parte](../README.md)
 
+**📥 Descargar:** [Parte 09 en PDF](../../../site/downloads/partes/manual-parte-09-data-messaging-serverless-integration.pdf) · [Manual integral](../../../site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+
 | Anterior | Índice | Siguiente |
 |---|---|---|
 | [← 115 · Arquitectura dirigida por eventos y contratos](../../part-09-data-messaging-serverless-integration/115-arquitectura-dirigida-por-eventos-y-contratos/README.md) | [Parte 09](../README.md) · [Programa](../../README.md) | [117 · Serverless: límites, cold starts y concurrencia →](../../part-09-data-messaging-serverless-integration/117-serverless-limites-cold-starts-y-concurrencia/README.md) |
