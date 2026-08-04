@@ -1,0 +1,118 @@
+{
+  "id": "235",
+  "purpose": "Elegir el almacén de datos en Google Cloud, donde hay cuatro familias con propósitos claramente distintos y una que no tiene equivalente en las otras nubes: **una base relacional que escala horizontalmente y da consistencia fuerte global, a cambio de un coste y unas reglas de modelado propias**. La clase da el criterio de elección, las decisiones que no se pueden cambiar en cada una, y la advertencia de siempre sobre la clave.",
+  "outcomes": [
+    "**Elegir** entre las cuatro familias con criterios comprobables.",
+    "**Modelar** para la base distribuida evitando los puntos calientes.",
+    "**Decidir** si la consistencia fuerte global compensa su coste.",
+    "**Dimensionar** capacidad y detectar el estrangulamiento.",
+    "**Combinar** el camino operativo con el analítico sin forzar ninguno."
+  ],
+  "concepts": [
+    {
+      "term": "base relacional gestionada",
+      "definition": "Motor tradicional gestionado. Escala vertical, transacciones y consultas ad hoc."
+    },
+    {
+      "term": "base relacional distribuida",
+      "definition": "Escala horizontal con transacciones y consistencia fuerte global. Con reglas de modelado propias."
+    },
+    {
+      "term": "base de documentos",
+      "definition": "Almacén sin esquema con sincronización a clientes. Cómoda y con límites de escritura por documento."
+    },
+    {
+      "term": "base de tabla ancha",
+      "definition": "Almacén de altísimo volumen y baja latencia, con una sola clave ordenada."
+    },
+    {
+      "term": "punto caliente",
+      "definition": "Clave que concentra escrituras contiguas. En estas familias, la causa principal de mala escala."
+    },
+    {
+      "term": "entrelazado",
+      "definition": "Colocación física de filas hijas junto a su padre, para que la transacción no cruce servidores."
+    }
+  ],
+  "diagram": "flowchart TB\n    Q{\"¿qué necesita?\"}\n    Q -->|\"SQL, consultas ad hoc,\\nvolumen moderado\"| A[\"RELACIONAL\\nGESTIONADA\"]\n    Q -->|\"SQL + escala horizontal\\n+ transacciones globales\"| B[\"RELACIONAL\\nDISTRIBUIDA\"]\n    Q -->|\"documentos, clientes\\nmóviles, sincronización\"| C[\"DOCUMENTOS\"]\n    Q -->|\"millones/s, una clave,\\nlatencia mínima\"| D[\"TABLA ANCHA\"]\n    B --> B1[\"CLAVE: nunca\\nmonótona creciente\"]\n    B1 --> B2[\"punto caliente\"]\n    B --> B3[\"entrelazar hijas\\ncon el padre\"]\n    C --> C1[\"1 escritura/s por\\ndocumento\"]\n    C --> C2[\"índices automáticos\\n← coste de escritura\"]\n    D --> D1[\"clave de fila única,\\nordenada\"]\n    D1 --> D2[\"prefijo variable\\no punto caliente\"]\n    A --> E[\"y para informes,\\nreplicar al almacén\\nanalítico · clase 236\"]",
+  "foundations": [
+    {
+      "heading": "Cuatro familias, cuatro propósitos",
+      "body": "Aquí las familias están más diferenciadas que en las otras nubes, y elegir mal se paga pronto.\n\n```text\nRELACIONAL GESTIONADA\n  motor tradicional, gestionado\n  + SQL completo, transacciones, consultas ad hoc\n  + migración desde lo heredado casi directa\n  − escala vertical con techo\n  − y las conexiones son un recurso limitado  clase 233\n  para   la mayoría de los sistemas de tamaño normal\n\nRELACIONAL DISTRIBUIDA\n  escala horizontal CON transacciones y consistencia fuerte\n  global\n  + no hay que elegir entre SQL y escala\n  + disponibilidad muy alta y multirregión real\n  − coste base alto: hay un mínimo de capacidad\n  − reglas de modelado propias, y la clave manda\n  para   volúmenes que una relacional no aguanta, o cuando\n         se necesita consistencia fuerte entre regiones\n\nDOCUMENTOS\n  almacén sin esquema, con sincronización a clientes\n  + cómodo, con consultas por campo y tiempo real\n  + integración directa con aplicaciones móviles\n  − límite de escrituras por documento\n  − índices automáticos que se pagan en cada escritura\n  para   perfiles, catálogos, estado de aplicaciones\n         cliente\n\nTABLA ANCHA\n  altísimo volumen, latencia de milisegundos, una sola\n  clave ordenada\n  + escala a petabytes con latencia estable\n  − sin consultas por otros campos: solo por la clave\n  − coste base alto (nodos)\n  para   series temporales, telemetría, perfiles de\n         usuario a gran escala\n```\n\nY el criterio, en preguntas:\n\n```text\n¿el volumen cabe en una máquina grande y crecerá poco?\n  → relacional gestionada; y no compliques\n\n¿hace falta SQL y no cabe, o hace falta consistencia\n fuerte entre regiones?\n  → relacional distribuida, midiendo el coste base\n\n¿es estado de aplicación cliente con sincronización?\n  → documentos\n\n¿son millones de escrituras por segundo con una clave\n conocida?\n  → tabla ancha\n\n¿son informes y exploración?\n  → ninguna de las cuatro: almacén analítico  clase 236\n```\n\nY la advertencia de coste que decide muchas elecciones:\n\n```text\nla relacional distribuida y la de tabla ancha tienen COSTE\nBASE ALTO\n  hay un mínimo de capacidad que se paga aunque no se use\n→ para volúmenes pequeños salen mucho más caras\n→ y por eso «empezar por la que escala» suele ser un error\n  de coste                                    clase 216\n```"
+    },
+    {
+      "heading": "La clave, otra vez",
+      "body": "En las tres familias distribuidas, el error de diseño es el mismo y tiene el mismo nombre: **la clave que concentra**.\n\n```text\nEL PROBLEMA\n  estas bases reparten los datos por RANGOS de clave\n  → claves contiguas van al mismo servidor\n  → y una clave que crece de forma monótona hace que TODAS\n    las escrituras nuevas caigan en el mismo sitio\n\nLAS CLAVES QUE PRODUCEN PUNTOS CALIENTES\n  identificador autoincremental\n  marca de tiempo como primer componente\n  y cualquier secuencia ordenada\n\n→ y es distinto del problema de la clase 208: allí la clave\n  se distribuía por resumen y el problema era la\n  concentración de TRÁFICO; aquí el problema es el ORDEN\n```\n\nY las soluciones:\n\n```text\nIDENTIFICADOR ALEATORIO\n  el más simple y el que mejor reparte\n  − se pierde el orden natural de inserción\n\nINVERTIR LOS BITS de un valor creciente\n  reparte y conserva unicidad\n\nPREFIJO CALCULADO\n  un valor derivado del resto de la clave, como primer\n  componente\n  → reparte, y sigue permitiendo consultas por el resto si\n    se recorre cada prefijo\n\nCLAVE COMPUESTA con algo que reparta primero\n  cliente + fecha, en vez de fecha + cliente\n  → y sirve para las consultas por cliente        clase 208\n```\n\n**El entrelazado**, que es propio de la relacional distribuida:\n\n```text\nlas filas hijas se colocan FÍSICAMENTE junto a su padre\n  pedido y sus líneas, juntos\n→ leer un pedido con sus líneas es una sola lectura local\n→ y la transacción no cruza servidores\n\ny sin entrelazar\n  la transacción coordina entre servidores\n  → latencia mucho mayor y más conflictos\n\n→ es la decisión de modelado que más cambia el rendimiento\n→ y hay que tomarla al crear la tabla\n```\n\nY las transacciones, con lo que hay que saber:\n\n```text\nla relacional distribuida da transacciones globales con\nconsistencia fuerte\n  → y eso cuesta coordinación\n\nlas de SOLO LECTURA no bloquean y son mucho más baratas\n  → declararlas como tales, siempre\n\ny las de lectura con obsolescencia acotada\n  «lee de hace 10 segundos»\n  → sirven la mayoría de las consultas y evitan la\n    coordinación                              clase 223\n\n→ y la mayoría de los sistemas que usan transacciones\n  fuertes para todo están pagando coordinación que no\n  necesitan                                        ley 26\n```"
+    },
+    {
+      "heading": "Capacidad, límites y coste",
+      "body": "**La relacional distribuida** se dimensiona por unidades de proceso.\n\n```text\nLA CAPACIDAD\n  se mide en unidades; hay un mínimo por instancia\n  y cada unidad da un tope de almacenamiento y de caudal\n\n  → y la regla operativa\n    mantener la utilización de CPU por debajo del 65 % en\n    una región y del 45 % en multirregión\n    → por encima, la latencia se dispara     clase 186\n\nEL ESTRANGULAMIENTO\n  se manifiesta como latencia alta y transacciones\n  abortadas\n  → y las abortadas hay que reintentar, lo que empeora\n  → la señal directa es la CPU y la de operaciones por\n    servidor\n\nY LAS ESTADÍSTICAS DE ACCESO\n  la plataforma indica qué rangos de clave concentran\n  → es la herramienta que encuentra el punto caliente\n  → y hay que mirarla, no suponer               ley 15\n```\n\n**La base de documentos**, con sus límites característicos:\n\n```text\nUNA ESCRITURA POR SEGUNDO Y DOCUMENTO\n  → un contador global en un documento no funciona\n  → hay que repartirlo en varios y sumar al leer\n\nÍNDICES AUTOMÁTICOS\n  por defecto se indexa cada campo\n  → cada escritura paga por todos            clase 223\n  → y hay que EXCLUIR lo que no se consulta\n\nCONSULTAS LIMITADAS\n  no hay uniones ni agregaciones complejas\n  → y las consultas compuestas exigen índices declarados\n\nY LAS REGLAS DE SEGURIDAD\n  si los clientes acceden directamente, las reglas son el\n  control de acceso\n  → y una regla mal escrita expone todo\n  → se prueban con el simulador, siempre        ley 22\n```\n\n**La tabla ancha**, con lo suyo:\n\n```text\nUNA SOLA CLAVE, ORDENADA\n  las consultas son por clave o por rango de claves\n  → no hay índices secundarios\n  → el diseño de la clave ES el diseño\n\nGRUPOS DE COLUMNAS\n  separar lo que se lee junto\n  → leer un grupo no trae los demás\n\nCADUCIDAD POR CELDA\n  las versiones antiguas se retiran solas\n  → imprescindible en series temporales\n\nY EL COSTE\n  por nodo y por almacenamiento\n  → con un mínimo por instancia\n```\n\nY la decisión de continuidad, que aquí es sencilla y cara:\n\n```text\nla relacional distribuida en configuración multirregión da\nconsistencia fuerte y disponibilidad muy alta\n  → y cuesta del orden del triple\n\ny la relacional gestionada\n  réplicas de lectura, y conmutación con su plazo medido\n                                                clase 215\n```"
+    },
+    {
+      "heading": "Combinar operativo y analítico",
+      "body": "El patrón que este programa repite desde la clase 150 aquí es especialmente directo.\n\n```text\nLO OPERATIVO en la familia que corresponda\nLO ANALÍTICO en el almacén de análisis      clase 236\n\ny la conexión\n  flujo de cambios hacia el almacén analítico\n  o consulta federada desde el almacén hacia la base\n  o réplica gestionada, donde exista\n\n→ y ninguna de las cuatro familias se fuerza para hacer\n  informes\n```\n\nY las tres cosas que hay que decidir al montarlo:\n\n```text\n¿CUÁNTO RETRASO SE ACEPTA?\n  segundos, minutos u horas\n  → y hay que declararlo y vigilarlo            ley 13\n\n¿QUÉ DATOS NO CRUZAN?\n  los personales completos, seudonimizados o excluidos\n                                          clases 230, 239\n\n¿QUIÉN ES EL ESCRITOR?\n  el almacén analítico es de solo lectura desde el punto de\n  vista del negocio\n  → si alguien escribe ahí y luego vuelve al operativo, hay\n    dos escritores                                ley 21\n```\n\n**El caché**, que en muchos sistemas es lo que evita cambiar de familia:\n\n```text\nun caché en memoria delante de la relacional gestionada\nresuelve la mayoría de los problemas de lectura\n  → y es mucho más barato que migrar a una distribuida\n  → con las cautelas de la clase 111: el caché portante y\n    la avalancha\n\n→ antes de cambiar de familia por rendimiento de lectura,\n  medir qué resuelve un caché\n```\n\nY las comprobaciones de esta clase:\n\n```text\n☐ escribir 10.000 filas con clave secuencial y observar el\n  reparto\n☐ consultar las estadísticas de acceso y comprobar que no\n  hay rango caliente\n☐ ejecutar una transacción que cruce servidores y medir\n☐ escribir el mismo documento 10 veces por segundo\n☐ probar las reglas de acceso con el simulador\n☐ conmutar la base y cronometrar               clase 215\n☐ y comprobar el retraso del flujo hacia lo analítico\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ la familia elegida corresponde a los patrones y al\n  volumen\n☐ se comparó el coste base antes de elegir una que escala\n☐ la clave no es monótona creciente\n☐ las tablas hijas están entrelazadas donde procede\n☐ las lecturas usan transacciones de solo lectura\n☐ se usa obsolescencia acotada donde basta\n☐ la utilización se mantiene por debajo del umbral\n☐ se revisan las estadísticas de acceso por rango\n☐ en documentos, los índices automáticos están recortados\n☐ ningún documento recibe más de una escritura por segundo\n☐ las reglas de acceso se han probado con el simulador\n☐ lo analítico va a su almacén, con retraso declarado\n☐ el almacén analítico no es escritor de nada operativo\n```\n\nY el cierre que enlaza con la clase siguiente: con los datos operativos resueltos, queda la plataforma analítica, que en esta nube es la pieza más madura y la que más problemas de gobierno y de coste produce. Es la materia de la clase 236."
+    }
+  ],
+  "worked_example": "**CloudShop elige sus almacenes en Google Cloud. Lo que sigue es la decisión que evitó pagar una base distribuida sin necesitarla, el punto caliente que apareció igualmente en otra tabla, y el contador de un documento que no escalaba.**\n\n**La elección, carga por carga:**\n\n```text\ncarga            volumen            elección\npedidos          41 M filas,        relacional gestionada\n                 900 escrituras/s\ncatálogo         4,1 M productos    relacional gestionada\nsesiones         2 M activas,       documentos\n                 sincronización\n                 con la app\ntelemetría de    41.000 eventos/s   tabla ancha\n  la web\ninventario       120 M filas,       RELACIONAL DISTRIBUIDA\n  global         consistencia\n                 fuerte entre 2\n                 regiones\ninformes         —                  almacén analítico\n                                    clase 236\n```\n\n**La decisión que se evitó:**\n\n```text\nla propuesta inicial ponía CUANTO existe en la relacional\ndistribuida\nmotivo   «escala, y así no hay que migrar nunca»\n\nel cálculo de coste\n  mínimo de capacidad por instancia\n  pedidos                        ~1.900 €/mes\n  catálogo                       ~1.900 €/mes\n  inventario                     ~2.400 €/mes\n  ─────────────────────────────────────────\n  total                          ~6.200 €/mes\n\nfrente a\n  pedidos y catálogo en relacional gestionada\n                                    920 €/mes\n  inventario en distribuida       2.400 €/mes\n  ─────────────────────────────────────────\n  total                           3.320 €/mes\n\n→ y pedidos con 41 M de filas y 900 escrituras/s cabe\n  holgadamente en una relacional gestionada\n→ ahorro                          2.880 €/mes\n```\n\nY el criterio que se registró:\n\n```text\n«se usa la relacional distribuida solo donde se necesita\n consistencia fuerte entre regiones o el volumen no cabe»\nqué la reabriría   si pedidos supera las 4.000\n                   escrituras/s sostenidas o los 500 M de\n                   filas                       clase 190\n```\n\n**El punto caliente del inventario.**\n\n```text\nel modelo inicial\n  tabla inventario, clave primaria: identificador\n  autoincremental\n  motivo   «como en la base relacional de siempre»\n\nlo que pasó en la prueba de carga\n  a partir de 1.200 escrituras/s\n    latencia p99                    de 12 ms a 890 ms\n    transacciones abortadas         14 %\n    CPU media de la instancia       31 %   ← engañosa\n\n  las estadísticas de acceso por rango decían\n    el 96 % de las escrituras caían en el ÚLTIMO rango\n    → todas las claves nuevas eran contiguas\n    → un solo servidor las atendía\n\ncorrección\n  clave primaria: identificador aleatorio\n  y para las consultas por producto y almacén, clave\n  compuesta (producto, almacén) que reparte por producto\n\nresultado\n  latencia p99 a 1.200 escrituras/s     890 ms → 14 ms\n  transacciones abortadas                  14 % → 0,2 %\n  caudal máximo probado                 1.200 → 9.400/s\n```\n\nY el entrelazado, que faltaba:\n\n```text\nlas tablas de movimientos de inventario no estaban\nentrelazadas con la de inventario\n  → cada transacción de ajuste coordinaba entre servidores\n  → latencia de la transacción            48 ms\n\ncon movimientos entrelazados bajo inventario\n  → la transacción es local\n  → latencia                              9 ms\n\n→ y esta decisión se toma AL CREAR la tabla; cambiarla\n  exige recrear y migrar               ley 14\n```\n\n**El contador del documento.**\n\n```text\nla aplicación móvil mantenía un contador de artículos en\nel carrito, en un documento por usuario\n  → funcionaba\n\ny para el panel de operaciones se añadió un contador\nGLOBAL de carritos activos, en un solo documento\n\n  síntoma   en campaña, el contador se quedaba atrás y\n            aparecían errores de contención\n  causa     un documento admite del orden de una escritura\n            por segundo sostenida\n            y había hasta 340 modificaciones por segundo\n\ncorrección\n  el contador se reparte en 100 documentos\n  cada escritura elige uno al azar\n  el panel suma los 100 al leer\n\n  → y para el panel, un valor agregado cada 30 s desde el\n    almacén analítico habría bastado y habría sido más\n    barato                                    clase 236\n  → se hizo así al final\n```\n\nY los índices, recortados:\n\n```text\nlos documentos de sesión tenían 34 campos\nindexados automáticamente                        34\nconsultados                                       4\n\ntras excluir los 30 no consultados\n  coste de escritura por documento        -71 %\n  coste mensual de documentos      1.240 € → 380 €\n```\n\n**Las reglas de acceso, probadas:**\n\n```text\nla aplicación móvil accede directamente a los documentos\nde sesión\n→ las reglas son el control de acceso, no hay servidor en\n  medio\n\nel simulador de reglas, con 12 casos\n  ✓  usuario lee su propio documento\n  ✓  usuario escribe su propio documento\n  ✗  usuario lee el documento de OTRO usuario\n     → la regla comparaba el identificador del documento,\n       no el del usuario autenticado\n     → cualquiera con un identificador podía leer\n  ✓  usuario sin autenticar                     denegado\n  ✗  usuario escribe un campo que no debería\n     → la regla no validaba qué campos se modifican\n  ✓  el resto                                   correcto\n\n→ 2 de 12, y las dos exponían datos de otros usuarios\n→ y sin el simulador no se habrían visto hasta que alguien\n  las probara                                     ley 22\n```\n\n**La telemetría en tabla ancha:**\n\n```text\nclave de fila   invertida(marca de tiempo) + sesión\n  → el componente invertido reparte; sin él, todas las\n    escrituras nuevas caerían juntas\n\ngrupos de columnas\n  «evento» y «contexto» separados\n  → el proceso en tiempo real lee solo «evento»\n\ncaducidad por celda                           30 días\n  → y el histórico va al almacén analítico  clase 236\n\ncoste                                       610 €/mes\n  frente a 3.900 € estimados con el bus de mensajes\n                                                clase 224\n```\n\n**El resultado:**\n\n```text                                        antes     después\ncoste mensual de datos                    6.200 €     3.320 €\n  (según la propuesta inicial)\nlatencia p99 del inventario                890 ms       14 ms\ncaudal máximo del inventario            1.200/s      9.400/s\ntransacciones abortadas                     14 %       0,2 %\ncoste de documentos                       1.240 €       380 €\nreglas de acceso con fallos                 2/12         0/12\ncontadores con contención                      1           0\n```\n\n**La lección que esta clase deja**: la propuesta de poner todo en la base que escala **habría costado casi el doble** sin resolver ningún problema, porque el coste base de esas familias es alto y la mayoría de las cargas cabían en una relacional normal. Y el punto caliente apareció donde siempre: **una clave autoincremental trasladada de la base relacional**, que en un almacén repartido por rangos concentra el noventa y seis por ciento de las escrituras en un solo servidor.",
+  "pitfalls": [
+    {
+      "symptom": "Latencia altísima y transacciones abortadas con la CPU baja",
+      "cause": "Clave monótona creciente: todas las escrituras nuevas caen en el mismo rango",
+      "fix": "Usa identificador aleatorio, invierte los bits o pon delante un componente que reparta; revisa las estadísticas de acceso por rango."
+    },
+    {
+      "symptom": "Las transacciones son lentas aunque toquen pocas filas",
+      "cause": "Cruzan servidores porque las tablas hijas no están entrelazadas con el padre",
+      "fix": "Entrelaza las hijas al crear la tabla; cambiarlo después exige recrear y migrar."
+    },
+    {
+      "symptom": "Se paga mucho por una carga pequeña",
+      "cause": "Se eligió una familia con coste base alto por si escala en el futuro",
+      "fix": "Compara el coste base antes de elegir; empieza en la relacional gestionada y registra qué señal justificaría migrar."
+    },
+    {
+      "symptom": "Un contador global da errores de contención",
+      "cause": "Un documento admite del orden de una escritura por segundo",
+      "fix": "Reparte el contador en varios documentos y suma al leer, o agrega el valor en el almacén analítico."
+    },
+    {
+      "symptom": "El coste de escritura de los documentos es desproporcionado",
+      "cause": "Se indexan automáticamente todos los campos",
+      "fix": "Excluye del índice los campos que no se consultan."
+    },
+    {
+      "symptom": "Un usuario puede leer los datos de otro",
+      "cause": "Las reglas de acceso comparan el identificador equivocado o no validan los campos modificados",
+      "fix": "Prueba las reglas con el simulador para todos los casos, incluidos los de acceso ajeno."
+    }
+  ],
+  "checks": [
+    "¿Qué pregunta decide entre las cuatro familias?",
+    "¿Por qué una clave autoincremental produce puntos calientes en un almacén repartido por rangos?",
+    "¿Qué aporta entrelazar las tablas hijas y cuándo se decide?",
+    "¿Qué límite tiene la escritura sobre un mismo documento y cómo se resuelve?",
+    "¿Por qué no conviene empezar por la familia que más escala?"
+  ],
+  "references": [
+    {
+      "text": "Google Cloud (2025). *Spanner schema design and hotspot avoidance*.",
+      "url": "https://cloud.google.com/spanner/docs/schema-design"
+    },
+    {
+      "text": "Google Cloud (2025). *Spanner: interleaved tables and transactions*.",
+      "url": "https://cloud.google.com/spanner/docs/schema-and-data-model"
+    },
+    {
+      "text": "Google Cloud (2025). *Firestore: best practices and limits*.",
+      "url": "https://cloud.google.com/firestore/docs/best-practices"
+    },
+    {
+      "text": "Google Cloud (2025). *Bigtable schema design*.",
+      "url": "https://cloud.google.com/bigtable/docs/schema-design"
+    },
+    {
+      "text": "Google Cloud (2025). *Cloud SQL: read replicas and high availability*.",
+      "url": "https://cloud.google.com/sql/docs/mysql/high-availability"
+    }
+  ]
+}
