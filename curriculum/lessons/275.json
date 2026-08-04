@@ -1,0 +1,118 @@
+{
+  "id": "275",
+  "purpose": "Convertir el trabajo hecho en evidencia que otro puede evaluar en cinco minutos, y resolver una entrevista de diseño de sistemas. La clase da el formato de evidencia que funciona —**efecto, mecanismo y cifra**—, cómo se escribe un archivo de proyecto que se lee, y el método de la entrevista de diseño, donde lo que se evalúa no es la solución sino **cómo se llega a ella**.",
+  "outcomes": [
+    "**Escribir** evidencia con efecto, mecanismo y cifra.",
+    "**Estructurar** un archivo de proyecto que alguien lee en cinco minutos.",
+    "**Conducir** una entrevista de diseño de sistemas con método.",
+    "**Responder** preguntas de comportamiento con hechos y no con adjetivos.",
+    "**Elegir** qué mostrar y qué omitir según a quién evalúa."
+  ],
+  "concepts": [
+    {
+      "term": "evidencia",
+      "definition": "Afirmación verificable sobre trabajo real: qué cambió, cómo y cuánto."
+    },
+    {
+      "term": "efecto, mecanismo y cifra",
+      "definition": "Formato mínimo de una afirmación creíble: qué mejoró, por qué mejoró y cuánto."
+    },
+    {
+      "term": "archivo de proyecto",
+      "definition": "Documento de entrada de un repositorio. Su primer párrafo decide si alguien sigue leyendo."
+    },
+    {
+      "term": "entrevista de diseño",
+      "definition": "Ejercicio abierto donde se evalúa el método, las preguntas y los compromisos, no la respuesta."
+    },
+    {
+      "term": "compromiso declarado",
+      "definition": "Decir qué se empeora al elegir. Su ausencia es la señal más clara de nivel bajo."
+    },
+    {
+      "term": "relato con hechos",
+      "definition": "Respuesta de comportamiento con situación, acción propia y resultado medido."
+    }
+  ],
+  "diagram": "flowchart TB\n    T[\"trabajo\\nhecho\"] --> E[\"EVIDENCIA\\nefecto · mecanismo · cifra\"]\n    E --> P[\"portafolio\"]\n    E --> C[\"currículo\"]\n    E --> R[\"relatos de\\ncomportamiento\"]\n    P --> A[\"archivo de proyecto\\nqué · por qué · cómo\\nqué mide · qué falló\"]\n    D[\"entrevista de\\nDISEÑO\"] --> D1[\"1 · acota y\\npregunta\"]\n    D1 --> D2[\"2 · estima\\nvolumen\"]\n    D2 --> D3[\"3 · diseño simple\\nde extremo a extremo\"]\n    D3 --> D4[\"4 · profundiza\\ndonde duele\"]\n    D4 --> D5[\"5 · compromisos\\ny fallos\"]\n    D5 --> D6[\"6 · qué\\nmediría\"]",
+  "foundations": [
+    {
+      "heading": "Evidencia: efecto, mecanismo y cifra",
+      "body": "La mayoría de los currículos y portafolios describen actividad. Lo que se evalúa es efecto.\n\n```text\nACTIVIDAD (no vale)\n  «responsable de la infraestructura en la nube»\n  «implanté una plataforma interna»\n  «trabajé con contenedores, canales de datos y\n   monitorización»\n  → no dice qué cambió ni si funcionó\n\nEVIDENCIA (vale)\n  «bajé el tiempo de recuperación de 47 a 11 minutos\n   reduciendo el lote de 14 cambios por despliegue a 1»\n  «la adopción de la plataforma pasó de 3 a 38 de 41\n   servicios al bajar las pruebas de 40 a 9 minutos y la\n   configuración de 11 ficheros a 1»\n  «encontré que 19 de 34 procedimientos estaban rotos\n   ejecutándolos, y los convertí en ejecutables»\n\n→ EFECTO: qué mejoró, medido\n→ MECANISMO: por qué mejoró\n→ CIFRA: cuánto\n```\n\nY por qué el mecanismo es la parte que más discrimina:\n\n```text\nsin mecanismo, la cifra no se puede evaluar\n  «mejoré el rendimiento un 40 %» → ¿cómo? ¿desde qué\n  base? ¿a costa de qué?\n\ncon mecanismo, la conversación se vuelve técnica\n  → y ahí es donde alguien de nivel 3 se distingue\n\ny el mecanismo delata a quien no hizo el trabajo\n  → quien lo hizo puede explicarlo tres niveles hacia\n    abajo\n```\n\nY qué hacer si no hay cifras:\n\n```text\nCASI SIEMPRE HAY ALGO CONTABLE\n  cuántos, cuánto tardaba, cuántas veces al mes, de qué a\n  qué\n  → «de no poder restaurar a restaurar en 52 minutos,\n    probado mensualmente»\n\ny si de verdad no hay\n  se cuenta el CAMBIO CUALITATIVO con precisión\n  → «antes nadie sabía qué recursos existían; ahora hay\n    inventario con dueño, generado cada 6 horas»\n\n→ lo que no vale es el adjetivo: «mejoré mucho la\n  fiabilidad»\n```\n\nY la evidencia del fracaso, que casi nadie incluye y que más impresiona:\n\n```text\n«la primera remediación automática convirtió una\ndegradación en una caída en 3 minutos; le faltaba la\ncondición de mínimo sano. Desde entonces todo pasa por\nmodo sombra cuatro semanas»\n\n→ demuestra nivel 3 mejor que un éxito\n→ porque demuestra que hubo consecuencias y aprendizaje\n→ y porque nadie inventa un fracaso con ese detalle\n```"
+    },
+    {
+      "heading": "El archivo de proyecto",
+      "body": "Un repositorio se juzga por su archivo de entrada, y casi siempre en menos de un minuto.\n\n```text\nLA ESTRUCTURA QUE FUNCIONA\n  1  QUÉ ES, en dos frases\n     y para quién\n  2  EL PROBLEMA que resuelve, concreto\n  3  CÓMO SE PRUEBA\n     → los comandos para verlo funcionando\n     → y esto va ARRIBA, no al final\n  4  DECISIONES, con sus alternativas\n     → «elegí X frente a Y porque Z; lo que empeora es W»\n                                            clase 272\n  5  QUÉ MIDE que funciona\n  6  QUÉ NO HACE y qué falta\n  7  y QUÉ APRENDÍ, incluido lo que salió mal\n\n→ el punto 4 es el que distingue un proyecto de\n  aprendizaje de un ejercicio copiado\n→ y el 6 genera confianza: quien dice lo que falta suele\n  saber de qué habla\n```\n\nY los errores que descartan un portafolio:\n\n```text\nel proyecto no arranca siguiendo las instrucciones\n  → y esto se comprueba, y falla mucho más de lo que se\n    cree\ncredenciales en el repositorio\n  → descarte inmediato en cualquier evaluación seria\n                                            clase 197\ntres proyectos idénticos de un tutorial\n  → mejor uno propio, aunque sea pequeño\nun README que explica la tecnología en vez del problema\ny cero pruebas o cero señales\n  → en un programa como este, es incoherente\n```\n\nY qué proyecto elegir, si hay que construir uno:\n\n```text\nMEJOR PEQUEÑO Y COMPLETO QUE GRANDE E INACABADO\n  un solo servicio con\n    infraestructura como código               clase 128\n    cadena de entrega con despliegue progresivo\n                                              clase 102\n    identidad sin credenciales permanentes    clase 256\n    señales e indicadores de servicio         clase 268\n    copias con restauración probada           clase 255\n    y coste medido                            clase 270\n\n→ eso demuestra más que un sistema distribuido a medias\n→ y permite responder «¿qué pasa si...?» con datos\n```\n\nY la adaptación a quien evalúa:\n\n```text\nfiltro automático o de recursos humanos\n  → palabras del anuncio, cifras claras, sin jerga\ningeniería\n  → mecanismos y compromisos\ndirección\n  → efecto en negocio: coste, riesgo, tiempo de entrega\n\n→ el mismo trabajo, tres presentaciones\n→ y mentir en cualquiera se detecta en la siguiente\n  conversación\n```"
+    },
+    {
+      "heading": "La entrevista de diseño de sistemas",
+      "body": "El error más común es empezar a dibujar. Lo que se evalúa es el método.\n\n```text\nQUÉ SE EVALÚA DE VERDAD\n  qué preguntas haces antes de decidir\n  si acotas el problema o lo aceptas tal cual\n  si estimas volúmenes\n  si declaras compromisos\n  si anticipas fallos\n  y si dices qué medirías\n\n→ no hay respuesta correcta\n→ y quien empieza a dibujar sin preguntar ya ha perdido\n  la mitad\n```\n\nY el método, con tiempos aproximados para 45 minutos:\n\n```text\n1  ACOTAR Y PREGUNTAR                         5-8 min\n   ¿quiénes son los usuarios y qué hacen?\n   ¿cuántos y con qué crecimiento?\n   ¿qué es lo crítico: latencia, coherencia, coste?\n   ¿qué está fuera de alcance?\n   → y escribe los requisitos donde se vean\n\n2  ESTIMAR                                    3-5 min\n   peticiones por segundo, tamaño de los datos,\n   crecimiento\n   → con números redondos y dichos en voz alta\n   → «un millón de usuarios activos al día, 20 acciones\n     cada uno, son 20 millones al día, unas 230 por\n     segundo de media y quizá 700 en pico»\n\n3  DISEÑO SIMPLE DE EXTREMO A EXTREMO         8-10 min\n   la versión que funciona, sin adornos\n   → y decir explícitamente «esto es la versión simple;\n     ahora veamos dónde se rompe»\n\n4  PROFUNDIZAR DONDE DUELE                   10-15 min\n   el modelo de datos y su partición          clase 208\n   el camino crítico y sus plazos             clase 201\n   qué pasa cuando una dependencia va lenta   clase 185\n   y la coherencia que se necesita de verdad\n\n5  COMPROMISOS Y FALLOS                       5-8 min\n   qué empeora cada elección\n   qué se cae si cae una zona\n   y qué se degrada antes que caer            clase 262\n\n6  QUÉ MEDIRÍA                                3-5 min\n   indicadores por recorrido, no por máquina  clase 268\n   → y con esto se cierra muy bien\n```\n\nY las señales que buscan quienes entrevistan:\n\n```text\nSEÑALES BUENAS\n  pregunta antes de decidir\n  dice números en voz alta\n  empieza simple y complica con motivo\n  nombra lo que empeora sin que se lo pidan\n  dice «no lo sé» y propone cómo averiguarlo\n  y cambia de opinión cuando le dan un dato nuevo\n\nSEÑALES MALAS\n  dibuja una arquitectura elaborada de entrada\n  añade componentes sin justificarlos\n  no estima nada\n  defiende su primera idea contra la evidencia\n  y no menciona fallos ni operación\n\n→ estas dos listas son las mismas de la clase 272,\n  aplicadas a 45 minutos\n```"
+    },
+    {
+      "heading": "Preguntas de comportamiento y qué omitir",
+      "body": "La otra mitad de la entrevista, que decide más de lo que se admite.\n\n```text\nEL FORMATO QUE FUNCIONA\n  SITUACIÓN   contexto en dos frases, con números\n  TAREA       qué había que conseguir\n  ACCIÓN      qué hiciste TÚ, no el equipo\n  RESULTADO   medido, y qué aprendiste\n\n→ y la parte que más se falla es la acción: se cuenta en\n  plural y no se sabe qué hizo la persona\n```\n\nY las preguntas que más se repiten, con lo que buscan:\n\n```text\n«cuéntame un incidente que dirigiste»\n  → buscan método, comunicación y qué cambiaste después\n\n«una decisión técnica de la que te arrepientes»\n  → buscan honestidad y capacidad de análisis\n  → responder «ninguna» es la peor respuesta posible\n\n«un desacuerdo técnico con alguien»\n  → buscan cómo se resuelve, no quién tenía razón\n  → y la mejor respuesta suele incluir «tenía razón la\n    otra persona y así lo comprobamos»\n\n«algo que hiciste que nadie te pidió»\n  → buscan iniciativa con criterio\n\ny «cómo te mantienes al día»\n  → buscan método, no lista de fuentes\n```\n\nY qué omitir, que también es una decisión:\n\n```text\nNO PONGAS\n  tecnologías que no sabrías defender\n  → se pregunta por lo que está escrito\n  proyectos de tutorial sin aportación propia\n  niveles autoevaluados en barras de porcentaje\n  → nadie sabe qué significa un 80 % en redes\n  y trabajo de otros presentado como propio\n\nSÍ PON\n  lo que puedas explicar tres niveles hacia abajo\n  y una cosa que salió mal, con lo que cambiaste\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ cada afirmación tiene efecto, mecanismo y cifra\n☐ puedo explicar el mecanismo tres niveles hacia abajo\n☐ incluyo al menos un fracaso con su corrección\n☐ mi archivo de proyecto dice el problema antes que la\n  tecnología\n☐ los comandos para verlo funcionando están arriba\n☐ hay una sección de decisiones con alternativas\n☐ hay una sección de qué no hace y qué falta\n☐ el proyecto arranca siguiendo las instrucciones\n☐ no hay credenciales en ningún repositorio\n☐ en diseño, pregunto y estimo antes de dibujar\n☐ empiezo simple y digo dónde se rompe\n☐ nombro lo que empeora sin que me lo pidan\n☐ cierro diciendo qué mediría\n☐ mis relatos dicen qué hice yo, con resultado medido\n```\n\nY el cierre que enlaza con la clase siguiente: con la evidencia escrita y el método de diseño, queda ponerlo a prueba delante de gente que pregunta. La defensa técnica ante un panel es el proyecto de la clase 276, que cierra la parte 22."
+    }
+  ],
+  "worked_example": "**Tres transformaciones de evidencia y una entrevista de diseño completa. Lo que sigue es el mismo trabajo escrito de tres formas, el archivo de proyecto que pasó de descartado a entrevista, y la transcripción resumida de una entrevista de diseño con lo que el evaluador anotó.**\n\n**Transformación 1 · El mismo trabajo, tres versiones.**\n\n```text\nVERSIÓN 1 · actividad\n  «Responsable de la operación de la plataforma en la\n  nube. Implanté monitorización, procedimientos y mejoras\n  en el proceso de despliegue.»\n\nVERSIÓN 2 · con cifras, sin mecanismo\n  «Reduje los incidentes un 62 % y el tiempo de\n  recuperación un 77 %.»\n  → mejor, y no se puede evaluar\n  → «¿cómo?» y no hay respuesta escrita\n\nVERSIÓN 3 · efecto, mecanismo y cifra\n  «Los incidentes graves pasaron de 34 a 13 al año y el\n  tiempo de recuperación de 47 a 11 minutos. El mecanismo\n  principal fue reducir el lote: de 14 cambios por\n  despliegue a 1, sustituyendo el comité de aprobación\n  —que rechazaba el 0,6 %— por cinco comprobaciones\n  automáticas. Con lotes de un cambio, revertir es\n  inmediato y no hay que averiguar cuál de catorce fue.»\n```\n\nY lo que ocurrió en la entrevista con cada versión:\n\n```text\nversión 1   3 preguntas genéricas, conversación corta\nversión 3   la entrevista se fue 20 minutos por\n            «cuéntame esas cinco comprobaciones»\n            → y ahí se demostró el nivel\n\n→ una evidencia bien escrita DIRIGE la entrevista hacia\n  donde uno es fuerte\n```\n\n**Transformación 2 · El archivo de proyecto.**\n\n```text\nANTES\n  # cloudshop-infra\n  Proyecto de infraestructura con Terraform, Kubernetes,\n  Prometheus y GitHub Actions.\n\n  ## Instalación\n  (47 líneas de pasos manuales)\n\n→ descartado en 20 segundos\n→ dice tecnologías, no problema; y arrancar cuesta 47\n  pasos\n```\n\nY la versión reescrita:\n\n```text\nDESPUÉS\n\n  # Servicio de pedidos con operación completa\n\n  Un servicio de pedidos pequeño, montado con todo lo que\n  hace falta para operarlo de verdad: despliegue\n  progresivo, señales por recorrido, copias con\n  restauración probada y coste medido. Sirve para\n  enseñar cómo se opera un servicio, no cómo se escribe\n  uno.\n\n  ## Verlo funcionando en 3 minutos\n  ```\n  make up\n  make smoke\n  make chaos-kill-instance\n  ```\n  El tercer comando mata una instancia; el servicio sigue\n  respondiendo y el panel lo muestra.\n\n  ## El problema\n  La mayoría de los proyectos de ejemplo despliegan y\n  ahí acaban. Este responde a: ¿qué pasa cuando algo\n  falla, quién se entera y cuánto se tarda en volver?\n\n  ## Decisiones\n  | decisión | alternativa | por qué | qué empeora |\n  |---|---|---|---|\n  | base relacional única | una por servicio | simplicidad operativa con 1 persona | escalado de escritura |\n  | despliegue por porcentajes | azul-verde | vuelta atrás fina | despliegue más lento |\n  | señales por recorrido | por máquina | refleja al usuario | más trabajo de instrumentación |\n\n  ## Qué mide que funciona\n  - éxito de compra > 99,5 %, medido en el cliente\n  - restauración probada: 4 min 12 s la última vez\n  - coste: 0,004 USD por pedido\n\n  ## Qué NO hace\n  - no hay multi-región: el objetivo de recuperación\n    asumido son 4 horas\n  - no hay autenticación de usuario final\n  - la caché es en memoria y se pierde al reiniciar\n\n  ## Qué aprendí\n  La primera versión del despliegue progresivo retiraba\n  instancias sin comprobar cuántas sanas quedaban. Con 3\n  de 4 fallando por una dependencia lenta, las retiró\n  todas. Añadí la condición de mínimo sano y una\n  detección de fallo general.\n```\n\nY el resultado:\n\n```text\ncandidaturas enviadas con la versión antigua      14\n  entrevistas                                      1\ncon la versión nueva                              11\n  entrevistas                                      6\n  y en 5 de las 6, el entrevistador citó la sección\n  «Qué aprendí»\n\n→ el fracaso contado con detalle fue lo más citado\n```\n\n**Una entrevista de diseño, resumida.**\n\n```text\nENUNCIADO\n  «Diseña el sistema de seguimiento de pedidos de una\n  tienda: el usuario quiere ver dónde está su pedido.»\n\nMINUTO 0-6 · ACOTAR\n  «¿cuántos pedidos activos hay a la vez?»      ~2 M\n  «¿de dónde viene el estado?»       de 4 transportistas,\n                                     por API y por fichero\n  «¿con qué frescura debe verse?»    «unos minutos está\n                                     bien»\n  «¿el usuario consulta o quiere que le avisen?»\n                                     ambas\n  «¿qué queda fuera?»                devoluciones\n\n  y el candidato escribió:\n    2 M pedidos activos · 4 orígenes · frescura de\n    minutos · consulta y aviso\n\nMINUTO 6-10 · ESTIMAR, en voz alta\n  «2 M pedidos activos, con 3 actualizaciones al día cada\n  uno, son 6 M eventos/día, unos 70 por segundo de media\n  y quizá 300 en pico»\n  «si el usuario consulta 2 veces por pedido, son 4 M\n  consultas/día, unas 46 por segundo»\n  «el estado de un pedido son unos 200 bytes; 2 M\n  activos son 400 MB: cabe en memoria si hiciera falta»\n\n  → el evaluador anotó: «estima sin que se lo pidan y usa\n    la estimación para decidir»\n\nMINUTO 10-19 · DISEÑO SIMPLE\n  ingesta de los 4 orígenes → cola → procesador →\n  almacén de estado → API de consulta\n  y avisos por eventos desde el procesador\n\n  «esta es la versión simple; ahora dónde se rompe»\n\nMINUTO 19-33 · DONDE DUELE\n  el evaluador pregunta: «un transportista envía eventos\n  desordenados y a veces repetidos»\n    → «entonces necesito idempotencia y orden por pedido:\n      clave de partición el identificador de pedido, y\n      descarto eventos con marca anterior a la última\n      aplicada»                              clase 210\n\n  «uno de los transportistas deja de responder»\n    → «el estado se queda viejo. Prefiero mostrar la\n      antigüedad —‹actualizado hace 3 horas›— a mostrar\n      un estado falso. Y una alerta de frescura por\n      transportista, no global, porque global se diluye»\n                                              clase 268\n\n  «los ficheros de un transportista llegan con 6 horas de\n  retraso una vez»\n    → «marca de agua y reproceso; el estado se corrige y\n      el aviso ya enviado no se puede deshacer, así que\n      los avisos solo se disparan con eventos de las APIs\n      en tiempo real»                        clase 242\n\nMINUTO 33-40 · COMPROMISOS\n  «lo que empeora con la partición por pedido: un pedido\n  con muchísimos eventos crea una partición caliente.\n  Con 3 al día no pasa, pero si añadieran geolocalización\n  continua, sí; ahí lo revisaría»            clase 208\n  «y no tengo coherencia fuerte entre el estado y el\n  aviso: puede llegar el aviso antes de que la consulta\n  lo muestre. Lo acepto y lo mitigo leyendo de la réplica\n  primaria durante 30 segundos tras un aviso»\n\nMINUTO 40-45 · QUÉ MEDIRÍA\n  «frescura por transportista, percentil 95»\n  «éxito de la consulta de estado»\n  «retraso de la cola»\n  «y avisos enviados con estado incorrecto, que es el\n   fallo que más molesta al usuario y el que menos se\n   mide»\n```\n\nY lo que el evaluador anotó al final:\n\n```text\n+ acotó antes de dibujar y escribió los requisitos\n+ estimó en voz alta y usó la estimación\n+ empezó simple y complicó con motivo\n+ mencionó lo que empeora sin que se lo pidieran\n+ propuso mostrar la antigüedad en vez de un estado falso\n  → «esa respuesta la dan pocos y dice mucho»\n+ cerró con una métrica que nadie suele nombrar\n- no habló de coste en ningún momento\n- no preguntó por normativa ni por datos personales\n\ncontratado\n```\n\nY la observación del propio candidato después:\n\n```text\n«no dije nada que no estuviera en el programa; lo único\nque hice distinto fue no dibujar hasta el minuto diez»\n```\n\n**La lección que esta clase deja**: la misma experiencia escrita como actividad dio **1 entrevista en 14 candidaturas** y escrita con efecto, mecanismo y cifra dio **6 en 11** —y en cinco de esas seis, lo que el entrevistador citó fue la sección donde se contaba un fracaso con detalle. Y en la entrevista de diseño, lo que el evaluador subrayó no fue ninguna pieza del sistema: fue que **no se dibujó nada hasta el minuto diez**.",
+  "pitfalls": [
+    {
+      "symptom": "El currículo describe responsabilidades y no genera entrevistas técnicas",
+      "cause": "Describe actividad en vez de efecto",
+      "fix": "Reescribe cada punto con efecto, mecanismo y cifra; el mecanismo es lo que convierte la conversación en técnica."
+    },
+    {
+      "symptom": "El portafolio se descarta en segundos",
+      "cause": "El archivo de entrada habla de tecnologías y arrancar cuesta decenas de pasos",
+      "fix": "Pon el problema en las dos primeras frases y los comandos para verlo funcionando arriba; comprueba que arranca siguiendo tus instrucciones."
+    },
+    {
+      "symptom": "En la entrevista de diseño la conversación se pierde",
+      "cause": "Se empezó a dibujar sin acotar ni estimar",
+      "fix": "Dedica los primeros minutos a preguntar y escribir requisitos, estima en voz alta y empieza por la versión simple diciendo dónde se rompe."
+    },
+    {
+      "symptom": "Preguntan por algo del currículo y no se sabe explicar",
+      "cause": "Se listó tecnología que no se puede defender",
+      "fix": "Pon solo lo que puedas explicar tres niveles hacia abajo; lo demás resta credibilidad al resto."
+    },
+    {
+      "symptom": "Las respuestas de comportamiento suenan vacías",
+      "cause": "Se cuentan en plural y sin resultado medido",
+      "fix": "Di qué hiciste tú, con contexto numérico y resultado; y ten preparada una decisión de la que te arrepientes, con su análisis."
+    },
+    {
+      "symptom": "El proyecto es grande, impresionante y no se puede probar",
+      "cause": "Se priorizó tamaño sobre completitud",
+      "fix": "Mejor un servicio pequeño con despliegue, señales, copias probadas y coste medido: permite responder a qué pasa si algo falla."
+    }
+  ],
+  "checks": [
+    "¿Qué tres partes tiene una afirmación de evidencia creíble y cuál discrimina más?",
+    "¿Qué secciones hacen que un archivo de proyecto se lea y genere confianza?",
+    "¿Qué se evalúa realmente en una entrevista de diseño de sistemas?",
+    "¿Por qué contar un fracaso con detalle funciona mejor que otro éxito?",
+    "¿Qué conviene omitir de un currículo o portafolio y por qué?"
+  ],
+  "references": [
+    {
+      "text": "Xu, A. (2020). *System Design Interview: an insider's guide*.",
+      "url": "https://www.oreilly.com/library/view/system-design-interview/9798641135823/"
+    },
+    {
+      "text": "Google (2024). *How we hire: interviewing at Google*.",
+      "url": "https://careers.google.com/how-we-hire/"
+    },
+    {
+      "text": "Amazon (2024). *Interview process and behavioral questions guidance*.",
+      "url": "https://amazon.jobs/content/en/how-we-hire/interviewing-at-amazon"
+    },
+    {
+      "text": "GitHub (2024). *About READMEs*.",
+      "url": "https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes"
+    },
+    {
+      "text": "Kleppmann, M. (2017). *Designing Data-Intensive Applications* — base habitual de las entrevistas de diseño.",
+      "url": "https://dataintensive.net/"
+    }
+  ]
+}
