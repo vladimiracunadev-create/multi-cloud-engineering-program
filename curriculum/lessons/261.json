@@ -1,0 +1,118 @@
+{
+  "id": "261",
+  "purpose": "Provocar los fallos a propósito para descubrir lo que no funciona antes de que lo descubra un incidente. La clase da el método de los ensayos —hipótesis, radio de impacto, criterio de parada—, la progresión de experimentos que no asusta a nadie, y la parte que casi siempre importa más que la técnica: **que lo que falla en un ensayo son las personas, los procedimientos y la información, no las máquinas**.",
+  "outcomes": [
+    "**Diseñar** un ensayo con hipótesis, radio de impacto y criterio de parada.",
+    "**Progresar** desde el ensayo de mesa hasta el experimento en producción.",
+    "**Elegir** qué fallos provocar según lo que se quiere aprender.",
+    "**Extraer** de cada ensayo acciones concretas, no una sensación.",
+    "**Justificar** el ejercicio ante quien teme romper producción."
+  ],
+  "concepts": [
+    {
+      "term": "ensayo",
+      "definition": "Ejercicio planificado en que se provoca un fallo para observar la respuesta completa: sistema, procedimientos y personas."
+    },
+    {
+      "term": "hipótesis del ensayo",
+      "definition": "Lo que se espera que ocurra, escrito antes. Sin ella el ejercicio no puede fallar y no enseña nada."
+    },
+    {
+      "term": "radio de impacto",
+      "definition": "Cuánto puede afectar el experimento como máximo. Se empieza mínimo y se amplía con evidencia."
+    },
+    {
+      "term": "criterio de parada",
+      "definition": "Condición escrita ante la cual el ejercicio se aborta de inmediato."
+    },
+    {
+      "term": "ensayo de mesa",
+      "definition": "Se recorre el escenario hablando, sin tocar nada. El grado más barato y el que más deriva descubre."
+    },
+    {
+      "term": "experimento continuo",
+      "definition": "Inyección de fallos automatizada y periódica, no un evento anual."
+    }
+  ],
+  "diagram": "flowchart TB\n    P[\"pregunta:\\n¿qué creemos\\nque pasa?\"] --> H[\"HIPÓTESIS\\nescrita antes\"]\n    H --> G1[\"grado 1 · MESA\\nse habla, no se toca\"]\n    G1 --> G2[\"grado 2 · ENTORNO\\nde ensayo\"]\n    G2 --> G3[\"grado 3 · PRODUCCIÓN\\nradio mínimo\"]\n    G3 --> G4[\"grado 4 · CONTINUO\\nautomático y periódico\"]\n    G3 --> S{\"criterio\\nde parada\"}\n    S -->|\"se cumple\"| A[\"abortar\\ny restaurar\"]\n    S -->|\"no\"| O[\"observar\"]\n    O --> R[\"resultado:\\nhipótesis\\nconfirmada\\no refutada\"]\n    R --> AC[\"acciones\\ncon dueño\\ny plazo\"]",
+  "foundations": [
+    {
+      "heading": "Qué se está probando de verdad",
+      "body": "El nombre engaña. Un ensayo no prueba si el sistema aguanta: prueba si la **organización** responde.\n\n```text\nLO QUE FALLA EN LOS ENSAYOS, por frecuencia\n  1  la información no está donde debería\n     el panel no muestra lo que hace falta\n     la alerta no saltó, o saltó tarde\n     nadie sabe dónde mirar\n\n  2  el procedimiento está roto o no existe\n     → el 56 % de CloudShop                 clase 259\n\n  3  los permisos no alcanzan\n     quien está de guardia no puede ejecutar el paso 4\n\n  4  la coordinación\n     tres personas haciendo lo mismo, nadie comunicando\n                                            clase 257\n\n  5  y solo entonces, el sistema\n     el mecanismo de recuperación no funciona como se creía\n\n→ los cuatro primeros son organizativos\n→ y son los que más tiempo cuestan en un incidente real\n```\n\nY por eso el ejercicio más barato es el más rentable:\n\n```text\nENSAYO DE MESA\n  una hora, una sala, un escenario\n  quien lo dirige va describiendo lo que ocurre\n  y los participantes dicen QUÉ HARÍAN y LO ENSEÑAN\n    → «abro este panel» → que lo abra\n    → «miro esta métrica» → que la enseñe\n    → «ejecuto este paso» → que abra el procedimiento\n\n→ no se toca nada, y aun así descubre 1, 2, 3 y 4\n→ coste: 6 personas × 1 hora\n→ y es donde debe empezar cualquier equipo\n```\n\nY la regla que hace que el ensayo enseñe:\n\n```text\nHIPÓTESIS ESCRITA ANTES\n  «cuando caiga la zona A, esperamos que\n     el tráfico se redistribuya en menos de 60 s\n     la latencia suba menos de 30 ms\n     no haya errores visibles para el usuario\n     y salte la alerta de instancias sanas»\n\n→ y sin esto, el ensayo se convierte en «hemos roto algo\n  y lo hemos arreglado»\n→ que no es aprendizaje: es una anécdota\n→ es la misma exigencia que este programa lleva\n  aplicándose desde la parte 1\n```"
+    },
+    {
+      "heading": "El método",
+      "body": "Un ensayo tiene cinco partes y ninguna es opcional.\n\n```text\n1  PREGUNTA\n   qué queremos saber que hoy no sabemos\n   → y viene de un riesgo real, no de una lista genérica\n   → «¿qué pasa si el proveedor de identidad no responde?»\n\n2  HIPÓTESIS\n   lo que esperamos, con números y con señales concretas\n   → incluida la parte de detección: ¿saltará la alerta?\n\n3  RADIO DE IMPACTO\n   el máximo daño posible si todo sale mal\n   → una instancia, no una zona\n   → el 1 % del tráfico, no el 100 %\n   → y se amplía SOLO con evidencia del anterior\n\n4  CRITERIO DE PARADA\n   escrito, medible, y decidido antes\n   → «si los errores del usuario superan el 0,5 %,\n     abortamos»\n   → y quién puede declararlo: cualquiera\n\n5  RESTAURACIÓN\n   cómo se deshace, probado antes de empezar\n   → y el interruptor del propio experimento\n                                            clase 259\n```\n\nY la logística que la gente subestima:\n\n```text\nANUNCIARLO\n  a todos los equipos que puedan verlo\n  → un ensayo sorpresa produce un incidente real con\n    gente confundida\n  → y quema la confianza que el ejercicio necesita\n\nEN HORARIO LABORAL\n  con la gente delante, descansada y disponible\n  → hacerlo de noche contradice el propósito\n\nCON OBSERVADORES\n  alguien que solo toma notas de lo que ocurre y CUÁNDO\n  → incluidas las cosas que no se dicen: dudas,\n    búsquedas, sitios donde se mira y no hay nada\n\nY CON LA GUARDIA REAL\n  el ensayo lo responde quien estaría de guardia\n  → no quien construyó el sistema\n  → esa diferencia es la mitad del valor\n```\n\nY la progresión de grados, que es lo que permite empezar sin permiso especial:\n\n```text\nGRADO 1  mesa                          riesgo cero\nGRADO 2  entorno de ensayo             riesgo cero\n         → y aquí se descubre que el entorno de ensayo no\n           se parece a producción, que ya es un hallazgo\nGRADO 3  producción, radio mínimo      riesgo acotado\n         una instancia, un 1 %, una dependencia\nGRADO 4  producción, radio amplio      riesgo real\n         una zona entera, una región\nGRADO 5  continuo y automático\n         → inyección periódica, sin evento\n\n→ y no se salta de grado sin haber tenido éxito en el\n  anterior\n→ la mayoría de las organizaciones sacan casi todo el\n  valor de los grados 1 a 3\n```"
+    },
+    {
+      "heading": "Qué fallos provocar",
+      "body": "La elección debe venir de los riesgos del sistema, no de un catálogo. Pero el catálogo ayuda a no olvidarse.\n\n```text\nDE RECURSO\n  matar una instancia                       clase 213\n  agotar CPU, memoria o disco\n  agotar un grupo de conexiones             clase 207\n  llenar un volumen\n\nDE RED, que son los más reveladores        clase 202\n  latencia añadida a una dependencia\n  → y esto encuentra fallos grises que nada más encuentra\n    plazos mal configurados                clase 201\n    reintentos sin límite\n    ausencia de cortacircuitos\n  pérdida de paquetes\n  bloqueo de un destino concreto\n  y partición entre zonas\n\nDE DEPENDENCIA                              clase 185\n  una dependencia devuelve errores\n  una dependencia responde LENTO\n    → casi siempre peor que si fallara\n  el proveedor de identidad no responde     clase 209\n  el registro de imágenes no responde\n  y el gestor de secretos no responde       clase 197\n\nDE ZONA Y REGIÓN                            clase 187\n  retirar una zona\n  conmutar de región de verdad, con reloj\n\nDE DATOS                                    clase 243\n  un flujo se para\n  un esquema cambia\n  llegan datos con una distribución distinta\n\nY DE PERSONAS, los más incómodos\n  quien más sabe del servicio NO participa\n  → «está de vacaciones»\n  el panel principal no está disponible\n  el canal de chat habitual no funciona\n  → y esto prueba la comunicación de verdad  clase 257\n```\n\nY el que más sorpresas da y menos se hace:\n\n```text\nLATENCIA AÑADIDA, no fallo\n  200 ms extra en una dependencia\n\nlo que suele aparecer\n  plazos que eran mayores que el plazo del llamante\n  reintentos que triplican la carga             clase 201\n  grupos de conexiones que se agotan\n  colas que crecen sin límite\n  y una degradación que ninguna alerta detecta\n\n→ porque los sistemas se prueban contra el fallo y casi\n  nunca contra la LENTITUD\n→ y la lentitud es la forma real en que fallan\n                                        clase 185, ley 21\n```"
+    },
+    {
+      "heading": "Del ensayo a la acción",
+      "body": "Un ensayo sin acciones cerradas es teatro. Lo que lo convierte en aprendizaje:\n\n```text\nAL TERMINAR, EN CALIENTE (30 min)\n  qué esperábamos y qué pasó\n  qué nos sorprendió\n  qué buscamos y no encontramos\n  → esta última pregunta produce la mitad de las acciones\n  qué habría pasado con radio mayor\n\nY DE AHÍ SALEN ACCIONES\n  con dueño, con plazo y con seguimiento    clase 111\n  y priorizadas por lo que habrían costado en un\n  incidente real\n\nY LA COMPROBACIÓN DE QUE SIRVIÓ\n  REPETIR EL MISMO ENSAYO en 8-12 semanas\n  → y la hipótesis ahora debería cumplirse\n  → y si no se cumple, las acciones no funcionaron\n\n→ repetir es lo que distingue un programa de ensayos de\n  una sucesión de eventos\n```\n\nY cómo convencer a quien teme el ejercicio, que es la parte política:\n\n```text\nLA OBJECIÓN  «no vamos a romper producción a propósito»\nLA RESPUESTA\n  producción se rompe sola, a las 03:00, sin observadores\n  y sin la gente que sabe\n  → el ensayo es lo mismo con todo a favor\n  → y el radio de impacto de un ensayo es MENOR que el de\n    un incidente\n\nY CÓMO EMPEZAR SIN PEDIR PERMISO\n  el ensayo de mesa no toca nada\n  → y produce hallazgos suficientes para justificar el\n    grado siguiente\n  → CloudShop encontró 19 procedimientos rotos así\n                                            clase 259\n\nY LA MÉTRICA QUE CONVENCE\n  hallazgos por ensayo, y qué habría costado cada uno en\n  un incidente real\n```\n\nY el error que arruina programas de ensayos enteros:\n\n```text\nUSAR LOS HALLAZGOS PARA SEÑALAR CULPABLES\n  «el equipo X no sabía responder»\n→ y al siguiente ensayo nadie participa de verdad\n→ los hallazgos son del SISTEMA, siempre       clase 111\n\ny el segundo error\n  hacer el ensayo con quien construyó el servicio\n  → responde por conocimiento, no por procedimiento\n  → y el ensayo sale bien y no enseña nada\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ cada ensayo tiene pregunta e hipótesis escritas antes\n☐ la hipótesis incluye si la detección funcionará\n☐ hay radio de impacto mínimo y se amplía con evidencia\n☐ hay criterio de parada medible y cualquiera puede\n  declararlo\n☐ la restauración está probada antes de empezar\n☐ el ensayo se anuncia y se hace en horario laboral\n☐ responde quien estaría de guardia, no quien lo construyó\n☐ hay observador que anota qué se busca y no se encuentra\n☐ se prueba latencia añadida, no solo fallo\n☐ se ensaya también la ausencia de personas y de\n  herramientas\n☐ salen acciones con dueño y plazo\n☐ el mismo ensayo se repite en 8-12 semanas\n☐ los hallazgos nunca se usan para señalar personas\n☐ hay progresión de grados y no se salta ninguno\n```\n\nY el cierre que enlaza con la clase siguiente: los ensayos revelan qué se rompe cuando algo falla; queda saber qué se rompe cuando todo funciona y la demanda crece. Planificación de capacidad, cuotas y gestión de la demanda es la materia de la clase 262."
+    }
+  ],
+  "worked_example": "**El programa de ensayos de CloudShop, de la primera sesión de mesa al experimento continuo. Lo que sigue son los hallazgos del ensayo que no tocó nada, el que abortó a los cuatro minutos, y el que descubrió que 200 ms de latencia hacían más daño que una caída.**\n\n**Ensayo 1 · De mesa. Coste: 6 personas × 90 minutos.**\n\n```text\nescenario  «la base de datos principal de pedidos deja de\n           aceptar escrituras a las 14:20 de un martes»\n\nregla      cada participante ENSEÑA lo que dice que haría\n\nhallazgos                                        gravedad\n1  nadie sabía dónde ver si la base aceptaba\n   escrituras; el panel mostraba CPU y\n   conexiones                                       alta\n2  el procedimiento de conmutación a la\n   réplica databa de 11 meses y citaba un\n   nombre de recurso inexistente                    alta\n3  la alerta de «escrituras fallidas» existía\n   pero apuntaba a un canal retirado                alta\n4  dos personas creían que la conmutación\n   era automática; no lo era                        alta\n5  nadie sabía a quién avisar en el equipo\n   de datos fuera de horario                       media\n6  el tiempo estimado de conmutación variaba\n   entre «2 minutos» y «media hora» según a\n   quién se preguntara                             media\n\n6 hallazgos, 4 graves, sin tocar nada\n```\n\nY la observación que el equipo hizo:\n\n```text\nel hallazgo 4 era el peor\n  dos de seis personas habrían esperado a que ocurriera\n  algo que no iba a ocurrir\n  → y esa espera, en el incidente real, habría sido de\n    20-30 minutos\n\n→ nadie descubre esa clase de suposición leyendo\n  documentación\n→ solo se descubre preguntando «¿y ahora qué haces?»\n```\n\n**Ensayo 4 · Producción, radio mínimo. El que abortó.**\n\n```text\nhipótesis  al retirar 1 de 11 instancias del servicio de\n           catálogo, esperamos\n             el tráfico se redistribuye en < 30 s\n             el p99 sube menos de 20 ms\n             cero errores de usuario\n             y salta el aviso de instancias sanas\n\nradio      1 instancia de 11\ncriterio   errores de usuario > 0,2 % durante 60 s\nde parada\n\n14:02  se retira la instancia\n14:02  el tráfico se redistribuye en 8 s     ✓\n14:03  p99 sube 12 ms                        ✓\n14:04  errores de usuario: 0,7 %             ✗\n14:04  ABORTADO; instancia restaurada\n14:06  errores a 0\n\ntiempo total de impacto              4 min, 0,7 % errores\n```\n\nY la causa, que era lo que se buscaba:\n\n```text\nlas sesiones de usuario estaban en memoria de la instancia\n  → y la afinidad de sesión hacía que el 9 % del tráfico\n    fuera a esa instancia\n  → al retirarla, esos usuarios perdieron la sesión\n\n→ nadie sabía que había estado en memoria\n→ se había introducido 7 meses antes como «caché\n  temporal»                                    clase 207\n\ny la comparación que importa\n  en el ensayo    4 minutos, 0,7 %, con todo el mundo\n                  mirando, abortado por criterio\n  en un incidente esa instancia se habría muerto sola una\n                  noche, y el síntoma habría sido\n                  «algunos usuarios pierden el carrito»,\n                  intermitente e inexplicable\n                                                clase 258\n```\n\n**Ensayo 7 · Latencia añadida. El que más enseñó.**\n\n```text\nhipótesis  al añadir 200 ms de latencia al servicio de\n           inventario, esperamos que el flujo de compra se\n           degrade proporcionalmente y siga funcionando\n\nradio      10 % del tráfico\ncriterio   errores > 1 % o latencia del flujo > 3 s\n\nlo que pasó\n  minuto 0    +200 ms en inventario\n  minuto 1    latencia del flujo de compra: 4.100 ms\n              → 20 veces los 200 ms inyectados\n  minuto 1    ABORTADO\n\ny la causa, en cascada\n  el servicio de compra llamaba a inventario 3 veces en\n    serie                                     clase 106\n    → 600 ms\n  con reintentos de 2 intentos y plazo de 1 s\n    → los 200 ms no disparaban reintento, pero la suma sí\n  el grupo de conexiones al inventario era de 20\n    → con llamadas más lentas, se agotó       clase 207\n    → y las peticiones esperaban a tener conexión\n  y no había cortacircuito                     clase 201\n\n→ 200 ms de latencia producían 4.100 ms de degradación\n→ y el mismo servicio, CAÍDO por completo, se degradaba\n  mejor: el cliente fallaba rápido y el flujo mostraba\n  «inventario no disponible» en 1,2 s\n\n→ el fallo era MENOS dañino que la lentitud\n                                              clase 185\n```\n\nY las acciones que salieron:\n\n```text\nlas 3 llamadas en serie pasaron a 1 en lote\nse añadió cortacircuito con umbral de latencia\nel grupo de conexiones se dimensionó y se alertó su\n  saturación                                clase 207\ny se añadió un plazo por LLAMADA además del total\n\ny al repetir el ensayo, 9 semanas después\n  +200 ms → latencia del flujo 1.240 ms\n  → hipótesis cumplida\n  → y el ensayo se subió a +500 ms: 1.480 ms\n```\n\n**Ensayo 11 · Sin las personas clave.**\n\n```text\nescenario  el mismo de la sesión de mesa (base sin\n           escrituras), pero real, en entorno de ensayo\nregla      las dos personas que más saben de la base OBSERVAN\n           y no intervienen\n\nresultado\n  tiempo hasta identificar el problema             6 min\n  tiempo hasta ejecutar la conmutación            31 min\n    de los cuales, buscando el permiso              14 min\n    y esperando confirmación de quién podía\n    autorizarla                                     9 min\n\n  → y las dos personas que observaban dijeron que ellas\n    lo habrían hecho en 5 minutos\n  → esa diferencia, 26 minutos, es exactamente el riesgo\n    de que estén de vacaciones\n\nacciones\n  el rol de guardia recibió el permiso            clase 231\n  la autorización se sustituyó por un criterio escrito\n  y el procedimiento se convirtió en grado 2      clase 259\n\nal repetir, 10 semanas después                    7 min\n```\n\n**El programa, a los 15 meses.**\n\n```text\nensayos realizados                                    28\n  de mesa                                             11\n  en entorno de ensayo                                 9\n  en producción, radio mínimo                          6\n  en producción, radio amplio                          2\n\nhallazgos                                            134\n  organizativos (información, procedimiento,\n  permisos, coordinación)                        91   68 %\n  técnicos                                       43   32 %\n\nensayos abortados por criterio de parada               4\nincidentes reales causados por un ensayo               0\n\nensayos repetidos con hipótesis cumplida al\n  segundo intento                                 19/22\n```\n\nY la comparación que el equipo llevó a la dirección:\n\n```text\nde los 134 hallazgos, 21 se clasificaron como «habría\ncausado o alargado un incidente grave»\n\ncoste del programa de ensayos, 15 meses     310 horas\ncoste medio de un incidente grave en\n  CloudShop (tiempo de equipo + impacto)     ~40 horas\n\n→ y aunque solo 8 de esos 21 se hubieran materializado,\n  el programa se paga\n→ y la sesión de mesa, que cuesta 9 horas, dio 6 hallazgos\n  de los cuales 4 graves\n```\n\n**La lección que esta clase deja**: **el 68 % de los hallazgos fueron organizativos** —información que no estaba, procedimientos rotos, permisos que faltaban, coordinación— y esos son exactamente los que ninguna prueba automática encuentra. Y el ensayo más revelador no simuló una caída sino **200 ms de latencia**, que degradaron el flujo de compra a 4.100 ms: el servicio se comportaba mejor **caído del todo** que lento.",
+  "pitfalls": [
+    {
+      "symptom": "El ensayo sale bien y no se aprende nada",
+      "cause": "Lo respondió quien construyó el sistema, con conocimiento en vez de procedimiento",
+      "fix": "Que responda quien estaría de guardia y que quien lo construyó solo observe; esa diferencia es la mitad del valor."
+    },
+    {
+      "symptom": "Después del ensayo queda una sensación pero ninguna mejora",
+      "cause": "No había hipótesis escrita ni salieron acciones con dueño y plazo",
+      "fix": "Escribe la hipótesis antes, incluida la detección; y cierra con acciones priorizadas y repetición del ensayo en 8-12 semanas."
+    },
+    {
+      "symptom": "El ensayo causó un incidente real y ahora nadie quiere repetir",
+      "cause": "Radio de impacto demasiado grande, sin criterio de parada o sin restauración probada",
+      "fix": "Empieza por mesa y radio mínimo, con criterio de parada medible que cualquiera pueda declarar y restauración probada antes."
+    },
+    {
+      "symptom": "Se prueban caídas y en producción los problemas vienen de lentitud",
+      "cause": "Solo se inyecta fallo, no latencia",
+      "fix": "Inyecta latencia añadida: descubre plazos mal puestos, reintentos, grupos de conexiones y falta de cortacircuitos."
+    },
+    {
+      "symptom": "La participación baja tras los primeros ensayos",
+      "cause": "Los hallazgos se usaron para señalar a personas o equipos",
+      "fix": "Los hallazgos son del sistema; publica lo que faltaba en información y procedimientos, nunca quién no supo responder."
+    },
+    {
+      "symptom": "Nunca se aprueba hacer ensayos en producción",
+      "cause": "Se pide permiso para el grado alto antes de demostrar valor con el bajo",
+      "fix": "Empieza con ensayos de mesa, que no tocan nada, y usa sus hallazgos para justificar el grado siguiente."
+    }
+  ],
+  "checks": [
+    "¿Qué cinco partes tiene un ensayo bien diseñado?",
+    "¿Por qué el ensayo de mesa es el de mejor relación entre coste y hallazgos?",
+    "¿Por qué inyectar latencia enseña más que inyectar fallos?",
+    "¿Qué se pierde si el ensayo lo responde quien construyó el sistema?",
+    "¿Cómo se comprueba que las acciones de un ensayo sirvieron?"
+  ],
+  "references": [
+    {
+      "text": "Basiri, A. y otros (2016). *Chaos engineering*, IEEE Software.",
+      "url": "https://ieeexplore.ieee.org/document/7436642"
+    },
+    {
+      "text": "Rosenthal, C. y Jones, N. (2020). *Chaos Engineering: system resiliency in practice*.",
+      "url": "https://www.oreilly.com/library/view/chaos-engineering/9781492043850/"
+    },
+    {
+      "text": "Google (2018). *The Site Reliability Workbook*, cap. «Testing for reliability» y DiRT.",
+      "url": "https://sre.google/workbook/reliable-product-launches/"
+    },
+    {
+      "text": "AWS (2024). *Fault Injection Service — experiment design*.",
+      "url": "https://docs.aws.amazon.com/fis/latest/userguide/what-is.html"
+    },
+    {
+      "text": "Microsoft (2024). *Azure Chaos Studio*.",
+      "url": "https://learn.microsoft.com/azure/chaos-studio/chaos-studio-overview"
+    }
+  ]
+}
