@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>governance</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>enterprise-scale landing zones y management groups</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Diseñar la jerarquía de Azure —grupos de administración, suscripciones y grupos de recursos— que es a esta nube lo que el plan de direcciones a la red: se decide en una tarde y condiciona una década. La clase da el criterio de reparto, explica dónde se aplican los controles para que no se puedan quitar desde abajo, y desarrolla la parte que más cuesta corregir después: <strong>mover una suscripción de sitio no mueve lo que ya se creó con la política antigua</strong>.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> enterprise-scale landing zones y management groups con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>azure-landing-zone</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Repartir</strong> cargas entre grupos de administración y suscripciones con criterio.</li>
+<li><strong>Aplicar</strong> controles en el nivel correcto, sin que se puedan quitar desde abajo.</li>
+<li><strong>Distinguir</strong> política, iniciativa y bloqueo, y saber qué resuelve cada uno.</li>
+<li><strong>Desplegar</strong> políticas en modo auditoría antes de denegar.</li>
+<li><strong>Corregir</strong> una jerarquía mal repartida sin romper lo existente.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,28 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>enterprise</code></td>
-<td>Define su papel en <strong>enterprise-scale landing zones y management groups</strong> y cómo observarlo en un sistema real.</td>
+<td><code>grupo de administración</code></td>
+<td>Contenedor de suscripciones donde se aplican políticas y permisos heredados. Es el nivel que fija el gobierno.</td>
 </tr>
 <tr>
-<td><code>scale</code></td>
-<td>Define su papel en <strong>enterprise-scale landing zones y management groups</strong> y cómo observarlo en un sistema real.</td>
+<td><code>suscripción</code></td>
+<td>Unidad de facturación, de cuota y de aislamiento. Equivale funcionalmente a una cuenta.</td>
 </tr>
 <tr>
-<td><code>landing</code></td>
-<td>Define su papel en <strong>enterprise-scale landing zones y management groups</strong> y cómo observarlo en un sistema real.</td>
+<td><code>grupo de recursos</code></td>
+<td>Agrupación dentro de una suscripción, con ciclo de vida común. Se borra entero.</td>
 </tr>
 <tr>
-<td><code>zones</code></td>
-<td>Define su papel en <strong>enterprise-scale landing zones y management groups</strong> y cómo observarlo en un sistema real.</td>
+<td><code>política</code></td>
+<td>Regla que audita, deniega, modifica o despliega. Se hereda hacia abajo y no se puede quitar desde abajo.</td>
 </tr>
 <tr>
-<td><code>management</code></td>
-<td>Define su papel en <strong>enterprise-scale landing zones y management groups</strong> y cómo observarlo en un sistema real.</td>
+<td><code>iniciativa</code></td>
+<td>Conjunto de políticas asignado como una unidad, con parámetros. Es la forma práctica de gobernar.</td>
 </tr>
 <tr>
-<td><code>groups</code></td>
-<td>Define su papel en <strong>enterprise-scale landing zones y management groups</strong> y cómo observarlo en un sistema real.</td>
+<td><code>zona de aterrizaje</code></td>
+<td>Suscripción preparada con red, identidad, controles y observabilidad, lista para recibir cargas.</td>
 </tr>
 </tbody>
 </table>
@@ -97,75 +94,433 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Enterprise-scale landing zones y management groups&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    R[&quot;raíz del inquilino&quot;] --&gt; P[&quot;PLATAFORMA&quot;]
+    R --&gt; L[&quot;CARGAS&quot;]
+    R --&gt; S[&quot;SANDBOX&quot;]
+    R --&gt; D[&quot;DESAPROBADO&quot;]
+    P --&gt; P1[&quot;identidad&quot;]
+    P --&gt; P2[&quot;conectividad&quot;]
+    P --&gt; P3[&quot;gestión&quot;]
+    L --&gt; L1[&quot;corporativo\ncon red&quot;]
+    L --&gt; L2[&quot;en línea\nsin red interna&quot;]
+    L1 --&gt; SU[&quot;suscripción por\ncarga y entorno&quot;]
+    SU --&gt; G[&quot;grupo de recursos\npor ciclo de vida&quot;]
+    C[&quot;controles&quot;] --&gt; C1[&quot;en el grupo de\nadministración\n→ no se quitan\ndesde abajo&quot;]
+    C1 --&gt; C2[&quot;AUDITORÍA primero&quot;]
+    C2 --&gt; C3[&quot;DENEGAR después&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-la-jerarquia-y-por-que-se-decide-pronto">1. La jerarquía, y por qué se decide pronto</h3>
+<p>Azure tiene tres niveles y cada uno resuelve algo distinto. Confundirlos es el error inicial.</p>
+<pre><code class="language-text">GRUPO DE ADMINISTRACIÓN
+  contenedor de suscripciones
+  aquí van las POLÍTICAS y las asignaciones de permisos que
+  se heredan
+  → es el nivel del gobierno
+
+SUSCRIPCIÓN
+  unidad de facturación, de CUOTA y de aislamiento
+  → los límites de recursos son por suscripción, y ese es
+    el motivo práctico más frecuente para separar
+
+GRUPO DE RECURSOS
+  agrupación con ciclo de vida común
+  → se borra entero; los recursos de un grupo deberían
+    nacer y morir juntos
+  → no es un mecanismo de aislamiento de seguridad fuerte
+</code></pre>
+<p>Y el reparto que funciona, que conviene copiar salvo buena razón:</p>
+<pre><code class="language-text">raíz
+├── PLATAFORMA
+│    ├── identidad          directorio, servidores heredados
+│    ├── conectividad       red central, cortafuegos, DNS
+│    └── gestión            registros, copias, herramientas
+├── CARGAS
+│    ├── corporativo        necesita red interna
+│    └── en línea           público, sin red interna
+├── SANDBOX                 experimentación, con caducidad
+└── DESAPROBADO             lo que se retira, con controles
+                            más duros y sin crecimiento
+</code></pre>
+<p>Y las tres decisiones que hay que tomar y que cuestan corregir:</p>
+<pre><code class="language-text">1  ¿UNA SUSCRIPCIÓN POR ENTORNO O POR CARGA?
+   por entorno y por carga: producción de pedidos, una;
+   preproducción de pedidos, otra
+   → aísla cuota, facturación y permisos a la vez
+   → y es lo que permite dar acceso de administrador a un
+     equipo sobre SU entorno sin exponer los demás
+
+2  ¿DÓNDE VAN LOS CONTROLES?
+   en el grupo de administración, nunca en la suscripción
+   → una política asignada en la suscripción la puede
+     quitar quien administre esa suscripción
+   → una asignada arriba, no                    clase 169
+
+3  ¿QUÉ SE HEREDA Y QUÉ SE PARAMETRIZA?
+   la misma iniciativa arriba, con parámetros distintos por
+   rama
+   → «regiones permitidas» puede ser más estricto en
+     corporativo que en sandbox
+</code></pre>
+<p>Y la advertencia que da nombre a la clase:</p>
+<pre><code class="language-text">MOVER UNA SUSCRIPCIÓN DE SITIO NO ARREGLA LO YA CREADO
+  las políticas de denegación solo actúan sobre
+  CREACIONES y MODIFICACIONES
+  → los recursos que ya existen siguen incumpliendo
+  → aparecen como no conformes, y hay que corregirlos uno a
+    uno o con tareas de remediación
+
+→ y por eso la jerarquía se decide antes de crear nada
+                                                    ley 14
+</code></pre>
+<h3 id="2-politicas-auditar-antes-de-denegar">2. Políticas: auditar antes de denegar</h3>
+<p>Las políticas son el mecanismo de gobierno de Azure y tienen cuatro efectos, con usos distintos.</p>
+<pre><code class="language-text">AUDITAR      registra el incumplimiento, no impide nada
+             → siempre el primer paso
+DENEGAR      impide crear o modificar
+             → el control real
+MODIFICAR    corrige el recurso al crearlo (añade etiquetas,
+             activa cifrado)
+             → mejor que denegar cuando se puede arreglar
+               solo                              clase 214
+DESPLEGAR SI NO EXISTE
+             crea lo que falta (diagnóstico, agente)
+             → potente y peligroso: despliega cosas que
+               nadie pidió y que facturan
+</code></pre>
+<p>Y el orden de implantación, que es el mismo de la clase 200:</p>
+<pre><code class="language-text">1  ASIGNAR EN MODO AUDITORÍA, en el grupo de administración
+2  MEDIR 2-4 semanas: cuántos recursos incumplen y cuáles
+3  CLASIFICAR: incumplimientos reales frente a excepciones
+   legítimas
+4  CORREGIR o EXCEPTUAR, con dueño y fecha
+5  CAMBIAR A DENEGAR
+6  VIGILAR el cumplimiento como una señal más   clase 211
+
+→ asignar en denegar el primer día bloquea despliegues
+  legítimos y el gobierno pierde credibilidad     ley 16
+</code></pre>
+<p><strong>Las iniciativas</strong>, que es como se gobierna de verdad:</p>
+<pre><code class="language-text">una política suelta es difícil de mantener
+una INICIATIVA agrupa decenas con parámetros
+  → se asigna una vez por rama, con sus parámetros
+  → y el cumplimiento se mide por iniciativa, no política a
+    política
+
+las iniciativas mínimas de una organización
+  etiquetas obligatorias y sus valores          clase 214
+  regiones permitidas
+  tipos de recurso permitidos o prohibidos
+  cifrado obligatorio y versión mínima de TLS
+  sin acceso público en almacenamiento ni en bases
+  diagnóstico enviado al destino central
+  y las de cumplimiento normativo, si aplican
+</code></pre>
+<p>Y una advertencia sobre el modo de despliegue automático:</p>
+<pre><code class="language-text">una política que despliega el agente de diagnóstico en
+cada recurso nuevo
+  → resuelve el problema de la observabilidad ausente
+  → y crea coste que nadie pidió                clase 214
+→ hay que estimar el coste de lo que la política despliega
+  ANTES de asignarla
+</code></pre>
+<p><strong>Los bloqueos</strong>, que son otra cosa y se confunden con las políticas:</p>
+<pre><code class="language-text">BLOQUEO DE BORRADO      impide eliminar el recurso
+BLOQUEO DE SOLO LECTURA impide modificarlo
+
+  se aplican al recurso o al grupo, y los hereda lo de dentro
+  → útiles para lo que nunca debe borrarse: bases de datos
+    de producción, red central, copias
+  → y son un incordio si se ponen de más: bloquean el
+    despliegue declarativo             ← y entonces se quitan
+                                          y nadie los repone
+                                                    ley 25
+</code></pre>
+<h3 id="3-suscripciones-cuotas-facturacion-y-aislamiento">3. Suscripciones: cuotas, facturación y aislamiento</h3>
+<p>La suscripción es el nivel donde se topan los límites, y ese es el motivo práctico que más veces obliga a separar.</p>
+<pre><code class="language-text">LO QUE ES POR SUSCRIPCIÓN
+  cuotas de cómputo por familia y por región
+  límites de recursos por tipo
+  la factura y su desglose
+  y el ámbito natural de muchos permisos
+
+CONSECUENCIAS PRÁCTICAS
+  una carga que consume mucha cuota puede impedir crecer a
+  otra de la misma suscripción
+  → separar por carga aísla ese riesgo
+
+  las cuotas NO son automáticas: hay que pedirlas con
+  antelación
+  → y en un incidente que requiera escalar mucho, la cuota
+    es el límite real, no la capacidad de Azure
+  → por eso se pide margen antes, y se vigila el consumo
+    frente al límite                             clase 262
+</code></pre>
+<p><strong>Las zonas de aterrizaje</strong>, que es la forma de que una suscripción nueva nazca lista:</p>
+<pre><code class="language-text">QUÉ TRAE UNA SUSCRIPCIÓN ENTREGADA
+  colocada en el grupo de administración correcto
+  red conectada al centro, con sus rangos del plan
+                                                clase 219
+  identidad y permisos base asignados
+  diagnóstico enrutado al destino central
+  presupuesto y etiquetas obligatorias          clase 214
+  y las políticas heredadas ya aplicando
+
+Y EL PLAZO IMPORTA
+  si entregar una suscripción tarda tres semanas, los
+  equipos usarán la suya, o crearán recursos donde puedan
+                                                    ley 16
+  → automatizar la entrega es lo que hace que el gobierno
+    se cumpla                                    clase 171
+</code></pre>
+<p>Y la decisión sobre quién administra qué:</p>
+<pre><code class="language-text">EL EQUIPO DE PLATAFORMA administra
+  grupos de administración, políticas, red central,
+  identidad, destinos de diagnóstico
+
+EL EQUIPO DE LA CARGA administra
+  su suscripción: crea, despliega y opera dentro de las
+  reglas heredadas
+
+Y LO QUE NADIE DEBE PODER HACER
+  quitar una política heredada
+  cambiar el enrutamiento del diagnóstico
+  crear emparejamientos de red por su cuenta
+  → estas son las que van arriba, denegadas
+</code></pre>
+<h3 id="4-corregir-una-jerarquia-mal-repartida">4. Corregir una jerarquía mal repartida</h3>
+<p>Casi ninguna organización empieza con la jerarquía correcta. Corregirla se puede, y hay un orden.</p>
+<pre><code class="language-text">LO QUE SE PUEDE MOVER
+  una suscripción puede cambiar de grupo de administración
+  un recurso puede cambiar de grupo de recursos (a veces)
+  y en algunos casos, de suscripción
+
+LO QUE NO SE MUEVE FÁCIL
+  recursos con dependencias de red
+  recursos con identidad administrada asignada
+  claves y secretos con referencias
+  y todo lo que tenga la suscripción escrita en su
+  identificador en otro sitio
+</code></pre>
+<p>Y el procedimiento:</p>
+<pre><code class="language-text">1  DEFINIR la jerarquía objetivo y las iniciativas
+2  ASIGNARLAS EN AUDITORÍA en el nivel correcto
+3  MEDIR el incumplimiento actual
+   → esta es la fotografía que dice cuánto trabajo hay
+4  MOVER las suscripciones al grupo que les corresponde
+   → recordando que lo ya creado sigue incumpliendo
+5  REMEDIAR lo existente, por lotes y por prioridad
+   → primero lo que afecta a seguridad y a datos
+6  PASAR A DENEGAR cuando el incumplimiento sea residual
+7  DEJAR el cumplimiento como señal vigilada
+</code></pre>
+<p>Y lo que hay que medir mientras tanto:</p>
+<pre><code class="language-text">recursos conformes frente a totales, por iniciativa
+y su TENDENCIA
+  → si no baja, la remediación no está ocurriendo
+excepciones vivas y su antigüedad             clase 190
+  → si crecen siempre, la política está mal calibrada
+</code></pre>
+<p>Y una advertencia sobre las exenciones:</p>
+<pre><code class="language-text">una exención sin fecha es una política que no existe
+                                                    ley 25
+→ toda exención con dueño, motivo y caducidad
+→ y un panel con las que vencen este mes
+</code></pre>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ hay grupos separados para plataforma, cargas, sandbox y
+  desaprobado
+☐ las suscripciones se separan por carga Y por entorno
+☐ todas las políticas se asignan en grupos de
+  administración, no en suscripciones
+☐ las políticas se asignaron primero en auditoría
+☐ se midió el incumplimiento antes de denegar
+☐ las iniciativas están parametrizadas por rama
+☐ está estimado el coste de lo que despliegan las políticas
+☐ los bloqueos están solo donde hacen falta y no estorban
+  al despliegue declarativo
+☐ las cuotas están pedidas con margen y se vigilan
+☐ entregar una suscripción nueva está automatizado y tarda
+  minutos
+☐ ningún equipo de carga puede quitar una política heredada
+☐ toda exención tiene dueño, motivo y caducidad
+☐ el cumplimiento por iniciativa se vigila como una señal
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: con la jerarquía puesta, el control que de verdad decide el alcance en Azure no es la política sino quién puede hacer qué y desde dónde. Identidad, identidades de carga, elevación temporal y acceso condicional es la materia de la clase 218.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>enterprise-scale landing zones y management groups</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-18-azure-production-architecture/217-enterprise-scale-landing-zones-y-management-groups/lab.py
+<p><strong>CloudShop lleva cuatro años en Azure con 61 suscripciones creadas sin criterio. Lo que sigue es la fotografía del incumplimiento, la jerarquía nueva, y el hallazgo de que mover las suscripciones no arregló casi nada.</strong></p>
+<p><strong>El punto de partida:</strong></p>
+<pre><code class="language-text">suscripciones                                       61
+  bajo la raíz, sin grupo de administración        47
+  en un grupo llamado «Producción»                  9
+  en un grupo llamado «Test»                        5
+
+políticas asignadas                                 12
+  en grupos de administración                        3
+  EN SUSCRIPCIONES                                   9  ←
+  de las 9, quitadas por el equipo de la carga       4
+
+y la consecuencia
+  4 equipos habían quitado las políticas de su propia
+  suscripción porque «bloqueaban el despliegue»
+  → y nadie se enteró: no había alerta de cambio de
+    asignación                                       ley 15
+</code></pre>
+<p>Y el detalle de por qué las quitaron:</p>
+<pre><code class="language-text">la política denegaba crear cuentas de almacenamiento sin
+cifrado con clave propia
+la plantilla del equipo no lo declaraba
+y el mensaje de error decía solo «denegado por política»
+→ nadie sabía qué faltaba
+→ y quitar la política era más rápido que averiguarlo
+                                                    ley 16
+</code></pre>
+<p><strong>La jerarquía nueva:</strong></p>
+<pre><code class="language-text">raíz
+├── plataforma
+│    ├── identidad          1 suscripción
+│    ├── conectividad       2 (una por región)
+│    └── gestión            1
+├── cargas
+│    ├── corporativo        34 suscripciones
+│    │     pedidos-prod, pedidos-pre, pedidos-dev,
+│    │     catalogo-prod, … (una por carga y entorno)
+│    └── en línea            9
+├── sandbox                 12  ← con caducidad de 90 días
+└── desaprobado              2
+
+y el criterio escrito
+  una suscripción por CARGA y por ENTORNO
+  motivo   aísla cuota, factura y permisos a la vez
+  coste de cambio si nos equivocamos   alto
+</code></pre>
+<p><strong>Las iniciativas, con sus parámetros por rama:</strong></p>
+<pre><code class="language-text">iniciativa                    corporativo  en línea  sandbox
+etiquetas obligatorias           denegar    denegar   auditar
+regiones permitidas              2 (UE)     2 (UE)    2 (UE)
+sin acceso público                denegar    denegar   denegar
+cifrado en reposo                 denegar    denegar   auditar
+TLS mínimo 1.2                    denegar    denegar   denegar
+diagnóstico al destino central   desplegar  desplegar auditar
+tipos de recurso permitidos      restringido  amplio   amplio
+sin IP pública en máquinas        denegar    auditar   auditar
+</code></pre>
+<p>Y el coste que se estimó antes de asignar:</p>
+<pre><code class="language-text">la política que despliega el diagnóstico crearía
+  un ajuste de diagnóstico por recurso
+  ingesta estimada a partir del inventario  ~1.900 €/mes
+→ se ajustó qué categorías se envían y con qué caducidad
+→ ingesta real                                640 €/mes
+→ sin esta estimación previa, habría sido una sorpresa en
+  la factura del mes siguiente                 clase 214
+</code></pre>
+<p><strong>La fase de auditoría, cuatro semanas.</strong></p>
+<pre><code class="language-text">recursos totales                              14.200
+
+incumplimientos por iniciativa
+  etiquetas obligatorias                       9.140  64 %
+  cifrado en reposo                            1.870  13 %
+  sin acceso público                             340   2,4 %
+  TLS mínimo                                     620   4,4 %
+  regiones permitidas                            112   0,8 %
+  tipos de recurso                                88   0,6 %
+  sin IP pública                                 210   1,5 %
+
+y los que preocupaban de verdad
+  340 recursos con acceso público
+    de ellos, cuentas de almacenamiento          214
+    de ellas, con datos de clientes               19  ←
+  112 recursos fuera de las regiones permitidas
+    de ellos, 8 con datos personales fuera de la UE  ←
+</code></pre>
+<p>Y la decisión sobre el orden de remediación:</p>
+<pre><code class="language-text">no se atacó lo más numeroso (etiquetas, 9.140)
+se atacó lo más grave: los 19 almacenes públicos con datos
+y los 8 recursos fuera de región
+→ resueltos en 9 días
+→ las etiquetas, en 6 semanas con tareas de remediación
+</code></pre>
+<p><strong>El hallazgo: mover las suscripciones no arregló casi nada.</strong></p>
+<pre><code class="language-text">al mover las 61 suscripciones a su grupo correcto
+  políticas heredadas aplicando                    sí
+  recursos existentes corregidos                    0
+
+  porque las políticas de denegación solo actúan sobre
+  creaciones y modificaciones
+  → los 14.200 recursos existentes siguieron exactamente
+    igual
+  → aparecieron como no conformes, y nada más
+
+lo que sí corrigió recursos existentes
+  las políticas de tipo MODIFICAR con tareas de remediación
+  → añadieron etiquetas a 8.100 recursos en 3 días
+  → y el resto hubo que tocarlo a mano o redesplegarlo
+
+lo que NO se pudo remediar automáticamente
+  cifrado en reposo de recursos ya creados: 1.870
+  → exige recrear el recurso en la mayoría de los casos
+  → 1.410 se recrearon en 4 meses
+  →   460 quedaron con exención, con dueño y fecha
+</code></pre>
+<p><strong>El paso a denegar, y la lección de la comunicación.</strong></p>
+<pre><code class="language-text">primer intento
+  se cambiaron 7 iniciativas a denegar el mismo día
+  a las 4 horas, 23 despliegues bloqueados
+  el mensaje decía «denegado por política»
+  → 11 tiquetes de soporte en una tarde
+
+corrección
+  se volvió a auditoría
+  se añadió a cada política un mensaje con
+    qué falta exactamente
+    el enlace a la plantilla que ya lo cumple
+    y a quién pedir una exención, con el plazo
+  y la plantilla de servicio nuevo se actualizó para
+    cumplirlas todas                            clase 171
+
+segundo intento, dos semanas después
+  despliegues bloqueados en la primera semana         4
+  de ellos, incumplimientos reales                    4
+  tiquetes de soporte                                 0
+  → porque el mensaje decía qué hacer
+</code></pre>
+<p><strong>La entrega de suscripciones, automatizada:</strong></p>
+<pre><code class="language-text">antes   petición por correo → 3 semanas
+        y 12 de las 61 suscripciones se habían creado por
+        fuera del proceso                            ley 16
+
+después una plantilla en la canalización crea
+          la suscripción en el grupo correcto
+          red conectada al centro, con rangos del plan
+          identidad y permisos base
+          diagnóstico enrutado
+          presupuesto y etiquetas
+        plazo                                     22 min
+        suscripciones creadas por fuera en 6 meses      0
+</code></pre>
+<p><strong>El resultado, seis meses después:</strong></p>
+<p>```text                                        antes     después
+suscripciones sin grupo de administración      47           0
+políticas asignadas en suscripciones            9           0
+políticas quitadas por equipos                  4      imposible
+recursos conformes (etiquetas)                36 %        98 %
+almacenes públicos con datos                   19           0
+recursos fuera de región permitida            112           0
+exenciones vivas                                0          22
+  con dueño, motivo y caducidad                 —          22
+  vencidas y sin renovar                        —           1
+plazo de entrega de una suscripción       3 semanas     22 min
+suscripciones creadas por fuera del proceso    12           0</p>
+<pre><code>
+**La lección que esta clase deja**: mover sesenta y una suscripciones al grupo correcto **no corrigió ni un solo recurso existente**, porque las políticas de denegación solo actúan al crear o modificar; lo que corrigió catorce mil recursos fue una combinación de políticas de tipo modificar, tareas de remediación y cuatro meses de recrear cosas. Y las cuatro políticas que los equipos habían quitado no las quitaron por mala fe: **las quitaron porque el mensaje de error decía «denegado por política» y no decía qué faltaba**.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-18-azure-production-architecture/217-enterprise-scale-landing-zones-y-management-groups/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>governance</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -203,29 +558,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Un equipo quita la política que le estorba y nadie se entera</td>
+<td>La política estaba asignada en la suscripción, que ese equipo administra</td>
+<td>Asigna siempre en el grupo de administración y alerta sobre cambios de asignación.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Mover las suscripciones no corrige ningún recurso</td>
+<td>Las políticas de denegación solo actúan sobre creaciones y modificaciones</td>
+<td>Usa políticas de tipo modificar con tareas de remediación para lo existente, y planifica recrear lo que no se pueda corregir.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Al activar el modo denegar se bloquean despliegues legítimos y llueven los tiquetes</td>
+<td>Se pasó de cero a denegar sin auditar y sin mensajes útiles</td>
+<td>Audita semanas, corrige lo real, añade mensajes que digan qué falta y actualiza la plantilla por defecto antes de denegar.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Una carga impide crecer a otra sin relación con ella</td>
+<td>Comparten suscripción y por tanto cuota</td>
+<td>Separa por carga y por entorno, y pide cuota con margen antes de necesitarla.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Aparecen recursos creados fuera del proceso</td>
+<td>Conseguir una suscripción tarda semanas</td>
+<td>Automatiza la entrega de suscripciones preparadas; si tarda minutos, nadie busca atajos.</td>
+</tr>
+<tr>
+<td>La factura crece tras aplicar el gobierno</td>
+<td>Una política despliega agentes o ajustes de diagnóstico en cada recurso nuevo</td>
+<td>Estima el coste de lo que la política despliega antes de asignarla y ajusta categorías y caducidad.</td>
 </tr>
 </tbody>
 </table>
@@ -236,17 +596,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué resuelve cada uno de los tres niveles de la jerarquía?</li>
+<li>¿Por qué las políticas se asignan en grupos de administración y no en suscripciones?</li>
+<li>¿Qué corrige mover una suscripción de grupo y qué no?</li>
+<li>¿Cuál es el orden correcto para implantar una política y por qué?</li>
+<li>¿Qué debe llevar una exención para ser útil?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Azure Architecture Center — Microsoft.</li>
-<li>Exam Ref AZ-305 — Microsoft Press.</li>
-<li>Designing Distributed Systems — Brendan Burns.</li>
+<li>Microsoft (2025). <em>Cloud Adoption Framework: Azure landing zone design areas</em>. <a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/">https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/</a></li>
+<li>Microsoft (2025). <em>Management groups and organizing resources</em>. <a href="https://learn.microsoft.com/en-us/azure/governance/management-groups/overview">https://learn.microsoft.com/en-us/azure/governance/management-groups/overview</a></li>
+<li>Microsoft (2025). <em>Azure Policy effects and remediation</em>. <a href="https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects">https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects</a></li>
+<li>Microsoft (2025). <em>Azure Policy exemptions</em>. <a href="https://learn.microsoft.com/en-us/azure/governance/policy/concepts/exemption-structure">https://learn.microsoft.com/en-us/azure/governance/policy/concepts/exemption-structure</a></li>
+<li>Microsoft (2025). <em>Subscription vending and landing zone automation</em>. <a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending">https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -314,7 +676,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-jerarquia-y-por-que-se-decide-pronto">1. La jerarquía, y por qué se decide pronto</a><a class="toc-level-3" href="#2-politicas-auditar-antes-de-denegar">2. Políticas: auditar antes de denegar</a><a class="toc-level-3" href="#3-suscripciones-cuotas-facturacion-y-aislamiento">3. Suscripciones: cuotas, facturación y aislamiento</a><a class="toc-level-3" href="#4-corregir-una-jerarquia-mal-repartida">4. Corregir una jerarquía mal repartida</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
