@@ -1,0 +1,118 @@
+{
+  "id": "272",
+  "purpose": "La ruta de arquitectura: responder de que las decisiones sean defendibles y sobrevivan a quien las tomó. La clase da lo que esta especialidad produce de verdad —decisiones escritas con sus alternativas y su reversibilidad—, el método para tomarlas, y sus dos modos de fracaso: **la arquitectura de diapositivas, que no toca el sistema, y la arquitectura de control, que aprueba en vez de decidir**.",
+  "outcomes": [
+    "**Producir** decisiones escritas con alternativas, criterio y consecuencias.",
+    "**Clasificar** decisiones por reversibilidad para ajustar el rigor.",
+    "**Defender** una decisión ante quien no es técnico, con cifras.",
+    "**Evitar** la arquitectura que no toca el sistema y la que solo aprueba.",
+    "**Reconocer** qué hace que una decisión sobreviva a su autor."
+  ],
+  "concepts": [
+    {
+      "term": "registro de decisión",
+      "definition": "Documento breve con contexto, alternativas, decisión, criterio y consecuencias. El producto de esta ruta."
+    },
+    {
+      "term": "reversibilidad",
+      "definition": "Cuánto cuesta deshacer una decisión. Determina cuánto rigor merece."
+    },
+    {
+      "term": "atributo de calidad",
+      "definition": "Propiedad del sistema que se prioriza: latencia, disponibilidad, coste, evolución, seguridad."
+    },
+    {
+      "term": "compromiso explícito",
+      "definition": "Decir qué se empeora al mejorar otra cosa. Sin él no hay decisión, hay preferencia."
+    },
+    {
+      "term": "arquitectura de diapositivas",
+      "definition": "Modo de fracaso en que se diseña sin construir y el sistema real diverge del diagrama."
+    },
+    {
+      "term": "restricción real",
+      "definition": "Lo que el sistema no puede saltarse: plazos, normativa, personas disponibles, dinero."
+    }
+  ],
+  "diagram": "flowchart TB\n    P[\"problema\"] --> Q[\"1 · ¿QUÉ ATRIBUTOS\\nDE CALIDAD?\\nordenados\"]\n    Q --> R[\"2 · RESTRICCIONES\\nreales\"]\n    R --> A[\"3 · ALTERNATIVAS\\nal menos tres\"]\n    A --> C[\"4 · CRITERIO\\nmedible\"]\n    C --> D{\"5 · ¿REVERSIBLE?\"}\n    D -->|\"sí, barata\"| E[\"decide rápido\\ny prueba\"]\n    D -->|\"no\"| F[\"prototipo · datos\\nrevisión\"]\n    E --> W[\"6 · REGISTRO\\nDE DECISIÓN\"]\n    F --> W\n    W --> V[\"7 · VOLVER\\ncuando cambien\\nlos supuestos\"]",
+  "foundations": [
+    {
+      "heading": "Qué produce esta ruta",
+      "body": "No produce diagramas ni sistemas: produce **decisiones que otros pueden entender, cuestionar y revisar cuando cambien los supuestos**.\n\n```text\nEL REGISTRO DE DECISIÓN, que es el entregable\n  CONTEXTO      qué problema y con qué restricciones\n  ATRIBUTOS     qué priorizamos y en qué orden\n  ALTERNATIVAS  al menos tres, con lo bueno y lo malo de\n                cada una\n  DECISIÓN      cuál y por qué\n  CRITERIO      qué medida la justifica\n  CONSECUENCIAS qué empeora y qué nos obliga a hacer\n  REVISIÓN      qué supuesto, si cambia, invalida esto\n\n→ una o dos páginas, no veinte\n→ y lo que lo hace útil es la última línea: la revisión\n```\n\nY por qué el registro importa más que el diagrama:\n\n```text\nUN DIAGRAMA DICE QUÉ HAY\nUN REGISTRO DICE POR QUÉ, Y CUÁNDO DEJARÁ DE VALER\n\n→ y a los dos años, quien mantiene el sistema no necesita\n  saber qué hay: lo ve\n→ necesita saber por qué, para poder cambiarlo sin miedo\n→ y sin eso, cada decisión antigua se trata como sagrada\n  o se rompe sin entenderla\n```\n\nY los atributos de calidad, que hay que **ordenar**:\n\n```text\nlatencia · disponibilidad · coste · evolución ·\nseguridad · operabilidad · coherencia\n\n→ y no se pueden maximizar todos\n→ decir «todos son importantes» es no decidir\n→ el trabajo es ORDENARLOS con quien tiene el problema\n\ny la pregunta que fuerza el orden\n  «si tuviéramos que empeorar uno para mejorar otro,\n  ¿cuál empeoramos?»\n  → y esa conversación es el 70 % del trabajo\n```\n\nY el compromiso explícito, sin el cual no hay decisión:\n\n```text\n«elegimos una base relacional única»\n  → mejora coherencia y simplicidad operativa\n  → empeora escalado de escritura y aislamiento por\n    servicio\n  → y nos obliga a vigilar el codo del recurso limitante\n                                            clase 262\n\n→ si no se puede nombrar lo que empeora, no se ha\n  entendido la alternativa\n```"
+    },
+    {
+      "heading": "El método, ajustado a la reversibilidad",
+      "body": "No todas las decisiones merecen el mismo esfuerzo. La variable que lo determina es cuánto cuesta deshacerlas.\n\n```text\nDECISIONES REVERSIBLES BARATAS\n  qué biblioteca, qué formato de registro, qué umbral\n  → decidir rápido, probar y corregir\n  → y gastar dos semanas en analizarlas es desperdicio\n\nDECISIONES CARAS DE DESHACER\n  modelo de datos y particiones             clase 208\n  fronteras entre servicios                 clase 106\n  proveedor de identidad                    clase 209\n  estrategia entre regiones                 clase 187\n  y el modelo de cuentas y aislamiento      clase 219\n  → prototipo, datos y revisión por pares\n\n→ y el error más común es tratarlas al revés: analizar\n  mucho lo barato y decidir por costumbre lo caro\n```\n\nY las restricciones reales, que se ignoran demasiado:\n\n```text\nno son solo técnicas\n  cuánta gente hay y qué sabe hacer            ley 23\n  qué se puede mantener de guardia\n  qué exige la normativa                    clase 251\n  qué presupuesto hay\n  y cuánto tiempo hay\n\n→ una arquitectura correcta que el equipo no puede operar\n  es una arquitectura incorrecta\n→ y esta es la lección de la parte 21 aplicada al diseño\n```\n\nY el método completo:\n\n```text\n1  entender el problema y quién lo tiene\n2  ordenar atributos de calidad con esa persona\n3  listar restricciones reales\n4  generar al menos TRES alternativas\n   → dos alternativas suelen ser «la que quiero» y una de\n     paja\n5  definir el criterio medible ANTES de comparar\n6  clasificar por reversibilidad y ajustar el rigor\n7  decidir, escribir y comunicar\n8  y volver cuando el supuesto de revisión cambie\n```\n\nY el paso que casi nadie da y que separa niveles:\n\n```text\nVOLVER\n  «esta decisión asume menos de 2.000 pedidos por minuto;\n  por encima, hay que revisarla»\n  → y una alerta cuando se acerque\n\n→ una decisión con condición de revisión es viva\n→ una sin ella se convierte en herencia\n```"
+    },
+    {
+      "heading": "Los dos modos de fracaso",
+      "body": "Esta ruta tiene dos formas características de dejar de ser útil, y son opuestas.\n\n```text\nMODO 1 · LA ARQUITECTURA DE DIAPOSITIVAS\n  se diseña, se presenta y no se toca el sistema\n  → y el sistema real diverge del diagrama en semanas\n\n  las señales\n    el diagrama no coincide con lo desplegado\n    las decisiones no consideran restricciones de\n      operación\n    y quien diseña no recibe alertas de lo que diseñó\n\n  la corrección\n    quien decide construye una parte\n    quien decide entra en la rotación de guardia\n    y las decisiones se validan con un prototipo\n\n→ es el mismo mecanismo de la ley 30: quien no ejecuta\n  pierde el juicio que solo da ejecutar\n\nMODO 2 · LA ARQUITECTURA DE CONTROL\n  el arquitecto aprueba diseños ajenos\n  → cola de espera, lotes grandes y responsabilidad\n    desplazada\n  → y es el comité de cambios con otro nombre\n                                    clases 260, 266\n\n  la corrección\n    dar principios y ejemplos, no aprobaciones\n    revisar por invitación y en las decisiones caras\n    y medir cuántas decisiones se toman bien SIN ti\n```\n\nY la señal de que la ruta funciona:\n\n```text\nEQUIPOS QUE TOMAN BUENAS DECISIONES SIN CONSULTARTE\n  → y consultan cuando la decisión es cara de deshacer\n\n→ y eso se consigue con principios escritos, ejemplos y\n  registros anteriores accesibles\n→ no con revisiones obligatorias\n```\n\nY los niveles de la ruta:\n\n```text\nNIVEL 2 · RESUELVO\n  diseña un servicio completo con sus compromisos claros\n  escribe registros de decisión que otro entiende\n  y sabe estimar coste y capacidad de lo que propone\n\nNIVEL 3 · DISEÑO\n  decide fronteras entre servicios y equipos\n  defiende ante negocio con cifras y con alternativas\n  hace reversible lo que puede y avisa de lo que no\n  y anticipa el modo de fallo y la operación\n\nNIVEL 4 · CAMBIO EL SISTEMA\n  los principios están escritos y se usan sin ti\n  las decisiones caras se detectan antes de tomarse\n  y las decisiones antiguas se revisan cuando cambian los\n    supuestos, sin drama\n```"
+    },
+    {
+      "heading": "Defender una decisión",
+      "body": "La parte que más gente subestima: una decisión correcta que no se sostiene ante quien paga no se ejecuta.\n\n```text\nANTE NEGOCIO\n  no se habla de tecnología\n  se habla de\n    qué se consigue y cuándo\n    cuánto cuesta, de operación y de construcción\n    qué riesgo se asume y cuál se evita\n    y qué se pierde con la alternativa\n\n  y la cifra que más funciona\n    el coste de la alternativa descartada    clase 270\n    → «activo-activo cuesta 112.000 al mes; el objetivo de\n      recuperación de 4 horas nos cuesta 9.000 y cumple\n      lo que el negocio pidió»\n\nANTE INGENIERÍA\n  las alternativas, con lo bueno de cada una dicho en\n  serio\n  → si la alternativa descartada se presenta como tonta,\n    nadie se cree la comparación\n  el criterio medible\n  y lo que empeora, dicho antes de que lo digan ellos\n\nANTE UN PANEL DE REVISIÓN                  clase 276\n  la pregunta más frecuente es «¿y si...?»\n  → y la buena respuesta no es tener respuesta a todo\n  → es «no lo consideramos; ¿cambiaría el criterio?»\n```\n\nY los errores de defensa más caros:\n\n```text\n1  DEFENDER LA DECISIÓN EN VEZ DEL CRITERIO\n   → si alguien aporta un dato nuevo, la decisión debe\n     poder cambiar\n   → defender la decisión convierte una revisión en una\n     discusión personal\n\n2  NO DECIR LO QUE EMPEORA\n   → y cuando aparece, se pierde la credibilidad de todo\n     lo demás\n\n3  PRESENTAR CERTEZA DONDE HAY ESTIMACIÓN\n   → «costará 40.000» frente a «entre 30.000 y 55.000,\n     según el volumen; y por encima de X hay que\n     revisarlo»\n\n4  Y NO TENER LA ALTERNATIVA BARATA EN LA MESA\n   → siempre hay que llevar la opción simple, aunque no\n     se recomiende\n   → porque si no la llevas tú, la lleva otro\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ mis decisiones están escritas con alternativas y\n  criterio\n☐ cada registro dice qué empeora\n☐ cada registro dice qué supuesto, si cambia, lo invalida\n☐ ajusto el rigor a la reversibilidad\n☐ genero al menos tres alternativas de verdad\n☐ incluyo restricciones de personas y de operación\n☐ lo que diseño lo construyo en parte y lo opero\n☐ no apruebo diseños ajenos por sistema\n☐ mido cuántas decisiones buenas se toman sin mí\n☐ llevo la alternativa barata a la mesa\n☐ defiendo el criterio, no la decisión\n☐ y presento rangos donde hay estimación\n```\n\nY el cierre que enlaza con la clase siguiente: las ocho rutas comparten la base y se apoyan en poder traducir entre proveedores. El mapeo entre las tres nubes, los contenedores y la disciplina de coste es la materia de la clase 273."
+    }
+  ],
+  "worked_example": "**Tres decisiones de arquitectura de CloudShop con su registro real. Lo que sigue es la que se defendió con el coste de la alternativa, la que se revisó dos años después porque el supuesto cambió, y la que se tomó mal por analizar lo barato y decidir lo caro por costumbre.**\n\n**Decisión 1 · Estrategia entre regiones.**\n\n```text\nCONTEXTO\n  el flujo de compra debe seguir disponible si cae una\n  región. Negocio pide «que no se caiga nunca».\n\nATRIBUTOS, ordenados con negocio\n  1  disponibilidad del flujo de compra\n  2  coste\n  3  operabilidad (equipo de 9 personas)\n  4  latencia\n\nRESTRICCIONES\n  9 personas de plataforma; guardia de 6\n  presupuesto anual de infraestructura: 2,8 M USD\n  y ningún requisito normativo de residencia\n\nALTERNATIVAS\n  A  una región, copias en otra, restauración manual\n     recuperación 8-14 h · +0 USD/mes\n  B  una región activa, otra en frío con infraestructura\n     desplegada y datos replicados\n     recuperación 3-4 h · +9.000 USD/mes\n  C  activo-activo entre dos regiones\n     recuperación < 5 min · +112.000 USD/mes\n     y +2 personas para operarlo\n\nCRITERIO\n  coste por hora de caída evitada, contra el valor de una\n  hora de caída medido por negocio: 31.000 USD\n\nDECISIÓN\n  B, con objetivo de recuperación de 4 horas\n\nCONSECUENCIAS\n  empeora: una caída de región cuesta ~4 h de servicio\n  nos obliga a: ensayar la conmutación cada trimestre y\n    mantener las cuotas de la región secundaria\n                                            clase 262\n\nREVISIÓN\n  si el valor de una hora de caída supera los 90.000 USD,\n  o si el equipo pasa de 15 personas, se revisa C\n```\n\nY cómo se defendió:\n\n```text\nla presentación a dirección duró 11 minutos\n\nlo que se dijo\n  «C cumple lo que pedís y cuesta 1,34 M al año más dos\n  personas. Evita unas 7,7 horas de caída al año, que\n  valen 239.000. B cuesta 108.000 al año y deja 4 horas\n  de exposición. Recomendamos B y revisamos si el valor\n  de una hora cambia.»\n\ny la pregunta que hizo dirección\n  «¿y si la caída ocurre en temporada alta?»\n  → respuesta: «entonces vale más; por eso proponemos\n    congelar los cambios de alto impacto en esa ventana\n    y ensayar la conmutación antes de que empiece»\n                                            clase 260\n\n→ se aprobó B\n→ y la decisión sobrevivió a dos cambios de dirección\n  porque el criterio estaba escrito\n```\n\n**Decisión 2 · La que se revisó porque el supuesto cambió.**\n\n```text\ndecisión original, año 0\n  «una sola base relacional para pedidos, inventario y\n  clientes»\n  criterio: simplicidad operativa con un equipo de 4\n  personas\n  revisión escrita: «si superamos 2.000 pedidos por minuto\n  en pico o si el equipo se divide en más de tres,\n  revisar»\n\nlo que pasó\n  año 2, pico de 2.340 pedidos/minuto\n  → saltó la alerta que se había puesto por esa línea\n\nla revisión, año 2\n  no fue una discusión: fue abrir el registro y comprobar\n  el supuesto\n  → 40 minutos de reunión\n\nnueva decisión\n  separar inventario, que era el 71 % de la carga de\n  escritura\n  con el patrón de cuatro pasos                clase 260\n  → y el registro nuevo enlaza al anterior\n```\n\nY lo que el equipo destacó:\n\n```text\nla decisión original NO fue un error\n  fue correcta para 4 personas y 600 pedidos/minuto\n\n→ y sin la línea de revisión, esa misma decisión se habría\n  discutido como si hubiera sido un error de origen\n→ y quien la tomó ya no estaba en la empresa\n\n→ eso es lo que significa que una decisión sobreviva a su\n  autor\n```\n\n**Decisión 3 · La que salió mal.**\n\n```text\nqué se analizó mucho\n  qué biblioteca de registro usar\n  → 3 semanas, comparativa de 6 opciones, 14 páginas\n  → decisión reversible en 2 días\n\nqué se decidió por costumbre\n  la clave de partición de la tabla de pedidos\n  → «como en el proyecto anterior: por identificador de\n    cliente»\n  → 20 minutos de conversación\n  → decisión irreversible sin una migración de 7 semanas\n\nlo que pasó\n  el 4 % de los clientes generaba el 61 % de los pedidos\n  → particiones calientes                    clase 208\n  → y el codo del servicio llegó mucho antes de lo\n    previsto                                 clase 262\n\ncoste de la corrección, 14 meses después\n  migración en cuatro pasos                  7 semanas\n  y la detención en la semana 2 por 41 divergencias por\n  100.000                                    clase 260\n```\n\nY el cambio de método que salió de ahí:\n\n```text\nse añadió un paso al principio de cada diseño\n  «lista las decisiones de este trabajo y marca cuáles son\n  caras de deshacer»\n  → y el rigor se asigna a esas\n\nefecto medido en los 18 meses siguientes\n  decisiones caras con registro escrito         2/9 → 11/11\n  decisiones baratas con análisis largo         6 → 0\n  tiempo total dedicado a decidir            -34 %\n  y decisiones caras revertidas después          3 → 0\n```\n\n**Y el registro de decisiones como activo.**\n\n```text\na los tres años\n  registros escritos                              64\n  consultados al menos una vez                    51\n  que provocaron una revisión por cambio de\n    supuesto                                       9\n  y decisiones tomadas por equipos sin consultar\n    a arquitectura, revisadas después y correctas\n                                              38 de 41\n\ny la métrica que la persona responsable puso primero\n  «decisiones buenas tomadas sin mí»\n  → 38 de 41\n\n→ porque el objetivo no era decidir más: era que se\n  decidiera bien sin cuello de botella\n```\n\nY el contraste con el punto de partida:\n\n```text                                        antes     después\ndecisiones con alternativas escritas         2/9        11/11\nregistros con condición de revisión            0           64\nrevisiones obligatorias por arquitectura     todas    solo caras\ntiempo de espera por revisión             9 días        0-2 días\ndecisiones caras revertidas por sorpresa       3            0\ndiagrama que coincide con lo desplegado       no           sí\n```\n\n**La lección que esta clase deja**: la decisión sobre la biblioteca de registro consumió **tres semanas y catorce páginas** siendo reversible en dos días, y la clave de partición —irreversible sin una migración de siete semanas— se decidió en veinte minutos por costumbre. Y lo que hizo que una decisión de hace dos años se revisara sin drama, con su autor ya fuera de la empresa, fue **una sola línea escrita**: qué supuesto, si cambia, la invalida.",
+  "pitfalls": [
+    {
+      "symptom": "Se analizan mucho decisiones triviales y se decide rápido lo irreversible",
+      "cause": "El rigor no se asigna por reversibilidad",
+      "fix": "Al empezar cualquier diseño, lista las decisiones y marca las caras de deshacer; dedica el esfuerzo ahí y decide lo barato probando."
+    },
+    {
+      "symptom": "Una decisión antigua se discute como si hubiera sido un error",
+      "cause": "No se escribió qué supuesto la sostenía",
+      "fix": "Cierra cada registro con la condición de revisión y pon una alerta cuando el supuesto se acerque a su límite."
+    },
+    {
+      "symptom": "El diagrama no se parece a lo que está desplegado",
+      "cause": "Arquitectura de diapositivas: se diseña sin construir ni operar",
+      "fix": "Quien decide construye una parte y entra en la rotación de guardia; valida las decisiones caras con un prototipo."
+    },
+    {
+      "symptom": "Arquitectura se ha convertido en una cola de aprobaciones",
+      "cause": "Se revisan todos los diseños por sistema",
+      "fix": "Publica principios, ejemplos y registros anteriores; revisa por invitación y en las decisiones caras, y mide cuántas se toman bien sin ti."
+    },
+    {
+      "symptom": "La decisión se aprueba y luego nadie la sostiene",
+      "cause": "Se defendió la decisión en vez del criterio, o no se dijo qué empeoraba",
+      "fix": "Presenta el criterio medible, di lo que empeora antes de que lo digan, y acepta cambiar si aparece un dato nuevo."
+    },
+    {
+      "symptom": "Negocio percibe la propuesta como cara sin contexto",
+      "cause": "Se presentó el coste de lo propuesto sin el de la alternativa descartada",
+      "fix": "Lleva siempre la opción simple y el coste de lo descartado; comparar dos cifras convence mucho más que justificar una."
+    }
+  ],
+  "checks": [
+    "¿Qué contiene un registro de decisión y cuál es su línea más importante?",
+    "¿Por qué la reversibilidad determina el rigor de una decisión?",
+    "¿Qué distingue los dos modos de fracaso de esta ruta?",
+    "¿Cuál es la señal de que la ruta funciona en una organización?",
+    "¿Qué cuatro errores arruinan la defensa de una decisión correcta?"
+  ],
+  "references": [
+    {
+      "text": "Nygard, M. (2011). *Documenting architecture decisions*.",
+      "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions"
+    },
+    {
+      "text": "Ford, N., Richards, M. y otros (2021). *Software Architecture: the hard parts*.",
+      "url": "https://www.oreilly.com/library/view/software-architecture-the/9781492086888/"
+    },
+    {
+      "text": "Bass, L., Clements, P. y Kazman, R. (2021). *Software Architecture in Practice*, 4.ª ed.",
+      "url": "https://www.pearson.com/en-us/subject-catalog/p/software-architecture-in-practice/P200000009360"
+    },
+    {
+      "text": "AWS (2024). *Well-Architected Framework: making architectural decisions*.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html"
+    },
+    {
+      "text": "Microsoft (2024). *Azure architecture decision guides*.",
+      "url": "https://learn.microsoft.com/azure/architecture/guide/"
+    }
+  ]
+}
