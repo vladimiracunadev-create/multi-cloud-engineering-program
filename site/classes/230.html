@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>iam</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>workload identity federation, iam conditions y pam</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Resolver la identidad en Google Cloud, donde el mecanismo tiene una pieza que no existe en las otras dos nubes: <strong>las condiciones en las asignaciones</strong>, que permiten conceder un permiso solo sobre ciertos recursos y durante cierto tiempo. La clase cubre la federación y las cuentas de servicio sin claves, la suplantación como sustituto de las credenciales guardadas, el ámbito de asignación —que vuelve a ser el error frecuente— y la elevación temporal con aprobación.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> workload identity federation, iam conditions y pam con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>gcp-identity</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Eliminar</strong> claves de cuenta de servicio con federación y suplantación.</li>
+<li><strong>Asignar</strong> permisos en el ámbito mínimo, con condiciones.</li>
+<li><strong>Distinguir</strong> quién actúa de qué identidad se usa, y auditarlo.</li>
+<li><strong>Configurar</strong> elevación temporal con aprobación y caducidad.</li>
+<li><strong>Detectar</strong> y reducir el alcance de las identidades más amplias.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,28 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>workload</code></td>
-<td>Define su papel en <strong>workload identity federation, iam conditions y pam</strong> y cómo observarlo en un sistema real.</td>
+<td><code>cuenta de servicio</code></td>
+<td>Identidad de una carga. Puede usarse sin credenciales si se adjunta al recurso o se suplanta.</td>
 </tr>
 <tr>
-<td><code>identity</code></td>
-<td>Define su papel en <strong>workload identity federation, iam conditions y pam</strong> y cómo observarlo en un sistema real.</td>
+<td><code>clave de cuenta de servicio</code></td>
+<td>Credencial de larga duración en un fichero. Lo que hay que eliminar.</td>
 </tr>
 <tr>
-<td><code>federation</code></td>
-<td>Define su papel en <strong>workload identity federation, iam conditions y pam</strong> y cómo observarlo en un sistema real.</td>
+<td><code>suplantación</code></td>
+<td>Obtener un testigo de otra identidad con permiso para ello, sin credencial guardada.</td>
 </tr>
 <tr>
-<td><code>iam</code></td>
-<td>Define su papel en <strong>workload identity federation, iam conditions y pam</strong> y cómo observarlo en un sistema real.</td>
+<td><code>federación de identidad de carga</code></td>
+<td>Confianza en un emisor externo para que sus testigos suplanten una cuenta de servicio.</td>
 </tr>
 <tr>
-<td><code>conditions</code></td>
-<td>Define su papel en <strong>workload identity federation, iam conditions y pam</strong> y cómo observarlo en un sistema real.</td>
+<td><code>condición en la asignación</code></td>
+<td>Expresión que limita cuándo y sobre qué recursos aplica un permiso.</td>
 </tr>
 <tr>
-<td><code>pam</code></td>
-<td>Define su papel en <strong>workload identity federation, iam conditions y pam</strong> y cómo observarlo en un sistema real.</td>
+<td><code>identidad de carga del clúster</code></td>
+<td>Vinculación entre una cuenta de servicio de Kubernetes y una de la nube, sin claves.</td>
 </tr>
 </tbody>
 </table>
@@ -97,75 +94,461 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Workload Identity Federation, IAM Conditions y PAM&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    A{&quot;¿dónde corre?&quot;}
+    A --&gt;|&quot;en un recurso\nde la nube&quot;| A1[&quot;CUENTA DE SERVICIO\nADJUNTA\nsin credencial&quot;]
+    A --&gt;|&quot;en un clúster&quot;| A2[&quot;IDENTIDAD DE CARGA\ncuenta de K8s → cuenta\nde servicio&quot;]
+    A --&gt;|&quot;fuera&quot;| A3[&quot;FEDERACIÓN\ntestigo externo →\nsuplantación&quot;]
+    A --&gt;|&quot;una persona&quot;| A4[&quot;SUPLANTACIÓN\ncon permiso y registro&quot;]
+    A --&gt;|&quot;último recurso&quot;| A5[&quot;clave · con excepción\ny fecha&quot;]
+    A1 --&gt; S[&quot;ASIGNACIÓN&quot;]
+    S --&gt; S1[&quot;ámbito: recurso\n← lo correcto&quot;]
+    S --&gt; S2[&quot;ámbito: proyecto\n← casi siempre de más&quot;]
+    S --&gt; S3[&quot;ámbito: carpeta u\norganización\n← alcance enorme&quot;]
+    S --&gt; C[&quot;CONDICIÓN\nsolo estos recursos,\nsolo hasta esta fecha&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-eliminar-las-claves">1. Eliminar las claves</h3>
+<p>Una clave de cuenta de servicio es un fichero con una credencial que no caduca. Es lo que hay que eliminar, y aquí hay cuatro formas de no necesitarla.</p>
+<pre><code class="language-text">1  CUENTA DE SERVICIO ADJUNTA — para lo que corre en la nube
+   la máquina, la función o el servicio lleva una cuenta de
+   servicio asociada
+   el código obtiene testigos del servicio de metadatos
+   → sin credencial en ningún sitio
+
+   y la regla que se olvida
+     NO usar la cuenta de servicio POR DEFECTO del proyecto
+     → tiene permisos amplios y la comparten todos los
+       recursos del proyecto
+     → una cuenta por carga, con sus permisos    ley 26
+
+2  IDENTIDAD DE CARGA — para lo que corre en un clúster
+   una cuenta de servicio de Kubernetes se vincula con una
+   de la nube
+   → el pod obtiene testigos sin claves        clase 234
+
+3  FEDERACIÓN — para lo que corre fuera
+   se declara confianza en un emisor externo (canalización,
+   otra nube, otro clúster)
+   sus testigos suplantan una cuenta de servicio
+   → mismo mecanismo y mismos errores que en la clase 206
+
+4  SUPLANTACIÓN — para personas y para encadenar
+   una identidad con permiso obtiene un testigo de otra
+   → y el registro guarda QUIÉN suplantó a QUIÉN
+</code></pre>
+<p>Y la política que lo hace efectivo:</p>
+<pre><code class="language-text">prohibir la creación de claves de cuenta de servicio, como
+política de organización                       clase 229
+→ y las existentes, inventariadas, migradas y borradas
+→ con excepción registrada, dueño y fecha para lo que no se
+  pueda                                           ley 25
+</code></pre>
+<p><strong>La suplantación</strong>, que es la pieza que más cambia el día a día:</p>
+<pre><code class="language-text">UNA PERSONA no necesita permisos de producción
+  tiene permiso para SUPLANTAR una cuenta de servicio que
+  sí los tiene
+  → obtiene un testigo de corta duración
+  → y queda registrado quién lo hizo             clase 238
+
+Y LAS CANALIZACIONES ENCADENAN
+  la identidad federada suplanta una cuenta de despliegue
+  → y esa cuenta tiene los permisos, no el testigo externo
+  → así se cambian los permisos sin tocar la federación
+</code></pre>
+<p>Y el error que hay que evitar:</p>
+<pre><code class="language-text">dar a muchos el permiso de suplantar una cuenta muy
+permisiva
+→ es equivalente a darles esos permisos, y más difícil de
+  ver en un inventario
+→ el permiso de suplantar se audita como si fuera el
+  permiso suplantado
+</code></pre>
+<h3 id="2-ambito-y-condiciones">2. Ámbito y condiciones</h3>
+<p>El error frecuente vuelve a ser el mismo de las clases 206 y 218: <strong>el ámbito demasiado amplio</strong>. Aquí hay además una herramienta que no existe en las otras dos.</p>
+<pre><code class="language-text">LOS ÁMBITOS, de mayor a menor
+  organización   → todos los proyectos
+  carpeta        → todos los de esa rama
+  proyecto       → todos sus recursos
+  RECURSO        → solo ese
+
+y la costumbre
+  asignar «Editor» en el proyecto, porque funciona
+  → esa identidad puede crear, modificar y borrar casi todo
+  → incluida la base de datos                  clase 218
+</code></pre>
+<p><strong>Las condiciones</strong>, que permiten afinar sin crear papeles a medida:</p>
+<pre><code class="language-text">UNA CONDICIÓN es una expresión que limita cuándo aplica el
+permiso
+
+  POR RECURSO
+    «solo sobre los almacenes cuyo nombre empiece por
+     pedidos-»
+    → un permiso de proyecto que en la práctica solo toca
+      lo suyo
+
+  POR TIEMPO
+    «solo hasta el 31 de marzo»
+    → el acceso caduca solo                       ley 25
+    → y esto resuelve el problema del acceso temporal sin
+      infraestructura adicional
+
+  POR ETIQUETA
+    «solo sobre recursos con entorno = desarrollo»
+
+  POR TIPO DE RECURSO
+    «solo sobre conjuntos de datos, no sobre trabajos»
+</code></pre>
+<p>Y el uso que más aporta:</p>
+<pre><code class="language-text">el acceso concedido durante un incidente, con condición de
+tiempo
+→ nadie tiene que acordarse de quitarlo
+→ y el registro de decisión queda en la propia asignación
+</code></pre>
+<p>Y las limitaciones que hay que conocer:</p>
+<pre><code class="language-text">no todos los servicios soportan condiciones por recurso
+  → hay que comprobarlo por servicio
+las condiciones complican la auditoría: un inventario que
+  no las lee muestra permisos que en realidad no aplican
+  → y al revés: un permiso que parece limitado puede no
+    estarlo si el servicio ignora la condición
+
+→ comprobar con una prueba negativa, no suponer  ley 22
+</code></pre>
+<p><strong>Los papeles</strong>, con la disciplina de siempre:</p>
+<pre><code class="language-text">usar el papel PREDEFINIDO más específico que exista
+  no «Editor» sino «Escritor de objetos de almacenamiento»
+y papel PERSONALIZADO cuando ninguno encaje
+  → con las acciones justas, y mantenido
+
+y los papeles que se conceden con elevación temporal
+  Propietario
+  Administrador de organización
+  Administrador de facturación
+  Administrador de seguridad
+  → nunca permanentes
+</code></pre>
+<h3 id="3-elevacion-temporal-y-auditoria">3. Elevación temporal y auditoría</h3>
+<p><strong>La elevación temporal</strong> aquí se puede montar de dos formas, y conviene conocer las dos.</p>
+<pre><code class="language-text">CON EL SERVICIO DE GESTIÓN DE ACCESO PRIVILEGIADO
+  la persona es ELEGIBLE; solicita, se aprueba, caduca
+  → con justificación y registro
+
+CON CONDICIONES DE TIEMPO
+  una asignación con condición de caducidad
+  → más simple, sin aprobación integrada
+  → útil para accesos acordados fuera de línea
+
+Y EN AMBOS CASOS
+  activación rápida cuando no requiere aprobación
+  aprobadores con turnos cuando sí                ley 16
+  y un camino de emergencia sin aprobación, con alerta
+    inmediata                                clase 218
+</code></pre>
+<p>Y la prueba obligatoria:</p>
+<pre><code class="language-text">usar el acceso de emergencia y cronometrar
+→ en la clase 179 estaba creado, documentado y no
+  funcionaba                                       ley 22
+</code></pre>
+<p><strong>La auditoría</strong>, con lo que hay que saber leer:</p>
+<pre><code class="language-text">LOS REGISTROS DE ACTIVIDAD DE ADMINISTRACIÓN
+  siempre activos y sin coste
+  quién creó, modificó o borró qué
+
+LOS REGISTROS DE ACCESO A DATOS
+  DESACTIVADOS por defecto, salvo unos pocos    ley 26
+  → quién leyó qué
+  → y son los que hacen falta para investigar una fuga
+  → y los que más volumen generan: hay que elegir
+    servicios y coste                          clase 238
+
+Y EL CAMPO QUE HAY QUE MIRAR
+  cuando alguien suplanta, el registro guarda la identidad
+  ORIGINAL y la suplantada
+  → sin leer las dos, la auditoría atribuye la acción a la
+    cuenta de servicio y no a la persona
+</code></pre>
+<p><strong>Medir el alcance</strong>, que es lo que ordena el trabajo:</p>
+<pre><code class="language-text">el analizador de políticas responde preguntas concretas
+  ¿quién puede leer este almacén?
+  ¿a qué recursos puede acceder esta identidad?
+  ¿quién puede suplantar esta cuenta de servicio?
+
+→ y esas tres preguntas, ejecutadas periódicamente, son la
+  medida de alcance de la clase 133
+
+y las recomendaciones de permisos sobrantes
+  la plataforma sugiere reducir papeles poco usados
+  → basadas en uso real de 90 días
+  → se evalúan, no se aplican a ciegas         clase 227
+</code></pre>
+<p>Y una fuente de alcance que se olvida:</p>
+<pre><code class="language-text">LOS GRUPOS
+  los permisos se conceden a grupos, y la pertenencia se
+  gestiona en el directorio
+  → alguien añadido a un grupo hereda permisos que nadie
+    revisó
+  → hay que auditar la pertenencia efectiva     clase 218
+</code></pre>
+<h3 id="4-lo-que-hay-que-comprobar">4. Lo que hay que comprobar</h3>
+<p>Las pruebas negativas de esta clase, que son las mismas de siempre con otras piezas:</p>
+<pre><code class="language-text">☐ crear una clave de cuenta de servicio      → debe fallar
+☐ suplantar una cuenta desde una identidad sin permiso
+                                             → debe fallar
+☐ usar una identidad federada desde otro repositorio
+                                             → debe fallar
+☐ acceder a un recurso fuera de la condición → debe fallar
+☐ usar un acceso cuya condición de tiempo ha caducado
+                                             → debe fallar
+☐ activar un papel privilegiado sin aprobación
+                                             → debe fallar
+☐ entrar con el acceso de emergencia         → debe
+                                                funcionar
+☐ comprobar que el registro guarda la identidad original
+  en una suplantación
+☐ y que las tres preguntas de alcance devuelven lo esperado
+</code></pre>
+<p>Y las señales que hay que vigilar:</p>
+<pre><code class="language-text">claves de cuenta de servicio existentes         → cero
+asignaciones en organización y carpeta          → mínimas
+identidades con papeles de administración
+permisos concedidos y no usados en 90 días
+condiciones de tiempo que vencen este mes
+usos del acceso de emergencia                   → alerta
+cambios en asignaciones de papeles              → auditados
+suplantaciones de cuentas privilegiadas         → alerta
+</code></pre>
+<p>Y la disciplina de revisión:</p>
+<pre><code class="language-text">trimestral
+  revisión de accesos por dueño
+  pertenencia efectiva de grupos
+  quién puede suplantar cada cuenta privilegiada
+  y prueba del acceso de emergencia
+
+y la regla que la hace útil
+  quien no responde a la revisión → se retira el acceso
+                                                clase 218
+</code></pre>
+<p><strong>Los errores de traslado</strong>, que esta parte vigila especialmente:</p>
+<pre><code class="language-text">✗ «la barrera limita el acceso a los datos»
+  la política de organización limita qué se configura
+  → el acceso a los datos lo decide el permiso
+                                                clase 229
+
+✗ «con quitar la clave ya está resuelto»
+  si la cuenta de servicio conserva permisos amplios, el
+  problema sigue: solo cambia cómo se obtiene el testigo
+
+✗ «la condición de recurso funciona en todos los servicios»
+  → hay que comprobarlo por servicio, con una prueba
+</code></pre>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ la política prohíbe crear claves de cuenta de servicio
+☐ no queda ninguna clave sin excepción registrada
+☐ ningún recurso usa la cuenta de servicio por defecto
+☐ lo que corre en la nube usa cuenta adjunta
+☐ lo que corre fuera usa federación con sujeto exacto
+☐ las personas acceden por suplantación, no con permisos
+  propios de producción
+☐ las asignaciones están en el ámbito del recurso
+☐ se usan condiciones por recurso y por tiempo donde
+  aportan
+☐ se comprobó por servicio que la condición se respeta
+☐ los papeles privilegiados requieren elevación temporal
+☐ el acceso de emergencia se ha probado este trimestre
+☐ los registros de acceso a datos están activados donde
+  hacen falta
+☐ la auditoría lee la identidad original en las
+  suplantaciones
+☐ se ejecutan las tres preguntas de alcance periódicamente
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: con jerarquía e identidad resueltas, queda la red, que aquí es global y tiene mecanismos de conectividad privada y de balanceo distintos de los de las otras dos nubes. Es la materia de la clase 231.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>workload identity federation, iam conditions y pam</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-19-gcp-production-architecture/230-workload-identity-federation-iam-conditions-y-pam/lab.py
+<p><strong>CloudShop elimina las 341 claves de cuenta de servicio de su organización. Lo que sigue es el inventario, la migración por tipos, y el hallazgo de que quitar las claves no reducía el alcance.</strong></p>
+<p><strong>El inventario de claves:</strong></p>
+<pre><code class="language-text">claves de cuenta de servicio                       341
+  con más de 1 año                                 218
+  con más de 3 años                                 94
+  usadas en los últimos 90 días                    127
+  NUNCA usadas                                      61
+  usadas desde fuera de la organización             14  ←
+
+y las 14 usadas desde fuera
+  9   canalizaciones de un repositorio externo
+  3   herramientas de proveedores
+  1   un script en el portátil de un consultor que
+      terminó su contrato en 2023            ley 25, 20
+  1   uso desde una dirección que nadie pudo explicar
+      → se revocó inmediatamente y se investigó
+      → resultó ser un entorno de pruebas de un socio,
+        no declarado
+</code></pre>
+<p><strong>La migración, por tipos:</strong></p>
+<pre><code class="language-text">tipo de uso                    claves    migrado a
+cargas en máquinas                 88    cuenta adjunta
+cargas en el clúster               64    identidad de carga
+canalizaciones internas            41    federación
+canalizaciones externas             9    federación
+funciones y servicios              52    cuenta adjunta
+scripts de personas                43    suplantación
+herramientas de terceros           12    9 federadas,
+                                          3 con excepción
+sin uso                            32    borradas
+
+total migrado                     341 → 3 con excepción
+                                    registrada, dueño y
+                                    fecha
+
+duración                                       4 meses
+</code></pre>
+<p>Y los dos pasos que costaron más:</p>
+<pre><code class="language-text">LAS 43 DE PERSONAS
+  cada una tenía su clave para «hacer cosas rápido»
+  y muchas con permisos de proyecto
+  → sustituidas por suplantación de cuentas de servicio
+    concretas
+  → y aquí hubo resistencia: suplantar exige un comando más
+  → se resolvió con un envoltorio que lo hace transparente
+                                                    ley 16
+
+LAS 88 DE MÁQUINAS
+  al mirar cuál usaban, 71 usaban la CUENTA DE SERVICIO POR
+  DEFECTO del proyecto
+  → que tiene permisos amplios y la comparten todos los
+    recursos                                       ley 26
+  → no bastaba quitar la clave: había que crear una cuenta
+    por carga
+</code></pre>
+<p><strong>El hallazgo: quitar las claves no redujo el alcance.</strong></p>
+<pre><code class="language-text">tras migrar las 341, se midió el alcance con las tres
+preguntas del analizador
+
+  ¿a qué recursos llega cada identidad?
+
+    identidad                   antes      después
+    cuenta por defecto de
+      pedidos-prod              todo el    todo el
+                                proyecto   proyecto
+    despliegue                  organización organización
+    cuenta de análisis          41 conjuntos 41 conjuntos
+
+  → el alcance NO había cambiado
+  → solo había cambiado cómo se obtiene el testigo
+
+y la conclusión
+  eliminar credenciales resuelve el ROBO de credenciales
+  no resuelve el ALCANCE
+  → son dos trabajos distintos, y el segundo es el que
+    reduce el daño de un compromiso        clases 189, 218
+</code></pre>
+<p><strong>La reducción de alcance, con condiciones:</strong></p>
+<pre><code class="language-text">asignaciones inventariadas                        2.410
+  en organización                                    18
+  en carpeta                                        140
+  en proyecto                                     1.870
+  en recurso                                        382
+
+las tres peores
+  1  la cuenta de despliegue con «Editor» en la
+     organización
+     alcance: 86 proyectos, todo
+     corrección: 5 cuentas, una por propósito, con
+     asignación en el proyecto y CONDICIÓN por prefijo de
+     nombre de recurso
+     alcance: entre 4 y 40 recursos cada una
+
+  2  el equipo de análisis con «Visor de datos» en la
+     carpeta de producción
+     alcance: todos los conjuntos y tablas, incluidos los
+     que contienen datos personales completos
+     corrección: asignación por conjunto, y para los
+     sensibles, seudonimizados          clases 236, 239
+
+  3  17 personas con «Editor» en proyectos de producción
+     corrección: suplantación de cuentas concretas, con
+     elevación temporal para lo privilegiado
+</code></pre>
+<p>Y el uso de las condiciones, con la comprobación que hizo falta:</p>
+<pre><code class="language-text">se usaron condiciones en 61 asignaciones
+  por prefijo de recurso                            38
+  por tiempo (accesos temporales)                   19
+  por etiqueta de entorno                            4
+
+y la prueba negativa, por servicio
+  se intentó acceder a un recurso FUERA de la condición
+  en cada uno de los 9 servicios implicados
+
+  respetaron la condición                            7
+  NO la respetaron                                   2  ←
+    → dos servicios ignoraban la condición por recurso
+    → esas 2 asignaciones se sustituyeron por papeles
+      personalizados y asignación en el recurso
+
+→ y sin esa prueba, dos permisos habrían parecido
+  limitados y no lo estaban                        ley 22
+</code></pre>
+<p><strong>La elevación temporal:</strong></p>
+<pre><code class="language-text">papeles privilegiados retirados como permanentes
+  Propietario                                   14 → 0
+  Administrador de organización                  6 → 0
+  Administrador de facturación                   4 → 0
+  Administrador de seguridad                     3 → 0
+
+configurados como elegibles
+  con aprobación de 2 personas y caducidad de 4 h
+  emergencia: sin aprobación, con alerta inmediata
+
+primeros tres meses
+  activaciones                                     186
+  de emergencia                                      2
+    · 1 incidente real
+    · 1 porque el aprobador estaba de baja y nadie cubría
+      → turno de aprobadores corregido
+
+y la prueba de emergencia
+  primera ejecución: funcionó, en 90 segundos
+  segunda (trimestral): la cuenta había perdido un permiso
+  al reorganizar la carpeta                        ley 27
+  → corregido, y añadida comprobación automática mensual
+</code></pre>
+<p><strong>La auditoría, con el campo que faltaba leer:</strong></p>
+<pre><code class="language-text">al investigar un borrado accidental de una tabla
+  el registro decía: «cuenta de servicio de análisis borró
+  la tabla»
+  → y el equipo buscó qué carga lo había hecho
+
+al leer el campo de identidad ORIGINAL
+  una persona había suplantado esa cuenta y ejecutado el
+  borrado a mano
+  → 3 horas de investigación por no leer un campo
+
+corrección
+  las consultas guardadas incluyen siempre la identidad
+  original
+  y una alerta: «suplantación de una cuenta privilegiada»
+</code></pre>
+<p><strong>El resultado:</strong></p>
+<p>```text                                        antes     después
+claves de cuenta de servicio                  341           3
+  usadas desde fuera sin explicar               1           0
+recursos con cuenta de servicio por defecto    71           0
+asignaciones en organización                   18           4
+asignaciones en carpeta                       140          22
+alcance de la cuenta de despliegue      86 proyectos   4-40
+                                                       recursos
+papeles privilegiados permanentes              27           0
+asignaciones con condición                      0          59
+condiciones que un servicio ignoraba            —           0
+tiempo de investigación de una acción       3 horas     4 min</p>
+<pre><code>
+**La lección que esta clase deja**: eliminar las trescientas cuarenta y una claves costó cuatro meses y **no redujo el alcance ni un punto**: solo cambió cómo se obtiene el testigo. Reducir el alcance fue un trabajo distinto y posterior, y ahí las condiciones por recurso hicieron el trabajo que en otras nubes exige papeles a medida. Y dos de los nueve servicios **ignoraban la condición**, lo que se descubrió con una prueba negativa y habría dejado dos permisos aparentemente limitados sin estarlo.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-19-gcp-production-architecture/230-workload-identity-federation-iam-conditions-y-pam/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>iam</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -203,29 +586,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Se eliminan las claves y el riesgo apenas baja</td>
+<td>Quitar la credencial resuelve el robo, no el alcance de la identidad</td>
+<td>Trata reducir alcance como un trabajo aparte: mide qué recursos alcanza cada identidad y baja el ámbito de las asignaciones.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Todos los recursos de un proyecto comparten una identidad muy permisiva</td>
+<td>Usan la cuenta de servicio por defecto del proyecto</td>
+<td>Una cuenta de servicio por carga, con sus permisos, y prohibición de usar la predeterminada.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Un permiso parece limitado por una condición y no lo está</td>
+<td>El servicio no respeta las condiciones por recurso</td>
+<td>Comprueba con una prueba negativa servicio por servicio; donde no se respeten, usa papeles personalizados y asignación en el recurso.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>La auditoría atribuye una acción a una cuenta de servicio y no a la persona</td>
+<td>No se lee el campo de identidad original en las suplantaciones</td>
+<td>Incluye siempre la identidad original en las consultas y alerta sobre suplantaciones de cuentas privilegiadas.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Dar el permiso de suplantar parece inofensivo y no lo es</td>
+<td>Equivale a conceder los permisos de la cuenta suplantada</td>
+<td>Audita quién puede suplantar cada cuenta privilegiada como si fuera una asignación directa.</td>
+</tr>
+<tr>
+<td>El acceso de emergencia funcionó una vez y luego no</td>
+<td>Perdió un permiso al reorganizar la jerarquía y nadie lo comprobó</td>
+<td>Prueba trimestral del acceso de emergencia y comprobación automática de sus permisos.</td>
 </tr>
 </tbody>
 </table>
@@ -236,17 +624,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Cuáles son las cuatro formas de no necesitar una clave de cuenta de servicio?</li>
+<li>¿Qué permiten las condiciones que no permite el ámbito por sí solo?</li>
+<li>¿Por qué el permiso de suplantar debe auditarse como el permiso suplantado?</li>
+<li>¿Qué registros están desactivados por defecto y por qué hacen falta?</li>
+<li>¿Qué campo hay que leer para saber quién ejecutó realmente una acción?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Google Cloud Architecture Framework — Google.</li>
-<li>Google Cloud Certified Professional Cloud Architect Study Guide — Dan Sullivan.</li>
-<li>Data Engineering with Google Cloud — Adi Wijaya.</li>
+<li>Google Cloud (2025). <em>Best practices for using service accounts</em>. <a href="https://cloud.google.com/iam/docs/best-practices-service-accounts">https://cloud.google.com/iam/docs/best-practices-service-accounts</a></li>
+<li>Google Cloud (2025). <em>Workload identity federation</em>. <a href="https://cloud.google.com/iam/docs/workload-identity-federation">https://cloud.google.com/iam/docs/workload-identity-federation</a></li>
+<li>Google Cloud (2025). <em>IAM conditions overview</em>. <a href="https://cloud.google.com/iam/docs/conditions-overview">https://cloud.google.com/iam/docs/conditions-overview</a></li>
+<li>Google Cloud (2025). <em>Privileged Access Manager</em>. <a href="https://cloud.google.com/iam/docs/pam-overview">https://cloud.google.com/iam/docs/pam-overview</a></li>
+<li>Google Cloud (2025). <em>Policy Analyzer and IAM recommender</em>. <a href="https://cloud.google.com/policy-intelligence/docs/policy-analyzer-overview">https://cloud.google.com/policy-intelligence/docs/policy-analyzer-overview</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -314,7 +704,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-eliminar-las-claves">1. Eliminar las claves</a><a class="toc-level-3" href="#2-ambito-y-condiciones">2. Ámbito y condiciones</a><a class="toc-level-3" href="#3-elevacion-temporal-y-auditoria">3. Elevación temporal y auditoría</a><a class="toc-level-3" href="#4-lo-que-hay-que-comprobar">4. Lo que hay que comprobar</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
