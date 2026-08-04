@@ -1,0 +1,118 @@
+{
+  "id": "234",
+  "purpose": "Operar Kubernetes gestionado en Google Cloud, donde existe un modo que quita casi toda la operación de nodos y cambia la decisión de la clase 213: **si el motivo para no usar clúster era el coste de mantenerlo, ese motivo se reduce mucho**. La clase compara los dos modos con lo que cada uno permite y prohíbe, cubre la identidad de carga y el consumo de direcciones, y la reconciliación desde el repositorio con su alerta imprescindible.",
+  "outcomes": [
+    "**Elegir** entre el modo gestionado y el estándar con criterios.",
+    "**Decidir** si el clúster compensa frente al servicio de contenedores.",
+    "**Dar** identidad a las cargas sin claves, atada al espacio de nombres.",
+    "**Dimensionar** los rangos de direcciones que consume el clúster.",
+    "**Operar** con reconciliación, políticas y actualizaciones planificadas."
+  ],
+  "concepts": [
+    {
+      "term": "modo gestionado",
+      "definition": "El proveedor administra los nodos: se paga por lo que piden los pods y no hay conjunto que mantener."
+    },
+    {
+      "term": "modo estándar",
+      "definition": "Grupos de nodos administrados por el equipo. Más control y más trabajo."
+    },
+    {
+      "term": "identidad de carga",
+      "definition": "Vinculación entre una cuenta de servicio de Kubernetes y una de la nube, sin claves."
+    },
+    {
+      "term": "rango secundario",
+      "definition": "Rango de la subred del que salen las direcciones de pods y servicios. Es el que más consume."
+    },
+    {
+      "term": "canal de versión",
+      "definition": "Política de actualización automática del plano de control y de los nodos."
+    },
+    {
+      "term": "sincronización de configuración",
+      "definition": "Bucle gestionado que aplica el estado declarado en el repositorio y corrige la deriva."
+    }
+  ],
+  "diagram": "flowchart TB\n    Q1{\"¿hace falta clúster?\"}\n    Q1 -->|\"contenedores HTTP\\ny trabajos\"| N[\"NO · clase 233\"]\n    Q1 -->|\"operadores, GPU,\\nplanificación fina,\\nmuchos equipos\"| S[\"SÍ\"]\n    S --> Q2{\"¿qué modo?\"}\n    Q2 -->|\"sin nodos que\\nmantener\"| M1[\"GESTIONADO\\npagas lo que piden\\nlos pods\"]\n    Q2 -->|\"agentes propios,\\nconfiguración de nodo,\\ncontrol de coste fino\"| M2[\"ESTÁNDAR\"]\n    M1 --> I[\"IDENTIDAD DE CARGA\\ncuenta de K8s →\\ncuenta de servicio\"]\n    M2 --> I\n    I --> D[\"RANGOS SECUNDARIOS\\npods y servicios\\n← lo que más consume\"]\n    D --> G[\"reconciliación desde\\nel repositorio\"]\n    G --> G1[\"alerta por antigüedad\\nde sincronización\"]",
+  "foundations": [
+    {
+      "heading": "Dos modos, y qué cambia cada uno",
+      "body": "La decisión más importante al crear el clúster es el modo, y aquí hay uno que no existe en las otras nubes.\n\n```text\nMODO GESTIONADO\n  no hay grupos de nodos que administrar\n  se paga por CPU, memoria y disco que PIDEN los pods\n  el proveedor decide y mantiene los nodos\n  + sin parchear, sin escalar el conjunto, sin drenar\n  + la petición de recursos es el contrato: si pides bien,\n    pagas bien\n  + configuración segura por defecto: política de red,\n    nodos endurecidos, identidad de carga activada\n                                                    ley 26\n  − no se puede tocar el nodo: nada de agentes con acceso\n    privilegiado ni configuraciones del sistema\n  − menos control sobre el empaquetado\n  − y ciertas capacidades quedan restringidas\n\nMODO ESTÁNDAR\n  grupos de nodos propios\n  + control total: agentes, configuración, tipos de máquina\n  + coste por unidad menor si el empaquetado es alto\n  − hay que mantener el conjunto                  ley 23\n  − y hay que activar a mano lo que el otro trae puesto\n```\n\nY el efecto sobre la decisión de la clase 213:\n\n```text\nel motivo principal para NO usar clúster era el coste de\noperarlo\n  actualizaciones, complementos, nodos, parches\n→ el modo gestionado reduce mucho ese coste\n→ y por tanto la frontera se mueve: hay casos que antes no\n  compensaban y ahora sí\n\nlo que NO cambia\n  sigue habiendo actualizaciones de versión\n  siguen los complementos que se instalen a mano\n  y sigue haciendo falta saber Kubernetes\n```\n\nY el criterio actualizado:\n\n```text\n¿es un servicio HTTP o un trabajo?\n  → servicio de contenedores; más simple  clase 233\n¿hacen falta operadores, recursos propios o planificación\n  fina?\n  → clúster\n¿hacen falta agentes con acceso al nodo o configuración del\n  sistema?\n  → clúster en modo estándar\n¿ninguna de las dos?\n  → clúster en modo gestionado\n```\n\nY una advertencia de coste que sorprende:\n\n```text\nen el modo gestionado se paga lo que PIDEN los pods\n→ una petición de recursos generosa «por si acaso» se paga\n  entera, use lo que use\n→ y por tanto las peticiones bien puestas dejan de ser\n  buena práctica y pasan a ser una línea de la factura\n                                                clase 213\n```"
+    },
+    {
+      "heading": "Identidad y direcciones",
+      "body": "**La identidad de carga** es el mecanismo estándar aquí y conviene que esté activada desde el principio.\n\n```text\nCÓMO FUNCIONA\n  una cuenta de servicio de Kubernetes se anota con una\n  cuenta de servicio de la nube\n  el pod obtiene testigos de esa identidad\n  → sin claves, sin secretos montados\n\nY EL ENLACE\n  se concede a la cuenta de Kubernetes el permiso de\n  suplantar la de la nube\n  → atado a espacio de nombres Y nombre de la cuenta\n  → el mismo error de las clases 218 y 222: si se ata solo\n    al proyecto, cualquier cuenta de servicio del clúster\n    la obtiene\n\nY LO QUE HAY QUE DESACTIVAR\n  el acceso de los pods al servicio de metadatos del nodo\n  → si no, obtienen la identidad del NODO, que suele tener\n    más permisos\n  → en el modo gestionado viene desactivado; en el estándar,\n    hay que hacerlo                                ley 26\n```\n\nY la prueba obligatoria:\n\n```text\ndesde un pod de otro espacio de nombres, intentar obtener\nla identidad\n→ debe fallar\ny desde un pod, leer las credenciales del nodo\n→ debe estar bloqueado                            ley 22\n```\n\n**Las direcciones**, que es la decisión que más consume:\n\n```text\nLOS TRES RANGOS\n  nodos          del rango principal de la subred\n  PODS           de un rango secundario\n  SERVICIOS      de otro rango secundario\n\nEL CÁLCULO\n  el rango de pods se dimensiona por\n    nodos máximos × pods por nodo × factor de reserva\n  → y el factor no es 1: se reservan bloques por nodo\n  → un clúster de 100 nodos con 110 pods por nodo puede\n    necesitar un /17\n\nY LA TRAMPA\n  el número de pods por nodo se fija al crear\n  y el rango de pods NO se puede cambiar sin recrear\n  → es la misma decisión irreversible de la clase 222\n                                                    ley 14\n```\n\nY las opciones que reducen el consumo:\n\n```text\nreducir los pods por nodo, si no hacen falta 110\nusar rangos no enrutables para pods, donde el modelo lo\n  permita                                     clase 193\ny reutilizar rangos secundarios entre clústeres, donde\n  esté soportado\n\n→ y en cualquier caso, calcularlo ANTES, con el plan de\n  direcciones delante\n```\n\nY el uso de red compartida:\n\n```text\nel clúster vive en un proyecto de servicio y usa subredes\nde la red compartida                          clase 229\n→ los rangos secundarios los cede el proyecto anfitrión\n→ y por tanto los pide plataforma, no el equipo\n```"
+    },
+    {
+      "heading": "Operar desde el repositorio",
+      "body": "La reconciliación es la misma idea de las clases 213 y 222, con una variante gestionada.\n\n```text\nSINCRONIZACIÓN DE CONFIGURACIÓN GESTIONADA\n  un componente del proveedor aplica lo declarado en el\n  repositorio y corrige la deriva\n  + menos que operar\n  + con políticas de admisión integradas\n  − menos control sobre versiones y extensiones\n\nO UN CONTROLADOR PROPIO\n  + control total y portable\n  − hay que operarlo                            ley 23\n```\n\nY la alerta que no puede faltar, por tercera vez:\n\n```text\n«la sincronización lleva N minutos sin completarse»\no «el estado real difiere del declarado desde hace N»\n→ un bucle parado no da error: deja de aplicar    ley 13\n→ y en la clase 179 esa prueba negativa falló porque la\n  alerta iba a un canal sin nadie\n```\n\n**Las políticas de admisión**, que aquí se integran con el gobierno:\n\n```text\nlo que hay que impedir\n  imágenes que no vengan del registro propio\n  imágenes sin firmar                          clase 106\n  contenedores con privilegios o con red del anfitrión\n  recursos sin peticiones ni límites          clase 213\n  y recursos sin etiquetas obligatorias       clase 239\n\ny la disciplina\n  modo de aviso primero, con medición\n  mensajes que digan qué falta y cómo arreglarlo\n  y el carril fácil que cumpla solo             ley 16\n```\n\nY la política de red, con la diferencia entre modos:\n\n```text\nen el modo gestionado viene activada\nen el estándar hay que activarla, y por defecto todos los\npods hablan con todos                    ley 26, clase 222\n→ denegación por defecto entre espacios de nombres, y\n  reglas explícitas\n```\n\n**Las actualizaciones**, con lo que cambia aquí:\n\n```text\nCANALES DE VERSIÓN\n  rápido · regular · estable\n  → el plano de control y los nodos se actualizan solos\n    dentro del canal\n  → con VENTANAS Y EXCLUSIONES de mantenimiento declaradas\n\nY ESO CAMBIA EL TRABAJO\n  no hay que planificar cada actualización menor\n  → pero SÍ hay que comprobar antes las interfaces\n    retiradas y los complementos           clase 213\n  → y las exclusiones evitan que ocurra en campaña\n\nLO QUE SIGUE SIENDO MANUAL\n  las versiones mayores\n  los complementos instalados a mano\n  y los operadores propios\n```\n\nY una comprobación que hay que tener:\n\n```text\nel aviso de interfaces retiradas: la plataforma detecta\nmanifiestos que usan API que van a desaparecer\n→ conviene revisarlo antes de cada canal, no después\n→ y añadirlo a la canalización              clase 232\n```"
+    },
+    {
+      "heading": "Coste, entrada y comprobaciones",
+      "body": "**El coste**, con las palancas de cada modo:\n\n```text\nMODO GESTIONADO\n  se paga lo pedido por los pods\n  palancas\n    peticiones ajustadas al p95 real         clase 213\n    clases de cómputo adecuadas a la carga\n    y pods de baja prioridad para lotes tolerantes\n  → y no hay empaquetado que optimizar: eso lo hace el\n    proveedor\n\nMODO ESTÁNDAR\n  se pagan los nodos\n  palancas\n    empaquetado alto\n    autoescalado de nodos bien configurado\n    tipos de máquina adecuados\n    capacidad interrumpible para lotes\n    y compromisos de uso                     clase 239\n\nY EN AMBOS\n  el clúster tiene un coste fijo de plano de control\n  → varios clústeres pequeños cuestan más que uno con\n    espacios de nombres separados\n  → salvo que el aislamiento lo justifique      clase 213\n```\n\n**La entrada**, con las opciones:\n\n```text\nBALANCEADOR GLOBAL como entrada del clúster\n  + una dirección para varias regiones      clase 231\n  + certificados gestionados y caché en el borde\n  + filtrado de aplicación delante\n\nCONTROLADOR DE ENTRADA PROPIO\n  + control y portabilidad                  clase 158\n  − hay que operarlo\n\nY LA PUERTA DE ENLACE declarativa\n  el modelo más nuevo, con separación entre quien opera la\n  entrada y quien declara las rutas\n  → encaja con la separación de la clase 229\n```\n\nY las comprobaciones de esta clase:\n\n```text\n☐ obtener la identidad desde otro espacio de nombres\n  → debe fallar\n☐ leer credenciales del nodo desde un pod\n  → debe estar bloqueado\n☐ desplegar una imagen de un registro ajeno\n  → debe rechazarse\n☐ desplegar un pod sin peticiones de recursos\n  → debe rechazarse\n☐ desplegar un pod con privilegios\n  → debe rechazarse\n☐ hablar entre dos espacios de nombres no permitidos\n  → debe fallar\n☐ parar la sincronización y esperar la alerta\n☐ perder una zona y comprobar el reparto de réplicas\n                                                clase 227\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ la decisión de usar clúster está justificada frente al\n  servicio de contenedores\n☐ el modo elegido corresponde a lo que hace falta\n☐ la identidad de carga está activada y atada a espacio de\n  nombres y cuenta\n☐ el acceso al servicio de metadatos está bloqueado\n☐ los rangos secundarios se calcularon antes de crear\n☐ los pods por nodo están ajustados a lo necesario\n☐ el clúster usa la red compartida\n☐ la política de red está activada, con denegación por\n  defecto\n☐ hay políticas de admisión con mensajes útiles\n☐ la reconciliación está montada, con alerta por antigüedad\n☐ el canal de versión y las ventanas están decididos\n☐ se revisan las interfaces retiradas antes de actualizar\n☐ las peticiones de recursos están medidas, no copiadas\n☐ las réplicas se reparten entre zonas\n```\n\nY el cierre que enlaza con la clase siguiente: con el cómputo resuelto, quedan los datos, que en esta nube ofrecen una familia amplia y una base distribuida con una propiedad que no tiene equivalente. Es la materia de la clase 235."
+    }
+  ],
+  "worked_example": "**CloudShop revisa su uso de Kubernetes en Google Cloud. Lo que sigue es la decisión de modo que cambió respecto a la de la clase 222, el cálculo de direcciones que evitó recrear el clúster, y el ahorro de ajustar las peticiones de recursos.**\n\n**La decisión de modo:**\n\n```text\nlo que se necesitaba\n  2 cargas con GPU del equipo de datos\n  un operador de base vectorial\n  trabajos por lotes con prioridades\n  el buscador, con imagen propia\n\nlo que NO se necesitaba\n  agentes con acceso privilegiado al nodo\n  configuración del sistema operativo\n  tipos de máquina exóticos\n\n→ modo GESTIONADO para todo salvo las cargas con GPU\n→ y un grupo de nodos estándar aparte para esas\n  (el modo gestionado las soporta con restricciones que no\n   encajaban con el operador que usaban)\n\ny la comparación de esfuerzo, frente al clúster de Azure\n  actualizaciones al año            3 planificadas → 1\n  mantenimiento de complementos     18 días/año → 4\n  soporte a equipos                 44 días/año → 38\n  incidentes de plataforma          11 días/año → 3\n  ───────────────────────────────────────────────────\n  total                             82 días/año → 46\n                                    0,4 → 0,22 personas\n```\n\nY la observación que el equipo registró:\n\n```text\nel modo gestionado reduce a la mitad el coste de operación\n→ y eso mueve la frontera de la clase 213: hay dos cargas\n  que se habían quedado fuera del clúster por el coste de\n  operarlo y que ahora entrarían\n→ decisión: no moverlas de todos modos; funcionan donde\n  están                                       clase 216\n```\n\n**El cálculo de direcciones, hecho antes de crear.**\n\n```text\nel equipo iba a aceptar los valores por defecto\n  pods por nodo                                    110\n  rango de pods sugerido                          /14\n\nel cálculo real\n  nodos máximos previstos                           38\n  pods por nodo REALES observados en el clúster de\n    Azure                                       máx. 31\n  → 110 era el valor por defecto y no correspondía a nada\n\n  con 32 pods por nodo\n    rango de pods necesario                       /19\n    rango de servicios                            /22\n\n  frente a\n  con 110 pods por nodo\n    rango de pods                                 /17\n\n→ y el plan de direcciones asignaba /18 por proyecto\n→ con el valor por defecto, el clúster se habría comido\n  todo el proyecto y habría bloqueado el crecimiento\n\ny la decisión irreversible\n  el número de pods por nodo se fija al crear\n  → cambiarlo exige recrear el clúster           ley 14\n```\n\n**La identidad, y la prueba que falló.**\n\n```text\nidentidad de carga activada\n7 cuentas de servicio de la nube, una por carga\nenlace atado a espacio de nombres y nombre de cuenta\n\npruebas negativas\n  ✓  pod de «datos» pidiendo la identidad de «buscador»\n                                                denegado\n  ✓  pod leyendo credenciales del nodo          bloqueado\n  ✗  el operador de base vectorial\n     → su enlace se había creado atado solo al proyecto\n     → cualquier cuenta de servicio del clúster podía\n       obtener esa identidad\n     → y esa identidad tenía permisos de escritura en el\n       conjunto de datos vectoriales\n     → corregido\n\n→ y es el mismo fallo que en la clase 222, con el mismo\n  componente: el que se instala a mano y no pasa por la\n  plantilla                                clase 229, ley 27\n```\n\n**Las peticiones de recursos, y el ahorro.**\n\n```text\nen el modo gestionado se paga lo PEDIDO\n\nlas peticiones estaban copiadas del clúster anterior\n  carga             pedido        uso p95 real\n  buscador          2 CPU / 4 Gi   0,7 CPU / 2,1 Gi\n  indexador         4 CPU / 8 Gi   2,9 CPU / 5,8 Gi\n  operador vect.    1 CPU / 2 Gi   0,1 CPU / 0,6 Gi\n  api interna       1 CPU / 2 Gi   0,2 CPU / 0,9 Gi\n  trabajos lote     2 CPU / 4 Gi   1,8 CPU / 3,6 Gi\n\najuste a p95 con margen del 25 %\n  buscador          0,9 CPU / 2,7 Gi\n  indexador         3,6 CPU / 7,3 Gi\n  operador vect.    0,2 CPU / 0,8 Gi\n  api interna       0,3 CPU / 1,2 Gi\n  trabajos lote     2,3 CPU / 4,5 Gi\n\ncoste del clúster gestionado      3.400 € → 1.640 €/mes\n\n→ y aquí el ajuste de peticiones no es higiene: es\n  directamente la factura                       clase 213\n```\n\nY un efecto que no se buscaba:\n\n```text\nal bajar las peticiones, más pods caben por nodo\n→ y el proveedor usa menos nodos\n→ pero como se paga por lo pedido, el ahorro es directo y\n  no depende del empaquetado\n```\n\n**La reconciliación y las políticas:**\n\n```text\nsincronización gestionada desde el repositorio\n  con alerta de antigüedad, a canal con guardia\n  → y probada parándola: alerta en 4 minutos    ley 22\n\npolíticas de admisión, en modo aviso 3 semanas\n  incumplimientos medidos\n    imágenes de registros ajenos                    41\n      → 38 eran imágenes públicas de herramientas\n      → se copiaron al registro propio y se firmaron\n    pods sin peticiones de recursos                 62\n      → todos, de un equipo que desplegaba a mano\n    contenedores con privilegios                     4\n      → 3 legítimos (agentes de red), 1 innecesario\n    sin etiquetas obligatorias                      88\n\ntras corregir, modo bloqueo\n  rechazos en el primer mes                          6\n  todos, incumplimientos reales\n  tiquetes de soporte                                0\n  → porque el mensaje decía qué faltaba      clase 217\n```\n\n**Las actualizaciones, con el canal:**\n\n```text\ncanal          regular\nventanas       martes y jueves, 02:00-06:00\nexclusiones    del 15 de noviembre al 5 de enero (campaña)\n               y las 2 semanas de cierre trimestral\n\nen 12 meses\n  actualizaciones automáticas aplicadas             9\n  que causaron incidencia                           0\n  actualizaciones mayores planificadas              1\n    con revisión previa de interfaces retiradas\n    → 11 manifiestos corregidos antes\n  duración de la mayor                            2 h\n```\n\n**El resultado:**\n\n```text                                        antes     después\ncoste del clúster                         3.400 €     1.640 €\ndirecciones consumidas por pods            8.192       2.048\n  (con el valor por defecto)\ncapacidad de equipo dedicada           0,4 pers.   0,22 pers.\nactualizaciones planificadas al año            3           1\nenlaces de identidad mal atados                1           0\npods sin peticiones de recursos               62           0\nimágenes de registros ajenos                  41           0\n```\n\n**La lección que esta clase deja**: el modo gestionado **redujo a la mitad el coste de operar el clúster**, lo que mueve la frontera de cuándo compensa usarlo. El valor por defecto de ciento diez pods por nodo no correspondía a nada —el uso real era treinta y uno— y aceptarlo habría consumido el proyecto entero de direcciones **de forma irreversible**. Y el único fallo de identidad estaba, otra vez, en el componente instalado a mano: el que no pasa por la plantilla.",
+  "pitfalls": [
+    {
+      "symptom": "El clúster consume el rango de direcciones del proyecto entero",
+      "cause": "Se aceptó el valor por defecto de pods por nodo sin medir el uso real",
+      "fix": "Calcula nodos por pods reales antes de crear; el valor se fija al crear y cambiarlo exige recrear el clúster."
+    },
+    {
+      "symptom": "La factura del clúster gestionado es alta pese a poco uso",
+      "cause": "Se paga lo que piden los pods y las peticiones estaban copiadas",
+      "fix": "Ajusta las peticiones al p95 real con margen; aquí es directamente la factura, no higiene."
+    },
+    {
+      "symptom": "Cualquier cuenta de servicio del clúster obtiene una identidad privilegiada",
+      "cause": "El enlace de identidad se ató solo al proyecto",
+      "fix": "Ata a espacio de nombres y nombre de cuenta, y compruébalo desde un pod de otro espacio."
+    },
+    {
+      "symptom": "Los pods obtienen permisos que no les corresponden",
+      "cause": "Pueden alcanzar el servicio de metadatos del nodo",
+      "fix": "Bloquéalo; en modo gestionado viene bloqueado, en estándar hay que hacerlo."
+    },
+    {
+      "symptom": "Los cambios del repositorio dejan de aplicarse sin aviso",
+      "cause": "El bucle de sincronización se detuvo en silencio",
+      "fix": "Alerta por antigüedad de la sincronización, con destino a guardia, y pruébala parándola."
+    },
+    {
+      "symptom": "Una actualización automática ocurre en plena campaña",
+      "cause": "No hay exclusiones de mantenimiento declaradas",
+      "fix": "Declara ventanas y exclusiones para los periodos críticos, y revisa las interfaces retiradas antes de cambiar de canal."
+    }
+  ],
+  "checks": [
+    "¿Qué permite y qué prohíbe el modo gestionado, y cómo cambia la decisión de usar clúster?",
+    "¿Por qué las peticiones de recursos son directamente la factura en modo gestionado?",
+    "¿Qué rangos consume un clúster y cuál es la decisión irreversible?",
+    "¿A qué debe atarse el enlace de identidad de carga?",
+    "¿Qué sigue siendo manual pese a tener canal de versión?"
+  ],
+  "references": [
+    {
+      "text": "Google Cloud (2025). *GKE Autopilot overview*.",
+      "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview"
+    },
+    {
+      "text": "Google Cloud (2025). *Workload Identity Federation for GKE*.",
+      "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity"
+    },
+    {
+      "text": "Google Cloud (2025). *IP address planning for GKE clusters*.",
+      "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips"
+    },
+    {
+      "text": "Google Cloud (2025). *Config Sync and Policy Controller*.",
+      "url": "https://cloud.google.com/kubernetes-engine/enterprise/config-sync/docs/overview"
+    },
+    {
+      "text": "Google Cloud (2025). *GKE release channels and maintenance windows*.",
+      "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/release-channels"
+    }
+  ]
+}
