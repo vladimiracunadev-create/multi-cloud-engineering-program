@@ -1,0 +1,118 @@
+{
+  "id": "271",
+  "purpose": "La ruta de datos e inteligencia artificial en la nube: conseguir que el dato sea confiable y que el modelo sirva en producción. La clase separa las tres funciones que suelen confundirse —ingeniería de datos, analítica y aprendizaje automático—, da las competencias que se miden en cada una, y marca el modo de fracaso que la parte 20 demostró con cifras: **construir el modelo antes de que el dato sea de fiar**.",
+  "outcomes": [
+    "**Separar** ingeniería de datos, analítica y aprendizaje automático.",
+    "**Reconocer** qué competencias se miden en cada función y en qué orden.",
+    "**Aplicar** el orden por coste de cambio: contratos primero, modelo al final.",
+    "**Detectar** el modo de fracaso de modelar sobre datos no fiables.",
+    "**Elegir** entre las tres funciones según lo que se quiere resolver."
+  ],
+  "concepts": [
+    {
+      "term": "ingeniería de datos",
+      "definition": "Hacer que el dato llegue completo, a tiempo y con significado declarado. La base de las otras dos."
+    },
+    {
+      "term": "analítica",
+      "definition": "Convertir datos en respuestas que alguien usa para decidir. Su producto es la decisión, no el panel."
+    },
+    {
+      "term": "aprendizaje automático",
+      "definition": "Producir predicciones útiles en producción, con su evaluación y su degradación vigiladas."
+    },
+    {
+      "term": "contrato de datos",
+      "definition": "Acuerdo escrito sobre esquema, semántica, frescura y dueño. Lo más caro de cambiar."
+    },
+    {
+      "term": "sesgo entrenar-servir",
+      "definition": "Calcular un atributo distinto al entrenar y al servir. El fallo silencioso más común."
+    },
+    {
+      "term": "evaluación de producción",
+      "definition": "Medir la calidad con datos reales y en el sistema real, no con casos imaginados."
+    }
+  ],
+  "diagram": "flowchart TB\n    O[\"origen\"] --> C[\"CONTRATO\\nesquema · semántica\\nfrescura · dueño\"]\n    C --> I[\"INGENIERÍA DE DATOS\\ningesta · calidad\\norquestación\"]\n    I --> A[\"ANALÍTICA\\npreguntas → decisiones\"]\n    I --> M[\"APRENDIZAJE\\nAUTOMÁTICO\"]\n    M --> E[\"evaluación con\\ndatos reales\"]\n    E --> P[\"producción\"]\n    P --> D[\"vigilar deriva\\ny degradación\"]\n    D -.->|\"realimenta\"| M\n    X[\"modo de fracaso:\\nmodelar antes de\\nque el dato\\nsea fiable\"] -.-> M",
+  "foundations": [
+    {
+      "heading": "Tres funciones distintas",
+      "body": "Se anuncian juntas y exigen cosas diferentes. Confundirlas produce contrataciones frustradas en las dos direcciones.\n\n```text\nINGENIERÍA DE DATOS\n  que el dato llegue completo, a tiempo y con significado\n  declarado\n  → ingesta, orquestación, calidad, formatos, particiones,\n    reproceso                          clases 241-244\n  su producto  conjuntos de datos en los que otros confían\n  su fallo     nadie se entera hasta semanas después\n                                                ley 29\n\nANALÍTICA\n  convertir datos en respuestas que alguien usa\n  → modelado dimensional, métricas acordadas, paneles\n  su producto  DECISIONES, no paneles\n  su fallo     paneles preciosos que nadie mira, o dos\n               cifras distintas para lo mismo\n\nAPRENDIZAJE AUTOMÁTICO\n  producir predicciones útiles en producción\n  → atributos, entrenamiento, servicio, evaluación,\n    deriva                             clases 244-250\n  su producto  un sistema que decide mejor que la regla\n               que sustituye\n  su fallo     funciona en el laboratorio y no en\n               producción\n\n→ y las tres dependen de la primera\n→ que es lo que la parte 20 demostró midiendo\n```\n\nY la jerarquía que no se puede saltar:\n\n```text\nSIN CONTRATO NO HAY DATO FIABLE\nSIN DATO FIABLE NO HAY MÉTRICA COMPARABLE\nSIN MÉTRICA COMPARABLE NO HAY MODELO EVALUABLE\n\n→ y el error de la parte 20, medido: un campo llamado\n  «importe» que significaba tres cosas distintas y cuyo\n  esquema era idéntico en las tres tablas\n→ el error más caro no lo cometió ningún modelo\n```\n\nY el orden por coste de cambio, que ordena cualquier proyecto:\n\n```text\n1  contratos y semántica          lo más caro de cambiar\n2  ingesta y reproceso\n3  calidad que DETIENE            clase 243\n4  atributos, con el mismo cálculo al entrenar y al servir\n5  servicio y evaluación\n6  y el modelo                    lo más barato de cambiar\n\n→ y casi todos los proyectos empiezan por el 6\n```"
+    },
+    {
+      "heading": "Las competencias que se miden",
+      "body": "Por función y por nivel, lo que separa a alguien que resuelve de alguien que ha leído.\n\n```text\nINGENIERÍA DE DATOS\n  nivel 2\n    monta ingesta incremental con captura de cambios y\n    sabe qué pasa con los borrados          clase 242\n    define marca de agua y trata lo tardío\n    elige formato y partición con criterio de coste\n                                            clase 243\n    y hace reproceso reproducible\n  nivel 3\n    diseña contratos con semántica escrita  clase 241\n    decide la arquitectura de datos y sus fronteras\n    monta calidad que detiene antes de publicar\n    y baja el plazo de publicar un dato nuevo\n  nivel 4\n    el consumo pasa por la plataforma porque conviene, no\n    porque se obligue                          ley 16\n\nANALÍTICA\n  nivel 2\n    modela para consultar, no para almacenar\n    define métricas con su definición escrita\n    y sabe por qué dos paneles no coinciden\n  nivel 3\n    acuerda las métricas con negocio y las hace únicas\n    diseña para que la respuesta llegue cuando se decide\n    y retira paneles\n  nivel 4\n    las decisiones de la empresa usan las mismas cifras\n\nAPRENDIZAJE AUTOMÁTICO\n  nivel 2\n    entrena, evalúa y despliega un modelo\n    calcula atributos igual al entrenar y al servir\n                                            clase 244\n    y mide en producción, no solo en el laboratorio\n  nivel 3\n    diseña la evaluación con casos REALES   clase 250\n    decide entre modelo y regla, con coste y riesgo\n    vigila deriva y degradación             clase 246\n    y sabe cuándo NO usar un modelo\n  nivel 4\n    el sistema se evalúa continuamente y la organización\n    acepta retirar modelos que no aportan\n```\n\nY las preguntas que más discriminan en una entrevista:\n\n```text\n«¿cómo detectáis que un dato está mal si no da error?»\n  → discrimina brutalmente                     ley 29\n\n«¿qué pasa con los borrados en vuestra ingesta\nincremental?»\n  → la mayoría no lo ha pensado          clase 242\n\n«¿el atributo se calcula igual al entrenar y al servir?\n¿cómo lo comprobáis?»\n\n«¿de dónde salieron los casos de vuestra evaluación?»\n  → si los imaginó el equipo, el número no significa nada\n                                          clase 250\n\ny «¿qué modelo habéis retirado?»\n  → nivel 3 ha retirado alguno\n```"
+    },
+    {
+      "heading": "El modo de fracaso y sus señales",
+      "body": "El modo de fracaso de esta ruta es empezar por el final, y tiene señales tempranas.\n\n```text\nMODELAR ANTES DE QUE EL DATO SEA FIABLE\n  se construye el modelo, funciona en el laboratorio, y en\n  producción da resultados peores sin que nadie sepa por\n  qué\n\nlas causas, por frecuencia medida en la parte 20\n  el atributo se calcula distinto al entrenar y al servir\n                                            clase 244\n  el conjunto de entrenamiento contiene información que\n    en producción no existe todavía\n  la evaluación se hizo con casos imaginados\n                                            clase 250\n  el dato de entrada cambió de significado    ley 29\n  y la distribución se movió sin que nadie mirara\n                                            clase 246\n\n→ las cinco son de DATOS, no de modelo\n→ y ninguna da error\n```\n\nY las señales tempranas, que se pueden mirar hoy:\n\n```text\n☐ ¿existe una definición escrita de cada campo que\n  usamos?\n☐ ¿sabemos cuándo se actualizó por última vez cada\n  conjunto?\n☐ ¿hay comprobaciones que DETIENEN la publicación?\n☐ ¿los atributos se calculan en un solo sitio?\n☐ ¿la evaluación usa casos que ocurrieron de verdad?\n☐ ¿alguien mira la distribución además del volumen?\n\n→ si más de dos son «no», el modelo va a fallar y la\n  causa no será el modelo\n```\n\nY los otros dos modos de fracaso de la ruta:\n\n```text\nEL ALMACÉN QUE NADIE USA\n  se construye la plataforma de datos y el consumo la\n  rodea con exportaciones y copias\n  → y en la parte 20 eso era el 71 %\n  la causa medida: publicar por el camino oficial tardaba\n  once semanas\n  → lo que lo revirtió fue bajarlo a dos días, no una\n    norma                                     ley 16\n\nEL MODELO QUE NADIE PUEDE RETIRAR\n  entra en producción, nadie mide si aporta, y quitarlo da\n  miedo\n  → la defensa es medir el efecto contra la alternativa\n    simple DESDE EL PRINCIPIO\n  → y muchas veces la regla de tres líneas gana\n```\n\nY la pregunta que ahorra proyectos enteros:\n\n```text\n«¿QUÉ DECISIÓN VA A CAMBIAR CON ESTO, Y QUIÉN LA TOMA?»\n  → si no hay respuesta, no hay proyecto\n  → y esto vale igual para un panel que para un modelo\n\ny la segunda\n«¿CUÁL ES LA ALTERNATIVA SIMPLE Y CUÁNTO DE LO PROMETIDO\nCONSIGUE?»\n  → una media móvil, una regla, un umbral\n  → y con frecuencia consigue el 80 % con el 2 % del\n    coste\n```"
+    },
+    {
+      "heading": "Elegir, demostrar y el techo",
+      "body": "Cómo se decide entre las tres funciones y cómo se demuestra la ruta.\n\n```text\nELIGE INGENIERÍA DE DATOS SI\n  te interesan sistemas, fiabilidad y volumen\n  toleras que tu trabajo sea invisible cuando funciona\n  y te motiva que otros construyan encima\n  → es la que más demanda tiene y la que menos se anuncia\n\nELIGE ANALÍTICA SI\n  te interesa el negocio tanto como la técnica\n  te motiva discutir definiciones hasta que sean únicas\n  y aceptas que tu producto es la decisión ajena\n\nELIGE APRENDIZAJE AUTOMÁTICO SI\n  toleras la incertidumbre y la evaluación constante\n  y aceptas que la mayor parte del trabajo son datos y\n  producción, no modelado\n  → y quien entra esperando lo contrario se va\n```\n\nY la evidencia que vale:\n\n```text\nLO QUE NO VALE\n  «monté un canal de datos con estas herramientas»\n  «entrené un modelo con un 94 % de acierto»\n  → el segundo, además, es sospechoso: ¿medido con qué?\n\nLO QUE VALE\n  «el plazo de publicar un dato nuevo pasó de once semanas\n   a dos días, y el consumo que pasa por la plataforma\n   subió del 29 % al 96 %»\n  «detectamos un cambio de céntimos a euros que había\n   pasado todas las comprobaciones de validez, y añadimos\n   la comparación de distribución que lo habría cogido»\n  «el conjunto de evaluación con preguntas reales dio 67 %\n   frente al 94 % del imaginado; con eso rediseñamos la\n   recuperación»\n  «retiramos el modelo de recomendación porque una regla\n   conseguía el 91 % del efecto con el 3 % del coste»\n\n→ efecto, mecanismo y cifra                clase 275\n```\n\nY el techo:\n\n```text\nEL TECHO\n  los datos son fiables, las métricas únicas y los modelos\n  se evalúan y se retiran\n  → y lo que limita entonces es qué decide la organización\n    con ellos\n\ncontinuaciones\n  a  ARQUITECTURA                            clase 272\n     si el límite es cómo están organizados los sistemas\n  b  producto o dirección de datos\n     si el límite es qué preguntas se hacen\n  c  o plataforma                            clase 267\n     si lo que falta es que publicar un dato sea fácil\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ sé cuál de las tres funciones estoy haciendo\n☐ no empiezo por el modelo\n☐ cada campo que uso tiene definición escrita y dueño\n☐ hay comprobaciones que detienen la publicación\n☐ los atributos se calculan en un solo sitio\n☐ la evaluación usa casos que ocurrieron de verdad\n☐ alguien mira la distribución, no solo el volumen\n☐ mido el efecto contra la alternativa simple\n☐ sé qué decisión cambia con lo que construyo y quién la\n  toma\n☐ publicar un dato nuevo se mide en días, no en semanas\n☐ he retirado algún panel o algún modelo\n```\n\nY el cierre que enlaza con la clase siguiente: queda la ruta que no construye ninguna pieza y responde de que las decisiones sean defendibles y sobrevivan a quien las tomó. Arquitectura de soluciones es la materia de la clase 272."
+    }
+  ],
+  "worked_example": "**Tres trayectorias en la ruta de datos, con lo que cada una midió. Lo que sigue es el proyecto que empezó por el modelo y tuvo que rehacerse, la analista que retiró 61 paneles, y el ingeniero de datos que bajó un plazo de once semanas a dos días.**\n\n**Caso 1 · El proyecto que empezó por el modelo.**\n\n```text\nencargo   predecir la fecha de entrega de un pedido\nequipo    2 personas, 4 meses\n\nlo que se hizo, en este orden\n  1  se recogieron datos históricos con una consulta\n  2  se entrenaron seis modelos\n  3  se eligió el mejor\n  4  se desplegó\n\nresultado en el laboratorio    error medio 1,4 días\nresultado en producción        error medio 3,9 días\n```\n\nY el diagnóstico, que tardó cinco semanas:\n\n```text\ncausa 1  17 atributos se calculaban con una consulta al\n         entrenar y con código distinto al servir\n         → y 6 de ellos daban valores diferentes\n                                            clase 244\ncausa 2  el conjunto de entrenamiento incluía el estado\n         final del pedido, que al predecir no existe\n         → información del futuro\ncausa 3  el campo «fecha de envío» significaba «fecha\n         planificada» en una tabla y «fecha real» en otra\n         → y el esquema era idéntico\n\n→ las tres son de datos\n→ y el modelo era correcto\n```\n\nY lo que costó rehacerlo en el orden correcto:\n\n```text\ncontratos y semántica de 9 campos          3 semanas\n  → la discusión sobre «fecha de envío» duró 4 días\nuna sola definición de cada atributo,\n  usada al entrenar y al servir             2 semanas\ncomprobaciones que detienen                 1 semana\nevaluación con pedidos reales del último\n  trimestre                                 1 semana\nel modelo, reentrenado                       2 días\n\nresultado en producción      error medio 1,6 días\n\n→ el modelo fue lo último y lo más rápido\n→ y las 7 semanas de datos eran inevitables: solo se\n  pagaron dos veces\n```\n\n**Caso 2 · La analista que retiró 61 paneles.**\n\n```text\nsituación\n  paneles existentes                            94\n  con más de una visita al mes                  33\n  con más de una visita a la semana             19\n\ny el problema real\n  «pedidos completados» tenía cuatro definiciones\n  distintas en cuatro paneles\n    incluye o no cancelados posteriormente\n    cuenta por fecha de pedido o de pago\n    incluye o no pedidos de prueba\n    y una usaba zona horaria local y otra universal\n\n→ y en una reunión de dirección se presentaron dos cifras\n  del mismo mes con un 11 % de diferencia\n```\n\nY el trabajo, que fue de acuerdo más que de técnica:\n\n```text\n1  se listaron las métricas usadas en decisiones reales\n   → 14, de las 240 definidas\n2  cada una se acordó con su dueño de negocio\n   → definición escrita, con los casos límite resueltos\n   → «pedido completado: pagado y no cancelado en 30\n     días, por fecha de pago, en zona horaria universal,\n     excluyendo cuentas de prueba»\n3  se implementaron una sola vez, en una capa común\n4  y los paneles se reconstruyeron sobre ellas\n5  se retiraron 61 paneles\n   → y se avisó con 4 semanas; 3 personas reclamaron; se\n     recuperaron 2\n\nresultado\n  métricas con definición única y escrita          14\n  paneles                                    94 → 33\n  discrepancias en reuniones de dirección     11 → 0\n  tiempo de la analista en «¿por qué no cuadra?»\n                                     9 h/semana → 1\n```\n\nY lo que la analista escribió en su revisión anual:\n\n```text\n«mi trabajo del año no fue construir nada: fue conseguir\nque catorce cifras significaran una sola cosa, y retirar\nsesenta y un paneles»\n\n→ y esa frase describe el nivel 3 de analítica mejor que\n  cualquier lista de herramientas\n```\n\n**Caso 3 · De once semanas a dos días.**\n\n```text\nsituación\n  publicar un conjunto de datos nuevo en la plataforma\n  tardaba 11 semanas\n\n  el desglose, medido con 6 casos\n    solicitud y aprobación                    2,1 semanas\n    revisión de esquema por el equipo central 3,4\n    implementación del canal                  2,8\n    revisión de seguridad y permisos          1,9\n    documentación y publicación               0,8\n\ny la consecuencia\n  el 71 % del consumo de datos rodeaba la plataforma\n  → exportaciones, accesos directos y copias\n  → cada una sin contrato, sin calidad y sin dueño\n```\n\nY lo que se cambió:\n\n```text\nla aprobación se sustituyó por criterios automáticos\n  → 2,1 semanas → 0\nla revisión de esquema pasó a una comprobación\n  automatizada del contrato, con revisión humana solo si\n  falla\n  → 3,4 semanas → 20 minutos en el 84 % de los casos\nla implementación del canal pasó a plantilla\n  → 2,8 semanas → 4 horas\nlos permisos se derivaron del contrato\n  → 1,9 semanas → automático\ny la documentación se generó del contrato\n  → 0,8 semanas → automático\n\nplazo total          11 semanas → 2 días\n```\n\nY el efecto, doce meses después:\n\n```text                                        antes     después\nplazo de publicación                    11 semanas     2 días\nconjuntos publicados por trimestre               3         41\nconsumo que pasa por la plataforma            29 %       96 %\ncopias no gobernadas detectadas                 34          3\nincidentes por dato incorrecto              19/año      4/año\n\ny el coste del trabajo                    340 horas\n```\n\nY la observación que se llevó a la dirección:\n\n```text\nno se prohibió nada\n→ el consumo volvió a la plataforma porque el camino\n  oficial pasó a ser el más rápido\n→ ley 16, aplicada en la dirección correcta\n\ny la comparación con el intento anterior\n  18 meses antes se había emitido una NORMA que obligaba\n  a publicar por la plataforma\n  → consumo por la plataforma tras la norma: 29 % → 31 %\n  → tras bajar el plazo: 96 %\n```\n\n**La lección que esta clase deja**: el proyecto que empezó por el modelo tuvo un error de **3,9 días en producción frente a 1,4 en el laboratorio**, y las tres causas eran de datos —atributos calculados distinto, información del futuro y un campo que significaba dos cosas—, ninguna del modelo. Y una norma que obligaba a usar la plataforma movió el consumo del 29 % al 31 %; bajar el plazo de once semanas a dos días lo movió al **96 %**.",
+  "pitfalls": [
+    {
+      "symptom": "El modelo funciona en el laboratorio y falla en producción",
+      "cause": "Los atributos se calculan distinto al entrenar y al servir, o el entrenamiento vio información que al predecir no existe",
+      "fix": "Calcula cada atributo en un solo sitio, comprueba la equivalencia y revisa que ningún campo del conjunto contenga estado posterior a la predicción."
+    },
+    {
+      "symptom": "Dos paneles dan cifras distintas para lo mismo",
+      "cause": "La métrica tiene varias definiciones y ninguna está escrita",
+      "fix": "Acuerda con negocio una definición única con los casos límite resueltos, impleméntala una vez en capa común y reconstruye encima."
+    },
+    {
+      "symptom": "La plataforma de datos existe y el consumo la rodea",
+      "cause": "Publicar por el camino oficial tarda semanas",
+      "fix": "Mide el plazo por tramos y automatiza aprobación, revisión de esquema, canal y permisos; el camino oficial tiene que ser el más rápido."
+    },
+    {
+      "symptom": "La evaluación da un número excelente y los usuarios se quejan",
+      "cause": "Los casos de evaluación los imaginó el equipo",
+      "fix": "Construye el conjunto con casos que ocurrieron de verdad; si el número cae mucho, ese es el número real."
+    },
+    {
+      "symptom": "Un dato incorrecto se descubre semanas después",
+      "cause": "Los fallos de datos no dan error: dan otro número",
+      "fix": "Añade comprobaciones que detengan la publicación y compara distribución, volumen, frescura y completitud contra el histórico."
+    },
+    {
+      "symptom": "Hay un modelo en producción que nadie sabe si aporta",
+      "cause": "No se midió contra la alternativa simple desde el principio",
+      "fix": "Compara siempre con una regla o un umbral; muchas veces consigue la mayor parte del efecto por una fracción del coste, y entonces se retira el modelo."
+    }
+  ],
+  "checks": [
+    "¿Qué distingue ingeniería de datos, analítica y aprendizaje automático?",
+    "¿Por qué el modelo debe ser lo último y no lo primero?",
+    "¿Qué señales tempranas indican que un modelo va a fallar por datos?",
+    "¿Qué pregunta ahorra proyectos enteros antes de empezarlos?",
+    "¿Qué evidencia demuestra nivel 3 en cada una de las tres funciones?"
+  ],
+  "references": [
+    {
+      "text": "Kleppmann, M. (2017). *Designing Data-Intensive Applications*.",
+      "url": "https://dataintensive.net/"
+    },
+    {
+      "text": "Sculley, D. y otros (2015). *Hidden technical debt in machine learning systems*.",
+      "url": "https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html"
+    },
+    {
+      "text": "Google Cloud (2024). *MLOps: continuous delivery and automation pipelines*.",
+      "url": "https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning"
+    },
+    {
+      "text": "AWS (2024). *Machine Learning Lens, Well-Architected Framework*.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/machine-learning-lens.html"
+    },
+    {
+      "text": "Microsoft (2024). *Azure MLOps and data governance guidance*.",
+      "url": "https://learn.microsoft.com/azure/architecture/ai-ml/guide/machine-learning-operations-v2"
+    }
+  ]
+}
