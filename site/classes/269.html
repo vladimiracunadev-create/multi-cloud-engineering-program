@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> intermedio-avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>decision</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>ruta cloud security engineer</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>La ruta de seguridad en la nube: conseguir que un fallo no sea catastrófico y que un ataque no sea rentable. La clase separa esta especialidad del cumplimiento normativo, da las competencias que se miden —modelado de amenazas, identidad, detección y respuesta—, y marca su modo de fracaso, que es el más caro de todos: <strong>convertirse en el equipo del no, al que se rodea</strong>.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> ruta cloud security engineer con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>security-engineer-plan</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Distinguir</strong> seguridad de cumplimiento y saber para qué sirve cada uno.</li>
+<li><strong>Modelar</strong> amenazas de forma que produzca decisiones, no documentos.</li>
+<li><strong>Priorizar</strong> por explotabilidad e impacto, no por gravedad nominal.</li>
+<li><strong>Evitar</strong> el modo de fracaso del equipo al que se rodea.</li>
+<li><strong>Reconocer</strong> el techo de la ruta y qué la continúa.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,20 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>ruta</code></td>
-<td>Define su papel en <strong>ruta cloud security engineer</strong> y cómo observarlo en un sistema real.</td>
+<td><code>modelado de amenazas</code></td>
+<td>Ejercicio de preguntar qué puede salir mal, quién lo querría y qué lo impediría. Produce decisiones, no documentos.</td>
 </tr>
 <tr>
-<td><code>cloud</code></td>
-<td>Define su papel en <strong>ruta cloud security engineer</strong> y cómo observarlo en un sistema real.</td>
+<td><code>radio de explosión</code></td>
+<td>Hasta dónde llega el daño si una parte cae. La variable que esta ruta reduce.</td>
 </tr>
 <tr>
-<td><code>security</code></td>
-<td>Define su papel en <strong>ruta cloud security engineer</strong> y cómo observarlo en un sistema real.</td>
+<td><code>explotabilidad</code></td>
+<td>Si la vulnerabilidad es alcanzable y aprovechable en este sistema concreto. Domina sobre la gravedad nominal.</td>
 </tr>
 <tr>
-<td><code>engineer</code></td>
-<td>Define su papel en <strong>ruta cloud security engineer</strong> y cómo observarlo en un sistema real.</td>
+<td><code>camino pavimentado seguro</code></td>
+<td>Hacer que lo seguro sea lo fácil. La alternativa a la norma que hay que recordar.</td>
+</tr>
+<tr>
+<td><code>cumplimiento</code></td>
+<td>Demostrar ante un tercero que se hace lo que se dice. Necesario, y distinto de estar seguro.</td>
+</tr>
+<tr>
+<td><code>equipo del no</code></td>
+<td>Modo de fracaso en que seguridad bloquea sin alternativa y los equipos aprenden a esquivarla.</td>
 </tr>
 </tbody>
 </table>
@@ -89,72 +94,425 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Ruta Cloud Security Engineer&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    S[&quot;sistema&quot;] --&gt; M[&quot;MODELADO\n¿qué puede salir mal?\n¿quién lo querría?&quot;]
+    M --&gt; P[&quot;PREVENIR\nidentidad · aislamiento\ncifrado · cadena&quot;]
+    M --&gt; D[&quot;DETECTAR\nregistro · señales\ncorrelación&quot;]
+    M --&gt; R[&quot;RESPONDER\nprocedimientos\ncontención&quot;]
+    P --&gt; B[&quot;reducir el\nRADIO DE EXPLOSIÓN&quot;]
+    D --&gt; B
+    R --&gt; B
+    C[&quot;cumplimiento&quot;] -.-&gt;|&quot;demuestra\nante terceros&quot;| B
+    X[&quot;modo de fracaso:\nEQUIPO DEL NO&quot;] -.-&gt;|&quot;se rodea&quot;| P
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-seguridad-no-es-cumplimiento">1. Seguridad no es cumplimiento</h3>
+<p>Los dos son necesarios y se confunden constantemente, con consecuencias caras en las dos direcciones.</p>
+<pre><code class="language-text">SEGURIDAD
+  reducir la probabilidad y el impacto de que alguien
+  haga algo que no debería
+  → se mide por lo que pasa cuando se intenta
+
+CUMPLIMIENTO
+  demostrar ante un tercero que se hace lo que se dice
+  → se mide por evidencia auditable
+
+→ un sistema puede cumplir y ser inseguro
+→ y puede ser seguro y no poder demostrarlo
+→ y el error caro es dejar que el calendario de auditoría
+  fije las prioridades de seguridad
+</code></pre>
+<p>Y lo que esta ruta hace de verdad, en tres verbos:</p>
+<pre><code class="language-text">PREVENIR
+  identidad y privilegio mínimo               clase 231
+  aislamiento de red y de cuentas       clases 219, 231
+  cifrado y gestión de claves                 clase 197
+  cadena de suministro: firma y procedencia   clase 216
+  y valores por defecto seguros                 ley 26
+
+DETECTAR
+  registro completo e inalterable
+  señales de comportamiento anómalo
+  y tiempo hasta detectar, medido
+
+RESPONDER
+  contener, erradicar, recuperar
+  con procedimientos ejecutables              clase 259
+  y ensayados                                 clase 261
+
+→ y la mayoría de los equipos gastan casi todo en
+  prevenir
+→ y la diferencia entre un incidente y una catástrofe la
+  hacen los otros dos
+</code></pre>
+<p>Y la variable que resume la ruta:</p>
+<pre><code class="language-text">EL RADIO DE EXPLOSIÓN
+  «si esta credencial se filtra, ¿hasta dónde llega?»
+  «si este servicio se compromete, ¿qué puede tocar?»
+  «si esta cuenta cae, ¿qué otras caen con ella?»
+
+→ y casi todo el trabajo técnico de la ruta es reducirlo
+  cuentas separadas por entorno            clase 219
+  permisos por propósito                   clase 231
+  credenciales temporales                  clase 256
+  copias que sobreviven al administrador   clase 255
+  y segmentación de red                    clase 194
+
+→ porque asumir que nada fallará no es una estrategia
+</code></pre>
+<h3 id="2-modelado-de-amenazas-que-produce-decisiones">2. Modelado de amenazas que produce decisiones</h3>
+<p>El modelado de amenazas tiene mala fama porque suele producir documentos. Hecho bien, produce cambios concretos.</p>
+<pre><code class="language-text">LAS CUATRO PREGUNTAS
+  1  ¿qué estamos construyendo?
+     → un diagrama con los límites de confianza
+     → y lo que no está en el diagrama no se analiza
+                                                ley 24
+  2  ¿qué puede salir mal?
+     → por cada flujo que cruza un límite
+  3  ¿qué vamos a hacer?
+     → mitigar, aceptar, transferir o eliminar
+  4  ¿lo hicimos bien?
+     → y esta cuarta es la que casi siempre falta
+
+→ una sesión de 90 minutos con las personas que lo
+  construyen
+→ y sale con acciones, dueño y plazo, o no sirvió
+</code></pre>
+<p>Y dónde mirar, por rendimiento:</p>
+<pre><code class="language-text">LOS LÍMITES DE CONFIANZA, que es donde está casi todo
+  entrada de usuario a sistema
+  servicio a servicio                       clase 231
+  sistema a proveedor externo               clase 188
+  plano de control a plano de datos
+  y persona a sistema                       clase 256
+
+Y LAS PREGUNTAS QUE MÁS DESCUBREN
+  «¿qué pasa si este componente miente?»
+  «¿qué puede hacer esta identidad que no necesita?»
+  «¿quién puede borrar las copias?»          clase 255
+  «¿quién puede desactivar el registro?»
+  «¿qué credencial hay aquí que no caduca?»
+  y «si esto se compromete, ¿cómo nos enteraríamos?»
+
+→ la última suele no tener respuesta
+→ y esa ausencia es el hallazgo más valioso de la sesión
+</code></pre>
+<p>Y el criterio de prioridad, que corrige el error más común:</p>
+<pre><code class="language-text">NO SE PRIORIZA POR GRAVEDAD NOMINAL
+  una vulnerabilidad «crítica» en una biblioteca que el
+  código nunca invoca, sin exposición externa, es menos
+  urgente que una «media» en el borde
+
+SE PRIORIZA POR
+  ¿es alcanzable desde fuera?
+  ¿está en el camino de ejecución?
+  ¿hay explotación conocida en circulación?
+  ¿qué radio de explosión tiene si se aprovecha?
+  ¿y qué compensaciones existen ya?
+
+→ y esto es lo que convierte 3.000 hallazgos en 40
+  acciones                                  clase 216
+→ y una lista de 3.000 no se arregla: se ignora
+</code></pre>
+<h3 id="3-el-modo-de-fracaso-el-equipo-del-no">3. El modo de fracaso: el equipo del no</h3>
+<p>Es el modo de fracaso más caro de todas las rutas, porque su resultado no es lentitud: es que la seguridad deja de existir donde importa.</p>
+<pre><code class="language-text">CÓMO EMPIEZA
+  seguridad bloquea algo con razón
+  → y sin ofrecer alternativa
+  el equipo necesita entregar
+  → y encuentra otro camino
+
+QUÉ PRODUCE
+  el trabajo se hace igual, fuera del alcance de seguridad
+  → cuentas personales, servicios sin registrar,
+    credenciales en repositorios privados
+  seguridad deja de saber qué existe
+  → y pierde la única cosa que necesitaba: visibilidad
+  y se entera de los sistemas cuando fallan
+
+→ es la ley 16 en su forma más costosa
+→ y el daño no es que se salte una norma: es que el
+  sistema real se vuelve invisible
+</code></pre>
+<p>Y cómo se sale, que define el nivel 4 de esta ruta:</p>
+<pre><code class="language-text">1  NUNCA BLOQUEAR SIN ALTERNATIVA
+   «no puedes usar eso» → «usa esto, que ya está listo»
+   → y si no hay alternativa, el trabajo de seguridad es
+     construirla, no prohibir
+
+2  CAMINO PAVIMENTADO SEGURO
+   la plantilla ya trae permisos mínimos, cifrado,
+   registro y secretos gestionados          clase 267
+   → y entonces lo seguro es lo fácil
+   → y la norma escrita deja de ser necesaria
+
+3  POLÍTICAS EN MODO AVISO ANTES DE BLOQUEAR
+                                            clase 217
+   → se mide el impacto antes de imponerlo
+
+4  Y AMNISTÍA PARA LO QUE APAREZCA
+   «cuéntanos qué tienes fuera y te ayudamos a traerlo,
+   sin consecuencias»
+   → recupera visibilidad, que es lo que se había perdido
+</code></pre>
+<p>Y el segundo modo de fracaso, el del teatro:</p>
+<pre><code class="language-text">SEGURIDAD DE INFORME
+  paneles llenos, informes mensuales, cientos de reglas
+  → y ningún ensayo de respuesta                clase 261
+  → y nadie ha comprobado si la detección funciona
+
+la prueba
+  haz algo que DEBERÍA detectarse y cronometra
+  → crear una clave de acceso permanente
+  → dar permisos amplios a un rol
+  → exfiltrar un fichero grande a un destino externo
+
+→ y si nadie lo detecta, las reglas son decoración
+→ este ejercicio, hecho una vez, reordena las
+  prioridades del año
+</code></pre>
+<h3 id="4-niveles-evidencia-y-techo">4. Niveles, evidencia y techo</h3>
+<p>Lo que se mide en esta ruta, por nivel.</p>
+<pre><code class="language-text">NIVEL 2 · RESUELVO
+  configura identidad, red y cifrado correctamente
+  revisa permisos y encuentra los excesivos
+  gestiona secretos y su rotación             clase 197
+  responde a un incidente siguiendo el procedimiento
+  y prioriza vulnerabilidades por explotabilidad
+
+NIVEL 3 · DISEÑO
+  modela amenazas y produce decisiones
+  diseña el aislamiento y el radio de explosión
+  monta detección que se ha comprobado que detecta
+  dirige un incidente de seguridad, con su comunicación
+  y negocia riesgo aceptado, por escrito y con dueño
+
+NIVEL 4 · CAMBIO EL SISTEMA
+  lo seguro es lo fácil, y la adopción se mide
+  los equipos llaman a seguridad ANTES de construir
+  → y esa es la señal definitiva de que la ruta funciona
+  y el riesgo aceptado es una decisión de negocio
+    registrada, no un silencio
+</code></pre>
+<p>Y la evidencia que vale:</p>
+<pre><code class="language-text">LO QUE NO VALE
+  «implantamos la herramienta X»
+  «pasamos la auditoría»
+  → describe actividad, no efecto
+
+LO QUE VALE
+  «el tiempo hasta detectar una credencial expuesta pasó
+   de 9 días a 40 minutos, y así lo probamos»
+  «eliminamos 41 claves permanentes y el acceso pasó a
+   sesiones temporales auditadas»
+  «de 3.000 hallazgos, 40 eran alcanzables; los cerramos
+   en 6 semanas y el resto se documentó con su motivo»
+  «un servicio comprometido ya no puede tocar producción
+   porque están en cuentas distintas»
+
+→ efecto, mecanismo y cifra                clase 275
+</code></pre>
+<p>Y el techo:</p>
+<pre><code class="language-text">EL TECHO
+  los controles funcionan, la detección detecta y los
+  equipos consultan antes de construir
+  → y lo que limita entonces es el riesgo que la
+    organización acepta, que es una decisión de
+    dirección
+
+continuaciones
+  a  ARQUITECTURA                            clase 272
+     si el límite es cómo está construido el sistema
+  b  GOBIERNO Y RIESGO
+     si el límite es cómo se decide qué se acepta
+  c  o dirección de seguridad
+     donde el trabajo es presupuesto, personas y
+     prioridades
+</code></pre>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ distingo seguridad de cumplimiento y no dejo que la
+  auditoría fije las prioridades
+☐ hay inversión en detectar y responder, no solo en
+  prevenir
+☐ sé el radio de explosión de mis credenciales y cuentas
+☐ el modelado de amenazas sale con acciones y dueño
+☐ sé responder a «si esto se compromete, ¿cómo nos
+  enteraríamos?»
+☐ priorizo por explotabilidad, no por gravedad nominal
+☐ nunca bloqueo sin ofrecer alternativa
+☐ existe camino pavimentado seguro y mido su adopción
+☐ las políticas pasan por modo aviso antes de bloquear
+☐ he comprobado que la detección detecta, cronometrando
+☐ el riesgo aceptado está escrito, con dueño y vigencia
+☐ los equipos me llaman antes de construir, no después
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: seguridad responde de que el fallo no sea catastrófico; queda quien responde de que el gasto sea una decisión y no una consecuencia. La ruta de gestión económica de la nube es la materia de la clase 270.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>ruta cloud security engineer</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>La función de seguridad de CloudShop, dos años. Lo que sigue es la prueba que descubrió que la detección no detectaba, la lista de 3.100 hallazgos convertida en 47 acciones, y la amnistía que reveló lo que se había construido fuera.</strong></p>
+<p><strong>Prueba 1 · ¿Detecta la detección?</strong></p>
+<pre><code class="language-text">ejercicio anunciado a dirección, no al equipo de guardia
+cinco acciones que deberían detectarse, cronometradas
+
+  acción                              detectada   tiempo
+  crear una clave de acceso
+    permanente                             no        -
+  dar permiso administrativo a un rol
+    de servicio                            sí     4 min
+  desactivar el registro de auditoría
+    en una cuenta                          no        -
+  copiar 2 GB a un destino externo         no        -
+  acceder a la base de producción
+    desde una IP nueva                     sí    31 min
+
+  detectadas                              2 de 5
+</code></pre>
+<p>Y lo que se descubrió al investigar por qué:</p>
+<pre><code class="language-text">la regla de «clave permanente creada» existía
+  → enviaba a un canal retirado hacía 7 meses
+                                                ley 15
+la de «registro desactivado» existía
+  → y solo cubría 2 de las 9 cuentas         clase 219
+la de exfiltración
+  → nunca se había escrito; se daba por cubierta por otra
+
+→ tres de cinco fallos eran de configuración, no de
+  capacidad
+→ el ejercicio costó 4 horas y reordenó el plan del año
+</code></pre>
+<p>Y lo que se hizo:</p>
+<pre><code class="language-text">cobertura de reglas verificada por cuenta y por región
+cada regla con una PRUEBA que la dispara, ejecutada
+  mensualmente                              clase 261
+  → y si la prueba no dispara la alerta, la regla está
+    rota
+
+reejecución del ejercicio a los 5 meses
+  detectadas                              5 de 5
+  tiempo máximo                          6 minutos
+</code></pre>
+<p><strong>Prueba 2 · De 3.100 hallazgos a 47 acciones.</strong></p>
+<pre><code class="language-text">el escáner producía                        3.100
+  críticos                                   287
+  altos                                      941
+
+y llevaba 14 meses sin que nadie lo mirara
+→ porque una lista de 3.100 no se arregla: se ignora
+</code></pre>
+<p>Y el filtro que se aplicó, por orden:</p>
+<p>```text                                              quedan
+3.100  todos los hallazgos
+1.412  en componentes que llegan a producción
+  610  en el camino de ejecución del código
+  188  alcanzables desde fuera o desde entrada de
+       usuario
+   94  sin compensación existente
+   47  con explotación conocida en circulación o con
+       radio de explosión alto</p>
+<p>→ 47 acciones, cerradas en 6 semanas
+→ y de los 287 «críticos» originales, 19 quedaron en la
+  lista final
+→ y 3 de los 47 eran de gravedad «media»</p>
+<pre><code>
+Y lo que se hizo con los 3.053 restantes:
+
+```text
+se documentaron por lote, con el motivo
+  «no alcanzable: componente no desplegado»
+  «no en camino de ejecución»
+  «compensado por segmentación de red»
+
+y se automatizó el filtro
+  → el informe semanal pasó de 3.100 líneas a entre 4 y
+    12 acciones
+  → y esas sí se atendían
+
+tiempo medio de cierre de un hallazgo alcanzable
+  antes                          no medible (nadie miraba)
+  después                                        9 días
+</code></pre>
+<p><strong>Prueba 3 · La amnistía.</strong></p>
+<pre><code class="language-text">situación
+  seguridad había bloqueado, en 18 meses
+    uso de una base gestionada concreta
+    despliegue directo desde portátiles
+    y tres servicios de terceros
+  sin ofrecer alternativa en ninguno de los tres casos
+
+la amnistía
+  «cuéntanos qué tienes funcionando fuera del alcance;
+  te ayudamos a traerlo; sin consecuencias; 4 semanas»
+
+lo que apareció
+  cuentas de nube personales con carga real          6
+  servicios de terceros contratados con tarjeta
+    de empresa                                       11
+  repositorios privados con credenciales             4
+  una base de datos con datos de clientes en una
+    cuenta no inventariada                           1
+  y un servicio expuesto a internet sin cortafuegos  1
+</code></pre>
+<p>Y la lectura:</p>
+<pre><code class="language-text">los seis primeros casos existían porque la alternativa
+oficial tardaba semanas
+  → y el bloqueo no impidió el trabajo: lo hizo invisible
+
+y el caso de la base con datos de clientes
+  → llevaba 11 meses
+  → sin copias, sin registro, sin cifrado en reposo
+  → y era exactamente el riesgo que la norma bloqueada
+    pretendía evitar
+
+→ el bloqueo produjo el riesgo que quería evitar
+→ ley 16, en su versión más cara
+</code></pre>
+<p>Y lo que se cambió:</p>
+<pre><code class="language-text">camino pavimentado seguro                    clase 267
+  plantilla con permisos mínimos, cifrado, registro y
+  secretos gestionados, lista para usar
+  tiempo desde la petición hasta tener entorno
+    3 semanas → 4 horas
+
+y la regla de trabajo del equipo
+  «no se bloquea nada sin alternativa disponible el mismo
+  día»
+
+resultado a los 12 meses
+  recursos fuera del inventario detectados        1.107 → 12
+  peticiones de excepción                          34 → 6
+  y equipos que consultan a seguridad ANTES de
+    construir                                       2 → 11
+</code></pre>
+<p><strong>Las cifras a los dos años.</strong></p>
+<p>```text                                        antes     después
+DETECCIÓN
+acciones de prueba detectadas                2 de 5     5 de 5
+tiempo máximo hasta detectar                    n/d      6 min
+reglas con prueba de disparo mensual              0         41
+cobertura de registro por cuenta             2 de 9     9 de 9</p>
+<p>PREVENCIÓN
+claves de acceso permanentes                     41          0
+roles con permisos administrativos               23          4
+cuentas con separación por entorno               no         sí
+copias que sobreviven al administrador           no         sí</p>
+<p>GESTIÓN
+hallazgos en el informe semanal               3.100       4-12
+tiempo de cierre de hallazgo alcanzable         n/d     9 días
+riesgos aceptados con dueño y vigencia            0         14</p>
+<p>RELACIÓN CON LOS EQUIPOS
+recursos fuera del inventario                 1.107         12
+equipos que consultan antes de construir          2         11
+peticiones de excepción                          34          6</p>
+<pre><code>
+Y el dato que la persona responsable puso primero:
+
+```text
+equipos que consultan a seguridad ANTES de construir
+  2 → 11 de 14
+
+→ y esa es la única métrica que no se puede falsear
+→ nadie consulta voluntariamente al equipo del no
+</code></pre>
+<p><strong>La lección que esta clase deja</strong>: la detección estaba montada y detectaba <strong>2 de 5</strong> acciones que debía detectar, y tres de los tres fallos eran de configuración —un canal retirado, dos cuentas de nueve cubiertas, una regla que nunca se escribió—, no de capacidad. Y el bloqueo sin alternativa produjo exactamente el riesgo que pretendía evitar: <strong>una base con datos de clientes, once meses sin copias, sin registro y sin cifrado</strong>, en una cuenta que nadie sabía que existía.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-22-specializations-certifications-career/269-ruta-cloud-security-engineer/lab.py
@@ -195,29 +553,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Se pasa la auditoría y aun así ocurre una brecha</td>
+<td>El calendario de cumplimiento fijó las prioridades de seguridad</td>
+<td>Separa las dos funciones: cumplimiento demuestra ante terceros, seguridad reduce probabilidad e impacto; prioriza por radio de explosión.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Hay miles de hallazgos y no se arregla ninguno</td>
+<td>Se prioriza por gravedad nominal en vez de por explotabilidad</td>
+<td>Filtra por alcanzable, en camino de ejecución, con explotación conocida y radio de explosión; documenta el resto por lote con su motivo.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Aparecen sistemas que nadie sabía que existían</td>
+<td>Se bloqueó sin ofrecer alternativa y el trabajo se hizo fuera del alcance</td>
+<td>No bloquees sin alternativa disponible, monta el camino pavimentado seguro y ofrece amnistía para recuperar visibilidad.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Las reglas de detección existen y no detectan</td>
+<td>Nadie ha comprobado si disparan: canales retirados, cobertura parcial, reglas que nunca se escribieron</td>
+<td>Ejecuta acciones que deberían detectarse y cronometra; cada regla necesita una prueba de disparo periódica.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>El modelado de amenazas produce documentos y ningún cambio</td>
+<td>Falta la cuarta pregunta y no salen acciones con dueño y plazo</td>
+<td>Cierra la sesión con acciones asignadas y revisa después si se hicieron; y pregunta siempre cómo os enteraríais si eso se comprometiera.</td>
+</tr>
+<tr>
+<td>Seguridad se entera de los proyectos cuando ya están en producción</td>
+<td>Consultar es caro y bloquea, así que se evita</td>
+<td>Mide cuántos equipos consultan antes de construir; si no crece, el problema es tu proceso, no su disciplina.</td>
 </tr>
 </tbody>
 </table>
@@ -228,17 +591,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿En qué se diferencian seguridad y cumplimiento y qué error produce confundirlos?</li>
+<li>¿Qué es el radio de explosión y qué medidas lo reducen?</li>
+<li>¿Qué criterio convierte miles de hallazgos en unas pocas acciones?</li>
+<li>¿Cómo empieza el modo de fracaso del equipo del no y qué produce?</li>
+<li>¿Cómo se comprueba que la detección detecta?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>The Staff Engineer's Path — Tanya Reilly.</li>
-<li>The Manager's Path — Camille Fournier.</li>
-<li>Staff Engineer — Will Larson.</li>
+<li>Shostack, A. (2014). <em>Threat Modeling: designing for security</em>. <a href="https://shostack.org/books/threat-modeling-book">https://shostack.org/books/threat-modeling-book</a></li>
+<li>NIST (2018). <em>Cybersecurity Framework</em> — identificar, proteger, detectar, responder, recuperar. <a href="https://www.nist.gov/cyberframework">https://www.nist.gov/cyberframework</a></li>
+<li>AWS (2024). <em>Security Pillar, Well-Architected Framework</em>. <a href="https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html">https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html</a></li>
+<li>Microsoft (2024). <em>Azure security best practices and patterns</em>. <a href="https://learn.microsoft.com/azure/security/fundamentals/best-practices-and-patterns">https://learn.microsoft.com/azure/security/fundamentals/best-practices-and-patterns</a></li>
+<li>Google Cloud (2024). <em>Security foundations blueprint</em>. <a href="https://cloud.google.com/architecture/security-foundations">https://cloud.google.com/architecture/security-foundations</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -306,7 +671,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-seguridad-no-es-cumplimiento">1. Seguridad no es cumplimiento</a><a class="toc-level-3" href="#2-modelado-de-amenazas-que-produce-decisiones">2. Modelado de amenazas que produce decisiones</a><a class="toc-level-3" href="#3-el-modo-de-fracaso-el-equipo-del-no">3. El modo de fracaso: el equipo del no</a><a class="toc-level-3" href="#4-niveles-evidencia-y-techo">4. Niveles, evidencia y techo</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
