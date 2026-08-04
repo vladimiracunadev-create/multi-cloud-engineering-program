@@ -1,0 +1,118 @@
+{
+  "id": "239",
+  "purpose": "Cerrar la operación de Google Cloud con la seguridad y el coste, que aquí tienen dos piezas propias: **el perímetro de servicio, que es el control que impide sacar datos aunque los permisos lo permitan, y el modelo de descuentos automáticos, que cambia el cálculo de los compromisos**. La clase cubre la postura y la detección con la disciplina de la clase 226, y el control de coste con la de la 214.",
+  "outcomes": [
+    "**Priorizar** los hallazgos de seguridad por alcance y por camino de ataque.",
+    "**Aplicar** perímetros de servicio y entender qué cierran.",
+    "**Gestionar** claves de cifrado propias donde aportan.",
+    "**Atribuir** el coste y aprovechar los descuentos automáticos.",
+    "**Comprometer** capacidad solo tras retirar y redimensionar."
+  ],
+  "concepts": [
+    {
+      "term": "perímetro de servicio",
+      "definition": "Frontera que restringe qué API pueden usarse hacia dentro y hacia fuera de un grupo de proyectos."
+    },
+    {
+      "term": "camino de ataque",
+      "definition": "Secuencia de pasos desde un punto expuesto hasta un dato valioso. Ordena la prioridad."
+    },
+    {
+      "term": "clave gestionada por el cliente",
+      "definition": "Clave de cifrado bajo control propio. Permite revocar el acceso a los datos por completo."
+    },
+    {
+      "term": "descuento por uso sostenido",
+      "definition": "Rebaja automática por mantener recursos encendidos, sin compromiso."
+    },
+    {
+      "term": "compromiso de uso",
+      "definition": "Descuento a cambio de un compromiso de gasto o de capacidad durante uno o tres años."
+    },
+    {
+      "term": "etiqueta de facturación",
+      "definition": "Etiqueta que aparece en el desglose de costes. Distinta de las que se usan en condiciones de permiso."
+    }
+  ],
+  "diagram": "flowchart TB\n    S[\"SEGURIDAD\"] --> S1[\"postura: ordenar por\\nCAMINO DE ATAQUE\"]\n    S --> S2[\"PERÍMETRO DE SERVICIO\"]\n    S2 --> S3[\"impide sacar datos\\naunque el permiso\\nlo permita\"]\n    S2 --> S4[\"y hay que declarar\\nlos accesos legítimos\"]\n    S --> S5[\"detección: simular\\ny medir qué se detecta\"]\n    S --> S6[\"claves propias:\\nrevocar = datos\\ninaccesibles\"]\n    C[\"COSTE\"] --> C1[\"etiquetas de\\nfacturación\"]\n    C --> C2[\"descuento por uso\\nsostenido, AUTOMÁTICO\"]\n    C2 --> C3[\"→ el compromiso\\nañade menos de lo\\nque parece\"]\n    C --> C4[\"retirar y redimensionar\\nANTES de comprometer\"]",
+  "foundations": [
+    {
+      "heading": "Postura y caminos de ataque",
+      "body": "La disciplina es la de la clase 226 y aquí hay una herramienta que la hace directa.\n\n```text\nLO QUE PRODUCE LA EVALUACIÓN CONTINUA\n  hallazgos de configuración: público, sin cifrar, sin\n  copias, versión antigua\n  hallazgos de identidad: permisos amplios, claves\n  hallazgos de vulnerabilidades\n\nY LO QUE ORDENA EL TRABAJO\n  no la gravedad declarada\n  sino los CAMINOS DE ATAQUE\n  «desde esta máquina expuesta, con esta cuenta de\n   servicio, se llega a este conjunto con datos de\n   clientes»\n  → con la puntuación de exposición calculada\n\n→ y esos caminos concentran más riesgo que cientos de\n  hallazgos sueltos                            clase 226\n```\n\nY el orden de trabajo, ya conocido:\n\n```text\n1  cerrar los caminos que terminan en datos\n2  reducir el alcance de las identidades más amplias\n                                                clase 230\n3  impedir por política que lo arreglado vuelva\n                                                clase 229\n4  remediar el resto por lotes                    ley 27\n5  aceptar por escrito lo que no compensa      clase 189\n```\n\nY los hallazgos que se repiten en esta nube:\n\n```text\ncuentas de servicio con papel de proyecto      clase 230\nclaves de cuenta de servicio sin caducidad\nalmacenes con acceso a «todos los usuarios autenticados»\n  → que significa cualquier cuenta de Google, no solo la\n    organización\n  → y es el hallazgo que más sorprende\nreglas de cortafuegos con selector por etiqueta clase 229\nconjuntos analíticos con acceso al conjunto entero\n                                                clase 236\ny proyectos sin carpeta, que no reciben políticas\n```\n\nY la comprobación de la detección:\n\n```text\nsimular técnicas conocidas y medir qué proporción se\ndetecta\n→ es la única medida real                    clase 226\n→ y las que no se detecten son la lista de trabajo\n```"
+    },
+    {
+      "heading": "El perímetro de servicio",
+      "body": "Este es el control propio de esta nube y el que cierra el hueco que dejan los permisos.\n\n```text\nEL PROBLEMA QUE RESUELVE\n  una identidad con permiso legítimo sobre unos datos puede\n  copiarlos a un proyecto de otra organización\n  → el permiso lo autoriza\n  → la red no lo impide, porque va por la API de la\n    plataforma                              clase 200, 231\n\nEL PERÍMETRO\n  agrupa proyectos y restringe qué API pueden usarse\n  desde fuera hacia dentro     ← quién puede leer\n  desde dentro hacia fuera     ← a dónde se puede escribir\n  → y una identidad de dentro NO puede escribir en un\n    recurso de fuera del perímetro\n```\n\nY lo que hay que hacer para que funcione sin romper nada:\n\n```text\n1  DEFINIR el perímetro: qué proyectos y qué servicios\n2  MODO DE SIMULACIÓN: registra lo que bloquearía\n3  MEDIR semanas\n4  DECLARAR los accesos legítimos que cruzan\n     reglas de entrada y de salida, por identidad, por\n     proyecto y por servicio\n5  APLICAR\n\n→ activar sin simular corta integraciones legítimas\n  → y es la misma disciplina de las clases 200, 209 y 217\n```\n\nY lo que suele aparecer en la simulación:\n\n```text\nherramientas de terceros que leen datos\ncanalizaciones de otro proyecto\ncopias hacia un proyecto de análisis\nel propio equipo consultando desde su portátil\n  → y eso obliga a decidir: ¿se declara o se prohíbe?\n```\n\n**Las claves gestionadas por el cliente**, con lo que aportan de verdad:\n\n```text\nQUÉ APORTAN\n  el control de la clave: revocarla hace los datos\n  inaccesibles, incluso para el proveedor\n  → y eso es lo que exigen algunos requisitos\n                                                clase 177\n  rotación bajo control propio\n  y registro de cada uso de la clave           clase 238\n\nQUÉ CUESTAN\n  operación: rotación, permisos, disponibilidad de la clave\n  y si la clave se pierde o se revoca por error, los datos\n  son irrecuperables\n  → esa es una consecuencia real, no teórica\n\nDÓNDE APLICARLAS\n  donde haya requisito o datos sensibles\n  no en todo                                     ley 26\n```\n\nY una advertencia operativa:\n\n```text\nla clave vive en una región\n→ si esa región no está disponible, los datos cifrados con\n  ella tampoco\n→ y eso entra en el cálculo del techo de disponibilidad\n                                                clase 185\n```"
+    },
+    {
+      "heading": "Coste: los descuentos que ya se aplican",
+      "body": "Aquí hay una diferencia que cambia el cálculo de los compromisos.\n\n```text\nDESCUENTO POR USO SOSTENIDO\n  se aplica AUTOMÁTICAMENTE por mantener recursos\n  encendidos durante el mes\n  → sin compromiso, sin contratar nada\n  → y llega a ser apreciable\n\nY LA CONSECUENCIA\n  el compromiso de uso añade descuento SOBRE lo ya\n  descontado\n  → el ahorro incremental es menor de lo que sugiere el\n    porcentaje anunciado\n  → y hay que calcularlo con las cifras propias, no con el\n    porcentaje del catálogo               clase 227\n```\n\nY los tipos de compromiso:\n\n```text\nPOR GASTO\n  se compromete una cantidad por hora\n  + flexible: se aplica a lo que haya\n  − descuento menor\n\nPOR RECURSO\n  se compromete una cantidad de CPU y memoria en una región\n  + descuento mayor\n  − rígido: si se cambia de región o de familia, se pierde\n\n→ y el orden de la clase 227 sigue valiendo\n  retirar → redimensionar → apagar → y ENTONCES comprometer\n```\n\n**La atribución**, con la particularidad de las etiquetas:\n\n```text\nHAY DOS MECANISMOS DE ETIQUETADO\n  uno aparece en el desglose de FACTURACIÓN\n  otro sirve para CONDICIONES de permiso y para políticas\n                                          clases 229, 230\n  → y no son intercambiables\n  → usar el equivocado hace que el gasto no se atribuya\n\nY LA JERARQUÍA AYUDA\n  el desglose por PROYECTO es directo y limpio\n  → y por eso la separación por proyecto de la clase 229\n    es también una decisión de atribución\n```\n\nY el resto del método, que es el de la clase 214:\n\n```text\netiquetas obligatorias en la creación, por política\npresupuestos por proyecto, sobre previsión, con acción en\n  no producción\ndetección de anomalías por servicio y por dueño\nretirada automática de lo ocioso: apagar antes de borrar\ny coste por unidad de negocio\n```\n\nY las partidas que sorprenden en esta nube:\n\n```text\nconsultas del almacén analítico              clase 236\nregistros de acceso a datos                  clase 238\nalmacenamiento de mensajes sin confirmar     clase 237\ntráfico entre zonas y entre regiones\nmínimos de capacidad de las bases distribuidas clase 235\ny los proyectos sin uso que nadie retira       ley 25\n```"
+    },
+    {
+      "heading": "El ritmo, y lo que se degrada solo",
+      "body": "Coste y seguridad comparten la propiedad de degradarse sin intervención, y esta clase cierra la parte con el mismo calendario de la 227.\n\n```text\nSEMANAL\n  anomalías de coste abiertas\n  hallazgos críticos nuevos\n  recursos ociosos retirados\n\nMENSUAL\n  coste por unidad de negocio y su tendencia\n  cobertura y utilización de compromisos\n  proyectos sin uso\n  y hallazgos por camino de ataque\n\nTRIMESTRAL\n  simulación de técnicas y proporción detectada clase 226\n  prueba del acceso de emergencia            clase 230\n  revisión de accesos y de exenciones\n  y un experimento de resiliencia            clase 227\n\nANUAL\n  ejercicio de pérdida de región             clase 215\n  revisión de las decisiones registradas     clase 190\n```\n\nY las señales que dicen si está sano:\n\n```text\nSEGURIDAD\n  caminos de ataque que terminan en datos      → cero\n  proporción de técnicas simuladas detectadas\n  claves de cuenta de servicio                 → cero\n  proyectos sin carpeta                        → cero\n  y perímetros con reglas de excepción sin fecha → cero\n\nCOSTE\n  gasto atribuido                              > 90 %\n  coste por unidad de negocio                  tendencia\n  utilización de compromisos                   > 95 %\n  proyectos sin uso                            tendencia a\n                                               cero\n```\n\nY una comprobación honesta, la misma de la clase 226:\n\n```text\n¿cuántos incidentes detectó el centro y cuántos se\ndetectaron por otra vía?\n→ y las vías de siempre: una factura, un tercero, un\n  inventario, una persona\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ los hallazgos se ordenan por camino de ataque\n☐ no hay caminos que terminen en datos sensibles\n☐ no hay almacenes con acceso a todos los usuarios\n  autenticados\n☐ hay perímetros de servicio sobre los proyectos con datos\n☐ los perímetros se simularon antes de aplicar\n☐ las reglas de excepción del perímetro tienen dueño y\n  fecha\n☐ las claves propias están donde hay requisito, y su\n  región entra en el cálculo de disponibilidad\n☐ las etiquetas de facturación son las correctas\n☐ el gasto atribuido supera el 90 %\n☐ se retiró y redimensionó antes de comprometer\n☐ el descuento incremental del compromiso se calculó sobre\n  el ya aplicado\n☐ hay presupuestos con acción y detección de anomalías\n☐ se simulan técnicas y se publica la proporción detectada\n☐ existe el calendario semanal, mensual, trimestral y anual\n```\n\nY el cierre que enlaza con la clase siguiente: con todo lo de esta parte montado, queda ponerlo junto en un sistema productivo, compararlo con las otras dos nubes y cerrar la parte. Es la materia de la clase 240."
+    }
+  ],
+  "worked_example": "**CloudShop cierra la operación de Google Cloud. Lo que sigue son los almacenes accesibles por cualquier cuenta de Google, el perímetro que cortó una integración legítima, y el cálculo de compromiso que resultó dar mucho menos de lo anunciado.**\n\n**La postura, ordenada por camino de ataque:**\n\n```text\nhallazgos abiertos                                 2.140\npuntuación de exposición: los 5 caminos principales\n\n1  máquina con IP externa y puerto de administración\n   abierto\n   → su cuenta de servicio tiene papel de proyecto\n     → alcanza el almacén de copias y la base de pedidos\n   pasos: 3 · datos al final: 2,3 M de registros\n\n2  almacén de exportaciones con acceso a «todos los\n   usuarios autenticados»\n   → cualquier cuenta de Google del mundo podía listarlo y\n     descargarlo\n   → contenía extractos diarios de pedidos desde 2023\n   pasos: 1 · datos: 41 meses de extractos\n\n3  cuenta de servicio de la canalización con papel de\n   organización                              clase 230\n\n4  conjunto analítico con acceso al conjunto entero para\n   41 personas                               clase 236\n\n5  clave de cuenta de servicio de un consultor externo,\n   activa desde 2023                            ley 25\n```\n\nY el segundo merece detalle:\n\n```text\n«todos los usuarios autenticados» NO significa «todos los\nde la organización»\n  significa cualquiera con una cuenta de Google\n\n→ el equipo lo había configurado creyendo lo primero\n→ y la política de organización que lo impide existía\n  desde la clase 229, pero el almacén se había creado ANTES\n                                                    ley 27\n\ncuánto llevaba así                            19 meses\naccesos externos registrados            no se sabía\n  → el registro de acceso a datos no estaba activo en ese\n    almacén                                   clase 238\n  → se activó, y en 30 días: 0 accesos externos\n  → lo cual no dice nada de los 19 meses anteriores\n```\n\n**El perímetro de servicio, con su simulación.**\n\n```text\ndefinición\n  proyectos: los 14 de producción con datos\n  servicios restringidos: almacenamiento, almacén\n  analítico, bases, gestor de secretos y claves\n\nmodo de simulación, 4 semanas\n  accesos que se bloquearían                     41.200\n    legítimos                                       610\n    del propio perímetro                         40.400\n    NO IDENTIFICADOS                                190  ←\n\nlos 610 legítimos\n  · canalización de despliegue desde el proyecto de\n    plataforma\n  · herramienta de visualización de un tercero\n  · exportación nocturna al proyecto de análisis\n  · 4 personas consultando desde su portátil\n\nlos 190 no identificados\n  · 140 de una cuenta de servicio de un proyecto que se\n    creía retirado en 2024                       ley 25\n  ·  38 de una herramienta de un proveedor cuyo contrato\n    había terminado\n  ·  12 de una dirección que resultó ser un entorno de\n    pruebas de un socio, no declarado\n\n→ los 190 se cortaron a propósito\n→ y los 610 se declararon como reglas de entrada y salida,\n  con dueño y fecha de revisión\n```\n\nY el corte que ocurrió igualmente:\n\n```text\nal aplicar, una integración se rompió\n  el equipo de finanzas exportaba un informe mensual desde\n  una hoja de cálculo conectada\n  → esa conexión no había aparecido en las 4 semanas de\n    simulación porque es MENSUAL y cayó fuera de la\n    ventana\n\n→ duración del corte                           2 días\n→ corrección: regla declarada\n→ y lección: la ventana de simulación debe cubrir el ciclo\n  completo de negocio                          clase 167\n```\n\n**Las claves propias, decididas por caso:**\n\n```text\ndónde se aplicaron\n  almacén con datos de clientes\n  conjunto analítico con datos personales\n  copias de seguridad\n  → los tres con requisito contractual del mayor cliente\n\ndónde NO\n  almacenes de imágenes y artefactos\n  registros de aplicación\n  → sin requisito y con coste de operación\n\ny el efecto sobre disponibilidad, calculado\n  la clave vive en una región\n  → se configuró con réplica en la segunda región\n  → sin eso, el techo del flujo habría bajado  clase 185\n\ny la prueba negativa\n  revocar el acceso a la clave en preproducción\n  → los datos pasaron a ser inaccesibles, correctamente\n  → y la restauración tardó 11 minutos\n  → procedimiento escrito y probado               ley 22\n```\n\n**El cálculo de compromiso, que dio menos de lo anunciado.**\n\n```text\ngasto de cómputo                            8.400 €/mes\n\nel descuento por uso sostenido YA aplicado\n  precio de lista                          11.900 €\n  descuento automático                     -3.500 €\n  gasto real                                8.400 €\n\nla oferta de compromiso a 1 año\n  descuento anunciado sobre lista              37 %\n  → parecía un ahorro de 4.400 €/mes\n\nel cálculo real\n  con compromiso, sobre lista               7.500 €\n  ahorro frente a los 8.400 actuales          900 €/mes\n  → no 4.400 €\n\n→ porque el descuento automático ya estaba aplicado\n→ y comparar con el precio de lista es el error\n                                                clase 227\n```\n\nY el orden que se siguió antes de comprometer:\n\n```text\n1  RETIRAR   71 proyectos sin actividad      clase 229\n             -3.100 €/mes\n2  REDIMENSIONAR  peticiones de recursos del clúster\n                                             clase 234\n             -1.760 €/mes\n3  APAGAR    entornos no productivos por horario\n             -1.900 €/mes\n4  y ENTONCES comprometer, sobre la base estable\n             -610 €/mes\n\n→ y el compromiso se hizo POR GASTO, no por recurso\n→ motivo: el clúster iba a cambiar de familia\n```\n\n**El coste, atribuido:**\n\n```text\nal empezar\n  gasto atribuido                                  64 %\n  y el 36 % restante\n    recursos con el tipo de etiqueta EQUIVOCADO   2.100 €\n      → se habían puesto las de condiciones de permiso,\n        que no aparecen en el desglose\n    servicios compartidos                         1.900 €\n    tráfico entre zonas                           1.400 €\n\ntras corregir el tipo de etiqueta y repartir lo compartido\n  gasto atribuido                                  95 %\n```\n\n**La detección, medida:**\n\n```text\nsimulación de 14 técnicas\n  detectadas la primera vez                     9 de 14\n  las 5 que no\n    · exfiltración al almacén de otra organización\n      → la detectó el PERÍMETRO, no la regla\n      → y se aceptó así\n    · suplantación de una cuenta privilegiada\n      → regla escrita\n    · creación de una clave de cuenta de servicio\n      → la impide la política; regla añadida igualmente\n    · acceso a datos desde una identidad inusual\n      → dependía del registro de acceso a datos, ahora\n        activo\n    · enumeración de proyectos\n      → umbral corregido\n\nsegunda simulación                           13 de 14\n```\n\n**El resultado:**\n\n```text                                        antes     después\ncaminos de ataque que terminan en datos         5           0\nalmacenes accesibles por cualquier cuenta       3           0\nperímetros de servicio                          0           2\naccesos no identificados que cruzaban         190           0\nclaves de cuenta de servicio                   12           3\ngasto atribuido                              64 %         95 %\ncoste mensual                            21.400 €    14.030 €\nutilización del compromiso                     —          97 %\ntécnicas simuladas detectadas               9/14        13/14\n```\n\n**La lección que esta clase deja**: un almacén con extractos de pedidos de cuarenta y un meses era descargable por **cualquier persona con una cuenta de Google**, porque «todos los usuarios autenticados» no significa lo que parece, y la política que lo impedía se creó después que el almacén. Y el compromiso que prometía un 37 % de descuento **daba novecientos euros al mes y no cuatro mil cuatrocientos**, porque el descuento automático ya estaba aplicado: comparar con el precio de lista es el error.",
+  "pitfalls": [
+    {
+      "symptom": "Un almacén resulta accesible desde fuera de la organización",
+      "cause": "Se concedió a «todos los usuarios autenticados», que significa cualquier cuenta del proveedor",
+      "fix": "Prohíbelo por política, revisa lo existente porque la política no actúa hacia atrás, y activa el registro de acceso a datos allí."
+    },
+    {
+      "symptom": "Una identidad legítima copia datos a otra organización",
+      "cause": "El permiso lo autoriza y la red no lo impide porque va por la API",
+      "fix": "Aplica perímetros de servicio sobre los proyectos con datos, simulando antes y declarando los accesos legítimos."
+    },
+    {
+      "symptom": "Aplicar el perímetro corta una integración que no apareció en la simulación",
+      "cause": "La ventana de simulación no cubrió un proceso mensual",
+      "fix": "Simula durante un ciclo completo de negocio antes de aplicar."
+    },
+    {
+      "symptom": "El ahorro del compromiso es mucho menor de lo anunciado",
+      "cause": "Se comparó con el precio de lista y el descuento automático ya estaba aplicado",
+      "fix": "Calcula el ahorro incremental sobre el gasto real actual, no sobre la tarifa de catálogo."
+    },
+    {
+      "symptom": "Parte del gasto no aparece atribuido pese a etiquetar",
+      "cause": "Se usó el tipo de etiqueta que sirve para condiciones de permiso y no el de facturación",
+      "fix": "Comprueba qué mecanismo aparece en el desglose y usa ese; los dos no son intercambiables."
+    },
+    {
+      "symptom": "Los datos cifrados con clave propia dejan de estar disponibles",
+      "cause": "La clave vive en una región que no está disponible",
+      "fix": "Replica la clave y cuenta su disponibilidad en el cálculo del techo del flujo."
+    }
+  ],
+  "checks": [
+    "¿Qué ordena la prioridad de los hallazgos de seguridad?",
+    "¿Qué cierra un perímetro de servicio que no cierra ni el permiso ni el cortafuegos?",
+    "¿Qué hay que comprobar antes de aplicar un perímetro y durante cuánto tiempo?",
+    "¿Por qué el descuento por compromiso da menos de lo que anuncia el porcentaje?",
+    "¿Qué efecto tiene sobre la disponibilidad usar claves de cifrado propias?"
+  ],
+  "references": [
+    {
+      "text": "Google Cloud (2025). *Security Command Center: attack path simulation*.",
+      "url": "https://cloud.google.com/security-command-center/docs/attack-exposure-learn"
+    },
+    {
+      "text": "Google Cloud (2025). *VPC Service Controls: dry run mode*.",
+      "url": "https://cloud.google.com/vpc-service-controls/docs/dry-run-mode"
+    },
+    {
+      "text": "Google Cloud (2025). *Customer-managed encryption keys*.",
+      "url": "https://cloud.google.com/kms/docs/cmek"
+    },
+    {
+      "text": "Google Cloud (2025). *Sustained use and committed use discounts*.",
+      "url": "https://cloud.google.com/compute/docs/sustained-use-discounts"
+    },
+    {
+      "text": "Google Cloud (2025). *Billing labels and cost breakdown*.",
+      "url": "https://cloud.google.com/billing/docs/how-to/bq-examples"
+    }
+  ]
+}
