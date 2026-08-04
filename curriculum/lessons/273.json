@@ -1,0 +1,118 @@
+{
+  "id": "273",
+  "purpose": "Traducir entre proveedores sin engañarse: dar el mapa de equivalencias entre las tres nubes, los contenedores y la disciplina de coste, y —más importante— **dónde la equivalencia se rompe**. La clase enseña el método de traducción por restricción en vez de por nombre, y las diferencias reales que este programa ha medido y que ninguna tabla de equivalencias recoge.",
+  "outcomes": [
+    "**Traducir** entre proveedores por restricción, no por nombre de servicio.",
+    "**Reconocer** dónde la equivalencia aparente esconde una diferencia real.",
+    "**Usar** el mapa de las cinco capas para orientarse en una nube nueva.",
+    "**Evaluar** una traducción con las preguntas que la validan.",
+    "**Aplicar** el mismo método a los contenedores y a la disciplina de coste."
+  ],
+  "concepts": [
+    {
+      "term": "traducción por restricción",
+      "definition": "Buscar cómo la otra nube resuelve el mismo límite físico, en vez de buscar el servicio con nombre parecido."
+    },
+    {
+      "term": "equivalencia falsa",
+      "definition": "Dos servicios con el mismo propósito y garantías, límites o modelo de coste distintos."
+    },
+    {
+      "term": "unidad de aislamiento",
+      "definition": "El contenedor administrativo donde vive la separación: cuenta, suscripción o proyecto."
+    },
+    {
+      "term": "plano de control",
+      "definition": "La interfaz que crea y modifica recursos. Sus cuotas y su latencia difieren mucho entre nubes."
+    },
+    {
+      "term": "portabilidad aparente",
+      "definition": "Creer que usar la misma tecnología en tres nubes elimina las diferencias. No lo hace."
+    },
+    {
+      "term": "coste de traducción",
+      "definition": "Lo que cuesta operar en dos nubes: no es el doble de aprender, es el doble de operar."
+    }
+  ],
+  "diagram": "flowchart TB\n    R[\"RESTRICCIÓN\\n¿qué límite\\nresuelve?\"] --> C1[\"1 · IDENTIDAD\\ny aislamiento\"]\n    R --> C2[\"2 · RED\\ny conectividad\"]\n    R --> C3[\"3 · CÓMPUTO\\ny ejecución\"]\n    R --> C4[\"4 · DATOS\\ny estado\"]\n    R --> C5[\"5 · OPERACIÓN\\nseñales y coste\"]\n    C1 --> V{\"validar la\\ntraducción\"}\n    C2 --> V\n    C3 --> V\n    C4 --> V\n    C5 --> V\n    V --> P1[\"¿mismas garantías?\"]\n    V --> P2[\"¿mismos límites\\ny cuotas?\"]\n    V --> P3[\"¿mismo modelo\\nde coste?\"]\n    V --> P4[\"¿mismo modo\\nde fallo?\"]",
+  "foundations": [
+    {
+      "heading": "Traducir por restricción, no por nombre",
+      "body": "Las tablas de equivalencias por nombre producen errores caros. El método que funciona empieza por la restricción.\n\n```text\nEL MÉTODO\n  1  ¿qué RESTRICCIÓN resuelve esto?\n     → «necesito que un servicio pruebe su identidad ante\n       otro sin credencial permanente»\n  2  ¿cómo la resuelve la nube destino?\n  3  ¿con qué garantías, límites y coste?\n  4  ¿y con qué modo de fallo?\n\n→ y solo entonces se escribe el nombre del servicio\n→ empezar por el nombre es lo que produce las sorpresas\n```\n\nY las cinco capas en las que conviene organizarse:\n\n```text\n1  IDENTIDAD Y AISLAMIENTO\n   quién es quién, qué puede, y dónde vive la separación\n   → cuenta · suscripción · proyecto\n2  RED Y CONECTIVIDAD\n   direccionamiento, rutas, resolución de nombres, salida\n   a internet, interconexión\n3  CÓMPUTO Y EJECUCIÓN\n   máquinas, contenedores, funciones, escalado\n4  DATOS Y ESTADO\n   objetos, bloques, relacional, no relacional, analítico,\n   mensajería\n5  OPERACIÓN\n   señales, registros, políticas, coste, cuotas\n\n→ en toda nube existen las cinco\n→ y aprender una nube nueva es rellenar esta rejilla, no\n  leer un catálogo\n```\n\nY el mapa por restricción, que es lo transferible:\n\n```text\nRESTRICCIÓN                        DÓNDE MIRAR EN CUALQUIER NUBE\n«que un servicio pruebe quién es   identidad de carga de\nsin credencial fija»               trabajo, federada\n«separar entornos para que un       unidad de aislamiento\nfallo no cruce»                     administrativa\n«que el tráfico solo llegue a       segmentación de red y\nquien debe»                         reglas por identidad\n«que un cambio no afecte a todos    despliegue progresivo\na la vez»                           del proveedor o propio\n«que el dato sobreviva a un         copia en otra unidad de\nadministrador comprometido»         aislamiento, inmutable\n«saber quién gasta qué»             etiquetas y jerarquía\n                                    administrativa\n«no pasar de N peticiones por       cuotas del plano de\nsegundo al plano de control»        control\n\n→ y este mapa no cambia cuando cambian los productos\n```"
+    },
+    {
+      "heading": "Dónde la equivalencia se rompe",
+      "body": "Lo que ninguna tabla de equivalencias dice, y este programa ha medido.\n\n```text\n1  LA UNIDAD DE AISLAMIENTO NO ES EQUIVALENTE\n   cuenta, suscripción y proyecto se parecen y difieren en\n     cuánto cuesta crear una nueva\n     qué se hereda desde arriba\n     y qué queda compartido aunque parezca separado\n   → y de aquí salen los errores de aislamiento más caros\n                                          clases 219, 231\n\n2  LOS LÍMITES POR DEFECTO SON MUY DISTINTOS\n   dos nubes con el «mismo» servicio de funciones tienen\n   concurrencias por defecto de órdenes distintos\n   → y en la región secundaria, los valores por defecto\n     mandan                                clase 262, ley 26\n\n3  EL MODELO DE COSTE CAMBIA LA ARQUITECTURA\n   donde el tráfico entre zonas se cobra, la arquitectura\n   correcta es otra\n   donde el análisis se cobra por dato leído, el formato y\n   la partición valen más que el motor    clase 243, ley 28\n   → y una traducción literal puede multiplicar la factura\n\n4  LA COHERENCIA DE LOS ALMACENES DE OBJETOS\n   parecen iguales y sus garantías de lectura tras\n   escritura, de listado y de sobrescritura no lo son\n   → y esto rompe canales de datos silenciosamente\n                                                ley 29\n\n5  LA RESOLUCIÓN DE NOMBRES Y LA SALIDA A INTERNET\n   quién resuelve, desde dónde, y qué pasa con las\n   respuestas privadas difiere mucho          clase 195\n   → es la fuente número uno de «funciona en una nube y no\n     en la otra»\n\n6  EL PLANO DE CONTROL\n   su latencia y sus cuotas de peticiones difieren\n   → y una herramienta de infraestructura como código que\n     funciona en una nube se estrangula en otra\n                                        clases 128, 262\n\n7  Y LA SEMÁNTICA DE LOS PERMISOS\n   denegar explícito, herencia, ámbito y evaluación no\n   funcionan igual\n   → una política traducida literalmente puede conceder\n     más de lo que concedía                  clase 231\n```\n\nY la regla que resume todo lo anterior:\n\n```text\nLO QUE SE TRADUCE BIEN\n  el propósito y la forma de la arquitectura\n\nLO QUE NO SE TRADUCE\n  garantías, límites, modelo de coste y modos de fallo\n\n→ y esos cuatro son los que deciden si el sistema\n  funciona\n→ por eso la traducción se VALIDA midiendo, no leyendo\n```"
+    },
+    {
+      "heading": "Contenedores y la portabilidad aparente",
+      "body": "El caso especial que más expectativas defrauda.\n\n```text\nLO QUE SÍ APORTA UNA CAPA COMÚN DE CONTENEDORES\n  el empaquetado y el modelo de despliegue se parecen\n  las descripciones de carga de trabajo son casi iguales\n  y el conocimiento del equipo se traslada\n\nLO QUE NO ELIMINA\n  la identidad y su federación con la nube\n  la red: direccionamiento, salida, balanceo, resolución\n  el almacenamiento persistente y sus garantías\n  el registro de imágenes y su disponibilidad\n  las cuotas del plano de control\n  el coste, muy distinto por nube\n  y la operación: actualizaciones, versiones y su ritmo\n\n→ la portabilidad es del ARTEFACTO, no del SISTEMA\n→ y la parte que no se traslada es la que da los\n  incidentes                                clase 185\n```\n\nY el coste real de operar en dos nubes:\n\n```text\nNO ES EL DOBLE DE APRENDER: ES EL DOBLE DE OPERAR\n  dos inventarios                            clase 253\n  dos modelos de permisos                    clase 231\n  dos formas de red                          clase 194\n  dos conjuntos de cuotas                    clase 262\n  dos catálogos de alertas y dos guardias    clase 257\n  dos formas de facturar                     clase 270\n  y ensayos en las dos                       clase 261\n\n→ y por eso multinube por defecto es caro\n→ y multinube por una RAZÓN concreta —normativa,\n  adquisición, un servicio que solo existe en una— se\n  sostiene\n\ny la pregunta que ordena la decisión\n  «¿qué riesgo concreto estamos comprando con este coste?»\n  → si la respuesta es «no depender de un proveedor», hay\n    que cuantificar cuánto vale eso y compararlo\n```\n\nY el mapa de la disciplina de coste, que también se traduce:\n\n```text\nlo que existe en las tres, con otros nombres\n  jerarquía administrativa para atribuir\n  etiquetas y su obligatoriedad\n  exportación detallada de facturación\n  compromisos con descuento\n  presupuestos y alertas\n  y capacidad interrumpible\n\nlo que cambia de verdad\n  qué se cobra por transferencia entre zonas y regiones\n  cómo se factura el almacenamiento frío y su\n    recuperación\n  cómo se cobra la analítica: por dato leído o por\n    capacidad reservada\n  y el retraso con que llega el detalle de coste\n\n→ y esos cuatro cambian decisiones de diseño\n                                            clase 270\n```"
+    },
+    {
+      "heading": "Cómo se valida una traducción",
+      "body": "Una traducción sobre el papel no vale nada. Estas son las comprobaciones que la convierten en fiable.\n\n```text\nLAS CUATRO PREGUNTAS DE VALIDACIÓN\n  1  ¿MISMAS GARANTÍAS?\n     coherencia, durabilidad, orden, exactamente una vez\n     → y aquí casi siempre hay una diferencia\n  2  ¿MISMOS LÍMITES Y CUOTAS?\n     por defecto y ampliables, por región\n  3  ¿MISMO MODELO DE COSTE?\n     qué se cobra por operación, por dato, por hora\n  4  ¿MISMO MODO DE FALLO?\n     ¿falla rápido o se degrada? ¿qué se ve cuando falla?\n\n→ y las cuatro se responden con documentación y con una\n  prueba\n```\n\nY la prueba mínima antes de comprometerse:\n\n```text\nPROTOTIPO DE UNA SEMANA\n  el camino crítico de extremo a extremo\n  con identidad real, red real y datos de tamaño\n    realista\n  midiendo latencia, coste por operación y comportamiento\n    al fallar\n  y provocando un fallo a propósito         clase 261\n\n→ una semana de esto ahorra meses\n→ y descubre las diferencias que ninguna tabla recoge\n```\n\nY cómo se demuestra esta competencia:\n\n```text\nLO QUE NO VALE\n  «conozco las tres nubes»\n  → y la parte 22 predijo que esto rendiría peor que\n    conocer una a fondo                     clase 264\n\nLO QUE VALE\n  «migramos el canal de datos y descubrimos que las\n   garantías de listado del almacén de objetos eran\n   distintas; lo detectamos con una prueba de una semana\n   antes de comprometernos»\n  «traducimos la política y concedía más de lo que\n   concedía la original; lo cogió la comprobación\n   automática»\n  «el mismo diseño costaba 3,2 veces más por el cobro de\n   tráfico entre zonas, y rediseñamos la colocación»\n\n→ efecto, mecanismo y cifra                clase 275\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ traduzco por restricción, no por nombre de servicio\n☐ uso la rejilla de cinco capas para orientarme\n☐ compruebo garantías, límites, coste y modo de fallo\n☐ sé que la unidad de aislamiento no es equivalente\n☐ reviso los valores por defecto, sobre todo en la región\n  secundaria\n☐ compruebo la semántica de permisos, no solo su forma\n☐ verifico resolución de nombres y salida a internet\n☐ vigilo las cuotas del plano de control\n☐ no confundo portabilidad del artefacto con la del\n  sistema\n☐ cuantifico el coste de operar en dos nubes\n☐ hago un prototipo de una semana antes de comprometerme\n☐ y provoco un fallo en ese prototipo\n```\n\nY el cierre que enlaza con la clase siguiente: con el mapa y el método de traducción, queda la parte que examina esto por escrito y con tiempo limitado. Las preguntas de escenario y la estrategia de examen son la materia de la clase 274."
+    }
+  ],
+  "worked_example": "**CloudShop traduce tres piezas entre nubes. Lo que sigue son las cuatro diferencias que el prototipo de una semana encontró y ninguna tabla recogía, la política traducida que concedía de más, y la cuenta del coste real de operar en dos nubes.**\n\n**Traducción 1 · El canal de datos.**\n\n```text\nqué se traducía\n  ingesta a almacén de objetos, catálogo, y consultas\n  analíticas                                clase 242\n\nla tabla de equivalencias decía\n  almacén de objetos      →  almacén de objetos\n  catálogo                →  catálogo\n  motor de consulta       →  motor de consulta\n\n→ traducción aparentemente trivial\n```\n\nY lo que el prototipo de una semana encontró:\n\n```text\nDIFERENCIA 1 · garantías de listado\n  el proceso dependía de listar un prefijo justo después\n  de escribir\n  → en el origen, el listado era inmediato\n  → en el destino, podía tardar\n  → y el trabajo posterior procesaba ficheros de menos\n    SIN ERROR                                  ley 29\n\n  cómo se detectó\n    prueba con 40.000 ficheros escritos y listados de\n    inmediato\n    → 61 casos de listado incompleto\n  cómo se arregló\n    manifiesto explícito de ficheros, en vez de listar\n\nDIFERENCIA 2 · modelo de coste de la consulta\n  origen   por dato leído\n  destino  por capacidad reservada\n  → el mismo conjunto de 41 informes\n    origen, tras optimizar                12 USD/informe\n    destino con capacidad mínima          por debajo del\n                                          umbral, pero con\n                                          suelo mensual\n  → por debajo de cierto volumen el destino era más caro\n  → y por encima, mucho más barato\n  → la decisión dependía del volumen, no del motor\n\nDIFERENCIA 3 · cuota del plano de control\n  la herramienta de infraestructura como código aplicaba\n  341 recursos\n  → en el destino se estrangulaba a mitad\n  → aplicación fallida de forma intermitente  clase 128\n  → se resolvió partiendo el estado y limitando el\n    paralelismo\n\nDIFERENCIA 4 · zonas horarias en las particiones\n  la convención por defecto del catálogo difería\n  → y las particiones diarias se desplazaban unas horas\n  → los informes diarios cuadraban salvo en el límite del\n    día                                     clase 243\n```\n\nY la valoración:\n\n```text\ncoste del prototipo                       1 semana, 1 persona\ndiferencias encontradas                                   4\n  que ninguna tabla de equivalencias recogía              4\n  que habrían llegado a producción sin error visible      2\n\n→ las dos silenciosas eran las peligrosas\n```\n\n**Traducción 2 · La política que concedía de más.**\n\n```text\npolítica original\n  permitir lectura de un prefijo concreto del almacén, a\n  un rol de servicio, con denegación explícita para todo\n  lo demás                                  clase 231\n\nla traducción literal\n  se mantuvo la concesión y se omitió la denegación\n  explícita\n  → porque en la nube destino la herencia y la evaluación\n    funcionaban distinto y «parecía innecesaria»\n\nlo que produjo\n  el rol heredaba desde el nivel superior un permiso de\n  lectura sobre el contenedor entero administrativo\n  → y sin la denegación explícita, la herencia ganaba\n  → el rol podía leer 214 conjuntos de datos en vez de 1\n```\n\nY cómo se detectó:\n\n```text\nno en la revisión humana: la revisión lo aprobó\n\nlo cogió la comprobación automática de permisos efectivos\n  → que compara «qué puede hacer realmente esta identidad»\n    antes y después                          clase 217\n  → 214 recursos accesibles frente a 1 esperado\n\n→ la lección: se compara el EFECTO, no el texto de la\n  política\n→ y esa comprobación se añadió a la cadena para toda\n  traducción\n```\n\n**La cuenta del coste real de operar en dos nubes.**\n\n```text\nCloudShop tenía una razón concreta para la segunda nube\n  un cliente del sector público exigía residencia en una\n  región que el proveedor principal no ofrecía\n                                            clase 280\n\ny se midió lo que costaba mantenerla\n\n  inventario y etiquetado, segunda nube      0,4 personas\n  modelo de permisos y su auditoría          0,3\n  red y conectividad                         0,3\n  cuotas y capacidad                         0,2\n  alertas, guardia y procedimientos          0,6\n  facturación y atribución                   0,2\n  ensayos                                    0,2\n  actualizaciones y versiones                0,3\n                                            ──────\n                                             2,5 personas\n\n  más el coste de infraestructura            41.000 USD/mes\n  y el sobrecoste por menor volumen\n    (compromisos peores)                     +9 %\n```\n\nY la decisión que se tomó con esa cifra:\n\n```text\ningresos del cliente que exigía la segunda nube\n                                        1,9 M USD/año\ncoste de mantenerla              ~2,5 personas + 492.000\n                                        USD/año\n\n→ se mantuvo, y con la cifra escrita en el registro de\n  decisión                                clase 272\n→ con condición de revisión: «si estos ingresos bajan de\n  900.000, se revisa»\n\ny lo que NO se hizo\n  no se replicó el resto de la plataforma en la segunda\n  nube «por si acaso»\n  → solo lo que ese cliente necesitaba\n  → 6 servicios de 41\n```\n\nY la comparación con lo que se había propuesto al principio:\n\n```text\npropuesta inicial   «seamos multinube en todo, para no\n                    depender de un proveedor»\n  coste estimado    ~7 personas + 1,4 M USD/año\n  riesgo evitado    no cuantificado\n\ny la pregunta que la desmontó\n  «¿cuál es el escenario concreto del que nos protege, y\n  cuánto nos costaría si ocurriera?»\n  → el escenario realista era una subida de precios o una\n    pérdida de servicio prolongada\n  → y la protección real requería mantener el sistema\n    EJECUTÁNDOSE en las dos, no solo poder migrar\n  → lo que multiplicaba la cifra\n\n→ se decidió: multinube donde hay una razón concreta;\n  portabilidad razonable en lo demás\n→ y «portabilidad razonable» se definió: contratos, datos\n  exportables y decisiones registradas, no abstracciones\n  propias                                    clase 267\n```\n\n**Y la rejilla de cinco capas, rellenada para orientarse.**\n\n```text\nel equipo mantuvo una tabla de una página por nube\n\n  capa            qué mirar             dónde difiere más\n  identidad       unidad de aislamiento herencia y\n                  y federación          denegación\n  red             direccionamiento,     resolución de\n                  salida, balanceo      nombres privados\n  cómputo         escalado, arranque,   límites por\n                  interrumpible         defecto\n  datos           garantías del almacén listado y coste\n                  y del relacional      por operación\n  operación       señales, políticas,   retraso del\n                  cuotas, coste         detalle de coste\n\n→ una página por nube, actualizada cuando algo sorprende\n→ y usada para entrar en una nube nueva en días\n```\n\n**La lección que esta clase deja**: la traducción del canal de datos parecía trivial y el prototipo de una semana encontró **cuatro diferencias, dos de ellas silenciosas** —un listado incompleto y un desplazamiento de particiones— que habrían llegado a producción sin producir ningún error. Y la política traducida pasó la revisión humana mientras concedía acceso a **214 conjuntos de datos en vez de uno**: lo cogió comparar permisos efectivos, no leer el texto.",
+  "pitfalls": [
+    {
+      "symptom": "Un servicio equivalente se comporta distinto en producción",
+      "cause": "Se tradujo por nombre y no se compararon garantías, límites, coste y modo de fallo",
+      "fix": "Traduce por restricción y valida las cuatro preguntas con documentación y con un prototipo del camino crítico."
+    },
+    {
+      "symptom": "Una política traducida concede más de lo que concedía",
+      "cause": "La herencia y la evaluación de permisos difieren y la denegación explícita se omitió",
+      "fix": "Compara permisos efectivos antes y después, no el texto de la política; automatiza esa comprobación en la cadena."
+    },
+    {
+      "symptom": "El canal de datos procesa registros de menos sin dar error",
+      "cause": "Las garantías de listado y de lectura tras escritura del almacén no son iguales",
+      "fix": "Usa manifiestos explícitos en vez de listar, y prueba con volumen realista escribiendo y listando de inmediato."
+    },
+    {
+      "symptom": "La infraestructura como código se aplica a medias e intermitentemente",
+      "cause": "Se alcanzan las cuotas de peticiones del plano de control, que difieren por nube",
+      "fix": "Parte el estado, limita el paralelismo y vigila la cuota del plano de control como una más del inventario."
+    },
+    {
+      "symptom": "El mismo diseño cuesta varias veces más en la otra nube",
+      "cause": "El modelo de coste cambia lo que es una buena arquitectura",
+      "fix": "Revisa qué se cobra por transferencia, por operación y por dato leído; rediseña colocación y formato antes de migrar."
+    },
+    {
+      "symptom": "Se adopta multinube por no depender de un proveedor y el coste se dispara",
+      "cause": "No se cuantificó el riesgo evitado ni el coste de operar dos nubes",
+      "fix": "Exige un escenario concreto y su coste; multinube donde hay una razón, portabilidad razonable en lo demás."
+    }
+  ],
+  "checks": [
+    "¿Por qué se traduce por restricción y no por nombre de servicio?",
+    "¿Cuáles son las cinco capas de la rejilla y para qué sirven?",
+    "¿Qué cuatro cosas no se traducen nunca y por qué deciden el resultado?",
+    "¿Qué aporta y qué no aporta una capa común de contenedores?",
+    "¿Qué comprueba un prototipo de una semana que ninguna tabla recoge?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2024). *Compare AWS and Azure services*.",
+      "url": "https://learn.microsoft.com/azure/architecture/aws-professional/services"
+    },
+    {
+      "text": "Google Cloud (2024). *Google Cloud for AWS professionals*.",
+      "url": "https://cloud.google.com/docs/get-started/aws-comparison"
+    },
+    {
+      "text": "CNCF (2024). *Kubernetes conformance and portability*.",
+      "url": "https://www.cncf.io/certification/software-conformance/"
+    },
+    {
+      "text": "FinOps Foundation (2024). *FOCUS: FinOps cost and usage specification* — coste comparable entre nubes.",
+      "url": "https://focus.finops.org/"
+    },
+    {
+      "text": "Brewer, E. (2012). *CAP twelve years later: how the rules have changed* — por qué las garantías no se traducen.",
+      "url": "https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/"
+    }
+  ]
+}
