@@ -1,0 +1,118 @@
+{
+  "id": "274",
+  "purpose": "Resolver preguntas de escenario y aprobar exámenes de certificación sin confundirlos con capacidad. La clase da el método para leer un escenario —encontrar la restricción que decide, descartar por eliminación, reconocer las señales de la respuesta esperada—, la estrategia de tiempo, y lo que un examen no puede medir y por tanto hay que demostrar en otro sitio.",
+  "outcomes": [
+    "**Leer** un escenario identificando la restricción que decide.",
+    "**Descartar** opciones por eliminación con criterios explícitos.",
+    "**Reconocer** las señales que delatan la respuesta esperada.",
+    "**Gestionar** el tiempo y las preguntas dudosas.",
+    "**Situar** la certificación en su valor real, sin sobreestimarla ni despreciarla."
+  ],
+  "concepts": [
+    {
+      "term": "pregunta de escenario",
+      "definition": "Enunciado con contexto y varias opciones plausibles, donde una restricción decide cuál es correcta."
+    },
+    {
+      "term": "restricción que decide",
+      "definition": "La condición del enunciado que elimina todas las opciones menos una. Suele ir en una sola frase."
+    },
+    {
+      "term": "distractor",
+      "definition": "Opción técnicamente posible pero que incumple una restricción del enunciado."
+    },
+    {
+      "term": "respuesta esperada",
+      "definition": "La que el examen considera correcta según la doctrina del proveedor, que puede no ser la mejor en tu contexto."
+    },
+    {
+      "term": "coste de oportunidad del examen",
+      "definition": "Lo que se deja de aprender mientras se estudia para aprobar."
+    },
+    {
+      "term": "conocimiento inerte",
+      "definition": "El que se recuerda para el examen y no se aplica después."
+    }
+  ],
+  "diagram": "flowchart TB\n    E[\"enunciado\"] --> L1[\"1 · LEE LA PREGUNTA\\nFINAL PRIMERO\"]\n    L1 --> L2[\"2 · SUBRAYA LAS\\nRESTRICCIONES\\ncoste · tiempo · normativa\\nmínimo esfuerzo\"]\n    L2 --> L3[\"3 · IDENTIFICA LA\\nQUE DECIDE\"]\n    L3 --> D[\"4 · DESCARTA\\npor incumplimiento\"]\n    D --> C{\"¿queda una?\"}\n    C -->|\"sí\"| R[\"responde\"]\n    C -->|\"dos\"| S[\"5 · SEÑALES\\nmenor operación ·\\ngestionado · nativo\"]\n    S --> R\n    C -->|\"ninguna\"| M[\"marca y sigue\\nvuelve al final\"]\n    M --> R",
+  "foundations": [
+    {
+      "heading": "Cómo se lee un escenario",
+      "body": "Las preguntas de escenario están construidas con un patrón, y conocerlo cambia mucho el resultado.\n\n```text\nLA ESTRUCTURA HABITUAL\n  contexto           2-6 líneas, con datos relevantes e\n                     irrelevantes mezclados\n  requisito          lo que hay que conseguir\n  restricciones      coste mínimo · mínimo esfuerzo\n                     operativo · sin interrumpir el\n                     servicio · en menos de X · sin\n                     cambiar la aplicación\n  pregunta final     qué hay que elegir\n  opciones           una correcta y tres plausibles\n\n→ y las restricciones son lo que decide\n→ casi nunca decide la parte técnica del contexto\n```\n\nY el método, en orden:\n\n```text\n1  LEE LA PREGUNTA FINAL ANTES QUE EL CONTEXTO\n   → así lees el contexto buscando algo concreto\n   → y no memorizas datos irrelevantes\n\n2  SUBRAYA LAS RESTRICCIONES\n   «con el menor coste posible»\n   «con el menor esfuerzo operativo»\n   «sin modificar la aplicación»\n   «sin tiempo de inactividad»\n   «cumpliendo la normativa X»\n   «lo antes posible»\n\n3  IDENTIFICA LA QUE DECIDE\n   → normalmente una sola elimina tres opciones\n\n4  DESCARTA POR INCUMPLIMIENTO, no por preferencia\n   → «esta requiere cambiar la aplicación» → fuera\n   → «esta implica una ventana de parada» → fuera\n\n5  SI QUEDAN DOS, aplica las señales\n```\n\nY las restricciones más frecuentes y lo que implican:\n\n```text\n«MENOR ESFUERZO OPERATIVO»\n  → prefiere el servicio gestionado sobre el autogestionado\n  → prefiere lo nativo sobre lo montado a mano\n  → elimina cualquier opción con máquinas que mantener\n\n«MENOR COSTE»\n  → prefiere almacenamiento frío, capacidad interrumpible,\n    procesamiento por lotes\n  → cuidado: a veces la más barata incumple otra\n    restricción\n\n«SIN CAMBIAR LA APLICACIÓN»\n  → elimina toda opción que exija tocar el código\n  → suele apuntar a una capa intermedia o a un\n    intermediario\n\n«SIN INTERRUPCIÓN»\n  → elimina migraciones con parada\n  → apunta a replicar y conmutar, o a pasos reversibles\n                                            clase 260\n\n«LO ANTES POSIBLE»\n  → prefiere lo que ya existe sobre lo que hay que\n    construir\n```"
+    },
+    {
+      "heading": "Las señales y los distractores",
+      "body": "Cuando dos opciones sobreviven al descarte, hay patrones que resuelven la mayoría.\n\n```text\nSEÑALES DE LA RESPUESTA ESPERADA\n  usa el servicio gestionado del proveedor antes que uno\n    montado\n  resuelve dentro de la nube antes que con una pieza\n    externa\n  usa identidades y roles antes que claves            ley 26\n  usa cifrado gestionado antes que propio\n  usa la opción con menos piezas\n  y respeta el privilegio mínimo\n\n→ la doctrina del proveedor es coherente: gestionado,\n  nativo, con identidad, con menos operación\n→ y las preguntas la reflejan\n```\n\nY los distractores típicos, que se reconocen a simple vista:\n\n```text\n1  EL QUE HACE DEMASIADO\n   una arquitectura elaborada para un problema sencillo\n   → si el enunciado pide algo simple, la respuesta es\n     simple\n\n2  EL QUE USA CREDENCIALES PERMANENTES\n   «crea una clave de acceso y guárdala en el código»\n   → casi siempre incorrecto                clase 256\n\n3  EL QUE CONCEDE PERMISOS AMPLIOS\n   «asigna el rol de administrador»\n   → casi siempre incorrecto                clase 231\n\n4  EL QUE INTRODUCE UNA MÁQUINA QUE MANTENER\n   cuando la restricción dice «mínimo esfuerzo operativo»\n\n5  EL TÉCNICAMENTE CORRECTO QUE INCUMPLE UNA RESTRICCIÓN\n   → el más peligroso: funciona, pero el enunciado lo\n     prohibía\n   → por eso se subrayan las restricciones primero\n\n6  Y EL QUE INVENTA UNA CAPACIDAD\n   un servicio que no hace lo que la opción dice\n   → y este se reconoce si se conoce el servicio de verdad\n```\n\nY las palabras del enunciado que suelen ser trampa:\n\n```text\n«actualmente»           describe el problema, no la\n                        solución\n«el equipo no tiene\n experiencia en»        elimina las opciones que la\n                        requieren\n«debe mantenerse\n durante 7 años»        apunta a archivo y a inmutabilidad\n                                            clase 255\n«los datos no pueden\n salir de la región»    apunta a residencia y elimina\n                        servicios globales\n«el pico ocurre una vez\n al mes»                apunta a elasticidad, no a\n                        capacidad reservada\ny «se accede pocas\n veces al año»          apunta a almacenamiento frío y a\n                        su coste de recuperación\n```"
+    },
+    {
+      "heading": "Estrategia de tiempo y de dudas",
+      "body": "La gestión del examen es una habilidad separada del conocimiento, y explica una parte de los suspensos.\n\n```text\nEL PRESUPUESTO DE TIEMPO\n  divide el tiempo total entre las preguntas y ten el\n  ritmo objetivo en la cabeza\n  → si vas por detrás a mitad, acelera antes de que sea\n    tarde\n\nLAS TRES PASADAS\n  1ª  responde lo que sabes; marca lo dudoso; no te\n      atasques\n      → nunca dejes una sin responder: no hay penalización\n        por fallar\n  2ª  vuelve a lo marcado, con tiempo conocido\n  3ª  si queda tiempo, revisa solo lo marcado como muy\n      dudoso\n\n→ y NO revises lo que respondiste con seguridad\n→ cambiar respuestas seguras empeora el resultado más\n  veces de las que lo mejora\n```\n\nY qué hacer con una pregunta que no se sabe:\n\n```text\n1  descarta lo que incumple una restricción\n2  descarta credenciales permanentes y permisos amplios\n3  descarta lo que hace demasiado\n4  y entre lo que quede, elige lo gestionado y con menos\n   piezas\n\n→ esto convierte una adivinanza de 1 entre 4 en una de\n  1 entre 2, con frecuencia\n```\n\nY los errores de examen más comunes:\n\n```text\nleer el contexto entero y luego la pregunta\n  → se pierde tiempo y se retiene lo irrelevante\nelegir la que uno haría en su trabajo\n  → el examen pregunta la doctrina del proveedor\n  → y a veces tu solución es mejor y no es la esperada\nno leer «elige DOS» o «elige TRES»\nquedarse en una pregunta más de dos minutos\ny cambiar respuestas por nerviosismo al final\n```\n\nY cómo se prepara de verdad:\n\n```text\nQUÉ FUNCIONA\n  hacer preguntas de práctica y ANALIZAR LOS FALLOS\n    → por qué la correcta era correcta y por qué la mía\n      no\n  construir lo que se estudia, aunque sea pequeño\n  y leer la documentación de los límites y las cuotas\n    → que es lo que más se pregunta y menos se estudia\n\nQUÉ NO FUNCIONA\n  memorizar volcados de preguntas\n    → además de inútil, suele vulnerar las condiciones\n      del examen\n  ver vídeos sin construir nada\n  y estudiar servicios que el examen apenas toca\n```"
+    },
+    {
+      "heading": "Qué mide y qué no mide un examen",
+      "body": "La parte honesta, que conviene tener clara antes de invertir semanas.\n\n```text\nLO QUE UN EXAMEN SÍ MIDE\n  amplitud de catálogo: qué servicio sirve para qué\n  conocimiento de límites, cuotas y modelos de precio\n  la doctrina del proveedor\n  y capacidad de descartar bajo restricciones\n\n→ y esto tiene valor real: acelera conversaciones y evita\n  reinventar\n\nLO QUE NO PUEDE MEDIR\n  decidir con información incompleta\n  diagnosticar bajo presión                 clase 258\n  sostener un número ante negocio           clase 268\n  saber qué NO automatizar                  clase 259\n  y el juicio que no está escrito              ley 30\n\n→ porque nada de eso se puede examinar por opción\n  múltiple\n→ y es justo donde está la diferencia entre nivel 2 y\n  nivel 3                                   clase 265\n```\n\nY para qué sirve una certificación, sin exagerar:\n\n```text\nSIRVE PARA\n  pasar filtros de contratación\n  dar estructura a un estudio disperso\n  cubrir huecos de catálogo que uno no sabía que tenía\n  y requisitos de socio comercial de la empresa\n\nNO SIRVE PARA\n  demostrar que sabes resolver\n  sustituir evidencia de trabajo real       clase 275\n  ni justificar un nivel\n\n→ y el coste de oportunidad es real: seis semanas de\n  estudio son seis semanas de no construir\n→ la combinación que funciona es certificación + evidencia\n  → la certificación abre la puerta y la evidencia\n    sostiene la conversación\n```\n\nY el riesgo del conocimiento inerte:\n\n```text\nSE APRUEBA Y A LOS SEIS MESES NO SE RECUERDA NADA\n  porque no se aplicó\n\nLA DEFENSA\n  construir algo con lo que se estudió, aunque sea pequeño\n  → y escribirlo, que es lo que lo convierte en evidencia\n                                            clase 275\n  y elegir el examen que se solapa con lo que haces\n    ahora\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ leo la pregunta final antes que el contexto\n☐ subrayo las restricciones y encuentro la que decide\n☐ descarto por incumplimiento, no por preferencia\n☐ reconozco los distractores de credenciales y permisos\n☐ respondo todas: no hay penalización por fallar\n☐ hago tres pasadas y no reviso lo que sabía\n☐ no me quedo más de dos minutos en una pregunta\n☐ analizo por qué fallé cada pregunta de práctica\n☐ estudio límites, cuotas y precios, que es lo que más cae\n☐ construyo algo con lo que estudio\n☐ y sé qué mide el examen y qué tengo que demostrar en\n  otro sitio\n```\n\nY el cierre que enlaza con la clase siguiente: el examen abre la puerta y no sostiene la conversación. Lo que la sostiene es la evidencia de trabajo real, bien presentada. Portafolio, evidencia y entrevista de sistemas es la materia de la clase 275."
+    }
+  ],
+  "worked_example": "**Cinco preguntas de escenario resueltas con el método, y los datos de preparación de cuatro personas del equipo de CloudShop. Lo que sigue muestra dónde estaba la restricción que decidía en cada caso.**\n\n**Pregunta 1 · La restricción está en una sola palabra.**\n\n```text\nENUNCIADO\n  «Una empresa almacena registros de auditoría que deben\n  conservarse 7 años por normativa. Se consultan menos de\n  dos veces al año, y cuando se consultan puede tardarse\n  varias horas en recuperarlos. ¿Qué opción cumple con el\n  menor coste?»\n\n  A  almacenamiento estándar con ciclo de vida a 90 días\n  B  almacenamiento de archivo profundo con bloqueo de\n     retención\n  C  base de datos gestionada con copias mensuales\n  D  almacenamiento estándar con replicación entre\n     regiones\n\nMÉTODO\n  restricciones subrayadas\n    7 años por normativa · menos de 2 accesos al año ·\n    puede tardar varias horas · menor coste\n\n  la que decide: «puede tardar varias horas»\n    → autoriza el archivo profundo, que es lo más barato\n    → si no lo dijera, el archivo profundo quedaría\n      descartado\n\n  descarte\n    A  no cumple 7 años\n    C  base de datos para registros de auditoría: caro y\n       no aporta\n    D  replicación no la pide nadie: coste innecesario\n\n  RESPUESTA  B\n  y el bloqueo de retención está ahí por «normativa»\n                                            clase 255\n```\n\n**Pregunta 2 · El distractor técnicamente correcto.**\n\n```text\nENUNCIADO\n  «Una aplicación que se ejecuta en máquinas virtuales\n  necesita leer objetos de un contenedor de\n  almacenamiento. La empresa exige que no se almacenen\n  credenciales de larga duración. ¿Qué haces?»\n\n  A  crear una clave de acceso y guardarla cifrada en el\n     gestor de secretos\n  B  asignar un rol a la instancia con permiso de solo\n     lectura sobre ese contenedor\n  C  asignar un rol a la instancia con permiso de\n     administrador de almacenamiento\n  D  usar credenciales de un usuario de servicio rotadas\n     cada 30 días\n\nMÉTODO\n  restricción que decide: «no credenciales de larga\n  duración»\n\n  A  técnicamente funciona y guarda una credencial de\n     larga duración → fuera\n  D  igual: rotar no deja de ser una credencial\n     permanente → fuera\n  C  cumple la restricción y viola privilegio mínimo\n\n  RESPUESTA  B\n\n→ A y D son el distractor más común: funcionan, y el\n  enunciado los prohibía\n```\n\n**Pregunta 3 · «Sin cambiar la aplicación».**\n\n```text\nENUNCIADO\n  «Una aplicación heredada abre demasiadas conexiones a la\n  base de datos y la satura en picos. No se puede\n  modificar el código. ¿Qué solución aplicas con el menor\n  esfuerzo operativo?»\n\n  A  reescribir la capa de acceso para usar un grupo de\n     conexiones\n  B  desplegar un intermediario de conexiones gestionado\n     entre la aplicación y la base\n  C  aumentar el tamaño de la instancia de base de datos\n  D  instalar un intermediario en una máquina propia\n\nMÉTODO\n  restricciones: «no se puede modificar el código» y\n  «menor esfuerzo operativo»\n\n  A  modifica el código → fuera\n  C  no resuelve el problema, solo lo retrasa; y en la\n     clase 262 se vio que escalar puede empeorarlo\n  D  cumple, pero añade una máquina que mantener →\n     incumple «menor esfuerzo operativo»\n\n  RESPUESTA  B\n\n→ aquí dos restricciones descartan dos opciones cada una\n```\n\n**Pregunta 4 · Elige DOS.**\n\n```text\nENUNCIADO\n  «Un equipo necesita que un trabajo por lotes nocturno se\n  ejecute con el menor coste posible. El trabajo puede\n  reiniciarse sin problema si se interrumpe y debe acabar\n  antes de las 06:00. Elige DOS opciones.»\n\n  A  capacidad interrumpible\n  B  instancias reservadas a 3 años\n  C  puntos de control para reanudar si se interrumpe\n  D  instancias bajo demanda en la región más cara\n  E  ejecutar el trabajo en horario laboral\n\nMÉTODO\n  «puede reiniciarse sin problema» + «menor coste»\n    → A, claramente\n  y A sin C es frágil: si se interrumpe, vuelve a empezar\n    y puede no acabar antes de las 06:00\n\n  RESPUESTA  A y C\n\n→ las preguntas de dos opciones suelen pedir una decisión\n  y su salvaguarda\n→ B es caro para un trabajo nocturno y compromete 3 años\n                                            clase 270\n```\n\n**Pregunta 5 · La que parece técnica y decide la operación.**\n\n```text\nENUNCIADO\n  «Una empresa quiere migrar una base de datos de 4 TB a\n  la nube. El sistema no puede estar parado más de 15\n  minutos. El equipo no tiene experiencia con replicación.\n  ¿Qué enfoque eliges?»\n\n  A  exportar, copiar por red e importar\n  B  servicio gestionado de migración con replicación\n     continua y conmutación final\n  C  montar replicación manual entre el origen y el\n     destino\n  D  copia física por dispositivo enviado por mensajería\n\nMÉTODO\n  restricciones: «máximo 15 minutos de parada» y «el\n  equipo no tiene experiencia con replicación»\n\n  A  4 TB de exportación e importación: mucho más de 15\n     minutos → fuera\n  D  igual, y además el envío tarda días → fuera\n  C  cumple los 15 minutos e incumple «sin experiencia»\n     → fuera\n\n  RESPUESTA  B\n\n→ la frase «el equipo no tiene experiencia en» está ahí\n  para descartar, siempre\n→ y es la restricción de personas, que también decide en\n  la vida real                              clase 272\n```\n\n**Los datos de preparación de cuatro personas.**\n\n```text                       horas    prácticas   resultado\npersona A  solo vídeos        62         no       suspenso\n           y lectura                              (68 %)\npersona B  vídeos +           74         sí       aprobado\n           prácticas con                          (81 %)\n           análisis de fallos\npersona C  construyó un       58         sí       aprobado\n           proyecto pequeño +                     (89 %)\n           prácticas\npersona D  volcados de        40         no       aprobado\n           preguntas                              (74 %)\n```\n\nY lo que pasó seis meses después:\n\n```text\nprueba interna de escenarios NUEVOS, no vistos\n  persona B                                     78 %\n  persona C                                     85 %\n  persona D                                     41 %\n\n→ quien memorizó volcados aprobó y no retuvo nada\n→ y además, esa práctica suele vulnerar las condiciones\n  del examen\n\ny en el trabajo, a los 12 meses\n  persona C había construido tres cosas con lo estudiado\n  y era la única que aplicaba el catálogo sin consultar\n```\n\nY el análisis de fallos de la persona B, que fue lo que la hizo aprobar:\n\n```text\nde 180 preguntas de práctica, falló 47\n  clasificadas por causa\n    no conocía el servicio                       9\n    no leí una restricción                      19\n    elegí lo que haría yo, no la doctrina        11\n    leí mal «elige DOS»                          5\n    error de tiempo, respondí sin leer           3\n\n→ 38 de 47 fallos NO eran de conocimiento\n→ y los corrigió con método, no con más estudio\n→ segundo simulacro: 12 fallos de 180\n```\n\n**La lección que esta clase deja**: de 47 fallos en las preguntas de práctica, **38 no eran de conocimiento** sino de método —restricciones no leídas, doctrina propia en vez de la del proveedor, enunciados de dos opciones mal leídos—, y se corrigieron sin estudiar más. Y quien memorizó volcados aprobó con un 74 % y a los seis meses resolvió el **41 %** de escenarios nuevos.",
+  "pitfalls": [
+    {
+      "symptom": "Se falla eligiendo una opción que funcionaría en la vida real",
+      "cause": "El examen pregunta la doctrina del proveedor, no tu mejor solución",
+      "fix": "Descarta por incumplimiento de restricciones y, entre lo que quede, elige lo gestionado, nativo, con identidad y con menos piezas."
+    },
+    {
+      "symptom": "Se acaba el tiempo con preguntas sin responder",
+      "cause": "Se leyó el contexto entero antes que la pregunta y se agotó tiempo en dudas",
+      "fix": "Lee la pregunta final primero, haz tres pasadas, no pases de dos minutos por pregunta y responde siempre: no hay penalización."
+    },
+    {
+      "symptom": "Se aprueba y a los seis meses no se recuerda nada",
+      "cause": "Conocimiento inerte: se memorizó sin aplicar",
+      "fix": "Construye algo con lo estudiado y escríbelo; y elige el examen que se solapa con lo que haces ahora."
+    },
+    {
+      "symptom": "Se estudian muchos servicios y caen preguntas de límites y precios",
+      "cause": "Se estudia el catálogo y no las cuotas ni los modelos de coste",
+      "fix": "Dedica tiempo explícito a límites, cuotas y precios; es lo que más cae y lo que menos se estudia."
+    },
+    {
+      "symptom": "Se cambian respuestas al final y baja la nota",
+      "cause": "Se revisan también las preguntas contestadas con seguridad",
+      "fix": "Revisa solo lo que marcaste como dudoso; cambiar respuestas seguras empeora más veces de las que mejora."
+    },
+    {
+      "symptom": "Se tiene la certificación y no se pasa la entrevista técnica",
+      "cause": "El examen no puede medir juicio, diagnóstico ni decisión con información incompleta",
+      "fix": "Acompaña la certificación con evidencia de trabajo real: efecto, mecanismo y cifra."
+    }
+  ],
+  "checks": [
+    "¿Cuál es el orden correcto para leer una pregunta de escenario?",
+    "¿Qué restricciones aparecen más y qué elimina cada una?",
+    "¿Cómo se reconocen los distractores más frecuentes?",
+    "¿Qué estrategia de pasadas y de tiempo funciona mejor?",
+    "¿Qué mide un examen y qué hay que demostrar en otro sitio?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2024). *Certification exam guides and sample questions*.",
+      "url": "https://aws.amazon.com/certification/"
+    },
+    {
+      "text": "Microsoft (2024). *Certification exam study guides and practice assessments*.",
+      "url": "https://learn.microsoft.com/credentials/certifications/"
+    },
+    {
+      "text": "Google Cloud (2024). *Certification exam guides*.",
+      "url": "https://cloud.google.com/learn/certification"
+    },
+    {
+      "text": "Roediger, H. y Karpicke, J. (2006). *Test-enhanced learning* — por qué practicar preguntas supera a releer.",
+      "url": "https://journals.sagepub.com/doi/10.1111/j.1467-9280.2006.01693.x"
+    },
+    {
+      "text": "Haladyna, T. y Rodriguez, M. (2013). *Developing and Validating Test Items* — cómo se construyen los distractores.",
+      "url": "https://www.routledge.com/Developing-and-Validating-Test-Items/Haladyna-Rodriguez/p/book/9780415876049"
+    }
+  ]
+}
