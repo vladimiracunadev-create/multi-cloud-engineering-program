@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 8<br>
 <strong>Laboratorio:</strong> <code>capstone</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>proyecto: centro de operaciones de cloudshop</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Construir el centro de operaciones de CloudShop con todo lo de la parte 21 y comprobarlo. La clase da el encargo, el orden, el entregable y las pruebas negativas. Y cierra la parte 21: corrige las cinco predicciones de la clase 252 —dos acertadas y tres a medias—, actualiza el recuento de leyes, añade la ley 30 y escribe la hipótesis de la parte 22.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> proyecto: centro de operaciones de cloudshop con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>cloudshop-operations</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Construir</strong> una operación completa en el orden que evita rehacer.</li>
+<li><strong>Comprobar</strong> con las pruebas negativas acumuladas de la parte.</li>
+<li><strong>Medir</strong> la operación con cifras que resistan una revisión.</li>
+<li><strong>Corregir</strong> las cinco predicciones de la clase 252 con evidencia.</li>
+<li><strong>Escribir</strong> la hipótesis de la parte 22 en forma refutable.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,20 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>proyecto</code></td>
-<td>Define su papel en <strong>proyecto: centro de operaciones de cloudshop</strong> y cómo observarlo en un sistema real.</td>
+<td><code>centro de operaciones</code></td>
+<td>El conjunto de inventario, señales, guardia, procedimientos, cambio y ensayos que hace operable un sistema.</td>
 </tr>
 <tr>
-<td><code>centro</code></td>
-<td>Define su papel en <strong>proyecto: centro de operaciones de cloudshop</strong> y cómo observarlo en un sistema real.</td>
+<td><code>ley 30</code></td>
+<td>Toda tarea manual lleva un juicio que nadie escribió; automatizarla lo elimina sin avisar.</td>
 </tr>
 <tr>
-<td><code>operaciones</code></td>
-<td>Define su papel en <strong>proyecto: centro de operaciones de cloudshop</strong> y cómo observarlo en un sistema real.</td>
+<td><code>orden por dependencia</code></td>
+<td>Inventario primero, automatización al final. No se puede automatizar lo que no se sabe que existe.</td>
 </tr>
 <tr>
-<td><code>cloudshop</code></td>
-<td>Define su papel en <strong>proyecto: centro de operaciones de cloudshop</strong> y cómo observarlo en un sistema real.</td>
+<td><code>prueba negativa de parte</code></td>
+<td>Comprobación acumulada de las once clases, ejecutada sobre la operación entera.</td>
+</tr>
+<tr>
+<td><code>trabajo repetitivo</code></td>
+<td>Tarea manual, sin valor duradero, que crece con el tamaño del sistema.</td>
+</tr>
+<tr>
+<td><code>hipótesis de parte</code></td>
+<td>Afirmación refutable escrita antes de estudiar, que la parte siguiente corrige con evidencia.</td>
 </tr>
 </tbody>
 </table>
@@ -89,72 +94,484 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Proyecto: centro de operaciones de CloudShop&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    P1[&quot;1 · INVENTARIO Y\nPROPIEDAD · clase 253&quot;] --&gt; P2[&quot;2 · PARCHEO Y\nCONFIGURACIÓN · clase 254&quot;]
+    P2 --&gt; P3[&quot;3 · COPIAS Y\nRESTAURACIÓN · clase 255&quot;]
+    P3 --&gt; P4[&quot;4 · ACCESO\nSIN CLAVES · clase 256&quot;]
+    P4 --&gt; P5[&quot;5 · ALERTAS Y\nGUARDIA · clase 257&quot;]
+    P5 --&gt; P6[&quot;6 · TRIAJE\nclase 258&quot;]
+    P6 --&gt; P7[&quot;7 · PROCEDIMIENTOS\nY REMEDIACIÓN · clase 259&quot;]
+    P7 --&gt; P8[&quot;8 · GESTIÓN DEL\nCAMBIO · clase 260&quot;]
+    P8 --&gt; P9[&quot;9 · ENSAYOS\nclase 261&quot;]
+    P9 --&gt; P10[&quot;10 · CAPACIDAD\nclase 262&quot;]
+    P10 --&gt; P11[&quot;11 · ASISTENCIA\nclase 263&quot;]
+    P11 --&gt; V[&quot;PRUEBAS NEGATIVAS&quot;]
+    V --&gt; C[&quot;CIERRE DE PARTE 21\ncorrección · ley 30 ·\nhipótesis&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-el-encargo-el-orden-y-el-entregable">1. El encargo, el orden y el entregable</h3>
+<p><strong>El encargo.</strong> CloudShop opera 41 servicios en tres nubes, con un equipo de plataforma de nueve personas y equipos de producto que despliegan solos. Hay que dejar la operación en un estado en que una persona que entra hoy pueda estar de guardia en seis semanas.</p>
+<p><strong>El orden</strong>, por dependencia:</p>
+<pre><code class="language-text">1  INVENTARIO Y PROPIEDAD                     clase 253
+   qué hay, en qué cuenta, de quién es, para qué sirve
+   → sin esto, todo lo demás actúa sobre una parte del
+     sistema y nadie sabe cuál
+
+2  PARCHEO Y CONFIGURACIÓN                    clase 254
+   imágenes construidas, no retocadas; configuración
+   declarada y reconciliada
+
+3  COPIAS Y RESTAURACIÓN                      clase 255
+   copias inmutables, y restauración PROBADA con reloj
+
+4  ACCESO SIN CREDENCIALES PERMANENTES        clase 256
+   sesiones auditadas, elevación temporal, sin claves
+   compartidas
+
+5  ALERTAS Y GUARDIA                          clase 257
+   se alerta por síntomas del usuario; rotación
+   sostenible; roles separados
+
+6  TRIAJE                                     clase 258
+   línea de cambios única y orden de descarte
+
+7  PROCEDIMIENTOS Y REMEDIACIÓN               clase 259
+   ejecutables; automáticos solo donde procede
+
+8  GESTIÓN DEL CAMBIO                         clase 260
+   lotes pequeños, vuelta atrás probada, sin comité
+
+9  ENSAYOS                                    clase 261
+   de mesa hacia arriba, con hipótesis
+
+10 CAPACIDAD Y CUOTAS                         clase 262
+   recurso limitante, codo medido, inventario de cuotas
+
+11 ASISTENCIA AUTOMATIZADA                    clase 263
+   reúne y ordena; no concluye ni ejecuta
+</code></pre>
+<p>Y por qué este orden y no otro:</p>
+<pre><code class="language-text">los pasos 1 a 4 son el ESTADO del sistema
+los pasos 5 a 8 son la RESPUESTA
+los pasos 9 a 11 son la MEJORA
+
+→ y hacer la respuesta sin el estado produce guardias que
+  no pueden actuar
+→ y hacer la mejora sin la respuesta produce ensayos que
+  descubren lo obvio
+→ intentar el paso 7 antes del 6 es el error más común: se
+  automatiza sin saber diagnosticar
+</code></pre>
+<p><strong>El entregable</strong>, que es lo que se evalúa:</p>
+<pre><code class="language-text">1  inventario generado automáticamente, con dueño por
+   recurso y cobertura medida
+2  la línea de cambios única, de todas las fuentes
+3  el catálogo de alertas, con la prueba de accionabilidad
+   pasada
+4  el calendario de guardia con la carga por turno medida
+5  los procedimientos, en grado 2 o 3, con fecha de última
+   ejecución
+6  el inventario de automatizaciones, con condiciones,
+   límite e interruptor
+7  las cuatro métricas de entrega, medidas
+8  el inventario de cuotas, por cuenta y región, con
+   alertas
+9  el registro de ensayos, con hipótesis y acciones
+   cerradas
+10 y el registro de decisiones: qué NO se automatizó y por
+   qué
+</code></pre>
+<h3 id="2-las-pruebas-negativas-de-la-parte">2. Las pruebas negativas de la parte</h3>
+<p>Cada clase dejó una comprobación que falla en la mayoría de las organizaciones. Aquí se ejecutan todas sobre el sistema entero.</p>
+<pre><code class="language-text">clase 253  coge 20 recursos al azar del inventario
+           → ¿los 20 tienen dueño identificable HOY?
+           → y a la inversa: coge 20 recursos de la
+             consola; ¿están en el inventario?
+
+clase 254  coge una máquina de producción
+           → ¿cuánto hace que se creó su imagen?
+           → ¿hay algo instalado a mano en ella?
+
+clase 255  RESTAURA una copia, con reloj
+           → ¿cuánto tardó y qué se perdió?
+           → ¿la copia sobrevive a quien tiene permisos de
+             administrador?
+
+clase 256  ¿queda alguna credencial permanente?
+           → busca claves de acceso con más de 90 días
+           → ¿alguien puede entrar sin dejar rastro?
+
+clase 257  coge las 20 últimas alertas
+           → ¿qué hizo quien las recibió?
+           → si en más de 3 la respuesta es «nada»,
+             el catálogo está roto
+
+clase 258  ¿existe la línea de cambios única?
+           → pide «todos los cambios de la última hora»
+           → si hay que mirar en más de un sitio, no existe
+
+clase 259  coge 5 procedimientos al azar y EJECÚTALOS
+           → ¿cuántos funcionan íntegros?
+
+clase 260  ¿cuál es la mediana de cambios por despliegue?
+           → ¿cuándo se ejecutó la última vuelta atrás?
+           → ¿qué porcentaje de cambios se declara urgente?
+
+clase 261  retira una instancia de producción, ahora
+           → ¿pasa lo que la hipótesis dice?
+
+clase 262  «si el tráfico se duplica, ¿qué se rompe
+           primero y en cuánto tiempo?»
+           → y comprueba las cuotas de la región de
+             conmutación
+
+clase 263  coge una conclusión del asistente
+           → ¿enlaza a la evidencia?
+           → ¿dice qué fuentes no consultó?
+</code></pre>
+<p>Y la prueba que resume la parte entera:</p>
+<pre><code class="language-text">LA PRUEBA DE LAS SEIS SEMANAS
+  coge a alguien que entró hace seis semanas
+  ponle un incidente de mesa                  clase 261
+  y observa
+    ¿encuentra el inventario y el dueño?
+    ¿encuentra la línea de cambios?
+    ¿encuentra el procedimiento y funciona?
+    ¿tiene los permisos para ejecutarlo?
+    ¿sabe a quién escalar y cuándo?
+    ¿sabe qué comunicar y a quién?
+
+→ si falla cualquiera, la operación depende de las
+  personas que ya estaban
+→ y eso es exactamente lo que se estaba intentando
+  evitar
+</code></pre>
+<h3 id="3-correccion-de-las-cinco-predicciones-de-la-clase-252">3. Corrección de las cinco predicciones de la clase 252</h3>
+<p><strong>La corrección, con evidencia y sin adornos.</strong></p>
+<pre><code class="language-text">1. «los problemas de operación no son de herramientas sino
+    de INVENTARIO Y DE DUEÑO: la mayoría de los hallazgos
+    serán cosas que existen y que nadie sabía que existían»
+
+   CORRECTA, Y MÁS AMPLIA DE LO PREVISTO. Acertamos la
+   dirección y nos quedamos cortos en el alcance: lo
+   desconocido no fueron solo recursos. Fueron cuotas
+   —la región de conmutación permitía el 3,2 % de la
+   capacidad que el plan daba por hecha—, procedimientos
+   —19 de 34 rotos—, permisos —el rol de guardia no podía
+   ejecutar el paso 4—, y comportamientos —una caché «tem-
+   poral» de sesiones en memoria llevaba siete meses.
+   El inventario que faltaba no era el de máquinas: era el
+   de SUPUESTOS.
+
+2. «la práctica que más diferencia producirá será la más
+    aburrida: retirar. Y será la que menos se haga»
+
+   FALLIDA EN LA PRIMERA MITAD, CORRECTA EN LA SEGUNDA.
+   Retirar produjo mucho: 245 alertas eliminadas de 412,
+   nueve procedimientos obsoletos, un 22 % del tráfico al
+   quitar el sondeo del navegador. Pero la práctica que más
+   diferencia produjo, medida, fue otra igual de aburrida:
+   REDUCIR EL TAMAÑO DEL LOTE. Pasar de 14 cambios por
+   despliegue a 1 llevó el tiempo de recuperación de 47 a
+   11 minutos y la tasa de fallo del 1,8 % al 0,6 %.
+   Y la segunda mitad sí: nadie pidió nunca ninguna de
+   las dos.
+
+3. «la automatización de la remediación fracasará donde el
+    procedimiento no estuviera antes escrito y probado»
+
+   CORRECTA PERO INCOMPLETA, Y LO QUE FALTABA IMPORTA MÁS.
+   Sí fracasó donde no había procedimiento probado. Pero la
+   remediación que causó el incidente —retirar instancias
+   no sanas— tenía el procedimiento escrito, probado y
+   ejecutado a mano decenas de veces. Falló porque lo que
+   una persona hace al ver que fallan nueve de once no está
+   escrito en ninguna parte: es el juicio de PARAR. Y ese
+   juicio se pierde al automatizar sin que nadie lo note.
+
+4. «el tramo que dominará el tiempo total no será
+    diagnosticar ni arreglar: será DECIDIR y COMUNICAR»
+
+   CORRECTA Y CONFIRMADA CON CIFRAS. Un incidente resuelto
+   técnicamente en 17 minutos consumió 1 h 21 de
+   comunicación posterior. Y en el ensayo sin las personas
+   clave, de los 31 minutos hasta conmutar, 14 fueron
+   buscando el permiso y 9 esperando a quien podía
+   autorizarlo: 23 de 31 minutos decidiendo, no
+   diagnosticando.
+
+5. «más de la mitad del trabajo repetitivo se podrá
+    eliminar retirando o corrigiendo la causa, en vez de
+    automatizándolo; y el equipo intentará automatizarlo
+    primero»
+
+   FALLIDA EN LA CIFRA, ACERTADA EN LA CONDUCTA. Del
+   trabajo repetitivo identificado, el 38 % se eliminó en
+   la causa y el 62 % se automatizó: por debajo de la mitad
+   que predijimos. Y la conducta, exacta: en los tres casos
+   donde acabó eliminándose la causa, la primera propuesta
+   del equipo había sido automatizar. La fuga que se
+   reiniciaba cada seis horas tardó cuatro meses en
+   arreglarse, y solo porque el contador de actuaciones la
+   delató.
+</code></pre>
+<p><strong>Marcador: dos correctas, tres a medias.</strong> Y el fallo de la tercera es el que obliga a escribir una ley: <strong>acertamos que la automatización fracasa donde falta el procedimiento, y no vimos que también fracasa donde el procedimiento está completo, porque lo que no está escrito no es el paso sino la decisión de no darlo.</strong></p>
+<h3 id="4-recuento-de-leyes-ley-30-e-hipotesis-de-la-parte-22">4. Recuento de leyes, ley 30 e hipótesis de la parte 22</h3>
+<p><strong>El recuento de leyes, cerrada la parte 21.</strong></p>
+<pre><code class="language-text">ley 13  lo que no se mira deja de funcionar en silencio        66
+ley 15  la señal existe y nadie la mira                        56
+ley 22  un procedimiento nunca ejecutado no funciona           53
+ley 14  el coste se decide al crear, no al pagar               39
+ley 16  un control que estorba se rodea                        38
+ley 20  lo que no tiene dueño se filtra y se desperdicia       37
+ley 25  lo provisional sobrevive a su motivo                   33
+ley 21  el acoplamiento vive en quién escribe                  33
+ley 26  el valor por defecto sirve a la demostración           27
+ley 23  la capacidad la limita lo que ya se mantiene           22
+ley 17  se optimiza la medida, no el objetivo                  19
+ley 24  lo que no está en el diagrama no se analiza            16
+ley 27  un control solo actúa sobre lo que cambia              13
+ley 19  la compensación hace invisible el fallo                11
+ley 18  lo asíncrono traslada la garantía, no la elimina       11
+ley 28  donde se paga por uso, cada defecto es una factura     10
+ley 29  un fallo de datos no da error: da otro número           8
+ley 30  automatizar elimina un juicio que nadie escribió        6
+</code></pre>
+<p>Y la ley que la parte 21 obliga a escribir:</p>
+<pre><code class="language-text">LEY 30
+  toda tarea manual lleva un juicio que nadie escribió;
+  automatizarla lo elimina sin avisar
+
+apariciones en esta parte                                      6
+  clase 258   la pregunta «¿es una de N?» no estaba en
+              ningún procedimiento y resolvió en 22 minutos
+              un caso de nueve días
+  clase 259   retirar instancias no sanas era correcto; lo
+              que faltaba era la decisión de no hacerlo
+              cuando fallan nueve de once
+  clase 259   en modo sombra, dos de siete automatizaciones
+              habrían actuado en momentos en que una
+              persona no lo habría hecho
+  clase 261   sin las dos personas que más sabían, la misma
+              conmutación tardó 26 minutos más: la
+              diferencia era juicio, no conocimiento
+  clase 262   escalar el servicio era la respuesta correcta
+              y multiplicó las conexiones contra el recurso
+              limitante
+  clase 263   el asistente concluyó sin decir qué no había
+              mirado; una persona habría dicho «no tengo
+              acceso a los cambios de red»
+
+y lo que la distingue de la ley 22
+  la 22 dice que un procedimiento no ejecutado no funciona
+  la 30 dice algo peor: que un procedimiento PERFECTAMENTE
+  ejecutado a mano durante años sigue estando incompleto,
+  porque la parte que lo hace seguro nunca se escribió
+  → y por eso el modo sombra vale tanto: es la única forma
+    de descubrir el juicio ausente antes de perderlo
+                                                clase 259
+</code></pre>
+<p><strong>La hipótesis de la parte 22</strong> (clases 265 a 276, especialización, certificación y carrera), escrita antes de estudiarla:</p>
+<pre><code class="language-text">1. las certificaciones correlacionarán con conseguir
+   entrevistas y no con resolver problemas; y el hueco
+   estará justo donde no se puede examinar por opción
+   múltiple: decidir con información incompleta
+                                                  ley 17
+
+2. la especialización que peor envejecerá será la atada a
+   un producto, y la que mejor, la atada a una RESTRICCIÓN
+   —red, datos, coste, seguridad—, porque las restricciones
+   sobreviven a los productos que las gestionan
+
+3. buena parte del consejo de carrera tratará de
+   visibilidad y no de destreza; será incómodo y será
+   cierto, y lo medible será que lo que predice una
+   promoción no es lo que predice resolver un incidente
+
+4. lo que el mercado paga en multinube no será saber tres
+   nubes: será saber una a fondo y poder TRADUCIR; y quien
+   sepa las tres por encima rendirá peor que quien sepa una
+   y entienda el modelo                          ley 24
+
+5. y una refutable con cifra: **más de la mitad de lo
+   enseñado en este programa será transferible entre nubes
+   sin cambios, y menos de una quinta parte será sintaxis
+   de un producto concreto**; y los temarios de
+   certificación invertirán esa proporción
+</code></pre>
+<p>Y el cierre de la parte 21: <strong>de once clases, lo más caro no fue ningún fallo técnico: fue que 19 de 34 procedimientos estaban rotos y nadie podía saberlo, porque un documento que nunca se ejecuta no tiene forma de avisar de que ha envejecido</strong>. La parte 22 cambia de plano: deja el sistema y mira a quien lo opera. Empieza por el mapa de especializaciones y qué exige cada una. Es la clase 265.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>proyecto: centro de operaciones de cloudshop</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
+<p><strong>El centro de operaciones de CloudShop, resuelto. Lo que sigue son las decisiones con su motivo, el resultado de las once pruebas negativas, y las cifras de la operación a los quince meses.</strong></p>
+<p><strong>Las decisiones, por capa.</strong></p>
+<pre><code class="language-text">INVENTARIO Y PROPIEDAD                        clase 253
+  generado desde las tres nubes cada 6 horas
+  dueño obligatorio por etiqueta; sin dueño, se marca y a
+    los 30 días se apaga en entornos no productivos
+  cobertura de dueño       61 % → 99,4 %
+  recursos sin uso hallados y retirados      1.107
+
+PARCHEO Y CONFIGURACIÓN                       clase 254
+  imágenes construidas en cadena, con antigüedad máxima
+    de 30 días
+  configuración declarada y reconciliada; la deriva se
+    corrige o se alerta
+  máquinas con cambios manuales    23 → 0
+
+COPIAS Y RESTAURACIÓN                         clase 255
+  copias inmutables, en cuenta separada         clase 219
+  restauración probada mensualmente, con reloj
+  tiempo real de restauración de la base de pedidos
+    creído 40 min · medido 3 h 10 · tras trabajo 52 min
+
+ACCESO                                        clase 256
+  cero credenciales permanentes; sesiones registradas
+  elevación temporal con motivo
+  claves de acceso con más de 90 días     41 → 0
+
+ALERTAS Y GUARDIA                             clase 257
+  alertas    412 → 167 · accionables 8 % → 85 %
+  guardia de 6 personas por rotación
+  roles separados: coordina, arregla, comunica, anota
+
+TRIAJE                                        clase 258
+  línea de cambios única, de 7 fuentes
+  consultas de triaje guardadas y enlazadas
+
+PROCEDIMIENTOS                                clase 259
+  34 → 25, todos en grado 2; 8 en grado 3
+  con condiciones, límite, interruptor y contador
+
+CAMBIO                                        clase 260
+  comité disuelto; comprobaciones automáticas
+  94 % de cambios estándar; lote mediano de 1
+
+ENSAYOS                                       clase 261
+  28 en 15 meses; 134 hallazgos, 68 % organizativos
+
+CAPACIDAD                                     clase 262
+  recurso limitante identificado por servicio
+  inventario de cuotas automático, 63 relevantes
+  vertido de carga por prioridad, probado
+
+ASISTENCIA                                    clase 263
+  reúne, resume y propone; no concluye ni ejecuta
+</code></pre>
+<p><strong>Las once pruebas negativas, ejecutadas.</strong></p>
+<p>```text                                        antes     después
+253  20 recursos con dueño identificable       11/20      20/20
+     20 recursos de consola en inventario      14/20      20/20
+254  antigüedad de la imagen en producción  312 días    19 días
+     algo instalado a mano                        sí         no
+255  restauración con reloj                  3 h 10     52 min
+     copia sobrevive a administrador             no         sí
+256  claves permanentes &gt; 90 días                41          0
+     acceso sin rastro                           sí         no
+257  de 20 alertas, cuántas hicieron actuar    2/20      17/20
+258  línea de cambios en un solo sitio           no         sí
+259  de 5 procedimientos, cuántos funcionan     1/5        5/5
+260  mediana de cambios por despliegue            14          1
+     última vuelta atrás ejecutada         14 meses     6 días
+     cambios declarados urgentes               12 %      1,9 %
+261  retirar una instancia: ¿pasa lo previsto?   no         sí
+262  «si el tráfico se duplica, ¿qué se rompe?»
+                                          sin respuesta  medido
+     cuotas de la región de conmutación        3,2 %      100 %
+263  conclusión del asistente con evidencia      no         sí</p>
+<pre><code>
+Y la prueba de las seis semanas, ejecutada dos veces:
+
+```text
+mes 4, con una persona incorporada 6 semanas antes
+  encuentra inventario y dueño                       sí
+  encuentra la línea de cambios                      sí
+  encuentra el procedimiento y funciona              sí
+  tiene los permisos                                 NO
+  sabe a quién escalar                               sí
+  sabe qué comunicar                                 NO
+  → dos fallos; ambos corregidos
+
+mes 11, con otra persona
+  las seis, sí
+  tiempo hasta mitigar en el ensayo             11 min
+  (la media del equipo veterano era de 9)
+</code></pre>
+<p><strong>Las cifras de la operación, a los quince meses.</strong></p>
+<p>```text                                        antes     después
+DISPONIBILIDAD Y RESPUESTA
+incidentes de gravedad alta            34/año      13/año
+tiempo medio hasta mitigar             1 h 20      14 min
+tiempo medio de recuperación           47 min      11 min
+incidentes sin causa identificada       26/34        2/13</p>
+<p>CAMBIO
+frecuencia de despliegue           3,1/semana   47/semana
+tiempo de entrega                     6,4 días      3,2 h
+tasa de fallo por cambio                 1,8 %      0,6 %</p>
+<p>PERSONAS
+interrupciones de guardia por turno        9,4        2,6
+fuera de horario, por turno                3,1        0,7
+rotación mínima (personas)                   4          6
+abandonos del equipo de plataforma
+  en el periodo                              3          0</p>
+<p>TRABAJO
+situaciones resueltas sin persona        0/mes      73/mes
+trabajo repetitivo (h/semana/persona)     14,2        4,8
+  eliminado en la causa                        38 %
+  automatizado                                 62 %</p>
+<p>COSTE
+coste de gobierno del cambio        546 h/año     72 h/año
+recursos sin uso retirados                    1.107
+ahorro anual asociado                    41.200 USD</p>
+<pre><code>
+Y el dato que el equipo puso primero en la revisión:
+
+```text
+abandonos del equipo de plataforma
+  en los 15 meses anteriores                          3
+  en los 15 meses del proyecto                        0
+
+y lo que las entrevistas de salida habían dicho
+  «la guardia es insostenible»                        3 de 3
+
+→ de 3,1 a 0,7 interrupciones nocturnas por turno
+→ y esa es la métrica que la dirección entendió sin
+  explicación
+</code></pre>
+<p><strong>Y el registro de decisiones: qué NO se automatizó y por qué.</strong></p>
+<pre><code class="language-text">conmutación de región        acción no segura si el
+                             diagnóstico falla
+restauración desde copia     no reversible
+desviar tráfico entre        impacto amplio; decisión de
+proveedores                  negocio
+desactivar el pago           decisión de negocio
+ampliar cuota de la base     coste; requiere aprobación
+comunicación con clientes    nunca                clase 257
+y cualquier acción propuesta
+por el asistente             nunca sin persona    clase 263
+
+→ y este registro es el entregable que más se consultó
+  después
+→ porque responde a la pregunta que vuelve cada trimestre:
+  «¿por qué esto todavía lo hace una persona?»
+</code></pre>
+<p><strong>Lo que salió mal durante el proyecto</strong>, que también es entregable:</p>
+<pre><code class="language-text">1  la primera remediación automática convirtió una
+   degradación en una caída total en 3 minutos
+                                                clase 259
+2  el ensayo 4 se abortó por errores de usuario que la
+   hipótesis no preveía                         clase 261
+3  el asistente costó 26 minutos por concluir sin declarar
+   qué no había mirado                          clase 263
+4  la migración de esquema se detuvo en la semana 2 por 41
+   divergencias por 100.000                     clase 260
+5  y el detector de anomalías, adoptado tal cual, habría
+   producido 4.180 avisos al día                clase 263
+
+→ los cinco se descubrieron con radio acotado y con gente
+  delante
+→ ninguno llegó a un incidente nocturno
+→ y ese es el argumento entero de la parte 21
+</code></pre>
+<p><strong>La lección que esta clase deja</strong>: la operación mejoró en las doce métricas, pero la que convenció a la dirección no fue ninguna de disponibilidad: fue <strong>cero abandonos frente a tres</strong>, con las interrupciones nocturnas por turno de 3,1 a 0,7. Y de los cinco fallos del proyecto, los cinco ocurrieron <strong>con radio acotado, en horario laboral y con observadores</strong>, que es exactamente la diferencia entre un ensayo y un incidente.</p>
 <h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
 <p>Ejecuta desde la raíz:</p>
 <pre><code class="language-bash">python classes/part-21-cloud-operations-automation/264-proyecto-centro-de-operaciones-de-cloudshop/lab.py
@@ -195,29 +612,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Se automatiza la respuesta antes de saber diagnosticar</td>
+<td>Se saltó el orden: la respuesta se montó sin el estado del sistema debajo</td>
+<td>Inventario, parcheo, copias y acceso primero; luego alertas y triaje; la automatización va después, no antes.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>La operación funciona solo si están las personas de siempre</td>
+<td>El conocimiento vive en las cabezas y no en inventario, procedimientos y permisos</td>
+<td>Aplica la prueba de las seis semanas: si alguien recién incorporado no puede responder un incidente de mesa, sabes exactamente qué falta.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Todas las métricas mejoran y el equipo sigue quemado</td>
+<td>Se midió el sistema y no las interrupciones por turno</td>
+<td>Mide interrupciones de guardia por turno y fuera de horario; es la métrica que predice abandonos y la que entiende la dirección.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Nadie recuerda por qué una tarea sigue siendo manual</td>
+<td>No se registró la decisión de no automatizarla</td>
+<td>Manten un registro de qué no se automatizó y por qué; es lo que responde a la pregunta que vuelve cada trimestre.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Una automatización correcta hizo daño en una situación que nadie previó</td>
+<td>El juicio de cuándo no actuar nunca se escribió porque la persona lo aplicaba sin pensarlo</td>
+<td>Estrena en modo sombra y revisa cada caso en que habría actuado; es la única forma de encontrar el juicio ausente antes de perderlo.</td>
+</tr>
+<tr>
+<td>El proyecto de operación se estanca sin resultados visibles</td>
+<td>Se empezó por lo llamativo en vez de por el inventario y la propiedad</td>
+<td>El inventario con dueño es el primer entregable y el que desbloquea todo lo demás; sin él, cada mejora actúa sobre una parte desconocida del sistema.</td>
 </tr>
 </tbody>
 </table>
@@ -228,17 +650,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Por qué el inventario va antes que la automatización y qué pasa si se invierte?</li>
+<li>¿Qué comprueba la prueba de las seis semanas y qué revela cuando falla?</li>
+<li>¿Cuál de las cinco predicciones falló y qué ley obligó a escribir?</li>
+<li>¿Qué distingue la ley 30 de la ley 22?</li>
+<li>¿Qué debe contener el registro de lo que no se automatizó?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>The Site Reliability Workbook — Beyer et al..</li>
-<li>Seeking SRE — Murphy et al..</li>
-<li>Effective DevOps — Davis y Daniels.</li>
+<li>Beyer, B. y otros (2018). <em>The Site Reliability Workbook</em> — operación completa de extremo a extremo. <a href="https://sre.google/workbook/table-of-contents/">https://sre.google/workbook/table-of-contents/</a></li>
+<li>Forsgren, N., Humble, J. y Kim, G. (2018). <em>Accelerate</em> — las cuatro métricas de entrega. <a href="https://itrevolution.com/product/accelerate/">https://itrevolution.com/product/accelerate/</a></li>
+<li>AWS (2024). <em>Operational Excellence Pillar</em>. <a href="https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html">https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html</a></li>
+<li>Microsoft (2024). <em>Azure Well-Architected Framework: Operational Excellence</em>. <a href="https://learn.microsoft.com/azure/well-architected/operational-excellence/">https://learn.microsoft.com/azure/well-architected/operational-excellence/</a></li>
+<li>Google Cloud (2024). <em>Architecture Framework: Operational excellence</em>. <a href="https://cloud.google.com/architecture/framework/operational-excellence">https://cloud.google.com/architecture/framework/operational-excellence</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -306,7 +730,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-el-encargo-el-orden-y-el-entregable">1. El encargo, el orden y el entregable</a><a class="toc-level-3" href="#2-las-pruebas-negativas-de-la-parte">2. Las pruebas negativas de la parte</a><a class="toc-level-3" href="#3-correccion-de-las-cinco-predicciones-de-la-clase-252">3. Corrección de las cinco predicciones de la clase 252</a><a class="toc-level-3" href="#4-recuento-de-leyes-ley-30-e-hipotesis-de-la-parte-22">4. Recuento de leyes, ley 30 e hipótesis de la parte 22</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
