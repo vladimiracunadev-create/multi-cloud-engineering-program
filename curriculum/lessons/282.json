@@ -1,0 +1,118 @@
+{
+  "id": "282",
+  "purpose": "Capstone industrial: dispositivos, borde y operación desconectada. La clase da el encargo y la restricción que manda —**la conexión no es fiable y el dispositivo tiene que seguir haciendo su trabajo sin ella**—, lo que eso obliga en decisión local, sincronización y actualización remota, y las pruebas negativas de un sector donde una actualización mal hecha deja mil equipos inaccesibles.",
+  "outcomes": [
+    "**Decidir** qué se resuelve en el dispositivo y qué en la nube.",
+    "**Diseñar** sincronización tolerante a desconexiones largas.",
+    "**Actualizar** flota remota sin dejar equipos inaccesibles.",
+    "**Gestionar** identidad y ciclo de vida de dispositivos a escala.",
+    "**Verificar** el diseño con las pruebas negativas del sector."
+  ],
+  "concepts": [
+    {
+      "term": "operación desconectada",
+      "definition": "El dispositivo cumple su función sin red, durante horas o días, y reconcilia al volver."
+    },
+    {
+      "term": "gemelo de dispositivo",
+      "definition": "Estado deseado y estado informado de cada equipo, sincronizados cuando hay conexión."
+    },
+    {
+      "term": "actualización con doble partición",
+      "definition": "Se escribe en la partición inactiva y se arranca en ella; si falla, vuelve sola a la anterior."
+    },
+    {
+      "term": "identidad de dispositivo",
+      "definition": "Credencial única por equipo, idealmente en hardware, revocable individualmente."
+    },
+    {
+      "term": "borde",
+      "definition": "Capacidad de cómputo cercana a los dispositivos que agrega, filtra y decide con baja latencia."
+    },
+    {
+      "term": "ventana de datos",
+      "definition": "Cuánto histórico guarda el dispositivo antes de sobrescribir. Define lo que se puede perder."
+    }
+  ],
+  "diagram": "flowchart TB\n    D[\"dispositivo\"] --> L{\"¿decisión\\ncrítica?\"}\n    L -->|\"sí\"| DL[\"decide LOCAL\\nsin red\"]\n    L -->|\"no\"| B[\"pasarela de BORDE\\nagrega y filtra\"]\n    DL --> S[\"almacena en\\nventana local\"]\n    S --> S2{\"¿hay red?\"}\n    S2 -->|\"no\"| S\n    S2 -->|\"sí\"| N[\"sincroniza\\ncon marca de tiempo\\ny orden\"]\n    B --> N\n    N --> C[\"nube:\\nestado, analítica,\\nconfiguración\"]\n    C --> G[\"gemelo:\\nestado deseado\"]\n    G -.->|\"cuando conecte\"| D\n    U[\"actualización\\ndoble partición\"] -.->|\"por lotes\\ncon canario\"| D",
+  "foundations": [
+    {
+      "heading": "El encargo y la restricción que manda",
+      "body": "**El encargo.** Una plataforma para 41.000 equipos industriales instalados en plantas y en campo: sensores de proceso, controladores de línea y equipos móviles. Deben operar, informar y actualizarse.\n\n```text\nCIFRAS DE PARTIDA\n  dispositivos                             41.000\n  emplazamientos                           380\n  conectividad\n    fija fiable                            42 %\n    fija intermitente                      39 %\n    móvil o satélite                       19 %\n  mediciones/segundo, agregadas            1,9 M\n  vida útil del equipo                     8-12 años\n  y el requisito de negocio\n    una línea parada cuesta                14.000 USD/hora\n```\n\nY la restricción que manda:\n\n```text\nLA CONEXIÓN NO ES FIABLE Y EL TRABAJO NO PUEDE ESPERAR\n  un controlador que detiene la línea porque no llega la\n  respuesta de la nube es un fallo de diseño, no de red\n\n→ y de ahí sale la primera regla del sector\n  TODA DECISIÓN CON CONSECUENCIA FÍSICA SE TOMA LOCAL\n  → parar una máquina, abrir una válvula, disparar una\n    alarma de seguridad\n  → la nube observa, ajusta parámetros y aprende; no\n    decide en el instante\n\n→ y la segunda\n  EL DISPOSITIVO ES UN SISTEMA COMPLETO, no un sensor\n  → tiene almacenamiento, lógica, estado y actualizaciones\n  → y una vida útil de una década, que es más de lo que\n    dura cualquier decisión de arquitectura de nube\n```\n\nY la consecuencia sobre el ciclo de vida:\n\n```text\n8-12 AÑOS DE VIDA ÚTIL CAMBIAN LAS REGLAS\n  el protocolo tiene que sobrevivir a varias generaciones\n    de plataforma\n  la credencial tiene que poder rotarse sin visita física\n  el formato de datos tiene que ser compatible hacia atrás\n    y hacia delante                          clase 106\n  y habrá dispositivos con versiones muy distintas\n    conviviendo, siempre\n\n→ diseñar suponiendo que toda la flota está actualizada es\n  el error estructural del sector\n→ y en la práctica, un 8-15 % de la flota está siempre\n  varias versiones por detrás\n```"
+    },
+    {
+      "heading": "Reparto de responsabilidad y sincronización",
+      "body": "Qué corre dónde, y qué pasa cuando vuelve la conexión.\n\n```text\nEN EL DISPOSITIVO\n  control en tiempo real y seguridad\n  almacenamiento en ventana: horas o días de datos\n  reglas locales de alarma\n  y capacidad de operar desconectado el tiempo objetivo\n\nEN LA PASARELA DE BORDE, por emplazamiento\n  agregación y reducción: de 1.900 mediciones/s a 40\n  → y esto decide el coste de todo lo demás\n  reglas que necesitan varias fuentes\n  almacenamiento intermedio cuando cae el enlace\n  y actualización local de la flota del emplazamiento\n\nEN LA NUBE\n  estado consolidado y gemelos\n  analítica, comparación entre plantas y modelos\n  configuración y campañas de actualización\n  alertas de negocio y mantenimiento\n\n→ y la regla que ordena el reparto\n  si la respuesta debe llegar en menos de lo que tarda un\n  viaje de ida y vuelta poco fiable, va abajo\n```\n\nY la sincronización, que es el problema técnico central:\n\n```text\nLO QUE HAY QUE RESOLVER\n  el dispositivo estuvo 3 días sin red\n  → tiene 3 días de datos y ha tomado decisiones\n  → y la nube, mientras, le cambió la configuración\n\nLAS REGLAS QUE FUNCIONAN\n  1  CADA MEDICIÓN LLEVA SU MARCA DE TIEMPO DE ORIGEN\n     → nunca la de llegada\n     → y con reloj del dispositivo sincronizado y su\n       desviación informada\n  2  LA SINCRONIZACIÓN ES IDEMPOTENTE Y REANUDABLE\n     → identificador de secuencia por dispositivo y\n       confirmación con marca de agua      clase 242\n     → si se corta a mitad, se reanuda donde iba\n  3  LO NUEVO PRIMERO, LO VIEJO DESPUÉS\n     → al reconectar, primero el estado actual y las\n       alarmas; el histórico va detrás, con menor\n       prioridad\n     → porque saber cómo está la máquina ahora vale más\n       que los tres días anteriores\n  4  Y LA CONFIGURACIÓN SE APLICA CON VERSIÓN Y\n     CONFIRMACIÓN\n     → el gemelo tiene estado deseado y estado informado\n     → y la diferencia entre ambos es la métrica que\n       importa\n\n→ y la ventana local define lo que se acepta perder\n  → 72 horas de ventana significa que una desconexión de\n    cinco días pierde dos\n  → y eso se decide con negocio, no en ingeniería\n```\n\nY el coste, que aquí se decide en el borde:\n\n```text\n1,9 M mediciones/s enviadas en crudo son inasumibles\n  → agregación en el borde: media, máximo, mínimo y\n    desviación por ventana\n  → y el dato crudo solo cuando hay anomalía o a petición\n\n→ reducción típica de 40 a 200 veces\n→ y aquí ley 28 se ve con claridad: cada medición enviada\n  es una factura, en transporte, en ingesta y en\n  almacenamiento                            clase 270\n```"
+    },
+    {
+      "heading": "Actualizar la flota sin perderla",
+      "body": "El riesgo característico del sector: una actualización deja mil equipos sin acceso y hay que ir físicamente.\n\n```text\nLO QUE LO EVITA\n  1  DOBLE PARTICIÓN\n     se escribe en la inactiva, se arranca en ella\n     → si el arranque no confirma en N minutos, vuelve\n       sola a la anterior\n     → esta sola medida elimina la mayoría de las visitas\n\n  2  CONFIRMACIÓN DESDE EL DISPOSITIVO\n     no basta con que la descarga termine\n     → el dispositivo debe informar de que arrancó, de que\n       su función esencial pasa una comprobación y de que\n       recupera conexión\n\n  3  DESPLIEGUE POR LOTES CON CANARIO\n     1 dispositivo → 10 → 1 % → 10 % → 100 %\n                                            clase 102\n     y detención automática si el lote no confirma\n\n  4  VENTANA DE MANTENIMIENTO POR EMPLAZAMIENTO\n     no se actualiza una línea en producción\n\n  5  Y FIRMA Y VERIFICACIÓN DE LA IMAGEN\n     el dispositivo solo arranca lo que está firmado\n                                            clase 216\n     → porque un equipo en campo es físicamente accesible\n\n→ y la métrica de la campaña\n  dispositivos actualizados, fallidos, revertidos y SIN\n  RESPUESTA\n  → esa última es la que importa: son visitas\n```\n\nY la identidad, que a esta escala es un problema en sí:\n\n```text\nCADA DISPOSITIVO CON SU PROPIA CREDENCIAL\n  nunca una compartida por modelo o por lote\n  → una credencial compartida convierte un equipo robado\n    en acceso a la flota entera         clase 269\n  idealmente en elemento seguro de hardware\n  y provisión en fábrica o en primera instalación\n\nY REVOCACIÓN INDIVIDUAL\n  un equipo retirado, robado o vendido deja de tener\n  acceso\n  → y esto requiere inventario de ciclo de vida\n                                            clase 253\n  → dispositivo dado de alta, activo, en mantenimiento,\n    retirado\n\n→ y el estado más peligroso es «instalado hace 7 años,\n  nadie sabe dónde, sigue conectando»\n```\n\nY la seguridad física, que en este sector es parte del modelo:\n\n```text\nel atacante puede tener el dispositivo en la mano\n  → asumir que el firmware se puede extraer\n  → nada de secretos compartidos en la imagen\n  → cifrado en reposo del almacenamiento local\n  → y arranque verificado\n\n→ y el modelo de amenazas debe incluir «un equipo\n  comprometido informa datos falsos»\n  → detectable comparando entre equipos del mismo\n    emplazamiento\n```"
+    },
+    {
+      "heading": "Las pruebas negativas del capstone",
+      "body": "Lo que hay que ejecutar. Varias exigen un laboratorio con dispositivos reales.\n\n```text\nDE DESCONEXIÓN\n  ☐ cortar la red a un dispositivo 72 horas: ¿sigue\n    haciendo su trabajo?\n  ☐ al reconectar, ¿llega primero el estado actual o el\n    histórico?\n  ☐ ¿se duplica algún dato al reanudar una sincronización\n    cortada?\n  ☐ desconectar un emplazamiento entero 5 días: ¿qué se\n    pierde?\n  ☐ ¿qué pasa si el reloj del dispositivo se desvía 4\n    horas?\n\nDE ACTUALIZACIÓN\n  ☐ interrumpir la energía a mitad de una actualización:\n    ¿arranca?\n  ☐ instalar una imagen que no arranca: ¿vuelve sola?\n  ☐ ¿cuántos dispositivos quedaron sin responder en la\n    última campaña?\n  ☐ actualizar un equipo con 4 versiones de retraso:\n    ¿funciona?\n  ☐ intentar instalar una imagen sin firmar: ¿la acepta?\n\nDE IDENTIDAD Y CICLO DE VIDA\n  ☐ ¿hay credenciales compartidas entre dispositivos?\n  ☐ revocar un dispositivo: ¿deja de conectar de\n    inmediato?\n  ☐ ¿cuántos dispositivos conectan sin estar en el\n    inventario?\n  ☐ ¿cuántos llevan más de un año sin conectar y siguen\n    autorizados?\n\nDE DATOS Y COSTE\n  ☐ ¿cuántas mediciones se envían y cuántas se usan?\n  ☐ ¿la agregación del borde pierde información\n    necesaria?\n  ☐ un dispositivo que informa valores imposibles: ¿se\n    detecta?                                clase 243\n  ☐ ¿cuál es el coste por dispositivo y por mes?\n\nDE OPERACIÓN\n  ☐ ¿se puede diagnosticar un dispositivo sin ir\n    físicamente?\n  ☐ caer la nube 4 horas: ¿se para alguna línea?\n  ☐ ¿existe procedimiento para un emplazamiento aislado y\n    se ha usado?\n```\n\n**El entregable del capstone:**\n\n```text\n1  el reparto de responsabilidad entre dispositivo, borde\n   y nube, con el criterio\n2  el diseño de sincronización y la ventana local\n   acordada con negocio\n3  el mecanismo de actualización y el resultado de la\n   última campaña\n4  el modelo de identidad y el inventario de ciclo de vida\n5  la política de agregación y el coste por dispositivo\n6  el modelo de amenazas con acceso físico\n7  y el resultado de las pruebas negativas, con lo que\n   falló\n```\n\nY el cierre que enlaza con la clase siguiente: aquí el cliente es una planta y el dispositivo está lejos. En el siguiente, muchos clientes comparten la misma infraestructura y el reto es que ninguno se entere de los demás mientras se sabe cuánto cuesta cada uno. Multiinquilino y economía por cliente es la materia de la clase 283."
+    }
+  ],
+  "worked_example": "**El capstone resuelto. Lo que sigue es la campaña de actualización que dejó 1.140 equipos sin responder, la sincronización que duplicaba datos, y el reparto que evitó parar líneas cuando cayó la nube.**\n\n**La campaña que salió mal, antes del rediseño.**\n\n```text\ncampaña de actualización de firmware\n  dispositivos objetivo                     18.400\n  método                                    envío directo,\n                                            partición única\n  despliegue                                todos a la vez\n\nresultado\n  actualizados y confirmados                16.980   92,3 %\n  fallidos con reintento correcto              280\n  SIN RESPONDER                              1.140    6,2 %\n\ny el coste de esos 1.140\n  visitas técnicas necesarias                1.140\n  coste medio por visita                     190 USD\n  coste total                            216.600 USD\n  tiempo hasta recuperar la flota          11 semanas\n  y 34 de ellos en emplazamientos remotos: 4 meses\n```\n\nY la causa:\n\n```text\nla nueva imagen fallaba al arrancar en dispositivos con\nuna revisión de hardware concreta\n  → esa revisión era el 6,1 % de la flota\n  → y con partición única, un arranque fallido dejaba el\n    equipo inutilizable\n\n→ un canario de 10 dispositivos elegidos por revisión de\n  hardware lo habría detectado\n→ y la doble partición lo habría hecho irrelevante\n```\n\nY el rediseño:\n\n```text\ndoble partición con vuelta atrás automática a los 10\n  minutos sin confirmación\nconfirmación en tres pasos: arranque, comprobación\n  funcional y reconexión\ndespliegue por lotes: 1 → 10 → 1 % → 10 % → 100 %\n  con detención automática si un lote no confirma al 98 %\ncanario estratificado por revisión de hardware, modelo y\n  tipo de conectividad\ny firma verificada en el arranque\n\ncampaña siguiente, 19.100 dispositivos\n  actualizados y confirmados                 18.874   98,8 %\n  revertidos automáticamente                    214\n    → todos de una revisión de hardware; detectados en el\n      lote del 1 % y la campaña se detuvo sola\n  SIN RESPONDER                                  12   0,06 %\n  visitas necesarias                             12\n  coste                                       2.280 USD\n```\n\n**La sincronización que duplicaba.**\n\n```text\nsíntoma\n  los informes de producción de emplazamientos con\n  conectividad intermitente daban entre un 3 % y un 11 %\n  más de unidades producidas que el conteo físico\n\n→ y llevaba dos años                            ley 29\n→ nadie lo había investigado porque «los sensores a veces\n  fallan»\n```\n\nY la causa, encontrada agrupando por emplazamiento:\n\n```text\nla sincronización enviaba un lote y esperaba confirmación\n  → si el enlace caía tras enviar y antes de confirmar,\n    el dispositivo reenviaba el lote entero\n  → y la ingesta no deduplicaba\n\ny el patrón\n  emplazamientos con enlace fiable        0 % de exceso\n  con enlace intermitente                 3-11 %\n  con enlace satélite                     hasta 19 %\n\n→ la correlación con la calidad del enlace fue lo que lo\n  identificó                                clase 258\n```\n\nY la corrección:\n\n```text\nidentificador de secuencia por dispositivo, monótono\nconfirmación con marca de agua: «he recibido hasta el\n  número N»\ndeduplicación por (dispositivo, secuencia) en la ingesta\ny reanudación desde N+1, no reenvío del lote\n                                            clase 242\n\nresultado\n  exceso frente al conteo físico       3-19 % → 0,02 %\n  y el 0,02 % restante se explicó por mediciones\n  descartadas por calidad, documentadas\n```\n\nY lo que el equipo anotó:\n\n```text\ndurante dos años, la planificación de producción usó\ncifras infladas entre un 3 % y un 19 % según el\nemplazamiento\n→ y las decisiones de compra de materia prima se tomaron\n  con ellas\n→ el coste real de este fallo no fue técnico\n```\n\n**El reparto de responsabilidad, puesto a prueba.**\n\n```text\nprueba  «la nube no está disponible durante 4 horas»\n\nantes del rediseño\n  las reglas de alarma se evaluaban en la nube\n  → durante una caída de 40 minutos el año anterior:\n    3 líneas paradas por precaución\n    coste                          14.000 × 3 × 0,67\n                                   = 28.140 USD\n\ndespués del rediseño\n  control y seguridad: local, siempre\n  reglas de alarma de proceso: local\n  reglas que necesitan varias fuentes del emplazamiento:\n    pasarela de borde\n  comparación entre plantas, modelos y mantenimiento\n    predictivo: nube\n\n  resultado de la prueba de 4 horas\n    líneas paradas                                 0\n    alarmas locales disparadas y atendidas         7\n    datos acumulados y sincronizados al volver   100 %\n    tiempo de puesta al día tras reconectar    22 min\n    y lo que se perdió                    ninguna\n                                          medición\n```\n\n**Identidad y ciclo de vida.**\n\n```text\ninventario inicial\n  dispositivos en el sistema de gestión         41.000\n  dispositivos que conectaron el último mes     43.180\n  → 2.180 dispositivos conectando SIN estar en el\n    inventario\n\ninvestigación de esos 2.180\n  instalados por integradores y nunca registrados   1.740\n  equipos de laboratorio y pruebas                    290\n  equipos vendidos o retirados que seguían\n    conectando                                        147\n  sin identificar                                       3\n    → los 3 usaban una credencial compartida de un lote\n      de 2016\n\n→ la credencial compartida del lote de 2016 daba acceso a\n  4.100 dispositivos\n→ llevaba 8 años activa                          ley 25\n```\n\nY la corrección, que tardó:\n\n```text\nprovisión individual en la primera conexión para los\n  equipos que lo soportaban                    31.400\nvisita técnica para los que no                  4.100\n  → escalonada en 14 meses, aprovechando mantenimientos\nrevocación de la credencial compartida al terminar\ninventario obligatorio en el alta, con integradores\n\nresultado a los 18 meses\n  dispositivos fuera de inventario         2.180 → 0\n  credenciales compartidas                     1 → 0\n  dispositivos autorizados sin conectar\n    en más de 1 año                          890 → 0\n```\n\n**Las cifras finales del capstone.**\n\n```text                                        antes     después\nACTUALIZACIÓN\ndispositivos sin responder tras campaña      6,2 %      0,06 %\ncoste de visitas por campaña           216.600 USD    2.280 USD\ntiempo de recuperación de flota          11 semanas    2 días\n\nDATOS\nexceso de producción informado            3-19 %       0,02 %\nmediciones enviadas/s                     1,9 M         41.000\ncoste por dispositivo y mes                0,84 USD    0,19 USD\n\nDESCONEXIÓN\nventana local                              4 horas     96 horas\nlíneas paradas por caída de nube (4 h)           3           0\ndatos perdidos en desconexión de 5 días        n/d    24 h del\n                                                      histórico\n\nIDENTIDAD\ndispositivos fuera de inventario             2.180           0\ncredenciales compartidas                         1           0\nimágenes sin firmar aceptadas                   sí          no\n```\n\n**La lección que este capstone deja**: una actualización sin doble partición dejó **1.140 equipos inaccesibles** por una revisión de hardware que era el 6,1 % de la flota, y costó 216.600 USD en visitas y once semanas; el mismo fallo, con doble partición y canario estratificado, produjo 214 vueltas atrás automáticas y **doce visitas**. Y durante dos años la planificación de producción usó cifras infladas hasta un **19 %** porque una sincronización reenviaba lotes enteros al cortarse el enlace, sin que nada diera error.",
+  "pitfalls": [
+    {
+      "symptom": "Una actualización deja cientos de equipos inaccesibles",
+      "cause": "Partición única y despliegue a toda la flota a la vez",
+      "fix": "Usa doble partición con vuelta atrás automática, confirmación funcional desde el dispositivo y lotes con canario estratificado por revisión de hardware."
+    },
+    {
+      "symptom": "Los informes cuentan más de lo que ocurrió y correlaciona con la calidad del enlace",
+      "cause": "La sincronización reenvía lotes al cortarse y la ingesta no deduplica",
+      "fix": "Numera secuencias por dispositivo, confirma con marca de agua, reanuda desde el siguiente y deduplica en la ingesta."
+    },
+    {
+      "symptom": "Una caída de la nube para líneas de producción",
+      "cause": "Decisiones con consecuencia física evaluadas en la nube",
+      "fix": "Toda decisión crítica va en el dispositivo o en la pasarela; la nube observa, ajusta y aprende, no decide en el instante."
+    },
+    {
+      "symptom": "Conectan dispositivos que no están en ningún inventario",
+      "cause": "Altas por terceros sin registro y credenciales compartidas por lote",
+      "fix": "Credencial individual por equipo, provisión en fábrica o primera conexión, inventario obligatorio en el alta y revocación individual."
+    },
+    {
+      "symptom": "El coste crece linealmente con el número de sensores",
+      "cause": "Se envían mediciones en crudo sin agregar en el borde",
+      "fix": "Agrega por ventana en la pasarela y envía crudo solo ante anomalía o a petición; cada medición enviada es una factura."
+    },
+    {
+      "symptom": "Al reconectar tras días sin red tarda mucho en saberse cómo está la máquina",
+      "cause": "Se sincroniza el histórico antes que el estado actual",
+      "fix": "Prioriza estado y alarmas al reconectar y manda el histórico detrás, con menor prioridad."
+    }
+  ],
+  "checks": [
+    "¿Qué decisiones deben tomarse en el dispositivo y por qué?",
+    "¿Qué cuatro reglas hacen fiable una sincronización tras días sin red?",
+    "¿Qué mecanismos evitan que una campaña de actualización obligue a visitas?",
+    "¿Por qué una credencial compartida por lote es un fallo estructural?",
+    "¿Qué define la ventana local y quién debe decidirla?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2024). *IoT Lens, Well-Architected Framework*.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/iot-lens.html"
+    },
+    {
+      "text": "Microsoft (2024). *Azure IoT reference architecture and device update*.",
+      "url": "https://learn.microsoft.com/azure/architecture/reference-architectures/iot"
+    },
+    {
+      "text": "IETF (2021). *RFC 9019: A Firmware Update Architecture for Internet of Things*.",
+      "url": "https://www.rfc-editor.org/rfc/rfc9019.html"
+    },
+    {
+      "text": "IEC (2020). *IEC 62443: seguridad en sistemas de automatización industrial*.",
+      "url": "https://www.iec.ch/blog/understanding-iec-62443"
+    },
+    {
+      "text": "Google Cloud (2024). *Edge and industrial IoT architectures*.",
+      "url": "https://cloud.google.com/architecture/connected-devices"
+    }
+  ]
+}
