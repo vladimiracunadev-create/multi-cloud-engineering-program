@@ -1,0 +1,118 @@
+{
+  "id": "270",
+  "purpose": "La ruta económica de la nube: conseguir que el gasto sea una decisión y no una consecuencia. La clase separa esta especialidad de «recortar factura», da el modelo que la sostiene —visibilidad, atribución, unidad económica y decisión al diseñar—, y marca su modo de fracaso: **medir el ahorro conseguido en vez del coste evitado, que es donde está casi todo el valor**.",
+  "outcomes": [
+    "**Distinguir** reducción de factura de gestión económica del sistema.",
+    "**Atribuir** el coste a quien lo decide, con la granularidad justa.",
+    "**Definir** la unidad económica que hace comparable el gasto.",
+    "**Intervenir** donde el coste se decide: el diseño, no la factura.",
+    "**Evitar** medirse por el ahorro y perder el coste evitado."
+  ],
+  "concepts": [
+    {
+      "term": "unidad económica",
+      "definition": "Coste por unidad de negocio: por pedido, por cliente, por consulta. Hace comparable el gasto en el tiempo."
+    },
+    {
+      "term": "atribución",
+      "definition": "Asignar cada coste a quien puede decidir sobre él. Sin ella no hay decisión posible."
+    },
+    {
+      "term": "coste evitado",
+      "definition": "El gasto que no llegó a existir porque la decisión de diseño fue otra. Invisible en la factura."
+    },
+    {
+      "term": "compromiso",
+      "definition": "Descuento a cambio de uso garantizado. Palanca financiera, no de ingeniería."
+    },
+    {
+      "term": "arquitectura del coste",
+      "definition": "Las decisiones de diseño que fijan la mayor parte del gasto antes de facturar nada."
+    },
+    {
+      "term": "coste no atribuido",
+      "definition": "Lo que no tiene dueño. Crece siempre, porque nadie decide sobre ello."
+    }
+  ],
+  "diagram": "flowchart TB\n    D[\"decisión de\\ndiseño\"] -->|\"fija el 80 %\"| C[\"coste futuro\"]\n    C --> F[\"factura\"]\n    F --> V[\"1 · VISIBILIDAD\\nqué se gasta\"]\n    V --> A[\"2 · ATRIBUCIÓN\\nquién lo decide\"]\n    A --> U[\"3 · UNIDAD\\nECONÓMICA\\ncoste por pedido\"]\n    U --> DE[\"4 · DECISIÓN\\nrediseñar · ajustar\\ncomprometer · aceptar\"]\n    DE -.->|\"realimenta\"| D\n    X[\"modo de fracaso:\\nmedirse por el\\nAHORRO\"] -.->|\"ignora el\\ncoste evitado\"| DE",
+  "foundations": [
+    {
+      "heading": "No es recortar la factura",
+      "body": "La especialidad se confunde con una campaña de recortes. Y una campaña de recortes tiene un final; esta ruta no.\n\n```text\nRECORTAR FACTURA\n  apagar lo que no se usa, redimensionar, comprar\n  compromisos\n  → efecto real, y acotado\n  → se agota: hay un suelo\n\nGESTIÓN ECONÓMICA DEL SISTEMA\n  que cada decisión de diseño se tome sabiendo lo que\n  cuesta\n  → y eso no se agota, porque el sistema no deja de\n    cambiar\n\n→ y la diferencia se ve en una cifra: el coste por unidad\n  de negocio\n→ una empresa que crece puede tener factura creciente y\n  coste por pedido decreciente\n→ y esa es la señal de que la ruta funciona\n```\n\nY la razón por la que la factura es un mal punto de intervención:\n\n```text\nEL COSTE SE DECIDE AL CREAR, NO AL PAGAR      ley 14\n  el tipo de base de datos\n  el formato y la partición de los datos     clase 243\n  cuántas veces se llama a un servicio       clase 106\n  si se replica entre regiones               clase 187\n  cuánto se registra y cuánto se conserva    clase 211\n  y si algo consulta o escucha               clase 210\n\n→ cuando llega la factura, esas decisiones ya están\n  tomadas\n→ cambiar una decisión de diseño cuesta semanas; ajustar\n  un tamaño cuesta minutos y ahorra mucho menos\n```\n\nY las cuatro etapas del trabajo, en orden:\n\n```text\n1  VISIBILIDAD\n   qué se gasta, en qué, con qué granularidad y con qué\n   retraso\n   → y sin esto no hay conversación posible\n\n2  ATRIBUCIÓN\n   cada coste a quien puede decidir sobre él\n   → por etiqueta, por cuenta, por proyecto\n                                    clases 219, 220, 253\n   → y lo no atribuido crece siempre           ley 20\n\n3  UNIDAD ECONÓMICA\n   coste por pedido, por cliente activo, por consulta\n   → convierte «gastamos 340.000» en «cuesta 0,41 por\n     pedido»\n   → y eso sí se puede juzgar y comparar\n\n4  DECISIÓN\n   rediseñar, ajustar, comprometer o aceptar\n   → con dueño y con plazo\n```"
+    },
+    {
+      "heading": "Atribución y unidad económica",
+      "body": "Las dos piezas donde esta ruta gana o pierde credibilidad.\n\n```text\nLA ATRIBUCIÓN\n  la pregunta no es «¿de qué equipo es este recurso?»\n  es «¿quién puede tomar una decisión que cambie este\n  coste?»\n\n  y hay costes que no se atribuyen bien\n    recursos compartidos: red, registros, plataforma\n    → repartir por uso si se puede medir\n    → si no, por una regla ACORDADA, no perfecta\n    → una regla acordada e imperfecta funciona; ninguna\n      regla no\n\n  y el objetivo realista\n    > 95 % del coste atribuido\n    y lo no atribuido, decreciente y con dueño del\n    problema\n```\n\nY el error caro de la atribución:\n\n```text\nATRIBUIR SIN DAR PALANCA\n  «tu equipo gasta 41.000 al mes»\n  → y el equipo no puede cambiar la instancia porque la\n    fija la plataforma\n  → y no puede reducir el tráfico porque lo genera otro\n\n→ atribuir sin capacidad de decidir produce frustración,\n  no ahorro\n→ la atribución tiene que ir con la palanca\n```\n\nY la unidad económica, que es lo que hace la conversación posible:\n\n```text\nCÓMO SE ELIGE\n  algo que el negocio ya cuenta\n    pedidos, clientes activos, consultas atendidas,\n    minutos servidos, documentos procesados\n  y que crece con el uso real\n\nQUÉ REVELA\n  el coste absoluto sube y la unidad baja  → sano\n  ambos suben                              → el sistema\n                                             escala mal\n  el absoluto baja y la unidad sube        → se recortó\n                                             algo que\n                                             importaba\n\n→ y esta tabla convierte una discusión de presupuesto en\n  una de ingeniería\n```\n\nY las palancas, en orden de rendimiento:\n\n```text\n1  ELIMINAR TRABAJO QUE NO HACE FALTA\n   sondeos que podrían ser eventos            clase 210\n   reintentos excesivos                       clase 201\n   datos que se copian tres veces\n   registros que nadie consulta y se guardan 400 días\n   entornos de ensayo encendidos de noche\n   → aquí suele estar el mayor rendimiento y nadie lo mira\n\n2  CAMBIAR LA FORMA DE LOS DATOS\n   formato columnar, partición, compresión   clase 243\n   → factores de 5 a 50 en analítica\n\n3  MOVER TRABAJO A DONDE ES BARATO\n   lotes en horas valle, capacidad interrumpible\n   caché en el borde                          clase 207\n\n4  AJUSTAR TAMAÑOS\n   → efecto real y limitado\n\n5  COMPROMISOS Y DESCUENTOS\n   → palanca financiera; se aplica AL FINAL\n   → comprometerse sobre una arquitectura mala congela\n     la arquitectura mala\n```"
+    },
+    {
+      "heading": "El modo de fracaso: medirse por el ahorro",
+      "body": "Es el modo de fracaso más sutil, porque la métrica equivocada parece la correcta.\n\n```text\nSI LA RUTA SE MIDE POR «AHORRO CONSEGUIDO»\n  el incentivo es dejar que el gasto crezca para poder\n  recortarlo\n  el trabajo de prevención no cuenta, porque no genera\n  ahorro\n  y cuando ya no queda nada obvio que recortar, la\n  función parece agotada\n\n→ y la mayor parte del valor está justo en lo que esa\n  métrica no ve\n```\n\nY qué es el coste evitado y cómo se cuenta:\n\n```text\nCOSTE EVITADO\n  el diseño se cambió antes de construir y el gasto nunca\n  existió\n\n  ejemplos medibles\n    se eligió partición por fecha en vez de exploración\n    completa\n      → el mismo informe cuesta 12 USD en vez de 340\n    se sustituyó un sondeo por eventos antes de lanzar\n      → 22 % menos peticiones, que nunca se facturaron\n    se descartó la réplica activa entre regiones porque\n      el objetivo de recuperación no la necesitaba\n      → 112.000 USD/mes que no se gastaron\n\n  cómo se registra\n    en el momento de la decisión, con la alternativa\n    descartada y su coste estimado\n    → y firmado por quien decide\n    → si se apunta después, nadie se lo cree\n```\n\nY las métricas correctas de la ruta:\n\n```text\ncoste por unidad de negocio, y su tendencia\n% del coste atribuido\n% de decisiones de diseño con coste estimado ANTES\ncoste evitado registrado, con la alternativa\nprecisión de la previsión mensual\n  → y esta última importa más de lo que parece: sin\n    previsión fiable, finanzas no confía en el resto\ny recursos sin dueño y sin uso\n\n→ ninguna de estas es «ahorro conseguido»\n→ y el ahorro aparece igual, como consecuencia\n```\n\nY el segundo modo de fracaso, el del panel:\n\n```text\nPANELES DE COSTE QUE NADIE MIRA\n  se monta la visibilidad y ahí se queda\n  → porque ver el coste no cambia nada si no llega a quien\n    decide, cuando decide\n\nLO QUE SÍ FUNCIONA\n  el coste estimado en la propuesta de cambio\n    → antes de aprobar, no en el informe mensual\n  alertas de anomalía por servicio, con dueño\n  y una revisión periódica corta, con acciones\n\n→ el coste tiene que aparecer donde se toma la decisión\n→ que es exactamente el mismo principio del camino\n  pavimentado                              clases 267, 269\n```"
+    },
+    {
+      "heading": "Niveles, evidencia y techo",
+      "body": "Qué se espera por nivel en esta ruta.\n\n```text\nNIVEL 2 · RESUELVO\n  monta visibilidad y atribución con etiquetas\n  encuentra desperdicio y lo elimina\n  entiende el modelo de precios de lo que usa\n  y explica una factura línea a línea\n\nNIVEL 3 · DISEÑO\n  define la unidad económica con negocio\n  estima el coste de una arquitectura ANTES de construirla\n  negocia compromisos con datos de uso real\n  decide entre alternativas con coste, riesgo y\n  rendimiento juntos\n  y dice que una optimización no compensa\n\nNIVEL 4 · CAMBIO EL SISTEMA\n  el coste aparece en el momento de la decisión, siempre\n  los equipos estiman su coste sin que se lo pidan\n  y la conversación con negocio es sobre unidad económica,\n  no sobre factura\n```\n\nY la evidencia que vale:\n\n```text\nLO QUE NO VALE\n  «ahorramos un 30 %»\n  → sin decir de qué base ni si el sistema creció\n\nLO QUE VALE\n  «el coste por pedido pasó de 0,41 a 0,17 mientras los\n   pedidos crecían un 34 %»\n  «el 96 % del coste está atribuido y lo no atribuido baja\n   cada mes»\n  «registramos 340.000 USD/año de coste evitado, con la\n   alternativa y quien la descartó»\n  «la previsión mensual falla menos del 4 %»\n\n→ efecto, mecanismo y cifra                clase 275\n```\n\nY el techo:\n\n```text\nEL TECHO\n  el coste está atribuido, la unidad baja y las decisiones\n  llevan cifra\n  → y lo que limita entonces es la arquitectura o la\n    estrategia de producto\n\ncontinuaciones\n  a  ARQUITECTURA                            clase 272\n     si el gasto lo fija cómo está construido\n  b  producto o dirección financiera de tecnología\n     si la conversación pasa a ser de márgenes y precios\n  c  o plataforma                            clase 267\n     si lo que falta es que hacer lo barato sea lo fácil\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ distingo recortar factura de gestionar el coste\n☐ tengo unidad económica definida con negocio\n☐ miro su tendencia, no el coste absoluto\n☐ más del 95 % del coste está atribuido\n☐ quien recibe la atribución tiene palanca para cambiarla\n☐ el coste aparece en la propuesta de cambio, antes de\n  aprobar\n☐ registro coste evitado en el momento de decidir\n☐ no me mido por ahorro conseguido\n☐ ataco primero el trabajo innecesario, no los tamaños\n☐ los compromisos van al final, sobre arquitectura\n  estable\n☐ hay alertas de anomalía por servicio, con dueño\n☐ la previsión mensual es fiable\n```\n\nY el cierre que enlaza con la clase siguiente: quedan las dos rutas que trabajan sobre el material del que salen las decisiones. Datos e inteligencia artificial, con lo que la parte 20 dejó demostrado, es la materia de la clase 271."
+    }
+  ],
+  "worked_example": "**La función económica de CloudShop, dos años. Lo que sigue es la atribución que empezó en el 38 %, la unidad económica que cambió la conversación con dirección, y el registro de coste evitado que salvó la función cuando el ahorro obvio se agotó.**\n\n**Año 0 · El punto de partida.**\n\n```text\nfactura mensual                          341.000 USD\ncrecimiento interanual                        +41 %\ncoste atribuido a un equipo                    38 %\n\ny la conversación con dirección, cada trimestre\n  «la nube sube mucho»\n  «es que crecemos»\n  → sin datos que resolvieran la discusión\n```\n\nY el desglose de lo no atribuido, que fue el primer trabajo:\n\n```text                                    del total    del no atribuido\nrecursos sin etiqueta                      27 %              44 %\nservicios compartidos (red, registros)     19 %              31 %\ncuentas antiguas sin dueño                  9 %              15 %\nsuscripciones y licencias                   6 %              10 %\n                                          ─────\n                                           62 %\n```\n\nY cómo se atacó cada uno:\n\n```text\nsin etiqueta\n  etiqueta obligatoria en la creación         clase 253\n  y lo existente, por barrido con el inventario\n  → 27 % → 2 % en 5 meses\n\ncompartidos\n  red y registros repartidos por uso medido\n  plataforma, por número de servicios\n  → regla ACORDADA en una reunión de 40 minutos\n  → imperfecta y suficiente\n\ncuentas antiguas\n  9 cuentas sin dueño; 4 se apagaron enteras\n  → y no pasó nada, que era la sospecha\n\natribución total     38 % → 96 % en 7 meses\n```\n\n**La unidad económica y la conversación que cambió.**\n\n```text\nse eligió con negocio: COSTE POR PEDIDO COMPLETADO\n  y una segunda: coste por cliente activo mensual\n\nel histórico, reconstruido con 24 meses de datos\n\n           factura/mes   pedidos/mes   coste/pedido\n  mes -24     198.000       412.000          0,48\n  mes -18     241.000       506.000          0,48\n  mes -12     287.000       648.000          0,44\n  mes  -6     319.000       741.000          0,43\n  mes   0     341.000       832.000          0,41\n```\n\nY lo que esa tabla hizo con la discusión:\n\n```text\nla factura había subido un 72 % en dos años\ny el coste por pedido había bajado un 15 %\n\n→ dirección dejó de preguntar por la factura\n→ y empezó a preguntar por la tendencia de la unidad\n→ y la pregunta pasó a ser «¿cuánto más se puede bajar y\n  qué cuesta bajarlo?»\n```\n\n**Las palancas, por orden de rendimiento real.**\n\n```text\n1  TRABAJO QUE NO HACÍA FALTA\n   sondeo del estado del pedido desde el navegador\n     → eventos                              clase 210\n     -22 % de peticiones           -31.000 USD/mes\n   registros de acceso conservados 400 días\n     → 30 días en caliente, 13 meses en frío\n                                    -19.400 USD/mes\n   entornos de ensayo encendidos 24 horas\n     → apagado nocturno automático\n                                    -11.200 USD/mes\n   tres copias del mismo conjunto de datos en tres equipos\n     → un producto de datos con contrato    clase 241\n                                     -8.900 USD/mes\n\n   subtotal                          -70.500 USD/mes\n\n2  FORMA DE LOS DATOS\n   informes sobre ficheros de texto → columnar y\n   particionado                              clase 243\n     coste del informe diario  340 → 12 USD\n     y el conjunto de 41 informes\n                                    -37.800 USD/mes\n\n3  MOVER TRABAJO\n   reprocesos y entrenamientos a capacidad interrumpible\n                                    -14.100 USD/mes\n\n4  AJUSTE DE TAMAÑOS\n                                     -9.600 USD/mes\n\n5  COMPROMISOS, aplicados al final\n   sobre la base ya reducida y estable\n                                    -22.400 USD/mes\n```\n\nY la observación que el equipo destacó:\n\n```text\nel ajuste de tamaños —lo que casi todas las herramientas\nrecomiendan primero— fue la CUARTA palanca y aportó el\n6 % del total\n\ny el trabajo innecesario aportó el 45 %\n→ y no lo detecta ninguna herramienta de coste, porque\n  desde la factura ese gasto parece legítimo\n→ hace falta mirar el sistema, no la factura\n```\n\nY el error que estuvo a punto de cometerse:\n\n```text\nen el mes 2, finanzas propuso firmar compromisos a 3 años\nsobre el consumo de ese momento\n  descuento ofrecido                         -31 %\n\nse retrasó a después de las optimizaciones\n  consumo tras optimizar                     -46 %\n\n→ el compromiso sobre el consumo original habría\n  congelado una arquitectura que se iba a reducir a la\n  mitad\n→ y habría obligado a pagar capacidad no usada durante\n  3 años\n→ el descuento del 31 % sobre el doble de consumo es peor\n  que el 22 % sobre la mitad\n```\n\n**Año 2 · Cuando el ahorro obvio se agotó.**\n\n```text\nsituación\n  factura                        341.000 → 227.000 USD/mes\n  coste por pedido                    0,41 → 0,17\n  pedidos                          832.000 → 1.114.000\n\ny la pregunta de dirección\n  «¿qué más vais a ahorrar este año?»\n  → y la respuesta honesta era «poco»\n\n→ y aquí es donde la función suele desaparecer\n```\n\nY lo que la salvó: el registro de coste evitado.\n\n```text\ndurante 14 meses, cada decisión de arquitectura con\nimplicación de coste se había registrado con\n  la alternativa considerada\n  el coste estimado de cada una\n  y quién decidió\n\nlo acumulado en el año 2\n\n  decisión                        alternativa   evitado/año\n  objetivo de recuperación de\n    4 h en vez de activo-activo   2ª región     1.344.000\n  partición por fecha desde el\n    diseño del almacén            exploración\n                                  completa        394.000\n  eventos en vez de sondeo en el\n    servicio nuevo de envíos      sondeo           78.000\n  caché en el borde para el\n    catálogo                      más réplicas     61.000\n  retención de 30 días desde el\n    principio en el servicio de\n    recomendaciones               400 días         44.000\n  ... (11 decisiones más)                         218.000\n                                              ───────────\n                                                2.139.000\n```\n\nY cómo se presentó:\n\n```text\nno como «hemos ahorrado 2,1 millones»\n  → eso sería falso: ese gasto nunca existió\n\nsino así\n  «en 14 meses, 16 decisiones de arquitectura se tomaron\n  con la cifra delante. Las alternativas descartadas\n  habrían costado 2,1 M USD al año. Cada decisión está\n  registrada con quién la tomó.»\n\n→ y la función pasó de «los que recortan» a «los que\n  ponen la cifra antes de decidir»\n→ que es exactamente el cambio que define el nivel 4\n```\n\n**Las cifras a los dos años.**\n\n```text                                        antes     después\ncoste por pedido                            0,41        0,17\ncoste por cliente activo                    2,14        1,03\nfactura mensual                          341.000     227.000\npedidos mensuales                        832.000   1.114.000\n\ncoste atribuido                             38 %        96 %\nrecursos sin dueño                         1.107          12\ndecisiones de diseño con coste\n  estimado antes                             0 %        84 %\ncoste evitado registrado (año)                 -   2.139.000\nerror de la previsión mensual              21 %        3,4 %\n\nreuniones trimestrales sobre «por qué\n  sube la nube»                                4           0\n```\n\n**La lección que esta clase deja**: el ajuste de tamaños —lo primero que recomienda cualquier herramienta— aportó el **6 %** del resultado, y eliminar trabajo que no hacía falta aportó el **45 %**, porque desde la factura ese gasto parece legítimo y solo se ve mirando el sistema. Y cuando el ahorro obvio se agotó, lo que sostuvo la función no fue lo recortado sino **2,1 millones al año de alternativas descartadas**, registradas en el momento de decidir y con nombre de quien decidió.",
+  "pitfalls": [
+    {
+      "symptom": "El ahorro obvio se agota y la función parece innecesaria",
+      "cause": "Se midió por ahorro conseguido, que no ve el coste evitado",
+      "fix": "Registra cada decisión de diseño con su alternativa y coste estimado en el momento de decidir; ahí está la mayor parte del valor."
+    },
+    {
+      "symptom": "Se atribuye el coste a los equipos y nadie lo reduce",
+      "cause": "Se atribuyó sin dar palanca: el equipo no puede cambiar lo que le cuesta",
+      "fix": "Atribuye a quien puede decidir y acompaña la atribución con la capacidad de cambiarlo."
+    },
+    {
+      "symptom": "Se firman compromisos y luego sobra capacidad pagada",
+      "cause": "Se comprometió antes de optimizar, congelando la arquitectura que iba a cambiar",
+      "fix": "Aplica compromisos al final, sobre una base ya reducida y estable; el descuento sobre el doble de consumo es peor negocio."
+    },
+    {
+      "symptom": "Hay paneles de coste completos y el gasto sigue creciendo",
+      "cause": "El coste se ve en el informe mensual, no donde se toma la decisión",
+      "fix": "Pon el coste estimado en la propuesta de cambio antes de aprobarla y añade alertas de anomalía por servicio con dueño."
+    },
+    {
+      "symptom": "Las herramientas recomiendan ajustar tamaños y el efecto es pequeño",
+      "cause": "El desperdicio real es trabajo innecesario, que desde la factura parece legítimo",
+      "fix": "Empieza por sondeos, reintentos, copias duplicadas, retención excesiva y entornos encendidos; mira el sistema, no la factura."
+    },
+    {
+      "symptom": "Cada trimestre se discute por qué sube la nube",
+      "cause": "Se habla de factura absoluta en vez de coste por unidad de negocio",
+      "fix": "Define la unidad económica con negocio y presenta su tendencia; una factura creciente con unidad decreciente es una señal sana."
+    }
+  ],
+  "checks": [
+    "¿Qué diferencia recortar factura de gestionar el coste del sistema?",
+    "¿Por qué la factura es un mal punto de intervención?",
+    "¿Qué revela la unidad económica que el coste absoluto oculta?",
+    "¿Qué es el coste evitado y cómo se registra para que sea creíble?",
+    "¿Por qué medirse por el ahorro conseguido es un modo de fracaso?"
+  ],
+  "references": [
+    {
+      "text": "Storment, J. R. y Fuller, M. (2023). *Cloud FinOps*, 2.ª ed.",
+      "url": "https://www.oreilly.com/library/view/cloud-finops-2nd/9781492098348/"
+    },
+    {
+      "text": "FinOps Foundation (2024). *FinOps Framework: capabilities and maturity*.",
+      "url": "https://www.finops.org/framework/"
+    },
+    {
+      "text": "AWS (2024). *Cost Optimization Pillar, Well-Architected Framework*.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/welcome.html"
+    },
+    {
+      "text": "Microsoft (2024). *Azure Well-Architected Framework: cost optimization*.",
+      "url": "https://learn.microsoft.com/azure/well-architected/cost-optimization/"
+    },
+    {
+      "text": "Google Cloud (2024). *Cost management and FinOps best practices*.",
+      "url": "https://cloud.google.com/architecture/framework/cost-optimization"
+    }
+  ]
+}
