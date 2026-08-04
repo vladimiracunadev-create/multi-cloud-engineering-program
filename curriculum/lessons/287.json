@@ -1,0 +1,118 @@
+{
+  "id": "287",
+  "purpose": "Reunir el trabajo en un paquete de evidencia que alguien de fuera pueda evaluar sin explicaciones: qué se construyó, qué se comprobó, cuánto cuesta y qué riesgos quedan. La clase da la estructura del paquete, cómo se presentan costes que resistan una revisión financiera, y cómo se declaran los riesgos residuales de forma que sean creíbles y revisables.",
+  "outcomes": [
+    "**Estructurar** un paquete de evidencia que se evalúe sin acompañamiento.",
+    "**Presentar** costes con base, supuestos y rango, no con una cifra.",
+    "**Declarar** riesgos residuales con dueño, vigencia y condición de revisión.",
+    "**Distinguir** lo comprobado de lo supuesto en cada afirmación.",
+    "**Adaptar** el mismo paquete a ingeniería, a negocio y a auditoría."
+  ],
+  "concepts": [
+    {
+      "term": "paquete de evidencia",
+      "definition": "Conjunto de documentos que permite a un tercero evaluar un sistema sin que nadie se lo explique."
+    },
+    {
+      "term": "afirmación con respaldo",
+      "definition": "La que enlaza a la prueba que la sostiene. Sin enlace, es una conjetura."
+    },
+    {
+      "term": "riesgo residual",
+      "definition": "El que se acepta conscientemente, con dueño, motivo, vigencia y condición de revisión."
+    },
+    {
+      "term": "supuesto declarado",
+      "definition": "Lo que se da por cierto sin haberlo comprobado. Se escribe, no se esconde."
+    },
+    {
+      "term": "coste con rango",
+      "definition": "Estimación con banda y con los factores que la mueven, en vez de un número único."
+    },
+    {
+      "term": "trazabilidad",
+      "definition": "Que cada cifra del paquete se pueda seguir hasta su origen."
+    }
+  ],
+  "diagram": "flowchart TB\n    P[\"PAQUETE\"] --> S1[\"1 · QUÉ ES\\nalcance y decisiones\"]\n    P --> S2[\"2 · QUÉ SE COMPROBÓ\\npruebas con resultado\"]\n    P --> S3[\"3 · QUÉ CUESTA\\nbase · supuestos · rango\"]\n    P --> S4[\"4 · QUÉ RIESGOS QUEDAN\\naceptados y abiertos\"]\n    P --> S5[\"5 · QUÉ NO SE PROBÓ\\nsupuestos declarados\"]\n    P --> S6[\"6 · QUÉ SIGUE\\nplan con dueños\"]\n    S2 --> E[\"cada afirmación\\ncon su enlace\"]\n    S4 --> V[\"vigencia y\\ncondición de revisión\"]\n    S3 --> T[\"trazabilidad\\nhasta el origen\"]",
+  "foundations": [
+    {
+      "heading": "La estructura del paquete",
+      "body": "El criterio: alguien competente que no ha participado debe poder evaluarlo **sin preguntar nada**.\n\n```text\n1  QUÉ ES\n   el alcance, en una página\n   el diagrama por recorrido, no por servicio\n   y las decisiones importantes con sus alternativas\n                                            clase 272\n   → y las decisiones van aquí, no en un anexo\n\n2  QUÉ SE COMPROBÓ\n   cada prueba negativa con su resultado y su fecha\n   → incluidas las que fallaron y qué se hizo\n   → y esta sección es la que da credibilidad al resto\n\n3  QUÉ CUESTA\n   coste actual, coste proyectado, unidad económica\n   y los supuestos que lo mueven\n\n4  QUÉ RIESGOS QUEDAN\n   aceptados, con dueño y vigencia\n   y abiertos, con plan\n\n5  QUÉ NO SE PROBÓ\n   los supuestos declarados\n   → y esta sección, que casi nadie escribe, es la que\n     más confianza genera\n\n6  QUÉ SIGUE\n   plan con dueños, plazos y criterios de cierre\n```\n\nY las reglas que hacen creíble el paquete:\n\n```text\nCADA AFIRMACIÓN CON SU RESPALDO\n  «la restauración tarda 52 minutos» → enlace al acta del\n  14 de marzo\n  → sin enlace, se marca como estimación\n\nSE DISTINGUE COMPROBADO DE SUPUESTO\n  y se marca visualmente\n  → «comprobado el 14/3» frente a «estimado a partir de\n    la prueba de carga de febrero»\n\nLO QUE FALLÓ SE CUENTA\n  → un paquete donde todo salió bien no se cree, y con\n    razón\n  → y este programa lleva 288 clases demostrándolo\n\nY CABE EN LO QUE SE PUEDE LEER\n  20-30 páginas, con anexos aparte\n  → un paquete de 200 páginas no se evalúa: se hojea\n```"
+    },
+    {
+      "heading": "Costes que resisten una revisión",
+      "body": "La sección donde más paquetes pierden credibilidad, por presentar certeza donde hay estimación.\n\n```text\nLO QUE NO FUNCIONA\n  «costará 41.000 USD al mes»\n  → un número sin base ni supuestos\n  → y la primera pregunta de finanzas lo desmonta\n\nLO QUE FUNCIONA\n  COSTE ACTUAL, medido y trazable\n    por componente, con la fuente\n  COSTE PROYECTADO, con rango\n    «entre 34.000 y 58.000 según el volumen; el factor\n    dominante es el tráfico entre zonas, que representa\n    el 31 %»\n  SUPUESTOS EXPLÍCITOS\n    volumen, crecimiento, retención, número de clientes\n  SENSIBILIDAD\n    «si el volumen se duplica, el coste sube un 60 %, no\n    un 100 %, porque el almacenamiento no crece igual»\n  UNIDAD ECONÓMICA\n    coste por pedido, por cliente o por hora vista\n                                            clase 270\n  Y COSTE EVITADO\n    las alternativas descartadas y lo que habrían costado\n```\n\nY los errores que se detectan de inmediato en una revisión financiera:\n\n```text\n1  no incluir el coste de las personas\n   → la operación de un sistema cuesta personas, y eso se\n     cuenta                                    ley 23\n2  no incluir transferencia de datos\n   → suele ser el componente que más sorprende\n3  usar precios de lista sin descuentos aplicables\n   o al revés, contar descuentos que no están firmados\n4  ignorar el coste de los entornos que no son producción\n   → suelen ser entre el 20 % y el 40 %\n5  no decir qué pasa si los supuestos fallan\n6  y presentar el ahorro sin la base\n   → «ahorramos un 30 %» sin decir de qué ni si el\n     sistema creció                          clase 270\n```\n\nY el formato que funciona con negocio:\n\n```text\nuna tabla con tres columnas\n  qué se consigue · qué cuesta · qué riesgo se evita o se\n  asume\n\ny la comparación con la alternativa\n  → siempre, incluso con la de no hacer nada\n  → porque decidir sin alternativa no es decidir\n                                            clase 272\n```"
+    },
+    {
+      "heading": "Riesgos residuales y supuestos",
+      "body": "La sección que distingue un paquete profesional de una presentación comercial.\n\n```text\nUN RIESGO RESIDUAL BIEN ESCRITO\n  QUÉ ES          en una frase, sin jerga\n  QUÉ PASARÍA     impacto concreto, con cifra si se puede\n  PROBABILIDAD    y en qué se basa esa apreciación\n  POR QUÉ SE ACEPTA  coste o plazo de mitigarlo\n  QUIÉN LO ACEPTA nombre, no un equipo\n  VIGENCIA        hasta cuándo\n  Y CONDICIÓN DE REVISIÓN\n                  qué cambio lo invalida\n\n→ las dos últimas son las que evitan que un riesgo\n  aceptado se convierta en un riesgo olvidado\n→ y son las que casi nunca se escriben\n```\n\nY la sección de supuestos, que genera más confianza que ninguna otra:\n\n```text\nQUÉ VA AQUÍ\n  lo que damos por cierto y no hemos comprobado\n  las pruebas que no hemos hecho y por qué\n  las cifras estimadas y su origen\n  y las dependencias de terceros que no controlamos\n\nEJEMPLOS REALES DE ESTE PROGRAMA\n  «la conmutación de región se ha ensayado con 4\n   instancias, no con carga completa; es nuestro mayor\n   riesgo abierto»                          clase 276\n  «la proyección de temporada alta asume un crecimiento\n   del 34 %; el año pasado la campaña la superó por 1,88\n   veces y el plan aguantó por el vertido de carga, no\n   por la proyección»                       clase 262\n  «suponemos que el proveedor de pagos mantiene su tasa\n   de aprobación; no tenemos forma de verificarlo»\n\n→ quien escribe esto se hace más creíble, no menos\n→ y quien evalúa deja de buscar lo que se esconde\n```\n\nY las tres audiencias, con el mismo contenido:\n\n```text\nINGENIERÍA\n  mecanismos, compromisos y pruebas\n  → y las secciones 2 y 5 son las que leen\n\nNEGOCIO\n  qué se consigue, qué cuesta, qué riesgo se asume\n  → y la tabla de tres columnas\n  → y la unidad económica, no la factura\n\nAUDITORÍA O CLIENTE\n  evidencia con fecha, trazabilidad y riesgos declarados\n  → y la sección 2 con enlaces a las actas\n\n→ el mismo paquete, distinto punto de entrada\n→ y las cifras deben coincidir en las tres lecturas\n  → si no coinciden, alguien lo notará\n```"
+    },
+    {
+      "heading": "Errores que descartan un paquete",
+      "body": "Lo que hace que un evaluador deje de confiar, en orden de gravedad.\n\n```text\n1  UNA CIFRA QUE NO CUADRA CON OTRA DEL MISMO PAQUETE\n   → y a partir de ahí se desconfía de todas\n   → por eso la trazabilidad importa: cada cifra con su\n     origen\n\n2  NINGÚN FALLO\n   → nadie construye algo sin que falle nada\n   → y el evaluador asume que se ha ocultado\n\n3  CERTEZA DONDE HAY ESTIMACIÓN\n   «costará exactamente X» o «la disponibilidad será del\n   99,99 %»\n   → sin decir con qué base\n\n4  NO DECIR LO QUE EMPEORA\n   → el error 2 de la clase 272, en formato escrito\n\n5  RIESGOS SIN DUEÑO\n   «se mitigará en el futuro»\n   → sin nombre ni fecha, no es un plan\n\n6  Y EVIDENCIA SIN FECHA\n   «la restauración tarda 52 minutos»\n   → ¿medido cuándo? si fue hace 14 meses, no vale\n                                                ley 22\n```\n\nY lo que un evaluador experimentado comprueba primero:\n\n```text\n  busca la sección de lo que no funcionó\n    → si no existe, ya sabe qué clase de documento es\n  coge una cifra al azar y pide su origen\n  mira la fecha de la evidencia más antigua\n  busca un riesgo aceptado y comprueba si tiene vigencia\n  y pregunta por lo que NO está en el diagrama    ley 24\n\n→ cinco comprobaciones en diez minutos\n→ y deciden cómo se lee el resto\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ el paquete se puede evaluar sin que nadie lo explique\n☐ cabe en 20-30 páginas, con anexos aparte\n☐ las decisiones están en el cuerpo, no en un anexo\n☐ cada afirmación enlaza a su respaldo\n☐ se distingue lo comprobado de lo estimado, con fecha\n☐ hay una sección de lo que falló y qué se hizo\n☐ hay una sección de lo que NO se probó\n☐ los costes llevan base, supuestos, rango y sensibilidad\n☐ se incluyen personas, transferencia y entornos no\n  productivos\n☐ hay unidad económica y coste evitado\n☐ cada riesgo aceptado tiene dueño, vigencia y condición\n☐ las cifras cuadran entre secciones y son trazables\n☐ y el plan tiene dueños con nombre y criterios de cierre\n```\n\nY el cierre que enlaza con la clase siguiente: con el paquete escrito, queda defenderlo y cerrar el programa: corregir la última hipótesis, revisar las leyes acumuladas y escribir el plan de los doce meses siguientes. Es la clase 288, y cierra las 288."
+    }
+  ],
+  "worked_example": "**El paquete de evidencia de CloudShop, presentado a un cliente corporativo en una evaluación de proveedor. Lo que sigue es su estructura real, la sección que el evaluador leyó primero, y las dos cifras que no cuadraban.**\n\n**La estructura entregada.**\n\n```text\npáginas del cuerpo                              26\nanexos                                          9 documentos\nactas de pruebas enlazadas                      31\n\n  1  Qué es                                      4 pág\n     alcance, diagrama por recorrido y 11 decisiones\n     con alternativas\n  2  Qué se comprobó                             9 pág\n     47 pruebas negativas con resultado y fecha\n  3  Qué cuesta                                  5 pág\n  4  Qué riesgos quedan                          4 pág\n  5  Qué no se probó                             2 pág\n  6  Qué sigue                                   2 pág\n```\n\nY lo que el evaluador hizo en los primeros diez minutos:\n\n```text\n1  buscó la sección 5 («qué no se probó»)\n   → existía; leyó los 6 supuestos declarados\n   → comentario posterior: «esa sección decidió que me\n     tomara en serio el resto»\n\n2  cogió una cifra al azar\n   → «restauración de la base de pedidos: 52 minutos»\n   → pidió el origen\n   → acta del 14 de marzo, con hora de inicio, hora de\n     fin, volumen restaurado y quién lo ejecutó\n\n3  miró la fecha de la evidencia más antigua\n   → 11 meses (el ensayo de conmutación de región)\n   → y estaba marcada como tal, con la fecha del siguiente\n     ensayo ya fijada\n\n4  buscó un riesgo aceptado\n   → los 7 tenían dueño con nombre, vigencia y condición\n\n5  preguntó qué no estaba en el diagrama\n   → y aquí encontró algo\n```\n\n**Lo que el evaluador encontró.**\n\n```text\nHALLAZGO 1 · una dependencia fuera del diagrama\n  el servicio de verificación de dirección postal, de un\n  tercero\n  → no aparecía en el diagrama por recorrido\n  → y estaba en el camino crítico de la compra\n\n  la pregunta      «¿qué pasa si no responde?»\n  la respuesta     «se degrada; el pedido se acepta sin\n                   verificar»\n  la repregunta    «¿lo habéis probado?»\n  la respuesta     «no»\n\n  → se añadió al diagrama, se probó dos días después\n  → resultado: con el servicio lento (no caído), el flujo\n    de compra se degradaba a 2.900 ms         ley 24\n  → y pasó a la sección 5 mientras se corregía\n\nHALLAZGO 2 · dos cifras que no cuadraban\n  sección 3: «coste mensual 227.000 USD»\n  sección 3, tabla por componente: la suma daba 219.400\n\n  la diferencia: 7.600 USD del entorno de ensayo, incluido\n  en el total y no desglosado\n  → error de presentación, no de fondo\n  → y aun así, el evaluador anotó: «revisar el resto de\n    cifras con más cuidado»\n\n  → y eso es exactamente lo que cuesta una cifra que no\n    cuadra\n```\n\n**La sección de costes, tal como se presentó.**\n\n```text\nCOSTE ACTUAL, medido, últimos 3 meses\n\n  componente                    USD/mes    fuente\n  cómputo                        71.400    facturación\n                                           por etiqueta\n  base de datos                  48.200    ídem\n  almacenamiento                 19.100    ídem\n  transferencia de datos         31.900    ídem\n  distribución de contenido      14.600    ídem\n  servicios gestionados          22.800    ídem\n  entornos no productivos        11.400    ídem\n  observabilidad                  7.600    ídem\n                                ───────\n  infraestructura               227.000\n\n  personas de plataforma (4)     41.000    coste interno\n                                ───────\n  total                         268.000\n```\n\nY la proyección con rango:\n\n```text\nsupuestos declarados\n  crecimiento de pedidos                     +34 % anual\n  crecimiento de catálogo                    +12 % anual\n  retención de datos                         sin cambios\n  y ningún mercado nuevo\n\nproyección a 12 meses\n  banda baja        291.000 USD/mes\n  banda central     318.000\n  banda alta        374.000\n\nfactores que la mueven, por orden\n  1  transferencia entre zonas         31 % de la\n                                       variación\n  2  volumen de pedidos                27 %\n  3  retención de registros            19 %\n  4  el resto                          23 %\n\nsensibilidad\n  si los pedidos se duplican, el coste sube un 61 %, no un\n  100 %: cómputo y transferencia escalan, almacenamiento y\n  servicios gestionados casi no\n\nunidad económica\n  coste por pedido    0,41 → 0,17 USD en 24 meses\n  con pedidos creciendo un 34 % anual\n\ncoste evitado registrado, 14 meses\n  16 decisiones con la alternativa descartada\n  total anualizado de las alternativas       2.139.000 USD\n```\n\nY el comentario del evaluador sobre esta sección:\n\n```text\n«es la primera vez en esta evaluación que veo una\nsensibilidad y una banda. Todos los demás me han dado un\nnúmero.»\n\n→ y pidió el detalle del punto 3 (retención de registros)\n→ que llevó a una conversación técnica de 40 minutos\n→ y a una acción: bajar la retención en caliente de 90 a\n  30 días, -19.400 USD/mes\n```\n\n**Los siete riesgos residuales.**\n\n```text\nejemplo del que más se discutió\n\n  QUÉ ES\n    la conmutación de región se ha ensayado con 4\n    instancias; nunca con carga completa\n  QUÉ PASARÍA\n    en una caída real de región, el tiempo de conmutación\n    podría superar el objetivo de 30 minutos; estimamos\n    entre 30 y 90\n  PROBABILIDAD\n    caída de región completa: no ha ocurrido en 4 años en\n    esta región según el histórico del proveedor\n  POR QUÉ SE ACEPTA\n    el ensayo con carga completa requiere duplicar\n    capacidad durante 6 horas: 14.000 USD y una ventana\n    coordinada con negocio\n  QUIÉN LO ACEPTA\n    el responsable de plataforma, con conocimiento del\n    director de tecnología\n  VIGENCIA\n    hasta el 30 de noviembre\n  CONDICIÓN DE REVISIÓN\n    antes de la temporada alta, o si un cliente exige\n    contractualmente el objetivo de 30 minutos\n\n→ el cliente exigía ese objetivo contractualmente\n→ la condición se activó en la propia reunión\n→ el ensayo se hizo 5 semanas después: 22 minutos con\n  carga completa\n```\n\nY lo que el cliente dijo al respecto:\n\n```text\n«que lo tuvierais escrito como riesgo abierto, con el\ncoste de cerrarlo y la condición exacta que lo activa, es\nlo que hizo que confiara en el resto del documento. Si me\nhubierais dicho que la conmutación estaba probada, lo\nhabría comprobado y os habría pillado.»\n```\n\n**Las tres versiones del paquete.**\n\n```text\nel mismo contenido, tres puntos de entrada\n\nINGENIERÍA\n  entra por la sección 2 (qué se comprobó)\n  lee las 47 pruebas y los 6 supuestos\n  → 45 minutos de lectura\n\nNEGOCIO\n  entra por una tabla de 1 página\n    qué se consigue · qué cuesta · qué riesgo\n  → 10 minutos\n  → y la unidad económica, no la factura\n\nAUDITORÍA\n  entra por el índice de actas con fechas\n  → y de ahí a las pruebas que le interesan\n\ny la comprobación que se hizo antes de entregar\n  las cifras de las tres vistas se cotejaron entre sí\n  → y ahí se encontró la discrepancia de 7.600 USD\n  → tarde: ya estaba impreso\n```\n\n**El resultado.**\n\n```text\nevaluación de proveedor, 4 candidatos\n  CloudShop quedó primero\n\ny lo que el comité escribió\n  «único candidato que declaró lo que no había probado»\n  «único que presentó rango y sensibilidad de coste»\n  «los riesgos aceptados tenían fecha de caducidad»\n  y «una discrepancia menor en la tabla de costes, ya\n   aclarada»\n\n→ los tres primeros puntos eran secciones que los otros\n  candidatos no tenían\n→ y el cuarto costó una explicación que no debería haber\n  hecho falta\n```\n\n**La lección que esta clase deja**: el evaluador leyó primero la sección de **lo que no se había probado**, y fue la que le hizo tomarse en serio el resto; el riesgo declarado con su coste de cierre y su condición de activación fue lo que generó confianza, no la lista de logros. Y una discrepancia de **7.600 USD** entre el total y la suma de componentes —un error de presentación, no de fondo— bastó para que el evaluador anotara que revisaría el resto de cifras con más cuidado.",
+  "pitfalls": [
+    {
+      "symptom": "El paquete necesita que alguien lo explique para entenderse",
+      "cause": "Está escrito para quien ya conoce el sistema",
+      "fix": "Escríbelo para un evaluador competente que no participó: alcance, diagrama por recorrido y decisiones en el cuerpo, no en anexos."
+    },
+    {
+      "symptom": "El evaluador desconfía de todas las cifras tras encontrar una",
+      "cause": "Una cifra no cuadra con otra del mismo documento",
+      "fix": "Coteja las cifras entre secciones y vistas antes de entregar, y haz que cada una sea trazable hasta su origen."
+    },
+    {
+      "symptom": "La sección de costes se desmonta con la primera pregunta",
+      "cause": "Se presentó un número único sin base, supuestos ni rango",
+      "fix": "Da coste actual medido, proyección con banda, supuestos, factores dominantes y sensibilidad; incluye personas, transferencia y entornos no productivos."
+    },
+    {
+      "symptom": "El paquete parece demasiado bueno y genera desconfianza",
+      "cause": "No cuenta ningún fallo ni ningún supuesto sin comprobar",
+      "fix": "Incluye una sección de lo que falló y otra de lo que no se probó; ambas aumentan la credibilidad del resto."
+    },
+    {
+      "symptom": "Un riesgo aceptado hace tiempo ya no debería aceptarse y nadie lo revisó",
+      "cause": "Se aceptó sin vigencia ni condición de revisión",
+      "fix": "Cada riesgo residual con dueño con nombre, vigencia y la condición concreta que lo invalida."
+    },
+    {
+      "symptom": "La evidencia existe pero no convence",
+      "cause": "No tiene fecha, o la más reciente es de hace más de un año",
+      "fix": "Fecha cada prueba y marca la evidencia antigua como tal, con la fecha de la siguiente ejecución ya fijada."
+    }
+  ],
+  "checks": [
+    "¿Qué seis secciones tiene el paquete y cuál genera más confianza?",
+    "¿Qué hace que una sección de costes resista una revisión financiera?",
+    "¿Qué siete elementos tiene un riesgo residual bien escrito?",
+    "¿Qué comprueba primero un evaluador experimentado?",
+    "¿Por qué contar lo que falló aumenta la credibilidad del paquete?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2024). *Well-Architected Framework: documenting review outcomes*.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html"
+    },
+    {
+      "text": "Nygard, M. (2011). *Documenting architecture decisions*.",
+      "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions"
+    },
+    {
+      "text": "ISO/IEC (2022). *ISO 31000: gestión del riesgo — riesgo residual y aceptación*.",
+      "url": "https://www.iso.org/iso-31000-risk-management.html"
+    },
+    {
+      "text": "FinOps Foundation (2024). *Forecasting and unit economics*.",
+      "url": "https://www.finops.org/framework/capabilities/forecasting/"
+    },
+    {
+      "text": "Tufte, E. (2006). *Beautiful Evidence* — presentación de evidencia y trazabilidad.",
+      "url": "https://www.edwardtufte.com/tufte/books_be"
+    }
+  ]
+}
