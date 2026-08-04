@@ -1,0 +1,118 @@
+{
+  "id": "278",
+  "purpose": "Capstone financiero: pagos, auditoría y recuperación. La clase da el encargo, la restricción que manda en este sector —**hay que poder demostrar ante un tercero qué ocurrió, y el dinero no se puede perder ni duplicar**—, las decisiones que de ahí se derivan, y las pruebas negativas que un auditor y un incidente real ejecutan de verdad.",
+  "outcomes": [
+    "**Identificar** la restricción dominante del sector financiero.",
+    "**Diseñar** un flujo de pago idempotente y reconciliable.",
+    "**Construir** un rastro de auditoría que sirva como prueba.",
+    "**Definir** objetivos de recuperación que la normativa exige y probarlos.",
+    "**Verificar** el diseño con las pruebas negativas del sector."
+  ],
+  "concepts": [
+    {
+      "term": "libro mayor de eventos",
+      "definition": "Registro inmutable y ordenado de lo que ocurrió. El saldo es un cálculo, no un dato que se edita."
+    },
+    {
+      "term": "partida doble",
+      "definition": "Todo movimiento tiene origen y destino. Hace que el descuadre sea detectable por construcción."
+    },
+    {
+      "term": "reconciliación",
+      "definition": "Comparar lo propio con lo del tercero. En pagos, la verdad está fuera."
+    },
+    {
+      "term": "idempotencia de cobro",
+      "definition": "Reintentar un pago no cobra dos veces. Requisito absoluto, no deseable."
+    },
+    {
+      "term": "rastro de auditoría",
+      "definition": "Registro que permite reconstruir quién hizo qué, cuándo y con qué autorización, ante un tercero."
+    },
+    {
+      "term": "objetivo de recuperación regulado",
+      "definition": "Tiempo y pérdida de datos máximos exigidos por la norma, no elegidos por ingeniería."
+    }
+  ],
+  "diagram": "flowchart TB\n    S[\"solicitud\\nde pago\"] --> I{\"clave de\\nidempotencia\"}\n    I -->|\"ya vista\"| R[\"devuelve el\\nmismo resultado\"]\n    I -->|\"nueva\"| L[\"escribe INTENTO\\nen el libro\"]\n    L --> P[\"pasarela\"]\n    P --> E{\"respuesta\"}\n    E -->|\"éxito\"| L2[\"escribe COBRADO\"]\n    E -->|\"fallo\"| L3[\"escribe RECHAZADO\"]\n    E -->|\"sin respuesta\"| L4[\"escribe INCIERTO\"]\n    L4 --> C[\"CONSULTA de estado\\nreintentos con retroceso\"]\n    C --> L2\n    L2 --> RC[\"RECONCILIACIÓN\\ndiaria con el tercero\"]\n    L3 --> RC\n    RC --> D[\"descuadres\\ncon dueño y plazo\"]\n    A[\"rastro de\\nauditoría\"] -.-> L\n    A -.-> L2",
+  "foundations": [
+    {
+      "heading": "El encargo y la restricción que manda",
+      "body": "**El encargo.** El brazo de pagos de CloudShop: cobros con tarjeta y transferencia en tres mercados, monedero de cliente con saldo, devoluciones y liquidación diaria a comerciantes. Sujeto a auditoría externa anual y a requisitos de continuidad del regulador.\n\n```text\nCIFRAS DE PARTIDA\n  transacciones/día                        41.000\n  importe medio                            68 USD\n  monederos de cliente con saldo           340.000\n  comerciantes a liquidar                  1.900\n  pasarelas integradas                     3\n  auditoría externa                        anual, con\n                                           muestreo\n  y el requisito del regulador\n    recuperación                           < 2 horas\n    pérdida de datos admisible             0\n```\n\nY la restricción que manda, que es doble y no técnica:\n\n```text\n1  HAY QUE PODER DEMOSTRARLO ANTE UN TERCERO\n   no basta con que el sistema sea correcto\n   → hay que poder reconstruir, meses después, qué pasó\n     con una transacción concreta, quién la autorizó y con\n     qué datos\n   → y con evidencia que el auditor acepte: inmutable,\n     completa y con tiempo fiable\n\n2  EL DINERO NO SE PIERDE NI SE DUPLICA\n   perder un pedido se compensa; perder un cobro, no\n   → y cobrar dos veces cuesta más que no cobrar: genera\n     reclamación, coste de gestión y daño de marca\n\n→ y de estas dos salen casi todas las decisiones del\n  capstone\n→ nótese que ninguna es un requisito de rendimiento\n```\n\nY la consecuencia que ordena el diseño:\n\n```text\nEL SALDO NO ES UN DATO: ES UN CÁLCULO\n  no se guarda «saldo = 412,30» y se actualiza\n  se guardan los MOVIMIENTOS y el saldo se deriva\n\n  por qué\n    un saldo editado no tiene historia y no se puede\n    auditar\n    y una escritura perdida deja el saldo mal para siempre\n    sin dejar rastro                          ley 29\n\n  y qué se hace por rendimiento\n    saldos materializados con la posición del último\n    movimiento aplicado\n    → y recalculables desde el origen en cualquier momento\n    → esa recalculabilidad es lo que se enseña al auditor\n```\n\nY la segunda pieza estructural:\n\n```text\nPARTIDA DOBLE\n  todo movimiento tiene origen y destino, y la suma\n  cuadra\n  → un descuadre se detecta por construcción, no por\n    casualidad\n  → y la comprobación «la suma de todos los saldos es\n    igual a la suma de todas las entradas menos las\n    salidas» se ejecuta cada hora\n\n→ es la comprobación de calidad más barata y más potente\n  de todo el capstone                        clase 243\n```"
+    },
+    {
+      "heading": "El flujo de pago: idempotencia e incertidumbre",
+      "body": "El problema central de pagos no es el éxito ni el fallo: es **no saber**.\n\n```text\nLOS TRES RESULTADOS POSIBLES\n  éxito       cobrado\n  fallo       rechazado\n  y el tercero, que es el importante\n  SIN RESPUESTA\n    la pasarela no contestó, o contestó tarde, o la red\n    se cortó\n    → puede haber cobrado o no\n    → y reintentar sin más puede cobrar dos veces\n\n→ un sistema de pagos se juzga por cómo trata el tercer\n  caso                                       clase 201\n```\n\nY el diseño que lo resuelve:\n\n```text\n1  CLAVE DE IDEMPOTENCIA\n   la genera el cliente, no el servidor\n   → misma clave, mismo resultado, siempre\n   → y se conserva al menos 90 días\n\n2  SE ESCRIBE ANTES DE LLAMAR\n   estado INTENTO en el libro, con la clave\n   → si el sistema muere entre escribir y llamar, al\n     recuperarse sabe que hay un intento en el aire\n\n3  EL ESTADO INCIERTO ES UN ESTADO DE PRIMERA CLASE\n   no un error\n   → y tiene su propio proceso: consultar a la pasarela\n     con reintentos y retroceso hasta resolverlo\n   → nunca se reintenta el COBRO: se consulta el ESTADO\n\n4  MÁQUINA DE ESTADOS EXPLÍCITA\n   intento → cobrado | rechazado | incierto\n   incierto → cobrado | rechazado\n   cobrado → devuelto (parcial o total)\n   → y las transiciones no permitidas se rechazan y se\n     alertan\n\n5  Y RECONCILIACIÓN DIARIA\n   porque la verdad está en el tercero, no en nosotros\n```\n\nY la reconciliación, que es la red de seguridad real:\n\n```text\nCADA DÍA, CONTRA CADA PASARELA\n  nuestras transacciones frente a las suyas\n  y se clasifican los descuadres\n    en nosotros y no en ellos    → posible cobro fantasma\n    en ellos y no en nosotros    → cobro no registrado:\n                                   el más grave\n    importes distintos           → error de conversión o\n                                   de comisión\n    estados distintos            → incierto sin resolver\n\n  cada descuadre con DUEÑO y PLAZO\n  y un panel con la antigüedad del descuadre más viejo\n\n→ un sistema de pagos sin reconciliación diaria no es un\n  sistema de pagos\n→ y el número que importa no es «cuántos descuadres»:\n  es «cuánto tarda en cerrarse el más viejo»\n```"
+    },
+    {
+      "heading": "Auditoría y recuperación",
+      "body": "Lo que distingue este sector de los demás: hay que probarlo ante alguien de fuera.\n\n```text\nQUÉ HACE ÚTIL UN RASTRO DE AUDITORÍA\n  INMUTABLE\n    escritura única; nadie con permisos de administrador\n    puede alterarlo ni borrarlo             clase 255\n  COMPLETO\n    quién, qué, cuándo, desde dónde, con qué autorización\n    y con qué valores antes y después\n  CON TIEMPO FIABLE\n    reloj sincronizado y desviación vigilada\n    → una discrepancia de relojes invalida una secuencia\n  ENLAZADO\n    la transacción, su intento, su reconciliación y su\n    liquidación, unidos por un identificador\n  Y CONSULTABLE\n    → un auditor pide «enséñame esta transacción de hace\n      14 meses»\n    → y si tarda tres días en salir, el control se\n      considera inefectivo\n\n→ y el error más común: guardar registros y no poder\n  RECONSTRUIR una transacción concreta\n```\n\nY el acceso a datos de pago, que también se audita:\n\n```text\nnadie accede a datos de tarjeta en claro\n  → tokenización desde el borde; el sistema propio nunca\n    los ve                                  clase 251\ntodo acceso a datos de cliente queda registrado con\n  motivo\nacceso de personas mediante elevación temporal\n                                            clase 256\ny separación de funciones: quien despliega no aprueba\n  liquidaciones\n```\n\nY la recuperación, que aquí no la elige ingeniería:\n\n```text\nEL REGULADOR EXIGE\n  recuperación < 2 horas\n  pérdida de datos admisible: 0\n\n→ y «0 de pérdida» cambia el diseño entero\n  replicación síncrona para el libro de movimientos\n  → con el coste de latencia que eso implica\n  y confirmación al cliente solo tras la escritura\n    replicada\n\n→ lo que NO exige cero pérdida\n  paneles, informes, catálogos de comerciantes\n  → y separarlo permite pagar la replicación síncrona solo\n    donde hace falta\n```\n\nY lo que la norma obliga a demostrar, no solo a tener:\n\n```text\nrestauración probada, con acta y con reloj\nconmutación ensayada, al menos anualmente  clase 261\nprocedimientos ejecutables y con fecha de última\n  ejecución                                 clase 259\ny registro de quién puede autorizar qué, revisado\n\n→ y aquí la ley 22 deja de ser una observación y pasa a\n  ser un hallazgo de auditoría\n```"
+    },
+    {
+      "heading": "Las pruebas negativas del capstone",
+      "body": "Lo que hay que ejecutar. Varias de estas las ejecuta un auditor tal cual.\n\n```text\nDE CORRECCIÓN DEL DINERO\n  ☐ enviar el mismo pago 5 veces con la misma clave:\n    ¿un solo cobro?\n  ☐ enviar el mismo pago con claves distintas: ¿se detecta\n    el duplicado por otro medio?\n  ☐ cortar la red justo tras llamar a la pasarela: ¿queda\n    en incierto y se resuelve solo?\n  ☐ dos devoluciones simultáneas de la misma transacción:\n    ¿una sola?\n  ☐ devolver más de lo cobrado: ¿se rechaza?\n  ☐ ¿la suma de saldos cuadra con los movimientos, ahora?\n  ☐ recalcular todos los saldos desde el origen: ¿coincide\n    con lo materializado?\n\nDE RECONCILIACIÓN\n  ☐ ¿cuántos descuadres abiertos hay y cuál es el más\n    viejo?\n  ☐ inyectar una transacción en la pasarela que no exista\n    en el sistema: ¿la detecta la reconciliación del día\n    siguiente?\n  ☐ ¿qué pasa si una pasarela envía el fichero con 6 horas\n    de retraso?\n\nDE AUDITORÍA\n  ☐ pedir la reconstrucción de una transacción de hace 14\n    meses: ¿cuánto se tarda?\n  ☐ intentar modificar un registro de auditoría con\n    permisos de administrador: ¿se puede?\n  ☐ ¿qué desviación tienen los relojes de los servicios?\n  ☐ ¿queda registrado quién consultó datos de un cliente\n    concreto y por qué?\n\nDE RECUPERACIÓN\n  ☐ restaurar el libro de movimientos: ¿cuánto tarda y\n    cuánto se pierde?\n  ☐ conmutar de región con carga: ¿se cumplen las 2 horas?\n  ☐ ¿la réplica síncrona está realmente síncrona? mátala y\n    comprueba\n  ☐ ¿las copias sobreviven a un administrador comprometido?\n\nDE OPERACIÓN Y ACCESO\n  ☐ ¿alguien puede ver datos de tarjeta en claro?\n  ☐ ¿quien despliega puede aprobar una liquidación?\n  ☐ ¿hay credenciales permanentes con acceso al libro?\n```\n\n**El entregable del capstone:**\n\n```text\n1  el modelo de datos del libro, con partida doble\n2  la máquina de estados del pago, con el estado incierto\n3  el diseño de reconciliación y su panel de antigüedad\n4  el rastro de auditoría y una reconstrucción de ejemplo\n5  el plan de continuidad con los números del regulador y\n   su prueba\n6  la matriz de separación de funciones\n7  el coste, incluido el de la replicación síncrona\n8  y el resultado de las pruebas negativas, con lo que\n   falló\n```\n\nY el cierre que enlaza con la clase siguiente: aquí el dato es dinero y hay que probar ante un tercero. En el siguiente sector el dato es una persona, el daño de una filtración no se compensa con dinero, y hay que compartirlo igualmente con otros. Salud, privacidad e interoperabilidad es la materia de la clase 279."
+    }
+  ],
+  "worked_example": "**El capstone resuelto. Lo que sigue es el estado incierto que apareció 41 veces al mes, la reconciliación que encontró 19 cobros no registrados, y la prueba de auditoría que suspendió la primera vez.**\n\n**El estado incierto, medido.**\n\n```text\ntransacciones/mes                          1.240.000\n  éxito directo                            1.238.900\n  rechazo                                        ...\n  SIN RESPUESTA de la pasarela                    41\n\n→ 41 de 1,24 millones parece despreciable\n→ y son 41 casos al mes de «puede que hayamos cobrado o\n  puede que no»\n\ny lo que pasaba antes del rediseño\n  el sistema reintentaba el cobro\n  → cobros duplicados detectados por reclamación   9/mes\n  → coste de gestión por reclamación         ~40 USD\n  → y 4 de esos 9 acababan en incidencia con el banco\n```\n\nY el rediseño:\n\n```text\nestado INCIERTO explícito, con su proceso\n  consulta de estado a la pasarela, con retroceso\n    a los 5 s, 15 s, 60 s, 5 min, 30 min, 2 h, 6 h\n  y nunca se reintenta el cobro\n\nresultado a los 6 meses\n  casos sin respuesta                        43/mes\n  resueltos automáticamente en < 5 min       38\n  resueltos en < 6 h                          4\n  escalados a persona                         1\n  COBROS DUPLICADOS                           0\n\n→ y el usuario ve «estamos confirmando tu pago» durante\n  esos segundos, en vez de un error que le invita a\n  reintentar\n→ ese texto, que parece cosmético, eliminó el 71 % de los\n  reintentos manuales del usuario\n```\n\n**La reconciliación, primer mes.**\n\n```text\nprimera ejecución contra las tres pasarelas, con 90 días\nde histórico\n\n  transacciones nuestras                    3.690.000\n  transacciones de las pasarelas            3.690.019\n\n  descuadres                                       61\n    en nosotros y no en ellos                      9\n      → intentos que nunca llegaron; sin impacto\n    EN ELLOS Y NO EN NOSOTROS                     19\n      → cobros reales no registrados\n      → importe total              12.400 USD\n      → antigüedad media           47 días\n    importes distintos                            28\n      → comisiones aplicadas distinto en\n        conversión de moneda\n    estados distintos                              5\n```\n\nY el análisis de los 19 graves:\n\n```text\n17 de los 19 venían del mismo escenario\n  el proceso moría entre recibir la respuesta de la\n  pasarela y escribir en el libro\n  → la pasarela había cobrado; nosotros no lo sabíamos\n  → y el cliente había recibido el cargo sin ver el pedido\n\n→ y ninguno había generado una alerta\n→ los 17 se conocieron por reclamación del cliente, uno a\n  uno, o no se conocieron                     ley 29\n\ncorrección estructural\n  escribir el INTENTO antes de llamar\n  → así el proceso de recuperación encuentra los intentos\n    en el aire al arrancar\n  y la reconciliación diaria como red final\n\nresultado a los 12 meses\n  descuadres del tipo «en ellos y no en nosotros»   0\n  descuadres totales por mes                       3-9\n  antigüedad del descuadre más viejo         < 26 horas\n```\n\nY la métrica que el equipo puso en el panel principal:\n\n```text\nno «número de descuadres»\nsino ANTIGÜEDAD DEL DESCUADRE MÁS VIEJO\n  → porque un descuadre nuevo es normal\n  → uno de 47 días es un fallo de proceso\n```\n\n**La prueba de auditoría, que suspendió.**\n\n```text\nsimulacro interno, antes de la auditoría real\n  el equipo de cumplimiento hizo de auditor\n\nPETICIÓN 1\n  «reconstruye esta transacción de hace 14 meses:\n  quién la inició, con qué datos, qué autorizó la\n  pasarela, cuándo se liquidó al comerciante y quién ha\n  consultado esos datos desde entonces»\n\n  resultado\n    la transacción                          9 minutos\n    la respuesta de la pasarela             2 días\n      → estaba en registros archivados sin índice\n    la liquidación                          4 horas\n      → en otro sistema, sin identificador común\n    quién la consultó                       NO DISPONIBLE\n      → no se registraban las consultas de lectura\n\n  → SUSPENSO\n  → y el hallazgo «no se puede demostrar quién accedió a\n    los datos de un cliente» es de los que cierran una\n    auditoría en mal lugar\n```\n\nY las correcciones:\n\n```text\nidentificador de correlación único, presente en\n  transacción, respuesta de pasarela, liquidación y\n  registro de auditoría                    clase 211\nrespuestas de pasarela guardadas en almacén indexado y\n  consultable, 7 años, inmutable          clase 255\nregistro de LECTURAS de datos de cliente, con motivo\n  → y esto generó discusión: añade escrituras y volumen\n  → se resolvió registrando por sesión y por cliente\n    consultado, no por consulta\ny una consulta guardada que reconstruye una transacción\n  entera\n\nresultado del segundo simulacro\n  reconstrucción completa            4 minutos\n  quién la consultó                  disponible\n  → APROBADO\n\ny la auditoría real, 4 meses después\n  hallazgos                                 2, menores\n  hallazgos del año anterior                       11\n```\n\n**La continuidad exigida por el regulador.**\n\n```text\nexigencia   < 2 horas de recuperación, 0 de pérdida\n\ndiseño\n  libro de movimientos con replicación síncrona a una\n    segunda región\n  confirmación al cliente solo tras la escritura replicada\n  todo lo demás, asíncrono\n\ncoste de esa decisión\n  latencia añadida a la confirmación de pago    +34 ms\n  coste de la replicación síncrona     +19.000 USD/mes\n  → y aplicarla a todo el sistema habría costado 71.000\n\nla prueba, con reloj y con acta\n  conmutación completa con carga real\n    tiempo hasta servir tráfico              41 minutos\n    transacciones perdidas                            0\n    descuadres tras la conmutación                    0\n    → y el acta se entregó al auditor\n\ny el hallazgo del primer ensayo, 9 meses antes\n  la réplica «síncrona» estaba configurada como asíncrona\n  desde una migración\n  → se descubrió matándola: se perdieron 4 transacciones\n    en el ensayo\n  → en producción habrían sido reclamaciones sin\n    explicación                                 ley 15\n```\n\n**Las cifras finales del capstone.**\n\n```text                                        antes     después\ncobros duplicados                           9/mes           0\ncobros no registrados                    19/90 días         0\nantigüedad del descuadre más viejo        47 días      26 h\nreclamaciones por pago                    41/mes       6/mes\n\nreconstrucción de una transacción\n  antigua                                  2 días       4 min\nregistro de lecturas de datos de cliente      no          sí\nhallazgos de auditoría                        11           2\n\nconmutación de región probada, con acta       no      41 min\npérdida en la conmutación                    n/d           0\nreplicación síncrona verificada           no (era\n                                          asíncrona)      sí\n\ncoste mensual adicional por continuidad        -   19.000 USD\ncoste de las reclamaciones evitadas\n  (estimado)                                   -   16.800 USD\n```\n\n**La lección que este capstone deja**: 41 transacciones al mes sin respuesta parecen despreciables sobre 1,24 millones, y eran **9 cobros duplicados al mes** hasta que el estado incierto dejó de tratarse como un error y pasó a ser un estado con su propio proceso. Y la réplica que garantizaba **cero pérdida de datos ante el regulador llevaba meses configurada como asíncrona**: solo se supo al matarla en un ensayo.",
+  "pitfalls": [
+    {
+      "symptom": "Aparecen cobros duplicados en las reclamaciones de clientes",
+      "cause": "Se reintenta el cobro cuando la pasarela no responde",
+      "fix": "Trata la ausencia de respuesta como estado incierto de primera clase: nunca reintentes el cobro, consulta el estado con retroceso hasta resolverlo."
+    },
+    {
+      "symptom": "Hay cobros del banco que el sistema no tiene registrados",
+      "cause": "El proceso muere entre recibir la respuesta y escribir, y no hay reconciliación",
+      "fix": "Escribe el intento antes de llamar y reconcilia a diario contra el tercero; vigila la antigüedad del descuadre más viejo, no su número."
+    },
+    {
+      "symptom": "El auditor pide reconstruir una transacción antigua y se tarda días",
+      "cause": "Los registros existen en sistemas distintos sin identificador común ni índice",
+      "fix": "Usa un identificador de correlación en toda la cadena, guarda las respuestas del tercero en almacén indexado e inmutable y deja la consulta preparada."
+    },
+    {
+      "symptom": "No se puede demostrar quién consultó los datos de un cliente",
+      "cause": "Solo se registran escrituras, no lecturas",
+      "fix": "Registra los accesos de lectura con motivo, agregando por sesión y cliente consultado para que el volumen sea manejable."
+    },
+    {
+      "symptom": "El saldo de un cliente quedó mal y no hay forma de saber por qué",
+      "cause": "El saldo se guarda y se edita en vez de derivarse de los movimientos",
+      "fix": "Guarda movimientos con partida doble y materializa el saldo con la posición aplicada; comprueba cada hora que la suma cuadra."
+    },
+    {
+      "symptom": "La replicación que garantizaba cero pérdida no era síncrona",
+      "cause": "Una migración cambió la configuración y nadie lo comprobó",
+      "fix": "Mata la réplica en un ensayo y mide la pérdida real; una garantía no verificada no es una garantía."
+    }
+  ],
+  "checks": [
+    "¿Cuáles son las dos restricciones que mandan en este sector?",
+    "¿Por qué el saldo debe ser un cálculo y no un dato?",
+    "¿Cómo se trata la ausencia de respuesta de una pasarela?",
+    "¿Qué hace que un rastro de auditoría sirva ante un tercero?",
+    "¿Qué prueba revela que una réplica síncrona no lo es?"
+  ],
+  "references": [
+    {
+      "text": "PCI Security Standards Council (2024). *PCI DSS v4.0*.",
+      "url": "https://www.pcisecuritystandards.org/document_library/"
+    },
+    {
+      "text": "AWS (2024). *Financial Services Industry Lens, Well-Architected Framework*.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/financial-services-industry-lens.html"
+    },
+    {
+      "text": "Microsoft (2024). *Azure financial services regulatory compliance*.",
+      "url": "https://learn.microsoft.com/azure/industry/financial/"
+    },
+    {
+      "text": "Helland, P. (2007). *Life beyond distributed transactions*.",
+      "url": "https://queue.acm.org/detail.cfm?id=3025012"
+    },
+    {
+      "text": "Banco de Pagos Internacionales (2021). *Principles for operational resilience*.",
+      "url": "https://www.bis.org/bcbs/publ/d516.htm"
+    }
+  ]
+}
