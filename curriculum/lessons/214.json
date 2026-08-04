@@ -1,0 +1,118 @@
+{
+  "id": "214",
+  "purpose": "Controlar el coste de lo que se ha montado en esta parte, donde ya han aparecido tres partidas que nadie había estimado. La clase fija el etiquetado como requisito de creación y no como limpieza posterior, explica cómo se lee una factura para encontrar el dinero de verdad, y automatiza lo que funciona: presupuestos con acción, detección de anomalías y retirada de lo que nadie usa. Con la advertencia de siempre: **la policía del coste se rodea; el carril fácil, no**.",
+  "outcomes": [
+    "**Imponer** etiquetado en la creación, con barrera y no con auditoría.",
+    "**Leer** la factura para encontrar las partidas que dominan.",
+    "**Configurar** presupuestos y detección de anomalías que actúen.",
+    "**Atribuir** el coste por servicio y por unidad de negocio.",
+    "**Retirar** lo que no se usa, de forma automática y segura."
+  ],
+  "concepts": [
+    {
+      "term": "etiqueta de asignación",
+      "definition": "Etiqueta activada para que aparezca como dimensión en el informe de costes. Sin activar, no sirve."
+    },
+    {
+      "term": "coste por unidad de negocio",
+      "definition": "Coste dividido entre pedidos, usuarios o transacciones. Es la única cifra comparable en el tiempo."
+    },
+    {
+      "term": "presupuesto con acción",
+      "definition": "Presupuesto que además de avisar ejecuta algo: notificar, restringir o apagar."
+    },
+    {
+      "term": "detección de anomalías",
+      "definition": "Modelo que compara el gasto con el patrón previo y avisa de desviaciones."
+    },
+    {
+      "term": "coste no atribuido",
+      "definition": "Gasto que no cae en ningún servicio ni dueño. Es la parte que nadie reduce."
+    },
+    {
+      "term": "recurso ocioso",
+      "definition": "Recurso creado, facturado y sin uso. La categoría más fácil de eliminar y la que más se repite."
+    }
+  ],
+  "diagram": "flowchart TB\n    C[\"crear recurso\"] --> B{\"¿tiene etiquetas\\nobligatorias?\"}\n    B -->|no| X[\"RECHAZADO\\nen la creación\"]\n    B -->|sí| Y[\"creado\"]\n    Y --> F[\"factura\"]\n    F --> F1[\"agrupar por servicio\\n→ ¿dónde está el 80 %?\"]\n    F --> F2[\"agrupar por dueño\\n→ ¿qué NO tiene dueño?\"]\n    F --> F3[\"coste por unidad\\nde negocio\"]\n    F1 --> A[\"AUTOMATIZAR\"]\n    A --> A1[\"presupuesto con acción\"]\n    A --> A2[\"anomalías por servicio\\ny por dueño\"]\n    A --> A3[\"retirada de lo ocioso\"]\n    A3 --> A4[\"detectar → avisar →\\napagar → borrar\"]\n    A --> W{\"¿estorba?\"}\n    W -->|sí| W1[\"se rodea · ley 16\"]\n    W -->|no| W2[\"carril fácil\"]",
+  "foundations": [
+    {
+      "heading": "Etiquetar en la creación, no después",
+      "body": "El proyecto de etiquetado que empieza etiquetando lo que ya existe fracasa siempre: mientras se etiqueta lo viejo, se crea lo nuevo sin etiquetas.\n\n```text\nEL ORDEN CORRECTO\n  1  decidir el conjunto MÍNIMO de etiquetas obligatorias\n  2  impedir la creación sin ellas\n  3  y solo entonces, etiquetar lo existente\n\n→ al revés, nunca se termina                       ley 25\n```\n\nY el conjunto mínimo, que debe ser corto:\n\n```text\ndueño        el equipo, no una persona          ley 20\nservicio     a qué sistema pertenece\nentorno      producción, preproducción, desarrollo\ncentro de coste  a quién se le imputa\n\n→ cuatro. Más de seis y nadie las pone bien\n→ y con valores CERRADOS, no texto libre:\n  «prod», «Prod», «producción» y «PRD» son cuatro grupos\n  distintos en el informe\n```\n\n**Cómo se impide la creación**, por orden de fuerza:\n\n```text\n1  BARRERA DE ORGANIZACIÓN\n   deniega crear sin las etiquetas\n   → ni un administrador de la cuenta puede saltárselo\n                                                clase 169\n\n2  POLÍTICA DE ETIQUETAS\n   fija los valores permitidos por clave\n\n3  FUNCIÓN DE APTITUD EN LA CANALIZACIÓN\n   la plantilla que no las declara no despliega\n                                                clase 190\n\n4  LA PLANTILLA DE SERVICIO NUEVO LAS TRAE HECHAS\n   → esto es lo que hace que casi nunca falle nada\n                                                clase 171\n```\n\nY la advertencia de la parte 14:\n\n```text\nsi poner las etiquetas cuesta trabajo, la gente creará los\nrecursos por otro camino, o pondrá valores basura para pasar\nel control                                          ley 16\n→ el carril fácil las pone solo; la barrera es la red de\n  seguridad, no el mecanismo principal\n```\n\nY lo que no se puede etiquetar, que hay que tratar aparte:\n\n```text\ntransferencia de datos entre zonas y regiones\ncoste compartido de servicios comunes\ntráfico de salida sin recurso asociado\n→ estos se reparten por regla, escrita y acordada\n→ y hay que decir cuánto se reparte y con qué criterio\n```"
+    },
+    {
+      "heading": "Leer la factura",
+      "body": "La factura se mira mal: se abre el total, se dice «ha subido» y se cierra. Estas son las cinco vistas que encuentran el dinero.\n\n```text\n1  POR SERVICIO, ordenado de mayor a menor\n   → el 80 % del gasto suele estar en 3 o 4 líneas\n   → y esas son las únicas que merece la pena optimizar\n\n2  POR DUEÑO\n   → y sobre todo: cuánto NO tiene dueño\n   → el coste no atribuido no lo reduce nadie      ley 20\n\n3  POR ENTORNO\n   → si preproducción cuesta más del 25 % de producción,\n     hay algo encendido que no debería\n\n4  POR TIPO DE USO dentro del servicio grande\n   no basta «almacenamiento: 4.100 €»\n   hace falta: peticiones, almacenamiento por clase,\n   transferencia, recuperaciones\n   → el desglose es donde está la sorpresa\n\n5  COSTE POR UNIDAD DE NEGOCIO\n   coste / pedidos del mes\n   → es la ÚNICA cifra comparable entre meses\n   → sin ella, «el coste ha subido un 20 %» no dice si\n     mejoró o empeoró                            clase 142\n```\n\nY las partidas que este programa ha visto sorprender, ya en esta parte:\n\n```text\npeticiones de la pasarela         > cómputo    clase 207\ningesta de registros              > cómputo    clase 211\nescrituras de índices             > tabla      clase 208\ntransferencia entre zonas         casi siempre olvidada\nseries de métricas de alta\n  cardinalidad                     1.410 €/mes  clase 211\ninvalidaciones de caché                        clase 205\ncapas huérfanas del registro de\n  imágenes                         210 €/mes    clase 212\n```\n\nY una técnica que ahorra tiempo:\n\n```text\nno persigas el porcentaje: persigue el importe\n  «este servicio subió un 400 %»  → eran 3 € y ahora son 15\n  «este subió un 6 %»             → eran 12.000 €\n→ ordena siempre por importe de la variación, no por\n  porcentaje\n```\n\n**Los descuentos por compromiso**, con la parte que se hace mal:\n\n```text\nse compromete SOLO la base estable, medida con meses de\nhistórico\n  → comprometer el pico deja capacidad pagada sin usar\n  → y comprometer a 3 años algo que cambiará en 1 es peor\n    que no comprometer nada\n\ny hay que vigilar la COBERTURA y la UTILIZACIÓN\n  cobertura     qué proporción del uso está cubierta\n  utilización   qué proporción de lo comprometido se usa\n  → utilización por debajo del 95 % es dinero tirado\n```"
+    },
+    {
+      "heading": "Automatizar lo que funciona",
+      "body": "Los informes que alguien debe mirar dejan de mirarse. Lo que funciona es lo que actúa.\n\n**Presupuestos con acción:**\n\n```text\nPOR CUENTA Y POR SERVICIO, no solo global\n  → un presupuesto global se supera y nadie sabe por qué\n\nCON UMBRALES ESCALONADOS\n  50 %, 80 %, 100 % del previsto para la fecha\n  y sobre PREVISIÓN, no solo sobre gasto acumulado\n  → avisar al 100 % el día 28 no sirve de nada\n\nCON ACCIONES REALES en entornos no productivos\n  al 100 % en desarrollo → restringir la creación de\n    recursos nuevos\n  al 120 % → apagar lo que se pueda apagar\n  → en producción, avisar; nunca apagar automáticamente\n```\n\n**Detección de anomalías**, que encuentra lo que el presupuesto no:\n\n```text\nel presupuesto detecta que se gasta de más EN TOTAL\nla anomalía detecta que un servicio concreto se ha salido\nde su patrón, aunque el total esté bien\n\nconfigurarla por servicio Y por dueño\numbral en importe absoluto, no en porcentaje\n  → si no, avisa de cada servicio pequeño que se dobla\ny con destino a alguien que actúe                clase 211\n```\n\n**La retirada de lo ocioso**, que es donde está el dinero fácil:\n\n```text\nLO QUE SIEMPRE APARECE\n  volúmenes desconectados de cualquier máquina\n  copias antiguas de volúmenes, sin caducidad\n  direcciones fijas reservadas y sin asociar\n  balanceadores sin destinos\n  instancias paradas cuyo disco se sigue pagando\n  bases de datos de pruebas de hace un año\n  entornos efímeros que no caducaron              ley 25\n  puntos privados creados y no usados            clase 200\n  registros sin caducidad                        clase 211\n  imágenes sin etiqueta                          clase 212\n\nEL PROCESO SEGURO, en cuatro pasos\n  1  DETECTAR y listar, con dueño si lo hay\n  2  AVISAR al dueño, con plazo\n  3  APAGAR o desasociar, sin borrar, y esperar\n  4  BORRAR si nadie se ha quejado\n\n→ el paso 3 es el que evita el desastre: si algo se rompe,\n  se vuelve a encender en segundos\n```\n\nY dos automatismos que dan mucho por poco:\n\n```text\nAPAGADO POR HORARIO en entornos no productivos\n  desarrollo y preproducción apagados por la noche y el\n  fin de semana\n  → 168 h/semana → 50 h/semana = 70 % menos\n  → y el arranque debe ser automático, o la gente\n    desactivará el apagado                        ley 16\n\nCADUCIDAD EN LOS ENTORNOS EFÍMEROS\n  nacen con fecha de destrucción\n  → sin ella, quedan para siempre                 ley 25\n```"
+    },
+    {
+      "heading": "Que no se convierta en policía",
+      "body": "La parte 14 ya mostró qué pasa cuando el control de coste se plantea como vigilancia: se rodea.\n\n```text\nLO QUE NO FUNCIONA\n  el informe mensual de «los que más gastan»\n  pedir justificación de cada recurso\n  bloquear sin explicar\n  → produce recursos creados por caminos raros y valores\n    de etiqueta inventados                        ley 16\n\nLO QUE SÍ\n  que el equipo vea SU coste, en su panel, junto a sus\n    demás señales                                clase 211\n  que la plantilla por defecto ya sea la barata\n  que el coste por unidad de negocio sea el indicador, no\n    el total\n  → así el equipo que crece un 40 % no aparece como\n    culpable\n  y que la retirada de lo ocioso la haga la plataforma, no\n    el equipo\n```\n\nY la medida que dice si el sistema funciona:\n\n```text\nPROPORCIÓN DE COSTE ATRIBUIDO\n  ¿qué porcentaje del gasto tiene dueño identificable?\n  → por debajo del 90 %, el resto de los esfuerzos son\n    ruido\n  → en la clase 179 pasó del 38 % al 96 %\n\ny la segunda: COSTE POR UNIDAD DE NEGOCIO, su tendencia\n```\n\n**Lo que hay que vigilar:**\n\n```text\ngasto diario frente a previsión, por cuenta\ncoste no atribuido, y su tendencia\ncoste por unidad de negocio\ncobertura y utilización de compromisos\nrecursos ociosos detectados y retirados\nanomalías abiertas\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ hay cuatro o cinco etiquetas obligatorias, con valores\n  cerrados\n☐ están activadas como etiquetas de asignación\n☐ no se puede crear un recurso sin ellas\n☐ la plantilla de servicio nuevo las trae hechas\n☐ el coste compartido se reparte por una regla escrita\n☐ se mira el desglose dentro de los servicios grandes\n☐ se ordena por importe de variación, no por porcentaje\n☐ hay coste por unidad de negocio y se sigue su tendencia\n☐ hay presupuestos por cuenta y por servicio, sobre\n  previsión\n☐ en entornos no productivos, los presupuestos actúan\n☐ hay detección de anomalías por servicio y por dueño\n☐ hay apagado por horario en no producción, con arranque\n  automático\n☐ los entornos efímeros nacen con fecha de destrucción\n☐ la retirada de lo ocioso pasa por apagar antes de borrar\n☐ solo se compromete la base estable, y se vigila la\n  utilización\n☐ el coste atribuido supera el 90 %\n```\n\nY el cierre que enlaza con la clase siguiente: con el sistema construido, protegido, observado y con su coste bajo control, queda lo que este programa exige siempre antes de dar algo por terminado: comprobar que sobrevive a que se caiga una región, y comprobarlo ejecutándolo. Es la materia de la clase 215."
+    }
+  ],
+  "worked_example": "**CloudShop revisa el coste de la plataforma que ha montado en esta parte. Lo que sigue es la factura desglosada, las cuatro partidas que nadie había estimado, y la automatización que redujo el gasto un 41 % sin tocar la arquitectura.**\n\n**La factura del primer mes completo:**\n\n```text\ntotal                                       28.400 €\n\npor servicio, ordenado\n  cómputo de contenedores                    5.830   20,5 %\n  base de datos gestionada                   4.210   14,8 %\n  transferencia de datos                     3.940   13,9 %  ←\n  registros y métricas                       3.120   11,0 %  ←\n  almacenamiento de objetos                  2.680    9,4 %\n  pasarela de API                            2.140    7,5 %  ←\n  DynamoDB                                   1.920    6,8 %\n  balanceadores                              1.310    4,6 %\n  funciones                                    980    3,5 %\n  registro de imágenes                         610    2,1 %  ←\n  resto                                      1.660    5,9 %\n\npor dueño\n  con dueño identificable                   17.100   60,2 %\n  SIN DUEÑO                                 11.300   39,8 %  ←\n\npor entorno\n  producción                                16.900\n  preproducción                              7.200   43 % de\n                                                     producción\n  desarrollo                                 3.100\n  sin etiquetar                              1.200\n```\n\nY las tres lecturas inmediatas:\n\n```text\nel cómputo, que era lo que se vigilaba, es el 20 %\ncuatro de las diez partidas mayores no se habían estimado\ny el 40 % del gasto no tiene dueño                 ley 20\n```\n\n**Las cuatro partidas no estimadas, desglosadas.**\n\n```text\nTRANSFERENCIA DE DATOS · 3.940 €\n  salida a internet                            1.100\n  ENTRE ZONAS                                  2.190   ←\n  entre regiones                                 410\n  otros                                          240\n\n  el tráfico entre zonas venía de\n    · el clúster hablando con la base sin preferencia de\n      zona\n    · réplicas de servicio repartidas y balanceo que\n      ignoraba la zona\n  corrección   preferencia de zona en el balanceo interno\n               y lectura desde la réplica de la misma zona\n  2.190 € → 640 €\n\nREGISTROS Y MÉTRICAS · 3.120 €\n  ya se había reducido de 4.980 en la clase 211, y quedaba\n  el clúster\n    ingesta del clúster                        1.840\n    → cada contenedor escribía a nivel de depuración\n  corrección   nivel por espacio de nombres, muestreo y\n               caducidad de 14 días\n  3.120 € → 780 €\n\nPASARELA DE API · 2.140 €\n  la migración de REST a HTTP de la clase 207 se había\n  hecho solo en un servicio\n  → 3 servicios seguían en REST sin usar nada de lo suyo\n  2.140 € → 810 €\n\nREGISTRO DE IMÁGENES · 610 €\n  ya diagnosticado en la clase 212: capas huérfanas\n  610 € → 24 €\n```\n\n**El coste sin dueño: qué era.**\n\n```text\n11.300 € sin dueño identificable\n\n  al inventariar\n    transferencia de datos (no etiquetable)       3.940\n    servicios comunes: nombres, identidad,\n      registro central                            1.870\n    recursos con etiquetas mal escritas           2.410\n      «prod» / «Prod» / «producción» / «PRD»\n      → cuatro grupos para un entorno\n    RECURSOS OCIOSOS                              2.180  ←\n    recursos creados antes de la política           900\n\n  los ociosos, detallados\n    41 volúmenes desconectados                      610 €\n    118 copias de volúmenes sin caducidad           480 €\n    9 direcciones fijas sin asociar                  32 €\n    4 balanceadores sin destinos                    118 €\n    2 bases de datos de pruebas de 2024             740 €\n    31 entornos efímeros no destruidos              200 €\n```\n\nY el detalle que resume el hallazgo:\n\n```text\nlas dos bases de datos de pruebas llevaban 14 meses\nencendidas\nla más cara la creó alguien que ya no está en la empresa\ny nadie la reclamó al apagarla                ley 20, ley 25\n```\n\n**Lo que se montó.**\n\n```text\nETIQUETADO\n  cinco etiquetas obligatorias: dueño, servicio, entorno,\n  centro de coste, caducidad (opcional pero recomendada)\n  valores CERRADOS por política de etiquetas\n    entorno ∈ {prod, pre, dev, sandbox}\n  barrera de organización: sin etiquetas, no se crea\n  plantilla de servicio nuevo: las trae hechas\n\n  y la corrección de lo existente\n    2.410 € de etiquetas mal escritas → normalizadas en\n    una semana con un script\n\nPRESUPUESTOS\n  por cuenta y por servicio, sobre previsión\n  umbrales 50 / 80 / 100 %\n  en desarrollo y preproducción\n    al 100 %  → se restringe la creación de recursos nuevos\n    al 120 %  → se apagan las cargas apagables\n  en producción, solo aviso\n\nANOMALÍAS\n  por servicio y por dueño, umbral de 150 € absolutos\n  destino: el canal de guardia                 clase 211\n  → en 6 meses, 11 anomalías\n    · 7 reales (una prueba de carga olvidada, un trabajo\n      en bucle, un índice nuevo, 4 crecimientos legítimos)\n    · 4 falsas, por campañas previstas\n\nAPAGADO POR HORARIO\n  desarrollo y preproducción: apagados de 20:00 a 7:00 y\n  los fines de semana\n  arranque automático a las 7:00, y bajo demanda con un\n  botón que tarda 4 minutos\n  → el botón fue lo que evitó que la gente desactivara el\n    apagado                                       ley 16\n  7.200 + 3.100 = 10.300 € → 4.180 €\n\nENTORNOS EFÍMEROS\n  nacen con caducidad de 7 días, ampliable a 30 con motivo\n  → los 31 existentes se destruyeron tras avisar\n\nRETIRADA DE LO OCIOSO, automatizada\n  detección semanal\n  aviso al dueño con 7 días de plazo\n  desasociar o apagar (sin borrar) y esperar 14 días\n  borrar si nadie reclama\n  → en 6 meses: 214 recursos retirados, 3 reclamaciones,\n    3 restauraciones en menos de 5 minutos\n```\n\n**El resultado, a los tres meses:**\n\n```text                                        antes     después\ntotal mensual                            28.400 €   16.700 €\n  transferencia                           3.940 €      920 €\n  registros y métricas                    3.120 €      780 €\n  pasarela                                2.140 €      810 €\n  registro de imágenes                      610 €       24 €\n  no productivos                         10.300 €    4.180 €\n  recursos ociosos                        2.180 €        0 €\ncoste atribuido                            60,2 %     94,1 %\ncoste por pedido                           0,082 €    0,046 €\netiquetas con valores inconsistentes         2.410 €      0 €\n```\n\nY la comprobación de que no se había convertido en policía:\n\n```text\nrecursos creados por caminos alternativos\n  antes de la barrera (estimado)                 desconocido\n  después, detectados por inventario                       0\n\nquejas del equipo sobre el control de coste\n  al implantar                                             6\n  a los 3 meses                                            0\n  → las 6 se resolvieron con el botón de arranque bajo\n    demanda y con ampliar la caducidad de los entornos\n    efímeros de 3 a 7 días\n\ny la señal que se vigila\n  «número de excepciones vivas a la política de etiquetas»\n  4, todas con dueño y fecha                     clase 190\n```\n\n**La lección que esta clase deja**: el cómputo, que era lo único que se vigilaba, resultó ser **el 20 % de la factura**, y cuatro de las diez partidas mayores no se habían estimado. El 40 % del gasto no tenía dueño y **dos mil ciento ochenta euros al mes eran recursos que no usaba nadie**, incluidas dos bases de datos de pruebas encendidas catorce meses. Y del ahorro total, la medida que más aportó no fue ninguna optimización técnica: fue **apagar por la noche lo que no es producción**.",
+  "pitfalls": [
+    {
+      "symptom": "El proyecto de etiquetado nunca termina",
+      "cause": "Se empezó etiquetando lo existente mientras se seguía creando sin etiquetas",
+      "fix": "Impide primero la creación sin etiquetas y solo después corrige lo antiguo."
+    },
+    {
+      "symptom": "El informe de costes muestra el mismo entorno repartido en varios grupos",
+      "cause": "Las etiquetas admiten texto libre",
+      "fix": "Fija valores cerrados por política de etiquetas y normaliza lo existente."
+    },
+    {
+      "symptom": "Se optimiza el cómputo y la factura no baja",
+      "cause": "El cómputo no era la partida dominante",
+      "fix": "Ordena la factura por importe, desglosa dentro de los servicios grandes y ataca las tres o cuatro líneas que suman el ochenta por ciento."
+    },
+    {
+      "symptom": "Nadie reduce una parte importante del gasto",
+      "cause": "Ese gasto no tiene dueño identificable",
+      "fix": "Mide la proporción de coste atribuido y reparte lo no etiquetable con una regla escrita; por debajo del 90 % lo demás es ruido."
+    },
+    {
+      "symptom": "El presupuesto avisa cuando ya no se puede hacer nada",
+      "cause": "Está definido sobre gasto acumulado y no sobre previsión",
+      "fix": "Configura umbrales sobre la previsión de cierre y añade acciones reales en entornos no productivos."
+    },
+    {
+      "symptom": "El control de coste genera recursos creados por caminos raros",
+      "cause": "Se planteó como vigilancia y no como camino fácil",
+      "fix": "Que la plantilla por defecto ya sea la barata, que cada equipo vea su coste junto a sus señales y que la retirada la haga la plataforma."
+    }
+  ],
+  "checks": [
+    "¿Por qué hay que impedir la creación sin etiquetas antes de etiquetar lo existente?",
+    "¿Qué cinco vistas de la factura encuentran el dinero de verdad?",
+    "¿Por qué se ordena por importe de la variación y no por porcentaje?",
+    "¿Qué detecta la detección de anomalías que no detecta el presupuesto?",
+    "¿Qué paso del proceso de retirada evita convertir una limpieza en un incidente?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2025). *Cost allocation tags and tag policies*.",
+      "url": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html"
+    },
+    {
+      "text": "AWS (2025). *AWS Budgets and budget actions*.",
+      "url": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html"
+    },
+    {
+      "text": "AWS (2025). *AWS Cost Anomaly Detection*.",
+      "url": "https://docs.aws.amazon.com/cost-management/latest/userguide/manage-ad.html"
+    },
+    {
+      "text": "FinOps Foundation (2025). *FinOps Framework: capabilities and maturity*.",
+      "url": "https://www.finops.org/framework/"
+    },
+    {
+      "text": "AWS (2025). *Savings Plans and Reserved Instances: coverage and utilization*.",
+      "url": "https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html"
+    }
+  ]
+}
