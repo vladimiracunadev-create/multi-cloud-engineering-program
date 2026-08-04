@@ -1,0 +1,118 @@
+{
+  "id": "267",
+  "purpose": "La ruta de plataforma: tratar la infraestructura interna como un producto con usuarios que pueden no usarlo. La clase da lo que la distingue de la ruta de entrega, la única métrica que importa —**adopción voluntaria**—, el criterio para decidir qué entra en la plataforma y qué no, y su modo de fracaso: **construir la plataforma que el equipo quiere construir, no la que los equipos necesitan**.",
+  "outcomes": [
+    "**Definir** la plataforma como producto con usuarios y competencia.",
+    "**Medir** adopción voluntaria, autonomía y tiempo hasta el primer valor.",
+    "**Decidir** qué entra en la plataforma y qué se deja fuera.",
+    "**Evitar** construir para el equipo de plataforma en vez de para sus usuarios.",
+    "**Reconocer** cuándo una organización todavía no necesita plataforma."
+  ],
+  "concepts": [
+    {
+      "term": "plataforma interna",
+      "definition": "Producto que otros equipos usan para entregar software sin depender de personas concretas."
+    },
+    {
+      "term": "adopción voluntaria",
+      "definition": "Porcentaje de equipos que la usan pudiendo no hacerlo. La medida honesta."
+    },
+    {
+      "term": "camino pavimentado",
+      "definition": "La forma fácil de hacer lo correcto. La plataforma es su implementación."
+    },
+    {
+      "term": "puerta de salida",
+      "definition": "Posibilidad de salirse de la plataforma para un caso concreto sin salirse del todo."
+    },
+    {
+      "term": "tiempo hasta el primer valor",
+      "definition": "Cuánto tarda un equipo nuevo desde que empieza hasta que sirve algo en producción."
+    },
+    {
+      "term": "plataforma prematura",
+      "definition": "Producto interno construido antes de que existan varios equipos con problemas comunes."
+    }
+  ],
+  "diagram": "flowchart TB\n    E[\"equipos de\\nproducto\"] -->|\"usan si les\\nconviene\"| P[\"PLATAFORMA\\ncomo producto\"]\n    P --> S1[\"plantillas y\\ncamino pavimentado\"]\n    P --> S2[\"cadena de entrega\"]\n    P --> S3[\"señales y alertas\\npor defecto\"]\n    P --> S4[\"identidad, red\\ny copias resueltas\"]\n    P --> S5[\"autoservicio\\ncon barandillas\"]\n    P --> X[\"PUERTA DE SALIDA\\npara el caso raro\"]\n    M[\"MÉTRICAS\"] -.-> M1[\"adopción voluntaria\"]\n    M -.-> M2[\"tiempo hasta el\\nprimer valor\"]\n    M -.-> M3[\"solicitudes al\\nequipo por semana\"]\n    F[\"modo de fracaso:\\nconstruir para\\nuno mismo\"] -.->|\"adopción baja\\ncon calidad alta\"| P",
+  "foundations": [
+    {
+      "heading": "Producto, no infraestructura",
+      "body": "La diferencia entre esta ruta y las demás no es técnica: es que aquí los usuarios son internos y **pueden no usarte**.\n\n```text\nLO QUE CAMBIA AL TRATARLO COMO PRODUCTO\n  hay usuarios, y se les pregunta\n  hay alternativas, y compites con ellas\n    → la alternativa siempre existe: hacerlo a mano\n  hay adopción, y se mide\n  hay versiones, migraciones y retirada\n  y hay soporte\n\n→ y si la plataforma es obligatoria, todo esto se apaga\n→ la obligatoriedad esconde los defectos en vez de\n  corregirlos                                  ley 16\n```\n\nY lo que distingue esta ruta de la de entrega:\n\n```text\nENTREGA                        PLATAFORMA\nel camino del cambio           todo lo que un equipo\na producción                   necesita para ir solo\n\nlas cuatro métricas            adopción y autonomía\n\nuna cadena                     un producto con muchas\n                               piezas: cadena, plantillas,\n                               señales, identidad, red,\n                               datos, coste\n\n→ la de entrega es una PARTE de la de plataforma\n→ y quien viene de entrega suele traer la cadena resuelta\n  y la conversación con usuarios sin empezar\n```\n\nY las tres métricas que dicen la verdad:\n\n```text\n1  ADOPCIÓN VOLUNTARIA\n   equipos que la usan pudiendo no hacerlo\n   → y si es obligatoria, la métrica no existe y hay que\n     preguntar: «¿la usarías si no fuera obligatoria?»\n\n2  TIEMPO HASTA EL PRIMER VALOR\n   de un equipo nuevo a servir algo en producción\n   → semanas significa que la plataforma no reduce trabajo\n   → días significa que sí\n\n3  SOLICITUDES AL EQUIPO DE PLATAFORMA POR SEMANA\n   → y su tendencia\n   → si crece con el número de equipos, no hay\n     autoservicio: hay un mostrador\n\ny una cuarta, para el equipo\n   qué porcentaje del tiempo va a atender solicitudes\n   → por encima del 40 %, la plataforma no avanza\n```\n\nY la pregunta que ordena las prioridades:\n\n```text\n«¿QUÉ ES LO QUE MÁS VECES HAN TENIDO QUE RESOLVER LOS\nEQUIPOS POR SU CUENTA ESTE TRIMESTRE?»\n\n→ eso es la siguiente pieza\n→ y no lo que el equipo de plataforma encuentra\n  interesante\n```"
+    },
+    {
+      "heading": "Qué entra y qué no",
+      "body": "El criterio de alcance decide si la plataforma es útil o es una carga.\n\n```text\nENTRA SI\n  varios equipos lo necesitan\n  hacerlo mal tiene consecuencias serias\n    → identidad, red, copias, secretos, señales\n  y resolverlo bien exige conocimiento que no todos\n    tienen\n\nNO ENTRA SI\n  lo necesita un solo equipo\n    → que lo haga él; y si aparece un segundo, se reconsidera\n  varía mucho entre equipos\n    → la abstracción costará más de lo que ahorra\n  o está cambiando rápido\n    → congelarlo en una plantilla lo hace obsoleto\n\n→ y la regla práctica: se abstrae al TERCER caso, no al\n  primero\n→ dos casos no dicen dónde está la variación\n```\n\nY la pieza que casi nadie diseña y que decide la adopción:\n\n```text\nLA PUERTA DE SALIDA\n  «quiero todo lo de la plataforma, salvo el balanceador,\n  que en mi caso necesita algo que no cubrís»\n\n  si la respuesta es «entonces sal del todo»\n  → el equipo sale del todo\n  → y se lleva consigo las señales, las copias y los\n    permisos bien puestos\n\n  si la respuesta es «cambia esa pieza y quédate con el\n  resto»\n  → el equipo se queda\n\n→ una plataforma sin puerta de salida pierde a sus\n  usuarios más avanzados\n→ y esos son los que descubren lo que le falta\n```\n\nY los niveles de la ruta:\n\n```text\nNIVEL 2 · RESUELVO\n  monta piezas de la plataforma que funcionan\n  documenta y da soporte\n  y sabe por qué un equipo no la usa, porque lo ha\n    preguntado\n\nNIVEL 3 · DISEÑO\n  decide el alcance: qué entra y qué se deja fuera\n  diseña interfaces estables y migraciones sin ruptura\n                                            clase 106\n  y mide adopción, no calidad interna\n\nNIVEL 4 · CAMBIO EL SISTEMA\n  la plataforma cambia cómo se organiza la empresa\n  los equipos de producto responden de sus servicios\n    porque PUEDEN\n  y el equipo de plataforma deja de aparecer en la ruta\n    crítica de nadie\n```\n\nY el requisito que la hace sostenible:\n\n```text\nLA PLATAFORMA TAMBIÉN SE OPERA\n  tiene guardia, señales, procedimientos y ensayos\n                                            parte 21\n  → y su indisponibilidad afecta a todos los equipos\n  → una plataforma sin operación propia es un riesgo\n    concentrado                            clase 185\n\ny tiene compromiso de servicio con sus usuarios\n  → «la cadena de entrega estará disponible el 99,5 %»\n  → y si no se cumple, los equipos vuelven a hacerlo a\n    mano\n```"
+    },
+    {
+      "heading": "El modo de fracaso y la plataforma prematura",
+      "body": "Dos formas de equivocarse, y la segunda es más común de lo que parece.\n\n```text\nMODO DE FRACASO 1 · CONSTRUIR PARA UNO MISMO\n  el equipo construye lo que le parece elegante\n  → abstracciones profundas, configuración expresiva,\n    plantillas anidadas\n  y los usuarios no lo entienden\n\n  la señal\n    calidad interna alta y adopción baja\n    → y el equipo lo interpreta como falta de formación\n    → cuando es una respuesta del mercado interno\n\n  la corrección\n    hablar con usuarios cada semana, no cada trimestre\n    medir el tiempo hasta el primer valor con alguien\n      real, mirando\n    y aceptar que la configuración sobra casi siempre\n\nMODO DE FRACASO 2 · LA PLATAFORMA PREMATURA\n  se monta una plataforma con dos equipos y tres servicios\n  → y no hay suficientes casos para saber qué abstraer\n  → y se congela una forma de trabajar que aún no está\n    entendida\n\n  la señal\n    la plataforma cambia cada mes por peticiones\n    y el equipo de plataforma es más grande que los\n    equipos que la usan\n\n  la corrección\n    no montar plataforma hasta que haya problemas\n    REPETIDOS entre varios equipos\n    → y mientras tanto, hacer bibliotecas y plantillas\n      copiables, que no crean dependencia\n```\n\nY el techo de la ruta:\n\n```text\nEL TECHO\n  la plataforma funciona, se adopta y el equipo ya no está\n  en la ruta crítica de nadie\n  → y entonces la limitación pasa a ser la arquitectura de\n    los sistemas o la organización\n\ncontinuaciones\n  a  ARQUITECTURA                            clase 272\n     los límites entre servicios y equipos\n  b  FIABILIDAD                              clase 268\n     responder de propiedades del conjunto\n  c  o dirección técnica\n     donde el trabajo es de personas y de prioridades\n```\n\nY la señal de que la organización todavía no necesita esta ruta:\n\n```text\n☐ hay menos de tres equipos entregando software\n☐ los problemas que se repiten aún no se han repetido\n☐ no hay nadie que pueda dedicarse a ello de forma\n  sostenida\n→ si se cumple alguna, hacer plantillas y bibliotecas,\n  no plataforma\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ la plataforma tiene usuarios y se les pregunta\n☐ la adopción es voluntaria, o sé qué esconde que no lo sea\n☐ mido tiempo hasta el primer valor con alguien real\n☐ las solicitudes al equipo no crecen con el número de\n  equipos\n☐ el equipo dedica menos del 40 % a atender solicitudes\n☐ se abstrae al tercer caso, no al primero\n☐ existe puerta de salida por pieza\n☐ hay interfaz estable y migraciones sin ruptura\n☐ la plataforma se opera: guardia, señales, procedimientos\n☐ tiene compromiso de servicio con sus usuarios\n☐ sé por qué cada equipo que no la usa no la usa\n☐ y sé si la organización necesita plataforma o todavía no\n```\n\nY el cierre que enlaza con la clase siguiente: la plataforma hace que otros puedan; queda quien responde de que el sistema cumpla lo prometido, con un número acordado y la autoridad para frenar. La ruta de fiabilidad es la materia de la clase 268."
+    },
+    {
+      "heading": "Cómo se demuestra esta ruta",
+      "body": "Lo que vale como evidencia, en entrevista y en revisión de desempeño.\n\n```text\nLO QUE NO VALE\n  «monté la plataforma interna»\n  «usamos Kubernetes y plantillas»\n  → describe el qué y no el efecto\n\nLO QUE VALE\n  «la adopción pasó de 3 a 38 de 41 servicios en 9 meses,\n   y lo que lo movió fue bajar las pruebas de 40 a 9\n   minutos y la configuración de 11 ficheros a 1»\n  «el tiempo de un servicio nuevo hasta producción pasó\n   de 3 semanas a 2 días»\n  «las solicitudes al equipo bajaron de 34 a 6 por semana\n   con el doble de equipos»\n\n→ efecto, mecanismo y cifra                clase 275\n```\n\nY las preguntas que separan niveles:\n\n```text\n«¿cuántos equipos la usan y cuántos podrían no usarla?»\n  → si es obligatoria, ¿qué pasaría si dejara de serlo?\n\n«¿qué pieza de la plataforma retirasteis y cómo?»\n  → nivel 3 ha retirado algo; nivel 2 solo ha añadido\n\n«¿qué hace un equipo que necesita algo que no cubrís?»\n  → la respuesta revela si hay puerta de salida\n\n«¿qué porcentaje del tiempo de tu equipo va a soporte?»\n  → y su tendencia\n\ny la que más discrimina\n«¿por qué el último equipo que no la adoptó no la\nadoptó?»\n  → quien no lo sabe no está tratando esto como producto\n```\n\nY el consejo específico de la ruta:\n\n```text\nSIÉNTATE CON UN EQUIPO NUEVO Y MIRA SIN AYUDAR\n  con un cronómetro y sin decir nada\n  → dónde se atasca, qué busca y no encuentra, qué\n    interpreta al revés\n\n→ una hora de esto vale más que un trimestre de\n  encuestas\n→ y es el mismo método de los ensayos: observar sin\n  intervenir                                clase 261\n```\n\nY el error de comunicación que más cuesta:\n\n```text\nPRESENTAR LA PLATAFORMA COMO AHORRO DE COSTE\n  → y entonces se evalúa contra el coste del equipo que\n    la mantiene, y siempre pierde\n\nPRESENTARLA COMO CAPACIDAD DE ENTREGA\n  → «los equipos entregan en 2 días lo que antes tardaba\n    3 semanas, con 14 equipos en vez de 3»\n  → y eso sí se compara con lo que produce\n```"
+    }
+  ],
+  "worked_example": "**La plataforma de CloudShop, tres años en cifras. Lo que sigue es el intento prematuro que se desmontó, la reconstrucción con puerta de salida, y las dos preguntas que decidieron cada prioridad.**\n\n**Intento 1 · La plataforma prematura.**\n\n```text\nmomento\n  2 equipos de producto, 6 servicios\n  1 persona dedicada a plataforma\n\nlo que se construyó, en 5 meses\n  abstracción propia sobre la infraestructura\n  un lenguaje de descripción de servicios\n  un panel interno de despliegue\n  y plantillas para «cualquier servicio»\n\nlo que pasó\n  cada servicio nuevo requería extender la abstracción\n  → 11 extensiones en 5 meses\n  la abstracción tenía casos especiales para 4 de los 6\n    servicios\n  y la persona de plataforma pasó a ser dependencia de\n    todo\n\ny la señal clara\n  tiempo de un servicio nuevo\n    antes de la plataforma            4 días\n    con la plataforma                 6 días\n```\n\nY el diagnóstico:\n\n```text\ncon 6 servicios no había forma de saber qué variaba y qué\nno\n→ se abstrajo al primer caso, no al tercero\n→ y la abstracción codificó las particularidades de los\n  dos primeros servicios\n\nlo que se hizo\n  se retiró la abstracción\n  se dejaron PLANTILLAS COPIABLES\n    → cada equipo copia y modifica\n    → duplicación, sí; dependencia, no\n  y se apuntó lo que se repetía\n\n→ 14 meses después, con 9 equipos y 27 servicios, esas\n  notas dijeron exactamente qué abstraer\n```\n\n**Intento 2 · La reconstrucción.**\n\n```text\npunto de partida\n  9 equipos, 27 servicios\n  y una lista de lo que cada equipo había resuelto por su\n  cuenta, recogida durante 14 meses\n\nlo que se repetía, por número de equipos que lo habían\nresuelto solos\n  señales y paneles básicos                     9/9\n  identidad y permisos de servicio              9/9\n  copias y su verificación                      8/9\n  cadena de entrega                             9/9\n  gestión de secretos                           7/9\n  red y exposición                              9/9\n  alta disponibilidad entre zonas               6/9\n  colas y reintentos                            5/9\n  caché                                         4/9\n  búsqueda                                      2/9\n\n→ se construyó de arriba abajo\n→ y búsqueda y caché se dejaron fuera, con nota\n```\n\nY la puerta de salida, que fue la decisión de diseño más discutida:\n\n```text\ncada pieza se puede sustituir sin salir de la plataforma\n  → «uso vuestra cadena, vuestras señales y vuestros\n    permisos, pero mi red la monto yo»\n  → y la plataforma sigue dando lo demás\n\ncoste de esta decisión\n  las piezas tienen que tener interfaz, no estar\n  entrelazadas                              clase 106\n  → más trabajo de diseño\n\ny lo que produjo\n  equipos que usan la plataforma completa           31\n  equipos que sustituyen 1 o 2 piezas                7\n  equipos fuera del todo                             3\n\n→ sin puerta de salida, esos 7 habrían salido del todo\n→ y con ellos, 7 servicios sin señales ni copias bien\n  puestas\n```\n\n**Las dos preguntas que decidieron cada prioridad.**\n\n```text\nPREGUNTA 1, cada trimestre, a cada equipo\n  «¿qué has tenido que resolver por tu cuenta este\n  trimestre?»\n\nPREGUNTA 2, en la sesión de observación\n  se sienta un equipo nuevo con la plataforma\n  y el equipo de plataforma MIRA sin ayudar, una hora\n\nlo que la observación encontró, y las encuestas no\n  el ejemplo de la documentación no funcionaba\n    (una variable había cambiado de nombre)\n  el mensaje de error al faltar un permiso decía\n    «acceso denegado» sin decir cuál\n  la plantilla pedía elegir entre tres opciones sin\n    explicar la diferencia\n  y el primer despliegue fallaba siempre por un valor por\n    defecto que nadie cambiaba\n\n→ los cuatro son triviales de arreglar\n→ y los cuatro costaban entre 20 y 90 minutos a CADA\n  equipo nuevo\n→ ninguna encuesta los había mencionado\n```\n\n**Las cifras, a los tres años.**\n\n```text                               año 1     año 2     año 3\nequipos de producto                     2         9        14\nservicios                               6        27        41\npersonas en plataforma                  1         3         4\n\nadopción voluntaria                     -    18/27     38/41\ntiempo hasta el primer valor       6 días    5 días    2 días\nsolicitudes al equipo/semana            -        34         6\n% del tiempo en soporte                 -      61 %      18 %\ndisponibilidad de la cadena             -    97,1 %    99,7 %\n\nservicios con señales por defecto       -     11/27     41/41\nservicios con copias verificadas        -      9/27     39/41\nservicios con permisos mínimos          -      6/27     38/41\n```\n\nY la cifra que el equipo usó para defender su presupuesto:\n\n```text\nno se presentó como ahorro de coste\nse presentó así\n\n  equipos que entregan solos            2 → 14\n  servicios en producción               6 → 41\n  personas de plataforma                1 → 4\n\n  servicios por persona de plataforma   6 → 10,25\n  y tiempo de un servicio nuevo    4 días → 2 días\n\n→ el sistema creció 7 veces con 4 veces el equipo\n→ y la calidad por defecto subió: 41 de 41 con señales,\n  frente a 11 de 27 dos años antes\n```\n\nY el fracaso que quedó registrado:\n\n```text\nla pieza de colas y reintentos se construyó en el año 2\n  la habían resuelto solos 5 de 9 equipos\n  adopción a los 6 meses                        2 de 14\n\npor qué\n  cada equipo tenía necesidades distintas de orden,\n  reintento y duplicados                    clase 210\n  → la variación era el problema, no la repetición\n  → «lo han resuelto muchos» no implica «lo resuelven\n    igual»\n\nse retiró\n  y se sustituyó por documentación y ejemplos revisados\n  → adopción de los ejemplos                  11 de 14\n\n→ y la lección quedó: antes de abstraer, comprobar que\n  las N soluciones se parecen\n```\n\n**La lección que esta clase deja**: la primera plataforma hizo que un servicio nuevo tardara **6 días en vez de 4**, porque se abstrajo con seis servicios y la abstracción codificó las particularidades de los dos primeros. Y la puerta de salida —la decisión más discutida— retuvo a **7 equipos** que habrían salido del todo, y con ellos siete servicios que habrían perdido señales, copias y permisos mínimos.",
+  "pitfalls": [
+    {
+      "symptom": "La plataforma tiene calidad alta y adopción baja",
+      "cause": "Se construyó para el equipo de plataforma, no para sus usuarios",
+      "fix": "Siéntate a mirar a un equipo nuevo sin ayudar durante una hora; encontrarás obstáculos triviales que ninguna encuesta menciona."
+    },
+    {
+      "symptom": "Cada servicio nuevo obliga a extender la abstracción",
+      "cause": "Se abstrajo demasiado pronto, con muy pocos casos para saber qué varía",
+      "fix": "Abstrae al tercer caso; hasta entonces usa plantillas copiables, que duplican pero no crean dependencia."
+    },
+    {
+      "symptom": "Un equipo con una necesidad especial abandona la plataforma entera",
+      "cause": "No hay puerta de salida por pieza",
+      "fix": "Diseña piezas con interfaz para que se puedan sustituir una a una; sin eso pierdes a los usuarios más avanzados."
+    },
+    {
+      "symptom": "Las solicitudes al equipo crecen con cada equipo nuevo",
+      "cause": "Hay mostrador en vez de autoservicio",
+      "fix": "Convierte en autoservicio con validación cada solicitud repetida y vigila que el soporte no pase del 40 % del tiempo."
+    },
+    {
+      "symptom": "Se construyó una pieza que muchos habían resuelto y casi nadie la adopta",
+      "cause": "Se confundió repetición con uniformidad: cada equipo lo resolvía distinto",
+      "fix": "Antes de abstraer comprueba que las soluciones existentes se parecen; si varían mucho, documenta y da ejemplos."
+    },
+    {
+      "symptom": "La plataforma se justifica como ahorro y siempre pierde en el presupuesto",
+      "cause": "Presentada como coste, se compara con el coste del equipo que la mantiene",
+      "fix": "Preséntala como capacidad de entrega: equipos que entregan solos, servicios por persona de plataforma y tiempo hasta producción."
+    }
+  ],
+  "checks": [
+    "¿Qué cambia al tratar la infraestructura interna como producto?",
+    "¿Cuáles son las tres métricas que dicen la verdad sobre una plataforma?",
+    "¿Qué criterio decide si algo entra en la plataforma?",
+    "¿Para qué sirve la puerta de salida y qué pasa sin ella?",
+    "¿Cómo se reconoce una plataforma prematura y qué se hace en su lugar?"
+  ],
+  "references": [
+    {
+      "text": "Skelton, M. y Pais, M. (2019). *Team Topologies* — equipos de plataforma como habilitadores.",
+      "url": "https://teamtopologies.com/book"
+    },
+    {
+      "text": "Bottcher, E. (2018). *What I talk about when I talk about platforms*.",
+      "url": "https://martinfowler.com/articles/talk-about-platforms.html"
+    },
+    {
+      "text": "Google (2024). *DORA: platform engineering and developer experience*.",
+      "url": "https://dora.dev/research/"
+    },
+    {
+      "text": "CNCF (2024). *Platform engineering maturity model*.",
+      "url": "https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/"
+    },
+    {
+      "text": "Humanitec (2024). *Platform as a product: reference architectures*.",
+      "url": "https://humanitec.com/reference-architectures"
+    }
+  ]
+}
