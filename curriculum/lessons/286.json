@@ -1,0 +1,118 @@
+{
+  "id": "286",
+  "purpose": "Revisar un sistema con método estructurado en cualquier proveedor: los cinco pilares comunes, cómo se ejecuta una revisión que produzca acciones en vez de un informe, y —lo más importante— **las preguntas que este programa ha demostrado que faltan en los marcos oficiales**, con las cifras que lo justifican.",
+  "outcomes": [
+    "**Ejecutar** una revisión estructurada de un sistema en medio día.",
+    "**Aplicar** los cinco pilares comunes con preguntas comprobables.",
+    "**Añadir** las preguntas que los marcos oficiales no incluyen.",
+    "**Priorizar** los hallazgos por riesgo real y no por cantidad.",
+    "**Convertir** la revisión en acciones con dueño, plazo y comprobación."
+  ],
+  "concepts": [
+    {
+      "term": "revisión estructurada",
+      "definition": "Recorrido guiado por preguntas sobre un sistema concreto, con participantes que lo conocen."
+    },
+    {
+      "term": "pilar",
+      "definition": "Dimensión de calidad que se revisa por separado: operación, seguridad, fiabilidad, rendimiento y coste."
+    },
+    {
+      "term": "pregunta comprobable",
+      "definition": "La que se responde con una evidencia, no con una opinión."
+    },
+    {
+      "term": "riesgo residual",
+      "definition": "El que se decide aceptar, con dueño, motivo y vigencia escritos."
+    },
+    {
+      "term": "hallazgo priorizado",
+      "definition": "El que se ordena por impacto y probabilidad reales, no por su gravedad nominal."
+    },
+    {
+      "term": "revisión que no cambia nada",
+      "definition": "Modo de fracaso: se genera un informe extenso y ninguna acción se cierra."
+    }
+  ],
+  "diagram": "flowchart TB\n    S[\"sistema\\nacotado\"] --> P1[\"OPERACIÓN\\n¿se sabe qué pasa\\ny qué hacer?\"]\n    S --> P2[\"SEGURIDAD\\n¿cuál es el radio\\nde explosión?\"]\n    S --> P3[\"FIABILIDAD\\n¿qué se promete\\ny se cumple?\"]\n    S --> P4[\"RENDIMIENTO\\n¿dónde está\\nel codo?\"]\n    S --> P5[\"COSTE\\n¿cuál es la unidad\\neconómica?\"]\n    P1 --> E[\"preguntas\\nCOMPROBABLES\"]\n    P2 --> E\n    P3 --> E\n    P4 --> E\n    P5 --> E\n    E --> H[\"hallazgos\\npriorizados\"]\n    H --> A[\"acciones\\ncon dueño\"]\n    H --> R[\"riesgos residuales\\naceptados por escrito\"]\n    X[\"preguntas que\\nFALTAN en los marcos\"] -.-> E",
+  "foundations": [
+    {
+      "heading": "Cómo se ejecuta una revisión que sirve",
+      "body": "Una revisión estructurada es media jornada, no un proyecto. Y su valor depende de tres decisiones de formato.\n\n```text\n1  ACOTAR EL SISTEMA\n   un servicio o un recorrido completo, no «la plataforma»\n   → «el flujo de compra, del navegador al almacén»\n   → con sus dependencias dibujadas             ley 24\n\n2  LOS PARTICIPANTES SON QUIENES LO CONSTRUYEN Y LO OPERAN\n   → no un comité externo\n   → y quien facilita hace preguntas, no las responde\n\n3  LAS PREGUNTAS SE RESPONDEN CON EVIDENCIA\n   «sí, tenemos copias» no vale\n   «restauramos el 14 de marzo en 52 minutos, aquí está el\n   acta» sí\n   → y esta regla sola cambia el resultado de la revisión\n     entera\n```\n\nY el formato que funciona:\n\n```text\nmedia jornada, 4 horas\n  0:00-0:20  el equipo presenta el sistema y su diagrama\n  0:20-3:00  los cinco pilares, ~30 min cada uno\n  3:00-3:30  priorización conjunta\n  3:30-4:00  acciones, dueños y plazos\n\ny lo que NO se hace\n  no se puntúa al equipo\n  no se genera un informe de 60 páginas\n  y no se revisa todo el catálogo de preguntas\n  → 8-12 preguntas por pilar, las que apliquen\n```\n\nY la priorización, que evita el modo de fracaso:\n\n```text\ncada hallazgo con dos números\n  IMPACTO       si ocurre, ¿qué pasa?\n  PROBABILIDAD  ¿ha estado a punto de pasar?\n\ny tres categorías\n  ACTUAR YA        alto impacto, probable\n  PLANIFICAR       alto impacto, poco probable\n  ACEPTAR          y entonces se escribe como riesgo\n                   residual, con dueño y vigencia\n\n→ y la tercera categoría es la que da credibilidad\n→ una revisión donde todo hay que arreglarlo produce que\n  no se arregle nada\n```\n\nY el criterio de éxito:\n\n```text\nno «cuántos hallazgos»\nsino CUÁNTAS ACCIONES SE CERRARON EN 90 DÍAS\n  → y si es menos del 60 %, la revisión generó una lista\n    de deseos, no un plan\n```"
+    },
+    {
+      "heading": "Los cinco pilares, con preguntas comprobables",
+      "body": "Las preguntas que valen son las que exigen enseñar algo.\n\n```text\nOPERACIÓN\n  ☐ enséñame el inventario de este sistema con su dueño\n  ☐ ¿cuál fue la última alerta y qué hizo quien la\n    recibió?\n  ☐ coge un procedimiento y ejecútalo ahora\n  ☐ ¿dónde está la línea de cambios de este sistema?\n  ☐ ¿cuándo fue la última vuelta atrás?\n  ☐ ¿cuánto tarda un cambio desde confirmar hasta\n    producción?\n  ☐ ¿cuántas interrupciones de guardia tuvo el último\n    turno?\n\nSEGURIDAD\n  ☐ si esta credencial se filtra, ¿hasta dónde llega?\n  ☐ ¿queda alguna credencial permanente?\n  ☐ ¿quién puede borrar las copias?\n  ☐ ¿quién puede desactivar el registro?\n  ☐ haz algo que debería detectarse y cronométralo\n  ☐ ¿los entornos de prueba tienen datos reales?\n  ☐ ¿qué datos salen a terceros y con qué contrato?\n\nFIABILIDAD\n  ☐ ¿qué prometes al usuario y cómo lo mides?\n  ☐ ¿ese objetivo se incumple alguna vez?\n  ☐ restaura una copia ahora y cronométralo\n  ☐ ¿qué pasa si cae una zona? ¿lo has probado?\n  ☐ ¿qué dependencia te tumba si va LENTA en vez de\n    fallar?\n  ☐ ¿qué se degrada antes de caer y quién lo decidió?\n\nRENDIMIENTO\n  ☐ ¿qué recurso satura primero y dónde está su codo?\n  ☐ si el tráfico se duplica, ¿qué se rompe y en cuánto?\n  ☐ ¿escalar empeora algún limitante?\n  ☐ ¿qué cuotas te limitan y a qué porcentaje estás?\n  ☐ ¿la región secundaria tiene cuotas para el 100 %?\n\nCOSTE\n  ☐ ¿cuál es tu unidad económica y su tendencia?\n  ☐ ¿qué porcentaje del coste está atribuido?\n  ☐ ¿qué parte del gasto es trabajo que no hace falta?\n  ☐ ¿alguna decisión reciente llevó su coste estimado\n    delante?\n```\n\nY las preguntas transversales, que suelen dar los mejores hallazgos:\n\n```text\n☐ ¿qué parte de este sistema no has probado nunca?\n☐ ¿qué te quita el sueño de este sistema?\n☐ si te fueras mañana, ¿qué no sabría nadie?\n☐ y ¿qué decisión de hace dos años ya no tiene sentido?\n\n→ la tercera es la que más deuda de conocimiento revela\n→ y la cuarta, la que más simplificaciones produce\n```"
+    },
+    {
+      "heading": "Las preguntas que faltan en los marcos",
+      "body": "Los marcos oficiales de los proveedores son buenos y este programa ha encontrado, midiendo, huecos concretos. Estas son las preguntas que hay que añadir, con lo que las justifica.\n\n```text\n1  ¿CUÁNDO SE EJECUTÓ POR ÚLTIMA VEZ CADA PROCEDIMIENTO?\n   los marcos preguntan si existen procedimientos\n   → 19 de 34 estaban rotos al ejecutarlos    clase 259\n   → existir y funcionar son cosas distintas      ley 22\n\n2  ¿QUÉ JUICIO APLICA LA PERSONA QUE HACE ESTO A MANO?\n   antes de automatizar algo\n   → una remediación correcta convirtió una degradación en\n     caída total en 3 minutos por no saber cuándo NO\n     actuar                                       ley 30\n\n3  ¿CÓMO DETECTAS UN FALLO QUE NO DA ERROR?\n   los marcos preguntan por alertas de error\n   → un fallo de datos da otro número            ley 29\n   → y 17 de 19 incidentes de datos los detectó una\n     persona, 23 días después           clases 243, 284\n\n4  ¿QUÉ CUOTAS TIENE LA REGIÓN DE CONMUTACIÓN?\n   los marcos preguntan por planes de continuidad\n   → la región secundaria daba para el 3,2 % de la\n     capacidad prometida                     clase 262\n\n5  ¿MIDES EN EL CLIENTE O EN EL SERVIDOR?\n   → 1,23 puntos de diferencia en el éxito de compra,\n     unas 4.100 compras al mes invisibles    clase 268\n\n6  ¿QUÉ PASA SI UNA DEPENDENCIA VA LENTA EN VEZ DE\n   FALLAR?\n   → 200 ms de latencia produjeron 4.100 ms de\n     degradación; el mismo servicio CAÍDO se comportaba\n     mejor                                   clase 261\n\n7  ¿CUÁNTOS EQUIPOS TOMAN BUENAS DECISIONES SIN\n   CONSULTARTE?\n   para funciones de apoyo\n   → toda función de apoyo deriva hacia autorizar y se\n     queda ciega                                  ley 31\n\n8  ¿QUÉ HAS RETIRADO ESTE AÑO?\n   los marcos preguntan qué se ha añadido\n   → 245 alertas de 412, 9 procedimientos, 426 conjuntos\n     de datos, 4 modelos, 61 paneles\n   → y retirar fue, medido, de lo más rentable\n\n9  ¿QUIÉN DECIDE CUANDO EL PROBLEMA CRUZA DOS EQUIPOS?\n   → 31 minutos sin que nadie decidiera, arreglados con\n     una frase escrita                       clase 285\n\n10 Y ¿QUÉ PARTE DE ESTE SISTEMA NO ESTÁ EN EL DIAGRAMA?\n   → lo que no está en el diagrama no se analiza  ley 24\n```\n\nY el patrón que comparten las diez:\n\n```text\nlos marcos preguntan por lo que EXISTE\ny estas preguntan por lo que se ha COMPROBADO\n\n→ y la diferencia entre las dos cosas es donde han estado\n  casi todos los hallazgos caros de este programa\n```"
+    },
+    {
+      "heading": "Revisar en tres proveedores",
+      "body": "La revisión es la misma; lo que cambia es dónde se busca la evidencia.\n\n```text\nLO QUE NO CAMBIA\n  las preguntas\n  los pilares\n  la exigencia de evidencia\n  y la priorización\n\nLO QUE CAMBIA\n  el nombre de los servicios\n  dónde se consultan las cuotas\n  cómo se comprueban los permisos efectivos\n  qué informa el detalle de coste y con qué retraso\n  y qué hay activado por defecto              ley 26\n\n→ y por eso la rejilla de cinco capas de la clase 273 es\n  la herramienta de traducción de la revisión\n```\n\nY los puntos donde una revisión multiproveedor encuentra más:\n\n```text\nAISLAMIENTO\n  la unidad administrativa no es equivalente entre nubes\n  → y una arquitectura copiada de una a otra suele quedar\n    peor aislada                             clase 219\n\nPERMISOS\n  la semántica de herencia y denegación difiere\n  → una política traducida puede conceder de más\n                                            clase 273\n  → hay que comprobar permisos EFECTIVOS, no textos\n\nCUOTAS\n  distintas por defecto y por región\n  → y el inventario de cuotas es por nube y por cuenta\n\nCOSTE\n  distintos modelos y distinto retraso del detalle\n  → la unidad económica debe ser comparable entre nubes\n                                            clase 270\n\nY OPERACIÓN\n  dos inventarios, dos catálogos de alertas, dos guardias\n  → y el coste real de eso, medido: 2,5 personas y\n    492.000 USD al año en CloudShop         clase 273\n```\n\nY el cierre de la revisión, que es lo que la hace útil:\n\n```text\nEL ACTA, en dos páginas\n  el sistema revisado y su alcance\n  los hallazgos priorizados, con impacto y probabilidad\n  las acciones con dueño y plazo\n  los riesgos residuales ACEPTADOS, con dueño y vigencia\n  y la fecha de la próxima revisión\n\n→ y a los 90 días, una comprobación de cuántas acciones\n  se cerraron\n→ que es el único número que dice si la revisión sirvió\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ el sistema revisado está acotado y dibujado\n☐ participan quienes lo construyen y lo operan\n☐ cada respuesta va con evidencia enseñada\n☐ se ejecuta un procedimiento durante la sesión\n☐ se restaura una copia y se cronometra\n☐ se hace algo que debería detectarse y se cronometra\n☐ se preguntan las diez que faltan en los marcos\n☐ los hallazgos se priorizan por impacto y probabilidad\n☐ hay riesgos aceptados por escrito, con dueño y vigencia\n☐ el acta cabe en dos páginas\n☐ y a los 90 días se cuenta cuántas acciones se cerraron\n```\n\nY el cierre que enlaza con la clase siguiente: la revisión produce hallazgos, acciones y riesgos aceptados. Reunir todo eso en un paquete que alguien de fuera pueda evaluar —con costes y con los riesgos que quedan— es la materia de la clase 287."
+    }
+  ],
+  "worked_example": "**Dos revisiones de CloudShop, la misma metodología en dos proveedores. Lo que sigue son los hallazgos que solo aparecen al exigir evidencia, la diferencia entre las dos nubes, y qué pasó a los 90 días.**\n\n**Revisión 1 · El flujo de compra, proveedor principal.**\n\n```text\nalcance   del navegador al almacén, incluidas pasarelas y\n          eventos\nduración  4 horas\nparticipan 6 personas del equipo, 1 facilitando\n```\n\nY lo que ocurrió al exigir evidencia:\n\n```text\nPREGUNTA   «coge un procedimiento y ejecútalo ahora»\nRESPUESTA  se eligió al azar «recuperar la cola de pedidos\n           atascada»\nRESULTADO  falló en el paso 3: el nombre de la cola había\n           cambiado en una migración de hacía 5 meses\n           → hallazgo, en directo, en 6 minutos\n\nPREGUNTA   «restaura una copia ahora y cronométralo»\nRESPUESTA  «tarda unos 40 minutos»\nRESULTADO  3 h 10 min\n           → y el objetivo comprometido era de 1 hora\n           → hallazgo de impacto alto\n\nPREGUNTA   «haz algo que debería detectarse y\n           cronométralo»\nRESPUESTA  se creó una clave de acceso permanente\nRESULTADO  nadie la detectó en 45 minutos\n           → la regla existía y apuntaba a un canal\n             retirado                          ley 15\n\nPREGUNTA   «¿mides en el cliente o en el servidor?»\nRESPUESTA  en el servidor\nRESULTADO  al instrumentar el cliente: 1,23 puntos de\n           diferencia\n           → 4.100 compras al mes que nadie veía\n\nPREGUNTA   «¿qué pasa si el inventario va LENTO?»\nRESPUESTA  «se degradaría un poco»\nRESULTADO  ensayo posterior: 200 ms → 4.100 ms\n           → hipótesis refutada\n\nPREGUNTA   «¿qué has retirado este año?»\nRESPUESTA  silencio, y después «nada»\n           → y de ahí salió el trabajo de las 245 alertas\n```\n\nY la priorización:\n\n```text                                    impacto  probab.  acción\nrestauración 3× peor que el objetivo   alto     alto     YA\nno se detecta credencial permanente    alto     medio    YA\ndegradación por dependencia lenta      alto     alto     YA\nprocedimiento roto                     medio    alto     YA\nmedición solo en servidor              medio    alto     YA\ncuotas de la región secundaria         alto     bajo     PLANIF\nsin retirada de nada                   medio    alto     PLANIF\nregistro de accesos incompleto         medio    bajo     ACEPTAR\nsin cifrado propio en un almacén\n  interno                              bajo     bajo     ACEPTAR\n\nhallazgos                                     19\n  actuar ya                                    5\n  planificar                                   9\n  aceptar como riesgo residual                 5\n```\n\nY los cinco riesgos aceptados, escritos:\n\n```text\ncada uno con\n  qué es, qué pasaría, por qué se acepta, quién lo acepta\n  y hasta cuándo\n\nejemplo\n  «el registro de accesos al almacén interno no incluye\n  lecturas. Impacto: no podríamos reconstruir quién\n  consultó qué en caso de sospecha. Se acepta porque el\n  almacén no contiene datos personales y añadirlo cuesta\n  6 semanas. Acepta: responsable de plataforma. Vigencia:\n  hasta diciembre o hasta que el almacén reciba datos\n  personales, lo que ocurra antes.»\n\n→ y esa última cláusula es lo que evita que un riesgo\n  aceptado se convierta en un riesgo olvidado\n```\n\n**Revisión 2 · El mismo recorrido, segundo proveedor.**\n\n```text\nla arquitectura se había copiado del principal\nlas mismas preguntas, la misma exigencia de evidencia\n\nhallazgos comunes                                 11\nhallazgos EXCLUSIVOS del segundo proveedor         8\n```\n\nY los ocho exclusivos:\n\n```text\n1  la unidad de aislamiento no era equivalente: entornos\n   que en el principal estaban en cuentas separadas aquí\n   compartían contenedor administrativo   clase 219\n\n2  la política de permisos, traducida literalmente,\n   concedía acceso a 214 conjuntos en vez de 1\n   → detectado comparando permisos EFECTIVOS\n                                            clase 273\n\n3  cuotas por defecto muy inferiores en 4 servicios\n   → y sin alerta de proximidad\n\n4  el registro de auditoría no estaba activado por\n   defecto en 2 de 3 cuentas                   ley 26\n\n5  la replicación de copias tenía un destino\n   preconfigurado fuera de la región deseada\n\n6  el detalle de coste llegaba con 26 horas de retraso\n   frente a 8\n   → y la alerta de anomalía se había calibrado con el\n     retraso del otro proveedor\n\n7  el balanceador no expulsaba atípicos con la misma\n   configuración                            clase 196\n\n8  y la herramienta de infraestructura como código se\n   estrangulaba por cuota del plano de control\n                                            clase 262\n```\n\nY la conclusión que el equipo escribió:\n\n```text\n«copiamos la arquitectura y no copiamos las garantías»\n\n→ 8 de 19 hallazgos venían de suponer equivalencias\n→ y ninguno lo habría encontrado una revisión que\n  preguntara «¿tenéis aislamiento por entorno?»\n→ los encontró preguntar «enséñame el aislamiento\n  efectivo»\n```\n\n**Los 90 días.**\n\n```text                              revisión 1   revisión 2\nhallazgos                              19           19\nacciones asignadas                     14           16\ncerradas en 90 días                    12           13\n                                      86 %         81 %\nriesgos residuales escritos             5            3\n  revisados al vencer la vigencia       5            3\n  de ellos, dejaron de aceptarse        2            1\n\ny el efecto medido de las cerradas\n  restauración                    3 h 10 → 52 min\n  detección de credencial\n    permanente               no detectada → 4 min\n  degradación por latencia    4.100 ms → 1.240 ms\n  medición en cliente                  no → sí\n  cuotas de la secundaria           3,2 % → 100 %\n  permisos efectivos del\n    segundo proveedor            214 → 1 conjunto\n```\n\nY la comparación con la revisión anterior, hecha un año antes con el formato clásico:\n\n```text                              formato clásico   este formato\nduración                          3 días            4 horas\npáginas del informe                  61                  2\nhallazgos                            94                 19\nacciones asignadas                   12                 14\ncerradas en 90 días                   3                 12\n                                    25 %               86 %\nhallazgos encontrados EN LA\n  SESIÓN, ejecutando algo              0                  6\n```\n\nY la lectura del equipo:\n\n```text\nla revisión de 3 días produjo 94 hallazgos y 3 acciones\ncerradas\nla de 4 horas produjo 19 y 12\n\n→ la diferencia no fue el rigor: fue exigir evidencia y\n  aceptar riesgos por escrito\n→ una lista de 94 cosas por arreglar se ignora entera\n→ y 5 riesgos aceptados con fecha se revisan\n```\n\n**La lección que esta clase deja**: la revisión de tres días con 94 hallazgos cerró **3 acciones en 90 días**; la de cuatro horas con 19 hallazgos cerró **12**, y seis de esos hallazgos aparecieron durante la propia sesión al ejecutar un procedimiento, restaurar una copia y provocar algo que debía detectarse. Y en el segundo proveedor, ocho de diecinueve hallazgos venían de haber copiado la arquitectura **sin copiar las garantías**.",
+  "pitfalls": [
+    {
+      "symptom": "La revisión produce decenas de hallazgos y no cambia nada",
+      "cause": "No se priorizó ni se aceptó ningún riesgo por escrito",
+      "fix": "Clasifica en actuar ya, planificar y aceptar; una lista donde todo hay que arreglarlo se ignora entera."
+    },
+    {
+      "symptom": "Todo se responde afirmativamente y luego falla en un incidente",
+      "cause": "Las preguntas se responden con opiniones en vez de con evidencia",
+      "fix": "Exige enseñar: ejecuta un procedimiento, restaura una copia y provoca algo que debería detectarse, todo durante la sesión."
+    },
+    {
+      "symptom": "Los marcos oficiales se cumplen y siguen apareciendo fallos caros",
+      "cause": "Preguntan por lo que existe y no por lo que se ha comprobado",
+      "fix": "Añade las diez preguntas que faltan: última ejecución, juicio implícito, fallos sin error, cuotas de la secundaria, medición en el cliente y qué se ha retirado."
+    },
+    {
+      "symptom": "Se copia una arquitectura a otro proveedor y queda peor",
+      "cause": "Se supusieron equivalentes la unidad de aislamiento, los permisos y las cuotas",
+      "fix": "Revisa el aislamiento y los permisos efectivos en la nube destino, no los textos ni los nombres de servicio."
+    },
+    {
+      "symptom": "Un riesgo aceptado hace dos años ya no debería aceptarse",
+      "cause": "Se aceptó sin vigencia ni condición de revisión",
+      "fix": "Escribe cada riesgo residual con dueño, motivo, vigencia y la condición que lo invalida."
+    },
+    {
+      "symptom": "La revisión dura días y agota al equipo",
+      "cause": "Se recorre todo el catálogo de preguntas en vez de las que aplican",
+      "fix": "Acota el sistema, usa entre ocho y doce preguntas por pilar y cierra en media jornada con acta de dos páginas."
+    }
+  ],
+  "checks": [
+    "¿Qué tres decisiones de formato determinan que una revisión sirva?",
+    "¿Qué distingue una pregunta comprobable de una que no lo es?",
+    "¿Cuáles son las preguntas que faltan en los marcos y qué las justifica?",
+    "¿Dónde encuentra más hallazgos una revisión multiproveedor?",
+    "¿Cuál es el único número que dice si la revisión funcionó?"
+  ],
+  "references": [
+    {
+      "text": "AWS (2024). *Well-Architected Framework and Reviews*.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html"
+    },
+    {
+      "text": "Microsoft (2024). *Azure Well-Architected Framework*.",
+      "url": "https://learn.microsoft.com/azure/well-architected/"
+    },
+    {
+      "text": "Google Cloud (2024). *Architecture Framework*.",
+      "url": "https://cloud.google.com/architecture/framework"
+    },
+    {
+      "text": "Kim, G. y otros (2016). *The DevOps Handbook* — revisiones que producen cambio.",
+      "url": "https://itrevolution.com/product/the-devops-handbook-second-edition/"
+    },
+    {
+      "text": "Beyer, B. y otros (2018). *The Site Reliability Workbook*, cap. «Reliability reviews».",
+      "url": "https://sre.google/workbook/table-of-contents/"
+    }
+  ]
+}
