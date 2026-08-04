@@ -1,0 +1,118 @@
+{
+  "id": "243",
+  "purpose": "Hacer que la plataforma de datos se opere como se opera un sistema: con orquestación que sabe el orden, comprobaciones de calidad que fallan de verdad, linaje que permite retirar y cambiar, y observabilidad que avisa antes de que alguien se queje. La clase aborda el problema que este programa lleva anticipando: **la mayor parte de los fallos de datos no son ruidosos, y los descubre un consumidor semanas después**.",
+  "outcomes": [
+    "**Orquestar** trabajos por dependencia de datos, no por horario.",
+    "**Comprobar** la calidad con reglas que detienen el flujo cuando procede.",
+    "**Usar** el linaje para evaluar impacto, retirar y cumplir peticiones de borrado.",
+    "**Vigilar** frescura, volumen, esquema y distribución.",
+    "**Reaccionar** a los incidentes de datos con un procedimiento propio."
+  ],
+  "concepts": [
+    {
+      "term": "orquestación por dependencia",
+      "definition": "Un trabajo se ejecuta cuando sus entradas están listas, no a una hora fija."
+    },
+    {
+      "term": "comprobación de calidad",
+      "definition": "Regla sobre los datos con umbral. Puede avisar o detener el flujo."
+    },
+    {
+      "term": "cuarentena",
+      "definition": "Destino de las filas que no pasan las comprobaciones, para no contaminar ni perder."
+    },
+    {
+      "term": "linaje",
+      "definition": "Grafo de qué alimenta a qué y quién consume. Base del análisis de impacto."
+    },
+    {
+      "term": "deriva de esquema",
+      "definition": "Cambio no anunciado en la forma del dato de origen."
+    },
+    {
+      "term": "incidente de datos",
+      "definition": "Situación en que un dato publicado es incorrecto. Tiene su propio procedimiento."
+    }
+  ],
+  "diagram": "flowchart TB\n    O[\"ORQUESTACIÓN\"] --> O1[\"por DEPENDENCIA\\nde datos, no por hora\"]\n    O1 --> O2[\"reintentos, alertas\\ny reproceso\"]\n    O --> C[\"COMPROBACIONES\"]\n    C --> C1[\"antes de publicar\\n← detienen\"]\n    C --> C2[\"después\\n← avisan\"]\n    C1 --> Q{\"¿pasa?\"}\n    Q -->|no| Q1[\"NO se publica\\ny se avisa\"]\n    Q -->|\"parcial\"| Q2[\"CUARENTENA\\nde las filas malas\"]\n    Q -->|sí| P[\"publicado\"]\n    P --> L[\"LINAJE\"]\n    L --> L1[\"impacto de un cambio\"]\n    L --> L2[\"a quién avisar\"]\n    L --> L3[\"dónde está un dato\\npersonal\"]\n    P --> V[\"VIGILAR\\nfrescura · volumen ·\\nesquema · distribución\"]",
+  "foundations": [
+    {
+      "heading": "Orquestar por dependencia",
+      "body": "El error de orquestación más común es programar por horario y esperar que lo anterior haya terminado.\n\n```text\n✗ POR HORARIO\n  el trabajo A a las 2:00, el B a las 3:00, el C a las 4:00\n  → si A tarda más, B se ejecuta con datos incompletos\n  → y no da error: produce un resultado incorrecto\n                                                    ley 13\n  → y cuando A se acelera, sobra hora y media de espera\n\n✓ POR DEPENDENCIA\n  B se ejecuta cuando A ha terminado con éxito\n  y C, cuando B y otra entrada están listas\n  → el orden lo declara el grafo, no el reloj\n```\n\nY lo que un orquestador debe dar:\n\n```text\ngrafo de dependencias declarado\nreintentos con retroceso\nplazos: si un trabajo tarda más de X, avisa\nejecución por PARTICIÓN, no por «hoy»\n  → así se puede reprocesar el 3 de marzo   clase 242\nparalelismo controlado, con límites\ny estado consultable: ¿qué se está ejecutando y qué falló?\n```\n\nY dos propiedades que evitan la mitad de los incidentes:\n\n```text\nIDEMPOTENCIA DE CADA TAREA\n  ejecutarla dos veces produce lo mismo\n  → y por eso el reintento es seguro\n\nSIN SOLAPAMIENTO\n  si la ejecución de ayer sigue corriendo, la de hoy espera\n  → dos ejecuciones sobre la misma partición producen\n    duplicados o resultados imposibles\n  → y es un valor que hay que configurar        ley 26\n```\n\nY el disparo por llegada de datos, que es lo que más se aproxima a lo ideal:\n\n```text\nel trabajo arranca cuando su entrada aparece\n  un fichero en el almacén, una partición completa, un\n  mensaje\n→ y así el retraso total es la suma de los tiempos de\n  proceso, no la suma de las esperas\n\ny hay que saber cuándo una entrada está COMPLETA\n  → un fichero que se está escribiendo no está listo\n  → marca de finalización, o escritura atómica\n```\n\nY la alerta que hace falta, que no es la de fallo:\n\n```text\n«este trabajo no ha terminado a la hora en que suele»\n  → un trabajo que tarda el triple no ha fallado, y algo va\n    mal\n«este trabajo no se ha ejecutado»               ley 13\n  → el que deja de dispararse no genera ningún error\n```"
+    },
+    {
+      "heading": "Comprobar la calidad",
+      "body": "Las comprobaciones de calidad valen si **detienen algo**. Un panel de calidad en verde que nadie mira es exactamente la ley 15.\n\n```text\nLAS DIMENSIONES QUE HAY QUE COMPROBAR\n\n  COMPLETITUD    ¿están todas las filas esperadas?\n                 recuento frente al origen o frente al\n                 rango histórico\n  UNICIDAD       ¿la clave es única?\n  VALIDEZ        ¿los valores están en el dominio\n                 esperado?\n                 nulos, rangos, formatos, catálogos\n  CONSISTENCIA   ¿cuadra con otra fuente?\n                 el total de ventas del día frente al de\n                 finanzas\n  FRESCURA       ¿el dato es de cuando debería?\n  DISTRIBUCIÓN   ¿la forma de los datos es la habitual?\n                 → la que detecta lo que las demás no\n```\n\nY la última merece detalle, porque es la que encuentra los fallos silenciosos:\n\n```text\nla media, la desviación y los percentiles de una columna\nnumérica\nla proporción de cada valor en una categórica\nel porcentaje de nulos por columna\n\n→ si el importe medio pasa de 41 € a 0,41 €, ninguna regla\n  de validez lo detecta: los valores son válidos\n→ y eso es exactamente lo que ocurre cuando un origen\n  cambia de céntimos a euros sin avisar      clase 188\n```\n\n**Dónde se comprueba**, que decide qué se puede hacer:\n\n```text\nANTES DE PUBLICAR\n  si falla, NO se publica y se avisa\n  → el consumidor sigue viendo el dato anterior, correcto\n  → esta es la que protege\n\nDESPUÉS DE PUBLICAR\n  si falla, se avisa\n  → el dato malo ya está fuera\n  → sirve para lo que no se puede comprobar antes\n\n→ y la mayoría de las plataformas comprueban después\n  porque es más fácil                            ley 26\n```\n\nY qué hacer cuando falla parcialmente:\n\n```text\nDETENER LA PUBLICACIÓN ENTERA\n  correcto cuando el fallo indica que algo está roto\n\nCUARENTENA\n  las filas que no pasan van a un destino aparte\n  las buenas se publican\n  → y alguien revisa la cuarentena\n  → si nadie la revisa, es una papelera      clase 210\n\nY LA DECISIÓN SE DECLARA por regla, no se improvisa\n  «si más del 1 % falla, se detiene; si menos, cuarentena»\n```\n\nY la regla que hace útil todo esto:\n\n```text\nlas comprobaciones vienen del CONTRATO           clase 241\n  las cifras de calidad que el contrato promete son las que\n  se comprueban\n→ y así el contrato deja de ser una declaración y pasa a\n  ser algo que se verifica                        ley 22\n```"
+    },
+    {
+      "heading": "Linaje: impacto, aviso y borrado",
+      "body": "El linaje se presenta como documentación y en realidad resuelve tres problemas operativos.\n\n```text\n1  ANÁLISIS DE IMPACTO\n   «si cambio esta columna, ¿qué se rompe?»\n   → sin linaje, la respuesta es «probemos y veamos»\n   → con linaje, la lista de tablas, informes y modelos\n     afectados                                clase 241\n\n2  A QUIÉN AVISAR CUANDO ALGO FALLA\n   una tabla llega mal → ¿quién la consume?\n   → y hay que avisarles ANTES de que tomen decisiones con\n     ella\n   → esto es lo que distingue un incidente de datos bien\n     llevado de uno mal llevado\n\n3  DÓNDE ESTÁ UN DATO PERSONAL\n   una petición de supresión obliga a borrarlo de todas\n   partes\n   → y «todas partes» incluye las copias derivadas, los\n     conjuntos de entrenamiento y los ficheros de\n     exportación                       clases 139, 251\n   → sin linaje, no se puede cumplir\n```\n\nY de dónde sale:\n\n```text\nAUTOMÁTICO\n  de las consultas que ejecutan las transformaciones\n  → es el que se mantiene solo\n  → y el que cubre lo que pasa dentro de la plataforma\n\nDECLARADO\n  para lo que la plataforma no ve: ficheros que alguien\n  sube, procesos externos, exportaciones\n  → y esa parte se queda obsoleta                 ley 25\n\n→ por eso conviene que CUANTO exista pase por la plataforma\n  → lo que entra por fuera, no tiene linaje\n```\n\nY el nivel de detalle:\n\n```text\nA NIVEL DE TABLA     suficiente para avisar y para retirar\nA NIVEL DE COLUMNA   necesario para el impacto fino y para\n                     el borrado de datos personales\n→ y el segundo cuesta más de mantener; se activa donde hace\n  falta\n```\n\nY lo que permite hacer, que es lo que justifica el esfuerzo:\n\n```text\nRETIRAR una tabla: se sabe quién la usa      clase 188\nCAMBIAR un esquema: se avisa a quien toca\nAUDITAR: de dónde salió esta cifra del informe\nY LIMPIAR: tablas sin consumidores en 90 días\n                                          clase 236, ley 25\n```"
+    },
+    {
+      "heading": "Observar y responder",
+      "body": "**Lo que hay que vigilar** en una plataforma de datos, que no es lo mismo que en un servicio.\n\n```text\nPOR CONJUNTO PUBLICADO\n  frescura, con alerta por antigüedad            ley 13\n  volumen por ejecución, con su rango normal\n  resultado de las comprobaciones de calidad\n  y el cumplimiento del contrato: retraso frente a lo\n    prometido                                clase 241\n\nPOR FLUJO\n  duración, con alerta si se desvía\n  tasa de fallo y de reintento\n  filas en cuarentena\n  y coste                                    clase 236\n\nY LO TRANSVERSAL\n  DERIVA DE ESQUEMA en los orígenes\n    → una columna nueva, una que desaparece, un tipo que\n      cambia\n    → detectada al ingerir, no al consumir  clase 242\n  conjuntos sin consumidores\n  y conjuntos consumidos sin contrato\n```\n\nY la señal que más problemas encuentra y menos se mide:\n\n```text\nLA DISTRIBUCIÓN DE LAS COLUMNAS, comparada con su\nhistórico\n  → detecta el cambio de unidades, el origen que envía la\n    mitad, la categoría que desaparece y el nulo que\n    aparece\n  → y nada de eso da error\n```\n\n**El incidente de datos**, que necesita procedimiento propio:\n\n```text\nQUÉ LO DISTINGUE DE UN INCIDENTE DE SERVICIO\n  el servicio no está caído: está dando datos incorrectos\n  y la gente ya ha tomado decisiones con ellos\n  → el daño no se detiene apagando nada\n\nEL PROCEDIMIENTO\n  1  CONTENER: dejar de publicar; marcar el conjunto como\n     no fiable\n     → y que los consumidores lo vean            clase 187\n  2  AVISAR a los consumidores, con el linaje en la mano\n     → y decirles qué decisiones pueden estar afectadas\n  3  DIAGNOSTICAR: desde cuándo, qué filas, qué causa\n  4  CORREGIR y reprocesar                     clase 242\n  5  CONFIRMAR a los consumidores\n  6  y REVISIÓN: por qué no lo detectó una comprobación\n                                                clase 127\n```\n\nY la pregunta de la revisión, que es la que produce mejoras:\n\n```text\n«¿qué comprobación habría detectado esto, y por qué no\n existía?»\n  → y la respuesta se convierte en una regla nueva\n  → y así el conjunto de comprobaciones crece con los\n    fallos vividos                            clase 216\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ los trabajos se orquestan por dependencia, no por horario\n☐ cada tarea es idempotente\n☐ no hay solapamiento entre ejecuciones\n☐ la ejecución es por partición, no por «hoy»\n☐ hay alerta de trabajo no ejecutado y de duración anómala\n☐ hay comprobaciones de las seis dimensiones\n☐ se comprueba la distribución, no solo la validez\n☐ las comprobaciones críticas se hacen ANTES de publicar\n☐ está declarado qué se detiene y qué va a cuarentena\n☐ alguien revisa la cuarentena\n☐ las comprobaciones salen de las cifras del contrato\n☐ el linaje es automático y llega al nivel que hace falta\n☐ se usa para impacto, aviso y borrado de datos personales\n☐ se vigilan frescura, volumen, esquema y distribución\n☐ existe procedimiento de incidente de datos, con aviso a\n  consumidores\n☐ cada incidente produce una comprobación nueva\n```\n\nY el cierre que enlaza con la clase siguiente: con la plataforma de datos operada, empieza la parte de aprendizaje automático, que se apoya en todo lo anterior y añade sus propios problemas. Almacén de atributos, canalizaciones de entrenamiento y registro de experimentos es la materia de la clase 244."
+    }
+  ],
+  "worked_example": "**CloudShop opera su plataforma de datos. Lo que sigue son los tres incidentes de datos del año —ninguno detectado por una alerta—, el cambio de unidades que nadie vio, y el procedimiento que se montó después.**\n\n**El punto de partida:**\n\n```text\ntrabajos de datos                                  180\n  orquestados por horario                          180\n  con comprobaciones de calidad                     12\n  con alerta de fallo                              180\n  con alerta de NO EJECUCIÓN                          0\n  con alerta de frescura                              0\n\nlinaje                                    no existía\nprocedimiento de incidente de datos       no existía\n```\n\n**Incidente 1 · El trabajo que se ejecutó antes de tiempo.**\n\n```text\nqué pasó\n  el trabajo de agregación de ventas se ejecutaba a las\n  4:00\n  la ingesta de pedidos, a las 2:00, y tardaba 90 minutos\n  un martes, la ingesta tardó 2 h 40 por un pico de volumen\n  → a las 4:00, la ingesta no había terminado\n  → la agregación se ejecutó con el 61 % de los pedidos\n  → y no dio error\n\n  el informe de ventas del día mostró un 39 % menos\n  se detectó                        cuando el director de\n                                    ventas preguntó\n  tiempo hasta detectarlo                       9 horas\n\ncorrección\n  orquestación por dependencia: la agregación espera a que\n  la ingesta termine con éxito\n  y comprobación de completitud antes de agregar\n```\n\n**Incidente 2 · El cambio de unidades.**\n\n```text\nqué pasó\n  un socio cambió el formato de su fichero de tarifas: los\n  importes pasaron de céntimos a euros\n  sin avisar                                clase 188\n\n  la ingesta funcionó: los valores eran numéricos y\n  positivos\n  las comprobaciones de validez pasaron: rango 0-100000\n  → los precios de 4.100 pasaron a ser 41\n\n  el efecto\n    el motor de precios aplicó tarifas 100 veces menores\n    durante 6 días\n    ventas afectadas                              4.100\n    pérdida                                    118.000 €\n\n  se detectó\n    en el cierre contable mensual\n    tiempo hasta detectarlo                     14 días\n\nqué lo habría detectado\n  una comprobación de DISTRIBUCIÓN\n  «el importe medio de esta tabla está fuera de su rango\n   histórico»\n  → media histórica 4.180 €, desviación 310\n  → media del día 41,8 €\n  → 13 desviaciones fuera\n  → habría detenido la publicación en la primera ejecución\n```\n\nY la lección que el equipo escribió:\n\n```text\nlas comprobaciones de validez comprueban que los valores\nson POSIBLES\nlas de distribución comprueban que son LOS DE SIEMPRE\n→ y el fallo silencioso siempre produce valores posibles\n```\n\n**Incidente 3 · La columna que desapareció.**\n\n```text\nqué pasó\n  el equipo de la aplicación renombró un campo del evento\n  de sesión\n  el flujo de ingesta lo tomaba por nombre\n  → el campo llegó vacío\n  → el 41 % de los eventos quedó sin canal de origen\n\n  el efecto\n    el informe de atribución de campañas mostró un 41 % de\n    tráfico «directo»\n    marketing reasignó 31.000 € de presupuesto por ese dato\n\n  se detectó\n    marketing notó que el canal de pago «había caído mucho»\n    tiempo hasta detectarlo                     11 días\n\nqué lo habría detectado\n  detección de deriva de esquema en la ingesta\n  y comprobación de distribución: la proporción de nulos en\n  esa columna pasó de 2 % a 41 %\n```\n\n**Lo que se montó.**\n\n```text\nORQUESTACIÓN\n  los 180 trabajos, migrados a un grafo de dependencias\n  ejecución por partición, con la fecha como parámetro\n  sin solapamiento\n  reintentos con retroceso\n  y tres alertas nuevas\n    trabajo no ejecutado en su ventana\n    duración por encima del percentil 95 histórico\n    y trabajo bloqueado esperando una entrada\n\n  efecto\n    retraso total de la cadena de ventas\n      antes   4:00 fijo, con riesgo\n      después termina cuando termina; media 3:20, y correcto\n    incidentes por ejecución prematura        1 → 0\n\nCOMPROBACIONES\n  las cifras del contrato de cada producto se convirtieron\n  en comprobaciones automáticas             clase 241\n\n  por conjunto\n    completitud: recuento frente al origen\n    unicidad de la clave\n    validez: nulos, rangos, catálogos\n    consistencia: totales frente a otra fuente\n    frescura\n    DISTRIBUCIÓN: media, desviación y percentiles de las\n      columnas numéricas; proporción de valores en las\n      categóricas; porcentaje de nulos por columna\n\n  y la política\n    las de completitud, unicidad y distribución: DETIENEN\n    las de validez: cuarentena si menos del 1 %, detienen si\n      más\n    las de consistencia: avisan\n\n  primeros 6 meses\n    ejecuciones detenidas por comprobación             41\n      reales                                           38\n      falsos positivos                                  3\n        → umbrales ajustados\n    filas en cuarentena                             1.900\n      revisadas                                     1.900\n      → 1.740 recuperadas tras corregir el origen\n\nLINAJE\n  automático, a nivel de tabla, y de columna en los\n  conjuntos con datos personales\n  → 41 tablas sin consumidores, retiradas\n  → y el primer análisis de impacto: un cambio de esquema\n    propuesto afectaba a 19 informes, 3 modelos y 2\n    exportaciones a socios\n    → el equipo creía que a 4\n```\n\n**El procedimiento de incidente de datos, y su primera ejecución:**\n\n```text\nincidente   una tabla de inventario llegó con el 30 % de\n            las filas duplicadas\n\n  09:12  la comprobación de unicidad detiene la publicación\n  09:12  alerta al canal de guardia\n  09:18  el conjunto se marca como NO FIABLE\n         → los paneles muestran el aviso\n  09:22  el linaje da los consumidores: 7 informes, 1\n         modelo de reposición, 1 exportación a un socio\n  09:25  avisados los 9, con el mensaje de qué decisiones\n         pueden estar afectadas\n  09:40  causa: un cambio en el capturador reprocesó un\n         rango                                clase 242\n  10:15  corregido y reprocesado\n  10:20  conjunto marcado como fiable; consumidores\n         confirmados\n\n  duración                                     1 h 08\n  decisiones tomadas con el dato malo                0\n    → porque no se publicó\n\ny la revisión\n  «¿qué comprobación lo detectó?»   la de unicidad, que\n                                    existía\n  «¿por qué no se evitó?»           el reproceso no\n                                    sobrescribía la\n                                    partición: insertaba\n  → corregido                                clase 242\n```\n\n**El resultado, al año:**\n\n```text                                        antes     después\ntrabajos orquestados por dependencia            0         180\nconjuntos con comprobaciones                   12         94\nincidentes de datos publicados                  3           0\n  (detenidos antes de publicar)                 —          41\ntiempo medio de detección                  11 días      9 min\ndetectados por un consumidor                  3/3         0/41\npérdida por datos incorrectos            149.000 €          0\ntablas sin consumidores                        41           0\nanálisis de impacto antes de un cambio         no          sí\nconjuntos con linaje                            0        100 %\n```\n\n**La lección que esta clase deja**: los tres incidentes del año **los detectaron tres personas de negocio, no una alerta**, y el más caro —ciento dieciocho mil euros— lo produjo un cambio de céntimos a euros que **pasó todas las comprobaciones de validez** porque los valores eran perfectamente posibles. Lo que faltaba no era una regla más estricta: era **comparar la distribución con su histórico**, que es lo único que detecta un valor posible pero equivocado.",
+  "pitfalls": [
+    {
+      "symptom": "Un trabajo produce resultados incompletos sin dar error",
+      "cause": "Se orquesta por horario y su entrada aún no había terminado",
+      "fix": "Orquesta por dependencia de datos y añade comprobación de completitud antes de agregar."
+    },
+    {
+      "symptom": "Un cambio de unidades pasa todas las comprobaciones",
+      "cause": "Las reglas de validez comprueban que los valores sean posibles, no que sean los de siempre",
+      "fix": "Añade comprobaciones de distribución contra el histórico: media, desviación, percentiles y proporción de nulos."
+    },
+    {
+      "symptom": "Una columna llega vacía y el informe cambia de sentido",
+      "cause": "El origen renombró un campo y no hay detección de deriva de esquema",
+      "fix": "Detecta la deriva al ingerir y alerta por cambio en la proporción de nulos."
+    },
+    {
+      "symptom": "El dato malo ya está publicado cuando se detecta",
+      "cause": "Las comprobaciones se ejecutan después de publicar porque es más fácil",
+      "fix": "Ejecuta antes de publicar las que protegen, y declara qué detiene y qué va a cuarentena."
+    },
+    {
+      "symptom": "No se puede avisar a quien usa un dato incorrecto",
+      "cause": "No hay linaje y los consumidores no están declarados",
+      "fix": "Activa el linaje automático y úsalo para el aviso, el análisis de impacto y las peticiones de borrado."
+    },
+    {
+      "symptom": "La cuarentena se llena y nadie la mira",
+      "cause": "Es un destino sin dueño ni revisión",
+      "fix": "Asigna dueño, alerta por antigüedad y revísala como se revisa una cola de fallidos."
+    }
+  ],
+  "checks": [
+    "¿Por qué orquestar por horario produce resultados incorrectos sin errores?",
+    "¿Qué detecta la comprobación de distribución que no detecta la de validez?",
+    "¿Qué diferencia hay entre comprobar antes y después de publicar?",
+    "¿Qué tres problemas operativos resuelve el linaje?",
+    "¿Qué pregunta de la revisión de un incidente de datos produce las mejoras?"
+  ],
+  "references": [
+    {
+      "text": "Apache Airflow (2025). *Concepts: DAGs, data-aware scheduling and backfills*.",
+      "url": "https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/index.html"
+    },
+    {
+      "text": "Great Expectations (2025). *Data quality expectations*.",
+      "url": "https://docs.greatexpectations.io/"
+    },
+    {
+      "text": "Moses, B. y otros (2022). *Data Quality Fundamentals*.",
+      "url": "https://www.oreilly.com/library/view/data-quality-fundamentals/9781098112035/"
+    },
+    {
+      "text": "OpenLineage (2025). *Lineage specification*.",
+      "url": "https://openlineage.io/docs/"
+    },
+    {
+      "text": "dbt (2025). *Tests, contracts and lineage*.",
+      "url": "https://docs.getdbt.com/docs/build/data-tests"
+    }
+  ]
+}
