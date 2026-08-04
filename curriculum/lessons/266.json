@@ -1,0 +1,118 @@
+{
+  "id": "266",
+  "purpose": "La ruta de entrega: hacer que el cambio llegue a producción rápido y sin romper. La clase separa lo que esta especialidad hace de verdad —que no es montar cadenas de construcción— de lo que aparenta, da las competencias que se miden en una entrevista y en el trabajo, y marca su modo de fracaso característico: **convertirse en el equipo que aprueba en vez del que habilita**.",
+  "outcomes": [
+    "**Definir** qué hace esta ruta y qué no, con las cuatro métricas.",
+    "**Identificar** las competencias que se miden y en qué orden crecen.",
+    "**Diagnosticar** una cadena de entrega lenta o poco fiable.",
+    "**Evitar** el modo de fracaso de convertirse en portero.",
+    "**Reconocer** el techo de la ruta y qué lo levanta."
+  ],
+  "concepts": [
+    {
+      "term": "ruta de entrega",
+      "definition": "Especialidad centrada en el camino desde que se escribe un cambio hasta que sirve a un usuario."
+    },
+    {
+      "term": "cadena de entrega",
+      "definition": "Construcción, pruebas, empaquetado, despliegue y verificación. El producto de esta ruta."
+    },
+    {
+      "term": "portero",
+      "definition": "Modo de fracaso en que el equipo pasa de habilitar a autorizar, y se convierte en el cuello de botella."
+    },
+    {
+      "term": "tiempo de entrega",
+      "definition": "De confirmar un cambio a que sirva tráfico. La métrica que más revela."
+    },
+    {
+      "term": "camino pavimentado",
+      "definition": "La forma fácil de hacer lo correcto. Reemplaza a la norma que hay que recordar."
+    },
+    {
+      "term": "prueba que da confianza",
+      "definition": "La que, si pasa, permite desplegar sin mirar. Cualquier otra es decoración."
+    }
+  ],
+  "diagram": "flowchart TB\n    C[\"cambio\\nescrito\"] --> B[\"construcción\\nreproducible\"]\n    B --> T[\"pruebas que\\ndan confianza\"]\n    T --> A[\"artefacto\\nfirmado · con SBOM\"]\n    A --> D[\"despliegue\\nprogresivo\"]\n    D --> V{\"canario\\nsano\"}\n    V -->|\"no\"| R[\"vuelta atrás\\nautomática\"]\n    V -->|\"sí\"| P[\"producción\"]\n    P --> M[\"medir las\\ncuatro métricas\"]\n    M -.->|\"realimenta\"| C\n    X[\"modo de fracaso:\\nPORTERO\"] -.->|\"aprueba\\nen vez de\\nhabilitar\"| D",
+  "foundations": [
+    {
+      "heading": "Qué hace esta ruta de verdad",
+      "body": "El nombre y las herramientas engañan. Esta ruta no se define por montar cadenas: se define por un número.\n\n```text\nEL TRABAJO ES REDUCIR EL TIEMPO Y EL RIESGO ENTRE\n«ESTÁ ESCRITO» Y «SIRVE A UN USUARIO»\n\ny se mide con cuatro cosas               clase 260\n  frecuencia de despliegue\n  tiempo de entrega\n  tasa de fallo por cambio\n  tiempo de recuperación\n\n→ si estas cuatro no mejoran, el trabajo no está\n  produciendo efecto, por muchas herramientas que haya\n```\n\nY lo que hace, desglosado:\n\n```text\nCONSTRUCCIÓN REPRODUCIBLE\n  la misma entrada produce la misma salida\n  dependencias fijadas y almacenadas       clase 216\n  y construcción sin acceso a producción\n\nPRUEBAS QUE DAN CONFIANZA\n  la pregunta no es «¿cuánta cobertura?»\n  es «si pasan, ¿despliego sin mirar?»\n  → y si la respuesta es no, sobra o falta algo\n\nARTEFACTO ÚNICO Y TRAZABLE\n  se construye una vez y se promociona\n  → no se reconstruye por entorno\n  firmado, con inventario de componentes  clase 216\n\nDESPLIEGUE PROGRESIVO\n  canario, porcentajes, vuelta atrás automática\n                                          clase 102\n  y despliegue separado de activación     clase 105\n\nVERIFICACIÓN AUTOMÁTICA\n  el propio despliegue comprueba que funcionó\n  → y si no, revierte solo\n\nY EL CAMINO PAVIMENTADO\n  que hacer lo correcto sea lo más fácil\n  → una plantilla que ya trae señales, copias, permisos\n    mínimos y despliegue progresivo\n  → esto es lo que hace que la norma no haga falta\n                                          ley 16\n```\n\nY lo que NO es esta ruta, aunque se lo asignen:\n\n```text\nno es «el equipo que despliega»\n  → si esta ruta despliega por los demás, es el cuello de\n    botella\nno es «el equipo de las herramientas»\n  → las herramientas son el medio\nno es «el que arregla la cadena cuando se rompe»\n  → eso es síntoma de una cadena frágil\ny no es el que aprueba\n  → ese es el modo de fracaso\n```"
+    },
+    {
+      "heading": "Las competencias que se miden",
+      "body": "Lo que distingue a alguien bueno en esta ruta, por orden de aparición.\n\n```text\nNIVEL 2 · RESUELVO\n  monta una cadena completa para un servicio\n  diagnostica por qué una construcción no es reproducible\n  distingue prueba útil de prueba decorativa\n  gestiona secretos sin ponerlos en el repositorio\n                                          clase 197\n  y sabe qué hace lento el ciclo, midiéndolo\n\nNIVEL 3 · DISEÑO\n  decide la estrategia de ramas y de versiones y la\n  defiende con datos de tiempo de entrega\n  diseña el despliegue progresivo por servicio, según su\n  riesgo                                  clase 260\n  hace reversible lo que no lo parece: esquemas, mensajes,\n  contratos                        clases 106, 209, 210\n  reduce el lote sin bajar la calidad\n  y monta la cadena de suministro: firma, procedencia,\n  inventario                              clase 216\n\nNIVEL 4 · CAMBIO EL SISTEMA\n  convierte el camino pavimentado en el más fácil, y la\n  adopción se mide\n  elimina el proceso de aprobación demostrando que no\n  filtra riesgo                           clase 260\n  y consigue que los equipos de producto respondan de sus\n  despliegues\n```\n\nY las preguntas que separan niveles en una entrevista:\n\n```text\n«¿cuál es vuestro tiempo de entrega y cómo lo medís?»\n  → nivel 1 no lo sabe\n  → nivel 2 da un número\n  → nivel 3 lo desglosa por tramos y sabe cuál domina\n\n«¿qué pasa si una prueba falla de forma intermitente?»\n  → la respuesta mala: reintentarla\n  → la buena: es un defecto; se aísla, se arregla o se\n    retira, porque una prueba en la que no se confía\n    destruye el valor de todas\n\n«¿cómo desplegáis un cambio de esquema?»\n  → discrimina mucho                        clase 260\n\n«¿cuándo fue vuestra última vuelta atrás?»\n  → y si es «no hemos necesitado», es mala señal\n                                              ley 22\n\ny la que más revela\n«¿cuánto tarda un equipo nuevo en tener su primer\ndespliegue en producción?»\n  → mide el camino pavimentado, no la cadena\n```\n\nY los diagnósticos típicos de una cadena mala:\n\n```text\nSÍNTOMA                      CAUSA HABITUAL\nla cadena tarda 40 min       pruebas mal ordenadas; lo\n                             barato debe ir primero\nnadie confía en las pruebas  intermitentes toleradas\nfunciona en un entorno y no  el artefacto se reconstruye\nen otro                      por entorno\nse despliega los viernes\nnunca                        no hay vuelta atrás fiable\nel despliegue exige a una    hay pasos manuales no escritos\npersona concreta                                  ley 30\ny el ciclo es rápido pero\nrompe mucho                  falta verificación automática\n                             tras desplegar\n```"
+    },
+    {
+      "heading": "El modo de fracaso: el portero",
+      "body": "Toda ruta tiene una forma característica de estropearse. La de esta es convertirse en quien autoriza.\n\n```text\nCÓMO EMPIEZA, siempre con buena intención\n  un despliegue rompe producción\n  → «revisemos los despliegues antes»\n  otro rompe\n  → «que pase por nosotros»\n  y en seis meses\n  → el equipo de entrega aprueba todos los despliegues\n\nQUÉ PRODUCE\n  cola de espera → lotes mayores → más riesgo\n                                            clase 260\n  responsabilidad desplazada\n    → «lo aprobasteis vosotros»\n  y el equipo pasa el día en trabajo repetitivo, sin\n    mejorar nada\n\n→ y las cuatro métricas empeoran a la vez\n→ es el mismo mecanismo del comité de cambios, con otro\n  nombre                                    clase 260\n```\n\nY cómo se sale de ahí, que es trabajo de nivel 4:\n\n```text\n1  MEDIR QUÉ FILTRA LA APROBACIÓN\n   de los últimos 200 despliegues revisados, ¿cuántos se\n   rechazaron y cuántos incidentes causaron los aprobados?\n   → CloudShop: 0,6 % rechazados y el 91 % de los\n     incidentes venían de aprobados          clase 260\n\n2  SUSTITUIR CADA MOTIVO DE RECHAZO POR UNA COMPROBACIÓN\n   AUTOMÁTICA\n   → «no tenía vuelta atrás» → comprobación\n   → «coincidía con otro cambio» → calendario\n\n3  DEVOLVER LA RESPONSABILIDAD\n   quien escribe el cambio responde del despliegue\n   → y para eso hace falta que PUEDA: señales, vuelta\n     atrás, procedimiento y permisos\n\n4  Y QUEDARSE CON EL CAMINO PAVIMENTADO\n   → el equipo de entrega hace fácil lo correcto\n   → no vigila que se haga\n```\n\nY el segundo modo de fracaso, menos visible:\n\n```text\nLA CADENA COMO PRODUCTO PROPIO\n  se optimiza la cadena por elegancia interna\n  → módulos, abstracciones, plantillas anidadas\n  → y los equipos de producto no la entienden\n\n→ y entonces vuelven a pedir ayuda para cada cambio\n→ y el equipo vuelve a ser cuello de botella, por otra vía\n→ la medida correcta es la ADOPCIÓN y la autonomía, no la\n  calidad interna de la cadena             clase 267\n```"
+    },
+    {
+      "heading": "El techo de la ruta",
+      "body": "Dónde se acaba esta especialidad y qué la continúa.\n\n```text\nEL TECHO\n  se llega a tener una cadena rápida, fiable y adoptada\n  → y las cuatro métricas dejan de mejorar porque el\n    cuello ya no está ahí\n\ny lo que suele limitar entonces\n  la arquitectura del sistema\n    → servicios acoplados que no se pueden desplegar por\n      separado                          clases 106, 183\n  la organización\n    → equipos que dependen unos de otros para entregar\n  o la calidad del propio código\n\n→ y ninguna de las tres se arregla desde la cadena\n```\n\nY las tres continuaciones naturales:\n\n```text\na  PLATAFORMA                                clase 267\n   la cadena es una parte del producto interno; el\n   siguiente paso es todo lo demás que un equipo necesita\n   para ir solo\n\nb  FIABILIDAD                                clase 268\n   de «que el cambio llegue» a «que el sistema cumpla»\n   → y añade presupuestos de error y decir que no\n\nc  ARQUITECTURA                              clase 272\n   si lo que frena es el acoplamiento, el trabajo es\n   rediseñar los límites\n\n→ y la señal para elegir es qué te está frenando HOY\n```\n\nY el consejo específico de esta ruta:\n\n```text\nAPRENDE A MEDIR ANTES QUE A MONTAR\n  la mayoría llega con herramientas y sin números\n  → y sin números no se puede demostrar mejora, ni\n    justificar quitar una aprobación\n\ny la evidencia que vale en una entrevista\n  «bajamos el tiempo de entrega de 6,4 días a 3,2 horas\n  reduciendo el lote de 14 cambios a 1, y la tasa de\n  fallo bajó del 1,8 % al 0,6 %»\n  → con el método explicado\n  → mejor que cualquier lista de herramientas\n                                            clase 275\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ sé cuáles son mis cuatro métricas y de dónde salen\n☐ sé qué tramo domina mi tiempo de entrega\n☐ mis pruebas permiten desplegar sin mirar; si no, lo sé\n☐ no tolero pruebas intermitentes\n☐ el artefacto se construye una vez y se promociona\n☐ hay despliegue progresivo con vuelta atrás automática\n☐ se ha ejecutado una vuelta atrás en los últimos 30 días\n☐ los cambios de esquema se hacen en pasos reversibles\n☐ mi equipo habilita y no aprueba\n☐ mido adopción del camino pavimentado, no su elegancia\n☐ un equipo nuevo llega a producción en días, y lo mido\n☐ sé qué me está frenando ahora y en qué ruta se resuelve\n```\n\nY el cierre que enlaza con la clase siguiente: cuando la cadena deja de ser el cuello de botella, lo que frena es todo lo demás que un equipo necesita para ir solo. Tratar eso como un producto interno es la ruta de plataforma, materia de la clase 267."
+    }
+  ],
+  "worked_example": "**Dos trayectorias reales en la ruta de entrega, con las cifras que las definieron. Lo que sigue es el caso de quien montó una cadena impecable que nadie usaba, y el de quien desmontó su propio trabajo de portero.**\n\n**Caso 1 · La cadena que nadie usaba.**\n\n```text\nsituación\n  una persona de nivel 2 alto monta, en 4 meses, una\n  cadena de entrega excelente\n    construcción reproducible\n    pruebas por capas, ordenadas por coste\n    artefacto único, firmado, con inventario\n    despliegue progresivo con vuelta atrás automática\n    y plantillas para servicios nuevos\n\nadopción a los 4 meses\n  servicios que la usan               3 de 41\n  y los 3 eran del propio equipo de plataforma\n```\n\nY las razones, recogidas preguntando:\n\n```text\n«tiene 11 ficheros de configuración y no entiendo ninguno»\n«tarda 40 minutos y el nuestro tarda 6»\n«para añadir una variable hay que abrir una solicitud al\n  equipo de plataforma»\n«no sé qué hace cuando falla»\n\n→ la cadena era mejor en todo salvo en lo que decidía la\n  adopción\n→ se había optimizado la calidad interna, no el uso\n```\n\nY lo que cambió las cifras:\n\n```text\nse midió el tiempo de las pruebas y se reordenó\n  40 min → 9 min\n  (lo barato primero; lo caro solo si lo barato pasa)\n\nse redujo la configuración\n  11 ficheros → 1, con valores por defecto sensatos\n  → y lo avanzado sigue disponible para quien lo necesite\n\nse eliminó la solicitud al equipo de plataforma\n  → variables autoservicio, con validación\n\nse documentó qué hace al fallar, en una página\n\nadopción a los 3 meses siguientes    3 → 29 de 41\ny a los 9 meses                            38 de 41\n```\n\nY la conclusión que quedó escrita en el equipo:\n\n```text\nla medida de esta ruta no es la calidad de la cadena\nes cuántos equipos entregan solos y cuánto tardan\n→ y eso es lo que la separa de un pasatiempo técnico\n```\n\n**Caso 2 · El portero que se desmontó a sí mismo.**\n\n```text\npunto de partida\n  el equipo de entrega revisaba y ejecutaba todos los\n  despliegues a producción\n  2 personas dedicadas a ello\n  8 a 14 despliegues por semana\n\nlo que se medía\n  tiempo de entrega                        6,4 días\n  de los cuales, esperando al equipo       4,1 días\n  despliegues rechazados                       0,6 %\n  incidentes por cambio                      34/año\n    de despliegues que el equipo ejecutó         31\n```\n\nY el argumento que preparó, que es el trabajo de nivel 4:\n\n```text\npara cada motivo por el que alguna vez se había parado un\ndespliegue, una comprobación automática\n\n  motivo                       sustituto\n  sin plan de vuelta atrás     comprobación en la cadena\n  coincide con otro cambio     calendario y bloqueo\n                               automático\n  falta la señal de salud      comprobación en la cadena\n  toca algo crítico            etiqueta que exige canario\n                               más lento\n  descripción incomprensible   plantilla obligatoria\n\n  → 5 motivos, 5 comprobaciones\n  → tiempo de implementación            3 semanas\n```\n\nY la transición, que se hizo por fases para poder revertirla:\n\n```text\nfase 1  las comprobaciones se ejecutan y el equipo sigue\n        revisando\n        → 6 semanas en modo sombra           clase 259\n        → coincidencia entre la comprobación y la decisión\n          humana                      194 de 197 casos\n        → y los 3 discrepantes: la comprobación tenía razón\n          en 2\n\nfase 2  tres equipos piloto despliegan solos\n        → 5 semanas; incidentes por cambio: 0\n\nfase 3  todos\n```\n\nY las cifras a los 12 meses:\n\n```text                                        antes     después\ntiempo de entrega                     6,4 días      3,2 h\ndespliegues por semana                    8-14         47\ntasa de fallo por cambio                 1,8 %      0,6 %\ntiempo de recuperación                  47 min     11 min\npersonas dedicadas a ejecutar\n  despliegues                                2          0\n```\n\nY lo que esas dos personas hicieron con su tiempo:\n\n```text\n  camino pavimentado para servicios nuevos\n    tiempo de un servicio nuevo hasta producción\n      3 semanas → 2 días\n  cadena de suministro: firma e inventario  clase 216\n  y verificación automática tras desplegar\n    → que es lo que llevó el tiempo de recuperación de\n      47 a 11 minutos\n\n→ el mismo equipo, el mismo tamaño, otro efecto\n→ y el trabajo repetitivo que hacían no era necesario:\n  era una consecuencia de no tener las comprobaciones\n```\n\n**Y las preguntas de entrevista con las que se contrató a la siguiente persona.**\n\n```text\n1  «¿cuál es el tiempo de entrega de tu equipo y qué tramo\n    lo domina?»\n   respuestas recibidas, 11 candidaturas\n     no lo sabe                                    6\n     da un número                                  4\n     lo desglosa por tramos                        1\n\n2  «tenéis una prueba que falla 1 de cada 20 veces sin\n    motivo aparente. ¿Qué haces?»\n     reintentarla automáticamente                  7\n     aislarla y arreglarla o retirarla             4\n\n3  «¿cómo despliegas un cambio de esquema que ya escribió\n    datos?»\n     lo describe en pasos reversibles              3\n     propone ventana de mantenimiento              6\n     no lo ha hecho                                2\n\n4  «¿cuándo fue la última vuelta atrás que ejecutasteis?»\n     una fecha concreta del último mes             2\n     «no hemos necesitado»                         5\n     no lo sabe                                    4\n\n→ la persona contratada fue la única que desglosó el\n  tiempo de entrega por tramos, y también la única que\n  dio fecha de la última vuelta atrás\n→ y en el trabajo, esas dos respuestas predijeron bien\n```\n\n**La lección que esta clase deja**: la cadena técnicamente mejor tenía **3 de 41 servicios** usándola, porque se había optimizado su calidad interna y no su adopción. Y el equipo que revisaba todos los despliegues rechazaba el **0,6 %** mientras añadía 4,1 días de espera: al sustituir sus cinco motivos de rechazo por cinco comprobaciones automáticas, las cuatro métricas mejoraron a la vez y dos personas dejaron de hacer trabajo que nunca fue necesario.",
+  "pitfalls": [
+    {
+      "symptom": "La cadena es excelente y casi nadie la usa",
+      "cause": "Se optimizó la calidad interna en vez de la adopción y la autonomía",
+      "fix": "Mide cuántos equipos entregan solos y cuánto tardan; reduce configuración, tiempo y dependencias del equipo de plataforma."
+    },
+    {
+      "symptom": "El equipo de entrega revisa todos los despliegues y es el cuello de botella",
+      "cause": "Cada incidente añadió una aprobación en vez de una comprobación",
+      "fix": "Mide cuánto filtra la aprobación, sustituye cada motivo de rechazo por una comprobación automática y devuelve la responsabilidad con las herramientas para ejercerla."
+    },
+    {
+      "symptom": "Nadie confía en las pruebas y todos miran el despliegue",
+      "cause": "Se toleran pruebas intermitentes y se reintentan",
+      "fix": "Trata la intermitencia como defecto: aísla, arregla o retira; una prueba en la que no se confía destruye el valor de todas."
+    },
+    {
+      "symptom": "Funciona en un entorno y falla en el siguiente",
+      "cause": "El artefacto se reconstruye por entorno en vez de promocionarse",
+      "fix": "Construye una vez, firma y promociona el mismo artefacto; la configuración va fuera, no en la construcción."
+    },
+    {
+      "symptom": "No se despliega los viernes",
+      "cause": "No hay vuelta atrás fiable ni verificación automática tras desplegar",
+      "fix": "Automatiza la verificación y la vuelta atrás; si desplegar da miedo un día concreto, el problema no es el día."
+    },
+    {
+      "symptom": "Las cuatro métricas dejaron de mejorar pese al esfuerzo",
+      "cause": "El cuello de botella ya no está en la cadena sino en la arquitectura o en la organización",
+      "fix": "Identifica qué te frena hoy y cámbiate de ruta: plataforma, fiabilidad o arquitectura según el caso."
+    }
+  ],
+  "checks": [
+    "¿Cómo se sabe si el trabajo de esta ruta está produciendo efecto?",
+    "¿Qué distingue una prueba que da confianza de una decorativa?",
+    "¿Cómo empieza y cómo se sale del modo de fracaso del portero?",
+    "¿Qué mide realmente la pregunta sobre el primer despliegue de un equipo nuevo?",
+    "¿Cuál es el techo de esta ruta y qué la continúa?"
+  ],
+  "references": [
+    {
+      "text": "Humble, J. y Farley, D. (2010). *Continuous Delivery*.",
+      "url": "https://www.pearson.com/en-us/subject-catalog/p/continuous-delivery/P200000009415"
+    },
+    {
+      "text": "Forsgren, N., Humble, J. y Kim, G. (2018). *Accelerate*.",
+      "url": "https://itrevolution.com/product/accelerate/"
+    },
+    {
+      "text": "Google (2024). *DORA capabilities: continuous delivery*.",
+      "url": "https://dora.dev/capabilities/"
+    },
+    {
+      "text": "OpenSSF (2024). *SLSA: supply chain levels for software artifacts*.",
+      "url": "https://slsa.dev/"
+    },
+    {
+      "text": "Skelton, M. y Pais, M. (2019). *Team Topologies* — equipos habilitadores frente a porteros.",
+      "url": "https://teamtopologies.com/book"
+    }
+  ]
+}
