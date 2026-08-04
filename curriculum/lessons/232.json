@@ -1,0 +1,118 @@
+{
+  "id": "232",
+  "purpose": "Declarar la infraestructura de Google Cloud como código con la pieza que faltaba en las partes anteriores: **validar las políticas antes de desplegar, para que el rechazo no llegue en el momento de aplicar**. La clase cubre la gestión del estado y sus riesgos, la estructura por ciclo de vida, la validación previa de restricciones, y la operación que resuelve el problema de la ley 27: qué hacer con lo que ya existe y no cumple.",
+  "outcomes": [
+    "**Gestionar** el estado de forma segura y con bloqueo.",
+    "**Estructurar** el código por ciclo de vida y por ámbito.",
+    "**Validar** políticas y coste antes de aplicar, no después.",
+    "**Importar** lo existente al código sin recrearlo.",
+    "**Retirar** recursos de forma controlada y comprobada."
+  ],
+  "concepts": [
+    {
+      "term": "estado",
+      "definition": "Registro de qué recursos gestiona el código. Contiene información sensible y debe protegerse y bloquearse."
+    },
+    {
+      "term": "bloqueo del estado",
+      "definition": "Mecanismo que impide dos aplicaciones simultáneas. Sin él, el estado se corrompe."
+    },
+    {
+      "term": "plan de cambios",
+      "definition": "Previsualización de lo que se creará, modificará, recreará y destruirá. Se lee antes de aplicar."
+    },
+    {
+      "term": "validación de políticas",
+      "definition": "Comprobación del plan contra las restricciones de la organización, antes de aplicar."
+    },
+    {
+      "term": "importación",
+      "definition": "Incorporación de un recurso existente al estado, sin recrearlo."
+    },
+    {
+      "term": "servicio gestionado de despliegue",
+      "definition": "Alternativa que ejecuta el despliegue en la nube, con el estado gestionado por la plataforma."
+    }
+  ],
+  "diagram": "flowchart TB\n    C[\"código\"] --> P[\"PLAN\"]\n    P --> V1[\"validación de\\nPOLÍTICAS\\n← antes de aplicar\"]\n    P --> V2[\"estimación de\\nCOSTE\"]\n    P --> V3[\"¿qué se DESTRUYE\\no RECREA?\"]\n    V3 -->|\"hay destrucciones\\nen producción\"| G[\"puerta de aprobación\"]\n    V1 -->|incumple| X[\"falla aquí,\\nno al desplegar\"]\n    V1 -->|cumple| A[\"aplicar\"]\n    G --> A\n    A --> S[\"ESTADO\"]\n    S --> S1[\"remoto, cifrado,\\nversionado\"]\n    S --> S2[\"BLOQUEADO\\ndurante la aplicación\"]\n    S --> S3[\"uno por ciclo de vida,\\nno uno gigante\"]\n    E[\"lo que ya existe\"] --> E1[\"IMPORTAR\\nsin recrear\"]",
+  "foundations": [
+    {
+      "heading": "El estado, y cómo no perderlo",
+      "body": "La diferencia principal frente a Bicep es que aquí **hay un estado**, y eso da capacidades y riesgos.\n\n```text\nQUÉ DA EL ESTADO\n  saber exactamente qué gestiona el código\n  detectar deriva: lo que cambió por fuera\n  y destruir lo que deja de estar declarado\n  → resuelve el problema de los huérfanos de la clase 220\n\nQUÉ RIESGOS TRAE\n  contiene valores sensibles en claro\n    → contraseñas generadas, claves, cadenas de conexión\n    → un estado en un repositorio es una fuga\n  se corrompe si dos personas aplican a la vez\n  y si se pierde, el código deja de saber qué gestiona\n```\n\nY la configuración mínima:\n\n```text\nESTADO REMOTO\n  en un almacén de objetos, no en el portátil\n  con VERSIONADO activado\n  con cifrado\n  con acceso restringido: quien lee el estado ve secretos\n  y con registro de acceso                    clase 238\n\nBLOQUEO\n  automático al aplicar\n  → sin él, dos canalizaciones simultáneas corrompen el\n    estado\n  y un procedimiento para liberar un bloqueo atascado\n    → que hay que tener escrito ANTES de necesitarlo\n\nUN ESTADO POR CICLO DE VIDA\n  no uno gigante\n  → un estado enorme hace lentas todas las operaciones\n  → y un error afecta a todo\n```\n\nY el error que más daño hace:\n\n```text\nBORRAR O PERDER EL ESTADO\n  el código deja de saber qué existe\n  → al aplicar, intenta CREAR lo que ya está\n  → y falla con errores de recurso duplicado, o peor:\n    crea duplicados donde el nombre no es único\n\nla recuperación\n  restaurar la versión anterior del estado\n  → y por eso el versionado del almacén es obligatorio\n  o importar todo de nuevo, que es lento y manual\n```\n\nY la alternativa gestionada, que conviene conocer:\n\n```text\nel servicio gestionado de despliegue ejecuta el código en\nla nube y guarda el estado por ti\n  + sin almacén que proteger, sin bloqueo que gestionar\n  + con identidad de la plataforma, sin credenciales\n  − menos control sobre el proceso y sobre las versiones\n\n→ para equipos pequeños o que empiezan, suele ser mejor\n→ y para canalizaciones complejas, el modelo propio\n```"
+    },
+    {
+      "heading": "Estructura y ámbitos",
+      "body": "La estructura es la de siempre, con los ámbitos de esta nube.\n\n```text\nSEPARADO POR CICLO DE VIDA Y POR ÁMBITO\n  organizacion/    políticas, carpetas, permisos de\n                   organización\n  red/             red compartida, subredes, cortafuegos,\n                   zonas privadas\n  proyectos/       creación y configuración base\n  datos/           bases, conjuntos, almacenes\n                   → con protección contra destrucción\n  cargas/          servicios, trabajos, colas\n\n→ cada uno con su estado\n→ y las dependencias entre ellos por salidas y fuentes de\n  datos, no por variables copiadas\n```\n\nY las reglas que evitan los problemas frecuentes:\n\n```text\nPROTECCIÓN CONTRA DESTRUCCIÓN\n  los recursos con datos llevan la marca que impide\n  destruirlos\n  → y entonces un plan que los destruiría FALLA en el plan,\n    no en el aplicar\n  → es la protección más barata que existe\n\nSIN SECRETOS EN VARIABLES\n  referencias al gestor de secretos\n  → y aun así, el valor acaba en el estado: por eso el\n    estado se protege como un secreto\n\nVERSIONES FIJADAS\n  la del proveedor y las de los módulos\n  → sin fijar, el mismo código produce cosas distintas en\n    momentos distintos                          ley 25\n\nMÓDULOS DEL CATÁLOGO OFICIAL\n  con los valores por defecto revisados\n  → misma idea que en la clase 220, contra la ley 26\n```\n\nY los ámbitos de despliegue, que aquí importan:\n\n```text\nlo que se crea en la ORGANIZACIÓN\n  carpetas, políticas de organización, permisos de\n  organización\n  → exige permisos muy altos\n  → y por eso ese estado y esa canalización van aparte,\n    con aprobación                            clase 229\n\nlo que se crea en el PROYECTO\n  casi todo lo demás\n  → con la identidad federada del proyecto\n```\n\nY una advertencia de traslado:\n\n```text\n✗ «una carpeta de módulos por entorno»\n  produce código duplicado que diverge\n✓ un módulo, y ficheros de variables por entorno\n  → y la diferencia entre entornos, visible en un solo\n    sitio\n```"
+    },
+    {
+      "heading": "Validar antes de aplicar",
+      "body": "Esta es la pieza que las partes 17 y 18 echaban de menos: **comprobar que el cambio cumplirá las políticas antes de intentarlo**.\n\n```text\nEL PROBLEMA SIN VALIDACIÓN PREVIA\n  el despliegue llega a producción y la política lo rechaza\n  → el cambio queda a medias\n  → y el equipo descubre la restricción en el peor momento\n\nLA VALIDACIÓN PREVIA\n  se genera el PLAN\n  se convierten los recursos previstos a su forma final\n  se evalúan contra las restricciones de la organización\n  → y la canalización FALLA ahí, con un mensaje que dice\n    qué restricción y qué falta\n```\n\nY lo que se puede validar:\n\n```text\nlas restricciones de organización         clase 229\nlas políticas propias de la empresa\n  «ningún almacén sin cifrado con clave propia»\n  «ninguna base sin copia de seguridad»\n  «ningún recurso sin etiquetas obligatorias»\ny las convenciones\n  nombres, regiones, tamaños permitidos\n```\n\nY las otras dos puertas que deben estar en la misma canalización:\n\n```text\nESTIMACIÓN DE COSTE\n  a partir del plan, cuánto costará al mes\n  → publicada en la revisión                clase 220\n  → y con umbral: por encima de X, aprobación\n\nDESTRUCCIONES Y RECREACIONES\n  el plan las lista\n  → y una recreación destruye y crea: para una base, es\n    pérdida de datos\n  → puerta automática: si hay destrucciones en producción,\n    aprobación explícita                    clase 220\n```\n\nY el orden completo de la canalización:\n\n```text\n1  formato y análisis estático\n2  validación de sintaxis\n3  PLAN, con identidad federada y solo lectura\n4  validación de políticas sobre el plan\n5  estimación de coste\n6  publicación del resumen: qué se crea, cambia, RECREA y\n   destruye\n7  puerta si hay destrucciones o si el coste supera el\n   umbral\n8  aplicar, con identidad de despliegue\n9  comprobar el resultado\n```\n\nY una práctica que ahorra incidentes:\n\n```text\nel PLAN se ejecuta con una identidad de SOLO LECTURA\n→ y la de escritura solo se usa en el paso de aplicar\n→ así una propuesta de cambio de cualquiera puede generar\n  plan sin poder cambiar nada                clase 230\n```"
+    },
+    {
+      "heading": "Importar, detectar deriva y retirar",
+      "body": "**La importación** es lo que permite poner bajo código lo que ya existe, que es el problema de la ley 27.\n\n```text\nEL ESCENARIO HABITUAL\n  hay cientos de recursos creados a mano\n  el código nuevo describe lo que debería haber\n  → aplicarlo intentaría crear lo que ya existe\n\nLA IMPORTACIÓN\n  incorpora el recurso existente al estado\n  → y a partir de ahí, el código lo gestiona\n  → sin recrearlo ni cortar nada\n\ny el trabajo real\n  hay que escribir el código que COINCIDA con lo que existe\n  → y el plan posterior dice qué diferencias hay\n  → esas diferencias son el inventario de lo que estaba mal\n```\n\nY el orden que funciona:\n\n```text\n1  generar el código a partir de lo existente, donde la\n   herramienta lo permita\n2  importar\n3  ejecutar el plan: si sale vacío, el código describe la\n   realidad\n4  y si no, cada diferencia es una decisión: ¿se ajusta el\n   código o se corrige el recurso?\n5  corregir hacia el estado deseado, por lotes\n```\n\n**La deriva**, que es lo que ocurre después:\n\n```text\nalguien cambia algo por la consola durante un incidente\n→ el código deja de describir la realidad\n→ y el siguiente despliegue lo revierte sin avisar\n\nLA DETECCIÓN\n  ejecutar el plan periódicamente y alertar si no está\n  vacío\n  → un plan que no está vacío sin que nadie haya cambiado\n    el código significa deriva\n  → y esa alerta es la que detecta los cambios manuales\n                                          ley 25, clase 219\n```\n\n**La retirada**, que es lo que el estado permite y casi nadie usa:\n\n```text\nquitar el recurso del código y aplicar → se destruye\n→ y por eso la protección contra destrucción en los datos\n\ny para lo que hay que sacar del código sin borrarlo\n  se quita del estado, y el recurso queda huérfano\n  → útil cuando pasa a gestionarlo otro equipo\n  → y peligroso si se olvida: queda sin gobierno   ley 20\n```\n\nY las comprobaciones de esta clase:\n\n```text\n☐ borrar el estado y comprobar que se puede restaurar\n☐ aplicar dos veces en paralelo y ver que el bloqueo lo\n  impide\n☐ intentar destruir un recurso protegido\n☐ desplegar algo que incumple una política y ver que falla\n  en la validación, no al aplicar\n☐ ejecutar el plan sin cambios y comprobar que está vacío\n☐ desplegar el entorno de cero en un proyecto vacío\n                                                clase 220\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ el estado es remoto, cifrado, versionado y con acceso\n  restringido\n☐ el bloqueo está activo y hay procedimiento para liberarlo\n☐ hay un estado por ciclo de vida, no uno gigante\n☐ los recursos con datos tienen protección contra\n  destrucción\n☐ las versiones del proveedor y de los módulos están fijadas\n☐ se usan módulos del catálogo oficial donde existen\n☐ la canalización valida políticas sobre el plan\n☐ estima el coste y lo publica\n☐ lista destrucciones y recreaciones, con puerta de\n  aprobación\n☐ el plan usa identidad de solo lectura\n☐ lo existente está importado, y el plan sale vacío\n☐ hay detección periódica de deriva, con alerta\n☐ el entorno se despliega de cero periódicamente\n```\n\nY el cierre que enlaza con la clase siguiente: con la base declarada y validada, quedan las cargas. Las opciones de cómputo gestionado de esta nube —y la que ha cambiado más el modelo de contenedores— son la materia de la clase 233."
+    }
+  ],
+  "worked_example": "**CloudShop pone su infraestructura de Google Cloud bajo código. Lo que sigue es la importación de 4.100 recursos creados a mano, el estado que se perdió una vez, y la validación previa que evitó 61 despliegues fallidos en producción.**\n\n**El punto de partida:**\n\n```text\nrecursos existentes                              9.400\n  declarados en algún código                       410   4 %\n  creados a mano                                 8.990\n\nestados existentes                                  11\n  en un almacén sin versionado                       7\n  EN EL REPOSITORIO                                  2  ←\n  en portátiles                                      2\n\ny los 2 del repositorio contenían\n  3 contraseñas de bases de datos en claro\n  1 clave de cuenta de servicio\n  → visibles para los 214 miembros de la organización\n  → desde hacía 14 meses                        ley 15\n```\n\nY la corrección inmediata:\n\n```text\nestados retirados del repositorio y del historial\ncontraseñas y clave rotadas\nalmacén de estados: versionado, cifrado con clave propia,\n  acceso restringido a 4 identidades, registro de acceso\n  activado                                    clase 238\n→ y una función de aptitud: ningún fichero de estado en\n  ningún repositorio                          clase 190\n```\n\n**La importación, por lotes.**\n\n```text\norden elegido\n  1  red y cortafuegos          (más estable, menos riesgo)\n  2  proyectos y permisos\n  3  datos                      (con protección primero)\n  4  cargas                     (las que más cambian)\n\nel proceso por lote\n  generar el código desde lo existente\n  importar\n  ejecutar el plan\n  → y aquí aparecía el trabajo real\n\nlote de red: 210 recursos\n  plan tras importar: 118 diferencias\n    · 41 reglas de cortafuegos con descripción vacía\n      → se ajustó el código\n    · 38 subredes sin registros de flujo activados\n      → se corrigió el RECURSO\n    ·  9 reglas con selector por etiqueta       clase 229\n      → se corrigieron\n    · 30 diferencias de campos irrelevantes\n      → se ajustó el código\n\n→ cada diferencia era una decisión, y 47 de las 118\n  revelaron configuraciones que estaban mal\n```\n\nY el resultado global:\n\n```text\nrecursos importados                              4.100\n  → los otros 4.890 eran efímeros o de servicios\n    gestionados que no se declaran\ndiferencias encontradas al importar               1.240\n  ajustes al código                                 810\n  CORRECCIONES DE RECURSOS                          430  ←\n\n→ importar fue, además, una auditoría de configuración\n→ y las 430 correcciones son la remediación que la ley 27\n  exige                                        clase 228\n```\n\n**El estado que se perdió.**\n\n```text\nqué pasó\n  una canalización mal configurada aplicó con la variable\n  de ruta del estado vacía\n  → creó un estado nuevo, vacío, en la ruta por defecto\n  → y el siguiente despliegue, con el estado bueno, entró\n    en conflicto\n\n  y el estado bueno se sobrescribió\n\nqué salvó el caso\n  el almacén tenía versionado activado\n  → se restauró la versión anterior en 4 minutos\n\nqué habría pasado sin versionado\n  el código no habría sabido qué existía\n  → habría intentado crear 4.100 recursos que ya estaban\n  → y en los que el nombre no es único, habría creado\n    duplicados\n\ncorrecciones\n  la ruta del estado, obligatoria y comprobada en la\n  canalización\n  copia diaria del estado a otro almacén\n  y una prueba: borrar el estado en un entorno inferior y\n  restaurarlo                                     ley 22\n```\n\n**La validación previa de políticas, que era lo que faltaba.**\n\n```text\nantes de montarla, en 3 meses\n  despliegues rechazados por política EN EL MOMENTO DE\n  APLICAR                                            61\n    de ellos, en producción                          19\n    de ellos, que dejaron el cambio a medias         11\n  tiempo medio de resolución                     2 h 20\n\ntras montarla\n  la canalización convierte el plan a la forma final y lo\n  evalúa contra las restricciones\n  → falla en la validación, con el mensaje\n\n  despliegues rechazados en el momento de aplicar\n                                              61 → 2\n    los 2, por restricciones que la validación no cubre\n  rechazados en la validación                       74\n    → antes de tocar nada, en 40 segundos\n  tiempo medio de resolución               2 h 20 → 9 min\n```\n\nY las políticas propias que se añadieron a la validación:\n\n```text\nningún almacén sin cifrado con clave propia\nninguna base sin copia de seguridad configurada\nningún recurso sin las 5 etiquetas obligatorias\nninguna regla de cortafuegos con selector por etiqueta\nninguna cuenta de servicio con papel de proyecto\nningún recurso fuera de las regiones de la UE\n\n→ y cada una con un mensaje que dice qué falta y enlaza el\n  módulo que ya lo cumple                     clase 217\n```\n\n**La estimación de coste, que evitó dos sorpresas:**\n\n```text\ncaso 1   una propuesta de cambio añadía un clúster con\n         nodos de 32 núcleos\n         estimación                        +8.400 €/mes\n         → la revisión preguntó por qué; resultó ser un\n           valor copiado de otro entorno\n         → corregido a nodos de 8: +1.100 €/mes\n\ncaso 2   una propuesta activaba registros de acceso a\n         datos en todos los servicios\n         estimación                        +3.900 €/mes\n                                                clase 238\n         → se acotó a los servicios con datos sensibles:\n           +410 €/mes\n```\n\n**La deriva, detectada:**\n\n```text\nplan ejecutado a diario, sin cambios de código\n  → si no sale vacío, hay deriva\n\nprimeros 6 meses\n  detecciones                                       23\n    cambios hechos por consola durante incidentes    14\n      → 9 de ellos deberían haberse revertido y no se\n        revirtieron                                ley 25\n    cambios de servicios gestionados que ajustan campos     6\n      → se marcaron para ignorar\n    3 cambios que nadie pudo explicar\n      → investigados; 2 eran automatismos de la\n        plataforma, 1 fue un script de un proveedor\n\n→ y las 9 del primer grupo son exactamente lo que la deriva\n  sirve para encontrar\n```\n\n**Las pruebas negativas, ejecutadas:**\n\n```text\n✓  borrar el estado y restaurarlo             4 min\n✓  aplicar dos veces en paralelo              bloqueado\n✓  destruir un recurso protegido              falla en el\n                                              plan\n✓  desplegar algo que incumple una política   falla en\n                                              validación\n✗  plan sin cambios, vacío\n   → 6 recursos con deriva permanente por campos que la\n     plataforma ajusta sola\n   → marcados para ignorar; corregido\n✓  desplegar el entorno de cero en proyecto vacío  61 min\n```\n\n**El resultado:**\n\n```text                                        antes     después\nrecursos bajo código                          4 %        97 %\nestados en repositorios                         2           0\nsecretos expuestos en estados                   4           0\ndespliegues rechazados al aplicar          61/trim      2/trim\ntiempo de resolución de un rechazo         2 h 20       9 min\nconfiguraciones corregidas al importar          —         430\nderiva detectada y corregida                   no      23/6mes\nsorpresas de coste en despliegues            2/trim         0\ntiempo de despliegue de cero            imposible      61 min\n```\n\n**La lección que esta clase deja**: importar cuatro mil cien recursos **fue además una auditoría**, y produjo cuatrocientas treinta correcciones de configuración que ninguna herramienta de postura había señalado. La validación previa de políticas convirtió sesenta y un rechazos en producción en setenta y cuatro fallos de canalización de cuarenta segundos. Y el estado estuvo catorce meses en un repositorio con **tres contraseñas de producción en claro**, visible para doscientos catorce personas.",
+  "pitfalls": [
+    {
+      "symptom": "El estado contiene secretos visibles para mucha gente",
+      "cause": "Está en un repositorio o en un almacén con acceso amplio",
+      "fix": "Estado remoto, cifrado, versionado y restringido a unas pocas identidades, con registro de acceso, y una función de aptitud que prohíba ficheros de estado en repositorios."
+    },
+    {
+      "symptom": "Se pierde el estado y el código intenta crear lo que ya existe",
+      "cause": "El almacén no tiene versionado o la ruta del estado no está fijada",
+      "fix": "Versionado obligatorio, copia diaria, ruta comprobada en la canalización y prueba de restauración."
+    },
+    {
+      "symptom": "Un despliegue se rechaza por política a mitad de aplicar",
+      "cause": "No se valida el plan contra las restricciones antes de aplicar",
+      "fix": "Convierte el plan a su forma final y evalúalo contra las políticas en la canalización, con mensajes que digan qué falta."
+    },
+    {
+      "symptom": "Una recreación destruye datos",
+      "cause": "El plan no se leyó y el recurso no estaba protegido",
+      "fix": "Marca los recursos con datos contra destrucción y pon puerta de aprobación cuando el plan liste destrucciones."
+    },
+    {
+      "symptom": "Un cambio hecho en la consola desaparece en el siguiente despliegue",
+      "cause": "Deriva no detectada entre el código y la realidad",
+      "fix": "Ejecuta el plan periódicamente sin cambios de código y alerta si no sale vacío."
+    },
+    {
+      "symptom": "Aparecen sorpresas de coste tras un despliegue",
+      "cause": "No se estima el coste del plan en la revisión",
+      "fix": "Añade estimación de coste a la canalización, con umbral que exija aprobación."
+    }
+  ],
+  "checks": [
+    "¿Qué capacidades da el estado y qué riesgos trae?",
+    "¿Qué ocurre si se pierde el estado y cómo se recupera?",
+    "¿Qué se gana validando las políticas sobre el plan en vez de al aplicar?",
+    "¿Qué revela la importación de recursos existentes además de ponerlos bajo código?",
+    "¿Cómo se detecta que alguien cambió algo por la consola?"
+  ],
+  "references": [
+    {
+      "text": "HashiCorp (2025). *Terraform state: remote backends and locking*.",
+      "url": "https://developer.hashicorp.com/terraform/language/state"
+    },
+    {
+      "text": "Google Cloud (2025). *Infrastructure Manager*.",
+      "url": "https://cloud.google.com/infrastructure-manager/docs/overview"
+    },
+    {
+      "text": "Google Cloud (2025). *Policy validation with Policy Library*.",
+      "url": "https://cloud.google.com/docs/terraform/policy-validation"
+    },
+    {
+      "text": "Google Cloud (2025). *Cloud Foundation Toolkit modules*.",
+      "url": "https://cloud.google.com/foundation-toolkit"
+    },
+    {
+      "text": "HashiCorp (2025). *Importing existing infrastructure*.",
+      "url": "https://developer.hashicorp.com/terraform/cli/import"
+    }
+  ]
+}
