@@ -23,9 +23,9 @@
 | 19 | Certificaciones | mapeo AWS, Azure, GCP, Kubernetes y FinOps |
 | 20 | PDF/PPTX | manual integral de 2.779 páginas, manifiesto verificable y deck editable |
 | 21 | Escritorio | navegador Tkinter offline |
-| 22 | Móvil | PWA instalable como superficie oficial |
+| 22 | Móvil | PWA instalable y APK Android con las 288 clases empaquetadas |
 | 23 | PWA | offline, progreso, favoritos y 288 páginas |
-| 24 | Releases | workflow, changelog y versión 2.0.0 |
+| 24 | Releases | workflow, changelog, versión 2.0.0 y APK firmada como primer release |
 | 25 | Desarrollo/operación | Docker, Compose, devcontainer, Makefile, install y runbook |
 | 26 | ADRs | fuente canónica y costo seguro |
 | 27 | Catálogos versionados | servicios, unidades y fecha de corte |

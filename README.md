@@ -10,14 +10,16 @@
 [![Pages](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/pages.yml/badge.svg?branch=main)](https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/)
 [![Security](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/actions/workflows/security.yml)
 
-[![Version](https://img.shields.io/badge/version-2.0.0-e67e22?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.1.0-e67e22?style=for-the-badge)](CHANGELOG.md)
 [![Clases](https://img.shields.io/badge/clases-288%20·%2024%20partes-7c5cff?style=for-the-badge)](classes/README.md)
 [![Manual](https://img.shields.io/badge/manual-2.779%20páginas-007c83?style=for-the-badge)](site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+[![Android](https://img.shields.io/badge/android-APK%20offline-3ddc84?style=for-the-badge)](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-3fb950?style=for-the-badge)](LICENSE)
 
 [🌐 Portal](https://vladimiracunadev-create.github.io/multi-cloud-engineering-program/) ·
 [📚 Índice de las 288 clases](classes/README.md) ·
 [📕 Manual completo (PDF)](site/downloads/multi-cloud-engineering-manual-v2.0.pdf) ·
+[📱 App Android (APK)](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/releases/latest) ·
 [📅 Syllabus](docs/SYLLABUS.md) ·
 [🗺️ Roadmap](ROADMAP.md) ·
 [🤝 Contribuir](CONTRIBUTING.md) ·
@@ -61,6 +63,7 @@ Un currículo **secuencial, basado en libros y orientado a evidencia**: 288 clas
 | 🧪 Práctica | 288 entrypoints ejecutables, evidencia JSON, fallos controlados y cost gates |
 | 📕 Manual | 2.779 páginas generadas desde 607 archivos fuente versionados |
 | 🖥️ Portal | PWA instalable, buscador, filtros, rutas, progreso local y modo offline |
+| 📱 Android | APK firmada de 4,0 MiB con las 288 clases dentro; funciona sin conexión |
 | 🏗️ Arquitectura | Requisitos, ADR, C4, sistemas distribuidos, integración, resiliencia y DR |
 | 🔧 Calidad | CI multi-OS/Python, validadores, pruebas, CodeQL, Bandit, pip-audit y Gitleaks |
 | ☁️ Cuentas cloud | Opcionales; los recorridos locales no requieren credenciales ni generan costos |
@@ -171,6 +174,24 @@ El portal se genera desde el mismo catálogo y los mismos Markdown que el manual
 
 > Se genera con `python scripts/generate_manual.py`, así que siempre refleja el contenido actual del repositorio.
 
+## 📱 Aplicación Android
+
+El curso entero cabe en el teléfono. La APK **empaqueta las 288 clases, las 24 partes y el portal completo**, así que funciona sin conexión desde la primera vez: no descarga nada al abrirse y no pide ninguna cuenta.
+
+| | |
+|---|---|
+| **Tamaño** | 4,0 MiB con las 288 clases dentro |
+| **Requisitos** | Android 8.0 o superior (API 26) |
+| **Conexión** | Innecesaria; solo se usa para abrir referencias externas y el manual |
+| **Permisos** | únicamente `INTERNET`, para esos enlaces externos |
+| **Progreso** | se guarda en el dispositivo, igual que en el portal web |
+
+📥 **[Descargar la APK](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/releases/latest)** · [🔍 Manifiesto de la compilación](output/android/apk-manifest.json)
+
+Se construye con `python scripts/build_apk.py`, **sin Gradle**: solo el SDK de Android y un JDK. El sitio ya generado viaja en los assets y se sirve desde un origen `https` propio dentro de la aplicación, que es lo que permite que el portal funcione igual que en el navegador.
+
+> Al instalar fuera de Google Play, Android pide permitir «orígenes desconocidos». La APK está firmada; su huella SHA-256 se publica en el manifiesto de compilación para que puedas verificarla.
+
 ## 🏆 Evaluación verificable
 
 La evaluación se apoya en **evidencia y defensa**, no en marcar temas como leídos.
@@ -230,6 +251,14 @@ multicloud-program run 181 --seed 42 # ejecutar su laboratorio
 multicloud-program progress         # progreso portable
 multicloud-program certificate --name "Tu Nombre"
 python scripts/generate_site.py && python -m http.server 8080
+```
+
+**Manual y aplicación Android:**
+
+```bash
+python scripts/generate_manual.py   # manual PDF de 2.779 páginas
+python scripts/validate_manual.py   # páginas, cobertura y hash de las fuentes
+python scripts/build_apk.py         # APK firmada, requiere SDK de Android y JDK
 ```
 
 ## ✅ Calidad y CI

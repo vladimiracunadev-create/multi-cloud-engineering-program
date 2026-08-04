@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "multicloud-engineering-program"
-version = "2.0.0"
+version = "2.1.0"
 description = "Programa educativo en español: cloud engineering de cero a nivel experto"
 requires-python = ">=3.11"
 license = {text = "MIT"}

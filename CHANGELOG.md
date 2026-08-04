@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.1.0 — 2026-08-04
+
+- las 288 clases con contenido propio: cerradas las partes 21, 22 y 23;
+- manual integral regenerado a 2.779 páginas desde las 607 fuentes;
+- aplicación Android: APK firmada de 4,0 MiB que empaqueta el curso entero y
+  funciona sin conexión, construida sin Gradle con las herramientas del SDK;
+- navegación anterior/siguiente en las páginas de clase y parte, en el README de
+  cada clase y con las flechas del teclado;
+- las páginas de parte reescriben sus enlaces al sitio publicado: 358 enlaces
+  rotos corregidos y verificación de enlaces sin fallos.
+
 ## 2.0.0 — 2026-07-31
 
 - 24 partes, 288 clases y arquitectura de sistemas como dominio explícito;
