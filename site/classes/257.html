@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>incident</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>alertas, on-call, escalamiento y comunicación</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Organizar quién se entera cuando algo va mal, qué hace y a quién avisa. La clase aborda las alertas desde la única pregunta que las justifica —<strong>¿qué hace quien la recibe?</strong>—, monta la guardia de forma sostenible, fija el escalado y desarrolla la parte que este programa ha visto dominar el tiempo de los incidentes: <strong>comunicar, que es trabajo y hay que repartirlo</strong>.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> alertas, on-call, escalamiento y comunicación con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>oncall-system</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Diseñar</strong> alertas accionables y retirar las que no lo son.</li>
+<li><strong>Montar</strong> una guardia sostenible, con carga medida.</li>
+<li><strong>Escalar</strong> con criterios claros y sin depender de que alguien esté.</li>
+<li><strong>Comunicar</strong> durante un incidente, con papeles repartidos.</li>
+<li><strong>Medir</strong> la salud de la guardia y actuar sobre ella.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,24 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>alertas</code></td>
-<td>Define su papel en <strong>alertas, on-call, escalamiento y comunicación</strong> y cómo observarlo en un sistema real.</td>
+<td><code>alerta accionable</code></td>
+<td>La que exige una acción concreta de quien la recibe. Si no la exige, no es una alerta.</td>
 </tr>
 <tr>
-<td><code>on</code></td>
-<td>Define su papel en <strong>alertas, on-call, escalamiento y comunicación</strong> y cómo observarlo en un sistema real.</td>
+<td><code>carga de guardia</code></td>
+<td>Interrupciones por turno, dentro y fuera de horario. Determina si la guardia es sostenible.</td>
 </tr>
 <tr>
-<td><code>call</code></td>
-<td>Define su papel en <strong>alertas, on-call, escalamiento y comunicación</strong> y cómo observarlo en un sistema real.</td>
+<td><code>escalado</code></td>
+<td>Paso del incidente a alguien con más contexto o más autoridad, por criterio y no por desesperación.</td>
 </tr>
 <tr>
-<td><code>escalamiento</code></td>
-<td>Define su papel en <strong>alertas, on-call, escalamiento y comunicación</strong> y cómo observarlo en un sistema real.</td>
+<td><code>responsable de incidente</code></td>
+<td>Quien coordina. No arregla: decide, reparte y protege al que arregla.</td>
 </tr>
 <tr>
-<td><code>comunicación</code></td>
-<td>Define su papel en <strong>alertas, on-call, escalamiento y comunicación</strong> y cómo observarlo en un sistema real.</td>
+<td><code>responsable de comunicación</code></td>
+<td>Quien informa a los afectados y a la organización. Papel separado, porque es trabajo a tiempo completo.</td>
+</tr>
+<tr>
+<td><code>fatiga de alertas</code></td>
+<td>Estado en que las alertas dejan de producir acción porque hay demasiadas.</td>
 </tr>
 </tbody>
 </table>
@@ -93,75 +94,550 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Alertas, on-call, escalamiento y comunicación&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    S[&quot;una señal&quot;] --&gt; Q{&quot;¿qué hace quien\nla recibe?&quot;}
+    Q --&gt;|nada| N[&quot;NO es alerta\n→ panel o consulta&quot;]
+    Q --&gt;|&quot;algo concreto&quot;| A{&quot;¿puede esperar\na mañana?&quot;}
+    A --&gt;|sí| A1[&quot;AVISO\nhorario laboral&quot;]
+    A --&gt;|no| A2[&quot;ALERTA\ndespierta&quot;]
+    A2 --&gt; P[&quot;procedimiento\nenlazado&quot;]
+    A2 --&gt; G[&quot;GUARDIA&quot;]
+    G --&gt; G1[&quot;carga medida\npor turno&quot;]
+    G --&gt; G2[&quot;escalado por\nCRITERIO&quot;]
+    G2 --&gt; I[&quot;RESPONSABLE\nDE INCIDENTE\ncoordina, no arregla&quot;]
+    I --&gt; C[&quot;RESPONSABLE DE\nCOMUNICACIÓN\npapel separado&quot;]
+    I --&gt; T[&quot;quien arregla,\nprotegido de\ninterrupciones&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-la-unica-pregunta-que-justifica-una-alerta">1. La única pregunta que justifica una alerta</h3>
+<p>Toda la disciplina de alertas cabe en una pregunta, y casi ninguna organización la hace.</p>
+<pre><code class="language-text">¿QUÉ HACE QUIEN LA RECIBE?
+
+  si la respuesta es «mirar y ver que no pasa nada»
+    → no es una alerta: es ruido
+  si es «esperar a ver si se arregla sola»
+    → no es una alerta
+  si es «avisar a otro»
+    → la alerta debe ir a ese otro
+  si es «ejecutar este procedimiento»
+    → es una alerta, y el procedimiento va enlazado
+  y si es «investigar porque los usuarios están sufriendo»
+    → es una alerta
+</code></pre>
+<p>Y la segunda pregunta, que decide si despierta:</p>
+<pre><code class="language-text">¿PUEDE ESPERAR A MAÑANA?
+  sí  → aviso, en horario laboral
+  no  → alerta, y despierta
+
+→ y la mayoría de lo que hoy despierta puede esperar
+→ despertar a alguien tiene un coste real: al día
+  siguiente rinde menos y el turno siguiente empieza peor
+</code></pre>
+<p><strong>Sobre qué se alerta</strong>, con la regla de las clases 123 y 211:</p>
+<pre><code class="language-text">SE ALERTA SOBRE SÍNTOMAS DE USUARIO
+  el objetivo de nivel de servicio consume presupuesto
+  demasiado rápido                          clase 238
+  el flujo crítico no funciona
+  el retraso de proceso supera lo acordado
+
+Y SOBRE AUSENCIA Y ANTIGÜEDAD
+  lo que dejó de ocurrir                        ley 13
+  lo que lleva demasiado tiempo sin actualizarse
+
+NO SE ALERTA SOBRE
+  causas intermedias: CPU, memoria, disco
+    → salvo que la acción sea inmediata y concreta
+  errores sueltos
+  y cosas que se recuperan solas
+</code></pre>
+<p>Y el error que produce la fatiga:</p>
+<pre><code class="language-text">SE ALERTA SOBRE CUANTO SE PUEDE MEDIR
+  porque medir es fácil y decidir es difícil
+  → cientos de alertas
+  → y entonces se ignoran, incluidas las que importan
+                                                clase 125
+
+→ y el síntoma es una cifra: la proporción de alertas que
+  resultan ser algo
+  → por debajo del 50 %, el sistema ya no funciona
+</code></pre>
+<p>Y la limpieza, que hay que hacer periódicamente:</p>
+<pre><code class="language-text">cada alerta, una vez al trimestre
+  ¿se ha disparado?
+    no, en un año  → o sobra o su umbral está mal
+  ¿fue accionable?
+  ¿tiene procedimiento enlazado?
+  ¿llegó a alguien que hizo algo?
+
+→ y en las clases 211, 225 y 238, más de la mitad se
+  retiraron sin perder nada
+</code></pre>
+<h3 id="2-la-guardia-sostenible">2. La guardia, sostenible</h3>
+<p>Una guardia insostenible se degrada sola: la gente se va, y quien queda hace peor su trabajo.</p>
+<pre><code class="language-text">LO QUE HACE FALTA MEDIR
+  interrupciones por turno, dentro y fuera de horario
+  cuántas despiertan
+  duración de cada intervención
+  y cuántos turnos seguidos hace cada persona
+
+→ y un umbral que este programa sostiene
+  más de 2 interrupciones por turno fuera de horario
+  significa que hay un problema, no que hace falta más
+  gente                                     clase 125
+</code></pre>
+<p><strong>El tamaño del turno</strong>, con la aritmética:</p>
+<pre><code class="language-text">una rotación necesita al menos 6 personas para que nadie
+esté de guardia más de una semana de cada seis
+  → con 4, cada dos semanas de cada cuatro: se quema
+  → con menos, no es una guardia: es que hay una persona
+    disponible siempre                            ley 20
+
+y si el equipo no llega
+  se comparte la guardia con otro equipo
+  o se reduce la superficie: menos servicios, menos alertas
+                                                clase 253
+  → y no se finge que hay guardia
+</code></pre>
+<p>Y las condiciones que la hacen sostenible:</p>
+<pre><code class="language-text">COMPENSACIÓN, en tiempo o en dinero, acordada
+DERECHO A DESCONECTAR tras una noche mala
+SIN OTRAS TAREAS durante el turno
+  → estar de guardia y tener entregas es tener dos trabajos
+Y UN LÍMITE: si el turno se pasa arreglando cosas, el
+  trabajo siguiente es reducir las alertas, no aguantar
+</code></pre>
+<p><strong>Lo que hay que tener antes de que empiece un turno:</strong></p>
+<pre><code class="language-text">el procedimiento de cada alerta, enlazado    clase 125
+los accesos concedidos y PROBADOS         clase 256
+  → y no descubrir a las 3 que no se puede entrar
+el camino esperado de los flujos             clase 194
+las consultas de diagnóstico guardadas       clase 238
+la lista de a quién escalar y cómo
+y el traspaso del turno anterior
+</code></pre>
+<p>Y el traspaso, que es barato y se olvida:</p>
+<pre><code class="language-text">al terminar el turno, un resumen escrito
+  qué pasó
+  qué quedó a medias
+  qué está degradado
+  y qué esperar
+
+→ sin él, quien entra empieza a ciegas
+→ y los problemas que se arrastran no se ven
+</code></pre>
+<p>Y una práctica que reduce mucho la carga:</p>
+<pre><code class="language-text">EL TURNO REVISA SUS PROPIAS ALERTAS
+  al terminar, quien estuvo de guardia dice qué alertas
+  fueron ruido
+  → y esas se corrigen o se retiran esa semana
+  → y quien sufre el ruido es quien decide sobre él
+                                                clase 172
+</code></pre>
+<h3 id="3-escalar-y-coordinar">3. Escalar y coordinar</h3>
+<p><strong>El escalado</strong> falla cuando depende de que alguien esté disponible y de que a quien está se le ocurra.</p>
+<pre><code class="language-text">ESCALAR POR CRITERIO, no por desesperación
+  «si en 15 minutos no hay hipótesis, se escala»
+  «si afecta a más de N usuarios, se escala»
+  «si toca datos o dinero, se escala inmediatamente»
+  «si hay que decidir algo que no me corresponde, se
+   escala»
+
+→ y el criterio se escribe antes
+→ así escalar no es admitir una derrota: es seguir el
+  procedimiento
+</code></pre>
+<p>Y la cadena, con lo que debe garantizar:</p>
+<pre><code class="language-text">nivel 1   quien está de guardia
+nivel 2   quien conoce ese servicio
+nivel 3   quien puede decidir sobre el negocio
+
+y cada nivel
+  con más de una persona
+  con un canal que funcione aunque el sistema esté caído
+  y con un plazo: si no responde en N minutos, se pasa al
+    siguiente automáticamente
+
+→ y ese plazo automático es lo que evita el «llamé y no
+  contestó»
+</code></pre>
+<p><strong>Los papeles durante un incidente</strong>, que es lo que más ordena:</p>
+<pre><code class="language-text">RESPONSABLE DE INCIDENTE
+  coordina; NO arregla
+  decide qué se prueba y qué no
+  reparte el trabajo
+  y protege a quien arregla de las interrupciones
+  → y este papel es el que más se salta, porque parece que
+    no hace nada
+
+QUIEN ARREGLA
+  una o dos personas, sin interrupciones
+  → y si son cinco, se estorban
+
+RESPONSABLE DE COMUNICACIÓN
+  informa a los afectados y a la organización
+  → papel SEPARADO, porque comunicar es trabajo a tiempo
+    completo
+  → y si lo hace quien arregla, deja de arreglar
+
+Y QUIEN TOMA NOTAS
+  la línea de tiempo, mientras ocurre
+  → reconstruirla después cuesta el triple  clase 127
+</code></pre>
+<p>Y la regla que se aprende cara:</p>
+<pre><code class="language-text">EN UN INCIDENTE GRANDE, EL RESPONSABLE NO TOCA EL TECLADO
+  en cuanto empieza a arreglar, deja de coordinar
+  → y nadie coordina
+
+→ y en incidentes pequeños, una persona hace los tres
+  papeles; el criterio para separarlos es el tamaño
+</code></pre>
+<p>Y el canal, con su requisito:</p>
+<pre><code class="language-text">un canal por incidente, no una conversación general
+  → todo el mundo ve lo mismo y queda registrado
+  y un canal ALTERNATIVO que no dependa del sistema
+    afectado
+  → si el incidente afecta a la identidad, la herramienta
+    de mensajería puede no funcionar         clase 218
+  → y eso hay que haberlo probado                ley 22
+</code></pre>
+<h3 id="4-comunicar">4. Comunicar</h3>
+<p>Este programa ha medido varias veces que <strong>decidir y comunicar dominan el tiempo total</strong> de un incidente. Comunicar es trabajo.</p>
+<pre><code class="language-text">A QUIÉN HAY QUE INFORMAR
+  los usuarios afectados
+  atención al cliente, que recibe las llamadas
+  el negocio, que tiene que decidir cosas
+  los socios, si les afecta
+  y la organización, para que no pregunten uno a uno
+
+→ y cada uno necesita algo distinto
+</code></pre>
+<p>Y lo que cada uno necesita:</p>
+<pre><code class="language-text">USUARIOS
+  qué no funciona, en sus términos
+  qué pueden hacer mientras tanto
+  y cuándo habrá noticias
+  → NO les interesa la causa técnica
+
+ATENCIÓN AL CLIENTE
+  lo anterior, más qué responder a las preguntas concretas
+  → y lo antes posible, porque están recibiendo llamadas
+    ya
+
+NEGOCIO
+  el impacto: cuántos, cuánto, desde cuándo
+  y qué decisiones hay que tomar
+
+LA ORGANIZACIÓN
+  que hay un incidente, quién lo lleva y dónde mirar
+  → y así dejan de preguntar en canales aleatorios
+</code></pre>
+<p><strong>El ritmo</strong>, que es lo que más tranquiliza:</p>
+<pre><code class="language-text">la primera comunicación, en los primeros minutos
+  aunque no se sepa nada: «lo sabemos, estamos en ello»
+actualizaciones a intervalo FIJO y anunciado
+  «volveremos a informar en 30 minutos»
+  → y se cumple, aunque no haya novedades
+  → «sin novedades» es información
+
+→ y lo que genera desconfianza no es el incidente: es el
+  silencio
+</code></pre>
+<p>Y lo que no hay que hacer:</p>
+<pre><code class="language-text">prometer un plazo de resolución que no se sabe
+  → «estará en 20 minutos» y a las dos horas sigue
+  → mejor: «la siguiente actualización en 30 minutos»
+minimizar el impacto
+y explicar la causa técnica antes de estar seguro
+  → y luego corregirla, que es peor
+</code></pre>
+<p>Y las plantillas, que ahorran minutos que no se tienen:</p>
+<pre><code class="language-text">mensajes preparados para
+  detección, actualización, mitigación y cierre
+  por cada audiencia
+→ y se rellenan, no se redactan
+</code></pre>
+<p><strong>Después del incidente</strong>, con lo que enlaza con la clase 261:</p>
+<pre><code class="language-text">el cierre se comunica igual que el inicio
+y la revisión se hace con la línea de tiempo tomada
+durante                                       clase 127
+
+y las preguntas de la revisión
+  ¿cuánto tardamos en enterarnos?
+  ¿cuánto en decidir?
+  ¿cuánto en comunicar?
+  y ¿qué señal habría avisado antes?
+</code></pre>
+<p>Y lo que hay que vigilar de la guardia:</p>
+<pre><code class="language-text">interrupciones por turno, y cuántas despiertan
+proporción de alertas que resultan ser algo
+tiempo hasta la primera acción
+tiempo hasta la primera comunicación
+escalados y si respetaron el criterio
+y rotación: cuántas personas, y si alguien repite de más
+</code></pre>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ cada alerta tiene respuesta a «¿qué hace quien la
+  recibe?»
+☐ lo que puede esperar es aviso, no alerta
+☐ se alerta sobre síntomas, ausencia y antigüedad
+☐ cada alerta tiene procedimiento enlazado
+☐ se mide la proporción que resulta ser algo
+☐ se revisan y retiran alertas cada trimestre
+☐ la rotación tiene personas suficientes
+☐ se mide la carga por turno
+☐ quien está de guardia no tiene otras entregas
+☐ los accesos están probados antes del turno
+☐ hay traspaso escrito entre turnos
+☐ el turno revisa y corrige sus propias alertas
+☐ el escalado tiene criterio escrito y plazo automático
+☐ hay papeles separados de coordinación, arreglo y
+  comunicación
+☐ hay canal alternativo probado
+☐ hay plantillas por audiencia y ritmo fijo de
+  actualización
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: con la guardia montada y la comunicación repartida, queda lo que hace quien arregla: diagnosticar. El método de triaje por capas es la materia de la clase 258.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>alertas, on-call, escalamiento y comunicación</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-21-cloud-operations-automation/257-alertas-on-call-escalamiento-y-comunicacion/lab.py
+<p><strong>CloudShop reorganiza su guardia. Lo que sigue son las 890 alertas mensuales de las que 8 % eran algo, la persona que hacía guardia una semana de cada dos, y el incidente en que comunicar consumió más tiempo que arreglar.</strong></p>
+<p><strong>El punto de partida:</strong></p>
+<pre><code class="language-text">alertas configuradas                                412
+disparadas al mes                                   890
+que resultaron ser algo                          71 (8 %)
+
+rotación de guardia
+  personas                                            4
+  → una semana de cada dos para cada una
+interrupciones por turno
+  media                                            27,4
+  fuera de horario                                  9,1
+  que despertaron                                   4,2
+
+bajas y salidas del equipo en 12 meses                 2
+  → las dos citaron la guardia en la entrevista de
+    salida
+</code></pre>
+<p><strong>La limpieza de alertas.</strong></p>
+<pre><code class="language-text">las 412, revisadas con la pregunta «¿qué hace quien la
+recibe?»
+
+  nada, o mirar y comprobar que va bien             184
+    → retiradas
+  esperar a ver si se arregla sola                   61
+    → retiradas; y 14 se convirtieron en aviso con umbral
+      más alto
+  avisar a otro equipo                               38
+    → redirigidas a ese equipo
+  ejecutar un procedimiento                          72
+    → mantenidas, con procedimiento enlazado
+  investigar porque hay impacto                      57
+    → mantenidas
+
+alertas tras la limpieza                            167
+  de ellas, que despiertan                           41
+  el resto, avisos en horario laboral                126
+</code></pre>
+<p>Y la segunda pasada, con la pregunta del horario:</p>
+<pre><code class="language-text">de las 41 que despertaban
+  ¿puede esperar a mañana?
+    sí                                               23
+      → pasaron a aviso
+    no                                               18
+
+alertas que despiertan                          41 → 18
+</code></pre>
+<p>Y el resultado del primer mes:</p>
+<p>```text                                        antes     después
+alertas configuradas                          412         167
+disparadas al mes                             890         104
+que resultaron ser algo                    71 (8 %)   88 (85 %)
+interrupciones por turno                     27,4         3,1
+  fuera de horario                            9,1         1,2
+  que despertaron                             4,2         0,4</p>
+<pre><code>
+Y la observación:
+
+```text
+las alertas que resultaron ser algo SUBIERON de 71 a 88
+→ porque las 184 de ruido estaban tapando cosas reales
+→ y el equipo había dejado de mirar               ley 15
+</code></pre>
+<p><strong>La rotación.</strong></p>
+<pre><code class="language-text">con 4 personas, una semana de cada dos
+  → insostenible, y demostrado con las dos salidas
+
+se plantearon tres opciones
+  contratar                                  6 meses
+  compartir con otro equipo                  posible
+  reducir la superficie                      posible
+
+lo que se hizo, las tres cosas
+  1  compartir la guardia con el equipo de datos
+     → de 4 a 9 personas: una semana de cada nueve
+     → y con formación cruzada: 6 sesiones
+  2  reducir la superficie
+     → 22 servicios de los 61 se retiraron o pasaron a
+       gestionados                    clases 253, 254
+     → y las alertas de esos, con ellos
+  3  y la contratación siguió su curso, sin urgencia
+
+semanas de guardia por persona y año
+  antes                                            26
+  después                                         5,8
+</code></pre>
+<p>Y las condiciones que se acordaron:</p>
+<pre><code class="language-text">compensación en tiempo: un día por semana de guardia
+derecho a desconectar la mañana siguiente a una noche con
+  más de una interrupción
+sin entregas comprometidas durante el turno
+y la regla que más cambió las cosas
+  «si un turno tiene más de 5 interrupciones fuera de
+   horario, el trabajo de la semana siguiente es reducir
+   alertas»
+  → aplicada 3 veces en el primer trimestre, 0 en el
+    segundo
+</code></pre>
+<p><strong>El traspaso, que no existía.</strong></p>
+<pre><code class="language-text">se añadió un resumen escrito al terminar el turno
+  qué pasó
+  qué quedó a medias
+  qué está degradado
+  y qué esperar
+
+en los primeros 3 meses
+  problemas que se arrastraban entre turnos y nadie veía
+                                                      7
+    · una réplica con retraso creciente desde hacía 9 días
+    · un trabajo que fallaba cada noche y alguien
+      relanzaba
+    · y 5 más
+
+→ y los 7 llevaban semanas: cada turno los arreglaba y no
+  se los contaba al siguiente                     ley 15
+</code></pre>
+<p><strong>El incidente en que comunicar dominó.</strong></p>
+<pre><code class="language-text">incidente   el flujo de pago dejó de funcionar para el 40 %
+            de los usuarios
+
+  14:02  alerta de presupuesto de error         clase 238
+  14:04  primera acción: se revisa el panel
+  14:09  hipótesis: un despliegue de las 13:58
+  14:12  reversión iniciada
+  14:19  servicio restablecido
+
+  → 17 minutos de detección a resolución
+
+y lo que pasó en paralelo
+  14:06  atención al cliente empieza a recibir llamadas
+  14:11  el director de operaciones pregunta en un canal
+  14:14  el equipo comercial pregunta en otro
+  14:16  un socio escribe
+  14:22  dirección pregunta por el impacto
+
+  y quien estaba revirtiendo el despliegue contestaba a
+  todos
+  → la reversión se retrasó 6 minutos por eso
+
+  y después
+  14:19-15:40  reconstruir qué había pasado, calcular el
+               impacto y contestar a cada uno
+               → 1 h 21 de comunicación tras 17 minutos de
+                 incidente
+
+→ y ese reparto es el que este programa ha medido varias
+  veces                                    clases 179, 215
+</code></pre>
+<p>Y lo que se montó después:</p>
+<pre><code class="language-text">PAPELES SEPARADOS, a partir de cierta gravedad
+  responsable de incidente: coordina, no toca el teclado
+  quien arregla: 1 o 2, sin interrupciones
+  responsable de comunicación: informa a todos
+  y quien toma notas
+
+  → y para incidentes menores, una persona hace los cuatro
+
+CANAL POR INCIDENTE
+  se abre uno; todas las preguntas van ahí
+  → y las preguntas en otros canales se redirigen
+
+PLANTILLAS por audiencia
+  usuarios, atención al cliente, negocio, socios y
+  organización
+  → 4 momentos cada una: detección, actualización,
+    mitigación y cierre
+
+RITMO FIJO
+  primera comunicación en menos de 10 minutos
+  actualizaciones cada 30, aunque no haya novedades
+
+y la línea de tiempo, tomada DURANTE
+</code></pre>
+<p>Y el efecto, medido en los 9 incidentes siguientes:</p>
+<p>```text                                        antes     después
+tiempo hasta la primera comunicación         n/d       7 min
+tiempo de quien arregla dedicado a
+  comunicar                                  38 %         3 %
+tiempo total de comunicación tras el
+  incidente                                1 h 21      18 min
+canales distintos con preguntas                 5           1
+reconstrucción de la línea de tiempo       2-3 h        0
+  (se toma durante)</p>
+<pre><code>
+**El canal alternativo, probado.**
+
+```text
+se simuló un incidente que afectaba al proveedor de
+identidad
+  → la herramienta de mensajería del equipo usa ese mismo
+    proveedor                                clase 218
+  → nadie podía entrar
+
+  el canal alternativo: un grupo en un servicio de
+  mensajería independiente, con los teléfonos
+  → primera prueba: 4 de 9 personas no lo tenían
+    instalado
+  → corregido, y probado cada trimestre          ley 22
+</code></pre>
+<p><strong>El escalado, con criterio.</strong></p>
+<pre><code class="language-text">antes   se escalaba cuando quien estaba de guardia se
+        rendía
+        y llamaba a quien creía que sabía
+        → y a veces no contestaba
+
+después
+  criterios escritos
+    sin hipótesis en 15 min                → nivel 2
+    afecta a más de 1.000 usuarios         → nivel 2 y
+                                             comunicación
+    toca datos o dinero                    → inmediato
+    hay que decidir algo de negocio        → nivel 3
+  cadena con 2 personas por nivel
+  y plazo automático: sin respuesta en 5 min, siguiente
+
+y en 6 meses
+  escalados                                         14
+  que respetaron el criterio                        14
+  llamadas sin respuesta que bloquearon               0
+</code></pre>
+<p><strong>El resultado, al año:</strong></p>
+<p>```text                                        antes     después
+alertas configuradas                          412         151
+disparadas al mes                             890          94
+proporción accionable                         8 %        89 %
+interrupciones por turno                     27,4         2,3
+que despertaron                               4,2         0,3
+semanas de guardia por persona y año           26         5,8
+salidas del equipo citando la guardia            2           0
+tiempo hasta la primera comunicación        n/d        7 min
+problemas arrastrados entre turnos              7           0</p>
+<pre><code>
+**La lección que esta clase deja**: retirar ciento ochenta y cuatro alertas que no exigían ninguna acción hizo que **las que resultaban ser algo subieran de setenta y una a ochenta y ocho**: el ruido estaba tapando problemas reales. Y en el incidente que mejor se resolvió técnicamente —diecisiete minutos de detección a reversión—, **comunicar consumió una hora y veintiún minutos después**, y retrasó seis minutos la propia reversión porque quien arreglaba contestaba a cinco canales a la vez.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-21-cloud-operations-automation/257-alertas-on-call-escalamiento-y-comunicacion/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>incident</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -199,29 +675,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>Hay cientos de alertas y nadie las mira</td>
+<td>Se alerta sobre todo lo que se puede medir, sin preguntar qué acción exige</td>
+<td>Pregunta qué hace quien la recibe; lo que no exige acción concreta es un panel, no una alerta.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>La gente abandona el equipo por la guardia</td>
+<td>Rotación con pocas personas y carga alta por turno</td>
+<td>Comparte guardia, reduce superficie y mide interrupciones por turno; por encima del umbral, el trabajo es reducir alertas.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Problemas que se arrastran semanas sin que nadie los vea</td>
+<td>No hay traspaso entre turnos y cada uno los apaga sin contarlo</td>
+<td>Resumen escrito al terminar el turno, con lo que quedó a medias y lo degradado.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Quien arregla el incidente pierde tiempo contestando preguntas</td>
+<td>No hay papeles separados ni canal único</td>
+<td>Separa coordinación, arreglo y comunicación a partir de cierta gravedad, y abre un canal por incidente.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Se escala tarde y a quien no contesta</td>
+<td>El escalado depende de la desesperación y de la disponibilidad</td>
+<td>Criterios escritos, dos personas por nivel y paso automático al siguiente si no responden en el plazo.</td>
+</tr>
+<tr>
+<td>Durante un incidente nadie puede comunicarse</td>
+<td>El canal de mensajería depende del sistema afectado</td>
+<td>Ten un canal alternativo independiente y pruébalo cada trimestre.</td>
 </tr>
 </tbody>
 </table>
@@ -232,17 +713,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Cuál es la única pregunta que justifica una alerta?</li>
+<li>¿Qué umbral de interrupciones por turno indica que hay un problema?</li>
+<li>¿Por qué el responsable de incidente no debe tocar el teclado?</li>
+<li>¿Qué necesita cada audiencia durante un incidente?</li>
+<li>¿Qué genera desconfianza más que el propio incidente?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>The Site Reliability Workbook — Beyer et al..</li>
-<li>Seeking SRE — Murphy et al..</li>
-<li>Effective DevOps — Davis y Daniels.</li>
+<li>Beyer, B. y otros (2016). <em>Site Reliability Engineering</em>, cap. «Being on-call». <a href="https://sre.google/sre-book/being-on-call/">https://sre.google/sre-book/being-on-call/</a></li>
+<li>Google (2018). <em>The Site Reliability Workbook: alerting on SLOs</em>. <a href="https://sre.google/workbook/alerting-on-slos/">https://sre.google/workbook/alerting-on-slos/</a></li>
+<li>PagerDuty (2025). <em>Incident response documentation: roles and escalation</em>. <a href="https://response.pagerduty.com/">https://response.pagerduty.com/</a></li>
+<li>Atlassian (2025). <em>Incident communication best practices</em>. <a href="https://www.atlassian.com/incident-management/incident-communication">https://www.atlassian.com/incident-management/incident-communication</a></li>
+<li>Allspaw, J. (2016). <em>Incident command for IT</em>. <a href="https://www.oreilly.com/library/view/incident-management-for/9781492045922/">https://www.oreilly.com/library/view/incident-management-for/9781492045922/</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -310,7 +793,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-la-unica-pregunta-que-justifica-una-alerta">1. La única pregunta que justifica una alerta</a><a class="toc-level-3" href="#2-la-guardia-sostenible">2. La guardia, sostenible</a><a class="toc-level-3" href="#3-escalar-y-coordinar">3. Escalar y coordinar</a><a class="toc-level-3" href="#4-comunicar">4. Comunicar</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
