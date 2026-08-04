@@ -1,0 +1,118 @@
+{
+  "id": "262",
+  "purpose": "Planificar capacidad en un entorno elástico, donde el problema ya no es comprar máquinas sino **saber dónde está el límite antes de chocar con él**. La clase da el método —encontrar el recurso que satura primero, medir el codo, proyectar la demanda—, el inventario de cuotas que causa la mayoría de las sorpresas, y las palancas para gestionar la demanda cuando la capacidad no da.",
+  "outcomes": [
+    "**Identificar** el recurso que satura primero en cada servicio.",
+    "**Medir** el codo con una prueba de carga que sirva para decidir.",
+    "**Proyectar** demanda con crecimiento, estacionalidad y eventos.",
+    "**Inventariar** las cuotas que limitan antes que la capacidad.",
+    "**Gestionar** la demanda cuando la capacidad no puede crecer."
+  ],
+  "concepts": [
+    {
+      "term": "recurso limitante",
+      "definition": "El que satura primero. Determina el límite del servicio; ampliar cualquier otro no sirve de nada."
+    },
+    {
+      "term": "codo",
+      "definition": "Punto en que la latencia deja de crecer despacio y se dispara. El límite útil, no el teórico."
+    },
+    {
+      "term": "cuota",
+      "definition": "Límite impuesto por el proveedor o por la organización. Suele llegar antes que el límite físico."
+    },
+    {
+      "term": "margen",
+      "definition": "Distancia entre la carga actual y el codo. Se dimensiona por el tiempo que se tarda en reaccionar."
+    },
+    {
+      "term": "gestión de demanda",
+      "definition": "Reducir o aplanar la carga en vez de aumentar la capacidad."
+    },
+    {
+      "term": "vertido de carga",
+      "definition": "Rechazar parte de la demanda deliberadamente para que el resto siga funcionando."
+    }
+  ],
+  "diagram": "flowchart TB\n    S[\"servicio\"] --> R[\"1 · ¿QUÉ RECURSO\\nSATURA PRIMERO?\"]\n    R --> R1[\"CPU · memoria · red\\nconexiones · IOPS\\ncuota · dependencia\"]\n    R1 --> C[\"2 · MEDIR EL CODO\\nprueba de carga\\nhasta romper\"]\n    C --> P[\"3 · PROYECTAR DEMANDA\\ncrecimiento + estacional\\n+ eventos\"]\n    P --> M{\"¿margen\\nsuficiente?\"}\n    M -->|\"sí\"| OK[\"vigilar\\ny revisar\"]\n    M -->|\"no\"| A1[\"ampliar capacidad\"]\n    M -->|\"no puede\\ncrecer\"| A2[\"GESTIONAR DEMANDA\\nlímites · aplanar\\nprioridad · vertido\"]\n    Q[\"cuotas\"] -.->|\"limitan antes\\nque lo físico\"| M",
+  "foundations": [
+    {
+      "heading": "Encontrar el recurso limitante",
+      "body": "La elasticidad no elimina la planificación de capacidad: la traslada. Ya no se planifica cuándo comprar, sino **dónde está el techo y cuánto se tarda en llegar**.\n\n```text\nCADA SERVICIO TIENE UN RECURSO QUE SATURA PRIMERO\n  y casi nunca es la CPU, aunque sea lo que todos miran\n\ncandidatos, por frecuencia real\n  conexiones a la base                       clase 207\n  memoria                                    clase 213\n  IOPS o rendimiento del disco               clase 190\n  ancho de banda o paquetes por segundo      clase 198\n  cuota del proveedor                        clase 217\n  una dependencia aguas abajo                clase 185\n  un bloqueo o una partición caliente        clase 208\n  el número de hilos o de sockets\n  y la CPU, sí, pero menos veces de lo que se cree\n\n→ y ampliar lo que no es el limitante no cambia nada\n→ y esto explica el incidente de la clase 258: añadir una\n  réplica de lectura no mejoró nada porque el limitante\n  era un disco degradado\n```\n\nY cómo se identifica, que no es adivinando:\n\n```text\nSE CARGA HASTA ROMPER Y SE MIRA QUÉ SE ACABÓ\n  y se mira CUANTO hay, a la vez, no solo lo sospechoso\n\ny el patrón revelador\n  la latencia se dispara MIENTRAS la CPU está al 40 %\n  → entonces el limitante es una espera, no un cálculo\n  → conexiones, bloqueos, dependencia, cuota o disco\n\ny la trampa de escalar\n  añadir instancias multiplica las conexiones a la base\n  → y el limitante empeora al escalar\n  → el escalado automático puede tumbar la base\n                                        clases 207, 212\n```\n\nY la ley de Little, que evita muchas pruebas:\n\n```text\nconcurrencia = tasa de llegada × tiempo de servicio\n\n  1.000 peticiones/s × 0,2 s = 200 en curso\n  → y si el grupo de conexiones tiene 50, ese es el techo\n  → 50 / 0,2 = 250 peticiones/s como máximo\n\n→ y con esta cuenta se descubren techos sin cargar nada\n→ y explica por qué una dependencia más lenta reduce el\n  caudal aunque nada falle              clases 201, 261\n```"
+    },
+    {
+      "heading": "El codo y el margen",
+      "body": "El límite útil no es donde el sistema deja de responder: es donde deja de responder **bien**.\n\n```text\nLA CURVA\n  carga baja       latencia plana\n  carga media      latencia sube despacio\n  EL CODO          latencia se dispara\n  más allá         colas, plazos, cascada\n\n→ y entre el codo y el fallo total suele haber muy poco\n→ el codo típico está entre el 60 % y el 80 % de\n  utilización del recurso limitante\n→ nunca en el 100 %\n\ny por qué\n  a medida que la utilización se acerca a 1, el tiempo de\n  espera crece de forma no lineal\n  → al 50 % de utilización, la espera es comparable al\n    servicio\n  → al 90 %, es unas nueve veces mayor\n  → planificar «al 95 % de uso» es planificar el desastre\n```\n\nY cómo se mide de forma que sirva:\n\n```text\nPRUEBA DE CARGA ÚTIL\n  con tráfico REALISTA en forma, no solo en volumen\n    → mezcla de operaciones, tamaños, distribución de\n      claves                                clase 208\n  con datos de tamaño realista\n    → una base con 10.000 filas no se parece a una con\n      400 millones\n  subiendo por escalones y esperando estabilización\n  midiendo latencia por percentiles, no la media\n  y ANOTANDO qué recurso se acaba en cada escalón\n\ny qué NO sirve\n  medir el máximo de peticiones por segundo sin mirar la\n  latencia\n  → ese número siempre existe y nunca es útil\n```\n\nY cómo se dimensiona el margen:\n\n```text\nEL MARGEN SE MIDE EN TIEMPO, NO EN PORCENTAJE\n  «¿cuánto tardamos en añadir capacidad?»\n    escalado automático              1-3 minutos\n    cuota que hay que solicitar      horas o días\n    capacidad reservada              días\n    rediseño                         semanas\n\n  → y el margen debe cubrir el crecimiento durante ESE\n    tiempo, más el pico\n\ny la pregunta que ordena todo\n  «si el tráfico se duplicara ahora mismo, ¿qué se rompe\n  primero y en cuánto tiempo?»\n  → si no se sabe responder, no hay plan de capacidad\n```\n\nY las tres alertas de capacidad que hacen falta:\n\n```text\n  proximidad al codo del recurso limitante\n  proximidad a cada CUOTA relevante\n  y tendencia: «a este ritmo, se llega en N días»\n  → la tercera es la única que da tiempo a reaccionar\n                                              clase 256\n```"
+    },
+    {
+      "heading": "Cuotas: el techo que llega antes",
+      "body": "En la nube, la mayoría de los topes con los que se choca no son físicos. Son cuotas.\n\n```text\nCLASES DE CUOTA\n  por cuenta o suscripción\n  por región\n  por servicio\n  por operación (peticiones por segundo a la API de\n    control)\n  y algunas ajustables, otras no                clase 217\n\nDÓNDE APARECEN, con más frecuencia\n  direcciones IP públicas y elásticas\n  núcleos por familia de instancia y por región\n  reglas por grupo de seguridad y grupos por interfaz\n  conexiones concurrentes al balanceador\n  invocaciones concurrentes de funciones      clase 214\n  rendimiento provisionado de tablas y colas\n  peticiones por segundo a la API de gestión\n    → y esta es la que sorprende a la infraestructura\n      como código                             clase 128\n  cuotas de servicios gestionados de datos y de IA\n                                              clase 248\n```\n\nY lo que hace que las cuotas causen incidentes:\n\n```text\n1  SON POR REGIÓN\n   se amplía en una y se olvida la de conmutación\n   → y la conmutación falla justo cuando se necesita\n                                            clase 187\n2  SON POR CUENTA\n   y el equipo que las consume no es el que las pidió\n   → un entorno de ensayo puede agotar la cuota de\n     producción si comparten cuenta            clase 219\n3  NO AVISAN\n   se llega al 100 % sin señal previa, salvo que se\n   configure\n4  Y SE AMPLÍAN CON RETRASO\n   de horas a días, y a veces con negociación\n   → pedirla durante el incidente es tarde\n\nEL INVENTARIO MÍNIMO\n  qué cuotas nos afectan, por región y por cuenta\n  cuál es el valor actual y cuál el consumo\n  cuál es el plazo para ampliarla\n  y alerta al 70 % y al 85 %\n  → generado automáticamente, no mantenido a mano\n```\n\nY el caso especial de la cuota del plano de control:\n\n```text\nlas herramientas de infraestructura como código consultan\nmucho\n  → y con muchos recursos, se alcanza el límite de\n    peticiones\n  → y el síntoma es una aplicación que falla a mitad, de\n    forma intermitente                        clase 128\n  → y no aparece en ningún panel de capacidad\n```"
+    },
+    {
+      "heading": "Cuando la capacidad no puede crecer",
+      "body": "A veces no se puede ampliar: la cuota tarda, la dependencia no escala, el coste no lo permite. Entonces se gestiona la demanda.\n\n```text\nPALANCAS, de menos a más visible para el usuario\n\n1  QUITAR TRABAJO INNECESARIO\n   reintentos excesivos                       clase 201\n   sondeos que podrían ser eventos             clase 210\n   consultas que traen más de lo que usan\n   y trabajo duplicado por falta de caché      clase 207\n   → y aquí suele haber entre un 20 % y un 40 % de la\n     carga\n\n2  APLANAR EL PICO\n   mover lo que no es interactivo a las horas valle\n   → informes, reprocesos, sincronizaciones\n   encolar en vez de atender en línea          clase 210\n   → convierte un pico en una cola más larga\n\n3  LÍMITES POR CLIENTE\n   cuotas por consumidor, no solo globales\n   → evita que uno consuma la capacidad de todos\n   → y es la defensa contra el vecino ruidoso\n\n4  DEGRADACIÓN POR PRIORIDAD\n   lo esencial sigue; lo accesorio se apaga\n   → recomendaciones, informes, funciones de adorno\n   → decidido ANTES, con negocio, no durante   clase 105\n\n5  VERTIDO DE CARGA\n   rechazar deliberadamente parte de la demanda\n   → rápido y con un error claro, no con una espera\n   → es MEJOR que caer entero\n   → y hay que probarlo, porque casi nunca se ha probado\n                                              clase 261\n```\n\nY la aritmética que justifica el vertido:\n\n```text\ncapacidad 1.000 peticiones/s, llegan 1.400\n  sin vertido   todo se encola; la latencia se dispara;\n                los plazos vencen; los clientes\n                reintentan; llegan 2.100\n                → y se sirve prácticamente nada\n  con vertido   se sirven 1.000 bien y se rechazan 400\n                rápido\n                → el 71 % de los usuarios queda servido\n\n→ y el fallo de no verter es que el sistema entrega CERO\n  en vez de la mayoría\n→ este es el mecanismo de la ley 21, en capacidad\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ se sabe qué recurso satura primero en cada servicio\n☐ el codo está medido, no supuesto\n☐ las pruebas de carga usan forma y volumen de datos\n  realistas\n☐ el margen se dimensiona por el tiempo de reacción\n☐ hay alerta de tendencia, no solo de umbral\n☐ existe inventario de cuotas por región y por cuenta,\n  automático\n☐ las cuotas de la región de conmutación están ampliadas\n☐ hay alerta al 70 % y al 85 % de cada cuota relevante\n☐ se vigila la cuota de peticiones al plano de control\n☐ se ha respondido a «si el tráfico se duplica, ¿qué se\n  rompe y en cuánto?»\n☐ hay límites por cliente, no solo globales\n☐ la degradación por prioridad está decidida con negocio\n☐ el vertido de carga existe y se ha probado\n☐ escalar no empeora el recurso limitante\n```\n\nY el cierre que enlaza con la clase siguiente: hasta aquí, la operación la hacen personas con herramientas. Qué parte puede delegarse en sistemas que aprenden, qué gana y dónde está el límite que no conviene cruzar, es la materia de la clase 263."
+    }
+  ],
+  "worked_example": "**CloudShop prepara la temporada alta. Lo que sigue es la prueba que reveló que el recurso limitante no era el que todos creían, la cuota que habría hecho fracasar la conmutación de región, y el vertido de carga que salvó el pico.**\n\n**Primera pregunta: ¿qué satura primero?**\n\n```text\ncreencia del equipo   «la CPU del servicio de catálogo»\n                      → era lo que mostraba el panel\n\nprueba de carga por escalones, midiendo todo\n\n  peticiones/s   p99      CPU    conexiones   IOPS   memoria\n         500    120 ms    22 %      18/50     31 %     41 %\n       1.000    145 ms    39 %      34/50     58 %     44 %\n       1.500    210 ms    51 %      48/50     79 %     46 %\n       1.700    890 ms    54 %      50/50     84 %     47 %\n       1.900  4.200 ms    55 %      50/50     84 %     47 %\n\n→ EL CODO ESTÁ EN 1.600 peticiones/s\n→ con la CPU al 52 %\n→ el limitante son las CONEXIONES a la base  clase 207\n```\n\nY la comprobación con la ley de Little:\n\n```text\n50 conexiones / 0,031 s de tiempo en base = 1.612 pet/s\n→ coincide con el codo medido\n→ y se podría haber calculado sin cargar nada\n```\n\nY la trampa que se descubrió al intentar arreglarlo:\n\n```text\nprimer intento: escalar de 11 a 22 instancias\n  → cada instancia tiene su propio grupo de 50\n  → 22 × 50 = 1.100 conexiones contra la base\n  → la base admite 800\n  → la base rechazó conexiones y el servicio EMPEORÓ\n\n→ escalar el servicio empeoró el recurso limitante\n→ la solución fue un intermediario de conexiones y bajar\n  el grupo por instancia a 15                clase 207\n\ncodo tras el cambio                       4.100 pet/s\ncoste del cambio                          9 horas\ncoste de la alternativa (base mayor)      +3.100 USD/mes\n```\n\n**Segunda: el inventario de cuotas.**\n\n```text\ngenerado automáticamente por cuenta y región\n  cuotas relevantes encontradas                      63\n  con consumo por encima del 70 %                     9\n  con consumo por encima del 85 %                     4\n```\n\nY las cuatro por encima del 85 %:\n\n```text                                consumo   plazo ampliación\ndirecciones IP elásticas, región\n  principal                              47/50        2 días\nnúcleos de la familia de cómputo\n  general                             892/1.000        3 días\ninvocaciones concurrentes de\n  funciones                          780/1.000     inmediato\nreglas por grupo de seguridad            56/60     inmediato\n```\n\nY el hallazgo grave, que estaba en la región secundaria:\n\n```text\nla región de conmutación tenía las cuotas POR DEFECTO\n  núcleos                              32 (frente a 1.000)\n  direcciones IP elásticas              5 (frente a 50)\n  rendimiento de la tabla de pedidos    por defecto\n\n→ el plan de continuidad suponía levantar el 100 % de la\n  capacidad allí\n→ y la cuota permitía el 3,2 %\n→ el ensayo de conmutación nunca había levantado más de\n  4 instancias, así que nunca lo detectó   clase 261\n\n→ y ampliar esas cuotas tardó 4 días\n→ durante un incidente real, ese plan habría fracasado\n  entero                                  clases 187, 189\n```\n\n**Tercera: la proyección para temporada alta.**\n\n```text\nbase                pico actual        1.240 pet/s\ncrecimiento         +34 % interanual\nestacionalidad      ×3,1 el pico de noviembre frente al\n                    de un martes normal\nevento              campaña de televisión, 2 días\n                    → ×1,6 adicional durante 40 minutos\n\nproyección\n  1.240 × 1,34 × 3,1              = 5.151 pet/s\n  con el evento, ×1,6             = 8.242 pet/s\n\ncapacidad tras el arreglo del limitante   4.100 pet/s\n  → insuficiente incluso sin el evento\n```\n\nY las decisiones, por palanca:\n\n```text\n1  QUITAR TRABAJO INNECESARIO\n   sondeo del estado del pedido cada 5 s desde el navegador\n     → sustituido por eventos                clase 210\n     → -22 % de peticiones\n   reintentos sin retroceso en la aplicación móvil\n     → corregidos                            clase 201\n     → -9 % en momentos de degradación\n\n   pico proyectado tras esto              6.428 pet/s\n\n2  APLANAR\n   la generación de informes de comerciantes se movió a\n   las 03:00                                  -6 %\n   la sincronización de catálogo pasó a cola   -4 %\n\n   pico proyectado                        5.784 pet/s\n\n3  AMPLIAR CAPACIDAD\n   intermediario de conexiones dimensionado para 9.000\n   escalado automático con margen de 3 minutos\n   cuotas ampliadas en ambas regiones\n\n   capacidad                              9.200 pet/s\n\n4  Y AUN ASÍ, VERTIDO DE CARGA PREPARADO\n   por si la proyección se quedaba corta\n```\n\n**El día del evento.**\n\n```text\npico real                              10.870 pet/s\n  proyectado                            5.784\n  → 1,88 veces la proyección\n  → la campaña rindió mucho más de lo previsto\n\n11:42  se supera la capacidad (9.200)\n11:42  entra el vertido de carga\n         prioridad 1  compra y pago             se sirve\n         prioridad 2  catálogo y búsqueda       se sirve\n         prioridad 3  recomendaciones           apagado\n         prioridad 4  histórico y reseñas       vertido\n11:42-12:31  vertido activo, 49 minutos\n\nresultado\n  peticiones rechazadas             8,4 % del total\n  compras completadas               100 % de las\n                                    intentadas\n  p99 del flujo de compra           340 ms\n  incidentes                        0\n```\n\nY la comparación con el año anterior, sin vertido:\n\n```text                                   año anterior    este año\npico                              4.900 pet/s   10.870 pet/s\ncapacidad                         3.800 pet/s    9.200 pet/s\nexceso                                  1,29×          1,18×\n\nlo que pasó\n  latencia p99                       31 s          340 ms\n  compras completadas                 41 %           100 %\n  duración del incidente          2 h 40 min             -\n  ingresos perdidos estimados     alto             ~0\n\n→ con un exceso PARECIDO, un año cayó y el otro no\n→ la diferencia fue verter en vez de encolar\n```\n\nY lo que el equipo anotó como lección de proyección:\n\n```text\nla proyección falló por 1,88×\n  → y la planificación aguantó igualmente\n\nporque el plan no era «acertar la proyección»\n  sino «tener una respuesta cuando la proyección falle»\n  → capacidad para lo proyectado\n  → y vertido para lo que no se proyectó\n\n→ y esa es la diferencia entre planificar capacidad y\n  adivinar el futuro\n```\n\n**La lección que esta clase deja**: el recurso limitante no era la CPU sino **50 conexiones**, y escalar el servicio de 11 a 22 instancias **empeoró** el problema porque multiplicó las conexiones contra la base. Y la región de conmutación tenía cuotas para el **3,2 %** de la capacidad que el plan de continuidad daba por hecha, algo que ningún ensayo había detectado porque ninguno había levantado más de cuatro instancias.",
+  "pitfalls": [
+    {
+      "symptom": "Se amplía capacidad y el rendimiento no mejora",
+      "cause": "Se amplió un recurso que no era el limitante",
+      "fix": "Carga hasta romper midiendo todos los recursos y comprueba cuál se acaba; si la latencia se dispara con CPU baja, el limitante es una espera."
+    },
+    {
+      "symptom": "Escalar automáticamente tumbó la base de datos",
+      "cause": "Cada instancia nueva multiplica las conexiones contra un recurso compartido",
+      "fix": "Usa un intermediario de conexiones y dimensiona el grupo por instancia contando el total; comprueba que escalar no empeora el limitante."
+    },
+    {
+      "symptom": "La conmutación de región falló por falta de capacidad",
+      "cause": "Las cuotas de la región secundaria estaban en los valores por defecto",
+      "fix": "Inventaria cuotas por región y por cuenta, amplía las de la región de conmutación y ensaya levantando capacidad real, no cuatro instancias."
+    },
+    {
+      "symptom": "Se choca con un límite sin ningún aviso previo",
+      "cause": "Las cuotas no alertan por sí solas y no había alerta de tendencia",
+      "fix": "Genera el inventario de cuotas automáticamente con alerta al 70 % y al 85 %, y añade alerta de tendencia en días hasta agotarse."
+    },
+    {
+      "symptom": "En el pico el sistema entrega casi nada en vez de degradarse",
+      "cause": "Todo se encola, los plazos vencen y los clientes reintentan, multiplicando la carga",
+      "fix": "Implementa vertido de carga por prioridad y pruébalo; servir el 70 % bien es mejor que servir el 0 % lentamente."
+    },
+    {
+      "symptom": "La prueba de carga dice que se aguanta y en producción no",
+      "cause": "Se midió volumen sin forma realista, con datos pequeños y mirando la media",
+      "fix": "Reproduce la mezcla de operaciones y la distribución de claves con datos del tamaño real, y mide por percentiles anotando qué recurso se acaba."
+    }
+  ],
+  "checks": [
+    "¿Cómo se identifica el recurso limitante de un servicio?",
+    "¿Por qué el codo aparece muy por debajo del 100 % de utilización?",
+    "¿Cómo se dimensiona el margen de capacidad?",
+    "¿Qué cuotas suelen causar incidentes y por qué no se ven venir?",
+    "¿Por qué verter carga da mejor resultado que encolar en un pico?"
+  ],
+  "references": [
+    {
+      "text": "Gunther, N. (2007). *Guerrilla Capacity Planning*.",
+      "url": "https://link.springer.com/book/10.1007/978-3-540-31010-5"
+    },
+    {
+      "text": "Google (2018). *The Site Reliability Workbook*, cap. «Managing load» y «Handling overload».",
+      "url": "https://sre.google/sre-book/handling-overload/"
+    },
+    {
+      "text": "AWS (2024). *Service Quotas — monitoring and requesting increases*.",
+      "url": "https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html"
+    },
+    {
+      "text": "Microsoft (2024). *Azure subscription and service limits, quotas, and constraints*.",
+      "url": "https://learn.microsoft.com/azure/azure-resource-manager/management/azure-subscription-service-limits"
+    },
+    {
+      "text": "Google Cloud (2024). *Quotas and limits*.",
+      "url": "https://cloud.google.com/docs/quotas"
+    }
+  ]
+}
