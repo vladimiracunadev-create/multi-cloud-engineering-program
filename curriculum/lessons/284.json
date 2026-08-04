@@ -1,0 +1,118 @@
+{
+  "id": "284",
+  "purpose": "Último capstone sectorial: plataforma de datos e inteligencia artificial gobernada. La clase da el encargo y la restricción que manda —**el fallo no da error, el dato tiene dueño y finalidad, y el modelo hereda todos los defectos de lo que come**—, el gobierno que lo hace sostenible, y las pruebas negativas que revelan lo que ninguna alerta detecta.",
+  "outcomes": [
+    "**Diseñar** la plataforma en el orden que evita rehacerla.",
+    "**Gobernar** el dato por dueño, finalidad y contrato, sin frenar el uso.",
+    "**Detectar** fallos que no producen error, con comparaciones y no con alertas.",
+    "**Evaluar** modelos con datos reales y decidir cuándo retirarlos.",
+    "**Verificar** el diseño con las pruebas negativas del sector."
+  ],
+  "concepts": [
+    {
+      "term": "producto de datos",
+      "definition": "Conjunto publicado con dueño, contrato, semántica y compromiso de frescura."
+    },
+    {
+      "term": "gobierno útil",
+      "definition": "El que hace más rápido el camino correcto en vez de prohibir los demás."
+    },
+    {
+      "term": "linaje",
+      "definition": "De dónde viene cada dato y qué depende de él. Lo que permite evaluar el impacto de un cambio."
+    },
+    {
+      "term": "comprobación que detiene",
+      "definition": "Validación que impide publicar datos incorrectos, en vez de avisar después."
+    },
+    {
+      "term": "evaluación con casos reales",
+      "definition": "Medir con lo que ocurrió de verdad. Lo imaginado da números que engañan."
+    },
+    {
+      "term": "finalidad",
+      "definition": "Para qué se puede usar un dato. Determina quién accede y qué se permite derivar."
+    }
+  ],
+  "diagram": "flowchart TB\n    O[\"orígenes\"] --> C[\"CONTRATO\\ndueño · semántica\\nfrescura · finalidad\"]\n    C --> I[\"ingesta\\nincremental\"]\n    I --> Q[\"CALIDAD QUE DETIENE\\nvolumen · distribución\\nfrescura · completitud\"]\n    Q -->|\"falla\"| S[\"no publica\\ny avisa al dueño\"]\n    Q -->|\"pasa\"| P[\"producto de datos\\npublicado\"]\n    P --> A[\"analítica\"]\n    P --> M[\"modelos\"]\n    M --> E[\"evaluación con\\ncasos reales\"]\n    E --> PR[\"producción\"]\n    PR --> D[\"vigilar deriva\\ny compararse con\\nla alternativa simple\"]\n    L[\"linaje\"] -.-> P\n    L -.-> M",
+  "foundations": [
+    {
+      "heading": "El encargo y la restricción que manda",
+      "body": "**El encargo.** La plataforma de datos e inteligencia artificial de CloudShop: alimenta informes de negocio, recomendaciones, previsión de demanda, detección de fraude y el asistente operativo.\n\n```text\nCIFRAS DE PARTIDA\n  orígenes                                   41\n  conjuntos publicados                       610\n  consumidores internos                      14 equipos\n  modelos en producción                      9\n  y el histórico\n    incidentes por dato incorrecto           19/año\n    detectados por una persona               17/19\n    tiempo medio hasta detectarlos           23 días\n```\n\nY la restricción que manda:\n\n```text\nEL FALLO NO DA ERROR                          ley 29\n  el canal se ejecuta, publica filas y devuelve un informe\n  → y todo es incorrecto\n  → y lo detecta alguien, semanas después, porque una\n    cifra le extraña\n\n→ y de ahí sale toda la arquitectura de este capstone\n  no sirve alertar sobre errores: hay que COMPARAR con lo\n  de siempre\n  volumen, distribución, frescura y completitud\n  y detener antes de publicar, no avisar después\n```\n\nY las otras dos restricciones, que son de gobierno:\n\n```text\nEL DATO TIENE DUEÑO Y FINALIDAD\n  no basta con que exista y sea correcto\n  → alguien responde de su significado\n  → y hay usos permitidos y usos que no\n    → un dato recogido para facturar no vale para\n      entrenar un modelo de segmentación sin más\n                                            clase 251\n\nEL MODELO HEREDA LOS DEFECTOS DE LO QUE COME\n  un modelo sobre datos sin contrato reproduce sus sesgos,\n  sus huecos y sus cambios de significado\n  → y los amplifica, porque decide muchas veces\n  → y su fallo también es silencioso: sigue prediciendo\n                                            clase 271\n```\n\nY el orden que evita rehacerlo, que ya se demostró en la parte 20:\n\n```text\n1  contratos y semántica       lo más caro de cambiar\n2  ingesta y reproceso\n3  calidad que detiene\n4  atributos, calculados en un solo sitio\n5  servicio y evaluación\n6  el modelo                   lo más barato de cambiar\n\n→ empezar por el 6 fue lo que costó siete semanas de\n  rehacer en el caso de la clase 271\n```"
+    },
+    {
+      "heading": "Gobierno que no frena",
+      "body": "El gobierno de datos tiene mala fama merecida: comités, formularios y catálogos que nadie mantiene. Lo que funciona es otra cosa.\n\n```text\nEL GOBIERNO QUE FRACASA\n  aprobación manual para publicar\n  catálogo mantenido a mano\n  normas escritas sin comprobación automática\n  → y el resultado medido: el 71 % del consumo lo rodea\n    con exportaciones y copias                ley 16\n\nEL GOBIERNO QUE FUNCIONA\n  publicar por el camino oficial es LO MÁS RÁPIDO\n  → 2 días, no once semanas               clase 271\n  el contrato genera el resto\n    permisos derivados del contrato\n    documentación generada, no escrita\n    comprobaciones de calidad derivadas del esquema\n    y linaje capturado automáticamente\n  y lo que se prohíbe, se prohíbe técnicamente\n    → no con una norma que recordar\n```\n\nY las piezas del gobierno, con lo que aporta cada una:\n\n```text\nCONTRATO\n  esquema, semántica en palabras, dueño, frescura\n  comprometida, finalidad permitida y clasificación de\n  sensibilidad\n  → y la semántica escrita es lo que evita el error más\n    caro: un campo llamado «importe» que significa tres\n    cosas                                   clase 252\n\nCATÁLOGO GENERADO\n  de los contratos, no a mano\n  → un catálogo mantenido a mano está desactualizado\n    siempre                                    ley 25\n\nLINAJE AUTOMÁTICO\n  qué alimenta qué\n  → y sirve para dos cosas concretas\n    evaluar el impacto de un cambio antes de hacerlo\n    y encontrar, tras un fallo, todo lo que quedó\n      contaminado\n  → esta segunda es la que salva semanas de trabajo\n\nCLASIFICACIÓN Y FINALIDAD\n  qué es personal, qué es sensible, para qué se puede usar\n  → y controles automáticos que impiden que un dato\n    personal acabe en un conjunto de entrenamiento sin\n    autorización\n\nY RETIRADA\n  los conjuntos sin consumo se marcan y se retiran\n  → porque un catálogo con 610 conjuntos de los que se\n    usan 180 es un catálogo inservible\n```\n\nY la métrica que dice si el gobierno funciona:\n\n```text\nno «cuántos conjuntos catalogados»\nsino QUÉ PORCENTAJE DEL CONSUMO PASA POR LA PLATAFORMA\n  → y si baja, el camino oficial se ha vuelto lento\n  → es la misma señal de adopción de la clase 267\n```"
+    },
+    {
+      "heading": "Detectar lo que no da error",
+      "body": "El corazón técnico del capstone.\n\n```text\nLAS CUATRO COMPARACIONES\n  VOLUMEN\n    ¿cuántas filas frente a lo habitual para este día de\n    la semana?\n  DISTRIBUCIÓN\n    ¿la media, los percentiles y la proporción de valores\n    nulos se parecen a las de siempre?\n    → esto es lo que detecta el cambio de céntimos a\n      euros: todos los valores son posibles\n  FRESCURA\n    ¿el dato más reciente es de cuándo?\n  COMPLETITUD\n    ¿faltan orígenes, particiones o claves esperadas?\n\n→ y las cuatro DETIENEN la publicación, no avisan\n→ porque una vez publicado, el error se propaga a todo lo\n  que consume                              clase 243\n```\n\nY las comprobaciones que la experiencia añade:\n\n```text\nREFERENCIAS CRUZADAS\n  el total de ventas del almacén frente al del sistema\n  operacional\n  → discrepancia mayor del X %, se detiene\n  → es la comprobación más potente y la que menos se hace\n\nBORRADOS\n  ¿cuántos borrados trajo la ingesta incremental?\n  → si lleva meses sin traer ninguno, algo está mal\n                                            clase 242\n\nCONTINUIDAD TEMPORAL\n  ¿hay huecos de horas o días sin datos?\n\nY VALORES IMPOSIBLES POR CONTEXTO\n  una fecha de entrega anterior al pedido\n  un descuento del 340 %\n  → y estos sí dan error si se comprueban\n```\n\nY el bucle de reproceso, que hay que tener antes de necesitarlo:\n\n```text\nCUANDO SE DETECTA UN FALLO ANTIGUO\n  1  el linaje dice qué quedó contaminado\n  2  se marca lo afectado como no fiable\n  3  se reprocesa desde el origen, con la corrección\n  4  se recalculan los derivados en orden\n  5  y se avisa a los consumidores de qué cifras cambian\n\n→ el paso 5 es el que casi nadie hace\n→ y es el que evita que alguien siga decidiendo con la\n  cifra vieja\n```\n\nY los modelos, con lo que la parte 20 dejó medido:\n\n```text\nATRIBUTOS EN UN SOLO SITIO\n  el mismo cálculo al entrenar y al servir  clase 244\n  → 17 atributos calculados distinto costaron un error de\n    3,9 días frente a 1,4\n\nEVALUACIÓN CON CASOS REALES\n  60 casos imaginados daban 94 %\n  los reales dieron 67 %                    clase 250\n\nCOMPARACIÓN CON LA ALTERNATIVA SIMPLE, SIEMPRE\n  una regla, una media móvil, un umbral\n  → y si consigue el 90 % con el 3 % del coste, el modelo\n    sobra\n\nY VIGILANCIA DE DERIVA\n  distribución de entradas y de salidas\n  → un modelo se degradó de 1,4 a 3,9 días de error\n    durante catorce meses sin que nada avisara\n                                            clase 246\n```"
+    },
+    {
+      "heading": "Las pruebas negativas del capstone",
+      "body": "Lo que hay que ejecutar, y que revela lo que ninguna alerta muestra.\n\n```text\nDE CALIDAD SILENCIOSA\n  ☐ multiplicar por 100 los importes de un origen: ¿se\n    detiene la publicación?\n  ☐ cambiar la unidad de un campo sin cambiar el esquema:\n    ¿se detecta?\n  ☐ ejecutar un trabajo antes de que llegue un origen:\n    ¿publica parcial?\n  ☐ eliminar el 30 % de las filas de una partición: ¿se\n    nota?\n  ☐ ¿cuánto tarda la ingesta incremental en traer un\n    borrado?\n  ☐ ¿cuadran las ventas del almacén con las del sistema\n    operacional, hoy?\n\nDE GOBIERNO\n  ☐ ¿cuánto tarda publicar un conjunto nuevo?\n  ☐ ¿qué porcentaje del consumo pasa por la plataforma?\n  ☐ ¿cuántos conjuntos publicados no tiene nadie\n    consumiendo?\n  ☐ ¿algún conjunto no tiene dueño identificable hoy?\n  ☐ ¿un dato personal puede acabar en un entrenamiento sin\n    autorización?\n  ☐ dado un campo, ¿qué informes y modelos dependen de él?\n\nDE MODELOS\n  ☐ ¿los atributos se calculan igual al entrenar y al\n    servir? demuéstralo\n  ☐ ¿de dónde salieron los casos de evaluación?\n  ☐ ¿cuál es el resultado de la alternativa simple para\n    cada modelo?\n  ☐ ¿qué modelo lleva más tiempo sin evaluarse contra\n    datos recientes?\n  ☐ ¿algún modelo usa un atributo que en producción no\n    existe al predecir?\n\nDE RECUPERACIÓN\n  ☐ reprocesar tres meses desde el origen: ¿cuánto tarda y\n    da lo mismo?\n  ☐ ante un fallo detectado hoy con origen hace 40 días,\n    ¿qué quedó contaminado?\n  ☐ ¿se avisa a los consumidores de que sus cifras\n    cambian?\n```\n\n**El entregable del capstone:**\n\n```text\n1  el mapa de productos de datos con dueño, contrato y\n   finalidad\n2  el conjunto de comprobaciones que detienen, por\n   producto\n3  el linaje y una demostración de análisis de impacto\n4  el inventario de modelos con su evaluación, su\n   alternativa simple y su deriva\n5  el procedimiento de reproceso y de aviso a consumidores\n6  el coste por consulta y por predicción      clase 270\n7  y el resultado de las pruebas negativas, con lo que\n   falló\n```\n\nY el cierre que enlaza con la clase siguiente: con los ocho sectores resueltos, queda someterlos a la prueba que este programa considera definitiva: provocar los fallos y ver qué hace la organización. El ensayo integrado es la materia de la clase 285."
+    }
+  ],
+  "worked_example": "**El capstone resuelto. Lo que sigue son las seis pruebas de calidad silenciosa con su resultado, el linaje que convirtió una investigación de semanas en veinte minutos, y los tres modelos que se retiraron.**\n\n**Las seis pruebas de calidad silenciosa.**\n\n```text\nprueba 1 · multiplicar por 100 los importes de un origen\n  antes    publicaba; el informe de ingresos daba ×100 y\n           alguien lo veía al día siguiente\n  después  DETENIDO en 4 minutos\n           → la comprobación de distribución detectó que\n             la media se salía 41 desviaciones\n\nprueba 2 · cambiar céntimos a euros sin cambiar esquema\n  antes    publicaba; todos los valores eran posibles\n           → este fue el fallo real de la parte 20\n  después  DETENIDO\n           → media dividida por 100; distribución\n             incompatible con el histórico\n\nprueba 3 · ejecutar un trabajo antes de que llegue un\n           origen\n  antes    publicaba con el 61 % de los pedidos, sin error\n  después  DETENIDO por la comprobación de completitud\n           → «faltan 3 de 8 orígenes esperados»\n\nprueba 4 · eliminar el 30 % de las filas de una partición\n  antes    no se detectaba\n  después  DETENIDO por volumen frente al histórico del\n           mismo día de la semana\n\nprueba 5 · ¿cuánto tarda la ingesta en traer un borrado?\n  antes    NUNCA: llevaba 2 años sin traer un solo borrado\n           → registros borrados en el origen seguían vivos\n             en el almacén                    clase 242\n  después  detectado por la comprobación «borrados en los\n           últimos 30 días = 0» y corregido\n           → aparecieron 41.000 registros que debían haber\n             desaparecido\n\nprueba 6 · ¿cuadran las ventas con el sistema operacional?\n  primera ejecución                     discrepancia 2,7 %\n  → investigada: pedidos cancelados contados distinto en\n    los dos sitios\n  → definición acordada y escrita\n  después                               discrepancia 0,02 %\n  y comprobación diaria que detiene si supera el 0,5 %\n```\n\nY el efecto agregado:\n\n```text                                        antes     después\nincidentes por dato incorrecto             19/año       3/año\ndetectados por una persona                  17/19        0/3\ntiempo medio hasta detectar               23 días      11 min\npublicaciones detenidas por calidad            n/d    41/mes\n  de ellas, falsos positivos                   n/d         6\n```\n\nY lo que costaron los falsos positivos:\n\n```text\n6 detenciones al mes eran cambios legítimos\n  campañas, promociones, cambios de negocio reales\n\n→ y cada una requería una persona para desbloquear\n→ se añadió un mecanismo: el dueño del producto puede\n  aprobar la publicación con un motivo escrito\n  → y esas aprobaciones se revisan mensualmente\n\n→ sin ese mecanismo, la calidad que detiene se habría\n  desactivado en tres meses                    ley 16\n```\n\n**El linaje, puesto a prueba.**\n\n```text\nel caso real\n  se detecta que un campo de un origen cambió de\n  significado hace 40 días\n\nSIN LINAJE, lo que costaba antes\n  buscar a mano qué consultas usan ese campo\n  preguntar a los 14 equipos\n  revisar informes uno a uno\n  → estimación del equipo: 2-3 semanas\n  → y con la certeza de olvidarse de alguno\n\nCON LINAJE\n  consulta de impacto                        20 minutos\n  resultado\n    conjuntos derivados afectados                    31\n    informes que los usan                            84\n    modelos que los usan                              3\n    equipos a avisar                                  9\n\ny lo que se hizo\n  los 31 conjuntos marcados como no fiables\n  reproceso de 40 días desde el origen        6 horas\n  recálculo de derivados en orden topológico  3 horas\n  aviso a los 9 equipos con la lista de cifras que\n    cambiaban y en cuánto\n  y 2 de los 3 modelos reentrenados; el tercero no usaba\n    ese atributo de forma significativa\n\ntiempo total                              2 días\n```\n\nY el detalle que el equipo consideró más valioso:\n\n```text\nel aviso a los consumidores incluía\n  «el informe de margen por categoría cambia entre un 3 %\n  y un 7 % en el periodo del 1 de marzo al 9 de abril»\n\n→ porque tres de esos informes se habían usado en\n  decisiones de compra\n→ y sin el aviso, nadie habría revisado esas decisiones\n```\n\n**Los modelos: evaluación y retirada.**\n\n```text\ninventario inicial: 9 modelos en producción\n\ncada uno evaluado con\n  casos reales del último trimestre\n  y comparación con la alternativa simple\n\n  modelo                    resultado   alternativa   coste/mes\n  previsión de demanda         1,6 d      media\n                                          móvil: 2,9 d   3.100\n  recomendación de producto    +4,1 %     más vendidos\n                                          de categoría:\n                                          +3,7 %         8.400\n  detección de fraude          0,91       reglas: 0,74   2.200\n  previsión de entrega         1,4 d      histórico por\n                                          transportista:\n                                          2,1 d          1.900\n  segmentación de clientes     n/d        no medible       900\n  predicción de abandono       0,68       antigüedad +\n                                          actividad:\n                                          0,66           1.400\n  ordenación de búsqueda       +2,3 %     popularidad:\n                                          +2,1 %         2.800\n  clasificación de incidencias 0,88       palabras\n                                          clave: 0,71      600\n  precio dinámico              +1,9 %     reglas: +1,8 %  4.200\n```\n\nY las decisiones:\n\n```text\nSE RETIRARON 3\n  recomendación de producto\n    +4,1 % frente a +3,7 % de «más vendidos de la\n    categoría»\n    → 0,4 puntos por 8.400 USD/mes\n    → y la diferencia no era significativa con el volumen\n      disponible\n  predicción de abandono\n    0,68 frente a 0,66 de dos variables\n    → retirado\n  precio dinámico\n    +1,9 % frente a +1,8 % de las reglas\n    → retirado, y además reducía la explicabilidad ante\n      clientes\n\nSE MANTUVIERON 5, con margen claro\nY 1 SE DEJÓ EN OBSERVACIÓN\n  segmentación de clientes: no se pudo medir su efecto\n  → se le dio un trimestre para definir una métrica\n  → no se definió; se retiró\n\nahorro directo                        14.500 USD/mes\ny el ahorro indirecto\n  4 modelos menos que mantener, evaluar y vigilar\n  → aproximadamente 0,6 personas\n```\n\nY la observación que el equipo escribió:\n\n```text\nninguno de los cuatro retirados era un mal modelo\n→ eran modelos que funcionaban y no aportaban lo bastante\n  frente a algo mucho más simple\n→ y ninguno se había comparado nunca con esa alternativa\n→ porque nadie compara con la alternativa simple DESPUÉS\n  de haber construido el modelo\n\n→ por eso la comparación tiene que ser un requisito de\n  entrada a producción, no una revisión posterior\n```\n\n**El gobierno, medido.**\n\n```text                                        antes     después\nplazo de publicar un conjunto nuevo     11 semanas     2 días\nconsumo que pasa por la plataforma            29 %       96 %\nconjuntos publicados                           610        184\n  sin consumo en 90 días                       426          0\nconjuntos sin dueño identificable              171          0\ncatálogo mantenido a mano                       sí         no\nlinaje disponible                               no         sí\nanálisis de impacto                     2-3 semanas   20 min\ncontroles que impiden dato personal\n  en entrenamiento                              no         sí\n```\n\n**La lección que este capstone deja**: la ingesta incremental llevaba **dos años sin traer un solo borrado** y nadie lo sabía, porque un canal que se ejecuta bien y publica filas no da ningún error; lo encontró una comprobación que preguntaba lo obvio. Y de nueve modelos en producción, **cuatro se retiraron no por ser malos** sino porque una regla o una media móvil conseguía casi lo mismo por una fracción del coste: ninguno se había comparado nunca con esa alternativa.",
+  "pitfalls": [
+    {
+      "symptom": "Un dato incorrecto se descubre semanas después por una persona",
+      "cause": "Se alerta sobre errores y un fallo de datos no produce error",
+      "fix": "Compara volumen, distribución, frescura y completitud contra el histórico, y detén la publicación en vez de avisar después."
+    },
+    {
+      "symptom": "La ingesta funciona y faltan registros borrados en el origen",
+      "cause": "La captura incremental no trae borrados y nadie lo comprueba",
+      "fix": "Añade una comprobación explícita de borrados por ventana; cero borrados durante meses es una anomalía, no una tranquilidad."
+    },
+    {
+      "symptom": "Las comprobaciones que detienen acaban desactivadas",
+      "cause": "Los cambios legítimos de negocio las disparan y desbloquear exige a otra persona",
+      "fix": "Permite que el dueño del producto apruebe la publicación con motivo escrito y revisa esas aprobaciones cada mes."
+    },
+    {
+      "symptom": "Tras detectar un fallo antiguo nadie sabe qué quedó contaminado",
+      "cause": "No hay linaje capturado automáticamente",
+      "fix": "Captura linaje en la ejecución y ten preparada la consulta de impacto; después avisa a los consumidores de qué cifras cambian y cuánto."
+    },
+    {
+      "symptom": "El catálogo tiene cientos de conjuntos y nadie encuentra nada",
+      "cause": "Se cataloga todo y no se retira lo que no se consume",
+      "fix": "Genera el catálogo de los contratos, marca lo que lleva 90 días sin consumo y retíralo."
+    },
+    {
+      "symptom": "Hay modelos en producción que nadie sabe si aportan",
+      "cause": "Nunca se compararon con una alternativa simple",
+      "fix": "Haz de esa comparación un requisito de entrada a producción y revísala periódicamente; muchos modelos no sobreviven a una media móvil."
+    }
+  ],
+  "checks": [
+    "¿Por qué en esta plataforma no sirve alertar sobre errores?",
+    "¿Qué distingue un gobierno de datos que funciona de uno que se rodea?",
+    "¿Cuáles son las cuatro comparaciones y qué detecta cada una?",
+    "¿Para qué sirve el linaje en los dos momentos en que importa?",
+    "¿Por qué la comparación con la alternativa simple debe ser requisito de entrada?"
+  ],
+  "references": [
+    {
+      "text": "Kleppmann, M. (2017). *Designing Data-Intensive Applications*.",
+      "url": "https://dataintensive.net/"
+    },
+    {
+      "text": "Sculley, D. y otros (2015). *Hidden technical debt in machine learning systems*.",
+      "url": "https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html"
+    },
+    {
+      "text": "Google Cloud (2024). *Data governance and lineage on BigQuery and Dataplex*.",
+      "url": "https://cloud.google.com/dataplex/docs/data-lineage"
+    },
+    {
+      "text": "AWS (2024). *Machine Learning Lens and data governance guidance*.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/machine-learning-lens.html"
+    },
+    {
+      "text": "Microsoft (2024). *Data governance with Microsoft Purview*.",
+      "url": "https://learn.microsoft.com/purview/governance-solutions-overview"
+    }
+  ]
+}
