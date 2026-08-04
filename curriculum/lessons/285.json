@@ -1,0 +1,118 @@
+{
+  "id": "285",
+  "purpose": "Ensayo integrado: provocar fallos en varios sistemas a la vez y observar cómo responde la organización entera. La clase da el diseño de un ejercicio de varias horas con escenarios encadenados, cómo se observa sin intervenir, cómo se evalúa lo que ocurre, y por qué —según la hipótesis de la parte 23— la mayoría de los hallazgos volverán a ser organizativos.",
+  "outcomes": [
+    "**Diseñar** un ejercicio integrado con escenarios encadenados y radio acotado.",
+    "**Organizar** roles, observación y criterios de parada para varias horas.",
+    "**Provocar** los fallos que cruzan equipos, que son los que no se ensayan.",
+    "**Evaluar** la respuesta con una rúbrica y extraer acciones cerradas.",
+    "**Comparar** los hallazgos con lo que la hipótesis de la parte 23 predijo."
+  ],
+  "concepts": [
+    {
+      "term": "ensayo integrado",
+      "definition": "Ejercicio de varias horas con fallos encadenados que cruzan varios equipos y sistemas."
+    },
+    {
+      "term": "escenario encadenado",
+      "definition": "Un fallo que provoca otro, como ocurre de verdad. Lo que ningún ensayo aislado prueba."
+    },
+    {
+      "term": "célula de control",
+      "definition": "Grupo que dirige el ejercicio, inyecta los fallos y puede abortarlo."
+    },
+    {
+      "term": "observador",
+      "definition": "Quien anota qué ocurre y cuándo, incluido lo que se busca y no se encuentra."
+    },
+    {
+      "term": "fallo de frontera",
+      "definition": "El que ocurre entre equipos y por eso no tiene dueño hasta que alguien lo reclama."
+    },
+    {
+      "term": "acción cerrada",
+      "definition": "Hallazgo convertido en cambio con dueño, plazo y comprobación posterior."
+    }
+  ],
+  "diagram": "flowchart TB\n    P[\"PREPARACIÓN\\nhipótesis · radio\\ncriterios de parada\"] --> C[\"CÉLULA DE CONTROL\\ninyecta y observa\"]\n    C --> E1[\"escenario 1\\nfallo inicial\"]\n    E1 --> E2[\"escenario 2\\nconsecuencia\"]\n    E2 --> E3[\"escenario 3\\nfrontera entre equipos\"]\n    E3 --> E4[\"escenario 4\\nsin la persona clave\"]\n    C --> O[\"OBSERVADORES\\nqué se busca\\ny no se encuentra\"]\n    O --> R[\"revisión en caliente\"]\n    R --> A[\"acciones con\\ndueño y plazo\"]\n    A --> V[\"repetición en\\n8-12 semanas\"]\n    S{\"criterio de\\nparada\"} -.->|\"se cumple\"| AB[\"abortar\\ny restaurar\"]",
+  "foundations": [
+    {
+      "heading": "Qué añade un ensayo integrado",
+      "body": "Los ensayos por sistema encuentran lo que falla dentro de un equipo. El integrado encuentra lo que falla **entre** equipos, que es donde ocurren los incidentes graves.\n\n```text\nLO QUE UN ENSAYO AISLADO NO ENCUENTRA\n  quién decide cuando el problema afecta a dos equipos\n  qué pasa cuando dos incidentes coinciden  clase 258\n  cómo se comunica con un cliente externo mientras se\n    arregla\n  si el equipo A sabe que el equipo B ya está trabajando\n    en ello\n  y qué ocurre cuando la respuesta de uno empeora lo del\n    otro\n\n→ y estos son exactamente los fallos que alargan los\n  incidentes reales\n→ porque no tienen dueño hasta que alguien los reclama\n```\n\nY los escenarios que solo se pueden probar así:\n\n```text\nFALLOS DE FRONTERA\n  una dependencia compartida se degrada y afecta a cuatro\n  servicios de tres equipos                clase 185\n  → ¿quién coordina?\n\nCAUSAS SIMULTÁNEAS\n  dos incidentes distintos a la vez\n  → y la correlación automática los presenta como uno\n                                            clase 263\n\nEFECTOS CRUZADOS\n  el equipo A escala su servicio y satura la base del B\n                                            clase 262\n  el equipo B activa el vertido de carga y el A ve errores\n    que no entiende\n\nDECISIONES QUE NADIE PUEDE TOMAR SOLO\n  conmutar de región\n  desactivar una función que afecta a ingresos\n  comunicar públicamente\n  → y aquí aparece el tramo que domina el tiempo, que la\n    parte 21 midió: decidir y comunicar   clase 264\n\nY LA AUSENCIA DE PERSONAS\n  quien más sabe no participa                clase 261\n```"
+    },
+    {
+      "heading": "El diseño del ejercicio",
+      "body": "Un ensayo integrado dura entre tres y seis horas y necesita estructura.\n\n```text\nANTES\n  1  HIPÓTESIS por escenario, escritas\n     incluida la de detección: ¿saltará la alerta y en\n     cuánto?\n  2  RADIO DE IMPACTO máximo, por escenario\n  3  CRITERIOS DE PARADA medibles, y quién puede\n     declararlos\n     → cualquiera\n  4  RESTAURACIÓN probada de cada inyección\n  5  ANUNCIO a todos los equipos y a atención al cliente\n     → y aviso a los proveedores externos si procede\n  6  Y REGLA DE ORO\n     si ocurre un incidente REAL, el ejercicio se detiene\n     de inmediato\n\nDURANTE\n  CÉLULA DE CONTROL\n    inyecta, cronometra, decide si escalar el escenario y\n    puede abortar\n    → no responde preguntas ni da pistas\n  PARTICIPANTES\n    los equipos de guardia reales, no los autores\n  OBSERVADORES\n    uno por equipo, que anota\n      qué se mira y en qué orden\n      qué se busca y no se encuentra\n      qué se supone sin comprobar\n      cuándo se pide ayuda y a quién\n      y los silencios: cuánto tiempo sin que nadie diga\n        nada\n\nDESPUÉS\n  revisión en caliente de 45 minutos, ese mismo día\n  y acciones con dueño y plazo en 48 horas\n```\n\nY el encadenamiento, que es lo que lo hace realista:\n\n```text\nEL PATRÓN DE UN INCIDENTE REAL\n  algo se degrada\n  → la respuesta automática empeora otra cosa\n  → una alerta se dispara en otro equipo\n  → y mientras se investiga, aparece un segundo problema\n    sin relación\n\n→ un ensayo con un solo fallo no reproduce nada de esto\n→ y por eso los escenarios se encadenan, con la célula de\n  control decidiendo cuándo introducir el siguiente\n\nY LA REGLA DE ESCALADA\n  el escenario siguiente entra cuando el anterior está\n  contenido o cuando pasan N minutos\n  → lo segundo es lo que crea presión realista\n```\n\nY las dos cosas que hay que resistir:\n\n```text\nAYUDAR\n  quien diseñó el ejercicio conoce la respuesta\n  → y el impulso de dar una pista destruye el hallazgo\n  → los observadores no hablan\n\nY AMPLIAR EL RADIO SOBRE LA MARCHA\n  «esto va bien, vamos a probar también...»\n  → los criterios de parada y el radio se fijaron antes\n    por una razón                          clase 261\n```"
+    },
+    {
+      "heading": "Qué se evalúa",
+      "body": "La rúbrica del ejercicio, conocida por todos antes de empezar.\n\n```text\n1  DETECCIÓN\n   ¿saltó la alerta? ¿en cuánto? ¿la recibió quien debía?\n   ¿alguien se enteró por otro camino antes que por la\n   alerta?\n\n2  COORDINACIÓN\n   ¿se declaró incidente y en cuánto?\n   ¿hubo alguien coordinando o todos arreglando?\n                                            clase 257\n   ¿se supo quién hacía qué?\n\n3  DIAGNÓSTICO\n   ¿se consultó la línea de cambios primero? clase 258\n   ¿se escribieron hipótesis alternativas?\n   ¿se comprobó lo que se daba por sabido?\n\n4  DECISIÓN\n   ¿se mitigó antes de entender?\n   ¿quién tomó las decisiones que cruzaban equipos?\n   ¿hubo alguna decisión que nadie se atrevió a tomar?\n\n5  COMUNICACIÓN\n   ¿se comunicó a negocio y a clientes? ¿cuándo y qué?\n   ¿la primera comunicación tardó más de lo acordado?\n\n6  Y HERRAMIENTAS\n   ¿los procedimientos funcionaron?\n   ¿los permisos alcanzaron?\n   ¿algún panel no mostraba lo necesario?\n\n→ y las seis se puntúan con lo observado, no con la\n  impresión\n```\n\nY las cifras que se extraen del ejercicio:\n\n```text\ntiempo hasta detectar, por escenario\ntiempo hasta declarar incidente\ntiempo hasta la primera hipótesis correcta\ntiempo hasta mitigar\ntiempo hasta la primera comunicación\nnúmero de personas implicadas frente a las necesarias\nprocedimientos usados y cuántos funcionaron\nhallazgos, clasificados en técnicos y organizativos\ny decisiones bloqueadas por falta de autoridad\n```\n\nY la clasificación de hallazgos, que la hipótesis de la parte 23 predijo:\n\n```text\nla predicción escrita en la clase 276\n  «alrededor de dos tercios de los hallazgos volverán a\n  ser organizativos»\n\n→ y esta clase la pone a prueba\n→ el ejercicio de CloudShop lo comprueba en el ejemplo\n```"
+    },
+    {
+      "heading": "De los hallazgos a las acciones",
+      "body": "Un ejercicio sin acciones cerradas es una anécdota cara.\n\n```text\nLA REVISIÓN EN CALIENTE, ese mismo día\n  ¿qué esperábamos y qué pasó?\n  ¿qué nos sorprendió?\n  ¿qué buscamos y no encontramos?\n  ¿qué decisión costó tomarse y por qué?\n  ¿qué habría pasado si el radio hubiera sido mayor?\n  y ¿qué habría pasado a las 03:00?\n\n→ las dos últimas producen la mitad de las acciones\n```\n\nY las reglas de las acciones:\n\n```text\ndueño con nombre, no un equipo\nplazo, y no «cuando se pueda»\ncriterio de cierre comprobable\ny priorizadas por lo que habrían costado en un incidente\n  real\n\n→ y una comprobación al mes siguiente: ¿cuántas se\n  cerraron?\n→ si menos del 70 %, el ejercicio siguiente no se hace\n  hasta cerrarlas\n  → porque repetir un ejercicio con las acciones\n    anteriores abiertas encuentra lo mismo\n```\n\nY la repetición, que es lo que lo convierte en programa:\n\n```text\nEL MISMO EJERCICIO, 8-12 SEMANAS DESPUÉS\n  y las hipótesis ahora deben cumplirse\n  → y si no, las acciones no funcionaron\n\ny la cadencia que funciona\n  ensayos por sistema             mensuales   clase 261\n  ensayo integrado                trimestral\n  ensayo integrado con ausencias  semestral\n  y conmutación de región completa anual, con acta\n                                              clase 278\n```\n\nY los errores que arruinan un ensayo integrado:\n\n```text\n1  HACERLO SIN AVISAR\n   → produce un incidente real con gente confundida y\n     quema la confianza\n2  QUE LO RESPONDAN LOS AUTORES\n   → sale bien y no enseña nada\n3  NO PARAR CUANDO HAY UN INCIDENTE REAL\n4  USAR LOS HALLAZGOS PARA SEÑALAR PERSONAS\n   → y al siguiente nadie participa de verdad\n5  NO CERRAR LAS ACCIONES\n6  Y HACERLO DEMASIADO FÁCIL\n   → si todo sale perfecto, el ejercicio era pequeño\n   → un ensayo que no descubre nada es un ensayo mal\n     diseñado\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ hay hipótesis escritas por escenario, con detección\n☐ hay radio máximo y criterios de parada por escenario\n☐ la restauración de cada inyección está probada\n☐ está anunciado a todos los equipos y a atención al\n  cliente\n☐ responden los equipos de guardia, no los autores\n☐ hay célula de control que no da pistas\n☐ hay un observador por equipo que anota los silencios\n☐ los escenarios se encadenan y cruzan equipos\n☐ se prueba al menos una decisión que nadie puede tomar\n  solo\n☐ se ensaya la ausencia de la persona clave\n☐ el ejercicio se detiene si hay un incidente real\n☐ hay revisión en caliente el mismo día\n☐ las acciones tienen dueño con nombre y plazo\n☐ se repite en 8-12 semanas y las hipótesis se cumplen\n```\n\nY el cierre que enlaza con la clase siguiente: el ensayo dice qué hace la organización cuando algo falla. Queda revisar los ocho capstones con un método estructurado, en los tres proveedores, y anotar los riesgos que quedan. La revisión bien diseñada multiproveedor es la materia de la clase 286."
+    }
+  ],
+  "worked_example": "**El ensayo integrado de CloudShop: cinco horas, cuatro escenarios encadenados, cuatro equipos. Lo que sigue es la línea de tiempo, la decisión que nadie tomó durante 31 minutos, y la clasificación de los 47 hallazgos.**\n\n**El diseño.**\n\n```text\nduración prevista          5 horas, un jueves de 10:00 a\n                           15:00\nequipos participantes      plataforma · pedidos · pagos ·\n                           datos\ncélula de control          3 personas\nobservadores               4, uno por equipo\nanunciado a               todos los equipos, atención al\n                          cliente y dirección\nno anunciado              el contenido de los escenarios\n\ncriterio de parada global\n  errores de usuario > 1 % durante 3 minutos, o cualquier\n  participante lo declara\n```\n\nY las hipótesis escritas antes:\n\n```text\nESCENARIO 1 · una zona del proveedor principal se degrada\n  esperamos  detección en < 3 min · incidente declarado en\n             < 6 min · tráfico redistribuido · sin errores\n             de usuario\n\nESCENARIO 2 · la respuesta al 1 satura la base de pedidos\n  esperamos  el equipo de pedidos detecta y conecta ambos\n             sucesos en < 10 min\n\nESCENARIO 3 · en paralelo, la pasarela de pagos de un\n              mercado empieza a responder lento\n  esperamos  se trata como incidente SEPARADO y no se\n             confunde con el primero\n\nESCENARIO 4 · las dos personas que más saben de\n              conmutación no están disponibles\n  esperamos  la conmutación se ejecuta igual, en < 25 min\n```\n\n**La línea de tiempo.**\n\n```text\n10:00  se degrada la zona\n10:02  alerta de instancias sanas                  ✓ 2 min\n10:04  incidente declarado; coordina el turno de\n       plataforma                                  ✓ 4 min\n10:06  tráfico redistribuido; sin errores de usuario ✓\n\n10:14  ESCENARIO 2: la base de pedidos al límite de\n       conexiones\n10:16  alerta de latencia en pedidos\n10:16  el equipo de pedidos abre SU PROPIO incidente\n       → sin saber que había otro abierto\n10:29  alguien de plataforma ve el segundo incidente y\n       conecta los dos                             ✗ 15 min\n       → la hipótesis decía < 10\n\n10:35  ESCENARIO 3: la pasarela del mercado B se degrada\n10:37  alerta de pagos\n10:38  el sistema de correlación agrupa la alerta de\n       pagos con el incidente principal\n       → «probablemente derivado de la degradación de\n         zona»\n10:38-11:12  nadie investiga pagos por separado\n11:12  atención al cliente informa de reclamaciones de\n       pago del mercado B\n11:14  se separa el incidente                       ✗ 39 min\n\n11:20  se plantea conmutar la zona degradada por completo\n11:20-11:51  NADIE TOMA LA DECISIÓN                 ✗ 31 min\n11:51  la célula de control fuerza el escenario 4\n       («las dos personas de conmutación no están»)\n11:53  el turno de guardia asume la decisión y ejecuta\n12:09  conmutación completada                       ✓ 16 min\n\n12:20  primera comunicación a clientes del mercado B\n       → 1 h 45 después del inicio de su problema   ✗\n\n13:40  ejercicio finalizado y restaurado\n```\n\n**Los tres fallos grandes, analizados.**\n\n```text\nFALLO 1 · dos incidentes abiertos sin saberlo\n  el equipo de pedidos abrió su incidente a las 10:16\n  el de plataforma llevaba uno abierto desde las 10:04\n  → 13 minutos de trabajo duplicado y de confusión\n\n  causa\n    no había forma de ver «incidentes abiertos ahora\n    mismo» en un solo sitio\n    → cada equipo usaba su propio canal\n\n  acción\n    un canal único de incidentes activos, con quien\n    coordina cada uno\n    y comprobación obligatoria al declarar: «hay 1\n    incidente abierto; ¿el tuyo es el mismo?»\n\nFALLO 2 · la correlación agrupó dos incidentes distintos\n  exactamente el riesgo que la clase 263 anticipó\n  → y el equipo confió en la agrupación\n  → 39 minutos de un problema de pagos sin atender\n\n  causa\n    el agrupamiento presentaba una conclusión, no una\n    hipótesis\n    y separar no era visible\n\n  acción\n    botón de separar, visible y en primer plano\n    el agrupamiento se presenta como «posible relación»\n    y la instrucción para quien coordina: «si la evidencia\n    no encaja en una sola historia, sepáralo»\n                                            clase 258\n\nFALLO 3 · 31 minutos sin que nadie decidiera\n  la conmutación de zona afectaba a pedidos, pagos y\n  datos\n  → cada equipo esperaba que decidiera otro\n  → y el turno de guardia creía que no tenía autoridad\n\n  causa\n    el procedimiento decía «coordinar con los equipos\n    afectados»\n    → y no decía quién decide si no hay acuerdo\n\n  acción\n    quien coordina el incidente DECIDE, y esa autoridad\n    está escrita y comunicada        clase 257\n    lista explícita de decisiones que puede tomar sin\n    consultar\n    y las que sí requieren negocio, con quién y en cuánto\n\n→ y el equipo comentó que este fallo era el más caro y el\n  más barato de arreglar: una frase en un documento\n```\n\n**La clasificación de los 47 hallazgos.**\n\n```text\nORGANIZATIVOS                                31   66 %\n  autoridad para decidir no definida            6\n  información que no estaba donde se buscó      9\n  procedimientos incompletos o rotos            7\n  comunicación: cuándo, a quién y qué           5\n  y coordinación entre equipos                  4\n\nTÉCNICOS                                     16   34 %\n  paneles sin la señal necesaria                5\n  permisos insuficientes                        3\n  correlación mal presentada                    2\n  límites de conexión mal dimensionados         3\n  y alertas mal enrutadas                       3\n```\n\nY la comparación con la predicción:\n\n```text\nla hipótesis de la parte 23 decía\n  «alrededor de dos tercios de los hallazgos volverán a\n  ser organizativos»\n\nresultado medido                          66 %\nla clase 261, con ensayos por sistema     68 %\n\n→ la predicción se cumple\n→ y con una precisión que sorprendió al propio equipo\n→ y refuerza lo que la parte 22 había concluido: el 11 %\n  del contenido que no se predijo —lo organizativo— es\n  donde se concentran los fallos\n```\n\n**La repetición, 10 semanas después.**\n\n```text\nacciones cerradas antes de repetir           41 de 47   87 %\n\nmismos cuatro escenarios, mismas hipótesis\n\n                                     primera    repetición\ndetección del escenario 1              2 min        2 min\nincidente declarado                    4 min        3 min\nconectar escenarios 1 y 2             15 min        4 min ✓\nseparar el incidente de pagos         39 min        6 min ✓\ndecisión de conmutar                  31 min        2 min ✓\nconmutación ejecutada                 16 min       14 min\nprimera comunicación a clientes     1 h 45 min     11 min ✓\n\nhallazgos nuevos                          47           14\n  organizativos                           31            8\n  técnicos                                16            6\n```\n\nY la observación del equipo sobre la repetición:\n\n```text\nla decisión que costó 31 minutos costó 2\n→ y lo único que cambió fue una frase escrita: «quien\n  coordina decide»\n\ny los 14 hallazgos nuevos eran de otra clase\n  más finos, más profundos\n  → el ejercicio había subido de nivel\n```\n\n**El coste del ejercicio.**\n\n```text\npreparación                              62 horas\nejecución (16 personas × 5 h)            80 horas\nrevisión y acciones                      94 horas\nrepetición                              108 horas\n                                        ─────────\n                                        344 horas\n\ny la comparación que se llevó a dirección\n  incidente grave medio en CloudShop     ~40 horas de\n                                         equipo\n  hallazgos clasificados como «habría causado o alargado\n  un incidente grave»                          19 de 47\n\n→ y si solo 9 de esos 19 se hubieran materializado, el\n  ejercicio se paga\n```\n\n**La lección que este ensayo deja**: los tres fallos mayores no fueron técnicos —dos incidentes abiertos sin que ninguno supiera del otro, una correlación que ocultó un problema de pagos durante 39 minutos, y **31 minutos en que nadie tomó una decisión porque nadie sabía que podía**—. El más caro de los tres se arregló con una frase escrita, y en la repetición esos 31 minutos fueron 2.",
+  "pitfalls": [
+    {
+      "symptom": "El ensayo sale bien y no enseña casi nada",
+      "cause": "Lo respondieron los autores, o el escenario era demasiado sencillo",
+      "fix": "Que respondan los equipos de guardia reales y encadena escenarios que crucen equipos; un ejercicio que no descubre nada está mal diseñado."
+    },
+    {
+      "symptom": "Dos equipos trabajan en el mismo incidente sin saberlo",
+      "cause": "No existe una vista única de incidentes activos y cada equipo usa su canal",
+      "fix": "Canal único de incidentes con quien coordina cada uno, y comprobación obligatoria al declarar uno nuevo."
+    },
+    {
+      "symptom": "Un problema queda sin atender porque se agrupó con otro",
+      "cause": "La correlación presentó una conclusión y separar no era visible",
+      "fix": "Presenta el agrupamiento como posible relación, pon el botón de separar en primer plano y forma a quien coordina para separar cuando la evidencia no encaja."
+    },
+    {
+      "symptom": "Una decisión importante queda en el aire mientras todos esperan",
+      "cause": "El procedimiento pide coordinar y no dice quién decide si no hay acuerdo",
+      "fix": "Escribe que quien coordina decide, con la lista de decisiones que puede tomar sin consultar y las que requieren negocio y en cuánto tiempo."
+    },
+    {
+      "symptom": "El ejercicio genera hallazgos y nada cambia",
+      "cause": "Las acciones no tienen dueño con nombre, plazo ni criterio de cierre",
+      "fix": "Asigna, fija plazo y comprueba al mes; si no se cierra el 70 %, no repitas el ejercicio hasta cerrarlas."
+    },
+    {
+      "symptom": "Tras el ensayo hay recelo y menos participación",
+      "cause": "Los hallazgos se usaron para señalar personas o el ejercicio no se anunció",
+      "fix": "Anuncia siempre el ejercicio, atribuye los hallazgos al sistema y detén el ensayo de inmediato si aparece un incidente real."
+    }
+  ],
+  "checks": [
+    "¿Qué encuentra un ensayo integrado que no encuentra uno por sistema?",
+    "¿Qué papel tiene la célula de control y qué no debe hacer?",
+    "¿Por qué se encadenan los escenarios y con qué regla se introduce el siguiente?",
+    "¿Qué seis dimensiones evalúa la rúbrica del ejercicio?",
+    "¿Qué proporción de hallazgos suele ser organizativa y qué implica?"
+  ],
+  "references": [
+    {
+      "text": "Google (2018). *The Site Reliability Workbook* — DiRT y ejercicios de continuidad.",
+      "url": "https://sre.google/workbook/reliable-product-launches/"
+    },
+    {
+      "text": "Rosenthal, C. y Jones, N. (2020). *Chaos Engineering: system resiliency in practice*.",
+      "url": "https://www.oreilly.com/library/view/chaos-engineering/9781492043850/"
+    },
+    {
+      "text": "AWS (2024). *Fault Injection Service: multi-account and multi-region experiments*.",
+      "url": "https://docs.aws.amazon.com/fis/latest/userguide/what-is.html"
+    },
+    {
+      "text": "Microsoft (2024). *Azure Chaos Studio experiment design*.",
+      "url": "https://learn.microsoft.com/azure/chaos-studio/chaos-studio-overview"
+    },
+    {
+      "text": "Allspaw, J. (2015). *Trade-offs under pressure* — coordinación en incidentes reales.",
+      "url": "https://www.researchgate.net/publication/282869185"
+    }
+  ]
+}
