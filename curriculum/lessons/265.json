@@ -1,0 +1,118 @@
+{
+  "id": "265",
+  "purpose": "Dar el mapa de competencias que ordena la parte 22 y la ruta base de la que salen todas las demás. La clase separa lo que hay que saber de lo que hay que saber **hacer**, distingue las competencias atadas a un producto de las atadas a una restricción —que son las que duran—, y da el método para evaluarse sin engañarse: por lo que uno ha resuelto, no por lo que ha leído.",
+  "outcomes": [
+    "**Distinguir** competencias de producto y competencias de restricción.",
+    "**Situar** las ocho rutas de la parte 22 en un mapa común.",
+    "**Evaluar** el nivel propio por evidencia y no por familiaridad.",
+    "**Construir** un plan de aprendizaje con hueco identificado y prueba.",
+    "**Reconocer** el techo de cada ruta y qué lo levanta."
+  ],
+  "concepts": [
+    {
+      "term": "competencia de restricción",
+      "definition": "Saber que se organiza alrededor de un límite del mundo: latencia, coherencia, coste, superficie de ataque. Sobrevive a los productos."
+    },
+    {
+      "term": "competencia de producto",
+      "definition": "Saber cómo se hace algo en un servicio concreto. Caduca con él."
+    },
+    {
+      "term": "nivel por evidencia",
+      "definition": "Lo que uno ha resuelto sin ayuda, con las consecuencias delante. La única medida honesta."
+    },
+    {
+      "term": "ilusión de familiaridad",
+      "definition": "Confundir haber leído o visto algo con saber hacerlo."
+    },
+    {
+      "term": "ruta",
+      "definition": "Combinación de competencias que un puesto exige. No es una identidad: es un reparto de énfasis."
+    },
+    {
+      "term": "techo de ruta",
+      "definition": "El límite al que se llega sin adquirir competencias de otra ruta."
+    }
+  ],
+  "diagram": "flowchart TB\n    B[\"BASE COMÚN\\nredes · identidad · datos\\ncoste · operación\"] --> R1[\"cloud engineer\\n265\"]\n    B --> R2[\"devops y entrega\\n266\"]\n    B --> R3[\"plataforma\\n267\"]\n    B --> R4[\"fiabilidad\\n268\"]\n    B --> R5[\"seguridad\\n269\"]\n    B --> R6[\"coste\\n270\"]\n    B --> R7[\"datos e IA\\n271\"]\n    B --> R8[\"arquitectura\\n272\"]\n    C1[\"competencias de\\nRESTRICCIÓN\\nduran\"] -.-> B\n    C2[\"competencias de\\nPRODUCTO\\ncaducan\"] -.-> P[\"se aprenden\\nen días\\nsi la base está\"]",
+  "foundations": [
+    {
+      "heading": "Restricción frente a producto",
+      "body": "La distinción que ordena una carrera entera: hay saberes que caducan con el servicio que los origina y saberes que no.\n\n```text\nCOMPETENCIA DE PRODUCTO\n  cómo se configura un balanceador en la nube X\n  qué nombre tiene el servicio de colas en la nube Y\n  qué campos lleva una política en la nube Z\n\n  → se aprende en días si la base está\n  → caduca cuando el producto cambia\n  → y es lo que más ocupa en los temarios\n\nCOMPETENCIA DE RESTRICCIÓN\n  por qué la latencia entre regiones limita la coherencia\n                                            clases 183, 187\n  por qué un reintento sin retroceso multiplica la carga\n                                                clase 201\n  por qué el coste se decide al diseñar          ley 14\n  por qué un permiso amplio es una decisión de riesgo\n                                                clase 231\n  por qué una cola cambia dónde está la garantía  ley 18\n\n  → no caduca, porque la restricción no depende del\n    producto\n  → un producto nuevo es otra forma de encajar el mismo\n    límite\n```\n\nY la consecuencia práctica, que es lo que cambia decisiones:\n\n```text\nQUIEN SABE LA RESTRICCIÓN APRENDE EL PRODUCTO EN DÍAS\nQUIEN SABE EL PRODUCTO NO DEDUCE LA RESTRICCIÓN NUNCA\n\n→ y por eso este programa ha enseñado por restricción y\n  ha usado los tres proveedores como ejemplos\n→ y por eso la parte 19 pudo comparar las tres nubes\n  midiendo, en vez de listando\n```\n\nY las cinco restricciones que estructuran todo lo demás:\n\n```text\n1  LA DISTANCIA\n   la luz tarda; y de ahí salen latencia, coherencia,\n   regiones, réplicas y conmutación\n\n2  EL FALLO PARCIAL\n   las cosas fallan a medias y lento, no del todo\n   → y de ahí, plazos, reintentos, cortacircuitos y\n     degradación                          clases 185, 201\n\n3  LA IDENTIDAD\n   todo acceso es una afirmación que hay que verificar\n   → y de ahí, autenticación, autorización, privilegio\n     mínimo y auditoría                        clase 231\n\n4  EL COSTE POR USO\n   cada operación se factura\n   → y de ahí, arquitectura, formatos, y la ley 28\n\n5  Y EL CAMBIO\n   los sistemas cambian y las personas olvidan\n   → y de ahí, inventario, procedimientos, ensayos y la\n     parte 21 entera\n```"
+    },
+    {
+      "heading": "El mapa de competencias",
+      "body": "Ocho rutas y una base común. Y el error de leerlo como ocho identidades excluyentes.\n\n```text\nLA BASE COMÚN, que ninguna ruta puede saltarse\n  redes: rutas, nombres, plazos, camino esperado\n                                    clases 194, 195, 202\n  identidad: quién es y qué puede               clase 231\n  datos: dónde están, quién los copia, qué se pierde\n                                          clases 189, 208\n  coste: cómo se genera y quién responde   clases 220, 270\n  operación: alertas, procedimientos, cambio  parte 21\n\n→ y quien no tiene esta base opera de oídas en cualquier\n  ruta\n\nLAS OCHO RUTAS, por lo que priorizan\n  cloud engineer          construir y sostener servicios\n  devops y entrega        que el cambio llegue rápido y\n                          seguro                clase 266\n  plataforma              que otros equipos vayan solos\n                                                clase 267\n  fiabilidad              que el sistema cumpla lo\n                          prometido              clase 268\n  seguridad               que el fallo no sea catastrófico\n                                                clase 269\n  coste                   que el gasto sea una decisión\n                                                clase 270\n  datos e IA              que el dato sea confiable\n                                                clase 271\n  arquitectura            que la decisión sea defendible\n                                                clase 272\n\n→ y todas comparten la base; se diferencian en el ÉNFASIS\n→ y nadie ocupa una sola casilla en la práctica\n```\n\nY los cuatro niveles, definidos por lo que uno puede hacer solo:\n\n```text\nNIVEL 1 · SIGO\n  ejecuto un procedimiento existente y sé cuándo pedir\n  ayuda\n\nNIVEL 2 · RESUELVO\n  diagnostico y arreglo problemas conocidos sin ayuda\n  y escribo el procedimiento que faltaba\n\nNIVEL 3 · DISEÑO\n  tomo decisiones con compromisos y las defiendo con\n  cifras\n  y anticipo el modo de fallo antes de que ocurra\n\nNIVEL 4 · CAMBIO EL SISTEMA\n  cambio cómo trabaja la organización, no solo el sistema\n  y el efecto se mide en otros equipos\n\n→ y el salto de 2 a 3 es el que más gente no da\n→ porque el nivel 2 se alcanza practicando y el 3 exige\n  equivocarse con consecuencias y revisarlo\n```"
+    },
+    {
+      "heading": "Evaluarse sin engañarse",
+      "body": "La autoevaluación por familiaridad es inútil y es la que todo el mundo hace.\n\n```text\nLA ILUSIÓN DE FAMILIARIDAD\n  «sé de balanceadores» significa, casi siempre,\n  «he leído sobre balanceadores»\n\n  → leer produce reconocimiento, no capacidad\n  → y el reconocimiento se siente igual que saber\n\nLA PRUEBA QUE LO DESHACE\n  «¿cuándo lo hiciste sin ayuda?»\n  «¿qué salió mal y cómo lo supiste?»\n  «¿qué decidirías distinto ahora?»\n\n→ si no hay respuesta a las tres, el nivel es 1\n→ y esto duele, y es útil\n```\n\nY la rejilla de autoevaluación, que se rellena con evidencia:\n\n```text\npor cada competencia\n  ¿lo he hecho?                    sí / no\n  ¿solo o acompañado?\n  ¿en producción o en un ejercicio?\n  ¿qué salió mal?\n  ¿qué mide que salió bien?\n\n→ y si la respuesta a «¿qué salió mal?» es «nada», casi\n  siempre significa que el ejercicio era pequeño\n→ los ejercicios que no fallan no enseñan       clase 261\n```\n\nY cómo se construye el plan a partir del hueco:\n\n```text\n1  ELIGE UNA RESTRICCIÓN, no un producto\n   «no sé razonar sobre coherencia entre regiones»\n   → mejor que «no sé el servicio X»\n\n2  BUSCA UN PROBLEMA REAL\n   en tu sistema, en un proyecto propio o en un ejercicio\n   con consecuencias medibles\n\n3  ESCRIBE LA HIPÓTESIS ANTES\n   qué crees que va a pasar\n   → el mismo método que este programa aplica cada parte\n\n4  MIDE\n   y compara con lo que creías\n\n5  ESCRÍBELO\n   → y ahí tienes evidencia para el portafolio\n                                              clase 275\n\n→ y este ciclo, repetido, es lo que produce el nivel 3\n→ leer más contenidos no lo produce nunca\n```"
+    },
+    {
+      "heading": "La ruta de ingeniería de nube y su techo",
+      "body": "La ruta base: construir y sostener servicios en la nube. Es donde casi todo el mundo empieza y donde muchos se quedan por una razón concreta.\n\n```text\nQUÉ HACE\n  aprovisiona y mantiene infraestructura\n  monta redes, cómputo, almacenamiento y bases\n  automatiza con infraestructura como código   clase 128\n  responde de que funcione\n\nLO QUE SE ESPERA POR NIVEL\n  nivel 1  ejecuta cambios definidos por otros\n  nivel 2  diseña y monta un servicio completo, con red,\n           identidad, copias y señales\n  nivel 3  decide entre alternativas con coste y riesgo\n           medidos, y lo defiende\n  nivel 4  define cómo se construye en la organización\n\nLAS COMPETENCIAS QUE MÁS SE MIDEN\n  redes: por qué no llega el tráfico       clases 194-202\n  identidad y permisos                          clase 231\n  infraestructura como código, con estado y módulos\n                                          clases 128, 232\n  copias y restauración probada                 clase 255\n  coste al diseñar                              clase 220\n  y diagnóstico                                 clase 258\n```\n\nY el techo, que es lo importante de esta clase:\n\n```text\nEL TECHO DE LA RUTA BASE\n  se llega a construir bien lo que a uno le piden\n  → y ahí se para\n\n  y lo que lo levanta NO es más profundidad técnica\n  es una de estas tres\n    a  saber decidir entre opciones y defenderlo\n       → ruta de arquitectura                clase 272\n    b  hacer que otros vayan más rápido\n       → ruta de plataforma                  clase 267\n    c  responder de una propiedad del sistema entero\n       → fiabilidad, seguridad o coste\n                                    clases 268, 269, 270\n\n→ y ninguna de las tres es «saber más servicios»\n→ el hueco entre nivel 2 y 3 es de JUICIO, no de catálogo\n→ que es exactamente lo que la ley 30 dijo de los\n  procedimientos: lo que falta no es el paso, es la\n  decisión                                    clase 264\n```\n\nY el consejo que más cambia trayectorias:\n\n```text\nESPECIALIZARSE EN UNA NUBE A FONDO Y APRENDER A TRADUCIR\n  → mejor que las tres por encima\n  → porque la profundidad en una enseña la restricción,\n    y la restricción se traduce             clase 273\n  → y quien sabe las tres por encima no ha visto ninguna\n    fallar de verdad\n\ny la trampa del currículo\n  listar veinte servicios no dice nada\n  → lo que dice algo es «reduje el tiempo de recuperación\n    de 47 a 11 minutos y así lo medí»       clase 275\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ sé distinguir qué de lo que sé es producto y qué es\n  restricción\n☐ tengo la base común, no solo la parte que uso\n☐ mi nivel lo he fijado por evidencia, no por familiaridad\n☐ por cada competencia puedo decir qué salió mal alguna vez\n☐ mi plan parte de una restricción, no de un producto\n☐ tengo un problema real donde practicarla\n☐ escribo la hipótesis antes y la comparo después\n☐ sé cuál es el techo de mi ruta y qué lo levanta\n☐ tengo una nube a fondo antes que tres por encima\n☐ mis logros están escritos con cifras, no con servicios\n```\n\nY el cierre que enlaza con la clase siguiente: la primera especialización que sale de la base es la que se ocupa de que el cambio llegue a producción rápido y sin romper. Entrega continua y su ruta es la materia de la clase 266."
+    }
+  ],
+  "worked_example": "**Tres autoevaluaciones reales del equipo de CloudShop, hechas con la rejilla por evidencia. Lo que sigue es lo que la rejilla dijo frente a lo que cada persona creía, y el plan que salió de ahí.**\n\n**Persona A · Cuatro años de experiencia. Se creía nivel 3.**\n\n```text\nautoevaluación inicial, por familiaridad\n  redes                        «alto»\n  identidad                    «alto»\n  infraestructura como código  «alto»\n  copias                       «medio»\n  coste                        «medio»\n  diagnóstico                  «alto»\n\ny la rejilla por evidencia\n                        ¿solo?  ¿producción?  ¿qué falló?\n  redes                    sí         sí       nada\n  identidad                sí         sí       nada\n  infraestructura\n    como código            sí         sí       «un estado\n                                               corrupto»\n  copias                   no          -       -\n  coste                    no          -       -\n  diagnóstico              sí         sí       «tardé 3 h\n                                               en un caso»\n```\n\nY la conversación que lo cambió:\n\n```text\n«¿qué falló en redes?»            «nada»\n«¿has visto una asimetría de rutas?»    no\n«¿has diagnosticado un problema de\n  unidad máxima de transmisión?»        no\n«¿has visto un nombre resolver distinto\n  según desde dónde se pregunte?»       no\n\n→ nivel real en redes: 2, no 3\n→ había construido muchas redes y no había roto ninguna\n→ y el nivel 3 exige haber visto fallar\n\ny en copias, el hallazgo\n  «las copias las configuré yo»\n  «¿has restaurado alguna?»              no\n  → nivel 1, no medio                        ley 22\n```\n\nY el plan que salió:\n\n```text\nrestricción elegida   el fallo parcial\nproblema real         los ensayos de la clase 261\nhipótesis escrita     «al añadir 200 ms, el flujo se\n                       degradará proporcionalmente»\nresultado             4.100 ms; hipótesis refutada\n\n→ y esa refutación produjo más aprendizaje que dos años\n  construyendo redes que funcionaban\n→ nivel en redes y en fallo parcial, 12 meses después: 3\n```\n\n**Persona B · Once meses. Se creía nivel 1 en todo.**\n\n```text\nla rejilla dio otra cosa\n                        ¿solo?  ¿producción?  ¿qué falló?\n  diagnóstico              sí         sí      «seguí una\n                                               hipótesis\n                                               falsa 2 h»\n  procedimientos           sí         sí      «el mío\n                                               estaba mal\n                                               escrito y\n                                               otro no lo\n                                               entendió»\n  copias                   sí         sí      «restauré y\n                                               faltaban\n                                               40 min»\n\n→ nivel 2 en tres competencias\n→ y nivel 1 en redes e identidad, correctamente\n\n→ había hecho MENOS cosas y las había hecho fallar\n→ que es lo que produce nivel\n```\n\nY lo que esto reveló del equipo:\n\n```text\nquien lleva menos tiempo suele tener MEJOR calibrada la\nautoevaluación\n  → porque recuerda cuándo pidió ayuda\n\ny quien lleva más tiempo confunde antigüedad con nivel\n  → porque ha visto muchas veces lo mismo funcionar\n\n→ la rejilla por evidencia corrige a los dos\n```\n\n**Persona C · Ocho años. Nivel 3 real, con techo.**\n\n```text\nla rejilla confirmó nivel 3 en casi todo\n  decide entre alternativas con cifras         sí\n  anticipa modos de fallo                      sí\n  defiende decisiones ante negocio             sí\n\ny la pregunta del techo\n  «¿cuál fue tu último trabajo que cambió cómo trabaja\n  otro equipo?»\n  → ninguno en dos años\n\n→ nivel 3 estable, techo alcanzado\n→ y su queja era «no avanzo, y ya sé más que nadie de esto»\n→ que es el síntoma exacto del techo de la ruta base\n```\n\nY las tres salidas que se le plantearon, con lo que cada una exigía:\n\n```text\na  ARQUITECTURA                                clase 272\n   lo que le falta: defender ante un panel que no es\n   técnico, y escribir decisiones para que sobrevivan\n   a su autor\n\nb  PLATAFORMA                                  clase 267\n   lo que le falta: tratar a otros equipos como clientes\n   y medir adopción, no calidad interna\n\nc  FIABILIDAD                                  clase 268\n   lo que le falta: responder de un número acordado con\n   negocio, y decir que no a un despliegue\n\neligió (b)\n  y a los 9 meses, su medida era otra\n    equipos que despliegan solos      3 → 14\n    tiempo de un servicio nuevo    3 semanas → 2 días\n\n→ el mismo conocimiento técnico, otro efecto\n→ y eso es lo que distingue el nivel 4\n```\n\n**Y la comparación agregada del equipo, 9 personas.**\n\n```text                                  autoevaluación   evidencia\nredes                          media 2,9        media 2,1\nidentidad                            2,7              1,9\ninfraestructura como código          3,1              2,6\ncopias y restauración                2,4              1,2\ncoste                                2,2              1,1\ndiagnóstico                          2,8              2,3\noperación                            2,6              1,8\n\n→ el hueco es mayor donde la práctica es más rara\n→ copias y coste son los peores, y no es casualidad:\n  son los que solo se practican cuando algo va mal\n→ y la parte 21 lo confirmó: la restauración real tardó\n  3 h 10 frente a los 40 minutos que todos creían\n```\n\nY lo que el equipo hizo con esa tabla:\n\n```text\nno se usó para evaluar a nadie\n  → se usó para decidir qué ensayar\n  → y los ensayos de la clase 261 se ordenaron por el\n    hueco más grande\n\n12 meses después\n  copias y restauración      1,2 → 2,4\n  coste                      1,1 → 2,0\n  y el tiempo de restauración medido      3 h 10 → 52 min\n\n→ la rejilla no midió el aprendizaje: lo dirigió\n```\n\n**La lección que esta clase deja**: la persona con cuatro años se creía nivel 3 en redes **porque nunca había visto una fallar**, y la de once meses tenía nivel 2 real en tres competencias porque las había roto. Y el hueco entre autoevaluación y evidencia era mayor justo en **copias y coste**, que son las dos competencias que solo se practican cuando algo va mal.",
+  "pitfalls": [
+    {
+      "symptom": "Se estudia mucho y el nivel no sube",
+      "cause": "Leer produce reconocimiento, no capacidad; la familiaridad se confunde con saber",
+      "fix": "Por cada competencia responde qué hiciste solo, qué salió mal y qué harías distinto; si no hay respuesta, el nivel es 1."
+    },
+    {
+      "symptom": "Se conocen tres nubes y no se resuelve bien en ninguna",
+      "cause": "La amplitud sin profundidad no enseña la restricción, que es lo que se traduce",
+      "fix": "Domina una nube hasta haberla visto fallar y luego traduce; la restricción es transferible, la sintaxis se aprende en días."
+    },
+    {
+      "symptom": "Se llega a construir bien y la carrera se estanca",
+      "cause": "Es el techo de la ruta base; no se levanta con más servicios sino con juicio o alcance",
+      "fix": "Elige entre decidir y defender, hacer que otros vayan más rápido, o responder de una propiedad del sistema entero."
+    },
+    {
+      "symptom": "El currículo lista veinte servicios y no consigue entrevistas técnicas buenas",
+      "cause": "Una lista de productos no demuestra capacidad de resolver",
+      "fix": "Escribe logros con cifra y método: qué medías antes, qué cambiaste y qué mide que funcionó."
+    },
+    {
+      "symptom": "La autoevaluación del equipo no coincide con lo que ocurre en incidentes",
+      "cause": "Se evaluó por antigüedad y familiaridad, no por evidencia",
+      "fix": "Usa la rejilla por evidencia y ordena los ensayos por el hueco mayor; suele estar en copias y coste."
+    },
+    {
+      "symptom": "Un ejercicio de práctica salió perfecto y no se aprendió nada",
+      "cause": "El ejercicio era demasiado pequeño para fallar",
+      "fix": "Escoge problemas con consecuencias medibles y escribe la hipótesis antes; lo que no falla no enseña."
+    }
+  ],
+  "checks": [
+    "¿Qué distingue una competencia de restricción de una de producto?",
+    "¿Cuáles son las cinco restricciones que estructuran el resto?",
+    "¿Cómo se fija el nivel propio sin caer en la ilusión de familiaridad?",
+    "¿Qué separa el nivel 2 del nivel 3 y por qué es el salto que menos gente da?",
+    "¿Cuál es el techo de la ruta base y qué tres cosas lo levantan?"
+  ],
+  "references": [
+    {
+      "text": "Ericsson, K. A. y Pool, R. (2016). *Peak: secrets from the new science of expertise*.",
+      "url": "https://www.hachettebookgroup.com/titles/anders-ericsson/peak/9780544456259/"
+    },
+    {
+      "text": "Dreyfus, S. (2004). *The five-stage model of adult skill acquisition*.",
+      "url": "https://journals.sagepub.com/doi/10.1177/0270467604264992"
+    },
+    {
+      "text": "AWS (2024). *Skills and certification paths*.",
+      "url": "https://aws.amazon.com/training/learn-about/"
+    },
+    {
+      "text": "Microsoft (2024). *Azure career and skills paths*.",
+      "url": "https://learn.microsoft.com/credentials/browse/"
+    },
+    {
+      "text": "Google Cloud (2024). *Cloud learning paths by role*.",
+      "url": "https://cloud.google.com/learn/training"
+    }
+  ]
+}
