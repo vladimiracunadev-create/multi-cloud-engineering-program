@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>data</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>ingesta batch, cdc y streaming</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Traer los datos a la plataforma con el método que corresponde a cada origen, y resolver los tres asuntos que deciden si la ingesta es fiable: <strong>cómo se capturan los cambios sin consultar la base operativa a golpe de consulta, qué se hace con los datos que llegan tarde, y cómo se reprocesa sin duplicar</strong>. La clase compara lotes, captura de cambios y continua, con su coste y sus garantías.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> ingesta batch, cdc y streaming con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>ingestion-pipeline</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Elegir</strong> entre lotes, captura de cambios y continua con criterios.</li>
+<li><strong>Capturar</strong> cambios sin consultar la base operativa periódicamente.</li>
+<li><strong>Tratar</strong> los datos que llegan tarde con una regla declarada.</li>
+<li><strong>Reprocesar</strong> sin duplicar y sin tumbar el sistema.</li>
+<li><strong>Medir</strong> el retraso y la completitud de cada flujo.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,20 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>ingesta</code></td>
-<td>Define su papel en <strong>ingesta batch, cdc y streaming</strong> y cómo observarlo en un sistema real.</td>
+<td><code>ingesta por lotes</code></td>
+<td>Traer un bloque de datos cada cierto tiempo. Simple, barata y con retraso conocido.</td>
 </tr>
 <tr>
-<td><code>batch</code></td>
-<td>Define su papel en <strong>ingesta batch, cdc y streaming</strong> y cómo observarlo en un sistema real.</td>
+<td><code>captura de cambios</code></td>
+<td>Leer el registro de transacciones de la base para obtener las modificaciones, sin consultarla.</td>
 </tr>
 <tr>
-<td><code>cdc</code></td>
-<td>Define su papel en <strong>ingesta batch, cdc y streaming</strong> y cómo observarlo en un sistema real.</td>
+<td><code>extracción incremental</code></td>
+<td>Consultar solo lo modificado desde la última vez. Requiere una marca fiable y no ve los borrados.</td>
 </tr>
 <tr>
-<td><code>streaming</code></td>
-<td>Define su papel en <strong>ingesta batch, cdc y streaming</strong> y cómo observarlo en un sistema real.</td>
+<td><code>marca de agua</code></td>
+<td>Frontera de tiempo a partir de la cual se considera que ya no llegarán más datos de un periodo.</td>
+</tr>
+<tr>
+<td><code>dato que llega tarde</code></td>
+<td>Registro cuyo momento de suceso es anterior a la ventana ya cerrada.</td>
+</tr>
+<tr>
+<td><code>reproceso</code></td>
+<td>Volver a ejecutar la ingesta o la transformación sobre un periodo. Debe ser idempotente.</td>
 </tr>
 </tbody>
 </table>
@@ -89,75 +94,489 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Ingesta batch, CDC y streaming&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    O{&quot;¿de dónde viene?&quot;}
+    O --&gt;|&quot;base operativa&quot;| C[&quot;CAPTURA DE CAMBIOS\ndel registro de\ntransacciones&quot;]
+    O --&gt;|&quot;ficheros, API,\nterceros&quot;| B[&quot;LOTES&quot;]
+    O --&gt;|&quot;eventos, telemetría&quot;| S[&quot;CONTINUA&quot;]
+    C --&gt; C1[&quot;sin consultar la base\nsin marca de tiempo\nVE los borrados&quot;]
+    B --&gt; B1[&quot;retraso conocido\ny barata&quot;]
+    S --&gt; S1[&quot;ventanas y\nMARCA DE AGUA&quot;]
+    S1 --&gt; L{&quot;llega tarde&quot;}
+    L --&gt;|&quot;dentro del margen&quot;| L1[&quot;se incorpora&quot;]
+    L --&gt;|fuera| L2[&quot;decisión DECLARADA:\ndescartar · corregir ·\napartar&quot;]
+    C --&gt; I[&quot;IDEMPOTENCIA\ny reproceso&quot;]
+    B --&gt; I
+    S --&gt; I
+    I --&gt; M[&quot;medir retraso\ny COMPLETITUD&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-tres-metodos-tres-origenes">1. Tres métodos, tres orígenes</h3>
+<p>El método se elige por el origen y por el retraso aceptable, no por preferencia.</p>
+<pre><code class="language-text">LOTES
+  se trae un bloque cada cierto tiempo
+  + simple, barato y fácil de reprocesar
+  + el retraso es conocido y estable
+  − no sirve si el retraso aceptable es de segundos
+  para   ficheros de terceros, exportaciones, catálogos
+
+CAPTURA DE CAMBIOS
+  se lee el REGISTRO DE TRANSACCIONES de la base
+  + no consulta la base: no le añade carga
+  + ve inserciones, actualizaciones Y BORRADOS
+  + no depende de que exista una marca de tiempo fiable
+  − exige permisos y configuración en la base
+  − y el registro tiene retención: si el consumidor se
+    queda atrás, se pierden cambios          ley 13
+  para   bases operativas, siempre que se pueda
+
+CONTINUA
+  los eventos llegan según ocurren
+  + retraso de segundos
+  − ventanas, datos que llegan tarde y estado
+  − y más caro de operar
+  para   telemetría, clics, sensores, y lo que el negocio
+         necesite en tiempo real DE VERDAD
+</code></pre>
+<p>Y el método que hay que evitar cuando se pueda:</p>
+<pre><code class="language-text">EXTRACCIÓN INCREMENTAL POR CONSULTA
+  «dame las filas modificadas desde la última vez»
+
+  problemas
+    añade carga a la base operativa, en horas malas
+    exige una marca de tiempo de modificación FIABLE
+      → y muchas tablas no la tienen, o no se actualiza
+        siempre
+    NO VE LOS BORRADOS
+      → las filas borradas quedan para siempre en el
+        destino                                    ley 13
+    y las transacciones largas producen huecos: una fila
+      escrita antes de la marca pero confirmada después
+
+→ es el método más común y el que más errores silenciosos
+  produce
+→ y la captura de cambios lo resuelve todo
+</code></pre>
+<p>Y la pregunta que hay que hacerse antes de elegir:</p>
+<pre><code class="language-text">¿CUÁNTO RETRASO ACEPTA EL NEGOCIO DE VERDAD?
+  «en tiempo real» casi nunca significa segundos
+  → un panel que alguien mira dos veces al día no lo
+    necesita
+  → y la ingesta continua cuesta bastante más que los lotes
+                                          clases 236, 237
+
+→ preguntar qué DECISIÓN se toma con el dato y cada cuánto
+→ y de ahí sale el retraso aceptable, que se escribe en el
+  contrato                                    clase 241
+</code></pre>
+<h3 id="2-capturar-cambios-bien">2. Capturar cambios bien</h3>
+<p>La captura de cambios resuelve mucho y tiene detalles que deciden si funciona.</p>
+<pre><code class="language-text">CÓMO FUNCIONA
+  la base escribe cada cambio en su registro de
+  transacciones
+  el capturador lo lee y publica un evento por cambio
+  → con la fila antes y después, y la operación
+
+LO QUE DA
+  todos los cambios, incluidos borrados
+  el ORDEN real de las transacciones
+  sin carga adicional de consulta
+  y sin depender de columnas de auditoría
+</code></pre>
+<p>Y lo que hay que resolver:</p>
+<pre><code class="language-text">LA RETENCIÓN DEL REGISTRO
+  el registro se recicla
+  → si el capturador se para más de esa ventana, se pierden
+    cambios y hay que recargar la tabla entera
+  → ALERTA por retraso del capturador frente a la retención
+                                          ley 13, clase 237
+
+LA CARGA INICIAL
+  el capturador solo ve lo que cambia DESDE que arranca
+  → hace falta una foto inicial, y empalmarla sin huecos ni
+    duplicados
+  → los productos serios lo hacen; si se hace a mano, es la
+    parte que más se falla
+
+LOS CAMBIOS DE ESQUEMA
+  una columna nueva en el origen aparece en los eventos
+  → y el destino tiene que tolerarla       clase 188
+  → con registro de esquemas y compatibilidad hacia delante
+
+EL ORDEN Y LAS CLAVES
+  los eventos de una misma fila deben procesarse en orden
+  → clave de ordenación por clave primaria    clase 237
+  → y aun así, idempotencia: se reprocesa
+</code></pre>
+<p>Y el patrón de escritura en el destino:</p>
+<pre><code class="language-text">los eventos de cambio no se «insertan»: se FUSIONAN
+  si la clave existe, se actualiza; si no, se inserta; y si
+  la operación es borrado, se marca
+  → y por eso las capas transaccionales del lago importan
+                                                clase 241
+
+y los borrados
+  ¿se borra de verdad o se marca?
+  → marcarlos conserva el histórico y permite auditar
+  → borrarlos de verdad hace falta para peticiones de
+    supresión de datos personales           clase 251
+  → y hay que decidirlo, no dejarlo
+</code></pre>
+<p>Y una alternativa que evita todo esto cuando es viable:</p>
+<pre><code class="language-text">QUE EL ORIGEN PUBLIQUE EVENTOS DE NEGOCIO
+  «pedido confirmado» en vez de «fila insertada en
+  pedidos»
+  + el consumidor no depende del esquema interno
+  + y el evento tiene semántica                clase 148
+  − exige que el equipo del origen lo haga
+
+→ y esa es la diferencia entre acoplarse al ESQUEMA o al
+  CONTRATO                                 ley 21, clase 241
+</code></pre>
+<h3 id="3-ventanas-marcas-de-agua-y-datos-que-llegan-tarde">3. Ventanas, marcas de agua y datos que llegan tarde</h3>
+<p>En la ingesta continua, la mitad del trabajo es decidir <strong>cuándo se considera cerrado un periodo</strong>.</p>
+<pre><code class="language-text">DOS TIEMPOS DISTINTOS
+  tiempo del SUCESO      cuándo ocurrió
+  tiempo de PROCESO      cuándo llegó
+
+  → y no coinciden: un móvil sin cobertura envía sus
+    eventos horas después                     clase 203
+
+LA MARCA DE AGUA
+  la frontera que dice «ya no espero más datos anteriores a
+  este momento»
+  → se calcula del retraso observado
+  → y cerrar una ventana antes de tiempo pierde datos;
+    cerrarla tarde retrasa todo
+</code></pre>
+<p>Y la decisión que hay que declarar:</p>
+<pre><code class="language-text">¿QUÉ SE HACE CON LO QUE LLEGA DESPUÉS?
+
+  DESCARTAR
+    simple; se pierden datos
+    → aceptable en telemetría, no en ventas
+
+  INCORPORAR Y CORREGIR
+    la ventana se recalcula y el resultado cambia
+    → los consumidores deben tolerar que una cifra de ayer
+      cambie hoy
+    → y hay que decirlo en el contrato        clase 241
+
+  APARTAR PARA REVISIÓN
+    a un destino de datos tardíos, con alerta
+    → y alguien decide
+
+→ y la decisión se escribe; no elegir es elegir descartar
+  en silencio                                     ley 13
+</code></pre>
+<p>Y la medida que hace falta:</p>
+<pre><code class="language-text">DISTRIBUCIÓN DEL RETRASO entre suceso y proceso
+  p50, p95, p99 y máximo
+  → de ahí sale la marca de agua, no de una suposición
+  → y si la distribución cambia, la marca hay que
+    revisarla
+
+y la proporción de datos que llegan tarde
+  → si crece, algo ha cambiado en el origen
+</code></pre>
+<p><strong>Las ventanas</strong>, con sus tipos:</p>
+<pre><code class="language-text">FIJAS       de 5 en 5 minutos, sin solapamiento
+DESLIZANTES cada minuto, mirando 5 hacia atrás
+DE SESIÓN   agrupan por inactividad
+            → para comportamiento de usuario
+
+→ y las de sesión guardan estado por clave: hay que
+  dimensionarlo y caducarlo
+</code></pre>
+<h3 id="4-reprocesar-y-medir">4. Reprocesar y medir</h3>
+<p><strong>El reproceso</strong> es lo que salva cuando algo se hizo mal, y hay que poder hacerlo.</p>
+<pre><code class="language-text">POR QUÉ HACE FALTA
+  un error en la transformación durante tres días
+  un origen que envió datos incorrectos
+  una regla de negocio que cambia con efecto retroactivo
+  o simplemente un despliegue malo
+
+LO QUE LO HACE POSIBLE
+  1  CONSERVAR EL DATO BRUTO, tal como llegó
+     → la capa bruta de la clase 241 existe para esto
+  2  TRANSFORMACIONES DETERMINISTAS
+     → misma entrada, misma salida
+     → y sin depender de «ahora»: la fecha de proceso se
+       pasa como parámetro
+  3  ESCRITURA IDEMPOTENTE en el destino
+     → sobrescribir la partición entera, o fusionar por
+       clave
+     → nunca «insertar»                        clase 210
+  4  Y PODER LIMITAR EL RITMO
+     → reprocesar tres meses de golpe tumba el sistema
+                                                clase 210
+</code></pre>
+<p>Y el patrón que más se usa y mejor funciona:</p>
+<pre><code class="language-text">SOBRESCRIBIR POR PARTICIÓN
+  el reproceso de un día borra la partición de ese día y la
+  escribe entera
+  → idempotente por construcción
+  → y sin duplicados aunque se ejecute diez veces
+
+→ y por eso el particionado por fecha no es solo una
+  optimización de consulta                    clase 236
+</code></pre>
+<p><strong>Lo que hay que medir</strong> en cada flujo de ingesta:</p>
+<pre><code class="language-text">RETRASO      entre el suceso y su disponibilidad
+             → con la cifra del contrato como umbral
+                                                clase 241
+COMPLETITUD  ¿llegaron todas las filas esperadas?
+             → comparar recuentos con el origen
+             → y esta es la que casi nadie mide
+FRESCURA     ¿cuándo se actualizó por última vez?
+             → ALERTA POR ANTIGÜEDAD           ley 13
+VOLUMEN      filas por ejecución, con su rango normal
+             → una caída del 90 % sin error es el fallo
+               más silencioso que existe
+ERRORES      filas rechazadas, con el motivo
+</code></pre>
+<p>Y la alerta que más incidentes evita:</p>
+<pre><code class="language-text">«este flujo lleva N minutos sin actualizar»
+  → un flujo parado no da error: deja de producir
+  → y el consumidor ve datos viejos sin saberlo
+
+y la segunda
+  «el volumen de esta ejecución está fuera de su rango
+   normal»
+  → detecta el origen que dejó de enviar la mitad
+</code></pre>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ el método corresponde al origen y al retraso aceptable
+☐ el retraso aceptable se preguntó al negocio y está en el
+  contrato
+☐ no se usa extracción incremental por consulta sobre
+  bases operativas
+☐ la captura de cambios tiene alerta de retraso frente a la
+  retención del registro
+☐ la carga inicial se empalma sin huecos ni duplicados
+☐ los cambios de esquema del origen se toleran
+☐ el destino fusiona por clave, no inserta
+☐ está decidido si los borrados se marcan o se borran
+☐ la marca de agua se calcula del retraso observado
+☐ está declarado qué se hace con los datos que llegan tarde
+☐ el dato bruto se conserva para reprocesar
+☐ las transformaciones son deterministas y parametrizadas
+☐ el reproceso sobrescribe por partición
+☐ el reproceso tiene límite de ritmo
+☐ se miden retraso, completitud, frescura, volumen y errores
+☐ hay alerta por antigüedad y por volumen fuera de rango
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: con los datos entrando, hace falta que los trabajos se ejecuten en orden, que la calidad se compruebe y que alguien se entere cuando algo falla. Orquestación, calidad, linaje y observabilidad de datos es la materia de la clase 243.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>ingesta batch, cdc y streaming</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-20-cloud-data-ai-platforms/242-ingesta-batch-cdc-y-streaming/lab.py
+<p><strong>CloudShop rehace la ingesta de su plataforma de datos. Lo que sigue es la extracción incremental que llevaba dos años perdiendo borrados, el capturador que se quedó atrás y obligó a recargar 400 millones de filas, y el flujo que dejó de producir sin que nadie se enterara durante nueve días.</strong></p>
+<p><strong>El punto de partida:</strong></p>
+<pre><code class="language-text">flujos de ingesta                                   61
+  extracción incremental por consulta                41
+  ficheros por lotes                                 14
+  continua                                            6
+
+carga añadida a las bases operativas por las 41
+  consultas al día                               11.800
+  concentradas entre las 2:00 y las 5:00
+  → y solapando con la ventana de copias de seguridad
+</code></pre>
+<p><strong>Problema 1 · Los borrados que nunca llegaron.</strong></p>
+<pre><code class="language-text">se detectó al conciliar el catálogo
+  productos activos según la base operativa       41.200
+  productos activos según el almacén analítico    58.900
+  diferencia                                      17.700
+
+causa
+  la extracción incremental consultaba
+  «dame las filas con fecha_modificacion &gt; última vez»
+  → un producto BORRADO no tiene fila que devolver
+  → llevaba en el almacén desde que se creó
+
+cuánto llevaba así                             2 años
+y qué había producido
+  informes de catálogo con un 43 % más de productos de los
+  reales
+  y un modelo de recomendación entrenado con productos
+  que no existían                             clase 244
+
+→ y nada falló: la ingesta funcionaba perfectamente
+                                                    ley 13
+</code></pre>
+<p>Y el segundo problema del mismo método:</p>
+<pre><code class="language-text">al revisar las 41 tablas
+  con columna de fecha de modificación fiable        22
+  con la columna, pero que NO siempre se actualiza    12
+    → 4 procesos escribían sin tocarla
+    → esas filas nunca llegaban al almacén
+  SIN columna de modificación                          7
+    → se extraía la tabla entera cada noche
+    → una de ellas, de 180 M de filas
+</code></pre>
+<p><strong>La migración a captura de cambios.</strong></p>
+<pre><code class="language-text">las 41 pasaron a captura del registro de transacciones
+
+lo que se ganó
+  borrados, capturados
+  filas sin marca de tiempo, capturadas
+  carga sobre las bases operativas       11.800 → 0
+                                         consultas/día
+  retraso medio                          8 h → 45 s
+  y la extracción completa de 180 M de filas, eliminada
+
+lo que costó
+  configuración en 9 bases de datos
+  permisos de lectura del registro
+  y 3 semanas de trabajo
+</code></pre>
+<p>Y el problema que apareció al mes:</p>
+<pre><code class="language-text">el capturador de la base de pedidos se paró un viernes por
+la noche por un fallo de despliegue
+nadie lo notó hasta el lunes
+
+  retención del registro de transacciones          48 h
+  tiempo parado                                    62 h
+  → los cambios de 14 horas se habían reciclado
+
+  consecuencia
+    recarga completa de la tabla de pedidos
+    400 M de filas, 11 horas
+    y durante la recarga, el almacén analítico con datos
+    incompletos
+
+correcciones
+  alerta: «el retraso del capturador supera el 50 % de la
+  retención del registro»                          ley 13
+  retención del registro subida a 7 días
+  y alerta de capturador detenido, a canal con guardia
+                                                clase 238
+
+→ y la alerta de retraso existía… con umbral de 24 h y a un
+  canal sin suscriptores                          ley 15
+</code></pre>
+<p><strong>Problema 2 · El flujo que dejó de producir.</strong></p>
+<pre><code class="language-text">síntoma reportado, 9 días después
+  el equipo de marketing dijo que el panel de campañas
+  «se veía raro»
+
+diagnóstico
+  el flujo de eventos de la web había dejado de escribir
+  el 3 de marzo
+  el trabajo se ejecutaba, no daba error, y escribía 0 filas
+  causa: un cambio en el origen renombró un campo y el
+  filtro no encontraba nada                    clase 188
+
+  el panel mostraba los últimos datos disponibles, del 3 de
+  marzo, sin indicar la fecha                clase 187
+
+lo que faltaba
+  alerta de FRESCURA: «este conjunto lleva N horas sin
+    actualizarse»
+  alerta de VOLUMEN: «esta ejecución escribió 0 filas,
+    fuera de su rango normal de 180.000-240.000»
+  y la antigüedad del dato, visible en el panel
+
+con las tres, el fallo se habría detectado en 30 minutos
+</code></pre>
+<p><strong>Las ventanas y los datos que llegan tarde.</strong></p>
+<pre><code class="language-text">el flujo de eventos de la aplicación móvil
+
+  distribución del retraso entre suceso y llegada, medida
+    p50                                        2,1 s
+    p95                                         41 s
+    p99                                       4 min
+    máximo observado                        11 horas
+      → móviles sin cobertura                clase 203
+
+  la marca de agua estaba en 60 segundos
+  → el 1,2 % de los eventos llegaba después
+  → y se descartaban EN SILENCIO
+
+  el efecto
+    las cifras de conversión por hora eran un 1,2 % bajas
+    y los picos de zonas con mala cobertura, mucho más
+
+decisión declarada, tras hablar con negocio
+  marca de agua                              15 minutos
+  lo que llega después                incorporar y corregir
+    → las cifras de una hora pueden cambiar durante las 12
+      horas siguientes
+    → declarado en el contrato               clase 241
+    → y los paneles muestran «cifras provisionales» hasta
+      el cierre
+  lo que llega con más de 12 h              a revisión
+    → 41 eventos al día; alguien los mira
+
+y lo que se descartó
+  cerrar a 60 s y descartar: perdía datos de venta
+  cerrar a 12 h: retrasaba todo para el 1,2 %
+</code></pre>
+<p><strong>El reproceso, probado.</strong></p>
+<pre><code class="language-text">el escenario
+  un error en la transformación de pedidos durante 3 días
+
+lo que se pudo hacer
+  el dato bruto estaba conservado                clase 241
+  la transformación era determinista y recibía la fecha
+    como parámetro
+  el destino se sobrescribe por partición
+
+  reproceso de 3 días
+    ejecutado 3 veces seguidas para comprobar
+    resultado idéntico las 3 veces               ✓
+    duración                                  22 min
+    con límite de ritmo: 1 partición cada 2 min
+
+y el ensayo anterior, sin límite de ritmo
+  se lanzaron los 3 días en paralelo con 90 días de otro
+  reproceso
+  → el almacén analítico alcanzó su límite de consultas
+    concurrentes
+  → y los paneles de producción dejaron de responder
+    41 minutos                                clase 236
+</code></pre>
+<p><strong>La vigilancia montada:</strong></p>
+<pre><code class="language-text">por cada uno de los 61 flujos
+  retraso, frente al umbral del contrato
+  frescura, con alerta por antigüedad
+  volumen, con rango normal y alerta fuera de él
+  completitud: recuento en origen frente a destino
+  errores y filas rechazadas, con motivo
+
+y en los 6 continuos
+  retraso del capturador frente a la retención
+  proporción de datos que llegan tarde
+  y tamaño del estado de las ventanas de sesión
+
+primeros 6 meses
+  alertas de frescura disparadas                       14
+    → 11 reales: flujos parados
+    → 3 por mantenimiento previsto
+  alertas de volumen                                    9
+    → 6 reales: orígenes que dejaron de enviar
+    → y 2 de ellas, cambios de esquema no comunicados
+                                                clase 241
+  alertas de completitud                                4
+</code></pre>
+<p><strong>El resultado:</strong></p>
+<p>```text                                        antes     después
+flujos por extracción incremental              41           0
+consultas a bases operativas                11.800/día      0
+retraso medio de la ingesta                   8 h        45 s
+borrados capturados                            no          sí
+productos fantasma en el almacén           17.700           0
+tiempo de detección de un flujo parado      9 días      30 min
+datos descartados por llegar tarde           1,2 %      0,003 %
+reprocesos que causaron incidente             1/1         0/7
+completitud comprobada                         no      61 flujos</p>
+<pre><code>
+**La lección que esta clase deja**: la extracción incremental por consulta funcionaba perfectamente y llevaba **dos años sin traer un solo borrado**, con el resultado de un catálogo con un 43 % más de productos de los reales y un modelo entrenado sobre productos inexistentes. Y el flujo que se paró tardó **nueve días** en detectarse porque el trabajo se ejecutaba, no daba error y escribía cero filas: **lo que faltaba no era una alerta de error, sino una de frescura y otra de volumen**.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-20-cloud-data-ai-platforms/242-ingesta-batch-cdc-y-streaming/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>data</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -195,29 +614,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>El destino tiene más filas que el origen y nadie sabe por qué</td>
+<td>La extracción incremental por consulta no ve los borrados</td>
+<td>Usa captura de cambios del registro de transacciones, que ve inserciones, actualizaciones y borrados.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Faltan filas modificadas por ciertos procesos</td>
+<td>La columna de fecha de modificación no se actualiza siempre</td>
+<td>No dependas de columnas de auditoría; captura del registro de transacciones.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>Hay que recargar una tabla entera tras una parada</td>
+<td>El capturador se quedó atrás más que la retención del registro</td>
+<td>Alerta al superar la mitad de la retención, sube la retención y vigila el capturador detenido.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Un conjunto lleva días sin actualizarse y nadie lo nota</td>
+<td>El trabajo se ejecuta sin error y escribe cero filas</td>
+<td>Alerta por frescura y por volumen fuera del rango normal; el error no es la única señal.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Las cifras son sistemáticamente algo bajas</td>
+<td>La marca de agua cierra la ventana antes de que lleguen los datos tardíos, que se descartan en silencio</td>
+<td>Calcula la marca de agua del retraso observado y declara qué se hace con lo que llega tarde.</td>
+</tr>
+<tr>
+<td>Un reproceso tumba los paneles de producción</td>
+<td>Se lanzó sin límite de ritmo y agotó la capacidad de consulta</td>
+<td>Reprocesa por particiones con límite de ritmo, y comprueba que el resultado es idéntico ejecutándolo varias veces.</td>
 </tr>
 </tbody>
 </table>
@@ -228,17 +652,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Qué tres problemas tiene la extracción incremental por consulta?</li>
+<li>¿Qué hay que vigilar en un capturador de cambios y por qué?</li>
+<li>¿De dónde sale la marca de agua y qué hay que declarar sobre los datos tardíos?</li>
+<li>¿Qué cuatro cosas hacen posible un reproceso sin duplicados?</li>
+<li>¿Qué dos alertas detectan un flujo que dejó de producir sin dar error?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Designing Machine Learning Systems — Chip Huyen.</li>
-<li>Fundamentals of Data Engineering — Reis y Housley.</li>
-<li>Building Machine Learning Powered Applications — Emmanuel Ameisen.</li>
+<li>Kleppmann, M. (2017). <em>Designing Data-Intensive Applications</em>, cap. 11 — flujos y captura de cambios. <a href="https://dataintensive.net/">https://dataintensive.net/</a></li>
+<li>Debezium (2025). <em>Change data capture connectors</em>. <a href="https://debezium.io/documentation/reference/stable/index.html">https://debezium.io/documentation/reference/stable/index.html</a></li>
+<li>Apache Beam (2025). <em>Streaming model: windows, watermarks and triggers</em>. <a href="https://beam.apache.org/documentation/programming-guide/#windowing">https://beam.apache.org/documentation/programming-guide/#windowing</a></li>
+<li>Akidau, T. y otros (2015). <em>The Dataflow Model</em>. <a href="https://research.google/pubs/pub43864/">https://research.google/pubs/pub43864/</a></li>
+<li>Google Cloud (2025). <em>Datastream: serverless change data capture</em>. <a href="https://cloud.google.com/datastream/docs/overview">https://cloud.google.com/datastream/docs/overview</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -306,7 +732,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-tres-metodos-tres-origenes">1. Tres métodos, tres orígenes</a><a class="toc-level-3" href="#2-capturar-cambios-bien">2. Capturar cambios bien</a><a class="toc-level-3" href="#3-ventanas-marcas-de-agua-y-datos-que-llegan-tarde">3. Ventanas, marcas de agua y datos que llegan tarde</a><a class="toc-level-3" href="#4-reprocesar-y-medir">4. Reprocesar y medir</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
