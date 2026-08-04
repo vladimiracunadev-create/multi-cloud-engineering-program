@@ -1,0 +1,118 @@
+{
+  "id": "237",
+  "purpose": "Montar la mensajería de Google Cloud, cuyo servicio principal anuncia **entrega exactamente una vez**, y conviene entender con precisión qué significa y qué sigue siendo responsabilidad del código. La clase separa el servicio de mensajería del enrutador de eventos, explica los mecanismos de entrega y sus parámetros, y sostiene lo que este programa lleva demostrando: **la garantía del transporte no elimina la necesidad de idempotencia en el efecto**.",
+  "outcomes": [
+    "**Elegir** entre suscripción de entrega y de extracción, y el enrutador de eventos.",
+    "**Configurar** plazos, reintentos y destino de fallidos coherentemente.",
+    "**Entender** qué garantiza la entrega exactamente una vez y qué no.",
+    "**Ordenar** mensajes por clave cuando el orden importa.",
+    "**Operar** los fallidos con alerta, diagnóstico y reproceso probado."
+  ],
+  "concepts": [
+    {
+      "term": "tema",
+      "definition": "Punto de publicación. Los consumidores se conectan mediante suscripciones independientes."
+    },
+    {
+      "term": "suscripción de extracción",
+      "definition": "El consumidor pide mensajes. Controla su propio ritmo."
+    },
+    {
+      "term": "suscripción de entrega",
+      "definition": "El servicio llama a un punto del consumidor. Más simple y con menos control de ritmo."
+    },
+    {
+      "term": "plazo de confirmación",
+      "definition": "Tiempo que el mensaje queda retenido tras entregarse. Si vence, se reentrega."
+    },
+    {
+      "term": "entrega exactamente una vez",
+      "definition": "Garantía de que un mensaje confirmado no se reentrega dentro de la ventana de confirmación."
+    },
+    {
+      "term": "clave de ordenación",
+      "definition": "Campo que agrupa mensajes para entregarlos en orden. Limita el caudal por clave."
+    }
+  ],
+  "diagram": "flowchart TB\n    P[\"productor\"] --> T[\"TEMA\"]\n    T --> S1[\"suscripción A\\nEXTRACCIÓN\"]\n    T --> S2[\"suscripción B\\nENTREGA\"]\n    T --> S3[\"suscripción C\\nhacia el almacén\\nanalítico\"]\n    S1 --> C1[\"consumidor controla\\nsu ritmo\"]\n    S2 --> C2[\"el servicio llama;\\nel ritmo lo marca él\"]\n    C1 --> A{\"¿confirma a tiempo?\"}\n    A -->|no| A1[\"REENTREGA\\n→ duplicado\"]\n    A -->|sí| A2[\"no se reentrega\\n(exactamente una vez)\"]\n    A2 --> I[\"y aun así:\\nIDEMPOTENCIA\\nen el EFECTO\"]\n    A1 --> I\n    S1 --> D[\"tras N intentos:\\nTEMA DE FALLIDOS\"]\n    D --> D2[\"alerta por antigüedad\\ny reproceso probado\"]",
+  "foundations": [
+    {
+      "heading": "Un tema, muchas suscripciones",
+      "body": "El modelo aquí es más simple que el de las otras nubes: hay un servicio principal y un enrutador.\n\n```text\nSERVICIO DE MENSAJERÍA\n  un TEMA donde se publica\n  N SUSCRIPCIONES independientes, cada una con su propio\n  ritmo, sus reintentos y su destino de fallidos\n  → uno a muchos, sin configurar nada más\n  → y añadir un consumidor es crear una suscripción: el\n    productor no se entera                    clase 148\n\nENRUTADOR DE EVENTOS\n  entrega eventos de la propia plataforma y de fuentes\n  propias a destinos, con filtros\n  → «cuando se suba un fichero a este almacén, llama a este\n    servicio»\n  → y por debajo usa el servicio de mensajería\n```\n\nY los dos tipos de suscripción, que se eligen mal a menudo:\n\n```text\nEXTRACCIÓN\n  el consumidor pide mensajes cuando puede\n  + controla su ritmo: no le llega más de lo que aguanta\n  + amortigua picos de forma natural\n  − hay que ejecutar un proceso que extraiga\n\nENTREGA (a un punto HTTP)\n  el servicio llama al consumidor\n  + más simple: no hay proceso extractor\n  + encaja con servicios que escalan por peticiones\n                                                clase 233\n  − el ritmo lo marca el servicio, no el consumidor\n  − y por tanto puede escalar el consumidor sin control\n\nY LA DECISIÓN\n  si el consumidor tiene un recurso limitado detrás (una\n  base), la extracción da control\n  si escala bien y es idempotente, la entrega es más simple\n  → y en cualquier caso hay que poner un límite de\n    concurrencia                             clase 233\n```\n\nY los otros destinos, que ahorran código:\n\n```text\nSUSCRIPCIÓN HACIA EL ALMACÉN ANALÍTICO\n  los mensajes se escriben directamente en una tabla\n  → sin consumidor que mantener\n  → y con esquema validado                    clase 236\n\nSUSCRIPCIÓN HACIA ALMACENAMIENTO\n  vuelca por lotes a ficheros\n  → el histórico, sin escribir nada         clase 224\n```"
+    },
+    {
+      "heading": "Exactamente una vez: qué significa",
+      "body": "Esta es la propiedad que más se malinterpreta, y conviene ser preciso.\n\n```text\nLO QUE GARANTIZA\n  un mensaje CONFIRMADO no se vuelve a entregar dentro de\n  la ventana de confirmación\n  → elimina los duplicados que produce el plazo vencido\n    cuando el consumidor sí había terminado\n\nLO QUE NO GARANTIZA\n  que el PRODUCTOR no publique el mismo hecho dos veces\n    → un reintento del productor crea dos mensajes\n      distintos\n  que el efecto no se produzca dos veces si el consumidor\n    falla DESPUÉS de actuar y ANTES de confirmar\n  que el reproceso desde el tema de fallidos no repita\n  ni que dos suscripciones no procesen lo mismo\n\n→ es decir: elimina una de las cinco fuentes de duplicado\n  de la clase 210, no las cinco\n```\n\nY la conclusión, que es la de siempre:\n\n```text\nLA IDEMPOTENCIA EN EL EFECTO SIGUE SIENDO OBLIGATORIA\n  clave del suceso, generada por el productor\n  registro de claves procesadas, en dos estados\n  y escritura condicionada antes del efecto  clase 210\n\n→ lo que la garantía da es que se necesitan MENOS\n  reintentos y menos reproceso, no que se pueda prescindir\n  de la comprobación\n```\n\nY el coste, que conviene conocer:\n\n```text\nla entrega exactamente una vez tiene un coste\n  el caudal por suscripción es menor\n  la latencia es algo mayor\n  y hay restricciones de configuración\n\n→ activarla donde el duplicado cuesta dinero\n→ y no en la telemetría, donde no aporta y limita el caudal\n```\n\n**Los parámetros que producen duplicados**, con la misma aritmética de siempre:\n\n```text\nPLAZO DE CONFIRMACIÓN\n  tiempo que el mensaje queda retenido tras entregarse\n  si vence antes de confirmar, se reentrega\n\n  y la extensión automática\n    las bibliotecas extienden el plazo mientras se procesa\n    → activarla es lo que evita el problema\n    → y hay un máximo total: procesos muy largos no encajan\n\nCONCURRENCIA DEL CONSUMIDOR\n  cuántos mensajes procesa a la vez\n  → si es alta y el proceso es lento, se acumulan mensajes\n    retenidos y algunos vencen\n  → es la misma relación de prebúsqueda de la clase 224\n\nREINTENTOS Y RETROCESO\n  con retroceso exponencial declarado\n  → sin retroceso, un consumidor caído recibe una avalancha\n    en cuanto vuelve\n```"
+    },
+    {
+      "heading": "Orden, filtros y fallidos",
+      "body": "**El orden** se consigue con clave, y tiene su coste.\n\n```text\nCLAVE DE ORDENACIÓN\n  los mensajes con la misma clave se entregan en orden\n  → y en la misma suscripción, al mismo consumidor\n\n  coste\n    el caudal por clave lo limita un solo consumidor\n    y si un mensaje falla, los siguientes de esa clave\n    ESPERAN\n    → un mensaje venenoso bloquea su clave entera\n\n  y hay que decidir\n    ¿qué se hace con el veneno? ¿se aparta y se sigue, o se\n    para?\n    → misma decisión que en la clase 224\n```\n\nY la pregunta previa, que evita el problema:\n\n```text\n¿de verdad hace falta orden, o basta con que las\noperaciones sean conmutativas?\n  «−1 unidad» no necesita orden\n  «estado = ENVIADO» tampoco, si lleva versión\n  «stock = 4» sí\n→ y modelar para no necesitar orden es más barato que\n  garantizarlo                          clases 203, 224\n```\n\n**Los filtros**, que reducen trabajo y coste:\n\n```text\nuna suscripción puede filtrar por atributos del mensaje\n  → el consumidor solo recibe lo suyo\n  → y no se paga por entregar lo que se iba a descartar\n\ny por eso conviene que los atributos lleven lo necesario\npara filtrar\n  tipo de suceso, entidad, entorno, versión de esquema\n```\n\n**El tema de fallidos**, con la disciplina de siempre:\n\n```text\ntras N intentos, el mensaje va a otro tema\n  → y hay que crear una suscripción sobre él, o los\n    mensajes caducan sin que nadie los vea         ley 13\n\nLAS ALERTAS\n  «hay mensajes sin confirmar con más de 1 hora de\n   antigüedad»                              ← la que sirve\n  «el número de mensajes sin confirmar crece de forma\n   sostenida»\n  y en el tema de fallidos, las dos                ley 15\n\nEL DIAGNÓSTICO\n  guardar el motivo del fallo con el mensaje\n  → veneno, dependencia o error de código   clase 210\n\nEL REPROCESO\n  procedimiento escrito, con límite de ritmo y por lotes\n  y probado por alguien que no lo escribió         ley 22\n```\n\nY una capacidad que evita reprocesos:\n\n```text\nRETROCESO EN EL TIEMPO\n  una suscripción puede volver a un momento anterior o a\n  una instantánea\n  → y reprocesar desde ahí sin mover mensajes\n  → útil cuando un consumidor procesó mal durante un rato\n  → y exige que el consumidor sea idempotente, otra vez\n```"
+    },
+    {
+      "heading": "Operar y medir",
+      "body": "**Lo que hay que vigilar**, con las señales que dicen algo:\n\n```text\nMENSAJES SIN CONFIRMAR\n  número y ANTIGÜEDAD del más viejo\n  → la antigüedad es la que detecta el consumidor parado\n\nPLAZOS VENCIDOS\n  señal directa de plazo mal puesto o proceso lento\n\nRETRASO DE PUBLICACIÓN A CONSUMO\n  el tiempo entre que ocurre el hecho y se procesa\n  → es la medida que le importa al negocio    clase 238\n\nMENSAJES EN EL TEMA DE FALLIDOS, y su antigüedad\n\nENTREGAS REPETIDAS del mismo mensaje\n  → si la entrega exactamente una vez está activa y aun así\n    hay repeticiones, algo no está confirmando\n\nY EL COSTE\n  se paga por volumen publicado, entregado y almacenado\n  → una suscripción que nadie consume acumula y factura\n  → suscripciones sin consumidor: inventario periódico\n                                                    ley 25\n```\n\nY una advertencia de coste que se repite:\n\n```text\nlos mensajes se retienen hasta que se confirman o caducan\n  → una suscripción abandonada retiene todo hasta la\n    caducidad\n  → y factura almacenamiento\n→ y por eso las suscripciones sin consumidor son un\n  hallazgo típico del primer inventario\n```\n\n**Las comprobaciones** de esta clase:\n\n```text\n☐ enviar el mismo mensaje 50 veces y comprobar un efecto\n☐ parar el consumidor y esperar la alerta de antigüedad\n☐ dejar un mensaje en el tema de fallidos y esperar alerta\n☐ reprocesar 10.000 mensajes con límite de ritmo\n☐ publicar un mensaje con esquema inválido\n☐ retroceder una suscripción y comprobar el reproceso\n☐ y comprobar que un mensaje venenoso con clave de\n  ordenación no bloquea indefinidamente\n```\n\nY los errores de traslado, que esta parte vigila:\n\n```text\n✗ «como garantiza exactamente una vez, no hace falta\n   idempotencia»\n  → cubre una de las cinco fuentes de duplicado\n\n✗ «la suscripción de entrega es como una cola con\n   consumidor»\n  → el ritmo lo marca el servicio; hay que limitar la\n    concurrencia del consumidor\n\n✗ «un tema por consumidor»\n  → un tema, N suscripciones; crear un tema por consumidor\n    obliga al productor a saber quién escucha  clase 148\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ hay un tema y una suscripción por consumidor\n☐ el tipo de suscripción corresponde al consumidor\n☐ la concurrencia del consumidor está limitada\n☐ el plazo de confirmación supera el proceso, o se extiende\n☐ los reintentos tienen retroceso declarado\n☐ la entrega exactamente una vez está donde el duplicado\n  cuesta\n☐ toda operación con efecto es idempotente igualmente\n☐ el orden por clave se usa solo donde hace falta\n☐ está decidido qué hacer con un veneno en una clave\n  ordenada\n☐ los filtros reducen lo que llega a cada consumidor\n☐ hay tema de fallidos CON suscripción\n☐ hay alerta por antigüedad, no solo por número\n☐ el motivo del fallo se guarda con el mensaje\n☐ el reproceso está escrito y probado\n☐ no hay suscripciones sin consumidor\n```\n\nY el cierre que enlaza con la clase siguiente: con datos, cómputo y mensajería en pie, falta saber qué ocurre cuando algo va mal. La observabilidad de esta nube, con el estándar abierto, es la materia de la clase 238."
+    }
+  ],
+  "worked_example": "**CloudShop monta la mensajería de su plataforma en Google Cloud. Lo que sigue es el malentendido sobre la entrega exactamente una vez, la suscripción abandonada que acumuló 41 millones de mensajes, y la clave de ordenación que bloqueó un cliente durante 6 horas.**\n\n**El malentendido, semana 2.**\n\n```text\nel equipo activó la entrega exactamente una vez en las 6\nsuscripciones\ny retiró la comprobación de idempotencia de los\nconsumidores\nmotivo   «ya no hace falta: el servicio lo garantiza»\n\nlo que pasó en la primera campaña\n  correos de confirmación duplicados               214\n  descuentos de stock duplicados                    88\n\nel diagnóstico\n  la garantía cubre: un mensaje CONFIRMADO no se reentrega\n  no cubría lo que estaba pasando\n\n  caso 1 (correos)\n    el consumidor enviaba el correo y fallaba al confirmar\n    por una desconexión\n    → el mensaje se reentregaba, correctamente\n    → y el correo se enviaba otra vez\n    → la garantía funcionó: el problema es que el EFECTO ya\n      se había producido\n\n  caso 2 (stock)\n    el productor reintentaba al no recibir confirmación de\n    publicación\n    → publicaba DOS mensajes distintos, con contenido igual\n    → dos mensajes distintos, entregados una vez cada uno\n    → la garantía no aplica: son mensajes distintos\n\ncorrección\n  idempotencia restaurada, con clave del suceso generada\n  por el PRODUCTOR y estable entre reintentos  clase 210\n  → y la entrega exactamente una vez se dejó activa donde\n    el duplicado cuesta, y se desactivó en telemetría,\n    donde limitaba el caudal\n\nduplicados tras la corrección                        0\n```\n\nY la frase que el equipo escribió en el registro de decisión:\n\n```text\n«la garantía del transporte reduce los duplicados de\n transporte; el efecto lo protege el consumidor»\n→ y es la misma conclusión de las clases 117, 210 y 224,\n  con otro producto                              ley 18\n```\n\n**La suscripción abandonada.**\n\n```text\nal revisar el coste, mes 4\n  coste de mensajería                        1.840 €/mes\n  esperado                                     ~200 €\n\ndesglose\n  publicación                                   140 €\n  entrega                                       180 €\n  ALMACENAMIENTO DE MENSAJES SIN CONFIRMAR    1.520 €  ←\n\ncausa\n  una suscripción creada para una prueba en el mes 1\n  su consumidor se apagó al terminar la prueba\n  la suscripción siguió recibiendo CUANTO se publicaba\n  mensajes retenidos                       41 millones\n  antigüedad del más antiguo                   94 días\n  → y la retención estaba en 7 días… en OTRA suscripción\n\n  la abandonada tenía retención de 31 días y los mensajes\n  se acumulaban hasta caducar y volver a acumularse\n\ncorrección\n  suscripción borrada\n  inventario de suscripciones sin actividad de consumo\n    → 4 más encontradas\n  alerta: «suscripción sin consumo en 24 h»\n  y caducidad automática de suscripciones inactivas 30 días\n                                                    ley 25\n\ncoste                            1.840 € → 190 €/mes\n```\n\n**La clave de ordenación que bloqueó un cliente.**\n\n```text\nel flujo de integración con socios usaba clave de\nordenación = identificador de socio\nmotivo   los eventos de un socio deben procesarse en orden\n\nqué pasó\n  un socio envió un evento con un campo con un carácter que\n  el consumidor no manejaba\n  → el consumidor fallaba al procesarlo\n  → reintentaba con retroceso\n  → y todos los eventos siguientes de ESE socio esperaban\n\n  duración                                       6 h 10\n  eventos acumulados de ese socio                 4.100\n  otros socios                            sin afectación\n\ncómo se detectó\n  el socio llamó\n  → la alerta de antigüedad existía pero con umbral de\n    24 h                                          ley 15\n\ncorrecciones\n  1  umbral de antigüedad a 30 minutos\n  2  decisión escrita sobre el veneno en clave ordenada\n     tras 5 intentos, el mensaje se aparta al tema de\n     fallidos y la clave AVANZA\n     → se pierde el orden estricto para esa clave, y se\n       registra como incidencia de datos\n     → la alternativa (parar) era peor para el negocio\n  3  validación de esquema en la publicación\n     → el mensaje con el carácter problemático se habría\n       rechazado al publicar                    clase 188\n```\n\n**La configuración final:**\n\n```text\nconsumidor          tipo         plazo   concurr.  orden\nnotificaciones      entrega       60 s     50       no\ninventario          extracción   600 s     20       no\nfacturación         extracción   600 s     10       no\nintegración socios  extracción   300 s      5       SÍ\nanalítica           hacia el almacén analítico, directa\nhistórico           hacia almacenamiento, por lotes\n\nentrega exactamente una vez\n  activa en inventario, facturación e integración\n  inactiva en notificaciones y telemetría\n\nfiltros\n  cada suscripción filtra por tipo de suceso\n  → la de inventario recibía 41.000 mensajes/día y ahora\n    2.100\n  → y no se paga por los 38.900 que descartaba\n\ntemas de fallidos\n  uno por suscripción, CON suscripción propia\n  con el motivo guardado como atributo\n```\n\nY las dos suscripciones directas, que ahorraron trabajo:\n\n```text\nANALÍTICA\n  antes   un consumidor que leía y escribía en el almacén\n          analítico: 340 líneas y un servicio que mantener\n  después suscripción directa hacia la tabla, con esquema\n          validado                              clase 236\n  → servicio retirado                             ley 23\n\nHISTÓRICO\n  antes   un trabajo que exportaba cada noche\n  después suscripción hacia almacenamiento, por lotes de\n          5 minutos\n  → trabajo retirado\n```\n\n**Las comprobaciones, ejecutadas:**\n\n```text\n✓  mismo mensaje 50 veces                    1 efecto\n✓  parar el consumidor → alerta de antigüedad    3 min\n✓  mensaje en tema de fallidos → alerta           41 s\n✓  reprocesar 10.000 con límite de ritmo       2 min\n✗  publicar un mensaje con esquema inválido\n   → se aceptó: la validación de esquema no estaba\n     activada en 2 de los 6 temas\n   → activada\n✓  retroceder una suscripción y reprocesar\n✗  veneno con clave de ordenación\n   → bloqueó indefinidamente en la primera prueba\n   → corregido con la decisión de apartar y avanzar\n```\n\n**El resultado:**\n\n```text                                        antes     después\ncoste de mensajería                       1.840 €       190 €\nduplicados por campaña                       302           0\nsuscripciones sin consumidor                   5           0\nmensajes retenidos                        41 M          <10 k\nbloqueo por veneno en clave ordenada       6 h 10      6 min\ntiempo de detección de consumidor parado     24 h       3 min\nservicios de integración retirados             —           2\nmensajes entregados y descartados         38.900/día        0\n```\n\n**La lección que esta clase deja**: la garantía de entrega exactamente una vez es real y **cubre una de las cinco fuentes de duplicado**; quitar la idempotencia porque existe produjo trescientos dos duplicados en una campaña. Y el mayor coste del capítulo no fue de proceso ni de entrega: fue **mil quinientos veinte euros al mes de almacenamiento de una suscripción que nadie consumía desde hacía tres meses**.",
+  "pitfalls": [
+    {
+      "symptom": "Aparecen duplicados pese a tener entrega exactamente una vez",
+      "cause": "La garantía cubre la reentrega tras confirmar, no el reintento del productor ni el fallo tras producir el efecto",
+      "fix": "Mantén la idempotencia en el consumidor con clave del suceso generada por el productor y estable entre reintentos."
+    },
+    {
+      "symptom": "La factura de mensajería es diez veces lo previsto",
+      "cause": "Una suscripción sin consumidor retiene todo lo publicado y paga almacenamiento",
+      "fix": "Inventaría suscripciones sin consumo, alerta cuando una lleve 24 h sin consumir y caduca las inactivas."
+    },
+    {
+      "symptom": "Los eventos de un cliente se detienen durante horas",
+      "cause": "Un mensaje venenoso bloquea su clave de ordenación",
+      "fix": "Decide y escribe qué ocurre con el veneno: apartarlo y avanzar, o parar; valida el esquema al publicar."
+    },
+    {
+      "symptom": "El consumidor recibe más carga de la que aguanta",
+      "cause": "Suscripción de entrega, donde el ritmo lo marca el servicio",
+      "fix": "Limita la concurrencia del consumidor o usa suscripción de extracción si hay un recurso limitado detrás."
+    },
+    {
+      "symptom": "Vencen los plazos y se reentregan mensajes que sí se estaban procesando",
+      "cause": "El plazo de confirmación es menor que el proceso y no se extiende",
+      "fix": "Activa la extensión automática del plazo y reduce la concurrencia; vigila los plazos vencidos."
+    },
+    {
+      "symptom": "Los mensajes fallidos caducan sin que nadie los vea",
+      "cause": "El tema de fallidos no tiene suscripción ni alerta",
+      "fix": "Crea suscripción sobre él, alerta por antigüedad y guarda el motivo del fallo como atributo."
+    }
+  ],
+  "checks": [
+    "¿Qué garantiza exactamente la entrega exactamente una vez y qué no?",
+    "¿Cuándo conviene suscripción de extracción y cuándo de entrega?",
+    "¿Qué coste tiene usar clave de ordenación y qué hay que decidir?",
+    "¿Por qué una suscripción sin consumidor genera coste?",
+    "¿Qué dos suscripciones directas evitan escribir un consumidor?"
+  ],
+  "references": [
+    {
+      "text": "Google Cloud (2025). *Pub/Sub: exactly-once delivery*.",
+      "url": "https://cloud.google.com/pubsub/docs/exactly-once-delivery"
+    },
+    {
+      "text": "Google Cloud (2025). *Pub/Sub subscription types and delivery*.",
+      "url": "https://cloud.google.com/pubsub/docs/subscriber"
+    },
+    {
+      "text": "Google Cloud (2025). *Message ordering*.",
+      "url": "https://cloud.google.com/pubsub/docs/ordering"
+    },
+    {
+      "text": "Google Cloud (2025). *Dead-letter topics and retry policies*.",
+      "url": "https://cloud.google.com/pubsub/docs/handling-failures"
+    },
+    {
+      "text": "Google Cloud (2025). *Eventarc*.",
+      "url": "https://cloud.google.com/eventarc/docs/overview"
+    }
+  ]
+}
