@@ -8,31 +8,28 @@
 
 ## 🎯 Propósito
 
-Comprender y aplicar **feature stores, training pipelines y experiment tracking** dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.
+Montar la parte de aprendizaje automático que va antes del modelo: de dónde salen los atributos, cómo se garantiza que el entrenamiento y el servicio usen los mismos, y cómo se reproduce un experimento seis meses después. La clase desarrolla el problema que la clase 175 identificó como el más caro —**el desvío entre lo que ve el modelo al entrenar y lo que ve al servir**— y da los mecanismos que lo evitan.
 
 ## 📚 Resultados de aprendizaje
 
 Al finalizar podrás:
 
-1. **Explicar** feature stores, training pipelines y experiment tracking con vocabulario independiente del proveedor.
-2. **Relacionar** sus componentes con el modelo mental de la parte.
-3. **Ejecutar** un laboratorio local determinista y leer su contrato JSON.
-4. **Evaluar** al menos una alternativa y justificar el trade-off elegido.
-5. **Entregar** `ml-platform` con evidencia, límites y criterio de reversión.
+1. **Definir** atributos una vez y usarlos en entrenamiento y en servicio.
+2. **Evitar** la fuga de información del futuro al conjunto de entrenamiento.
+3. **Construir** conjuntos de entrenamiento correctos en el tiempo.
+4. **Reproducir** un experimento con su código, sus datos y sus parámetros.
+5. **Registrar** experimentos de forma que las comparaciones signifiquen algo.
 
 ## 🧩 Conceptos centrales
 
 | Concepto | Comprensión verificable |
 |---|---|
-| `feature` | Define su papel en **feature stores, training pipelines y experiment tracking** y cómo observarlo en un sistema real. |
-| `stores` | Define su papel en **feature stores, training pipelines y experiment tracking** y cómo observarlo en un sistema real. |
-| `training` | Define su papel en **feature stores, training pipelines y experiment tracking** y cómo observarlo en un sistema real. |
-| `pipelines` | Define su papel en **feature stores, training pipelines y experiment tracking** y cómo observarlo en un sistema real. |
-| `experiment` | Define su papel en **feature stores, training pipelines y experiment tracking** y cómo observarlo en un sistema real. |
-| `tracking` | Define su papel en **feature stores, training pipelines y experiment tracking** y cómo observarlo en un sistema real. |
+| `atributo` | Valor derivado que el modelo consume. Su definición es código y debe existir una sola vez. |
+| `almacén de atributos` | Servicio que guarda atributos para entrenamiento por lotes y para servicio en línea, con la misma definición. |
+| `desvío entre entrenamiento y servicio` | Diferencia entre los valores que el modelo ve al entrenar y los que ve al servir. |
+| `fuga de información` | Usar en el entrenamiento datos que no existían en el momento de la predicción. |
+| `unión temporal correcta` | Construir el conjunto tomando el valor del atributo tal como era en el instante de la etiqueta. |
+| `reproducibilidad` | Poder repetir un experimento con el mismo código, los mismos datos y los mismos parámetros. |
 
 ## 🧠 Modelo mental
 
@@ -46,59 +43,584 @@ en un diagrama pero fallan al operar.
 ## 🗺️ Flujo de razonamiento
 
 ```mermaid
-flowchart LR
-    A["Necesidad y restricciones"] --> B["Diseño: Feature stores, training pipelines y experiment tracking"]
-    B --> C["Implementación reproducible"]
-    C --> D["Estado observado"]
-    D --> E{"¿Cumple seguridad, SLO y costo?"}
-    E -- "No" --> B
-    E -- "Sí" --> F["Evidencia y decisión registrada"]
+flowchart TB
+    D["definición del atributo\nUNA SOLA VEZ"] --> E["cálculo por lotes\n→ entrenamiento"]
+    D --> S["cálculo en línea\n→ servicio"]
+    E --> T["conjunto de\nentrenamiento"]
+    T --> T1["UNIÓN TEMPORAL\nel valor EN EL INSTANTE\nde la etiqueta"]
+    T1 -->|"si no"| F["FUGA:\nel modelo ve el futuro"]
+    S --> M["modelo servido"]
+    E -.->|"si las definiciones\ndifieren"| X["DESVÍO\nentrenamiento-servicio"]
+    X --> X1["el modelo funciona en\nel laboratorio y no en\nproducción"]
+    R["reproducibilidad"] --> R1["código versionado"]
+    R --> R2["DATOS versionados"]
+    R --> R3["parámetros y semilla"]
+    R --> R4["entorno"]
 ```
 
 ## 📖 Desarrollo
 
-### 1. Del requisito al mecanismo
+### 1. El desvío entre entrenar y servir
 
-Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.
+Es el problema más caro de esta parte y el más difícil de detectar, porque **el modelo funciona en el laboratorio**.
 
-### 2. Fronteras y responsabilidades
+```text
+DE DÓNDE SALE
+  al ENTRENAR, los atributos se calculan con una consulta
+  sobre el histórico
+  al SERVIR, se calculan con código en la aplicación
+  → dos implementaciones de la misma idea
+  → y basta una diferencia pequeña para que el modelo vea
+    otra cosa
 
-Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.
+LAS DIFERENCIAS TÍPICAS
+  la ventana: «compras de los últimos 30 días» ¿incluye hoy?
+  el redondeo y los tipos
+  el tratamiento de nulos: cero, media o ausencia
+  la zona horaria
+  el orden de las categorías al codificarlas
+  y el valor por defecto cuando falta el dato
+```
 
-### 3. Compensaciones que deben quedar visibles
+Y cuánto cuesta, con la evidencia de la clase 175:
 
-| Dimensión | Pregunta de diseño |
-|---|---|
-| Confiabilidad | ¿Qué falla, cómo se detecta y cuánto tarda en recuperarse? |
-| Seguridad | ¿Qué identidad actúa y cuál es el mínimo privilegio necesario? |
-| Costo | ¿Cuál es la unidad de consumo y qué hace crecer la factura? |
-| Operación | ¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor? |
-| Portabilidad | ¿Qué contrato es estándar y qué decisión es específica del proveedor? |
+```text
+en aquel caso, el desvío valía 4,8 puntos de precisión
+  el modelo medía 0,91 en el laboratorio
+  y 0,86 en producción
+  → durante meses, y se atribuía a «los datos reales son
+    más difíciles»
+```
 
-La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.
+**Cómo se evita**, por orden de eficacia:
+
+```text
+1  UNA SOLA DEFINICIÓN
+   el atributo se define una vez, en código, y ese código
+   se usa para calcular por lotes y en línea
+   → es lo que resuelve el problema de raíz
+
+2  ALMACÉN DE ATRIBUTOS
+   guarda los valores calculados
+   → el entrenamiento lee del histórico
+   → el servicio lee del almacén en línea
+   → y los dos leen LO MISMO, calculado una vez
+
+3  REGISTRAR LO QUE EL MODELO VIO AL SERVIR
+   y comparar su distribución con la del entrenamiento
+   → detecta el desvío aunque las definiciones difieran
+   → es la red de seguridad                    clase 250
+
+4  Y UNA PRUEBA
+   tomar N ejemplos, calcular sus atributos por las dos
+   vías y comparar
+   → debe dar exactamente lo mismo
+   → y ejecutarla en cada despliegue              ley 22
+```
+
+Y el caso en que el almacén no hace falta:
+
+```text
+si todos los atributos se calculan a partir de la propia
+petición, sin histórico
+  → no hay dos vías, y no hay desvío
+  → y un almacén de atributos añade complejidad sin
+    beneficio                                    clase 152
+
+→ el almacén se justifica cuando hay atributos que
+  requieren histórico o agregación
+```
+
+### 2. El almacén de atributos, y cuándo
+
+**Qué resuelve**, además del desvío:
+
+```text
+REUTILIZACIÓN
+  «compras del cliente en 30 días» la calculan cuatro
+  equipos, de cuatro formas
+  → una definición, un dueño, un cálculo
+                                          ley 21, clase 241
+
+SERVICIO EN LÍNEA CON LATENCIA BAJA
+  el modelo necesita los atributos en milisegundos
+  → calcularlos en la petición es lento
+  → el almacén en línea los tiene precalculados
+
+CONSTRUCCIÓN CORRECTA EN EL TIEMPO
+  la unión temporal, que es la parte difícil ← ver abajo
+
+Y GOBIERNO
+  qué atributos existen, quién los usa, de qué datos salen
+  → linaje aplicado a atributos            clase 243
+```
+
+Y lo que cuesta:
+
+```text
+dos almacenes que mantener: histórico y en línea
+un proceso que los mantiene sincronizados
+latencia y coste del almacén en línea
+y una pieza más en el camino crítico de la predicción
+
+→ y por eso no se monta «porque toca»: se monta cuando hay
+  atributos con histórico compartidos entre modelos
+```
+
+**La unión temporal correcta**, que es la parte que casi nadie hace bien:
+
+```text
+EL PROBLEMA
+  quiero entrenar con «pedidos de los últimos 30 días del
+  cliente» y la etiqueta «¿compró en la semana siguiente?»
+
+  ✗ MAL: tomar el valor de HOY del atributo
+    → el atributo incluye compras posteriores a la etiqueta
+    → el modelo aprende del futuro
+    → y en el laboratorio acierta muchísimo
+
+  ✓ BIEN: tomar el valor tal como era EN EL INSTANTE de la
+    etiqueta
+    → y eso exige que el almacén guarde el histórico con
+      sus marcas de tiempo
+    → y que la consulta haga la unión por tiempo
+```
+
+Y las formas de fuga, que son varias:
+
+```text
+USAR EL FUTURO
+  el caso anterior
+
+USAR UN DATO QUE NO EXISTE AL PREDECIR
+  «importe final del pedido» para predecir si se
+  completará
+  → al predecir, el pedido no ha terminado
+
+NORMALIZAR CON EL CONJUNTO ENTERO
+  calcular la media con entrenamiento Y validación
+  → la validación deja de ser independiente
+
+PARTIR AL AZAR CUANDO HAY TIEMPO
+  entrenar con datos de marzo y validar con datos de
+  febrero
+  → en producción siempre se predice hacia delante
+  → la partición debe ser TEMPORAL
+
+Y LA DUPLICACIÓN DE ENTIDADES
+  el mismo cliente en entrenamiento y en validación
+  → el modelo lo reconoce, no generaliza
+```
+
+Y la comprobación que las detecta casi todas:
+
+```text
+si el resultado en validación es sospechosamente bueno,
+BUSCA LA FUGA antes de celebrarlo
+→ un salto grande de calidad casi siempre es una fuga
+→ y esa sospecha ahorra meses
+```
+
+### 3. Reproducir un experimento
+
+Seis meses después alguien pregunta por qué el modelo hace lo que hace, o hay que reentrenarlo. Sin reproducibilidad, no hay respuesta.
+
+```text
+LO QUE HAY QUE FIJAR
+  1  CÓDIGO         versión exacta, en el repositorio
+  2  DATOS          versión exacta del conjunto
+                    → y esto es lo que casi nunca se hace
+  3  PARÁMETROS     todos, incluidos los por defecto
+  4  SEMILLA        para lo aleatorio
+  5  ENTORNO        versiones de bibliotecas y del tiempo
+                    de ejecución
+
+→ y si falta uno, el experimento no es reproducible
+```
+
+Y la parte 2 merece detalle:
+
+```text
+VERSIONAR LOS DATOS
+  ✗ «el conjunto de entrenamiento de marzo»
+    → la tabla ha cambiado desde entonces
+  ✓ una referencia inmutable: instantánea, versión de tabla
+    o consulta con marca temporal
+    → las capas transaccionales del lago dan esto
+                                                clase 241
+
+→ sin versión de datos, repetir el entrenamiento da otro
+  modelo y nadie sabe por qué
+```
+
+**El registro de experimentos**, con lo que hace útil la comparación:
+
+```text
+POR CADA EJECUCIÓN
+  quién y cuándo
+  las cinco cosas anteriores
+  las MÉTRICAS, en el mismo conjunto de prueba
+  los artefactos: el modelo, las gráficas, los errores
+  y una nota de qué se estaba probando
+
+Y LA REGLA QUE HACE COMPARABLES LOS RESULTADOS
+  el conjunto de PRUEBA es el mismo y no se toca
+  → si cada experimento usa su propia partición, las cifras
+    no se pueden comparar
+  → y el conjunto de prueba no se usa para decidir nada
+    hasta el final                              ley 17
+```
+
+Y el error de método más frecuente:
+
+```text
+AJUSTAR CONTRA EL CONJUNTO DE PRUEBA
+  se prueban 40 configuraciones, se elige la que mejor sale
+  en prueba
+  → el resultado en prueba deja de ser una estimación
+    honesta
+  → hace falta una partición aparte para decidir, y prueba
+    solo para el número final
+```
+
+Y la trazabilidad completa, que es lo que hace falta para auditar:
+
+```text
+del modelo servido → al experimento que lo produjo
+  → al conjunto de datos y su versión
+    → a las tablas de origen y sus contratos  clase 243
+
+→ y esa cadena es lo que permite responder «¿con qué datos
+  se entrenó este modelo?» ante una auditoría   clase 251
+```
+
+### 4. Etiquetas, conjuntos y lo que se olvida
+
+**Las etiquetas** son el dato más caro y el que más problemas silenciosos produce.
+
+```text
+DE DÓNDE SALEN
+  del propio sistema: «compró», «devolvió», «hizo clic»
+  de personas que las anotan
+  o de una regla                              ← peligroso
+
+LOS PROBLEMAS
+  RETRASO: la etiqueta llega días después del suceso
+    → «devolvió» se sabe a los 30 días
+    → y por tanto no se puede entrenar con lo de ayer
+  SESGO DE SELECCIÓN: solo se conoce el resultado de lo que
+    se hizo
+    → si el modelo actual solo muestra 5 productos, no hay
+      datos de los demás
+    → y el modelo siguiente hereda ese sesgo
+  CALIDAD: dos anotadores que discrepan
+    → y hay que medir el acuerdo entre ellos
+  Y DEFINICIÓN: ¿qué cuenta como «fraude»?
+    → si cambia con el tiempo, el histórico mezcla dos
+      definiciones                             clase 241
+```
+
+Y la consecuencia sobre el conjunto:
+
+```text
+el conjunto de entrenamiento hereda el sesgo del sistema
+que generó los datos
+→ y por eso hace falta exploración: mostrar a veces algo
+  distinto para tener datos de ello
+→ y eso es una decisión de producto, no técnica
+```
+
+**Las particiones**, con la regla que importa:
+
+```text
+POR TIEMPO, casi siempre
+  entrenar con lo anterior, validar y probar con lo
+  posterior
+  → porque en producción se predice hacia delante
+
+Y CON UN HUECO si la etiqueta tarda
+  entrenar hasta el 1 de marzo, hueco de 30 días, validar
+  desde el 1 de abril
+  → si no, la etiqueta del último día de entrenamiento aún
+    no se conocía
+
+Y POR ENTIDAD si hay agrupación
+  todos los datos de un cliente en la misma partición
+```
+
+Y lo que hay que documentar del conjunto:
+
+```text
+de dónde salieron los datos y qué contratos cumplen
+el periodo que cubren
+la definición de la etiqueta y desde cuándo es esa
+qué se excluyó y por qué
+los sesgos conocidos
+y los permisos: ¿se podía usar este dato para esto?
+                                          clases 175, 251
+```
+
+Y la lista de comprobación de la clase:
+
+```text
+☐ cada atributo tiene una sola definición, en código
+☐ hay prueba que compara el cálculo por lotes y en línea
+☐ el almacén de atributos está justificado, no copiado
+☐ el conjunto se construye con unión temporal correcta
+☐ no hay atributos que no existan en el momento de
+  predecir
+☐ la normalización se calcula solo con entrenamiento
+☐ la partición es temporal, con hueco si la etiqueta tarda
+☐ ninguna entidad aparece en dos particiones
+☐ el conjunto de prueba es fijo y no se usa para decidir
+☐ cada experimento fija código, datos, parámetros, semilla
+  y entorno
+☐ los datos están versionados con referencia inmutable
+☐ se puede trazar del modelo servido a sus datos de origen
+☐ la definición de la etiqueta está escrita y fechada
+☐ los sesgos conocidos del conjunto están documentados
+☐ los permisos de uso de los datos están comprobados
+```
+
+Y el cierre que enlaza con la clase siguiente: con atributos y conjuntos resueltos, queda poner el modelo a servir, que es donde aparecen la latencia, el coste y las decisiones de escalado. Es la materia de la clase 245.
 
 ## 🔬 Ejemplo trabajado
 
-Una plataforma de pedidos necesita aplicar **feature stores, training pipelines y experiment tracking**. El equipo registra:
+**CloudShop monta la plataforma de aprendizaje automático para su modelo de recomendación. Lo que sigue es el desvío que costaba 4 puntos, la fuga que hacía parecer excelente un modelo inútil, y el experimento que no se pudo reproducir.**
 
-- demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;
-- SLO mensual de 99,9 % para operaciones de lectura;
-- RPO de 15 minutos y RTO de 60 minutos;
-- datos personales que no pueden salir de la región aprobada;
-- presupuesto inicial de USD 600/mes.
+**El punto de partida:**
 
-La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.
+```text
+modelos en producción                                4
+  recomendación de productos
+  predicción de devolución
+  detección de fraude en pagos
+  y estimación de plazo de entrega
+
+cómo se calculaban los atributos
+  entrenamiento   consultas SQL escritas por cada científico
+  servicio        código en el servicio de recomendación
+  → dos implementaciones por atributo, 61 atributos
+```
+
+**El desvío, medido.**
+
+```text
+el modelo de recomendación
+  precisión en validación                        0,89
+  precisión observada en producción              0,84
+  → se atribuía a «los datos reales son más difíciles»
+
+la prueba que lo resolvió
+  se tomaron 5.000 peticiones reales
+  se calcularon sus 61 atributos por las dos vías
+  se compararon
+
+  atributos idénticos                              44
+  atributos DISTINTOS                              17  ←
+
+  las diferencias
+    · 6 por la ventana: la consulta incluía el día actual
+      y el código no
+    · 4 por el tratamiento de nulos: la consulta ponía 0,
+      el código dejaba ausente
+    · 3 por zona horaria: la consulta en UTC, el código en
+      hora local
+    · 2 por el orden de las categorías al codificar
+    · 2 por redondeo
+
+corrección
+  una definición por atributo, en código
+  y el mismo código ejecutado por lotes y en línea
+
+precisión en producción              0,84 → 0,885
+→ 4,5 puntos, sin tocar el modelo
+```
+
+Y la prueba que quedó:
+
+```text
+en cada despliegue del modelo o de los atributos
+  1.000 ejemplos, atributos calculados por las dos vías
+  → deben coincidir exactamente
+  → y si no, el despliegue falla                  ley 22
+
+fallos en los 6 meses siguientes                     3
+  → los 3, por cambios en el código de atributos que solo
+    se aplicaron a una de las vías
+```
+
+**La fuga que hacía parecer excelente un modelo inútil.**
+
+```text
+el modelo de predicción de devolución
+  precisión en validación                        0,97
+  → el equipo lo celebró
+
+y la sospecha
+  0,97 en un problema donde los expertos aciertan 0,70
+  → se buscó la fuga antes de desplegarlo
+
+se encontró en dos sitios
+  1  el atributo «número de devoluciones del cliente»
+     se calculaba con el valor de HOY
+     → para un pedido de hace 3 meses que SÍ se devolvió,
+       el contador ya incluía esa devolución
+     → el modelo estaba leyendo la respuesta
+
+  2  el atributo «días hasta la primera incidencia»
+     solo existe si hubo incidencia
+     → su presencia predecía la devolución perfectamente
+
+corrección
+  unión temporal: el valor del atributo EN EL INSTANTE del
+  pedido
+  y el segundo atributo, eliminado: no existe al predecir
+
+precisión tras corregir                          0,71
+→ y ese es el número real
+
+y lo que habría pasado sin la sospecha
+  el modelo se habría desplegado prometiendo 0,97
+  → habría rendido 0,71
+  → y la diferencia se habría atribuido a «deriva»
+                                                clase 246
+```
+
+**El almacén de atributos, decidido con criterio.**
+
+```text
+de los 61 atributos
+  calculados de la propia petición                  22
+    → no necesitan almacén
+  con histórico o agregación                        39
+    → sí
+  compartidos entre dos o más modelos                17
+    → el almacén los define una vez
+
+decisión
+  almacén para los 39
+  los 22 se calculan en la petición
+
+y lo que costó
+  almacén histórico sobre el lago               clase 241
+  almacén en línea sobre una base de clave-valor
+  proceso de materialización cada 15 min
+  coste                                     680 €/mes
+  latencia añadida a la predicción              4 ms
+
+y lo que dio
+  17 atributos que 3 equipos calculaban por separado, ahora
+  una vez
+  → 3 definiciones distintas de «compras en 30 días» se
+    convirtieron en 1
+  → y las tres eran diferentes entre sí: los tres modelos
+    veían cosas distintas             ley 21, clase 241
+```
+
+**El experimento que no se pudo reproducir.**
+
+```text
+situación   auditoría interna preguntó con qué datos se
+            había entrenado el modelo de fraude
+            desplegado hacía 8 meses
+
+lo que había
+  el código, versionado                              ✓
+  los parámetros, en una hoja de cálculo              ~
+  los datos                                          ✗
+    «la tabla de transacciones a fecha de marzo»
+    → la tabla había cambiado: filas corregidas,
+      columnas añadidas, y una reclasificación de
+      fraude en junio                       clase 241
+  la semilla                                         ✗
+  el entorno                                         ✗
+
+resultado
+  se reentrenó con lo que se pudo reconstruir
+  precisión obtenida                             0,88
+  precisión registrada del original              0,91
+  → y no se pudo explicar la diferencia
+
+lo que se montó después
+  registro de experimentos con las cinco cosas
+  datos referenciados por VERSIÓN de tabla
+                                                clase 241
+  entorno en imagen de contenedor con etiqueta inmutable
+                                                clase 212
+  y trazabilidad del modelo servido a su experimento y a
+  sus tablas de origen
+
+y la comprobación
+  reproducir un experimento de hace 6 meses
+  → métricas idénticas hasta el cuarto decimal      ✓
+```
+
+**Las etiquetas, y el sesgo que se descubrió.**
+
+```text
+el modelo de recomendación se entrenaba con clics
+
+y los clics solo existen sobre lo que el modelo actual
+muestra
+  productos mostrados por el modelo               8 de 4,1 M
+  productos con datos de clic                     ~12.000
+  el resto                                    sin datos
+
+→ el modelo nuevo aprendía a recomendar lo que el viejo
+  recomendaba
+→ y la variedad del catálogo caía trimestre a trimestre
+
+corrección, que fue de producto y no técnica
+  el 5 % de las posiciones se reservan a exploración:
+  productos elegidos con otro criterio
+  → genera datos de productos que el modelo no habría
+    mostrado
+
+efecto a los 6 meses
+  productos con datos de clic          12.000 → 61.000
+  variedad de lo recomendado                   +34 %
+  ingresos por recomendación                    +7 %
+  → y el 5 % de exploración costaba un 1,2 % de conversión
+    a corto plazo
+```
+
+**La partición, corregida:**
+
+```text
+antes   partición aleatoria del histórico
+  → datos de abril en entrenamiento y de marzo en
+    validación
+  → y el mismo cliente en las dos particiones
+
+después
+  temporal: entrenamiento hasta el 1 de marzo
+            hueco de 30 días (la etiqueta de devolución
+            tarda 30)
+            validación del 1 al 30 de abril
+            prueba de mayo, fija y no tocada
+  y por entidad: cada cliente en una sola partición
+
+diferencia en las métricas
+  con partición aleatoria                        0,86
+  con partición temporal correcta                0,79
+  → y 0,79 es lo que rinde en producción
+```
+
+**El resultado:**
+
+```text                                        antes     después
+definiciones por atributo                     2 (61)      1 (61)
+atributos que diferían entre vías              17           0
+precisión real del recomendador              0,84       0,885
+modelos con fuga detectada                      1           0
+experimentos reproducibles                    0/41       41/41
+definiciones distintas de un mismo atributo     3           1
+productos con datos de clic                12.000      61.000
+diferencia entre validación y producción     0,05        0,004
+```
+
+**La lección que esta clase deja**: cuatro coma cinco puntos de precisión **no estaban en el modelo**: estaban en diecisiete atributos que se calculaban distinto al entrenar y al servir, casi todos por detalles de ventana, nulos y zona horaria. Y el modelo que medía 0,97 en validación **medía 0,71 de verdad**: la sospecha de que un resultado demasiado bueno esconde una fuga ahorró desplegar un modelo que habría fallado y cuya diferencia se habría atribuido a deriva.
 
 ## 🧪 Laboratorio guiado
 
@@ -141,11 +663,12 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 
 | Síntoma | Causa probable | Corrección |
 |---|---|---|
-| El diseño enumera servicios pero no requisitos | Se comenzó por el catálogo del proveedor | Reescribe primero escenarios y restricciones medibles. |
-| La demo funciona una vez y se declara lista | Se confundió ejecución con evidencia operacional | Añade repetición, fallo, telemetría y recuperación. |
-| Todo tiene permisos administrativos | El laboratorio heredó credenciales humanas | Usa identidad de workload y prueba explícitamente la denegación. |
-| No se puede explicar la factura | Faltan unidades y ownership de costo | Etiqueta, estima por unidad y define presupuesto o alerta. |
-| La solución se llama multi-cloud pero replica todo | Portabilidad se confundió con duplicación | Define qué riesgo se mitiga y porta solo el contrato necesario. |
+| El modelo rinde peor en producción que en validación, de forma constante | Desvío entre los atributos calculados al entrenar y al servir | Una sola definición de atributo en código, usada por ambas vías, y una prueba en cada despliegue que compare los valores. |
+| La validación da un resultado sospechosamente bueno | Hay fuga: el conjunto incluye información posterior a la predicción | Haz unión temporal por el instante de la etiqueta y elimina atributos que no existan al predecir; sospecha siempre de un salto grande. |
+| Las cifras de validación no se parecen a las de producción | La partición es aleatoria cuando el problema tiene orden temporal | Parte por tiempo, con hueco si la etiqueta tarda, y por entidad si hay agrupación. |
+| No se puede repetir un entrenamiento de hace meses | Los datos no están versionados y faltan semilla y entorno | Referencia inmutable del conjunto, semilla fijada y entorno en imagen con etiqueta inmutable. |
+| Tres equipos calculan el mismo atributo de tres formas | No hay definición única ni dueño | Define el atributo una vez en el almacén, con dueño y contrato, y elimina las copias. |
+| El modelo recomienda cada vez menos variedad | Se entrena con datos generados por sus propias decisiones | Reserva una fracción a exploración para obtener datos de lo que el modelo no habría mostrado. |
 
 ## 🛡️ Seguridad, ética y costo
 
@@ -156,17 +679,19 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## ❓ Preguntas de comprobación
 
-1. ¿Qué parte del diseño seguiría siendo válida en otro proveedor?
-2. ¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?
-3. ¿Cuál es la unidad de costo y quién puede actuar sobre ella?
-4. ¿Qué permiso puede retirarse sin romper el caso de uso?
-5. ¿Qué evidencia falta para afirmar que esto está listo para producción?
+1. ¿De dónde sale el desvío entre entrenamiento y servicio y cómo se elimina de raíz?
+2. ¿Qué es una unión temporal correcta y qué evita?
+3. ¿Cuáles son las cinco cosas que hay que fijar para reproducir un experimento?
+4. ¿Por qué el conjunto de prueba no debe usarse para decidir?
+5. ¿Qué sesgo hereda un modelo entrenado con datos que generó el modelo anterior?
 
 ## 🔗 Referencias
 
-- Designing Machine Learning Systems — Chip Huyen.
-- Fundamentals of Data Engineering — Reis y Housley.
-- Building Machine Learning Powered Applications — Emmanuel Ameisen.
+- Sculley, D. y otros (2015). *Hidden technical debt in machine learning systems*. <https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html>
+- Feast (2025). *Feature store concepts and point-in-time joins*. <https://docs.feast.dev/>
+- Kapoor, S. y Narayanan, A. (2023). *Leakage and the reproducibility crisis in ML-based science*. <https://www.cell.com/patterns/fulltext/S2666-3899(23)00159-9>
+- MLflow (2025). *Tracking experiments and model registry*. <https://mlflow.org/docs/latest/tracking.html>
+- Gebru, T. y otros (2021). *Datasheets for datasets*. <https://dl.acm.org/doi/10.1145/3458723>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---
