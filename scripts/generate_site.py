@@ -121,9 +121,23 @@ def rewrite_class_links(markdown_text: str, class_lookup: dict[str, str], part_i
     return re.sub(r"\[([^]]+)\]\(([^)]+)\)", replace, markdown_text)
 
 
+# El README lleva su propia navegacion para quien lo lee en GitHub. En el sitio
+# sobra: la pagina ya tiene paginador arriba y navegacion completa abajo, y
+# repetirla dentro del articulo confunde.
+README_NAV = re.compile(
+    r"^>\s*(?:\*\*Inicio del programa\*\*|\[←)[^\n]*\n\n"
+    r"|^\|\s*Anterior\s*\|[^\n]*\n\|[^\n]*\n\|[^\n]*\n?",
+    flags=re.MULTILINE,
+)
+
+
+def strip_readme_nav(markdown_text: str) -> str:
+    return README_NAV.sub("", markdown_text).rstrip() + "\n"
+
+
 def class_page(item: dict, catalog: list[dict], index: int) -> str:
     folder = source_path(item)
-    lesson_md = (folder / "README.md").read_text(encoding="utf-8")
+    lesson_md = strip_readme_nav((folder / "README.md").read_text(encoding="utf-8"))
     assessment_md = (folder / "assessment.md").read_text(encoding="utf-8")
     lookup = {x["id"]: x["slug"] for x in catalog}
     lookup["source"] = folder.relative_to(ROOT).as_posix()
@@ -199,11 +213,34 @@ def class_page(item: dict, catalog: list[dict], index: int) -> str:
     )
 
 
+def rewrite_part_links(markdown_text: str) -> str:
+    """El README de la parte enlaza a rutas del repositorio; en el sitio deben
+    apuntar a las paginas publicadas o quedarian 358 enlaces rotos."""
+
+    def replace(match: re.Match[str]) -> str:
+        label, target = match.group(1), match.group(2)
+        if target.startswith(("http://", "https://", "#")):
+            return match.group(0)
+        class_match = re.match(r"(\d{3})-[^/]+/README\.md$", target)
+        if class_match:
+            return f"[{label}](../classes/{class_match.group(1)}.html)"
+        part_match = re.match(r"\.\./part-(\d{2})-[^/]+/README\.md$", target)
+        if part_match:
+            return f"[{label}]({part_match.group(1)}.html)"
+        if target == "../README.md":
+            return f"[{label}](../index.html)"
+        if target.startswith("../../"):
+            return f"[{label}]({REPO_URL}/blob/main/{target.replace('../../', '')})"
+        return f"[{label}]({REPO_URL}/blob/main/classes/{target.lstrip('./')})"
+
+    return re.sub(r"\[([^]]+)\]\(([^)]+)\)", replace, markdown_text)
+
+
 def part_page(part_id: str, items: list[dict], part_ids: list[str]) -> str:
     part_folder = source_path(items[0]).parent
     md_path = part_folder / "README.md"
     md_text = md_path.read_text(encoding="utf-8")
-    rendered = render_markdown(md_text)
+    rendered = render_markdown(rewrite_part_links(md_text))
     position = part_ids.index(part_id)
     prev_part = part_ids[position - 1] if position else None
     next_part = part_ids[position + 1] if position + 1 < len(part_ids) else None

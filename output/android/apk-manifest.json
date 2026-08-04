@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "apk": "output/android/multi-cloud-engineering-program.apk",
+  "package": "dev.vladimiracuna.multicloud",
+  "version_name": "1.0.0",
+  "version_code": 1,
+  "min_sdk": 26,
+  "target_sdk": 35,
+  "build_tools": "36.1.0",
+  "platform": "android-36",
+  "bundled_asset_files": 325,
+  "bundled_asset_bytes": 12405118,
+  "apk_bytes": 4174017,
+  "apk_sha256": "e066b0ff86d01391d13cf0bee5499f152c2161da152fb7fcdb6b8bbd57494023"
+}
