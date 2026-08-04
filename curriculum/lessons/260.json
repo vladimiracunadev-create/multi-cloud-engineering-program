@@ -1,0 +1,118 @@
+{
+  "id": "260",
+  "purpose": "Gestionar el cambio sin frenarlo. La clase demuestra que **cambiar más despacio no reduce el riesgo: lo concentra**, explica por qué los procesos de aprobación pesados empeoran las cifras, y da el conjunto que sí funciona: cambios pequeños y frecuentes, vuelta atrás probada, ventanas y congelaciones con criterio, y clasificación por riesgo real.",
+  "outcomes": [
+    "**Explicar** por qué frenar el cambio concentra el riesgo en vez de reducirlo.",
+    "**Clasificar** los cambios por riesgo real, no por burocracia.",
+    "**Diseñar** vuelta atrás que funcione, incluida la que no es reversible.",
+    "**Aplicar** ventanas y congelaciones con criterio y con coste explícito.",
+    "**Medir** el proceso de cambio con las cuatro métricas que importan."
+  ],
+  "concepts": [
+    {
+      "term": "lote",
+      "definition": "Cuántos cambios entran juntos. La variable que más determina el riesgo de un despliegue."
+    },
+    {
+      "term": "cambio estándar",
+      "definition": "Cambio frecuente, de riesgo conocido y con vuelta atrás probada. No necesita aprobación individual."
+    },
+    {
+      "term": "vuelta atrás",
+      "definition": "Devolver el sistema al estado anterior. Solo cuenta si se ha probado."
+    },
+    {
+      "term": "avance hacia delante",
+      "definition": "Arreglar aplicando un cambio nuevo. La única salida cuando la vuelta atrás no es posible."
+    },
+    {
+      "term": "congelación",
+      "definition": "Periodo sin cambios. Traslada el riesgo al momento en que se descongela."
+    },
+    {
+      "term": "ventana de cambio",
+      "definition": "Franja horaria en que se permite desplegar. Útil cuando el impacto depende de la hora, dañina cuando no."
+    }
+  ],
+  "diagram": "flowchart TB\n    C[\"cambio\"] --> R{\"clasificación\\npor riesgo real\"}\n    R -->|\"estándar\\nfrecuente, reversible\"| A1[\"sin aprobación\\nindividual\\ndespliegue continuo\"]\n    R -->|\"normal\"| A2[\"revisión por par\\n+ despliegue progresivo\"]\n    R -->|\"alto impacto\\no irreversible\"| A3[\"plan escrito\\nventana + ensayo\\n+ vuelta atrás probada\"]\n    R -->|\"urgente\"| A4[\"se hace ya\\nse documenta después\"]\n    A1 --> D[\"despliegue\"]\n    A2 --> D\n    A3 --> D\n    A4 --> D\n    D --> V{\"¿canario\\nsano?\"}\n    V -->|\"no\"| B[\"vuelta atrás\\nautomática\"]\n    V -->|\"sí\"| P[\"progresa\"]\n    F[\"congelación\"] -.->|\"acumula lote\"| G[\"descongelación\\n= mayor riesgo\\ndel año\"]",
+  "foundations": [
+    {
+      "heading": "Frenar el cambio no reduce el riesgo",
+      "body": "La intuición dice que menos cambios significan menos incidentes. Los datos dicen lo contrario, y la razón es aritmética.\n\n```text\nEL RIESGO DE UN DESPLIEGUE NO ES CONSTANTE:\nCRECE CON EL LOTE\n\n  1 cambio      1 causa posible\n                y si falla, se sabe cuál es\n\n  40 cambios    40 causas posibles\n                y las interacciones entre ellas\n                → y el diagnóstico se multiplica\n                → y la vuelta atrás revierte 39 cambios\n                  buenos con el malo\n\n→ desplegar la mitad de veces no significa la mitad de\n  riesgo: significa lotes del doble de tamaño\n→ y el riesgo por despliegue crece más que linealmente\n```\n\nY lo que muestran las mediciones del sector:\n\n```text\nlos equipos que despliegan MÁS a menudo tienen\n  menor tasa de fallo por cambio\n  menor tiempo de recuperación\n  y menor tiempo de entrega\n\n→ no a pesar de desplegar más, sino PORQUE despliegan más\n→ frecuencia y estabilidad correlacionan POSITIVAMENTE\n→ es el hallazgo más contraintuitivo y mejor replicado\n  del campo\n```\n\nY por qué las aprobaciones pesadas empeoran las cifras:\n\n```text\nun comité que aprueba cambios\n  no conoce el cambio mejor que quien lo escribió\n  → y por tanto no puede evaluar su riesgo real\n  añade días de espera\n  → y la espera acumula lote\n  y desplaza la responsabilidad\n  → «lo aprobó el comité» sustituye a «lo comprobé»\n\n→ el efecto medido: peor tiempo de entrega Y peor tasa de\n  fallo\n→ la aprobación externa funciona peor que la revisión por\n  un par                                        clase 102\n```\n\nY lo que sí reduce el riesgo:\n\n```text\nlote pequeño\ndespliegue progresivo con canario           clase 102\nvuelta atrás probada\nseparación de despliegue y activación       clase 105\nautomatización de la comprobación           clase 100\ny revisión por alguien que entiende el cambio\n\n→ ninguna de estas es un proceso de aprobación\n→ todas son propiedades del sistema de entrega\n```"
+    },
+    {
+      "heading": "Clasificar por riesgo real",
+      "body": "No todos los cambios necesitan el mismo tratamiento. La clasificación útil se hace por riesgo, no por tipo de recurso.\n\n```text\nESTÁNDAR\n  frecuente, con vuelta atrás probada, impacto acotado\n  → despliegue de código con canario\n  → cambio de configuración con bandera\n  → escalado dentro de límites conocidos\n  aprobación  ninguna individual; se aprobó el\n              PROCEDIMIENTO, no el cambio\n  → y aquí debe caer el 90 % o más de los cambios\n\nNORMAL\n  no rutinario, reversible, impacto conocido\n  → revisión por un par que entienda el área\n  → despliegue progresivo\n\nALTO IMPACTO O IRREVERSIBLE\n  migración de datos, cambio de esquema destructivo,\n  cambio de red troncal, rotación de clave maestra\n  → plan escrito con pasos y verificación\n  → ensayo previo en entorno equivalente\n  → ventana acordada\n  → vuelta atrás PROBADA, o plan de avance hacia delante\n  → y una persona designada que puede detenerlo\n\nURGENTE\n  se hace ya, con quien coordina el incidente enterado\n  → y se documenta DESPUÉS, sin excepción\n  → el registro posterior es lo que evita que «urgente»\n    se convierta en la vía de escape habitual\n\n→ y la métrica de salud del proceso es qué porcentaje de\n  cambios se declara urgente\n→ si pasa del 5 %, la clasificación normal es demasiado\n  lenta y la gente la rodea\n```\n\nY la trampa clásica de la clasificación:\n\n```text\nclasificar por RECURSO en vez de por RIESGO\n  «todo cambio en producción es alto impacto»\n  → y entonces todo pasa por el proceso pesado\n  → y el proceso pesado se convierte en un trámite que\n    nadie lee\n\n  «cambiar una variable de entorno es trivial»\n  → y la variable era la cadena de conexión\n                                          clase 232\n\n→ el riesgo lo determina el ALCANCE DEL FALLO POSIBLE y\n  la REVERSIBILIDAD, no el tipo de recurso\n```"
+    },
+    {
+      "heading": "Vuelta atrás que funciona",
+      "body": "«Podemos revertir» es la frase más repetida y menos comprobada de la operación.\n\n```text\nCUÁNDO LA VUELTA ATRÁS ES REAL\n  el artefacto anterior sigue existiendo\n  el procedimiento se ha ejecutado en los últimos 30 días\n  el tiempo de vuelta atrás se conoce, medido\n  y no depende de nada que el fallo haya roto\n\nCUÁNDO NO LO ES\n  cambio de esquema que ya escribió datos nuevos\n  migración de datos ya iniciada\n  mensajes ya consumidos con formato nuevo   clase 210\n  claves rotadas y las anteriores destruidas  clase 197\n  caché envenenada que sobrevive al despliegue\n  y cambios de terceros, que no revierten cuando tú\n    reviertes\n\n→ y en todos esos casos, la salida es AVANZAR\n→ y eso hay que decidirlo ANTES, no durante\n```\n\nY el patrón que hace reversible lo que no lo parece:\n\n```text\nCAMBIO DE ESQUEMA EN CUATRO PASOS       clase 209\n  1  añadir lo nuevo sin quitar lo viejo\n  2  escribir en ambos\n  3  leer de lo nuevo\n  4  y solo entonces, retirar lo viejo\n\n→ cada paso es reversible por separado\n→ el paso 4 se hace días o semanas después\n→ y es lo que convierte una migración irreversible en\n  cuatro cambios estándar\n\ny el mismo patrón vale para\n  formatos de mensaje                       clase 210\n  contratos de interfaz                     clase 106\n  y particiones de datos                    clase 208\n```\n\nY la separación que más margen da:\n\n```text\nDESPLEGAR ≠ ACTIVAR                       clase 105\n  el código va a producción apagado\n  → y se enciende con una bandera, por porcentaje\n  → y se apaga en segundos, sin desplegar\n\n→ la vuelta atrás de una bandera es instantánea\n→ la de un despliegue tarda minutos\n→ y en un incidente, esa diferencia es todo\n```\n\nY qué hacer con el cambio que no se puede probar en pequeño:\n\n```text\nun cambio de red troncal, una rotación de clave maestra\n  → no hay canario posible\n  la defensa es\n    ensayo en entorno equivalente        clase 261\n    ventana con la gente disponible\n    verificación paso a paso, no al final\n    punto de no retorno EXPLÍCITO y anunciado\n    y criterio de abandono escrito ANTES\n      → «si a los 20 minutos X no ocurre, abortamos»\n```"
+    },
+    {
+      "heading": "Ventanas, congelaciones y su coste",
+      "body": "Ventanas y congelaciones son herramientas legítimas mal usadas casi siempre.\n\n```text\nVENTANA DE CAMBIO\n  útil cuando el impacto DEPENDE DE LA HORA\n    → un sistema de pago con pico a mediodía\n    → un proceso por lotes nocturno\n  dañina cuando no\n    → «solo se despliega los martes de 14 a 16»\n    → acumula lote, concentra el riesgo y multiplica la\n      espera\n\n  y la trampa nocturna\n    desplegar de madrugada suena prudente\n    → pero hay menos gente, más cansada, y menos tráfico\n      para detectar el problema\n    → y el fallo se descubre a las 09:00 con el equipo\n      entrando\n  → desplegar cuando hay gente disponible y tráfico\n    suficiente para ver el efecto es MEJOR\n\nCONGELACIÓN\n  legítima cuando\n    hay un evento de negocio con impacto extremo\n      → temporada alta, lanzamiento, cierre fiscal\n    y dura poco\n\n  y su coste, que casi nunca se calcula\n    el lote acumulado se libera de golpe al descongelar\n    → el día de la descongelación es el de mayor riesgo\n      del año\n    los arreglos de seguridad también se congelan\n    → y esa es la parte peligrosa            clase 216\n    y el equipo pierde la práctica de desplegar\n\n  cómo hacerla bien\n    excepción explícita para seguridad y para incidentes\n    descongelación ESCALONADA, no de golpe\n    y medir cuántos incidentes ocurren en la semana\n    siguiente\n```\n\nY las cuatro métricas que dicen si el proceso de cambio es sano:\n\n```text\nFRECUENCIA DE DESPLIEGUE\n  → cuántas veces se entrega valor\nTIEMPO DE ENTREGA\n  → de confirmar el cambio a estar en producción\nTASA DE FALLO POR CAMBIO\n  → qué porcentaje causa degradación\nTIEMPO DE RECUPERACIÓN\n  → cuánto se tarda en restablecer\n\n→ y las cuatro mejoran juntas o empeoran juntas\n→ un proceso que mejora la tasa de fallo empeorando la\n  frecuencia NO está mejorando\n→ y esa es la comprobación que desenmascara los procesos\n  de aprobación pesados\n```\n\nY la lista de comprobación de la clase:\n\n```text\n☐ el 90 % o más de los cambios son estándar\n☐ los cambios estándar no requieren aprobación individual\n☐ la revisión la hace quien entiende el área, no un comité\n☐ menos del 5 % de los cambios se declaran urgentes\n☐ los urgentes se documentan después, siempre\n☐ la clasificación es por alcance y reversibilidad\n☐ el despliegue es progresivo con canario y vuelta atrás\n  automática\n☐ la vuelta atrás se ha ejecutado en los últimos 30 días\n☐ los cambios irreversibles se descomponen en pasos\n  reversibles\n☐ desplegar y activar están separados\n☐ los cambios de alto impacto tienen criterio de abandono\n  escrito antes\n☐ las ventanas existen solo donde el impacto depende de\n  la hora\n☐ no se despliega de madrugada por costumbre\n☐ las congelaciones tienen excepción para seguridad\n☐ la descongelación es escalonada\n☐ se miden las cuatro métricas y se miran juntas\n```\n\nY el cierre que enlaza con la clase siguiente: todo lo montado hasta aquí —guardia, triaje, procedimientos, vuelta atrás— vale lo que valga cuando se usa de verdad. Provocar los fallos a propósito, en horario laboral y con la gente delante, es la materia de la clase 261."
+    }
+  ],
+  "worked_example": "**CloudShop desmonta su comité de cambios. Lo que sigue son los datos que lo justificaron, la congelación de temporada alta que costó más de lo que ahorró, y las cuatro métricas antes y después.**\n\n**El punto de partida: el comité.**\n\n```text\ncomité de cambios, semanal, miércoles 10:00\n  7 personas, 90 minutos\n  todo cambio a producción pasaba por él\n\ncifras de 12 meses\n  cambios presentados                          1.847\n  rechazados                                      11    0.6 %\n  aprobados con condiciones                       23    1.2 %\n  aprobados sin cambios                        1.813   98.2 %\n\n  espera media desde listo hasta aprobado    4.2 días\n  coste del comité                       546 h/persona/año\n```\n\nY los 11 rechazos, examinados uno por uno:\n\n```text\n  rechazados por falta de plan de vuelta atrás      6\n  rechazados por coincidir con otro cambio          3\n  rechazados por no entenderse la descripción       2\n\n→ los 6 primeros los habría detectado una comprobación\n  automática\n→ los 3 siguientes, un calendario compartido\n→ y los 2 últimos no eran un problema de riesgo\n\n→ ningún rechazo se debió a que el comité detectara un\n  riesgo técnico que el autor no viera\n```\n\nY el dato que cerró la discusión:\n\n```text\nincidentes causados por cambio, en esos 12 meses     34\n  de cambios APROBADOS por el comité                 31\n  de cambios urgentes que lo saltaron                 3\n\n→ el 91 % de los incidentes por cambio venían de cambios\n  que el comité había aprobado\n→ la tasa de fallo de lo aprobado (1.7 %) era\n  indistinguible de la de lo no aprobado\n```\n\n**Lo que se puso en su lugar.**\n\n```text\nCLASIFICACIÓN\n  estándar        94 % de los cambios\n    revisión por un par + canario + vuelta atrás\n      automática\n    sin aprobación individual\n  normal           5 %\n    revisión por par del área + despliegue progresivo\n  alto impacto     1 %\n    plan escrito, ensayo, ventana, persona que puede\n      detenerlo\n  urgente          registrado aparte\n\nY COMPROBACIONES AUTOMÁTICAS que sustituyen al comité\n  ¿hay procedimiento de vuelta atrás y se probó?\n  ¿el canario está configurado?\n  ¿coincide con otro cambio en el mismo servicio?\n  ¿coincide con una ventana de negocio?\n  ¿toca algo marcado como crítico?\n  → y si algo falla, el cambio no sale; sin reunión\n\nEL COMITÉ se convirtió en\n  revisión MENSUAL de los cambios de alto impacto\n  previstos y de los incidentes por cambio del mes\n  → 90 minutos al mes, 4 personas\n```\n\n**La congelación de temporada alta.**\n\n```text\npolítica heredada\n  congelación total del 15 de noviembre al 5 de enero\n  51 días\n\nlo que ocurría\n  cambios acumulados al descongelar          287\n  incidentes en la semana posterior a la\n  descongelación                              9\n  incidentes en una semana normal            1.4\n\n  → 6.4 veces la tasa normal\n  → y todos los años igual, durante tres años\n```\n\nY el coste oculto que nadie había contado:\n\n```text\ndurante la congelación de ese año\n  arreglos de seguridad retenidos                     14\n    de ellos, de severidad alta                        4\n    días medios de exposición añadida            37 días\n                                              clase 216\n  cambios de capacidad retenidos                       6\n    → y dos incidentes de temporada alta fueron por\n      capacidad que se había pedido y no se aplicó\n```\n\nY la política nueva:\n\n```text\nen vez de congelación total\n  cambios estándar          SIGUEN, con canario más lento\n                            y ventana ampliada de\n                            observación\n  cambios normales          requieren aprobación del\n                            responsable del servicio\n  alto impacto              suspendidos, salvo excepción\n                            escrita\n  seguridad y capacidad     NUNCA se congelan\n\ny el resultado de la temporada siguiente\n  cambios acumulados al «descongelar»            19\n  incidentes en la semana posterior             1.7\n  incidentes durante la temporada alta\n    año anterior (congelado)                       11\n    este año                                        6\n\n→ menos incidentes DURANTE la temporada, con cambios\n  fluyendo\n→ el mecanismo: los problemas de capacidad y de\n  configuración se corrigieron cuando aparecieron, en vez\n  de acumularse\n```\n\n**Un cambio de alto impacto, con su plan.**\n\n```text\nmigración del esquema de pedidos: partición por cliente\n→ irreversible una vez escritos datos nuevos  clase 208\n\nen vez de un cambio, CUATRO\n  semana 1  añadir la clave nueva sin usarla\n            → reversible; 0 riesgo\n  semana 2  escribir en ambas claves\n            → reversible; se compara consistencia 7 días\n  semana 4  leer de la clave nueva, con bandera al 1 %,\n            luego 10 %, 50 %, 100 %\n            → reversible en segundos       clase 105\n  semana 7  retirar la clave vieja\n            → punto de no retorno, con copia verificada\n                                            clase 189\n\ny el criterio de abandono, escrito antes\n  «si la comparación de consistencia muestra más de 1 por\n  100.000 divergencias, se detiene y se investiga»\n\nlo que pasó\n  semana 2, día 3: 41 divergencias por 100.000\n  → se detuvo\n  → causa: un camino de escritura antiguo no actualizado\n  → dos semanas de retraso, cero impacto en usuarios\n\n→ y con la migración como un solo cambio, esas 41\n  divergencias por 100.000 habrían llegado a producción\n  como corrupción silenciosa                     ley 29\n```\n\n**Las cuatro métricas, a los 14 meses.**\n\n```text                                        antes     después\nfrecuencia de despliegue              3.1/semana   47/semana\ntiempo de entrega (confirmar → prod)     6.4 días      3.2 h\ntasa de fallo por cambio                   1.8 %       0.6 %\ntiempo de recuperación                    47 min      11 min\n\ncambios por lote (mediana)                    14           1\ncambios declarados urgentes                 12 %        1.9 %\nincidentes causados por cambio          34/año      13/año\n  con más de una causa posible\n  identificada                          26/34        2/13\n\ncoste de gobierno del cambio        546 h/año     72 h/año\n```\n\nY la cifra que mejor resume el mecanismo:\n\n```text\nincidentes en que NO se supo qué cambio lo causó\n  antes    26 de 34    (lotes de 14 cambios)\n  después   2 de 13    (lotes de 1)\n\n→ y el tiempo de recuperación cayó de 47 a 11 minutos\n  casi todo por esto\n→ revertir un cambio es rápido; encontrar cuál de catorce\n  no lo es                                    clase 258\n```\n\n**La lección que esta clase deja**: el comité aprobó el **98,2 %** de lo que le llegó y **el 91 % de los incidentes por cambio venían de cambios que había aprobado**; su efecto real no era filtrar riesgo sino añadir 4,2 días de espera que engordaban los lotes. Y la congelación de 51 días producía **6,4 veces la tasa normal de incidentes** el día de descongelarla, mientras retenía cuatro arreglos de seguridad graves durante 37 días.",
+  "pitfalls": [
+    {
+      "symptom": "Se despliega menos y los incidentes por cambio no bajan",
+      "cause": "Menos despliegues significan lotes mayores; el riesgo se concentra en lugar de reducirse",
+      "fix": "Reduce el tamaño del lote, no la frecuencia; un cambio por despliegue hace que revertir y diagnosticar sean triviales."
+    },
+    {
+      "symptom": "El comité aprueba casi todo y aun así hay incidentes por cambio",
+      "cause": "Quien aprueba no conoce el cambio mejor que quien lo escribió",
+      "fix": "Sustituye la aprobación por comprobaciones automáticas y revisión por un par del área; deja el comité para el 1 % de alto impacto."
+    },
+    {
+      "symptom": "La vuelta atrás falla justo cuando se necesita",
+      "cause": "Nunca se ejecutó, o el cambio ya escribió datos nuevos",
+      "fix": "Ejecuta la vuelta atrás al menos cada 30 días y descompón los cambios irreversibles en pasos reversibles."
+    },
+    {
+      "symptom": "El día de la descongelación es el peor del año",
+      "cause": "La congelación acumula lote y lo libera de golpe",
+      "fix": "Descongela de forma escalonada, y nunca congeles arreglos de seguridad ni de capacidad."
+    },
+    {
+      "symptom": "Muchos cambios se declaran urgentes para saltarse el proceso",
+      "cause": "El proceso normal es demasiado lento y la gente lo rodea",
+      "fix": "Si más del 5 % son urgentes, arregla el proceso normal; y documenta siempre los urgentes después."
+    },
+    {
+      "symptom": "Se despliega de madrugada y el fallo se descubre por la mañana",
+      "cause": "Hay menos gente, más cansada, y poco tráfico para detectar el problema",
+      "fix": "Despliega cuando hay gente disponible y tráfico suficiente para ver el efecto, salvo que el impacto dependa de la hora."
+    }
+  ],
+  "checks": [
+    "¿Por qué desplegar menos a menudo no reduce el riesgo?",
+    "¿Qué distingue un cambio estándar de uno de alto impacto?",
+    "¿Cuándo una vuelta atrás no es posible y qué se hace entonces?",
+    "¿Qué coste tiene una congelación y cómo se mitiga?",
+    "¿Cuáles son las cuatro métricas del proceso de cambio y por qué hay que mirarlas juntas?"
+  ],
+  "references": [
+    {
+      "text": "Forsgren, N., Humble, J. y Kim, G. (2018). *Accelerate* — frecuencia y estabilidad correlacionan positivamente.",
+      "url": "https://itrevolution.com/product/accelerate/"
+    },
+    {
+      "text": "Google (2024). *DORA: capabilities — change approval processes*.",
+      "url": "https://dora.dev/capabilities/streamlining-change-approval/"
+    },
+    {
+      "text": "Humble, J. y Farley, D. (2010). *Continuous Delivery*, cap. sobre gestión del cambio.",
+      "url": "https://www.pearson.com/en-us/subject-catalog/p/continuous-delivery/P200000009415"
+    },
+    {
+      "text": "AWS (2024). *Operational Excellence Pillar: managing change*.",
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html"
+    },
+    {
+      "text": "Microsoft (2024). *Azure Well-Architected Framework: safe deployment practices*.",
+      "url": "https://learn.microsoft.com/azure/well-architected/operational-excellence/safe-deployments"
+    }
+  ]
+}
