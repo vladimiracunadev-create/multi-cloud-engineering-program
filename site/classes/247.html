@@ -42,18 +42,15 @@
 <strong>Nivel:</strong> avanzado · <strong>Horas estimadas:</strong> 4<br>
 <strong>Laboratorio:</strong> <code>architecture</code> · <strong>Estado:</strong> <code>EXECUTABLE_CORE</code></p>
 <h2 id="proposito">🎯 Propósito</h2>
-<p>Comprender y aplicar <strong>modelos fundacionales, tokens, embeddings y rag</strong> dentro de una plataforma cloud realista,
-produciendo evidencia reproducible y una decisión que explicite seguridad, confiabilidad,
-costo y operación. La meta no es memorizar nombres de servicios: es reconocer el problema,
-seleccionar una solución proporcional y demostrar qué ocurrió.</p>
+<p>Entender los modelos fundacionales lo suficiente para tomar decisiones de ingeniería con ellos: <strong>qué determina el coste y la latencia, por qué la recuperación aumentada resuelve unos problemas y no otros, y qué se puede y no se puede garantizar</strong>. La clase cubre los testigos como unidad de coste, los embebidos y la búsqueda vectorial, el patrón de recuperación aumentada con sus modos de fallo, y cuándo no hace falta un modelo de este tipo.</p>
 <h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar podrás:</p>
 <ol>
-<li><strong>Explicar</strong> modelos fundacionales, tokens, embeddings y rag con vocabulario independiente del proveedor.</li>
-<li><strong>Relacionar</strong> sus componentes con el modelo mental de la parte.</li>
-<li><strong>Ejecutar</strong> un laboratorio local determinista y leer su contrato JSON.</li>
-<li><strong>Evaluar</strong> al menos una alternativa y justificar el trade-off elegido.</li>
-<li><strong>Entregar</strong> <code>rag-system</code> con evidencia, límites y criterio de reversión.</li>
+<li><strong>Calcular</strong> coste y latencia a partir de testigos y de la ventana de contexto.</li>
+<li><strong>Construir</strong> búsqueda por embebidos con la partición y el filtrado correctos.</li>
+<li><strong>Montar</strong> recuperación aumentada sabiendo qué resuelve y qué no.</li>
+<li><strong>Reducir</strong> coste con caché, modelos menores y filtros previos.</li>
+<li><strong>Decidir</strong> cuándo un modelo fundacional no es la herramienta.</li>
 </ol>
 <h2 id="conceptos-centrales">🧩 Conceptos centrales</h2>
 <table>
@@ -65,24 +62,28 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>modelos</code></td>
-<td>Define su papel en <strong>modelos fundacionales, tokens, embeddings y rag</strong> y cómo observarlo en un sistema real.</td>
+<td><code>testigo</code></td>
+<td>Unidad en que el modelo procesa el texto. Es la unidad de coste y de límite de contexto.</td>
 </tr>
 <tr>
-<td><code>fundacionales</code></td>
-<td>Define su papel en <strong>modelos fundacionales, tokens, embeddings y rag</strong> y cómo observarlo en un sistema real.</td>
+<td><code>ventana de contexto</code></td>
+<td>Cuántos testigos caben en una petición. Su uso decide coste y latencia.</td>
 </tr>
 <tr>
-<td><code>tokens</code></td>
-<td>Define su papel en <strong>modelos fundacionales, tokens, embeddings y rag</strong> y cómo observarlo en un sistema real.</td>
+<td><code>embebido</code></td>
+<td>Representación numérica de un texto que permite comparar significado por distancia.</td>
 </tr>
 <tr>
-<td><code>embeddings</code></td>
-<td>Define su papel en <strong>modelos fundacionales, tokens, embeddings y rag</strong> y cómo observarlo en un sistema real.</td>
+<td><code>búsqueda vectorial</code></td>
+<td>Recuperación por proximidad de embebidos. Aproximada, con parámetros que cambian precisión y latencia.</td>
 </tr>
 <tr>
-<td><code>rag</code></td>
-<td>Define su papel en <strong>modelos fundacionales, tokens, embeddings y rag</strong> y cómo observarlo en un sistema real.</td>
+<td><code>recuperación aumentada</code></td>
+<td>Buscar fragmentos relevantes y dárselos al modelo como contexto para que responda con ellos.</td>
+</tr>
+<tr>
+<td><code>fragmentación</code></td>
+<td>División de los documentos en trozos indexables. Decide más la calidad que el modelo elegido.</td>
 </tr>
 </tbody>
 </table>
@@ -93,75 +94,480 @@ seleccionar una solución proporcional y demostrar qué ocurrió.</p>
 <strong>evidencia</strong> (cómo sabemos que cumple). Confundirlos produce diseños que se ven correctos
 en un diagrama pero fallan al operar.</p>
 <h2 id="flujo-de-razonamiento">🗺️ Flujo de razonamiento</h2>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;Necesidad y restricciones&quot;] --&gt; B[&quot;Diseño: Modelos fundacionales, tokens, embeddings y RAG&quot;]
-    B --&gt; C[&quot;Implementación reproducible&quot;]
-    C --&gt; D[&quot;Estado observado&quot;]
-    D --&gt; E{&quot;¿Cumple seguridad, SLO y costo?&quot;}
-    E -- &quot;No&quot; --&gt; B
-    E -- &quot;Sí&quot; --&gt; F[&quot;Evidencia y decisión registrada&quot;]
+<pre><code class="language-mermaid">flowchart TB
+    P[&quot;pregunta&quot;] --&gt; F{&quot;¿hace falta un\nmodelo fundacional?&quot;}
+    F --&gt;|&quot;búsqueda exacta,\ncálculo, regla&quot;| N[&quot;NO · usa lo de siempre&quot;]
+    F --&gt;|&quot;lenguaje natural\nsobre texto&quot;| R[&quot;RECUPERACIÓN\nAUMENTADA&quot;]
+    R --&gt; R1[&quot;1 · FRAGMENTAR\n← decide la calidad&quot;]
+    R1 --&gt; R2[&quot;2 · embebidos\ne índice vectorial&quot;]
+    R2 --&gt; R3[&quot;3 · recuperar\ncon FILTRO de permisos&quot;]
+    R3 --&gt; R4[&quot;4 · reordenar&quot;]
+    R4 --&gt; R5[&quot;5 · generar con\nlos fragmentos&quot;]
+    R5 --&gt; R6[&quot;6 · citar la fuente&quot;]
+    C[&quot;COSTE&quot;] --&gt; C1[&quot;testigos de entrada\n× precio&quot;]
+    C --&gt; C2[&quot;testigos de salida\n× precio (mayor)&quot;]
+    C --&gt; C3[&quot;latencia ≈ testigos\nde SALIDA&quot;]
 </code></pre>
 <h2 id="desarrollo">📖 Desarrollo</h2>
-<h3 id="1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</h3>
-<p>Empieza por una frase medible: quién consume la capacidad, bajo qué carga, desde dónde,
-con qué datos y qué impacto tendría un fallo. Después identifica el mecanismo de esta clase
-que satisface cada restricción. Un producto cloud solo es una implementación posible; el
-requisito permanece aunque cambies de AWS a Azure, Google Cloud o infraestructura propia.</p>
-<h3 id="2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</h3>
-<p>Documenta quién administra identidad, red, datos, runtime y observabilidad. Marca qué queda
-en manos del proveedor y qué sigue siendo responsabilidad del equipo. Cada frontera debe
-tener propietario, interfaz, señal operativa y forma de recuperación. Si una responsabilidad
-no tiene dueño, el diseño todavía está incompleto.</p>
-<h3 id="3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</h3>
-<table>
-<thead>
-<tr>
-<th>Dimensión</th>
-<th>Pregunta de diseño</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Confiabilidad</td>
-<td>¿Qué falla, cómo se detecta y cuánto tarda en recuperarse?</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>¿Qué identidad actúa y cuál es el mínimo privilegio necesario?</td>
-</tr>
-<tr>
-<td>Costo</td>
-<td>¿Cuál es la unidad de consumo y qué hace crecer la factura?</td>
-</tr>
-<tr>
-<td>Operación</td>
-<td>¿Qué señal permite diagnosticarlo sin entrar manualmente al servidor?</td>
-</tr>
-<tr>
-<td>Portabilidad</td>
-<td>¿Qué contrato es estándar y qué decisión es específica del proveedor?</td>
-</tr>
-</tbody>
-</table>
-<p>La respuesta correcta puede ser más simple que la arquitectura inicialmente imaginada. En
-cloud, complejidad también consume presupuesto de error, tiempo de equipo y capacidad de
-respuesta a incidentes.</p>
+<h3 id="1-testigos-coste-y-latencia">1. Testigos: coste y latencia</h3>
+<p>Casi todas las decisiones de ingeniería con estos modelos salen de una unidad: el testigo.</p>
+<pre><code class="language-text">QUÉ ES
+  el trozo en que el modelo parte el texto
+  aproximadamente, en castellano, 1 testigo ≈ 3-4
+  caracteres
+  → un texto de 1.000 palabras ≈ 1.400-1.800 testigos
+
+Y POR QUÉ IMPORTA
+  el precio se cobra por testigo
+  la ventana de contexto se mide en testigos
+  y la LATENCIA depende sobre todo de los testigos de
+  SALIDA
+</code></pre>
+<p>Y la aritmética que hay que saber hacer:</p>
+<pre><code class="language-text">COSTE POR PETICIÓN
+  testigos de entrada × precio de entrada
+  + testigos de salida × precio de salida
+
+  y el precio de salida suele ser VARIAS VECES el de
+  entrada
+  → generar menos texto ahorra más que enviar menos
+
+LATENCIA
+  tiempo hasta el primer testigo   ← depende de la entrada
+  después, N testigos × tiempo por testigo
+  → una respuesta de 800 testigos tarda mucho más que una
+    de 80, con la misma entrada
+
+→ y de ahí la primera palanca: PEDIR RESPUESTAS CORTAS
+  «responde en menos de tres frases» cambia el coste y la
+  latencia más que cambiar de modelo
+</code></pre>
+<p>Y la ventana de contexto, con la trampa que trae:</p>
+<pre><code class="language-text">las ventanas grandes permiten meter documentos enteros
+  → y eso tienta a no construir recuperación
+
+lo que cuesta
+  cada petición paga TODOS los testigos de entrada
+  → meter 100.000 testigos en cada pregunta es carísimo
+  → y la latencia de la primera respuesta sube
+
+y lo que no mejora
+  la calidad no crece con el contexto: la información
+  relevante se diluye entre lo irrelevante
+  → y el modelo atiende peor a lo que está en medio
+
+→ por eso la recuperación aumentada sigue siendo la
+  respuesta, aunque la ventana sea enorme
+</code></pre>
+<p>Y las palancas de coste, por orden:</p>
+<pre><code class="language-text">1  ¿HACE FALTA LLAMAR AL MODELO?          ← la mayor
+2  respuestas cortas y formato acotado
+3  caché de peticiones repetidas
+4  contexto justo: recuperar 5 fragmentos, no 50
+5  modelo más pequeño para lo que no lo necesita
+   → y con enrutamiento: lo fácil al pequeño, lo difícil
+     al grande
+6  y caché de contexto, donde el proveedor lo ofrezca
+
+→ es la misma lista de la clase 245, con otra tecnología
+</code></pre>
+<h3 id="2-embebidos-y-busqueda-vectorial">2. Embebidos y búsqueda vectorial</h3>
+<p>Los embebidos convierten texto en vectores donde la cercanía significa parecido de significado.</p>
+<pre><code class="language-text">PARA QUÉ SIRVEN
+  buscar por significado, no por palabras exactas
+  agrupar textos parecidos
+  detectar duplicados
+  y recuperar contexto para el modelo
+
+Y LO QUE HAY QUE SABER
+  el modelo de embebido decide la calidad de la búsqueda
+  cambiar de modelo obliga a REINDEXAR todo
+  → y por eso es una decisión con coste de cambio  ley 14
+  los embebidos de idiomas distintos requieren un modelo
+    que los cubra
+  y la dimensión del vector afecta al almacenamiento y a la
+    latencia
+</code></pre>
+<p><strong>La búsqueda es aproximada</strong>, y eso tiene consecuencias:</p>
+<pre><code class="language-text">el índice no compara con todos los vectores: usa una
+estructura aproximada
+  → devuelve casi siempre los más cercanos, no siempre
+  → y hay parámetros que cambian el equilibrio
+
+  más precisión → más latencia y más memoria
+  menos precisión → más rápido y a veces se pierde el
+    fragmento bueno
+
+→ y hay que MEDIR la proporción de veces que el fragmento
+  correcto está entre los recuperados
+→ sin esa medida, no se sabe si el problema es el modelo o
+  la búsqueda
+</code></pre>
+<p>Y el filtrado, que es donde está el problema de seguridad:</p>
+<pre><code class="language-text">EL FILTRO POR PERMISOS TIENE QUE APLICARSE EN LA BÚSQUEDA
+  ✗ recuperar y luego filtrar
+    → se recuperan 10, se filtran 7, quedan 3
+    → y a veces quedan 0 aunque hubiera documentos válidos
+  ✓ filtrar DENTRO de la búsqueda
+    → el índice solo considera lo que el usuario puede ver
+
+→ y si el filtro se aplica después, el modelo puede recibir
+  fragmentos que ese usuario no debería ver
+→ que es la fuga más típica de estos sistemas  clase 249
+</code></pre>
+<p><strong>La fragmentación</strong>, que decide la calidad más que el modelo:</p>
+<pre><code class="language-text">SI LOS FRAGMENTOS SON MUY GRANDES
+  contienen información irrelevante que diluye
+  y se paga por testigos que no aportan
+
+SI SON MUY PEQUEÑOS
+  pierden el contexto: «esto» sin saber a qué se refiere
+  y una respuesta que cruza dos fragmentos no se encuentra
+
+LO QUE FUNCIONA
+  fragmentar por ESTRUCTURA: secciones, apartados, párrafos
+  con solapamiento pequeño entre fragmentos
+  y guardando el título y la jerarquía en cada fragmento
+  → para que el fragmento se entienda solo
+
+→ y ajustar la fragmentación suele mejorar más que cambiar
+  de modelo
+</code></pre>
+<p>Y la búsqueda híbrida, que resuelve un fallo típico:</p>
+<pre><code class="language-text">los embebidos son malos con
+  códigos de producto, referencias, nombres propios raros
+  y números
+
+→ combinar búsqueda por palabras y por embebidos, y
+  fusionar los resultados
+→ es lo que hace que «el pedido 4471» encuentre el pedido
+  4471
+</code></pre>
+<h3 id="3-recuperacion-aumentada-que-resuelve-y-que-no">3. Recuperación aumentada: qué resuelve y qué no</h3>
+<p>El patrón es sencillo y sus modos de fallo, conocidos.</p>
+<pre><code class="language-text">EL PATRÓN
+  1  fragmentar los documentos
+  2  calcular embebidos e indexar
+  3  ante una pregunta, recuperar los fragmentos relevantes
+     CON el filtro de permisos
+  4  reordenar con un modelo más preciso, si hace falta
+  5  pedir al modelo que responda USANDO esos fragmentos
+  6  y devolver la respuesta CON las fuentes
+</code></pre>
+<p><strong>Qué resuelve:</strong></p>
+<pre><code class="language-text">que el modelo responda con información propia y actual
+sin reentrenarlo
+con fuentes citables
+y controlando qué documentos puede ver cada usuario
+</code></pre>
+<p><strong>Qué NO resuelve</strong>, que es lo que hay que decir claro:</p>
+<pre><code class="language-text">NO GARANTIZA QUE LA RESPUESTA SEA CORRECTA
+  el modelo puede contradecir los fragmentos, mezclarlos o
+  inventar
+  → recuperar bien reduce mucho el problema; no lo elimina
+
+NO RESUELVE PREGUNTAS AGREGADAS
+  «¿cuántos pedidos hubo en marzo?»
+  → eso es una consulta, no una recuperación
+  → y darle 50 fragmentos para que cuente sale mal
+  → hay que enrutar esa pregunta a una consulta real
+
+NO RESUELVE RAZONAMIENTO SOBRE MUCHOS DOCUMENTOS
+  «¿qué contrato tiene la cláusula más restrictiva?»
+  → exige comparar todos, no recuperar cinco
+
+Y NO ARREGLA DOCUMENTACIÓN MALA
+  si el documento está desactualizado, la respuesta será
+  incorrecta con una fuente que la respalda
+  → y eso es peor que no responder            clase 250
+</code></pre>
+<p>Y los modos de fallo, con su corrección:</p>
+<pre><code class="language-text">NO SE RECUPERA EL FRAGMENTO BUENO
+  → medir la proporción; mejorar fragmentación, búsqueda
+    híbrida o reordenamiento
+
+SE RECUPERA Y EL MODELO NO LO USA
+  → instrucción explícita de responder solo con lo dado
+  → y de decir «no lo sé» cuando no esté
+
+SE RESPONDE CON INFORMACIÓN QUE NO ESTABA
+  → comprobación posterior: ¿la respuesta está respaldada
+    por los fragmentos?                        clase 250
+
+SE MEZCLAN DOS FUENTES CONTRADICTORIAS
+  → indicar la fecha y la versión de cada fragmento
+  → y preferir la más reciente
+
+Y EL DOCUMENTO CAMBIÓ Y EL ÍNDICE NO
+  → reindexación disparada por el cambio, no por calendario
+  → y alerta de antigüedad del índice           ley 13
+</code></pre>
+<p>Y la instrucción que más mejora la fiabilidad:</p>
+<pre><code class="language-text">«responde solo con la información de los fragmentos; si no
+ está, di que no lo sabes; y cita la fuente de cada
+ afirmación»
+→ no lo garantiza, y reduce mucho la invención
+</code></pre>
+<h3 id="4-cuando-no-hace-falta">4. Cuándo no hace falta</h3>
+<p>La pregunta que ahorra más dinero de toda esta parte.</p>
+<pre><code class="language-text">NO HACE FALTA UN MODELO FUNDACIONAL SI
+  la respuesta está en una tabla y se puede consultar
+  la decisión es una regla que se puede escribir
+  el problema es una clasificación con datos etiquetados
+    → un modelo pequeño y específico será más barato,
+      más rápido y más predecible          clases 244, 245
+  la búsqueda es por palabras exactas o por identificador
+  o el volumen es enorme y el margen por operación,
+    pequeño
+</code></pre>
+<p>Y el patrón que resuelve la mayoría de los casos reales:</p>
+<pre><code class="language-text">UN FILTRO PREVIO QUE ENRUTA
+  ¿la pregunta es de las 20 más frecuentes?
+    → respuesta preparada, sin modelo
+  ¿pide un dato concreto?
+    → consulta a la base
+  ¿es una operación?
+    → llamada a la API
+  ¿es lenguaje natural sobre documentos?
+    → recuperación aumentada
+
+→ y ese enrutado suele quitar entre el 40 % y el 70 % de
+  las llamadas al modelo                        clase 245
+</code></pre>
+<p><strong>El coste comparado</strong>, que conviene tener en la cabeza:</p>
+<pre><code class="language-text">una consulta a una base            microcéntimos
+un modelo clasificador propio      microcéntimos
+un modelo fundacional pequeño      céntimos
+un modelo fundacional grande       decenas de céntimos
+
+→ diferencias de tres o cuatro órdenes de magnitud
+→ y por eso el enrutado importa tanto
+</code></pre>
+<p>Y la decisión sobre el proveedor y el alojamiento:</p>
+<pre><code class="language-text">MODELO GESTIONADO DE UN PROVEEDOR
+  + sin infraestructura, con modelos grandes disponibles
+  − los datos salen a un tercero: hay que comprobar
+    condiciones de uso y de retención        clase 251
+  − y el modelo puede cambiar sin aviso
+    → fijar la versión                          clase 248
+
+MODELO ABIERTO ALOJADO POR UNO MISMO
+  + los datos no salen; control de versión total
+  − hay que operar aceleradores y su escalado clase 245
+  − y los modelos abiertos grandes son caros de servir
+
+→ y la decisión suele ser mixta: gestionado para lo
+  general, propio para lo sensible          clase 248
+</code></pre>
+<p>Y la lista de comprobación de la clase:</p>
+<pre><code class="language-text">☐ está calculado el coste por petición en testigos
+☐ se piden respuestas cortas y con formato acotado
+☐ hay filtro previo que enruta y evita llamadas
+☐ hay caché de peticiones repetidas
+☐ el contexto es el justo, no la ventana entera
+☐ la fragmentación respeta la estructura del documento
+☐ cada fragmento se entiende solo
+☐ la búsqueda es híbrida si hay códigos o referencias
+☐ el filtro por permisos se aplica DENTRO de la búsqueda
+☐ se mide la proporción de veces que se recupera lo
+  correcto
+☐ la instrucción pide responder solo con lo dado y citar
+☐ las preguntas agregadas se enrutan a una consulta real
+☐ la reindexación se dispara por cambio, con alerta de
+  antigüedad
+☐ la versión del modelo está fijada
+☐ está comprobado qué hace el proveedor con los datos
+</code></pre>
+<p>Y el cierre que enlaza con la clase siguiente: con los conceptos claros, queda ver qué ofrecen las tres nubes para todo esto y qué decisiones cambian según el proveedor. Es la materia de la clase 248.</p>
 <h2 id="ejemplo-trabajado">🔬 Ejemplo trabajado</h2>
-<p>Una plataforma de pedidos necesita aplicar <strong>modelos fundacionales, tokens, embeddings y rag</strong>. El equipo registra:</p>
-<ul>
-<li>demanda base de 20 solicitudes/s y pico de 120 solicitudes/s;</li>
-<li>SLO mensual de 99,9 % para operaciones de lectura;</li>
-<li>RPO de 15 minutos y RTO de 60 minutos;</li>
-<li>datos personales que no pueden salir de la región aprobada;</li>
-<li>presupuesto inicial de USD 600/mes.</li>
-</ul>
-<p>La decisión se acepta solo si explica cómo la propuesta responde a esas cinco restricciones.
-Se descarta cualquier alternativa que dependa de acceso administrativo permanente, no tenga
-telemetría o cuyo costo no pueda atribuirse. El resultado esperado no es "usar servicio X",
-sino una cadena trazable: requisito → mecanismo → prueba → señal → límite.</p>
-<h2 id="laboratorio-guiado">🧪 Laboratorio guiado</h2>
-<p>Ejecuta desde la raíz:</p>
-<pre><code class="language-bash">python classes/part-20-cloud-data-ai-platforms/247-modelos-fundacionales-tokens-embeddings-y-rag/lab.py
+<p><strong>CloudShop monta un asistente para su equipo de atención al cliente. Lo que sigue es el coste que se disparó por respuestas largas, la fuga de permisos que llevaba el catálogo de un socio a otro, y el enrutado que quitó el 61 % de las llamadas.</strong></p>
+<p><strong>El montaje inicial:</strong></p>
+<pre><code class="language-text">asistente sobre 41.000 documentos
+  políticas de devolución, fichas de producto, contratos
+  con socios, procedimientos internos
+
+montaje
+  fragmentos de 1.000 caracteres, corte fijo
+  embebidos, índice vectorial
+  recuperar 20 fragmentos
+  modelo grande, sin límite de respuesta
+  filtro de permisos aplicado DESPUÉS de recuperar
+
+primer mes
+  consultas                                     41.000
+  coste                                       11.400 €
+  latencia p95                                   9,4 s
+  satisfacción del equipo de atención             baja
+</code></pre>
+<p><strong>El desglose del coste:</strong></p>
+<pre><code class="language-text">testigos de entrada por consulta
+  20 fragmentos × ~350 testigos              7.000
+  instrucción y pregunta                       400
+  ─────────────────────────────────────────────────
+  entrada                                    7.400
+
+testigos de salida por consulta
+  media                                        890
+  → el modelo respondía con párrafos largos y explicaciones
+
+coste por consulta                          0,278 €
+  de los cuales, salida                       61 %  ←
+</code></pre>
+<p>Y las cuatro correcciones, por orden:</p>
+<pre><code class="language-text">1  RESPUESTAS CORTAS
+   instrucción: «responde en menos de 4 frases; si hace
+   falta más, ofrece ampliar»
+   testigos de salida            890 → 180
+   coste por consulta      0,278 € → 0,131 €
+   latencia p95                  9,4 s → 3,1 s
+   → y la satisfacción SUBIÓ: el equipo prefería respuestas
+     cortas
+
+2  MENOS FRAGMENTOS, MEJOR ELEGIDOS
+   se midió la proporción de veces que el fragmento
+   correcto estaba entre los recuperados
+     con 20 fragmentos                          94 %
+     con 5 fragmentos                           71 %
+     con 5 fragmentos + reordenamiento          93 %
+   → 5 con reordenamiento da casi lo mismo que 20
+   entrada                    7.400 → 2.200 testigos
+   coste por consulta      0,131 € → 0,061 €
+
+3  CACHÉ
+   el 38 % de las consultas eran repeticiones casi exactas
+   → caché con clave por huella de la pregunta normalizada
+   consultas al modelo                    41.000 → 25.400
+
+4  ENRUTADO PREVIO
+   se analizaron 5.000 consultas
+     de las 20 preguntas más frecuentes           41 %
+       → respuesta preparada, sin modelo
+     piden un dato concreto de un pedido          18 %
+       → consulta a la base
+     operación (crear devolución, etc.)            2 %
+       → llamada a la API
+     lenguaje natural sobre documentos             39 %
+       → recuperación aumentada
+
+   consultas al modelo                25.400 → 9.900
+
+coste mensual                       11.400 € → 610 €
+</code></pre>
+<p>Y la observación:</p>
+<pre><code class="language-text">del ahorro del 95 %, el modelo no se cambió ni una vez
+→ y la palanca que más aportó fue la última: enrutar
+→ que es exactamente lo que decía la clase 245
+</code></pre>
+<p><strong>La fuga de permisos.</strong></p>
+<pre><code class="language-text">se detectó cuando un agente de atención vio, en una
+respuesta, las condiciones comerciales de un socio
+distinto del que estaba atendiendo
+
+diagnóstico
+  el índice contenía los contratos de los 41 socios
+  la búsqueda recuperaba los 20 fragmentos más cercanos
+  el filtro de permisos se aplicaba DESPUÉS
+  → pero el modelo ya había recibido los 20
+  → y aunque la interfaz filtrara la cita, el TEXTO de la
+    respuesta contenía la información
+
+  cuánto llevaba así                         4 meses
+  respuestas potencialmente afectadas, estimadas   1.400
+
+corrección
+  el filtro se aplica DENTRO de la búsqueda: el índice solo
+  considera los fragmentos que ese usuario puede ver
+  → con los permisos como metadatos del fragmento
+  → y comprobado con una prueba negativa       ley 22
+
+la prueba
+  un agente asignado al socio A pregunta por las
+  condiciones del socio B
+  → el índice no devuelve nada de B
+  → el modelo responde «no dispongo de esa información»
+  → ejecutada en cada despliegue
+</code></pre>
+<p>Y una corrección adicional:</p>
+<pre><code class="language-text">los contratos con socios se sacaron del índice general
+  → índice aparte, con acceso por socio
+  → y así un fallo de filtrado no puede cruzar socios
+                                          clase 189, 249
+</code></pre>
+<p><strong>La fragmentación, ajustada.</strong></p>
+<pre><code class="language-text">antes   corte fijo cada 1.000 caracteres
+  → los fragmentos cortaban tablas por la mitad
+  → y las condiciones de devolución quedaban partidas entre
+    dos fragmentos
+  → proporción de recuperación correcta          71 %
+
+después
+  fragmentación por ESTRUCTURA: cada apartado del documento
+  solapamiento de 100 caracteres
+  cada fragmento lleva el título del documento y la
+  jerarquía de apartados
+  y los fragmentos muy largos se parten por párrafo
+
+  proporción de recuperación correcta            93 %
+  → sin cambiar el modelo de embebido
+</code></pre>
+<p>Y el problema de los códigos:</p>
+<pre><code class="language-text">las consultas con referencia de producto («¿el REF-4471
+tiene devolución gratuita?») fallaban el 60 % de las veces
+  → los embebidos no distinguen bien REF-4471 de REF-4741
+
+corrección
+  búsqueda híbrida: por palabras y por embebidos, fusionada
+  aciertos con referencia               40 % → 96 %
+</code></pre>
+<p><strong>Las preguntas que no eran para el modelo.</strong></p>
+<pre><code class="language-text">se analizaron las respuestas peor valoradas
+
+  «¿cuántas devoluciones hubo la semana pasada?»
+    → el modelo recibía 5 fragmentos de política y
+      respondía cualquier cosa
+    → enrutada a una consulta                clase 236
+  «¿qué socio tiene el plazo de pago más largo?»
+    → exige comparar los 41 contratos, no recuperar 5
+    → enrutada a una tabla mantenida aparte
+  «¿está aprobada la devolución del pedido 8812?»
+    → dato de la base                       clase 235
+
+→ y esas tres categorías eran el 21 % de las consultas mal
+  respondidas
+</code></pre>
+<p><strong>La reindexación:</strong></p>
+<pre><code class="language-text">antes   reindexación completa, semanal
+  → un cambio de política tardaba hasta 7 días en aparecer
+  → y un agente citó una política derogada a un cliente
+
+después
+  reindexación disparada por el cambio del documento
+    → un evento al publicar una versión nueva  clase 237
+  y alerta: «este documento se modificó hace más de 30 min
+    y su índice no se ha actualizado»            ley 13
+
+  retraso medio de indexación         7 días → 4 min
+</code></pre>
+<p><strong>El resultado:</strong></p>
+<p>```text                                        antes     después
+coste mensual                            11.400 €       610 €
+coste por consulta                        0,278 €     0,015 €
+latencia p95                                9,4 s       2,1 s
+llamadas al modelo                       41.000       9.900
+proporción de recuperación correcta         71 %        93 %
+aciertos con referencia de producto         40 %        96 %
+fuga de fragmentos entre socios              sí          no
+retraso de indexación                     7 días       4 min
+consultas mal respondidas                   31 %         6 %</p>
+<pre><code>
+**La lección que esta clase deja**: el 95 % del coste se eliminó **sin cambiar de modelo**, y la palanca que más aportó fue enrutar: **el 61 % de las consultas no necesitaba un modelo fundacional**. Y la fuga que llevaba cuatro meses no era un problema del modelo: era **aplicar el filtro de permisos después de recuperar en vez de dentro de la búsqueda**, con lo que el modelo recibía texto que ese usuario no debía ver.
+
+## 🧪 Laboratorio guiado
+
+Ejecuta desde la raíz:
+
+```bash
+python classes/part-20-cloud-data-ai-platforms/247-modelos-fundacionales-tokens-embeddings-y-rag/lab.py
 </code></pre>
 <p>El laboratorio selecciona el motor de práctica <strong><code>architecture</code></strong> y produce
 <code>lab_result.json</code>. El escenario, sus comprobaciones y el artefacto esperado corresponden a
@@ -199,29 +605,34 @@ un supuesto que pueda falsarse, una prueba de fallo y una decisión de rollback.
 </thead>
 <tbody>
 <tr>
-<td>El diseño enumera servicios pero no requisitos</td>
-<td>Se comenzó por el catálogo del proveedor</td>
-<td>Reescribe primero escenarios y restricciones medibles.</td>
+<td>El coste por consulta es altísimo</td>
+<td>Respuestas largas y demasiados fragmentos de contexto</td>
+<td>Pide respuestas cortas con formato acotado y reduce los fragmentos usando reordenamiento; la salida suele pesar más que la entrada.</td>
 </tr>
 <tr>
-<td>La demo funciona una vez y se declara lista</td>
-<td>Se confundió ejecución con evidencia operacional</td>
-<td>Añade repetición, fallo, telemetría y recuperación.</td>
+<td>Un usuario recibe información de documentos que no debería ver</td>
+<td>El filtro de permisos se aplica después de recuperar</td>
+<td>Filtra dentro de la búsqueda con los permisos como metadatos del fragmento, y separa en índices distintos lo que nunca debe cruzarse.</td>
 </tr>
 <tr>
-<td>Todo tiene permisos administrativos</td>
-<td>El laboratorio heredó credenciales humanas</td>
-<td>Usa identidad de workload y prueba explícitamente la denegación.</td>
+<td>No se recupera el fragmento que contiene la respuesta</td>
+<td>Fragmentación por corte fijo que parte la información</td>
+<td>Fragmenta por estructura, añade solapamiento y guarda el título y la jerarquía en cada fragmento.</td>
 </tr>
 <tr>
-<td>No se puede explicar la factura</td>
-<td>Faltan unidades y ownership de costo</td>
-<td>Etiqueta, estima por unidad y define presupuesto o alerta.</td>
+<td>Las consultas con códigos o referencias fallan</td>
+<td>Los embebidos no distinguen bien identificadores parecidos</td>
+<td>Usa búsqueda híbrida combinando palabras exactas y embebidos.</td>
 </tr>
 <tr>
-<td>La solución se llama multi-cloud pero replica todo</td>
-<td>Portabilidad se confundió con duplicación</td>
-<td>Define qué riesgo se mitiga y porta solo el contrato necesario.</td>
+<td>Las preguntas agregadas se responden mal</td>
+<td>Se intenta que el modelo cuente a partir de fragmentos recuperados</td>
+<td>Enruta esas preguntas a una consulta real sobre los datos.</td>
+</tr>
+<tr>
+<td>Se cita una política derogada</td>
+<td>El índice se reconstruye por calendario y va por detrás del documento</td>
+<td>Dispara la reindexación por el cambio y alerta si el índice queda por detrás.</td>
 </tr>
 </tbody>
 </table>
@@ -232,17 +643,19 @@ comando de destrucción; después verifica que no queden recursos huérfanos. Lo
 locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de producción.</p>
 <h2 id="preguntas-de-comprobacion">❓ Preguntas de comprobación</h2>
 <ol>
-<li>¿Qué parte del diseño seguiría siendo válida en otro proveedor?</li>
-<li>¿Qué señal distinguiría saturación, fallo de dependencia y error de configuración?</li>
-<li>¿Cuál es la unidad de costo y quién puede actuar sobre ella?</li>
-<li>¿Qué permiso puede retirarse sin romper el caso de uso?</li>
-<li>¿Qué evidencia falta para afirmar que esto está listo para producción?</li>
+<li>¿Por qué la longitud de la respuesta afecta más al coste y a la latencia que la de la entrada?</li>
+<li>¿Por qué una ventana de contexto enorme no sustituye a la recuperación?</li>
+<li>¿Dónde hay que aplicar el filtro de permisos y por qué?</li>
+<li>¿Qué no resuelve la recuperación aumentada?</li>
+<li>¿Qué preguntas no necesitan un modelo fundacional?</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>Designing Machine Learning Systems — Chip Huyen.</li>
-<li>Fundamentals of Data Engineering — Reis y Housley.</li>
-<li>Building Machine Learning Powered Applications — Emmanuel Ameisen.</li>
+<li>Lewis, P. y otros (2020). <em>Retrieval-augmented generation for knowledge-intensive NLP tasks</em>. <a href="https://arxiv.org/abs/2005.11401">https://arxiv.org/abs/2005.11401</a></li>
+<li>Liu, N. y otros (2023). <em>Lost in the middle: how language models use long contexts</em>. <a href="https://arxiv.org/abs/2307.03172">https://arxiv.org/abs/2307.03172</a></li>
+<li>Malkov, Y. y Yashunin, D. (2018). <em>Efficient and robust approximate nearest neighbor search (HNSW)</em>. <a href="https://arxiv.org/abs/1603.09320">https://arxiv.org/abs/1603.09320</a></li>
+<li>Karpukhin, V. y otros (2020). <em>Dense passage retrieval for open-domain question answering</em>. <a href="https://arxiv.org/abs/2004.04906">https://arxiv.org/abs/2004.04906</a></li>
+<li>Anthropic (2025). <em>Prompt engineering and long context tips</em>. <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview">https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview</a></li>
 <li>Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.</li>
 </ul>
 <hr>
@@ -310,7 +723,7 @@ alternativa descartada, riesgo residual y criterio de rollback.</p>
 
   <aside class="toc-panel" aria-label="Contenido de la página">
     <strong>En esta página</strong>
-    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-del-requisito-al-mecanismo">1. Del requisito al mecanismo</a><a class="toc-level-3" href="#2-fronteras-y-responsabilidades">2. Fronteras y responsabilidades</a><a class="toc-level-3" href="#3-compensaciones-que-deben-quedar-visibles">3. Compensaciones que deben quedar visibles</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-2" href="#laboratorio-guiado">🧪 Laboratorio guiado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
+    <nav><a class="toc-level-2" href="#proposito">🎯 Propósito</a><a class="toc-level-2" href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a><a class="toc-level-2" href="#conceptos-centrales">🧩 Conceptos centrales</a><a class="toc-level-2" href="#modelo-mental">🧠 Modelo mental</a><a class="toc-level-2" href="#flujo-de-razonamiento">🗺️ Flujo de razonamiento</a><a class="toc-level-2" href="#desarrollo">📖 Desarrollo</a><a class="toc-level-3" href="#1-testigos-coste-y-latencia">1. Testigos: coste y latencia</a><a class="toc-level-3" href="#2-embebidos-y-busqueda-vectorial">2. Embebidos y búsqueda vectorial</a><a class="toc-level-3" href="#3-recuperacion-aumentada-que-resuelve-y-que-no">3. Recuperación aumentada: qué resuelve y qué no</a><a class="toc-level-3" href="#4-cuando-no-hace-falta">4. Cuándo no hace falta</a><a class="toc-level-2" href="#ejemplo-trabajado">🔬 Ejemplo trabajado</a><a class="toc-level-3" href="#evidencia-esperada">Evidencia esperada</a><a class="toc-level-2" href="#reto-verificable">🏆 Reto verificable</a><a class="toc-level-2" href="#criterio-de-aceptacion">✅ Criterio de aceptación</a><a class="toc-level-2" href="#errores-frecuentes">⚠️ Errores frecuentes</a><a class="toc-level-2" href="#seguridad-etica-y-costo">🛡️ Seguridad, ética y costo</a><a class="toc-level-2" href="#preguntas-de-comprobacion">❓ Preguntas de comprobación</a><a class="toc-level-2" href="#referencias">🔗 Referencias</a></nav>
   </aside>
   <script type="module" src="../assets/class.js?v=2.0.0-r7"></script>
 </body>
