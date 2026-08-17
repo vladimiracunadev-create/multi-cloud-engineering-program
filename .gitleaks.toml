@@ -5,11 +5,14 @@
 # La lista de permitidos de abajo se limita a valores literales concretos —
 # nunca a rutas ni a reglas enteras — para que un secreto auténtico en el mismo
 # archivo siga haciendo fallar el escaneo.
+#
+# Se usa el bloque singular [allowlist] y no el array [[allowlists]]: la acción
+# gitleaks/gitleaks-action fija gitleaks 8.24.3, que ignora el array en silencio.
 
 [extend]
 useDefault = true
 
-[[allowlists]]
+[allowlist]
 description = """
 UUID de ejemplo de la clase 009 (APIs REST, cabecera Idempotency-Key). Es un
 identificador inventado para ilustrar la clave de idempotencia, no una
