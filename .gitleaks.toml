@@ -1,0 +1,23 @@
+# Configuración de gitleaks para el escaneo de secretos (workflow Security).
+#
+# Este repositorio es material docente y el escaneo recorre todo el historial
+# (fetch-depth: 0), así que también revisa versiones antiguas de las clases.
+# La lista de permitidos de abajo se limita a valores literales concretos —
+# nunca a rutas ni a reglas enteras — para que un secreto auténtico en el mismo
+# archivo siga haciendo fallar el escaneo.
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = """
+UUID de ejemplo de la clase 009 (APIs REST, cabecera Idempotency-Key). Es un
+identificador inventado para ilustrar la clave de idempotencia, no una
+credencial. Aparece en versiones antiguas de classes/.../009-*/README.md,
+curriculum/lessons/009.json y site/classes/009.html; en la versión actual ya se
+sustituyó por el marcador <uuid v4 que genera el cliente>, pero sigue vivo en el
+historial de git.
+"""
+regexes = [
+  '''7d2b8e91-c4a2-4f7d-9b3e-8a1c6f9d2b4e''',
+]
