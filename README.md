@@ -14,7 +14,7 @@
 [![Clases](https://img.shields.io/badge/clases-288%20·%2024%20partes-7c5cff?style=for-the-badge)](classes/README.md)
 [![Manual](https://img.shields.io/badge/manual-2.884%20páginas-007c83?style=for-the-badge)](site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
 <!-- sources:badge:begin -->
-[![Fuentes](https://img.shields.io/badge/fuentes-1.044%20obras%20trazadas-1f6feb?style=for-the-badge)](sources/bibliography.json)
+[![Fuentes](https://img.shields.io/badge/fuentes-1.041%20obras%20trazadas-1f6feb?style=for-the-badge)](sources/bibliography.json)
 <!-- sources:badge:end -->
 
 [![Android](https://img.shields.io/badge/android-APK%20offline-3ddc84?style=for-the-badge)](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/releases/latest)
@@ -320,29 +320,32 @@ Las cifras de esta sección **las produce el verificador**, no se escriben a man
 `python scripts/verify-sources` falla en CI si dejan de cuadrar.
 
 <!-- sources:block:begin -->
-El programa cita **1.440 veces** un total de **1.044 obras distintas** a lo largo de las **288 clases**. Cada una tiene entrada con localizador resoluble en [`sources/bibliography.json`](sources/bibliography.json): **975 verificadas** contra su autoridad y **69 pendientes** con el motivo declarado.
+El programa cita **1.440 veces** un total de **1.041 obras distintas** a lo largo de las **288 clases**. Cada una tiene entrada con localizador resoluble en [`sources/bibliography.json`](sources/bibliography.json): **1.007 verificadas** contra su autoridad y **34 pendientes** con el motivo declarado.
 
-Los huecos se declaran, no se rellenan: **29** enlace roto en la fuente citada · **25** el sitio rechaza peticiones automatizadas · **12** la autoridad no respondio al comprobar · **3** sin ISBN o DOI en catalogo. El detalle, obra por obra, en [`sources/PENDING.md`](sources/PENDING.md).
+Los huecos se declaran, no se rellenan: **21** el sitio rechaza peticiones automatizadas · **9** la autoridad no respondio al comprobar · **3** sin ISBN o DOI en catalogo · **1** enlace roto en la fuente citada. El detalle, obra por obra, en [`sources/PENDING.md`](sources/PENDING.md).
 
 Última comprobación en red: **2026-08-19**.
 
 | Autoridad | Obras | Citas | Verificadas |
 |---|---:|---:|---:|
 | AWS | 151 | 197 | 150 |
-| Azure | 148 | 185 | 145 |
-| GCP | 180 | 267 | 168 |
+| Azure | 148 | 185 | 148 |
+| GCP | 171 | 258 | 171 |
 | Kubernetes y CNCF | 73 | 91 | 73 |
-| HashiCorp y OpenTofu | 32 | 41 | 31 |
+| HashiCorp y OpenTofu | 32 | 41 | 32 |
 | Docker y OCI | 20 | 21 | 20 |
 | RFC e IETF | 29 | 33 | 29 |
 | NIST, IEEE y normas | 13 | 22 | 10 |
 | Libros | 35 | 76 | 33 |
-| Artículos académicos | 35 | 42 | 31 |
-| Seguridad (OWASP, CISA, MITRE) | 19 | 23 | 13 |
-| FinOps Foundation | 6 | 16 | 5 |
-| Proyectos de código abierto | 37 | 47 | 36 |
-| Otras autoridades | 266 | 379 | 231 |
-| **Total** | **1.044** | **1.440** | **975** |
+| Artículos académicos | 35 | 42 | 35 |
+| Seguridad (OWASP, CISA, MITRE) | 19 | 23 | 14 |
+| FinOps Foundation | 6 | 16 | 6 |
+| Proyectos de código abierto | 38 | 48 | 38 |
+| Otras autoridades | 271 | 387 | 248 |
+| **Total** | **1.041** | **1.440** | **1.007** |
+
+
+**Que fundamenta cada clase, una por una:** [`docs/FUENTES.md`](docs/FUENTES.md) recorre las 288 clases y, en cada una, lista las obras que la sostienen con el uso concreto que hace de ellas y su localizador (ISBN, DOI o URL primaria).
 
 <details>
 <summary><b>Obras rectoras por parte</b> — libros que ordenan cada área</summary>
