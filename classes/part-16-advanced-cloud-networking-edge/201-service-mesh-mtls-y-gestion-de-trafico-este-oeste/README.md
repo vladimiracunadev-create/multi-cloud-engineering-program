@@ -644,10 +644,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Istio (2025). *Security: mutual TLS and authorization policies*. <https://istio.io/latest/docs/concepts/security/>
-- Linkerd (2025). *Architecture and performance*. <https://linkerd.io/2/reference/architecture/>
-- SPIFFE (2025). *Workload identity specification*. <https://spiffe.io/docs/latest/spiffe-about/overview/>
-- Cilium (2025). *Service mesh without sidecars*. <https://cilium.io/use-cases/service-mesh/>
+- Istio (2025). *Security: mutual TLS and authorization policies* — mTLS y políticas de autorización entre servicios. <https://istio.io/latest/docs/concepts/security/>
+- Linkerd (2025). *Architecture and performance* — coste en latencia y recursos del plano de datos. <https://linkerd.io/2/reference/architecture/>
+- SPIFFE (2025). *Workload identity specification* — identidad de carga de trabajo verificable. <https://spiffe.io/docs/latest/spiffe-about/overview/>
+- Cilium (2025). *Service mesh without sidecars* — alternativa sin sidecar y sus límites. <https://cilium.io/use-cases/service-mesh/>
 - Google (2016). *SRE Book: addressing cascading failures* — reintentos y presupuestos. <https://sre.google/sre-book/addressing-cascading-failures/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

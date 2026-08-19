@@ -659,10 +659,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Serverless Application Model developer guide*. <https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html>
-- AWS (2025). *Lambda function scaling and reserved concurrency*. <https://docs.aws.amazon.com/lambda/latest/dg/lambda-concurrency.html>
-- AWS (2025). *Choosing between HTTP APIs and REST APIs*. <https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html>
-- AWS (2025). *Operating Lambda: performance optimization and cold starts*. <https://aws.amazon.com/blogs/compute/operating-lambda-performance-optimization-part-1/>
+- AWS (2025). *Serverless Application Model developer guide* — definición declarativa de la aplicación serverless. <https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html>
+- AWS (2025). *Lambda function scaling and reserved concurrency* — control del escalado y reserva de concurrencia. <https://docs.aws.amazon.com/lambda/latest/dg/lambda-concurrency.html>
+- AWS (2025). *Choosing between HTTP APIs and REST APIs* — criterio para elegir entre ambos tipos de API. <https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html>
+- AWS (2025). *Operating Lambda: performance optimization and cold starts* — origen del arranque en frío y cómo se mitiga. <https://aws.amazon.com/blogs/compute/operating-lambda-performance-optimization-part-1/>
 - AWS (2025). *Amazon RDS Proxy* — agrupación de conexiones para funciones. <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

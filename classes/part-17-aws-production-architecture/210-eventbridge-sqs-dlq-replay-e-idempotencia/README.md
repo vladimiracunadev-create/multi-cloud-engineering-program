@@ -628,10 +628,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Amazon SQS: visibility timeout and dead-letter queues*. <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html>
-- AWS (2025). *Lambda event source mapping: partial batch responses*. <https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html>
-- AWS (2025). *Amazon EventBridge: rules, archives and replay*. <https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html>
-- AWS (2025). *Powertools for AWS Lambda: idempotency*. <https://docs.powertools.aws.dev/lambda/python/latest/utilities/idempotency/>
+- AWS (2025). *Amazon SQS: visibility timeout and dead-letter queues* — tiempo de visibilidad y destino de los mensajes fallidos. <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html>
+- AWS (2025). *Lambda event source mapping: partial batch responses* — reintento parcial de un lote sin reprocesarlo entero. <https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html>
+- AWS (2025). *Amazon EventBridge: rules, archives and replay* — archivo y reproducción de eventos ya emitidos. <https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html>
+- AWS (2025). *Powertools for AWS Lambda: idempotency* — idempotencia mediante clave y almacén de estado. <https://docs.powertools.aws.dev/lambda/python/latest/utilities/idempotency/>
 - Hohpe, G. y Woolf, B. (2003). *Enterprise Integration Patterns* — canal de mensajes inválidos y reintentos. <https://www.enterpriseintegrationpatterns.com/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

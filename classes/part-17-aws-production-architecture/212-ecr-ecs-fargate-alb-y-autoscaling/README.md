@@ -623,11 +623,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Amazon ECR: image tag mutability and lifecycle policies*. <https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html>
-- AWS (2025). *Amazon ECS deployment types and circuit breaker*. <https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html>
-- AWS (2025). *Application Load Balancer: deregistration delay*. <https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html>
-- AWS (2025). *Service auto scaling for Amazon ECS*. <https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html>
-- AWS (2025). *AWS Fargate pricing and task sizing*. <https://aws.amazon.com/fargate/pricing/>
+- AWS (2025). *Amazon ECR: image tag mutability and lifecycle policies* — inmutabilidad de etiquetas y caducidad de imágenes. <https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html>
+- AWS (2025). *Amazon ECS deployment types and circuit breaker* — despliegue con corte automático ante fallo. <https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html>
+- AWS (2025). *Application Load Balancer: deregistration delay* — retirada ordenada de destinos del balanceador. <https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html>
+- AWS (2025). *Service auto scaling for Amazon ECS* — políticas de escalado automático del servicio. <https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html>
+- AWS (2025). *AWS Fargate pricing and task sizing* — dimensionar la tarea junto con su coste. <https://aws.amazon.com/fargate/pricing/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

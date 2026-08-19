@@ -621,11 +621,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Microsoft (2025). *Cloud Adoption Framework: Azure landing zone design areas*. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/>
-- Microsoft (2025). *Management groups and organizing resources*. <https://learn.microsoft.com/en-us/azure/governance/management-groups/overview>
-- Microsoft (2025). *Azure Policy effects and remediation*. <https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects>
-- Microsoft (2025). *Azure Policy exemptions*. <https://learn.microsoft.com/en-us/azure/governance/policy/concepts/exemption-structure>
-- Microsoft (2025). *Subscription vending and landing zone automation*. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending>
+- Microsoft (2025). *Cloud Adoption Framework: Azure landing zone design areas* — las áreas de diseño de una zona de aterrizaje. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/>
+- Microsoft (2025). *Management groups and organizing resources* — jerarquía de grupos de administración para heredar control. <https://learn.microsoft.com/en-us/azure/governance/management-groups/overview>
+- Microsoft (2025). *Azure Policy effects and remediation* — efectos de política y remediación de lo ya desplegado. <https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects>
+- Microsoft (2025). *Azure Policy exemptions* — excepciones acotadas y con caducidad. <https://learn.microsoft.com/en-us/azure/governance/policy/concepts/exemption-structure>
+- Microsoft (2025). *Subscription vending and landing zone automation* — automatizar la entrega de suscripciones ya conformes. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

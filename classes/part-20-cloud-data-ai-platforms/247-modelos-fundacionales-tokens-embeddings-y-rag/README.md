@@ -674,11 +674,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Lewis, P. y otros (2020). *Retrieval-augmented generation for knowledge-intensive NLP tasks*. <https://arxiv.org/abs/2005.11401>
-- Liu, N. y otros (2023). *Lost in the middle: how language models use long contexts*. <https://arxiv.org/abs/2307.03172>
-- Malkov, Y. y Yashunin, D. (2018). *Efficient and robust approximate nearest neighbor search (HNSW)*. <https://arxiv.org/abs/1603.09320>
-- Karpukhin, V. y otros (2020). *Dense passage retrieval for open-domain question answering*. <https://arxiv.org/abs/2004.04906>
-- Anthropic (2025). *Prompt engineering and long context tips*. <https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview>
+- Lewis, P. y otros (2020). *Retrieval-augmented generation for knowledge-intensive NLP tasks* — el mecanismo de recuperación aumentada y sus límites. <https://arxiv.org/abs/2005.11401>
+- Liu, N. y otros (2023). *Lost in the middle: how language models use long contexts* — por qué la posición dentro del contexto cambia el resultado. <https://arxiv.org/abs/2307.03172>
+- Malkov, Y. y Yashunin, D. (2018). *Efficient and robust approximate nearest neighbor search (HNSW)* — búsqueda aproximada de vecinos para el índice vectorial. <https://arxiv.org/abs/1603.09320>
+- Karpukhin, V. y otros (2020). *Dense passage retrieval for open-domain question answering* — recuperación densa frente a recuperación léxica. <https://arxiv.org/abs/2004.04906>
+- Anthropic (2025). *Prompt engineering and long context tips* — prácticas de construcción de la instrucción y del contexto. <https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

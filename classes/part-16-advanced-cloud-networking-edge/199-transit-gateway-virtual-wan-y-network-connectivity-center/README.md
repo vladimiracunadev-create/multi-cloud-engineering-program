@@ -590,11 +590,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Transit Gateway route tables and segmentation*. <https://docs.aws.amazon.com/vpc/latest/tgw/tgw-route-tables.html>
-- Microsoft (2025). *Virtual WAN architecture and routing*. <https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about>
-- Google Cloud (2025). *Network Connectivity Center*. <https://cloud.google.com/network-connectivity/docs/network-connectivity-center>
-- AWS (2025). *Building a scalable and secure multi-VPC network infrastructure*. <https://docs.aws.amazon.com/whitepapers/latest/building-scalable-secure-multi-vpc-network-infrastructure/welcome.html>
-- Microsoft (2025). *Cloud Adoption Framework: network topology and connectivity*. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/network-topology-and-connectivity>
+- AWS (2025). *Transit Gateway route tables and segmentation* — segmentación del tránsito mediante tablas de ruta. <https://docs.aws.amazon.com/vpc/latest/tgw/tgw-route-tables.html>
+- Microsoft (2025). *Virtual WAN architecture and routing* — el servicio equivalente gestionado en Azure. <https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about>
+- Google Cloud (2025). *Network Connectivity Center* — el servicio equivalente en Google Cloud. <https://cloud.google.com/network-connectivity/docs/network-connectivity-center>
+- AWS (2025). *Building a scalable and secure multi-VPC network infrastructure* — patrón de referencia para interconectar muchas VPC. <https://docs.aws.amazon.com/whitepapers/latest/building-scalable-secure-multi-vpc-network-infrastructure/welcome.html>
+- Microsoft (2025). *Cloud Adoption Framework: network topology and connectivity* — criterios de topología de red en la adopción. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/network-topology-and-connectivity>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

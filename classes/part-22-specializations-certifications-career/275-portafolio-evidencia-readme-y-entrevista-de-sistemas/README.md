@@ -652,10 +652,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Xu, A. (2020). *System Design Interview: an insider's guide*. <https://www.oreilly.com/library/view/system-design-interview/9798641135823/>
-- Google (2024). *How we hire: interviewing at Google*. <https://careers.google.com/how-we-hire/>
-- Amazon (2024). *Interview process and behavioral questions guidance*. <https://amazon.jobs/content/en/how-we-hire/interviewing-at-amazon>
-- GitHub (2024). *About READMEs*. <https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes>
+- Xu, A. (2020). *System Design Interview: an insider's guide* — estructura de respuesta ante una pregunta de diseño. <https://www.oreilly.com/library/view/system-design-interview/9798641135823/>
+- Google (2024). *How we hire: interviewing at Google* — cómo se conduce la entrevista y qué se evalúa. <https://careers.google.com/how-we-hire/>
+- Amazon (2024). *Interview process and behavioral questions guidance* — proceso de entrevista y preguntas de comportamiento. <https://amazon.jobs/content/en/how-we-hire/interviewing-at-amazon>
+- GitHub (2024). *About READMEs* — qué debe contener el README que acompaña la evidencia. <https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes>
 - Kleppmann, M. (2017). *Designing Data-Intensive Applications* — base habitual de las entrevistas de diseño. <https://dataintensive.net/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

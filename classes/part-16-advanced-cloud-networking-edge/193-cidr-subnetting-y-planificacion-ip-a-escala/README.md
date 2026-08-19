@@ -590,8 +590,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 - RFC 4632 — Classless Inter-Domain Routing (CIDR). <https://www.rfc-editor.org/rfc/rfc4632>
 - RFC 1918 — Address allocation for private internets. <https://www.rfc-editor.org/rfc/rfc1918>
 - RFC 6598 — IANA-reserved IPv4 prefix for shared address space (100.64.0.0/10). <https://www.rfc-editor.org/rfc/rfc6598>
-- AWS (2025). *VPC sizing and IP address planning*. <https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html>
-- Microsoft (2025). *Plan for IP addressing in Azure landing zones*. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing>
+- AWS (2025). *VPC sizing and IP address planning* — reservas y solapamientos al dimensionar rangos de direcciones. <https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html>
+- Microsoft (2025). *Plan for IP addressing in Azure landing zones* — planificación de direccionamiento en zonas de aterrizaje. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/plan-for-ip-addressing>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

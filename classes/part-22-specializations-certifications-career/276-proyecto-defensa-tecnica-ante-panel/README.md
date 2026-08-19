@@ -614,10 +614,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Nygard, M. (2011). *Documenting architecture decisions*. <https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions>
+- Nygard, M. (2011). *Documenting architecture decisions* — el registro de decisión como pieza de la defensa. <https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions>
 - Skelton, M. y Pais, M. (2019). *Team Topologies* — funciones de apoyo y su deriva. <https://teamtopologies.com/book>
-- Google (2024). *DORA capabilities: streamlining change approval*. <https://dora.dev/capabilities/streamlining-change-approval/>
-- AWS (2024). *Well-Architected Framework Reviews*. <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html>
+- Google (2024). *DORA capabilities: streamlining change approval* — por qué el comité de aprobación no mejora la estabilidad. <https://dora.dev/capabilities/streamlining-change-approval/>
+- AWS (2024). *Well-Architected Framework Reviews* — el procedimiento formal de revisión. <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html>
 - Ford, N. y Richards, M. (2021). *Software Architecture: the hard parts* — defender compromisos. <https://www.oreilly.com/library/view/software-architecture-the/9781492086888/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

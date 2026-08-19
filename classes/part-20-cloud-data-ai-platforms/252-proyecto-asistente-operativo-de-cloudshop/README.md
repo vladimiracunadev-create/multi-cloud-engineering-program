@@ -798,11 +798,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Sculley, D. y otros (2015). *Hidden technical debt in machine learning systems*. <https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html>
-- Huyen, C. (2022). *Designing Machine Learning Systems*. <https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/>
-- Moses, B. y otros (2022). *Data Quality Fundamentals*. <https://www.oreilly.com/library/view/data-quality-fundamentals/9781098112035/>
-- NIST (2024). *AI Risk Management Framework*. <https://www.nist.gov/itl/ai-risk-management-framework>
-- Google (2025). *MLOps: continuous delivery and automation pipelines*. <https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning>
+- Sculley, D. y otros (2015). *Hidden technical debt in machine learning systems* — la deuda oculta que el proyecto debe contener. <https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html>
+- Huyen, C. (2022). *Designing Machine Learning Systems* — diseño del sistema alrededor del modelo. <https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/>
+- Moses, B. y otros (2022). *Data Quality Fundamentals* — control de calidad del dato que alimenta al asistente. <https://www.oreilly.com/library/view/data-quality-fundamentals/9781098112035/>
+- NIST (2024). *AI Risk Management Framework* — gestión del riesgo del asistente. <https://www.nist.gov/itl/ai-risk-management-framework>
+- Google (2025). *MLOps: continuous delivery and automation pipelines* — automatización de la entrega del modelo. <https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

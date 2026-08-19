@@ -672,10 +672,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - Kleppmann, M. (2017). *Designing Data-Intensive Applications*, cap. 11 — flujos y captura de cambios. <https://dataintensive.net/>
-- Debezium (2025). *Change data capture connectors*. <https://debezium.io/documentation/reference/stable/index.html>
-- Apache Beam (2025). *Streaming model: windows, watermarks and triggers*. <https://beam.apache.org/documentation/programming-guide/#windowing>
-- Akidau, T. y otros (2015). *The Dataflow Model*. <https://research.google/pubs/pub43864/>
-- Google Cloud (2025). *Datastream: serverless change data capture*. <https://cloud.google.com/datastream/docs/overview>
+- Debezium (2025). *Change data capture connectors* — conectores de captura de cambios. <https://debezium.io/documentation/reference/stable/index.html>
+- Apache Beam (2025). *Streaming model: windows, watermarks and triggers* — ventanas, marcas de agua y disparadores. <https://beam.apache.org/documentation/programming-guide/#windowing>
+- Akidau, T. y otros (2015). *The Dataflow Model* — el modelo formal que unifica lote y flujo. <https://research.google/pubs/pub43864/>
+- Google Cloud (2025). *Datastream: serverless change data capture* — captura de cambios gestionada y sin servidor. <https://cloud.google.com/datastream/docs/overview>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

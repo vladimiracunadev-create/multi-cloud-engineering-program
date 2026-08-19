@@ -614,9 +614,9 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 - Forsgren, N., Humble, J. y Kim, G. (2018). *Accelerate* — frecuencia y estabilidad correlacionan positivamente. <https://itrevolution.com/product/accelerate/>
 - Google (2024). *DORA: capabilities — change approval processes*. <https://dora.dev/capabilities/streamlining-change-approval/>
-- Humble, J. y Farley, D. (2010). *Continuous Delivery*, cap. sobre gestión del cambio. <https://www.pearson.com/en-us/subject-catalog/p/continuous-delivery/P200000009415>
-- AWS (2024). *Operational Excellence Pillar: managing change*. <https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html>
-- Microsoft (2024). *Azure Well-Architected Framework: safe deployment practices*. <https://learn.microsoft.com/azure/well-architected/operational-excellence/safe-deployments>
+- Humble, J. y Farley, D. (2010). *Continuous Delivery*, cap. sobre gestión del cambio — canalización de despliegue con retroceso posible. <https://www.pearson.com/en-us/subject-catalog/p/continuous-delivery/P200000009415>
+- AWS (2024). *Operational Excellence Pillar: managing change* — gestión del cambio como práctica de excelencia operativa. <https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html>
+- Microsoft (2024). *Azure Well-Architected Framework: safe deployment practices* — prácticas de despliegue seguro por fases. <https://learn.microsoft.com/azure/well-architected/operational-excellence/safe-deployments>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

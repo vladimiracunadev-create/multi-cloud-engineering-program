@@ -762,11 +762,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Beyer, B. y otros (2016). *Site Reliability Engineering*, cap. «Being on-call». <https://sre.google/sre-book/being-on-call/>
-- Google (2018). *The Site Reliability Workbook: alerting on SLOs*. <https://sre.google/workbook/alerting-on-slos/>
-- PagerDuty (2025). *Incident response documentation: roles and escalation*. <https://response.pagerduty.com/>
-- Atlassian (2025). *Incident communication best practices*. <https://www.atlassian.com/incident-management/incident-communication>
-- Allspaw, J. (2016). *Incident command for IT*. <https://www.oreilly.com/library/view/incident-management-for/9781492045922/>
+- Beyer, B. y otros (2016). *Site Reliability Engineering*, cap. «Being on-call» — guardia, escalamiento y salud del equipo. <https://sre.google/sre-book/being-on-call/>
+- Google (2018). *The Site Reliability Workbook: alerting on SLOs* — alertar por consumo del presupuesto de error. <https://sre.google/workbook/alerting-on-slos/>
+- PagerDuty (2025). *Incident response documentation: roles and escalation* — roles del incidente y ruta de escalamiento. <https://response.pagerduty.com/>
+- Atlassian (2025). *Incident communication best practices* — comunicación con las personas afectadas durante el corte. <https://www.atlassian.com/incident-management/incident-communication>
+- Allspaw, J. (2016). *Incident command for IT* — el mando de incidentes trasladado a operaciones de TI. <https://www.oreilly.com/library/view/incident-management-for/9781492045922/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

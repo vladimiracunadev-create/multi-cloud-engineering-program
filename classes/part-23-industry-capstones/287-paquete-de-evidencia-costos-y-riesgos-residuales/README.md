@@ -615,10 +615,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2024). *Well-Architected Framework: documenting review outcomes*. <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html>
-- Nygard, M. (2011). *Documenting architecture decisions*. <https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions>
+- AWS (2024). *Well-Architected Framework: documenting review outcomes* — cómo se documenta el resultado de la revisión. <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html>
+- Nygard, M. (2011). *Documenting architecture decisions* — el registro de decisión como parte del paquete. <https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions>
 - ISO/IEC (2022). *ISO 31000: gestión del riesgo — riesgo residual y aceptación*. <https://www.iso.org/iso-31000-risk-management.html>
-- FinOps Foundation (2024). *Forecasting and unit economics*. <https://www.finops.org/framework/capabilities/forecasting/>
+- FinOps Foundation (2024). *Forecasting and unit economics* — previsión de gasto y economía unitaria del servicio. <https://www.finops.org/framework/capabilities/forecasting/>
 - Tufte, E. (2006). *Beautiful Evidence* — presentación de evidencia y trazabilidad. <https://www.edwardtufte.com/tufte/books_be>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

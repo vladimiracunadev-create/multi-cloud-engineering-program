@@ -603,11 +603,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2024). *Well-Architected Framework and Reviews*. <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html>
-- Microsoft (2024). *Azure Well-Architected Framework*. <https://learn.microsoft.com/azure/well-architected/>
-- Google Cloud (2024). *Architecture Framework*. <https://cloud.google.com/architecture/framework>
+- AWS (2024). *Well-Architected Framework and Reviews* — el marco y su procedimiento de revisión. <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html>
+- Microsoft (2024). *Azure Well-Architected Framework* — el marco equivalente en Azure. <https://learn.microsoft.com/azure/well-architected/>
+- Google Cloud (2024). *Architecture Framework* — el marco equivalente en Google Cloud. <https://cloud.google.com/architecture/framework>
 - Kim, G. y otros (2016). *The DevOps Handbook* — revisiones que producen cambio. <https://itrevolution.com/product/the-devops-handbook-second-edition/>
-- Beyer, B. y otros (2018). *The Site Reliability Workbook*, cap. «Reliability reviews». <https://sre.google/workbook/table-of-contents/>
+- Beyer, B. y otros (2018). *The Site Reliability Workbook*, cap. «Reliability reviews» — criterios de operación con los que se contrasta la revisión. <https://sre.google/workbook/table-of-contents/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

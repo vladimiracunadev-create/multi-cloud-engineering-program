@@ -634,11 +634,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Bass, L., Clements, P. y Kazman, R. (2021). *Software Architecture in Practice*, 4.ª ed. <https://www.oreilly.com/library/view/software-architecture-in/9780136886051/>
+- Bass, L., Clements, P. y Kazman, R. (2021). *Software Architecture in Practice*, 4.ª ed — estructura de la documentación de arquitectura del proyecto. <https://www.oreilly.com/library/view/software-architecture-in/9780136886051/>
 - Ford, N., Richards, M. y otros (2021). *Software Architecture: The Hard Parts* — decisiones con compromisos explícitos. <https://www.oreilly.com/library/view/software-architecture-the/9781492086888/>
-- Kleppmann, M. (2017). *Designing Data-Intensive Applications*. <https://dataintensive.net/>
-- AWS (2025). *Well-Architected Framework*. <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html>
-- Google (2025). *Cloud Architecture Framework*. <https://cloud.google.com/architecture/framework>
+- Kleppmann, M. (2017). *Designing Data-Intensive Applications* — decisiones de almacenamiento y replicación del caso. <https://dataintensive.net/>
+- AWS (2025). *Well-Architected Framework* — los pilares como lista de verificación del diseño. <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html>
+- Google (2025). *Cloud Architecture Framework* — contraste del diseño con el marco de Google Cloud. <https://cloud.google.com/architecture/framework>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

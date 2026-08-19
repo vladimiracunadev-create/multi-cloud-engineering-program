@@ -641,11 +641,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Microsoft (2025). *Azure Kubernetes Service: workload identity*. <https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview>
-- Microsoft (2025). *AKS networking: Azure CNI overlay*. <https://learn.microsoft.com/en-us/azure/aks/azure-cni-overlay>
-- Microsoft (2025). *Application routing add-on and managed ingress*. <https://learn.microsoft.com/en-us/azure/aks/app-routing>
-- Microsoft (2025). *AKS cluster upgrades and maintenance windows*. <https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster>
-- Microsoft (2025). *AKS baseline architecture*. <https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks/baseline-aks>
+- Microsoft (2025). *Azure Kubernetes Service: workload identity* — identidad de carga de trabajo sin secretos en el clúster. <https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview>
+- Microsoft (2025). *AKS networking: Azure CNI overlay* — el modelo de red superpuesta y su consumo de direcciones. <https://learn.microsoft.com/en-us/azure/aks/azure-cni-overlay>
+- Microsoft (2025). *Application routing add-on and managed ingress* — complemento gestionado de entrada al clúster. <https://learn.microsoft.com/en-us/azure/aks/app-routing>
+- Microsoft (2025). *AKS cluster upgrades and maintenance windows* — actualización del clúster y ventanas de mantenimiento. <https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster>
+- Microsoft (2025). *AKS baseline architecture* — arquitectura de referencia del clúster productivo. <https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks/baseline-aks>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

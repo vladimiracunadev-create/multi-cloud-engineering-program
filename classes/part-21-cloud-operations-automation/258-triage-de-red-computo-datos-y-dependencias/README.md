@@ -669,11 +669,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Beyer, B. y otros (2016). *Site Reliability Engineering*, cap. «Effective troubleshooting». <https://sre.google/sre-book/effective-troubleshooting/>
-- Allspaw, J. (2015). *Trade-offs under pressure: heuristics and observations of teams resolving internet service outages*. <https://www.researchgate.net/publication/282869185>
-- Huang, P. y otros (2017). *Gray failure: the Achilles' heel of cloud-scale systems*. <https://www.microsoft.com/en-us/research/publication/gray-failure-the-achilles-heel-of-cloud-scale-systems/>
+- Beyer, B. y otros (2016). *Site Reliability Engineering*, cap. «Effective troubleshooting» — método de diagnóstico bajo presión. <https://sre.google/sre-book/effective-troubleshooting/>
+- Allspaw, J. (2015). *Trade-offs under pressure: heuristics and observations of teams resolving internet service outages* — cómo decide un equipo real con información incompleta. <https://www.researchgate.net/publication/282869185>
+- Huang, P. y otros (2017). *Gray failure: the Achilles' heel of cloud-scale systems* — fallos parciales que el diagnóstico binario no ve. <https://www.microsoft.com/en-us/research/publication/gray-failure-the-achilles-heel-of-cloud-scale-systems/>
 - Nygard, M. (2018). *Release It!*, 2.ª ed. — patrones de fallo y su firma. <https://pragprog.com/titles/mnee2/release-it-second-edition/>
-- Google (2018). *The Site Reliability Workbook: incident response*. <https://sre.google/workbook/incident-response/>
+- Google (2018). *The Site Reliability Workbook: incident response* — conducción de la respuesta al incidente. <https://sre.google/workbook/incident-response/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

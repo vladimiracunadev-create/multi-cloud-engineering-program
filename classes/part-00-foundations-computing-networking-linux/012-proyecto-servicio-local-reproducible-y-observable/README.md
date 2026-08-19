@@ -334,7 +334,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 - Kubernetes (2024). *Configure Liveness, Readiness and Startup Probes* — semántica y efectos de cada sonda. <https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/>
 - Nygard, M. (2018). *Release It!*, 2.ª ed., caps. 4-5 — patrones de estabilidad: timeouts, bulkheads y circuit breaker.
 - Prometheus (2024). *Histograms and summaries* — por qué los histogramas son agregables y los cuantiles precalculados no. <https://prometheus.io/docs/practices/histograms/>
-- Dean, J. y Barroso, L. (2013). *The Tail at Scale*. Communications of the ACM 56(2), 74-80. <https://doi.org/10.1145/2408776.2408794>
+- Dean, J. y Barroso, L. (2013). *The Tail at Scale*. Communications of the ACM 56(2), 74-80 — por qué la latencia de cola gobierna la experiencia y no la media. <https://doi.org/10.1145/2408776.2408794>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

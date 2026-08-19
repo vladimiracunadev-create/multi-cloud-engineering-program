@@ -225,7 +225,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Mell, P. y Grance, T. (2011). *The NIST Definition of Cloud Computing*, SP 800-145. National Institute of Standards and Technology. <https://doi.org/10.6028/NIST.SP.800-145>
+- Mell, P. y Grance, T. (2011). *The NIST Definition of Cloud Computing*, SP 800-145. National Institute of Standards and Technology — las cinco características esenciales que separan nube de hosting renombrado. <https://doi.org/10.6028/NIST.SP.800-145>
 - Dean, J. (2009). *Latency Numbers Every Programmer Should Know* — cifras de referencia de la jerarquía de memoria. <https://static.googleusercontent.com/media/research.google.com/en//people/jeff/stanford-295-talk.pdf>
 - Kurose, J. y Ross, K. (2021). *Computer Networking: A Top-Down Approach*, 8.ª ed., cap. 1.4 — retardo, pérdida y throughput.
 - Barroso, L., Hölzle, U. y Ranganathan, P. (2018). *The Datacenter as a Computer*, 3.ª ed. — economía y utilización del centro de datos. <https://doi.org/10.2200/S00874ED3V01Y201809CAC046>

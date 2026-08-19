@@ -585,10 +585,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Humble, J. y Farley, D. (2010). *Continuous Delivery*. <https://www.pearson.com/en-us/subject-catalog/p/continuous-delivery/P200000009415>
-- Forsgren, N., Humble, J. y Kim, G. (2018). *Accelerate*. <https://itrevolution.com/product/accelerate/>
-- Google (2024). *DORA capabilities: continuous delivery*. <https://dora.dev/capabilities/>
-- OpenSSF (2024). *SLSA: supply chain levels for software artifacts*. <https://slsa.dev/>
+- Humble, J. y Farley, D. (2010). *Continuous Delivery* — las prácticas que definen el rol de entrega. <https://www.pearson.com/en-us/subject-catalog/p/continuous-delivery/P200000009415>
+- Forsgren, N., Humble, J. y Kim, G. (2018). *Accelerate* — las métricas que predicen el desempeño del equipo. <https://itrevolution.com/product/accelerate/>
+- Google (2024). *DORA capabilities: continuous delivery* — las capacidades medidas por el programa DORA. <https://dora.dev/capabilities/>
+- OpenSSF (2024). *SLSA: supply chain levels for software artifacts* — niveles de integridad exigidos a la cadena de suministro. <https://slsa.dev/>
 - Skelton, M. y Pais, M. (2019). *Team Topologies* — equipos habilitadores frente a porteros. <https://teamtopologies.com/book>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

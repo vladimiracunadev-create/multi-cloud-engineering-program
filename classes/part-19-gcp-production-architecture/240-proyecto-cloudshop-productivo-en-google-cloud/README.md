@@ -628,10 +628,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Google Cloud (2025). *Architecture Framework*. <https://cloud.google.com/architecture/framework>
-- Google Cloud (2025). *Enterprise foundations blueprint*. <https://cloud.google.com/architecture/security-foundations>
-- Google Cloud (2025). *Landing zone design*. <https://cloud.google.com/architecture/landing-zones>
-- Beyer, B. y otros (2018). *The Site Reliability Workbook*. <https://sre.google/workbook/table-of-contents/>
+- Google Cloud (2025). *Architecture Framework* — el marco de arquitectura aplicado al proyecto. <https://cloud.google.com/architecture/framework>
+- Google Cloud (2025). *Enterprise foundations blueprint* — el plano de fundación empresarial como referencia. <https://cloud.google.com/architecture/security-foundations>
+- Google Cloud (2025). *Landing zone design* — diseño de la zona de aterrizaje del proyecto. <https://cloud.google.com/architecture/landing-zones>
+- Beyer, B. y otros (2018). *The Site Reliability Workbook* — operación con objetivos de nivel de servicio. <https://sre.google/workbook/table-of-contents/>
 - Forsgren, N. y otros (2018). *Accelerate* — medir antes y después con las mismas definiciones. <https://itrevolution.com/product/accelerate/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

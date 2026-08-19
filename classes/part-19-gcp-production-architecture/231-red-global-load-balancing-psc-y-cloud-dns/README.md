@@ -632,11 +632,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Google Cloud (2025). *VPC network overview*. <https://cloud.google.com/vpc/docs/vpc>
-- Google Cloud (2025). *Cloud Load Balancing: global external Application Load Balancer*. <https://cloud.google.com/load-balancing/docs/https>
-- Google Cloud (2025). *Private Service Connect*. <https://cloud.google.com/vpc/docs/private-service-connect>
-- Google Cloud (2025). *Cloud DNS private zones and forwarding*. <https://cloud.google.com/dns/docs/zones>
-- Google Cloud (2025). *Connectivity Tests*. <https://cloud.google.com/network-intelligence-center/docs/connectivity-tests/concepts/overview>
+- Google Cloud (2025). *VPC network overview* — el modelo de red y sus fronteras. <https://cloud.google.com/vpc/docs/vpc>
+- Google Cloud (2025). *Cloud Load Balancing: global external Application Load Balancer* — balanceo global de capa de aplicación. <https://cloud.google.com/load-balancing/docs/https>
+- Google Cloud (2025). *Private Service Connect* — consumo privado de servicios entre redes. <https://cloud.google.com/vpc/docs/private-service-connect>
+- Google Cloud (2025). *Cloud DNS private zones and forwarding* — zonas privadas y reenvío de resolución. <https://cloud.google.com/dns/docs/zones>
+- Google Cloud (2025). *Connectivity Tests* — pruebas de conectividad para diagnóstico. <https://cloud.google.com/network-intelligence-center/docs/connectivity-tests/concepts/overview>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

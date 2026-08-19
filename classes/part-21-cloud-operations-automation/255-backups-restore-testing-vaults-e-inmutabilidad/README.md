@@ -719,11 +719,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *AWS Backup: vault lock and cross-account backups*. <https://docs.aws.amazon.com/aws-backup/latest/devguide/vault-lock.html>
-- Microsoft (2025). *Azure Backup: immutable vaults and multi-user authorization*. <https://learn.microsoft.com/en-us/azure/backup/backup-azure-immutable-vault-concept>
-- Google Cloud (2025). *Backup and DR Service*. <https://cloud.google.com/backup-disaster-recovery/docs/concepts/overview>
-- Beyer, B. y otros (2016). *Site Reliability Engineering*, cap. «Data integrity: what you read is what you wrote». <https://sre.google/sre-book/data-integrity/>
-- NIST SP 800-34 (2010). *Contingency planning guide for federal information systems*. <https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final>
+- AWS (2025). *AWS Backup: vault lock and cross-account backups* — bloqueo del almacén y copias entre cuentas. <https://docs.aws.amazon.com/aws-backup/latest/devguide/vault-lock.html>
+- Microsoft (2025). *Azure Backup: immutable vaults and multi-user authorization* — almacenes inmutables y autorización de varios operadores. <https://learn.microsoft.com/en-us/azure/backup/backup-azure-immutable-vault-concept>
+- Google Cloud (2025). *Backup and DR Service* — el servicio equivalente en Google Cloud. <https://cloud.google.com/backup-disaster-recovery/docs/concepts/overview>
+- Beyer, B. y otros (2016). *Site Reliability Engineering*, cap. «Data integrity: what you read is what you wrote» — por qué una copia sin restauración probada no es copia. <https://sre.google/sre-book/data-integrity/>
+- NIST SP 800-34 (2010). *Contingency planning guide for federal information systems* — el procedimiento normativo de planificación de contingencia. <https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

@@ -543,9 +543,9 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Little, J. D. C. (1961). *A proof for the queuing formula L = λW*. <https://pubsonline.informs.org/doi/10.1287/opre.9.3.383>
+- Little, J. D. C. (1961). *A proof for the queuing formula L = λW* — la relación L = λW aplicada al dimensionamiento de capacidad. <https://pubsonline.informs.org/doi/10.1287/opre.9.3.383>
 - Gunther, N. (2007). *Guerrilla Capacity Planning* — utilización, escalabilidad y sus límites. <https://link.springer.com/book/10.1007/978-3-540-31010-5>
-- Schroeder, B., Wierman, A. y Harchol-Balter, M. (2006). *Open versus closed: a cautionary tale*. <https://www.usenix.org/legacy/event/nsdi06/tech/schroeder.html>
+- Schroeder, B., Wierman, A. y Harchol-Balter, M. (2006). *Open versus closed: a cautionary tale* — por qué el modelo de carga cambia las conclusiones del ensayo. <https://www.usenix.org/legacy/event/nsdi06/tech/schroeder.html>
 - Harchol-Balter, M. (2013). *Performance Modeling and Design of Computer Systems* — colas y variabilidad. <https://www.cambridge.org/core/books/performance-modeling-and-design-of-computer-systems/8E5B6F1D9E2E1E4B2A4C0B9B1B0E3E0D>
 - Google (2016). *SRE Book: addressing cascading failures* — realimentación, rechazo y plazos. <https://sre.google/sre-book/addressing-cascading-failures/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

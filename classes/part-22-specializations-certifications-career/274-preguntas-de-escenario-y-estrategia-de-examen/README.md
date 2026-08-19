@@ -639,9 +639,9 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2024). *Certification exam guides and sample questions*. <https://aws.amazon.com/certification/>
-- Microsoft (2024). *Certification exam study guides and practice assessments*. <https://learn.microsoft.com/credentials/certifications/>
-- Google Cloud (2024). *Certification exam guides*. <https://cloud.google.com/learn/certification>
+- AWS (2024). *Certification exam guides and sample questions* — guía oficial del examen y preguntas de muestra. <https://aws.amazon.com/certification/>
+- Microsoft (2024). *Certification exam study guides and practice assessments* — guía de estudio y evaluaciones de práctica. <https://learn.microsoft.com/credentials/certifications/>
+- Google Cloud (2024). *Certification exam guides* — guía oficial del examen. <https://cloud.google.com/learn/certification>
 - Roediger, H. y Karpicke, J. (2006). *Test-enhanced learning* — por qué practicar preguntas supera a releer. <https://journals.sagepub.com/doi/10.1111/j.1467-9280.2006.01693.x>
 - Haladyna, T. y Rodriguez, M. (2013). *Developing and Validating Test Items* — cómo se construyen los distractores. <https://www.routledge.com/Developing-and-Validating-Test-Items/Haladyna-Rodriguez/p/book/9780415876049>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

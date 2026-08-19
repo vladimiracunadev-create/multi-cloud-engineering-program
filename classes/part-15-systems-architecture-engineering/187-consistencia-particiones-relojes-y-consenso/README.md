@@ -563,10 +563,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Gilbert, S. y Lynch, N. (2002). *Brewer's conjecture and the feasibility of consistent, available, partition-tolerant web services*. <https://dl.acm.org/doi/10.1145/564585.564601>
-- Abadi, D. (2012). *Consistency tradeoffs in modern distributed database system design (PACELC)*. <https://ieeexplore.ieee.org/document/6127847>
-- Lamport, L. (1978). *Time, clocks, and the ordering of events in a distributed system*. <https://dl.acm.org/doi/10.1145/359545.359563>
-- Ongaro, D. y Ousterhout, J. (2014). *In search of an understandable consensus algorithm (Raft)*. <https://raft.github.io/raft.pdf>
+- Gilbert, S. y Lynch, N. (2002). *Brewer's conjecture and the feasibility of consistent, available, partition-tolerant web services* — la demostración formal del compromiso entre consistencia y disponibilidad. <https://dl.acm.org/doi/10.1145/564585.564601>
+- Abadi, D. (2012). *Consistency tradeoffs in modern distributed database system design (PACELC)* — el compromiso entre latencia y consistencia cuando no hay partición. <https://ieeexplore.ieee.org/document/6127847>
+- Lamport, L. (1978). *Time, clocks, and the ordering of events in a distributed system* — orden causal de eventos sin reloj global. <https://dl.acm.org/doi/10.1145/359545.359563>
+- Ongaro, D. y Ousterhout, J. (2014). *In search of an understandable consensus algorithm (Raft)* — consenso comprensible como alternativa a Paxos. <https://raft.github.io/raft.pdf>
 - Kleppmann, M. (2017). *Designing Data-Intensive Applications*, caps. 5 y 9 — replicación, consistencia y consenso. <https://dataintensive.net/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

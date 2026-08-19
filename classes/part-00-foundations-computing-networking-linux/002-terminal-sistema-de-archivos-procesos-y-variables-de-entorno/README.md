@@ -249,7 +249,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- The Open Group (2018). *POSIX.1-2017*, System Interfaces: `fork`, `execve`, `wait`. <https://pubs.opengroup.org/onlinepubs/9699919799/functions/fork.html>
+- The Open Group (2018). *POSIX.1-2017*, System Interfaces: `fork`, `execve`, `wait` — semántica normativa de fork, execve y wait. <https://pubs.opengroup.org/onlinepubs/9699919799/functions/fork.html>
 - Kerrisk, M. *signal(7)* — Linux manual pages: catálogo de señales y semántica de SIGTERM y SIGKILL. <https://man7.org/linux/man-pages/man7/signal.7.html>
 - Kerrisk, M. (2010). *The Linux Programming Interface*, caps. 24-27 — creación de procesos y ejecución de programas.
 - systemd (2024). *systemd.exec(5)* — cómo se construye el entorno de un servicio. <https://www.freedesktop.org/software/systemd/man/systemd.exec.html>

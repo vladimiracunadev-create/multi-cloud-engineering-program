@@ -615,11 +615,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Cost allocation tags and tag policies*. <https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html>
-- AWS (2025). *AWS Budgets and budget actions*. <https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html>
-- AWS (2025). *AWS Cost Anomaly Detection*. <https://docs.aws.amazon.com/cost-management/latest/userguide/manage-ad.html>
-- FinOps Foundation (2025). *FinOps Framework: capabilities and maturity*. <https://www.finops.org/framework/>
-- AWS (2025). *Savings Plans and Reserved Instances: coverage and utilization*. <https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html>
+- AWS (2025). *Cost allocation tags and tag policies* — etiquetas de asignación de coste y políticas que las obligan. <https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html>
+- AWS (2025). *AWS Budgets and budget actions* — presupuestos con acción automática al superarse. <https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html>
+- AWS (2025). *AWS Cost Anomaly Detection* — detección de desviaciones de gasto sin umbral fijo. <https://docs.aws.amazon.com/cost-management/latest/userguide/manage-ad.html>
+- FinOps Foundation (2025). *FinOps Framework: capabilities and maturity* — las capacidades del marco y su nivel de madurez. <https://www.finops.org/framework/>
+- AWS (2025). *Savings Plans and Reserved Instances: coverage and utilization* — cobertura y utilización de los compromisos de compra. <https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

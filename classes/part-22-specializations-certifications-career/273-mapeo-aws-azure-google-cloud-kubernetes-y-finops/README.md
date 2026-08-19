@@ -606,9 +606,9 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2024). *Compare AWS and Azure services*. <https://learn.microsoft.com/azure/architecture/aws-professional/services>
-- Google Cloud (2024). *Google Cloud for AWS professionals*. <https://cloud.google.com/docs/get-started/aws-comparison>
-- CNCF (2024). *Kubernetes conformance and portability*. <https://www.cncf.io/certification/software-conformance/>
+- AWS (2024). *Compare AWS and Azure services* — equivalencias de servicio entre AWS y Azure. <https://learn.microsoft.com/azure/architecture/aws-professional/services>
+- Google Cloud (2024). *Google Cloud for AWS professionals* — equivalencias de servicio para quien viene de AWS. <https://cloud.google.com/docs/get-started/aws-comparison>
+- CNCF (2024). *Kubernetes conformance and portability* — la certificación de conformidad como garantía de portabilidad. <https://www.cncf.io/certification/software-conformance/>
 - FinOps Foundation (2024). *FOCUS: FinOps cost and usage specification* — coste comparable entre nubes. <https://focus.finops.org/>
 - Brewer, E. (2012). *CAP twelve years later: how the rules have changed* — por qué las garantías no se traducen. <https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

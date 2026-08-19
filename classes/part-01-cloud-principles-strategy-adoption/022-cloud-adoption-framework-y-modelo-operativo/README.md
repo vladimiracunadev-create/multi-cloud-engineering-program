@@ -330,7 +330,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Conway, M. (1968). *How Do Committees Invent?*. Datamation 14(5), 28-31. <https://www.melconway.com/Home/Committees_Paper.html>
+- Conway, M. (1968). *How Do Committees Invent?*. Datamation 14(5), 28-31 — por qué la arquitectura acaba reproduciendo el organigrama. <https://www.melconway.com/Home/Committees_Paper.html>
 - Skelton, M. y Pais, M. (2019). *Team Topologies* — cuatro tipos de equipo, carga cognitiva y maniobra de Conway inversa.
 - Forsgren, N., Humble, J. y Kim, G. (2018). *Accelerate* — evidencia sobre estructura organizativa y rendimiento de entrega.
 - Microsoft (2024). *Cloud Adoption Framework* — fases de estrategia, planificación, preparación y adopción. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/>

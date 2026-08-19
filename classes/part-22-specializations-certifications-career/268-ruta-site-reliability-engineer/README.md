@@ -626,11 +626,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Beyer, B. y otros (2016). *Site Reliability Engineering*, caps. sobre SLO y presupuesto de error. <https://sre.google/sre-book/service-level-objectives/>
-- Google (2018). *The Site Reliability Workbook*, cap. «Implementing SLOs». <https://sre.google/workbook/implementing-slos/>
-- Wilkinson, A. y Hidalgo, A. (2020). *Implementing Service Level Objectives*. <https://www.oreilly.com/library/view/implementing-service-level/9781492076803/>
-- AWS (2024). *Reliability Pillar: workload SLAs and SLOs*. <https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html>
-- Microsoft (2024). *Azure Well-Architected Framework: reliability targets*. <https://learn.microsoft.com/azure/well-architected/reliability/metrics>
+- Beyer, B. y otros (2016). *Site Reliability Engineering*, caps. sobre SLO y presupuesto de error — el cuerpo de práctica del rol. <https://sre.google/sre-book/service-level-objectives/>
+- Google (2018). *The Site Reliability Workbook*, cap. «Implementing SLOs» — la aplicación práctica de los objetivos de servicio. <https://sre.google/workbook/implementing-slos/>
+- Wilkinson, A. y Hidalgo, A. (2020). *Implementing Service Level Objectives* — definición y cálculo de los objetivos. <https://www.oreilly.com/library/view/implementing-service-level/9781492076803/>
+- AWS (2024). *Reliability Pillar: workload SLAs and SLOs* — acuerdos y objetivos de la carga de trabajo. <https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html>
+- Microsoft (2024). *Azure Well-Architected Framework: reliability targets* — objetivos de fiabilidad en el marco de Azure. <https://learn.microsoft.com/azure/well-architected/reliability/metrics>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

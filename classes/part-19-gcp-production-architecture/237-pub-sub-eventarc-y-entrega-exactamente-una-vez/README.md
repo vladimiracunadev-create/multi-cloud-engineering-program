@@ -631,11 +631,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Google Cloud (2025). *Pub/Sub: exactly-once delivery*. <https://cloud.google.com/pubsub/docs/exactly-once-delivery>
-- Google Cloud (2025). *Pub/Sub subscription types and delivery*. <https://cloud.google.com/pubsub/docs/subscriber>
-- Google Cloud (2025). *Message ordering*. <https://cloud.google.com/pubsub/docs/ordering>
-- Google Cloud (2025). *Dead-letter topics and retry policies*. <https://cloud.google.com/pubsub/docs/handling-failures>
-- Google Cloud (2025). *Eventarc*. <https://cloud.google.com/eventarc/docs/overview>
+- Google Cloud (2025). *Pub/Sub: exactly-once delivery* — garantía de entrega exactamente una vez y sus condiciones. <https://cloud.google.com/pubsub/docs/exactly-once-delivery>
+- Google Cloud (2025). *Pub/Sub subscription types and delivery* — tipos de suscripción y modo de entrega. <https://cloud.google.com/pubsub/docs/subscriber>
+- Google Cloud (2025). *Message ordering* — ordenación de mensajes y su coste. <https://cloud.google.com/pubsub/docs/ordering>
+- Google Cloud (2025). *Dead-letter topics and retry policies* — temas de mensajes fallidos y política de reintento. <https://cloud.google.com/pubsub/docs/handling-failures>
+- Google Cloud (2025). *Eventarc* — enrutado de eventos entre servicios gestionados. <https://cloud.google.com/eventarc/docs/overview>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

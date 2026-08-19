@@ -636,9 +636,9 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - Google (2018). *The Site Reliability Workbook* — DiRT y ejercicios de continuidad. <https://sre.google/workbook/reliable-product-launches/>
-- Rosenthal, C. y Jones, N. (2020). *Chaos Engineering: system resiliency in practice*. <https://www.oreilly.com/library/view/chaos-engineering/9781492043850/>
-- AWS (2024). *Fault Injection Service: multi-account and multi-region experiments*. <https://docs.aws.amazon.com/fis/latest/userguide/what-is.html>
-- Microsoft (2024). *Azure Chaos Studio experiment design*. <https://learn.microsoft.com/azure/chaos-studio/chaos-studio-overview>
+- Rosenthal, C. y Jones, N. (2020). *Chaos Engineering: system resiliency in practice* — el método del experimento de fallo. <https://www.oreilly.com/library/view/chaos-engineering/9781492043850/>
+- AWS (2024). *Fault Injection Service: multi-account and multi-region experiments* — experimentos entre cuentas y entre regiones. <https://docs.aws.amazon.com/fis/latest/userguide/what-is.html>
+- Microsoft (2024). *Azure Chaos Studio experiment design* — diseño del experimento en Azure. <https://learn.microsoft.com/azure/chaos-studio/chaos-studio-overview>
 - Allspaw, J. (2015). *Trade-offs under pressure* — coordinación en incidentes reales. <https://www.researchgate.net/publication/282869185>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

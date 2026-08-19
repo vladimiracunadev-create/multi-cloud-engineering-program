@@ -722,11 +722,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Zheng, L. y otros (2023). *Judging LLM-as-a-judge with MT-Bench and Chatbot Arena*. <https://arxiv.org/abs/2306.05685>
-- Es, S. y otros (2023). *RAGAS: automated evaluation of retrieval augmented generation*. <https://arxiv.org/abs/2309.15217>
-- Perez, E. y otros (2022). *Red teaming language models with language models*. <https://arxiv.org/abs/2202.03286>
-- NIST (2024). *AI RMF: measure and manage functions*. <https://www.nist.gov/itl/ai-risk-management-framework>
-- Anthropic (2025). *Building evaluations for Claude applications*. <https://docs.anthropic.com/en/docs/test-and-evaluate/develop-tests>
+- Zheng, L. y otros (2023). *Judging LLM-as-a-judge with MT-Bench and Chatbot Arena* — usar un modelo como juez y sus sesgos conocidos. <https://arxiv.org/abs/2306.05685>
+- Es, S. y otros (2023). *RAGAS: automated evaluation of retrieval augmented generation* — métricas automáticas de calidad de la recuperación. <https://arxiv.org/abs/2309.15217>
+- Perez, E. y otros (2022). *Red teaming language models with language models* — generación automática de casos adversarios. <https://arxiv.org/abs/2202.03286>
+- NIST (2024). *AI RMF: measure and manage functions* — las funciones de medición y gestión del marco. <https://www.nist.gov/itl/ai-risk-management-framework>
+- Anthropic (2025). *Building evaluations for Claude applications* — construcción de un conjunto de evaluación propio. <https://docs.anthropic.com/en/docs/test-and-evaluate/develop-tests>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

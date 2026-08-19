@@ -501,7 +501,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Brown, S. (2025). *The C4 model for visualising software architecture*. <https://c4model.com/>
+- Brown, S. (2025). *The C4 model for visualising software architecture* — los cuatro niveles de abstracción del diagrama. <https://c4model.com/>
 - Brown, S. (2019). *Software Architecture for Developers* — niveles de abstracción y documentación mínima útil. <https://leanpub.com/software-architecture-for-developers>
 - Clements, P. y otros (2010). *Documenting Software Architectures*, 2.ª ed. — vistas y su audiencia. <https://www.oreilly.com/library/view/documenting-software-architectures/9780132488617/>
 - Structurizr (2025). *Diagrams as code* — diagramas versionados junto al código. <https://structurizr.com/>

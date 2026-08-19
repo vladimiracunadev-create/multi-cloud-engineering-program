@@ -649,11 +649,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Google Cloud (2025). *Best practices for using service accounts*. <https://cloud.google.com/iam/docs/best-practices-service-accounts>
-- Google Cloud (2025). *Workload identity federation*. <https://cloud.google.com/iam/docs/workload-identity-federation>
-- Google Cloud (2025). *IAM conditions overview*. <https://cloud.google.com/iam/docs/conditions-overview>
-- Google Cloud (2025). *Privileged Access Manager*. <https://cloud.google.com/iam/docs/pam-overview>
-- Google Cloud (2025). *Policy Analyzer and IAM recommender*. <https://cloud.google.com/policy-intelligence/docs/policy-analyzer-overview>
+- Google Cloud (2025). *Best practices for using service accounts* — uso correcto de cuentas de servicio y sus riesgos. <https://cloud.google.com/iam/docs/best-practices-service-accounts>
+- Google Cloud (2025). *Workload identity federation* — federación para cargas externas sin claves. <https://cloud.google.com/iam/docs/workload-identity-federation>
+- Google Cloud (2025). *IAM conditions overview* — condiciones que acotan cuándo aplica un permiso. <https://cloud.google.com/iam/docs/conditions-overview>
+- Google Cloud (2025). *Privileged Access Manager* — elevación temporal de privilegio. <https://cloud.google.com/iam/docs/pam-overview>
+- Google Cloud (2025). *Policy Analyzer and IAM recommender* — análisis de políticas y recomendación de mínimo privilegio. <https://cloud.google.com/policy-intelligence/docs/policy-analyzer-overview>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

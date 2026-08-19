@@ -582,11 +582,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Ericsson, K. A. y Pool, R. (2016). *Peak: secrets from the new science of expertise*. <https://www.hachettebookgroup.com/titles/anders-ericsson/peak/9780544456259/>
-- Dreyfus, S. (2004). *The five-stage model of adult skill acquisition*. <https://journals.sagepub.com/doi/10.1177/0270467604264992>
-- AWS (2024). *Skills and certification paths*. <https://aws.amazon.com/training/learn-about/>
-- Microsoft (2024). *Azure career and skills paths*. <https://learn.microsoft.com/credentials/browse/>
-- Google Cloud (2024). *Cloud learning paths by role*. <https://cloud.google.com/learn/training>
+- Ericsson, K. A. y Pool, R. (2016). *Peak: secrets from the new science of expertise* — cómo se construye la pericia deliberada. <https://www.hachettebookgroup.com/titles/anders-ericsson/peak/9780544456259/>
+- Dreyfus, S. (2004). *The five-stage model of adult skill acquisition* — las cinco etapas de adquisición de destreza. <https://journals.sagepub.com/doi/10.1177/0270467604264992>
+- AWS (2024). *Skills and certification paths* — itinerarios de certificación de AWS. <https://aws.amazon.com/training/learn-about/>
+- Microsoft (2024). *Azure career and skills paths* — itinerarios de certificación de Azure. <https://learn.microsoft.com/credentials/browse/>
+- Google Cloud (2024). *Cloud learning paths by role* — itinerarios de aprendizaje por rol en Google Cloud. <https://cloud.google.com/learn/training>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

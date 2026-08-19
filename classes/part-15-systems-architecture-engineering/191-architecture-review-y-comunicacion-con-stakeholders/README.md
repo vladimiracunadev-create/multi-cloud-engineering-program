@@ -591,11 +591,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Clements, P., Kazman, R. y Klein, M. (2001). *Evaluating Software Architectures: Methods and Case Studies* (ATAM). <https://www.oreilly.com/library/view/evaluating-software-architectures/9780201704822/>
-- SEI (2000). *ATAM: Method for Architecture Evaluation*. <https://insights.sei.cmu.edu/library/atam-method-for-architecture-evaluation/>
-- Bass, L., Clements, P. y Kazman, R. (2021). *Software Architecture in Practice*, cap. de evaluación. <https://www.oreilly.com/library/view/software-architecture-in/9780136886051/>
+- Clements, P., Kazman, R. y Klein, M. (2001). *Evaluating Software Architectures: Methods and Case Studies* (ATAM) — métodos de evaluación de arquitectura con casos reales. <https://www.oreilly.com/library/view/evaluating-software-architectures/9780201704822/>
+- SEI (2000). *ATAM: Method for Architecture Evaluation* — el procedimiento de evaluación por escenarios. <https://insights.sei.cmu.edu/library/atam-method-for-architecture-evaluation/>
+- Bass, L., Clements, P. y Kazman, R. (2021). *Software Architecture in Practice*, cap. de evaluación — vocabulario de atributos de calidad para conducir la revisión. <https://www.oreilly.com/library/view/software-architecture-in/9780136886051/>
 - Brown, S. (2019). *Software Architecture for Developers, vol. 2* — comunicación por audiencias. <https://leanpub.com/visualising-software-architecture>
-- Google (2025). *Architecture review practices* en Cloud Architecture Framework. <https://cloud.google.com/architecture/framework>
+- Google (2025). *Architecture review practices* en Cloud Architecture Framework — cómo conducir la revisión con los interesados. <https://cloud.google.com/architecture/framework>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

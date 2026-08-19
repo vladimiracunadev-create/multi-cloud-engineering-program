@@ -694,11 +694,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Systems Manager Session Manager*. <https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html>
-- Microsoft (2025). *Azure Bastion and just-in-time VM access*. <https://learn.microsoft.com/en-us/azure/bastion/bastion-overview>
-- Google Cloud (2025). *Identity-Aware Proxy for TCP forwarding*. <https://cloud.google.com/iap/docs/using-tcp-forwarding>
-- NIST SP 800-207 (2020). *Zero Trust Architecture*. <https://csrc.nist.gov/pubs/sp/800/207/final>
-- Beyer, B. y otros (2018). *The Site Reliability Workbook*, cap. sobre eliminación de trabajo repetitivo. <https://sre.google/workbook/eliminating-toil/>
+- AWS (2025). *Systems Manager Session Manager* — sesión administrada sin abrir el puerto de SSH. <https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html>
+- Microsoft (2025). *Azure Bastion and just-in-time VM access* — acceso puntual a la máquina con aprobación. <https://learn.microsoft.com/en-us/azure/bastion/bastion-overview>
+- Google Cloud (2025). *Identity-Aware Proxy for TCP forwarding* — reenvío TCP autenticado por identidad. <https://cloud.google.com/iap/docs/using-tcp-forwarding>
+- NIST SP 800-207 (2020). *Zero Trust Architecture* — el principio que justifica retirar el acceso permanente. <https://csrc.nist.gov/pubs/sp/800/207/final>
+- Beyer, B. y otros (2018). *The Site Reliability Workbook*, cap. sobre eliminación de trabajo repetitivo — operación del acceso administrativo. <https://sre.google/workbook/eliminating-toil/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

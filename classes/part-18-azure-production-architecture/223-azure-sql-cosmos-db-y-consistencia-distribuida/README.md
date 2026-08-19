@@ -652,11 +652,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Microsoft (2025). *Azure Cosmos DB consistency levels*. <https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels>
-- Microsoft (2025). *Request units in Azure Cosmos DB*. <https://learn.microsoft.com/en-us/azure/cosmos-db/request-units>
-- Microsoft (2025). *Partitioning and horizontal scaling*. <https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning-overview>
-- Microsoft (2025). *Indexing policies in Azure Cosmos DB*. <https://learn.microsoft.com/en-us/azure/cosmos-db/index-policy>
-- Microsoft (2025). *Azure SQL Database: failover groups and elastic pools*. <https://learn.microsoft.com/en-us/azure/azure-sql/database/failover-group-sql-db>
+- Microsoft (2025). *Azure Cosmos DB consistency levels* — los cinco niveles y su efecto en latencia y disponibilidad. <https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels>
+- Microsoft (2025). *Request units in Azure Cosmos DB* — unidades de petición como unidad de capacidad y coste. <https://learn.microsoft.com/en-us/azure/cosmos-db/request-units>
+- Microsoft (2025). *Partitioning and horizontal scaling* — elección de clave de partición y escalado horizontal. <https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning-overview>
+- Microsoft (2025). *Indexing policies in Azure Cosmos DB* — políticas de indexación y su coste de escritura. <https://learn.microsoft.com/en-us/azure/cosmos-db/index-policy>
+- Microsoft (2025). *Azure SQL Database: failover groups and elastic pools* — grupos de conmutación y agrupaciones elásticas. <https://learn.microsoft.com/en-us/azure/azure-sql/database/failover-group-sql-db>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

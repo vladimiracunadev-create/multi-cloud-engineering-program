@@ -607,11 +607,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Shostack, A. (2014). *Threat Modeling: designing for security*. <https://shostack.org/books/threat-modeling-book>
+- Shostack, A. (2014). *Threat Modeling: designing for security* — el método de modelado que estructura el rol. <https://shostack.org/books/threat-modeling-book>
 - NIST (2018). *Cybersecurity Framework* — identificar, proteger, detectar, responder, recuperar. <https://www.nist.gov/cyberframework>
-- AWS (2024). *Security Pillar, Well-Architected Framework*. <https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html>
-- Microsoft (2024). *Azure security best practices and patterns*. <https://learn.microsoft.com/azure/security/fundamentals/best-practices-and-patterns>
-- Google Cloud (2024). *Security foundations blueprint*. <https://cloud.google.com/architecture/security-foundations>
+- AWS (2024). *Security Pillar, Well-Architected Framework* — el pilar de seguridad como referencia del rol. <https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html>
+- Microsoft (2024). *Azure security best practices and patterns* — patrones y prácticas de seguridad en Azure. <https://learn.microsoft.com/azure/security/fundamentals/best-practices-and-patterns>
+- Google Cloud (2024). *Security foundations blueprint* — el plano de fundación de seguridad en Google Cloud. <https://cloud.google.com/architecture/security-foundations>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

@@ -647,9 +647,9 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - Google (2018). *The Site Reliability Workbook*, cap. «Alerting on SLOs» — por qué se alerta sobre síntomas. <https://sre.google/workbook/alerting-on-slos/>
-- Parasuraman, R. y Riley, V. (1997). *Humans and automation: use, misuse, disuse, abuse*. <https://journals.sagepub.com/doi/10.1518/001872097778543886>
-- AWS (2024). *CloudWatch anomaly detection*. <https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Anomaly_Detection.html>
-- Microsoft (2024). *Azure Monitor: dynamic thresholds and smart detection*. <https://learn.microsoft.com/azure/azure-monitor/alerts/alerts-dynamic-thresholds>
+- Parasuraman, R. y Riley, V. (1997). *Humans and automation: use, misuse, disuse, abuse* — cuándo la automatización degrada el desempeño humano. <https://journals.sagepub.com/doi/10.1518/001872097778543886>
+- AWS (2024). *CloudWatch anomaly detection* — detección de anomalías sobre la métrica. <https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Anomaly_Detection.html>
+- Microsoft (2024). *Azure Monitor: dynamic thresholds and smart detection* — umbrales dinámicos y detección asistida. <https://learn.microsoft.com/azure/azure-monitor/alerts/alerts-dynamic-thresholds>
 - OWASP (2025). *Top 10 for LLM applications* — entrada no fiable y permisos excesivos. <https://owasp.org/www-project-top-10-for-large-language-model-applications/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

@@ -675,11 +675,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Google Cloud (2025). *Cloud Run: concurrency and instance settings*. <https://cloud.google.com/run/docs/about-concurrency>
-- Google Cloud (2025). *Cloud Run: traffic management and revisions*. <https://cloud.google.com/run/docs/managing/revisions>
-- Google Cloud (2025). *Cloud Run: CPU allocation and background activity*. <https://cloud.google.com/run/docs/configuring/cpu-allocation>
-- Google Cloud (2025). *Connecting to a VPC network from Cloud Run*. <https://cloud.google.com/run/docs/configuring/connecting-vpc>
-- Google Cloud (2025). *Workflows*. <https://cloud.google.com/workflows/docs/overview>
+- Google Cloud (2025). *Cloud Run: concurrency and instance settings* — concurrencia por instancia y su efecto en el coste. <https://cloud.google.com/run/docs/about-concurrency>
+- Google Cloud (2025). *Cloud Run: traffic management and revisions* — reparto de tráfico entre revisiones. <https://cloud.google.com/run/docs/managing/revisions>
+- Google Cloud (2025). *Cloud Run: CPU allocation and background activity* — asignación de CPU y trabajo en segundo plano. <https://cloud.google.com/run/docs/configuring/cpu-allocation>
+- Google Cloud (2025). *Connecting to a VPC network from Cloud Run* — acceso a la red privada desde el servicio. <https://cloud.google.com/run/docs/configuring/connecting-vpc>
+- Google Cloud (2025). *Workflows* — orquestación de pasos sin servidor. <https://cloud.google.com/workflows/docs/overview>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

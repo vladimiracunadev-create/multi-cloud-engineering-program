@@ -682,11 +682,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- CISA (2025). *Known Exploited Vulnerabilities catalog*. <https://www.cisa.gov/known-exploited-vulnerabilities-catalog>
-- CycloneDX (2025). *Software bill of materials specification*. <https://cyclonedx.org/specification/overview/>
-- SLSA (2025). *Supply chain levels for software artifacts*. <https://slsa.dev/>
-- AWS (2025). *EC2 Image Builder and golden AMI pipelines*. <https://docs.aws.amazon.com/imagebuilder/latest/userguide/what-is-image-builder.html>
-- Beyer, B. y otros (2018). *The Site Reliability Workbook*, cap. sobre gestión de cambios. <https://sre.google/workbook/table-of-contents/>
+- CISA (2025). *Known Exploited Vulnerabilities catalog* — vulnerabilidades con explotación activa confirmada. <https://www.cisa.gov/known-exploited-vulnerabilities-catalog>
+- CycloneDX (2025). *Software bill of materials specification* — inventario de componentes del artefacto. <https://cyclonedx.org/specification/overview/>
+- SLSA (2025). *Supply chain levels for software artifacts* — niveles de integridad de la cadena de suministro. <https://slsa.dev/>
+- AWS (2025). *EC2 Image Builder and golden AMI pipelines* — canalización de imágenes base reproducibles. <https://docs.aws.amazon.com/imagebuilder/latest/userguide/what-is-image-builder.html>
+- Beyer, B. y otros (2018). *The Site Reliability Workbook*, cap. sobre gestión de cambios — gestión del cambio en producción. <https://sre.google/workbook/table-of-contents/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

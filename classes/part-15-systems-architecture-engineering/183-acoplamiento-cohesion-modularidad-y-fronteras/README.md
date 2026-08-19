@@ -548,7 +548,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Parnas, D. L. (1972). *On the criteria to be used in decomposing systems into modules*. <https://dl.acm.org/doi/10.1145/361598.361623>
+- Parnas, D. L. (1972). *On the criteria to be used in decomposing systems into modules* — el criterio de ocultación de información para trazar fronteras de módulo. <https://dl.acm.org/doi/10.1145/361598.361623>
 - Newman, S. (2019). *Monolith to Microservices* — acoplamiento por datos y cómo dividirlo. <https://www.oreilly.com/library/view/monolith-to-microservices/9781492047834/>
 - Tornhill, A. (2018). *Software Design X-Rays* — cambios acoplados medidos sobre el historial. <https://pragprog.com/titles/atevol/software-design-x-rays/>
 - Evans, E. (2003). *Domain-Driven Design* — contextos delimitados y sus fronteras. <https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/>

@@ -762,11 +762,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Mitchell, M. y otros (2019). *Model cards for model reporting*. <https://dl.acm.org/doi/10.1145/3287560.3287596>
-- NIST (2024). *AI Risk Management Framework*. <https://www.nist.gov/itl/ai-risk-management-framework>
-- ISO/IEC 42001 (2023). *Artificial intelligence management system*. <https://www.iso.org/standard/81230.html>
-- Green Software Foundation (2025). *Software Carbon Intensity specification*. <https://sci.greensoftware.foundation/>
-- Agencia Española de Protección de Datos (2025). *Guía sobre tratamientos con inteligencia artificial*. <https://www.aepd.es/documento/adecuacion-rgpd-ia.pdf>
+- Mitchell, M. y otros (2019). *Model cards for model reporting* — ficha de modelo como documentación de alcance y límites. <https://dl.acm.org/doi/10.1145/3287560.3287596>
+- NIST (2024). *AI Risk Management Framework* — el marco de gestión de riesgo aplicado al sistema. <https://www.nist.gov/itl/ai-risk-management-framework>
+- ISO/IEC 42001 (2023). *Artificial intelligence management system* — el sistema de gestión certificable para IA. <https://www.iso.org/standard/81230.html>
+- Green Software Foundation (2025). *Software Carbon Intensity specification* — medir la intensidad de carbono del software. <https://sci.greensoftware.foundation/>
+- Agencia Española de Protección de Datos (2025). *Guía sobre tratamientos con inteligencia artificial* — obligaciones de protección de datos en tratamientos con IA. <https://www.aepd.es/documento/adecuacion-rgpd-ia.pdf>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

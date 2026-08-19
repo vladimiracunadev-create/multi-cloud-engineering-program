@@ -631,11 +631,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Microsoft (2025). *Managed identities for Azure resources*. <https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview>
-- Microsoft (2025). *Workload identity federation*. <https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation>
-- Microsoft (2025). *Azure RBAC scope and best practices*. <https://learn.microsoft.com/en-us/azure/role-based-access-control/best-practices>
-- Microsoft (2025). *Privileged Identity Management*. <https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure>
-- Microsoft (2025). *Conditional Access and emergency access accounts*. <https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access>
+- Microsoft (2025). *Managed identities for Azure resources* — identidad administrada para no guardar credenciales. <https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview>
+- Microsoft (2025). *Workload identity federation* — federación de identidad para cargas fuera de Azure. <https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation>
+- Microsoft (2025). *Azure RBAC scope and best practices* — ámbito de asignación de roles y su alcance real. <https://learn.microsoft.com/en-us/azure/role-based-access-control/best-practices>
+- Microsoft (2025). *Privileged Identity Management* — elevación temporal de privilegio con aprobación. <https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure>
+- Microsoft (2025). *Conditional Access and emergency access accounts* — acceso condicional y cuentas de emergencia. <https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

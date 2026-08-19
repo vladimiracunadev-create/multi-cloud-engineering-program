@@ -605,11 +605,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Elastic Load Balancing: types, health checks and connection draining*. <https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-load-balancing.html>
-- Envoy (2025). *Load balancing and outlier detection*. <https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/overview>
+- AWS (2025). *Elastic Load Balancing: types, health checks and connection draining* — diferencias por capa y retirada ordenada de instancias. <https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-load-balancing.html>
+- Envoy (2025). *Load balancing and outlier detection* — expulsión automática de destinos que se degradan. <https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/overview>
 - RFC 8555 — Automatic Certificate Management Environment (ACME). <https://www.rfc-editor.org/rfc/rfc8555>
-- Mozilla (2025). *Server side TLS configuration guidelines*. <https://wiki.mozilla.org/Security/Server_Side_TLS>
-- Google (2016). *SRE Book: load balancing at the frontend*. <https://sre.google/sre-book/load-balancing-frontend/>
+- Mozilla (2025). *Server side TLS configuration guidelines* — versiones de protocolo y conjuntos de cifrado admisibles. <https://wiki.mozilla.org/Security/Server_Side_TLS>
+- Google (2016). *SRE Book: load balancing at the frontend* — reparto de carga antes de llegar al servicio. <https://sre.google/sre-book/load-balancing-frontend/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

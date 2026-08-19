@@ -607,11 +607,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Amplify Hosting user guide*. <https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html>
-- AWS (2025). *Restricting access to an Amazon S3 origin (origin access control)*. <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html>
-- AWS (2025). *CloudFront cache policies and cache key*. <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html>
-- AWS (2025). *CloudFront Functions*. <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-functions.html>
-- AWS (2025). *Blocking public access to your Amazon S3 storage*. <https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html>
+- AWS (2025). *Amplify Hosting user guide* — flujo de publicación gestionado del sitio. <https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html>
+- AWS (2025). *Restricting access to an Amazon S3 origin (origin access control)* — cerrar el origen para que solo se sirva por el CDN. <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html>
+- AWS (2025). *CloudFront cache policies and cache key* — políticas de caché y composición de su clave. <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html>
+- AWS (2025). *CloudFront Functions* — lógica ligera ejecutada en el borde. <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-functions.html>
+- AWS (2025). *Blocking public access to your Amazon S3 storage* — bloqueo de acceso público del almacenamiento. <https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

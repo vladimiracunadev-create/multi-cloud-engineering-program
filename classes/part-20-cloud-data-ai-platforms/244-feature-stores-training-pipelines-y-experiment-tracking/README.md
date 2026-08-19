@@ -687,11 +687,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Sculley, D. y otros (2015). *Hidden technical debt in machine learning systems*. <https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html>
-- Feast (2025). *Feature store concepts and point-in-time joins*. <https://docs.feast.dev/>
-- Kapoor, S. y Narayanan, A. (2023). *Leakage and the reproducibility crisis in ML-based science*. <https://www.cell.com/patterns/fulltext/S2666-3899(23)00159-9>
-- MLflow (2025). *Tracking experiments and model registry*. <https://mlflow.org/docs/latest/tracking.html>
-- Gebru, T. y otros (2021). *Datasheets for datasets*. <https://dl.acm.org/doi/10.1145/3458723>
+- Sculley, D. y otros (2015). *Hidden technical debt in machine learning systems* — por qué el código del modelo es la parte pequeña del sistema. <https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html>
+- Feast (2025). *Feature store concepts and point-in-time joins* — unión temporal correcta para no filtrar el futuro. <https://docs.feast.dev/>
+- Kapoor, S. y Narayanan, A. (2023). *Leakage and the reproducibility crisis in ML-based science* — la fuga de datos como causa de resultados irreproducibles. <https://www.cell.com/patterns/fulltext/S2666-3899(23)00159-9>
+- MLflow (2025). *Tracking experiments and model registry* — seguimiento de experimentos y registro de modelos. <https://mlflow.org/docs/latest/tracking.html>
+- Gebru, T. y otros (2021). *Datasheets for datasets* — documentar el origen y los sesgos del conjunto de datos. <https://dl.acm.org/doi/10.1145/3458723>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

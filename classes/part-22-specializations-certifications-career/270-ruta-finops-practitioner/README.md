@@ -662,11 +662,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Storment, J. R. y Fuller, M. (2023). *Cloud FinOps*, 2.ª ed. <https://www.oreilly.com/library/view/cloud-finops-2nd/9781492098348/>
-- FinOps Foundation (2024). *FinOps Framework: capabilities and maturity*. <https://www.finops.org/framework/>
-- AWS (2024). *Cost Optimization Pillar, Well-Architected Framework*. <https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/welcome.html>
-- Microsoft (2024). *Azure Well-Architected Framework: cost optimization*. <https://learn.microsoft.com/azure/well-architected/cost-optimization/>
-- Google Cloud (2024). *Cost management and FinOps best practices*. <https://cloud.google.com/architecture/framework/cost-optimization>
+- Storment, J. R. y Fuller, M. (2023). *Cloud FinOps*, 2.ª ed — el cuerpo de práctica de la disciplina. <https://www.oreilly.com/library/view/cloud-finops-2nd/9781492098348/>
+- FinOps Foundation (2024). *FinOps Framework: capabilities and maturity* — las capacidades del marco y su madurez. <https://www.finops.org/framework/>
+- AWS (2024). *Cost Optimization Pillar, Well-Architected Framework* — el pilar de optimización de coste. <https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/welcome.html>
+- Microsoft (2024). *Azure Well-Architected Framework: cost optimization* — el pilar equivalente en Azure. <https://learn.microsoft.com/azure/well-architected/cost-optimization/>
+- Google Cloud (2024). *Cost management and FinOps best practices* — prácticas de gestión de coste en Google Cloud. <https://cloud.google.com/architecture/framework/cost-optimization>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

@@ -644,9 +644,9 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - Popper, K. (1963). *Conjeturas y refutaciones* — el método de predecir y corregir. <https://www.routledge.com/Conjectures-and-Refutations/Popper/p/book/9780415285940>
-- Beyer, B. y otros (2018). *The Site Reliability Workbook*. <https://sre.google/workbook/table-of-contents/>
-- Forsgren, N., Humble, J. y Kim, G. (2018). *Accelerate*. <https://itrevolution.com/product/accelerate/>
-- Kleppmann, M. (2017). *Designing Data-Intensive Applications*. <https://dataintensive.net/>
+- Beyer, B. y otros (2018). *The Site Reliability Workbook* — el plan de operación a doce meses. <https://sre.google/workbook/table-of-contents/>
+- Forsgren, N., Humble, J. y Kim, G. (2018). *Accelerate* — las capacidades que ordenan la mejora del equipo. <https://itrevolution.com/product/accelerate/>
+- Kleppmann, M. (2017). *Designing Data-Intensive Applications* — los fundamentos que sostienen el plan técnico. <https://dataintensive.net/>
 - Ericsson, K. A. y Pool, R. (2016). *Peak* — práctica deliberada con realimentación. <https://www.hachettebookgroup.com/titles/anders-ericsson/peak/9780544456259/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

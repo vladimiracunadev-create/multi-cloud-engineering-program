@@ -628,9 +628,9 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Direct Connect resiliency recommendations*. <https://docs.aws.amazon.com/directconnect/latest/UserGuide/high_resiliency.html>
-- Microsoft (2025). *ExpressRoute design for high availability*. <https://learn.microsoft.com/en-us/azure/expressroute/designing-for-high-availability-with-expressroute>
-- Google Cloud (2025). *Cloud Interconnect and HA VPN topologies*. <https://cloud.google.com/network-connectivity/docs/interconnect>
+- AWS (2025). *Direct Connect resiliency recommendations* — topologías redundantes del enlace y sus modos de fallo. <https://docs.aws.amazon.com/directconnect/latest/UserGuide/high_resiliency.html>
+- Microsoft (2025). *ExpressRoute design for high availability* — diseño de alta disponibilidad del enlace dedicado. <https://learn.microsoft.com/en-us/azure/expressroute/designing-for-high-availability-with-expressroute>
+- Google Cloud (2025). *Cloud Interconnect and HA VPN topologies* — las topologías equivalentes en Google Cloud. <https://cloud.google.com/network-connectivity/docs/interconnect>
 - RFC 4459 — MTU and fragmentation issues with in-the-network tunneling. <https://www.rfc-editor.org/rfc/rfc4459>
 - RFC 7296 — Internet Key Exchange Protocol Version 2 (IKEv2). <https://www.rfc-editor.org/rfc/rfc7296>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

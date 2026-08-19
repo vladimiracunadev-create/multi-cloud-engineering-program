@@ -365,7 +365,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - Nygard, M. (2011). *Documenting Architecture Decisions* — formato original de los ADR. <https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions>
-- Keeling, M. y Runde, J. (2017). *Share the Load: Distribute Design Authority with Architecture Decision Records*. Agile Alliance. <https://www.agilealliance.org/resources/experience-reports/distribute-design-authority-with-architecture-decision-records/>
+- Keeling, M. y Runde, J. (2017). *Share the Load: Distribute Design Authority with Architecture Decision Records*. Agile Alliance — cómo repartir autoridad de diseño mediante registros de decisión. <https://www.agilealliance.org/resources/experience-reports/distribute-design-authority-with-architecture-decision-records/>
 - Bezos, J. (2016). *Letter to Shareholders* — decisiones de tipo 1 y tipo 2 según su reversibilidad. <https://www.sec.gov/Archives/edgar/data/1018724/000119312516530910/d168744dex991.htm>
 - Ford, N., Parsons, R. y Kua, P. (2017). *Building Evolutionary Architectures*, cap. 2 — funciones de aptitud y decisiones con condición de revisión.
 - Richards, M. y Ford, N. (2020). *Fundamentals of Software Architecture*, cap. 19 — registro y comunicación de decisiones.

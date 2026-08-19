@@ -649,11 +649,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Google Cloud (2025). *Spanner schema design and hotspot avoidance*. <https://cloud.google.com/spanner/docs/schema-design>
-- Google Cloud (2025). *Spanner: interleaved tables and transactions*. <https://cloud.google.com/spanner/docs/schema-and-data-model>
-- Google Cloud (2025). *Firestore: best practices and limits*. <https://cloud.google.com/firestore/docs/best-practices>
-- Google Cloud (2025). *Bigtable schema design*. <https://cloud.google.com/bigtable/docs/schema-design>
-- Google Cloud (2025). *Cloud SQL: read replicas and high availability*. <https://cloud.google.com/sql/docs/mysql/high-availability>
+- Google Cloud (2025). *Spanner schema design and hotspot avoidance* — diseño de esquema que evita puntos calientes. <https://cloud.google.com/spanner/docs/schema-design>
+- Google Cloud (2025). *Spanner: interleaved tables and transactions* — tablas intercaladas y semántica transaccional. <https://cloud.google.com/spanner/docs/schema-and-data-model>
+- Google Cloud (2025). *Firestore: best practices and limits* — límites del servicio y prácticas recomendadas. <https://cloud.google.com/firestore/docs/best-practices>
+- Google Cloud (2025). *Bigtable schema design* — diseño de clave de fila y su efecto en el acceso. <https://cloud.google.com/bigtable/docs/schema-design>
+- Google Cloud (2025). *Cloud SQL: read replicas and high availability* — réplicas de lectura y alta disponibilidad. <https://cloud.google.com/sql/docs/mysql/high-availability>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

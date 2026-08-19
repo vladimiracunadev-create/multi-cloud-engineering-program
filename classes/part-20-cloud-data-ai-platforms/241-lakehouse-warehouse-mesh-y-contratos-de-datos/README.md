@@ -629,11 +629,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Dehghani, Z. (2022). *Data Mesh: Delivering Data-Driven Value at Scale*. <https://www.oreilly.com/library/view/data-mesh/9781492092384/>
-- Armbrust, M. y otros (2021). *Lakehouse: a new generation of open platforms*. <https://www.cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf>
-- Delta Lake (2025). *Table format and transaction log*. <https://docs.delta.io/latest/index.html>
-- Apache Iceberg (2025). *Table specification*. <https://iceberg.apache.org/spec/>
-- Open Data Contract Standard (2025). <https://bitol-io.github.io/open-data-contract-standard/latest/>
+- Dehghani, Z. (2022). *Data Mesh: Delivering Data-Driven Value at Scale* — la propuesta de malla de datos y sus cuatro principios. <https://www.oreilly.com/library/view/data-mesh/9781492092384/>
+- Armbrust, M. y otros (2021). *Lakehouse: a new generation of open platforms* — la arquitectura que une lago y almacén. <https://www.cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf>
+- Delta Lake (2025). *Table format and transaction log* — formato de tabla y registro de transacciones. <https://docs.delta.io/latest/index.html>
+- Apache Iceberg (2025). *Table specification* — la especificación del formato de tabla abierto. <https://iceberg.apache.org/spec/>
+- Open Data Contract Standard (2025) — el estándar de contrato de datos entre productor y consumidor. <https://bitol-io.github.io/open-data-contract-standard/latest/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

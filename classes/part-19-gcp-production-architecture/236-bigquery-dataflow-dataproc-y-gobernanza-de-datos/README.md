@@ -656,11 +656,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Google Cloud (2025). *BigQuery: controlling costs*. <https://cloud.google.com/bigquery/docs/best-practices-costs>
-- Google Cloud (2025). *Partitioned and clustered tables*. <https://cloud.google.com/bigquery/docs/partitioned-tables>
-- Google Cloud (2025). *Column-level and row-level security*. <https://cloud.google.com/bigquery/docs/column-level-security-intro>
-- Google Cloud (2025). *Dataflow: unified batch and streaming*. <https://cloud.google.com/dataflow/docs/concepts>
-- Google Cloud (2025). *Dataplex and data lineage*. <https://cloud.google.com/dataplex/docs/about-data-lineage>
+- Google Cloud (2025). *BigQuery: controlling costs* — control del coste de consulta. <https://cloud.google.com/bigquery/docs/best-practices-costs>
+- Google Cloud (2025). *Partitioned and clustered tables* — particionado y agrupamiento para acotar el escaneo. <https://cloud.google.com/bigquery/docs/partitioned-tables>
+- Google Cloud (2025). *Column-level and row-level security* — seguridad a nivel de columna y de fila. <https://cloud.google.com/bigquery/docs/column-level-security-intro>
+- Google Cloud (2025). *Dataflow: unified batch and streaming* — un mismo modelo para lote y flujo. <https://cloud.google.com/dataflow/docs/concepts>
+- Google Cloud (2025). *Dataplex and data lineage* — gobierno y linaje del dato. <https://cloud.google.com/dataplex/docs/about-data-lineage>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

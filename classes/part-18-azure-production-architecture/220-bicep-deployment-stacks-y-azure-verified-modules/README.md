@@ -665,11 +665,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Microsoft (2025). *Bicep documentation*. <https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview>
-- Microsoft (2025). *Deployment stacks*. <https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deployment-stacks>
-- Microsoft (2025). *ARM template deployment modes*. <https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deployment-modes>
-- Microsoft (2025). *Azure Verified Modules*. <https://azure.github.io/Azure-Verified-Modules/>
-- Microsoft (2025). *ARM template what-if operation*. <https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deploy-what-if>
+- Microsoft (2025). *Bicep documentation* — sintaxis y modelo de despliegue declarativo. <https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview>
+- Microsoft (2025). *Deployment stacks* — pilas de despliegue para gestionar el ciclo de vida completo. <https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deployment-stacks>
+- Microsoft (2025). *ARM template deployment modes* — diferencia entre despliegue incremental y completo. <https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deployment-modes>
+- Microsoft (2025). *Azure Verified Modules* — módulos verificados como base reutilizable. <https://azure.github.io/Azure-Verified-Modules/>
+- Microsoft (2025). *ARM template what-if operation* — previsualizar el cambio antes de aplicarlo. <https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deploy-what-if>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

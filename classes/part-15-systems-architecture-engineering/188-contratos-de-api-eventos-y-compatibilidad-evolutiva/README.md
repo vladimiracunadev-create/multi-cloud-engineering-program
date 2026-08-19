@@ -573,10 +573,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Wright, H. (2017). *Hyrum's Law*. <https://www.hyrumslaw.com/>
+- Wright, H. (2017). *Hyrum's Law* — por qué todo comportamiento observable acaba siendo contrato. <https://www.hyrumslaw.com/>
 - Confluent (2025). *Schema evolution and compatibility* — reglas hacia atrás y hacia delante en eventos. <https://docs.confluent.io/platform/current/schema-registry/fundamentals/schema-evolution.html>
-- Pact (2025). *Consumer-driven contract testing*. <https://docs.pact.io/>
-- Google (2025). *API Improvement Proposals: versioning and compatibility*. <https://google.aip.dev/180>
+- Pact (2025). *Consumer-driven contract testing* — verificar compatibilidad desde las expectativas del consumidor. <https://docs.pact.io/>
+- Google (2025). *API Improvement Proposals: versioning and compatibility* — reglas de versionado y compatibilidad evolutiva. <https://google.aip.dev/180>
 - Ambler, S. y Sadalage, P. (2006). *Refactoring Databases* — expandir y contraer aplicado a esquemas. <https://www.oreilly.com/library/view/refactoring-databases-evolutionary/0321293533/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

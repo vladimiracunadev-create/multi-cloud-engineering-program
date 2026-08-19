@@ -593,11 +593,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Kleppmann, M. (2017). *Designing Data-Intensive Applications*. <https://dataintensive.net/>
-- Sculley, D. y otros (2015). *Hidden technical debt in machine learning systems*. <https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html>
-- Google Cloud (2024). *MLOps: continuous delivery and automation pipelines*. <https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning>
-- AWS (2024). *Machine Learning Lens, Well-Architected Framework*. <https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/machine-learning-lens.html>
-- Microsoft (2024). *Azure MLOps and data governance guidance*. <https://learn.microsoft.com/azure/architecture/ai-ml/guide/machine-learning-operations-v2>
+- Kleppmann, M. (2017). *Designing Data-Intensive Applications* — los fundamentos de datos que el rol necesita. <https://dataintensive.net/>
+- Sculley, D. y otros (2015). *Hidden technical debt in machine learning systems* — la deuda técnica propia de los sistemas de aprendizaje. <https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html>
+- Google Cloud (2024). *MLOps: continuous delivery and automation pipelines* — automatización del ciclo de vida del modelo. <https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning>
+- AWS (2024). *Machine Learning Lens, Well-Architected Framework* — la lente de aprendizaje automático del marco. <https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/machine-learning-lens.html>
+- Microsoft (2024). *Azure MLOps and data governance guidance* — gobierno del dato y del modelo en Azure. <https://learn.microsoft.com/azure/architecture/ai-ml/guide/machine-learning-operations-v2>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

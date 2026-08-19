@@ -613,11 +613,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Building a scalable and secure multi-VPC network infrastructure*. <https://docs.aws.amazon.com/whitepapers/latest/building-scalable-secure-multi-vpc-network-infrastructure/welcome.html>
-- Microsoft (2025). *Cloud Adoption Framework: network topology and connectivity*. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/network-topology-and-connectivity>
-- Google Cloud (2025). *Network design decisions in the Architecture Framework*. <https://cloud.google.com/architecture/framework>
+- AWS (2025). *Building a scalable and secure multi-VPC network infrastructure* — referencia para la topología de red del proyecto. <https://docs.aws.amazon.com/whitepapers/latest/building-scalable-secure-multi-vpc-network-infrastructure/welcome.html>
+- Microsoft (2025). *Cloud Adoption Framework: network topology and connectivity* — criterios de conectividad aplicados al diseño. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/network-topology-and-connectivity>
+- Google Cloud (2025). *Network design decisions in the Architecture Framework* — decisiones de red del marco de arquitectura. <https://cloud.google.com/architecture/framework>
 - Beyer, B. y otros (2018). *The Site Reliability Workbook* — verificación con pruebas reales. <https://sre.google/workbook/table-of-contents/>
-- NIST SP 800-207 (2020). *Zero Trust Architecture*. <https://csrc.nist.gov/pubs/sp/800/207/final>
+- NIST SP 800-207 (2020). *Zero Trust Architecture* — el criterio de confianza cero aplicado a la interconexión. <https://csrc.nist.gov/pubs/sp/800/207/final>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

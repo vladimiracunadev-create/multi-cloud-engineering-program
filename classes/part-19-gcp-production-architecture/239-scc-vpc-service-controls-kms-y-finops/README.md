@@ -637,11 +637,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Google Cloud (2025). *Security Command Center: attack path simulation*. <https://cloud.google.com/security-command-center/docs/attack-exposure-learn>
-- Google Cloud (2025). *VPC Service Controls: dry run mode*. <https://cloud.google.com/vpc-service-controls/docs/dry-run-mode>
-- Google Cloud (2025). *Customer-managed encryption keys*. <https://cloud.google.com/kms/docs/cmek>
-- Google Cloud (2025). *Sustained use and committed use discounts*. <https://cloud.google.com/compute/docs/sustained-use-discounts>
-- Google Cloud (2025). *Billing labels and cost breakdown*. <https://cloud.google.com/billing/docs/how-to/bq-examples>
+- Google Cloud (2025). *Security Command Center: attack path simulation* — simulación de rutas de ataque. <https://cloud.google.com/security-command-center/docs/attack-exposure-learn>
+- Google Cloud (2025). *VPC Service Controls: dry run mode* — modo de prueba antes de aplicar el perímetro. <https://cloud.google.com/vpc-service-controls/docs/dry-run-mode>
+- Google Cloud (2025). *Customer-managed encryption keys* — claves de cifrado gestionadas por el cliente. <https://cloud.google.com/kms/docs/cmek>
+- Google Cloud (2025). *Sustained use and committed use discounts* — descuentos por uso sostenido y por compromiso. <https://cloud.google.com/compute/docs/sustained-use-discounts>
+- Google Cloud (2025). *Billing labels and cost breakdown* — etiquetas de facturación y desglose del gasto. <https://cloud.google.com/billing/docs/how-to/bq-examples>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

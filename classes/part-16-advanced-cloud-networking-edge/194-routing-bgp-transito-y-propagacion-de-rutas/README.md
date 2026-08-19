@@ -586,10 +586,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - RFC 4271 — A Border Gateway Protocol 4 (BGP-4). <https://www.rfc-editor.org/rfc/rfc4271>
-- AWS (2025). *Route tables and route priority in VPC*. <https://docs.aws.amazon.com/vpc/latest/userguide/VpcSubnetRouting.html>
-- Microsoft (2025). *Virtual network traffic routing*. <https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview>
-- Google Cloud (2025). *Routes and routing order*. <https://cloud.google.com/vpc/docs/routes>
-- Cloudflare (2025). *What is BGP? Route leaks and hijacks*. <https://www.cloudflare.com/learning/security/glossary/bgp-hijacking/>
+- AWS (2025). *Route tables and route priority in VPC* — prioridad de rutas dentro de la VPC. <https://docs.aws.amazon.com/vpc/latest/userguide/VpcSubnetRouting.html>
+- Microsoft (2025). *Virtual network traffic routing* — orden de resolución de rutas en la red virtual. <https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview>
+- Google Cloud (2025). *Routes and routing order* — precedencia de rutas en Google Cloud. <https://cloud.google.com/vpc/docs/routes>
+- Cloudflare (2025). *What is BGP? Route leaks and hijacks* — fugas y secuestros de ruta como riesgo operativo. <https://www.cloudflare.com/learning/security/glossary/bgp-hijacking/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

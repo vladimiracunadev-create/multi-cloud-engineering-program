@@ -624,11 +624,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Well-Architected Framework*. <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html>
-- AWS (2025). *Serverless Application Lens*. <https://docs.aws.amazon.com/wellarchitected/latest/serverless-applications-lens/welcome.html>
-- AWS (2025). *Security Reference Architecture*. <https://docs.aws.amazon.com/prescriptive-guidance/latest/security-reference-architecture/welcome.html>
-- Beyer, B. y otros (2018). *The Site Reliability Workbook*. <https://sre.google/workbook/table-of-contents/>
-- Basiri, A. y otros (2016). *Chaos engineering*. <https://ieeexplore.ieee.org/document/7503833>
+- AWS (2025). *Well-Architected Framework* — los pilares como lista de verificación del proyecto. <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html>
+- AWS (2025). *Serverless Application Lens* — la lente específica para arquitecturas serverless. <https://docs.aws.amazon.com/wellarchitected/latest/serverless-applications-lens/welcome.html>
+- AWS (2025). *Security Reference Architecture* — arquitectura de referencia de los servicios de seguridad. <https://docs.aws.amazon.com/prescriptive-guidance/latest/security-reference-architecture/welcome.html>
+- Beyer, B. y otros (2018). *The Site Reliability Workbook* — prácticas de operación aplicadas al servicio productivo. <https://sre.google/workbook/table-of-contents/>
+- Basiri, A. y otros (2016). *Chaos engineering* — inyección controlada de fallos para validar la resiliencia. <https://ieeexplore.ieee.org/document/7503833>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

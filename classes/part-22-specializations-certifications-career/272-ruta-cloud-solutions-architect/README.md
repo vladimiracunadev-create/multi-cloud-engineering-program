@@ -585,11 +585,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Nygard, M. (2011). *Documenting architecture decisions*. <https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions>
-- Ford, N., Richards, M. y otros (2021). *Software Architecture: the hard parts*. <https://www.oreilly.com/library/view/software-architecture-the/9781492086888/>
-- Bass, L., Clements, P. y Kazman, R. (2021). *Software Architecture in Practice*, 4.ª ed. <https://www.pearson.com/en-us/subject-catalog/p/software-architecture-in-practice/P200000009360>
-- AWS (2024). *Well-Architected Framework: making architectural decisions*. <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html>
-- Microsoft (2024). *Azure architecture decision guides*. <https://learn.microsoft.com/azure/architecture/guide/>
+- Nygard, M. (2011). *Documenting architecture decisions* — el registro de decisión como herramienta del rol. <https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions>
+- Ford, N., Richards, M. y otros (2021). *Software Architecture: the hard parts* — las decisiones difíciles y sus compromisos. <https://www.oreilly.com/library/view/software-architecture-the/9781492086888/>
+- Bass, L., Clements, P. y Kazman, R. (2021). *Software Architecture in Practice*, 4.ª ed — el cuerpo de práctica de la disciplina. <https://www.pearson.com/en-us/subject-catalog/p/software-architecture-in-practice/P200000009360>
+- AWS (2024). *Well-Architected Framework: making architectural decisions* — cómo el marco estructura la decisión. <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html>
+- Microsoft (2024). *Azure architecture decision guides* — guías de decisión de arquitectura en Azure. <https://learn.microsoft.com/azure/architecture/guide/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

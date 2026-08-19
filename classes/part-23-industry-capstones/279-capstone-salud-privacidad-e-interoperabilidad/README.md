@@ -579,11 +579,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- HL7 (2024). *FHIR: Fast Healthcare Interoperability Resources*. <https://www.hl7.org/fhir/>
+- HL7 (2024). *FHIR: Fast Healthcare Interoperability Resources* — el estándar de interoperabilidad clínica. <https://www.hl7.org/fhir/>
 - Reglamento (UE) 2016/679, RGPD — datos de salud como categoría especial. <https://eur-lex.europa.eu/eli/reg/2016/679/oj>
-- AWS (2024). *Healthcare Industry Lens, Well-Architected Framework*. <https://docs.aws.amazon.com/wellarchitected/latest/healthcare-industry-lens/healthcare-industry-lens.html>
-- Microsoft (2024). *Azure for healthcare: compliance and data protection*. <https://learn.microsoft.com/azure/architecture/industries/healthcare/>
-- El Emam, K. (2013). *Guide to the De-Identification of Personal Health Information*. <https://www.routledge.com/Guide-to-the-De-Identification-of-Personal-Health-Information/Emam/p/book/9781466579064>
+- AWS (2024). *Healthcare Industry Lens, Well-Architected Framework* — la lente del sector salud. <https://docs.aws.amazon.com/wellarchitected/latest/healthcare-industry-lens/healthcare-industry-lens.html>
+- Microsoft (2024). *Azure for healthcare: compliance and data protection* — cumplimiento y protección del dato clínico en Azure. <https://learn.microsoft.com/azure/architecture/industries/healthcare/>
+- El Emam, K. (2013). *Guide to the De-Identification of Personal Health Information* — método de anonimización de información de salud. <https://www.routledge.com/Guide-to-the-De-Identification-of-Personal-Health-Information/Emam/p/book/9781466579064>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

@@ -587,9 +587,9 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2024). *Retail reference architectures and Well-Architected retail lens*. <https://docs.aws.amazon.com/wellarchitected/latest/retail-lens/retail-lens.html>
-- Google Cloud (2024). *Retail and commerce architectures*. <https://cloud.google.com/architecture/ecommerce-web-application>
-- Microsoft (2024). *E-commerce architecture on Azure*. <https://learn.microsoft.com/azure/architecture/industries/retail/>
+- AWS (2024). *Retail reference architectures and Well-Architected retail lens* — arquitecturas de referencia del sector minorista. <https://docs.aws.amazon.com/wellarchitected/latest/retail-lens/retail-lens.html>
+- Google Cloud (2024). *Retail and commerce architectures* — arquitecturas de comercio en Google Cloud. <https://cloud.google.com/architecture/ecommerce-web-application>
+- Microsoft (2024). *E-commerce architecture on Azure* — arquitectura de comercio electrónico en Azure. <https://learn.microsoft.com/azure/architecture/industries/retail/>
 - Helland, P. (2007). *Life beyond distributed transactions* — reservas y compensación. <https://queue.acm.org/detail.cfm?id=3025012>
 - Reglamento (UE) 2016/679, RGPD — residencia y transferencias de datos personales. <https://eur-lex.europa.eu/eli/reg/2016/679/oj>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

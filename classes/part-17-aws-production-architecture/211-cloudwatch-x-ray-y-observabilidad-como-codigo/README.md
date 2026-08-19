@@ -642,11 +642,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *CloudWatch embedded metric format*. <https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Embedded_Metric_Format.html>
-- AWS (2025). *CloudWatch Logs Insights query syntax*. <https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html>
-- AWS (2025). *AWS X-Ray sampling rules*. <https://docs.aws.amazon.com/xray/latest/devguide/xray-console-sampling.html>
-- OpenTelemetry (2025). *Context propagation*. <https://opentelemetry.io/docs/concepts/context-propagation/>
-- Google (2018). *The Site Reliability Workbook: alerting on SLOs*. <https://sre.google/workbook/alerting-on-slos/>
+- AWS (2025). *CloudWatch embedded metric format* — emitir métricas desde el propio registro de la función. <https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Embedded_Metric_Format.html>
+- AWS (2025). *CloudWatch Logs Insights query syntax* — sintaxis de consulta de registros para el diagnóstico. <https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html>
+- AWS (2025). *AWS X-Ray sampling rules* — muestreo de trazas y su efecto en el coste. <https://docs.aws.amazon.com/xray/latest/devguide/xray-console-sampling.html>
+- OpenTelemetry (2025). *Context propagation* — propagación de contexto entre servicios. <https://opentelemetry.io/docs/concepts/context-propagation/>
+- Google (2018). *The Site Reliability Workbook: alerting on SLOs* — alertar por consumo del presupuesto de error. <https://sre.google/workbook/alerting-on-slos/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

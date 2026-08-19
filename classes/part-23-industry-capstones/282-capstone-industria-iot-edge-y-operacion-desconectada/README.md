@@ -620,11 +620,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2024). *IoT Lens, Well-Architected Framework*. <https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/iot-lens.html>
-- Microsoft (2024). *Azure IoT reference architecture and device update*. <https://learn.microsoft.com/azure/architecture/reference-architectures/iot>
-- IETF (2021). *RFC 9019: A Firmware Update Architecture for Internet of Things*. <https://www.rfc-editor.org/rfc/rfc9019.html>
-- IEC (2020). *IEC 62443: seguridad en sistemas de automatización industrial*. <https://www.iec.ch/blog/understanding-iec-62443>
-- Google Cloud (2024). *Edge and industrial IoT architectures*. <https://cloud.google.com/architecture/connected-devices>
+- AWS (2024). *IoT Lens, Well-Architected Framework* — la lente de internet de las cosas. <https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/iot-lens.html>
+- Microsoft (2024). *Azure IoT reference architecture and device update* — arquitectura de referencia y actualización de dispositivos. <https://learn.microsoft.com/azure/architecture/reference-architectures/iot>
+- IETF (2021). *RFC 9019: A Firmware Update Architecture for Internet of Things* — arquitectura normalizada de actualización de firmware. <https://www.rfc-editor.org/rfc/rfc9019.html>
+- IEC (2020). *IEC 62443: seguridad en sistemas de automatización industrial* — requisitos de seguridad en automatización industrial. <https://www.iec.ch/blog/understanding-iec-62443>
+- Google Cloud (2024). *Edge and industrial IoT architectures* — arquitecturas de borde e industria en Google Cloud. <https://cloud.google.com/architecture/connected-devices>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

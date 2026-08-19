@@ -626,10 +626,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - Skelton, M. y Pais, M. (2019). *Team Topologies* — equipos de plataforma como habilitadores. <https://teamtopologies.com/book>
-- Bottcher, E. (2018). *What I talk about when I talk about platforms*. <https://martinfowler.com/articles/talk-about-platforms.html>
-- Google (2024). *DORA: platform engineering and developer experience*. <https://dora.dev/research/>
-- CNCF (2024). *Platform engineering maturity model*. <https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/>
-- Humanitec (2024). *Platform as a product: reference architectures*. <https://humanitec.com/reference-architectures>
+- Bottcher, E. (2018). *What I talk about when I talk about platforms* — qué es y qué no es una plataforma interna. <https://martinfowler.com/articles/talk-about-platforms.html>
+- Google (2024). *DORA: platform engineering and developer experience* — experiencia de desarrollo como resultado medible. <https://dora.dev/research/>
+- CNCF (2024). *Platform engineering maturity model* — modelo de madurez del equipo de plataforma. <https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/>
+- Humanitec (2024). *Platform as a product: reference architectures* — la plataforma tratada como producto. <https://humanitec.com/reference-architectures>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

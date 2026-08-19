@@ -274,8 +274,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - Bray, T., ed. (2017). *RFC 8259: The JavaScript Object Notation (JSON) Data Interchange Format* — sección 6 sobre los límites de precisión numérica. <https://www.rfc-editor.org/rfc/rfc8259#section-6>
-- IEEE (2019). *Standard for Floating-Point Arithmetic (IEEE 754-2019)*. <https://doi.org/10.1109/IEEESTD.2019.8766229>
-- Goldberg, D. (1991). *What Every Computer Scientist Should Know About Floating-Point Arithmetic*. ACM Computing Surveys 23(1). <https://doi.org/10.1145/103162.103163>
+- IEEE (2019). *Standard for Floating-Point Arithmetic (IEEE 754-2019)* — por qué la aritmética en coma flotante no representa exactamente los decimales. <https://doi.org/10.1109/IEEESTD.2019.8766229>
+- Goldberg, D. (1991). *What Every Computer Scientist Should Know About Floating-Point Arithmetic*. ACM Computing Surveys 23(1) — los casos en que comparar flotantes directamente falla. <https://doi.org/10.1145/103162.103163>
 - Python Software Foundation (2024). *decimal — Decimal fixed-point and floating-point arithmetic*. <https://docs.python.org/3/library/decimal.html>
 - Brooker, M. (2015). *Exponential Backoff and Jitter*. AWS Architecture Blog — datos comparados de las variantes de jitter. <https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

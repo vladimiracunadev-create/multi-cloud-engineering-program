@@ -611,10 +611,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Shostack, A. (2014). *Threat Modeling: Designing for Security*. <https://shostack.org/books/threat-modeling-book>
+- Shostack, A. (2014). *Threat Modeling: Designing for Security* — las cuatro preguntas del modelado de amenazas. <https://shostack.org/books/threat-modeling-book>
 - Threat Modeling Manifesto (2020) — las cuatro preguntas. <https://www.threatmodelingmanifesto.org/>
-- NIST SP 800-207 (2020). *Zero Trust Architecture*. <https://csrc.nist.gov/pubs/sp/800/207/final>
-- Microsoft (2025). *STRIDE threat model*. <https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats>
+- NIST SP 800-207 (2020). *Zero Trust Architecture* — los principios de confianza cero aplicados a la arquitectura. <https://csrc.nist.gov/pubs/sp/800/207/final>
+- Microsoft (2025). *STRIDE threat model* — las seis categorías de amenaza aplicadas al diseño. <https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats>
 - Google (2024). *BeyondProd* — confianza cero aplicada a cargas y canalizaciones. <https://cloud.google.com/docs/security/beyondprod>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

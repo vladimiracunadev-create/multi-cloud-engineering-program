@@ -646,11 +646,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Google Cloud (2025). *Cloud Logging: routing and storage*. <https://cloud.google.com/logging/docs/routing/overview>
-- Google Cloud (2025). *Cloud Audit Logs*. <https://cloud.google.com/logging/docs/audit>
-- Google Cloud (2025). *Service monitoring: SLOs and burn rate alerts*. <https://cloud.google.com/stackdriver/docs/solutions/slo-monitoring>
-- Google Cloud (2025). *Cloud Trace and OpenTelemetry*. <https://cloud.google.com/trace/docs/setup>
-- Google Cloud (2025). *Cloud Profiler*. <https://cloud.google.com/profiler/docs/about-profiler>
+- Google Cloud (2025). *Cloud Logging: routing and storage* — enrutado y almacenamiento de registros. <https://cloud.google.com/logging/docs/routing/overview>
+- Google Cloud (2025). *Cloud Audit Logs* — registros de auditoría como evidencia. <https://cloud.google.com/logging/docs/audit>
+- Google Cloud (2025). *Service monitoring: SLOs and burn rate alerts* — objetivos de servicio y alertas por tasa de consumo. <https://cloud.google.com/stackdriver/docs/solutions/slo-monitoring>
+- Google Cloud (2025). *Cloud Trace and OpenTelemetry* — trazas distribuidas con instrumentación estándar. <https://cloud.google.com/trace/docs/setup>
+- Google Cloud (2025). *Cloud Profiler* — perfilado continuo en producción. <https://cloud.google.com/profiler/docs/about-profiler>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

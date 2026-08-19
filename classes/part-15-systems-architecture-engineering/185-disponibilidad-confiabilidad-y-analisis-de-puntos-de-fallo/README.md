@@ -593,7 +593,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 - Beyer, B. y otros (2016). *Site Reliability Engineering*, cap. «Embracing risk» — aritmética de disponibilidad y coste de cada nueve. <https://sre.google/sre-book/embracing-risk/>
 - AWS (2025). *Reliability Pillar: failure management* — modos de fallo y dependencias. <https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html>
-- Huang, P. y otros (2017). *Gray failure: the Achilles' heel of cloud-scale systems*. <https://www.microsoft.com/en-us/research/publication/gray-failure-the-achilles-heel-of-cloud-scale-systems/>
+- Huang, P. y otros (2017). *Gray failure: the Achilles' heel of cloud-scale systems* — fallos parciales que una comprobación binaria de salud no detecta. <https://www.microsoft.com/en-us/research/publication/gray-failure-the-achilles-heel-of-cloud-scale-systems/>
 - Nygard, M. (2018). *Release It!*, 2.ª ed. — mamparos, plazos y fallo en cascada. <https://pragprog.com/titles/mnee2/release-it-second-edition/>
 - Google Cloud (2025). *Designing resilient systems* — dependencias duras, blandas y degradación. <https://cloud.google.com/architecture/framework/reliability>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

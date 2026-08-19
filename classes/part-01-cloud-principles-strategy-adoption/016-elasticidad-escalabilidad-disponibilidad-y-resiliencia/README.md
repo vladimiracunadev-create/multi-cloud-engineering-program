@@ -317,7 +317,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Amdahl, G. (1967). *Validity of the Single Processor Approach to Achieving Large Scale Computing Capabilities*. AFIPS Conference Proceedings. <https://doi.org/10.1145/1465482.1465560>
+- Amdahl, G. (1967). *Validity of the Single Processor Approach to Achieving Large Scale Computing Capabilities*. AFIPS Conference Proceedings — el techo teórico que impone la fracción no paralelizable. <https://doi.org/10.1145/1465482.1465560>
 - Gunther, N. (2007). *Guerrilla Capacity Planning* — ley universal de escalabilidad y ajuste de σ y κ.
 - Beyer, B. et al., eds. (2016). *Site Reliability Engineering*, cap. 22 — degradación elegante y rechazo de carga. <https://sre.google/sre-book/addressing-cascading-failures/>
 - Nygard, M. (2018). *Release It!*, 2.ª ed., caps. 4-5 — patrones de estabilidad frente a fallo en cascada.

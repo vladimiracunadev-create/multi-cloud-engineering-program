@@ -631,11 +631,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Amazon Bedrock: data protection and model versions*. <https://docs.aws.amazon.com/bedrock/latest/userguide/data-protection.html>
-- Microsoft (2025). *Azure AI Foundry: data privacy and model lifecycle*. <https://learn.microsoft.com/en-us/azure/ai-foundry/>
-- Google Cloud (2025). *Vertex AI: generative AI data governance and model versions*. <https://cloud.google.com/vertex-ai/generative-ai/docs/data-governance>
-- Anthropic (2025). *Claude API: models, versions and deprecations*. <https://docs.anthropic.com/en/docs/about-claude/models/overview>
-- NIST (2024). *AI Risk Management Framework: Generative AI profile*. <https://www.nist.gov/itl/ai-risk-management-framework>
+- AWS (2025). *Amazon Bedrock: data protection and model versions* — protección de los datos y versiones del modelo. <https://docs.aws.amazon.com/bedrock/latest/userguide/data-protection.html>
+- Microsoft (2025). *Azure AI Foundry: data privacy and model lifecycle* — privacidad de los datos y ciclo de vida del modelo. <https://learn.microsoft.com/en-us/azure/ai-foundry/>
+- Google Cloud (2025). *Vertex AI: generative AI data governance and model versions* — gobierno del dato y versiones del modelo. <https://cloud.google.com/vertex-ai/generative-ai/docs/data-governance>
+- Anthropic (2025). *Claude API: models, versions and deprecations* — versiones publicadas y política de retirada. <https://docs.anthropic.com/en/docs/about-claude/models/overview>
+- NIST (2024). *AI Risk Management Framework: Generative AI profile* — el perfil de riesgo específico de la IA generativa. <https://www.nist.gov/itl/ai-risk-management-framework>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

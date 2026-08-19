@@ -646,9 +646,9 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 - Beyer, B. y otros (2018). *The Site Reliability Workbook* — operación completa de extremo a extremo. <https://sre.google/workbook/table-of-contents/>
 - Forsgren, N., Humble, J. y Kim, G. (2018). *Accelerate* — las cuatro métricas de entrega. <https://itrevolution.com/product/accelerate/>
-- AWS (2024). *Operational Excellence Pillar*. <https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html>
-- Microsoft (2024). *Azure Well-Architected Framework: Operational Excellence*. <https://learn.microsoft.com/azure/well-architected/operational-excellence/>
-- Google Cloud (2024). *Architecture Framework: Operational excellence*. <https://cloud.google.com/architecture/framework/operational-excellence>
+- AWS (2024). *Operational Excellence Pillar* — el pilar de excelencia operativa como referencia. <https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html>
+- Microsoft (2024). *Azure Well-Architected Framework: Operational Excellence* — el pilar equivalente en Azure. <https://learn.microsoft.com/azure/well-architected/operational-excellence/>
+- Google Cloud (2024). *Architecture Framework: Operational excellence* — el pilar equivalente en Google Cloud. <https://cloud.google.com/architecture/framework/operational-excellence>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

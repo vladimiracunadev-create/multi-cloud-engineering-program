@@ -645,11 +645,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Microsoft (2025). *Azure Monitor: diagnostic settings*. <https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/diagnostic-settings>
-- Microsoft (2025). *Application Insights with OpenTelemetry*. <https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable>
-- Microsoft (2025). *Log Analytics table plans and data transformations*. <https://learn.microsoft.com/en-us/azure/azure-monitor/logs/data-platform-logs>
-- Microsoft (2025). *Sampling in Application Insights*. <https://learn.microsoft.com/en-us/azure/azure-monitor/app/sampling>
-- OpenTelemetry (2025). *Specification and semantic conventions*. <https://opentelemetry.io/docs/specs/otel/>
+- Microsoft (2025). *Azure Monitor: diagnostic settings* — configuración de diagnóstico como origen de la telemetría. <https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/diagnostic-settings>
+- Microsoft (2025). *Application Insights with OpenTelemetry* — instrumentación con OpenTelemetry. <https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable>
+- Microsoft (2025). *Log Analytics table plans and data transformations* — planes de tabla y transformación en la ingesta. <https://learn.microsoft.com/en-us/azure/azure-monitor/logs/data-platform-logs>
+- Microsoft (2025). *Sampling in Application Insights* — muestreo y su efecto sobre la fidelidad y el coste. <https://learn.microsoft.com/en-us/azure/azure-monitor/app/sampling>
+- OpenTelemetry (2025). *Specification and semantic conventions* — convenciones semánticas comunes a toda la telemetría. <https://opentelemetry.io/docs/specs/otel/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

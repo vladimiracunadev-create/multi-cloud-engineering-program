@@ -586,10 +586,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - AWS (2025). *VPC Flow Logs* — campos, acciones y limitaciones. <https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html>
-- Cilium (2025). *Hubble: eBPF-based network observability*. <https://docs.cilium.io/en/stable/overview/intro/>
-- Gregg, B. (2019). *BPF Performance Tools*. <https://www.brendangregg.com/bpf-performance-tools-book.html>
-- Wireshark (2025). *TCP analysis flags: retransmissions, zero window, resets*. <https://www.wireshark.org/docs/wsug_html_chunked/ChAdvTCPAnalysis.html>
-- Google Cloud (2025). *Packet Mirroring and network diagnostics*. <https://cloud.google.com/vpc/docs/packet-mirroring>
+- Cilium (2025). *Hubble: eBPF-based network observability* — observabilidad de red sin modificar la aplicación. <https://docs.cilium.io/en/stable/overview/intro/>
+- Gregg, B. (2019). *BPF Performance Tools* — herramientas de diagnóstico basadas en eBPF. <https://www.brendangregg.com/bpf-performance-tools-book.html>
+- Wireshark (2025). *TCP analysis flags: retransmissions, zero window, resets* — las señales de TCP que identifican la causa del problema. <https://www.wireshark.org/docs/wsug_html_chunked/ChAdvTCPAnalysis.html>
+- Google Cloud (2025). *Packet Mirroring and network diagnostics* — captura de tráfico para diagnóstico en Google Cloud. <https://cloud.google.com/vpc/docs/packet-mirroring>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

@@ -305,7 +305,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Little, J. D. C. (1961). *A Proof for the Queuing Formula: L = λW*. Operations Research 9(3), 383-387. <https://doi.org/10.1287/opre.9.3.383>
+- Little, J. D. C. (1961). *A Proof for the Queuing Formula: L = λW*. Operations Research 9(3), 383-387 — relación entre concurrencia, tasa de llegada y tiempo de servicio para dimensionar. <https://doi.org/10.1287/opre.9.3.383>
 - Storment, J. R. y Fuller, M. (2023). *Cloud FinOps*, 2.ª ed., caps. 6-9 — unidad de coste, etiquetado y modelos de compromiso.
 - Gunther, N. (2007). *Guerrilla Capacity Planning* — leyes de escalabilidad y el efecto de la utilización sobre la latencia.
 - Barroso, L., Hölzle, U. y Ranganathan, P. (2018). *The Datacenter as a Computer*, 3.ª ed., cap. 6 — PUE, eficiencia y coste total. <https://doi.org/10.2200/S00874ED3V01Y201809CAC046>

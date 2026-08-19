@@ -626,11 +626,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Microsoft (2025). *Azure Service Bus: message sessions, transactions and dead-letter queues*. <https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview>
-- Microsoft (2025). *Azure Event Grid: event delivery and retry*. <https://learn.microsoft.com/en-us/azure/event-grid/delivery-and-retry>
-- Microsoft (2025). *Azure Event Hubs: partitions, consumer groups and capture*. <https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-features>
-- Microsoft (2025). *Choose between Azure messaging services*. <https://learn.microsoft.com/en-us/azure/service-bus-messaging/compare-messaging-services>
-- Hohpe, G. y Woolf, B. (2003). *Enterprise Integration Patterns*. <https://www.enterpriseintegrationpatterns.com/>
+- Microsoft (2025). *Azure Service Bus: message sessions, transactions and dead-letter queues* — sesiones, transacciones y cola de mensajes fallidos. <https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview>
+- Microsoft (2025). *Azure Event Grid: event delivery and retry* — entrega de eventos y política de reintento. <https://learn.microsoft.com/en-us/azure/event-grid/delivery-and-retry>
+- Microsoft (2025). *Azure Event Hubs: partitions, consumer groups and capture* — particiones, grupos de consumo y captura. <https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-features>
+- Microsoft (2025). *Choose between Azure messaging services* — criterio para elegir entre los tres servicios. <https://learn.microsoft.com/en-us/azure/service-bus-messaging/compare-messaging-services>
+- Hohpe, G. y Woolf, B. (2003). *Enterprise Integration Patterns* — los patrones de integración que sostienen el diseño. <https://www.enterpriseintegrationpatterns.com/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

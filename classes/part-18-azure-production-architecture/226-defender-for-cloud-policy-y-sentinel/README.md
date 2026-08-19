@@ -666,11 +666,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Microsoft (2025). *Microsoft Defender for Cloud: secure score and attack paths*. <https://learn.microsoft.com/en-us/azure/defender-for-cloud/secure-score-security-controls>
-- Microsoft (2025). *Regulatory compliance in Defender for Cloud*. <https://learn.microsoft.com/en-us/azure/defender-for-cloud/regulatory-compliance-dashboard>
-- Microsoft (2025). *Microsoft Sentinel: data connectors and analytics rules*. <https://learn.microsoft.com/en-us/azure/sentinel/overview>
-- MITRE (2025). *ATT&CK for cloud*. <https://attack.mitre.org/matrices/enterprise/cloud/>
-- Microsoft (2025). *Sentinel cost optimization and data tiers*. <https://learn.microsoft.com/en-us/azure/sentinel/billing>
+- Microsoft (2025). *Microsoft Defender for Cloud: secure score and attack paths* — puntuación segura y rutas de ataque. <https://learn.microsoft.com/en-us/azure/defender-for-cloud/secure-score-security-controls>
+- Microsoft (2025). *Regulatory compliance in Defender for Cloud* — cumplimiento normativo evaluado de forma continua. <https://learn.microsoft.com/en-us/azure/defender-for-cloud/regulatory-compliance-dashboard>
+- Microsoft (2025). *Microsoft Sentinel: data connectors and analytics rules* — conectores de datos y reglas de análisis. <https://learn.microsoft.com/en-us/azure/sentinel/overview>
+- MITRE (2025). *ATT&CK for cloud* — el catálogo de técnicas de ataque en la nube. <https://attack.mitre.org/matrices/enterprise/cloud/>
+- Microsoft (2025). *Sentinel cost optimization and data tiers* — niveles de datos y control del coste de ingesta. <https://learn.microsoft.com/en-us/azure/sentinel/billing>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

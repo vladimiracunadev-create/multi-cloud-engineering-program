@@ -637,11 +637,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *DynamoDB developer guide: best practices for designing partition keys*. <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html>
-- AWS (2025). *Single-table design considerations*. <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html>
-- DeBrie, A. (2020). *The DynamoDB Book*. <https://www.dynamodbbook.com/>
-- AWS (2025). *Secondary indexes and their capacity implications*. <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SecondaryIndexes.html>
-- AWS (2025). *DynamoDB Streams and change data capture*. <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html>
+- AWS (2025). *DynamoDB developer guide: best practices for designing partition keys* — reparto de claves de partición para evitar puntos calientes. <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html>
+- AWS (2025). *Single-table design considerations* — cuándo compensa una sola tabla y cuándo no. <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html>
+- DeBrie, A. (2020). *The DynamoDB Book* — modelado guiado por los patrones de acceso. <https://www.dynamodbbook.com/>
+- AWS (2025). *Secondary indexes and their capacity implications* — coste en capacidad de los índices secundarios. <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SecondaryIndexes.html>
+- AWS (2025). *DynamoDB Streams and change data capture* — captura de cambios para propagar estado a otros servicios. <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

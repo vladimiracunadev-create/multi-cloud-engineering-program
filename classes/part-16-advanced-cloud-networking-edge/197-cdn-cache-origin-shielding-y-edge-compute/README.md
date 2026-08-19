@@ -617,9 +617,9 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 - RFC 9111 — HTTP caching. <https://www.rfc-editor.org/rfc/rfc9111>
 - RFC 5861 — HTTP cache-control extensions for stale content. <https://www.rfc-editor.org/rfc/rfc5861>
-- AWS (2025). *CloudFront: cache key and origin shield*. <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/understanding-the-cache-key.html>
-- Fastly (2025). *Purging with surrogate keys*. <https://docs.fastly.com/en/guides/working-with-surrogate-keys>
-- Cloudflare (2025). *Cloudflare Workers: what edge compute is good for*. <https://developers.cloudflare.com/workers/>
+- AWS (2025). *CloudFront: cache key and origin shield* — qué entra en la clave de caché y cómo se protege el origen. <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/understanding-the-cache-key.html>
+- Fastly (2025). *Purging with surrogate keys* — invalidación selectiva por etiquetas de contenido. <https://docs.fastly.com/en/guides/working-with-surrogate-keys>
+- Cloudflare (2025). *Cloudflare Workers: what edge compute is good for* — qué conviene ejecutar en el borde y qué no. <https://developers.cloudflare.com/workers/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

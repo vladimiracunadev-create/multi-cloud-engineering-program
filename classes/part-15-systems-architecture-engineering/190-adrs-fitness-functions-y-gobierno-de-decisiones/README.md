@@ -595,10 +595,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Nygard, M. (2011). *Documenting architecture decisions*. <https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions>
+- Nygard, M. (2011). *Documenting architecture decisions* — el formato mínimo de un registro de decisión. <https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions>
 - Ford, N., Parsons, R. y Kua, P. (2017). *Building Evolutionary Architectures* — funciones de aptitud. <https://www.oreilly.com/library/view/building-evolutionary-architectures/9781491986356/>
-- ThoughtWorks (2025). *Technology Radar: lightweight ADRs*. <https://www.thoughtworks.com/radar/techniques/lightweight-architecture-decision-records>
-- ArchUnit (2025). *Testing architecture rules in the build*. <https://www.archunit.org/>
+- ThoughtWorks (2025). *Technology Radar: lightweight ADRs* — cuándo basta un ADR ligero. <https://www.thoughtworks.com/radar/techniques/lightweight-architecture-decision-records>
+- ArchUnit (2025). *Testing architecture rules in the build* — funciones de aptitud que hacen fallar la construcción. <https://www.archunit.org/>
 - Open Policy Agent (2025). *Policy as code* — comprobaciones ejecutables en la canalización. <https://www.openpolicyagent.org/docs/latest/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

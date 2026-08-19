@@ -723,11 +723,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- OWASP (2025). *Top 10 for LLM applications: prompt injection and excessive agency*. <https://owasp.org/www-project-top-10-for-large-language-model-applications/>
-- Greshake, K. y otros (2023). *Not what you've signed up for: indirect prompt injection*. <https://arxiv.org/abs/2302.12173>
-- Anthropic (2025). *Tool use with Claude*. <https://docs.anthropic.com/en/docs/build-with-claude/tool-use>
-- NIST (2024). *AI RMF Generative AI profile: risks of agentic systems*. <https://www.nist.gov/itl/ai-risk-management-framework>
-- Model Context Protocol (2025). *Specification: tools, resources and security*. <https://modelcontextprotocol.io/>
+- OWASP (2025). *Top 10 for LLM applications: prompt injection and excessive agency* — inyección de instrucciones y agencia excesiva. <https://owasp.org/www-project-top-10-for-large-language-model-applications/>
+- Greshake, K. y otros (2023). *Not what you've signed up for: indirect prompt injection* — la inyección indirecta a través del contenido consultado. <https://arxiv.org/abs/2302.12173>
+- Anthropic (2025). *Tool use with Claude* — el contrato de uso de herramientas por el agente. <https://docs.anthropic.com/en/docs/build-with-claude/tool-use>
+- NIST (2024). *AI RMF Generative AI profile: risks of agentic systems* — riesgos propios de los sistemas con agencia. <https://www.nist.gov/itl/ai-risk-management-framework>
+- Model Context Protocol (2025). *Specification: tools, resources and security* — el protocolo de herramientas y sus consideraciones de seguridad. <https://modelcontextprotocol.io/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

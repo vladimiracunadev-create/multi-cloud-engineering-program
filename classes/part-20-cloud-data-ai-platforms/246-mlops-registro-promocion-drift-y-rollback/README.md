@@ -702,11 +702,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Sculley, D. y otros (2015). *Hidden technical debt in machine learning systems*. <https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html>
+- Sculley, D. y otros (2015). *Hidden technical debt in machine learning systems* — la deuda oculta que arrastra un sistema de aprendizaje. <https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html>
 - Huyen, C. (2022). *Designing Machine Learning Systems*, cap. 8 — data distribution shifts. <https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/>
-- Google (2025). *MLOps: continuous delivery and automation pipelines*. <https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning>
-- MLflow (2025). *Model registry and stages*. <https://mlflow.org/docs/latest/model-registry.html>
-- Breck, E. y otros (2017). *The ML test score: a rubric for ML production readiness*. <https://research.google/pubs/pub46555/>
+- Google (2025). *MLOps: continuous delivery and automation pipelines* — los niveles de automatización de la entrega de modelos. <https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning>
+- MLflow (2025). *Model registry and stages* — registro de modelos y promoción entre etapas. <https://mlflow.org/docs/latest/model-registry.html>
+- Breck, E. y otros (2017). *The ML test score: a rubric for ML production readiness* — rúbrica de preparación para producción. <https://research.google/pubs/pub46555/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

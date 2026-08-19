@@ -671,10 +671,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Disaster recovery options in the cloud*. <https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html>
-- AWS (2025). *Route 53 health checks and DNS failover*. <https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html>
-- AWS (2025). *Amazon DynamoDB global tables*. <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html>
-- Google (2018). *The Site Reliability Workbook: disaster role playing and testing*. <https://sre.google/workbook/table-of-contents/>
+- AWS (2025). *Disaster recovery options in the cloud* — las cuatro estrategias de recuperación y su coste. <https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html>
+- AWS (2025). *Route 53 health checks and DNS failover* — conmutación por fallo gobernada desde el DNS. <https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html>
+- AWS (2025). *Amazon DynamoDB global tables* — réplica multirregión activa-activa de la base de datos. <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html>
+- Google (2018). *The Site Reliability Workbook: disaster role playing and testing* — ensayo de desastre con roles asignados. <https://sre.google/workbook/table-of-contents/>
 - Basiri, A. y otros (2016). *Chaos engineering* — experimentos con hipótesis y radio de alcance. <https://ieeexplore.ieee.org/document/7503833>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

@@ -668,11 +668,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Google Cloud (2025). *Resource hierarchy*. <https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy>
-- Google Cloud (2025). *Organization policy constraints*. <https://cloud.google.com/resource-manager/docs/organization-policy/org-policy-constraints>
-- Google Cloud (2025). *Shared VPC overview*. <https://cloud.google.com/vpc/docs/shared-vpc>
-- Google Cloud (2025). *VPC firewall rules and service account targets*. <https://cloud.google.com/firewall/docs/firewalls>
-- Google Cloud (2025). *Landing zone design in Google Cloud*. <https://cloud.google.com/architecture/landing-zones>
+- Google Cloud (2025). *Resource hierarchy* — jerarquía de organización, carpetas y proyectos. <https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy>
+- Google Cloud (2025). *Organization policy constraints* — restricciones de política de organización como barreras. <https://cloud.google.com/resource-manager/docs/organization-policy/org-policy-constraints>
+- Google Cloud (2025). *Shared VPC overview* — red compartida entre proyectos. <https://cloud.google.com/vpc/docs/shared-vpc>
+- Google Cloud (2025). *VPC firewall rules and service account targets* — reglas de cortafuegos dirigidas por cuenta de servicio. <https://cloud.google.com/firewall/docs/firewalls>
+- Google Cloud (2025). *Landing zone design in Google Cloud* — diseño de la zona de aterrizaje en Google Cloud. <https://cloud.google.com/architecture/landing-zones>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

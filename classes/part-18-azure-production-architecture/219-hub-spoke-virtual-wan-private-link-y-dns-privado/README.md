@@ -637,11 +637,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Microsoft (2025). *Hub-spoke network topology in Azure*. <https://learn.microsoft.com/en-us/azure/architecture/networking/architecture/hub-spoke>
-- Microsoft (2025). *Azure Private Link and private endpoint DNS configuration*. <https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns>
-- Microsoft (2025). *Network security groups: default rules and evaluation*. <https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview>
-- Microsoft (2025). *User-defined routes and forced tunneling*. <https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview>
-- Microsoft (2025). *Azure Virtual WAN architecture*. <https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about>
+- Microsoft (2025). *Hub-spoke network topology in Azure* — topología de concentrador y radios. <https://learn.microsoft.com/en-us/azure/architecture/networking/architecture/hub-spoke>
+- Microsoft (2025). *Azure Private Link and private endpoint DNS configuration* — resolución DNS de los puntos de enlace privados. <https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns>
+- Microsoft (2025). *Network security groups: default rules and evaluation* — reglas por defecto y orden de evaluación. <https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview>
+- Microsoft (2025). *User-defined routes and forced tunneling* — rutas definidas por el usuario y túnel forzado. <https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview>
+- Microsoft (2025). *Azure Virtual WAN architecture* — la alternativa gestionada a la topología manual. <https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

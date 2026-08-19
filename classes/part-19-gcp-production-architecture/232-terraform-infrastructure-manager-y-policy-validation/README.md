@@ -654,11 +654,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- HashiCorp (2025). *Terraform state: remote backends and locking*. <https://developer.hashicorp.com/terraform/language/state>
-- Google Cloud (2025). *Infrastructure Manager*. <https://cloud.google.com/infrastructure-manager/docs/overview>
-- Google Cloud (2025). *Policy validation with Policy Library*. <https://cloud.google.com/docs/terraform/policy-validation>
-- Google Cloud (2025). *Cloud Foundation Toolkit modules*. <https://cloud.google.com/foundation-toolkit>
-- HashiCorp (2025). *Importing existing infrastructure*. <https://developer.hashicorp.com/terraform/cli/import>
+- HashiCorp (2025). *Terraform state: remote backends and locking* — estado remoto y bloqueo frente a ejecuciones simultáneas. <https://developer.hashicorp.com/terraform/language/state>
+- Google Cloud (2025). *Infrastructure Manager* — el servicio gestionado que ejecuta Terraform. <https://cloud.google.com/infrastructure-manager/docs/overview>
+- Google Cloud (2025). *Policy validation with Policy Library* — validación de políticas antes de aplicar el cambio. <https://cloud.google.com/docs/terraform/policy-validation>
+- Google Cloud (2025). *Cloud Foundation Toolkit modules* — módulos de referencia ya conformes. <https://cloud.google.com/foundation-toolkit>
+- HashiCorp (2025). *Importing existing infrastructure* — incorporar infraestructura existente al estado. <https://developer.hashicorp.com/terraform/cli/import>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

@@ -629,10 +629,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Amazon Cognito user pools: using tokens*. <https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html>
-- AWS (2025). *Verifying a JSON Web Token*. <https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html>
-- AWS (2025). *AWS WAF: testing rules in count mode*. <https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-testing.html>
-- OWASP (2025). *API Security Top 10: broken object level authorization*. <https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/>
+- AWS (2025). *Amazon Cognito user pools: using tokens* — qué contiene cada token y cuánto dura. <https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html>
+- AWS (2025). *Verifying a JSON Web Token* — validación de la firma y de las reclamaciones. <https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html>
+- AWS (2025). *AWS WAF: testing rules in count mode* — probar reglas en modo recuento sin bloquear tráfico legítimo. <https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-testing.html>
+- OWASP (2025). *API Security Top 10: broken object level authorization* — el fallo de autorización que el diseño debe cerrar. <https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/>
 - RFC 8725 — JSON Web Token best current practices. <https://www.rfc-editor.org/rfc/rfc8725>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

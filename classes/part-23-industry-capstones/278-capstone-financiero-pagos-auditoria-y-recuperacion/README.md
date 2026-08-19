@@ -626,11 +626,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- PCI Security Standards Council (2024). *PCI DSS v4.0*. <https://www.pcisecuritystandards.org/document_library/>
-- AWS (2024). *Financial Services Industry Lens, Well-Architected Framework*. <https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/financial-services-industry-lens.html>
-- Microsoft (2024). *Azure financial services regulatory compliance*. <https://learn.microsoft.com/azure/industry/financial/>
-- Helland, P. (2007). *Life beyond distributed transactions*. <https://queue.acm.org/detail.cfm?id=3025012>
-- Banco de Pagos Internacionales (2021). *Principles for operational resilience*. <https://www.bis.org/bcbs/publ/d516.htm>
+- PCI Security Standards Council (2024). *PCI DSS v4.0* — los requisitos aplicables al tratamiento de pagos. <https://www.pcisecuritystandards.org/document_library/>
+- AWS (2024). *Financial Services Industry Lens, Well-Architected Framework* — la lente del sector financiero. <https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/financial-services-industry-lens.html>
+- Microsoft (2024). *Azure financial services regulatory compliance* — cumplimiento regulatorio del sector en Azure. <https://learn.microsoft.com/azure/industry/financial/>
+- Helland, P. (2007). *Life beyond distributed transactions* — alternativas a la transacción distribuida. <https://queue.acm.org/detail.cfm?id=3025012>
+- Banco de Pagos Internacionales (2021). *Principles for operational resilience* — principios de resiliencia operativa exigidos al sector. <https://www.bis.org/bcbs/publ/d516.htm>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

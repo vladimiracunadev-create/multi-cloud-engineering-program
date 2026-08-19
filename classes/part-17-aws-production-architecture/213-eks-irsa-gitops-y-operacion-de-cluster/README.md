@@ -658,11 +658,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *IAM roles for service accounts (IRSA)*. <https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html>
-- AWS (2025). *Amazon EKS Kubernetes version support and upgrade*. <https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html>
-- Kubernetes (2025). *Managing resources for containers: requests and limits*. <https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/>
-- Argo CD (2025). *GitOps and application health*. <https://argo-cd.readthedocs.io/en/stable/>
-- AWS (2025). *EKS Best Practices Guide*. <https://docs.aws.amazon.com/eks/latest/best-practices/introduction.html>
+- AWS (2025). *IAM roles for service accounts (IRSA)* — identidad por cuenta de servicio sin claves estáticas. <https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html>
+- AWS (2025). *Amazon EKS Kubernetes version support and upgrade* — ventana de soporte y procedimiento de actualización. <https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html>
+- Kubernetes (2025). *Managing resources for containers: requests and limits* — peticiones y límites como contrato de recursos. <https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/>
+- Argo CD (2025). *GitOps and application health* — estado de salud de la aplicación en el flujo GitOps. <https://argo-cd.readthedocs.io/en/stable/>
+- AWS (2025). *EKS Best Practices Guide* — prácticas recomendadas de operación del clúster gestionado. <https://docs.aws.amazon.com/eks/latest/best-practices/introduction.html>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

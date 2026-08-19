@@ -653,10 +653,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - Cisco (2025). *SD-WAN design guide* — política central y selección de camino por aplicación. <https://www.cisco.com/c/en/us/solutions/enterprise-networks/sd-wan/index.html>
-- 3GPP (2025). *5G network slicing overview*. <https://www.3gpp.org/technologies/5g-system-overview>
-- AWS (2025). *IoT Greengrass: local processing and offline operation*. <https://docs.aws.amazon.com/greengrass/v2/developerguide/what-is-iot-greengrass.html>
-- Shapiro, M. y otros (2011). *Conflict-free replicated data types*. <https://inria.hal.science/inria-00609399>
-- Microsoft (2025). *Azure IoT Edge deployment and safe rollout*. <https://learn.microsoft.com/en-us/azure/iot-edge/about-iot-edge>
+- 3GPP (2025). *5G network slicing overview* — segmentación de la red móvil por requisito de servicio. <https://www.3gpp.org/technologies/5g-system-overview>
+- AWS (2025). *IoT Greengrass: local processing and offline operation* — procesamiento local cuando no hay enlace disponible. <https://docs.aws.amazon.com/greengrass/v2/developerguide/what-is-iot-greengrass.html>
+- Shapiro, M. y otros (2011). *Conflict-free replicated data types* — convergencia del estado tras la reconexión. <https://inria.hal.science/inria-00609399>
+- Microsoft (2025). *Azure IoT Edge deployment and safe rollout* — despliegue progresivo y seguro en el borde. <https://learn.microsoft.com/en-us/azure/iot-edge/about-iot-edge>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

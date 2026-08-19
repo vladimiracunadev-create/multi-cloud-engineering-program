@@ -546,7 +546,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - Bass, L., Clements, P. y Kazman, R. (2021). *Software Architecture in Practice*, 4.ª ed. — escenarios de atributos de calidad. <https://www.oreilly.com/library/view/software-architecture-in/9780136886051/>
-- SEI (2006). *Quality Attribute Workshops*, 3.ª ed. <https://insights.sei.cmu.edu/library/quality-attribute-workshops-qaws-third-edition/>
+- SEI (2006). *Quality Attribute Workshops*, 3.ª ed — técnica para extraer atributos de calidad de los interesados. <https://insights.sei.cmu.edu/library/quality-attribute-workshops-qaws-third-edition/>
 - Ford, N., Parsons, R. y Kua, P. (2017). *Building Evolutionary Architectures* — características arquitectónicas y su priorización. <https://www.oreilly.com/library/view/building-evolutionary-architectures/9781491986356/>
 - ISO/IEC 25010 — modelo de calidad de producto software. <https://www.iso.org/standard/78176.html>
 - AWS (2025). *Well-Architected Framework* — atributos y compromisos entre pilares. <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html>

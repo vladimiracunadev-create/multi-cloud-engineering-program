@@ -664,10 +664,10 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- NVIDIA (2025). *Triton Inference Server: dynamic batching and model concurrency*. <https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/model_configuration.html>
-- Google (2025). *Vertex AI: online and batch prediction*. <https://cloud.google.com/vertex-ai/docs/predictions/overview>
-- Huyen, C. (2022). *Designing Machine Learning Systems*, caps. 7-8. <https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/>
-- Kohavi, R. y otros (2020). *Trustworthy Online Controlled Experiments*. <https://experimentguide.com/>
+- NVIDIA (2025). *Triton Inference Server: dynamic batching and model concurrency* — agrupación dinámica y concurrencia de modelos. <https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/model_configuration.html>
+- Google (2025). *Vertex AI: online and batch prediction* — predicción en línea frente a predicción por lotes. <https://cloud.google.com/vertex-ai/docs/predictions/overview>
+- Huyen, C. (2022). *Designing Machine Learning Systems*, caps. 7-8 — diseño del sistema alrededor del modelo. <https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/>
+- Kohavi, R. y otros (2020). *Trustworthy Online Controlled Experiments* — diseño y lectura de experimentos controlados en línea. <https://experimentguide.com/>
 - Covington, P. y otros (2016). *Deep neural networks for YouTube recommendations* — recuperación y ordenamiento. <https://research.google/pubs/pub45530/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

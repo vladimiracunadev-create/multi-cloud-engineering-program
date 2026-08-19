@@ -292,7 +292,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 - Fielding, R. y Reschke, J., eds. (2022). *RFC 9110: HTTP Semantics*, secs. 9.2.1-9.2.2 — métodos seguros e idempotentes. <https://www.rfc-editor.org/rfc/rfc9110#section-9.2>
 - Jena, J. et al. (2024). *The Idempotency-Key HTTP Header Field*, IETF draft — semántica y manejo de reintentos. <https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/>
-- OWASP (2023). *API Security Top 10*, API1:2023 Broken Object Level Authorization. <https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/>
+- OWASP (2023). *API Security Top 10*, API1:2023 Broken Object Level Authorization — los fallos de autorización más frecuentes en APIs REST. <https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/>
 - Wilde, E. (2019). *RFC 8594: The Sunset HTTP Header Field* — anunciar la retirada de un contrato. <https://www.rfc-editor.org/rfc/rfc8594>
 - Nottingham, M. (2022). *RFC 9205: Building Protocols with HTTP* — buenas prácticas de diseño sobre HTTP. <https://www.rfc-editor.org/rfc/rfc9205>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

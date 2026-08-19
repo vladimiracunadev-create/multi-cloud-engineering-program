@@ -614,11 +614,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Microsoft (2025). *Azure App Service deployment slots*. <https://learn.microsoft.com/en-us/azure/app-service/deploy-staging-slots>
-- Microsoft (2025). *Azure Functions hosting options*. <https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale>
-- Microsoft (2025). *Azure Container Apps revisions and traffic splitting*. <https://learn.microsoft.com/en-us/azure/container-apps/revisions>
-- Microsoft (2025). *Integrate your app with an Azure virtual network*. <https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration>
-- Microsoft (2025). *Troubleshooting SNAT port exhaustion*. <https://learn.microsoft.com/en-us/azure/load-balancer/troubleshoot-outbound-connection>
+- Microsoft (2025). *Azure App Service deployment slots* — ranuras de despliegue para intercambio sin corte. <https://learn.microsoft.com/en-us/azure/app-service/deploy-staging-slots>
+- Microsoft (2025). *Azure Functions hosting options* — planes de alojamiento y su efecto en arranque y coste. <https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale>
+- Microsoft (2025). *Azure Container Apps revisions and traffic splitting* — revisiones y reparto de tráfico entre versiones. <https://learn.microsoft.com/en-us/azure/container-apps/revisions>
+- Microsoft (2025). *Integrate your app with an Azure virtual network* — integración de la aplicación con la red virtual. <https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration>
+- Microsoft (2025). *Troubleshooting SNAT port exhaustion* — agotamiento de puertos SNAT como causa de fallo intermitente. <https://learn.microsoft.com/en-us/azure/load-balancer/troubleshoot-outbound-connection>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

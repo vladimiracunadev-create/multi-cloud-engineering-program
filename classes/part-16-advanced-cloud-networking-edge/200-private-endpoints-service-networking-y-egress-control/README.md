@@ -603,11 +603,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *Building a data perimeter on AWS*. <https://docs.aws.amazon.com/whitepapers/latest/building-a-data-perimeter-on-aws/building-a-data-perimeter-on-aws.html>
-- AWS (2025). *VPC endpoints and endpoint policies*. <https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints.html>
-- Microsoft (2025). *Azure Private Link and private endpoints*. <https://learn.microsoft.com/en-us/azure/private-link/private-link-overview>
+- AWS (2025). *Building a data perimeter on AWS* — perímetro de datos frente a la salida no autorizada. <https://docs.aws.amazon.com/whitepapers/latest/building-a-data-perimeter-on-aws/building-a-data-perimeter-on-aws.html>
+- AWS (2025). *VPC endpoints and endpoint policies* — acceso privado a servicios y política del punto de enlace. <https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints.html>
+- Microsoft (2025). *Azure Private Link and private endpoints* — el mecanismo equivalente en Azure. <https://learn.microsoft.com/en-us/azure/private-link/private-link-overview>
 - Google Cloud (2025). *VPC Service Controls* — perímetros de servicio. <https://cloud.google.com/vpc-service-controls/docs/overview>
-- MITRE ATT&CK (2025). *Exfiltration over alternative protocol* y *DNS tunneling*. <https://attack.mitre.org/tactics/TA0010/>
+- MITRE ATT&CK (2025). *Exfiltration over alternative protocol* y *DNS tunneling* — la técnica de exfiltración que el control de egreso debe cortar. <https://attack.mitre.org/tactics/TA0010/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

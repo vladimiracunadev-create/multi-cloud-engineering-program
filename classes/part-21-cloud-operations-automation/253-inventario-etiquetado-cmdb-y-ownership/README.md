@@ -697,11 +697,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- AWS (2025). *AWS Config and Resource Explorer*. <https://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html>
-- Microsoft (2025). *Azure Resource Graph*. <https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview>
-- Google Cloud (2025). *Cloud Asset Inventory*. <https://cloud.google.com/asset-inventory/docs/overview>
-- Limoncelli, T. y otros (2016). *The Practice of Cloud System Administration*. <https://the-cloud-book.com/>
-- Beyer, B. y otros (2018). *The Site Reliability Workbook*, cap. sobre gestión de configuración. <https://sre.google/workbook/table-of-contents/>
+- AWS (2025). *AWS Config and Resource Explorer* — inventario y consulta de recursos en AWS. <https://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html>
+- Microsoft (2025). *Azure Resource Graph* — consulta de inventario a escala en Azure. <https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview>
+- Google Cloud (2025). *Cloud Asset Inventory* — inventario y búsqueda de activos en Google Cloud. <https://cloud.google.com/asset-inventory/docs/overview>
+- Limoncelli, T. y otros (2016). *The Practice of Cloud System Administration* — prácticas de administración de sistemas a escala. <https://the-cloud-book.com/>
+- Beyer, B. y otros (2018). *The Site Reliability Workbook*, cap. sobre gestión de configuración — propiedad y responsabilidad del servicio. <https://sre.google/workbook/table-of-contents/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

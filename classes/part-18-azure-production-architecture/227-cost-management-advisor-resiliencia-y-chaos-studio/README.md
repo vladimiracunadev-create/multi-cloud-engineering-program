@@ -661,11 +661,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Microsoft (2025). *Azure Cost Management and Billing*. <https://learn.microsoft.com/en-us/azure/cost-management-billing/>
-- Microsoft (2025). *Azure Advisor recommendations*. <https://learn.microsoft.com/en-us/azure/advisor/advisor-overview>
-- Microsoft (2025). *Azure savings plans and reservations*. <https://learn.microsoft.com/en-us/azure/cost-management-billing/savings-plan/savings-plan-compute-overview>
-- Microsoft (2025). *Azure Chaos Studio*. <https://learn.microsoft.com/en-us/azure/chaos-studio/chaos-studio-overview>
-- Microsoft (2025). *Reliability and availability zones in Azure*. <https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview>
+- Microsoft (2025). *Azure Cost Management and Billing* — análisis del gasto y su asignación. <https://learn.microsoft.com/en-us/azure/cost-management-billing/>
+- Microsoft (2025). *Azure Advisor recommendations* — recomendaciones automáticas de mejora. <https://learn.microsoft.com/en-us/azure/advisor/advisor-overview>
+- Microsoft (2025). *Azure savings plans and reservations* — planes de ahorro y reservas frente a pago por uso. <https://learn.microsoft.com/en-us/azure/cost-management-billing/savings-plan/savings-plan-compute-overview>
+- Microsoft (2025). *Azure Chaos Studio* — experimentos de fallo controlados. <https://learn.microsoft.com/en-us/azure/chaos-studio/chaos-studio-overview>
+- Microsoft (2025). *Reliability and availability zones in Azure* — zonas de disponibilidad y objetivos de fiabilidad. <https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

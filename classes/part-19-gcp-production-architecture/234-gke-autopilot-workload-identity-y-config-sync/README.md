@@ -640,11 +640,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Google Cloud (2025). *GKE Autopilot overview*. <https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview>
-- Google Cloud (2025). *Workload Identity Federation for GKE*. <https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity>
-- Google Cloud (2025). *IP address planning for GKE clusters*. <https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips>
-- Google Cloud (2025). *Config Sync and Policy Controller*. <https://cloud.google.com/kubernetes-engine/enterprise/config-sync/docs/overview>
-- Google Cloud (2025). *GKE release channels and maintenance windows*. <https://cloud.google.com/kubernetes-engine/docs/concepts/release-channels>
+- Google Cloud (2025). *GKE Autopilot overview* — modo gestionado y qué deja de controlarse. <https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview>
+- Google Cloud (2025). *Workload Identity Federation for GKE* — identidad de carga para acceder a servicios. <https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity>
+- Google Cloud (2025). *IP address planning for GKE clusters* — planificación de direcciones del clúster. <https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips>
+- Google Cloud (2025). *Config Sync and Policy Controller* — sincronización declarativa y control de políticas. <https://cloud.google.com/kubernetes-engine/enterprise/config-sync/docs/overview>
+- Google Cloud (2025). *GKE release channels and maintenance windows* — canales de versión y ventanas de mantenimiento. <https://cloud.google.com/kubernetes-engine/docs/concepts/release-channels>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

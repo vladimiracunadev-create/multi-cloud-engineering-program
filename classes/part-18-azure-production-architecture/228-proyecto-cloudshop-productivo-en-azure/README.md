@@ -702,11 +702,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Microsoft (2025). *Azure Well-Architected Framework*. <https://learn.microsoft.com/en-us/azure/well-architected/>
-- Microsoft (2025). *Cloud Adoption Framework: Azure landing zones*. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/>
-- Microsoft (2025). *Azure Policy remediation tasks*. <https://learn.microsoft.com/en-us/azure/governance/policy/how-to/remediate-resources>
-- Beyer, B. y otros (2018). *The Site Reliability Workbook*. <https://sre.google/workbook/table-of-contents/>
-- Basiri, A. y otros (2016). *Chaos engineering*. <https://ieeexplore.ieee.org/document/7503833>
+- Microsoft (2025). *Azure Well-Architected Framework* — los pilares aplicados a la revisión del proyecto. <https://learn.microsoft.com/en-us/azure/well-architected/>
+- Microsoft (2025). *Cloud Adoption Framework: Azure landing zones* — la zona de aterrizaje como base del despliegue. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/>
+- Microsoft (2025). *Azure Policy remediation tasks* — remediación de recursos existentes no conformes. <https://learn.microsoft.com/en-us/azure/governance/policy/how-to/remediate-resources>
+- Beyer, B. y otros (2018). *The Site Reliability Workbook* — operación del servicio con objetivos medibles. <https://sre.google/workbook/table-of-contents/>
+- Basiri, A. y otros (2016). *Chaos engineering* — validación de la resiliencia mediante fallos inyectados. <https://ieeexplore.ieee.org/document/7503833>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

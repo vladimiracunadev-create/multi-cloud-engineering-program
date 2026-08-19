@@ -612,11 +612,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- GitHub (2025). *About security hardening with OpenID Connect*. <https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect>
-- GitHub (2025). *Configuring OpenID Connect in Amazon Web Services*. <https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services>
-- GitLab (2025). *Connect to cloud services with OIDC*. <https://docs.gitlab.com/ee/ci/cloud_services/>
-- AWS (2025). *Create an OpenID Connect identity provider in IAM*. <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html>
-- AWS (2025). *AssumeRoleWithWebIdentity and session policies*. <https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithWebIdentity.html>
+- GitHub (2025). *About security hardening with OpenID Connect* — por qué un token efímero sustituye a la clave estática. <https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect>
+- GitHub (2025). *Configuring OpenID Connect in Amazon Web Services* — configuración concreta del proveedor de identidad en AWS. <https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services>
+- GitLab (2025). *Connect to cloud services with OIDC* — el procedimiento equivalente desde GitLab. <https://docs.gitlab.com/ee/ci/cloud_services/>
+- AWS (2025). *Create an OpenID Connect identity provider in IAM* — alta del proveedor de identidad en IAM. <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html>
+- AWS (2025). *AssumeRoleWithWebIdentity and session policies* — acotar la sesión asumida mediante políticas. <https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithWebIdentity.html>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

@@ -647,11 +647,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Apache Airflow (2025). *Concepts: DAGs, data-aware scheduling and backfills*. <https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/index.html>
-- Great Expectations (2025). *Data quality expectations*. <https://docs.greatexpectations.io/>
-- Moses, B. y otros (2022). *Data Quality Fundamentals*. <https://www.oreilly.com/library/view/data-quality-fundamentals/9781098112035/>
-- OpenLineage (2025). *Lineage specification*. <https://openlineage.io/docs/>
-- dbt (2025). *Tests, contracts and lineage*. <https://docs.getdbt.com/docs/build/data-tests>
+- Apache Airflow (2025). *Concepts: DAGs, data-aware scheduling and backfills* — grafos de tareas, planificación por datos y reprocesos. <https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/index.html>
+- Great Expectations (2025). *Data quality expectations* — expectativas declarativas de calidad del dato. <https://docs.greatexpectations.io/>
+- Moses, B. y otros (2022). *Data Quality Fundamentals* — dimensiones de calidad y detección de incidentes de datos. <https://www.oreilly.com/library/view/data-quality-fundamentals/9781098112035/>
+- OpenLineage (2025). *Lineage specification* — el estándar abierto para registrar linaje. <https://openlineage.io/docs/>
+- dbt (2025). *Tests, contracts and lineage* — pruebas y contratos ejecutados junto a la transformación. <https://docs.getdbt.com/docs/build/data-tests>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---
