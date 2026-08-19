@@ -8,7 +8,7 @@
       "class_count": 12,
       "page_count": 84,
       "bytes": 528253,
-      "sha256": "cc8f8d3d9783434e0a5ef6f5ac209f9104fd5ae7d1701e65392a3ba3a1b80592"
+      "sha256": "6e6e057de2c91bff35a3f37984024041d709c0d5562978ca7b6c04b5ceb6da84"
     },
     {
       "part": "01",
@@ -16,8 +16,8 @@
       "file": "output/pdf/partes/manual-parte-01-cloud-principles-strategy-adoption.pdf",
       "class_count": 12,
       "page_count": 94,
-      "bytes": 623961,
-      "sha256": "82dd27287ebfc3b89052a7f88ec9a0fd7b3f8c683bcd4bc9cb15a4431e9c552f"
+      "bytes": 623979,
+      "sha256": "fdf9b0a3367936a9e8a791ce04cd3f420b769201ac1a10ad27347644993eac57"
     },
     {
       "part": "02",
@@ -25,8 +25,8 @@
       "file": "output/pdf/partes/manual-parte-02-aws-core-platform.pdf",
       "class_count": 12,
       "page_count": 102,
-      "bytes": 642445,
-      "sha256": "893a31adb09e9f39be20e87fbdfc4e88633398da8fc50b904a65acaa0061494a"
+      "bytes": 642438,
+      "sha256": "8d67931e24ed2d8ccac9407de7eb2896663a2b8a19ad39115d703a444e92ff67"
     },
     {
       "part": "03",
@@ -35,7 +35,7 @@
       "class_count": 12,
       "page_count": 122,
       "bytes": 864042,
-      "sha256": "a41d07c0821dad687441b42d247e63d66f635cd436ee9b6bf96ece19f1cfec18"
+      "sha256": "6256da2402d472d20d8fe7e0dfe807f8500a88da17737f857aafcefb26cd2a9c"
     },
     {
       "part": "04",
@@ -44,7 +44,7 @@
       "class_count": 12,
       "page_count": 127,
       "bytes": 953505,
-      "sha256": "d860afa760f38a3e3a712f1c98604e21a022f14cb8cc19bf141d505470bfaf3c"
+      "sha256": "ae5d9b5443766a75630d43b96071015e771db2c2dbfe891cd784f6edee1d6791"
     },
     {
       "part": "05",
@@ -52,8 +52,8 @@
       "file": "output/pdf/partes/manual-parte-05-containers-docker-oci.pdf",
       "class_count": 12,
       "page_count": 124,
-      "bytes": 910579,
-      "sha256": "89be2e524b62e2ae6f4a8824bffa4ffadac469fc40f9e64d658d3134a1e20036"
+      "bytes": 910581,
+      "sha256": "70f8d3ab983fafdef1af1fafaf4767f4826cfcb96b79144a963f4103c8e33b53"
     },
     {
       "part": "06",
@@ -62,7 +62,7 @@
       "class_count": 12,
       "page_count": 122,
       "bytes": 852538,
-      "sha256": "464add16a811ff9a56ec4191dae28769569c3d493b47bb4d16455ce8d20ef1e6"
+      "sha256": "ceddc45480e91cf9cf92298f0dd718b93b05d06fb45f634bfd8ed1a27dcd3d4b"
     },
     {
       "part": "07",
@@ -70,8 +70,8 @@
       "file": "output/pdf/partes/manual-parte-07-infrastructure-as-code-configuration.pdf",
       "class_count": 12,
       "page_count": 120,
-      "bytes": 770980,
-      "sha256": "fc9d67ade4ee7ba1d1b3819c4c0b49391a81de658b83033eaad090fba723e748"
+      "bytes": 770982,
+      "sha256": "c252327f49eb8bed8a59a6c693d386e395bf29d8ddb7aa2b7487bfeb1934bdd5"
     },
     {
       "part": "08",
@@ -79,8 +79,8 @@
       "file": "output/pdf/partes/manual-parte-08-continuous-delivery-platform-engineering.pdf",
       "class_count": 12,
       "page_count": 114,
-      "bytes": 810944,
-      "sha256": "bf9a1e42055c92239f51d37de76a832321946971d02e2220944922de44200ece"
+      "bytes": 810994,
+      "sha256": "654a7a90435c7d3aa8f96ec791f017926633e13e5cb80205d701447fad2d3efd"
     },
     {
       "part": "09",
@@ -88,8 +88,8 @@
       "file": "output/pdf/partes/manual-parte-09-data-messaging-serverless-integration.pdf",
       "class_count": 12,
       "page_count": 118,
-      "bytes": 835322,
-      "sha256": "5e8fcb1ed720a905199cedd15967fb151bc6e716e925999ef736e21debceec8b"
+      "bytes": 835309,
+      "sha256": "910e94640e1f6643f86046deecdc893bae23f93d8c0f1c76d5625f51590e5066"
     },
     {
       "part": "10",
@@ -97,8 +97,8 @@
       "file": "output/pdf/partes/manual-parte-10-observability-sre-reliability.pdf",
       "class_count": 12,
       "page_count": 116,
-      "bytes": 839012,
-      "sha256": "08a805768f62dc990302f147614f6f4f2df5e72db0387fe23d39b04ccc58808a"
+      "bytes": 839021,
+      "sha256": "a815064df34ad8c368c09b7db5bc318cc40fe3e9fc19ac6dddc4589c98f5590e"
     },
     {
       "part": "11",
@@ -107,7 +107,7 @@
       "class_count": 12,
       "page_count": 123,
       "bytes": 884510,
-      "sha256": "44808b636bc176436420d8f12f71569a51b78e17756b6fd32e33c200776c7b2d"
+      "sha256": "c7899a0657cb4a53dd8c093c312a633946993445b515c2380b7b3a2307867d5d"
     },
     {
       "part": "12",
@@ -115,8 +115,8 @@
       "file": "output/pdf/partes/manual-parte-12-cloud-native-distributed-architecture.pdf",
       "class_count": 12,
       "page_count": 123,
-      "bytes": 871833,
-      "sha256": "9deab8c52d4212591352c9945c8e047994eb738a6ada360fa8c12104718812e8"
+      "bytes": 871801,
+      "sha256": "77f41680446a538fe7a56f8e08105e24498cc6ea0cc921010b4ea8fcab21385d"
     },
     {
       "part": "13",
@@ -124,8 +124,8 @@
       "file": "output/pdf/partes/manual-parte-13-multicloud-hybrid-disaster-recovery.pdf",
       "class_count": 12,
       "page_count": 123,
-      "bytes": 844472,
-      "sha256": "518f34f1116422113b81284b3deabd3c27e46ff4ee58423afd570611f8ad363d"
+      "bytes": 844482,
+      "sha256": "b49e1f6f274912d6033b5b3d75169367b0476286988c5a77f9d19c605a48bbdc"
     },
     {
       "part": "14",
@@ -133,8 +133,8 @@
       "file": "output/pdf/partes/manual-parte-14-advanced-platform-capstones-career.pdf",
       "class_count": 12,
       "page_count": 126,
-      "bytes": 842176,
-      "sha256": "1002ccd580b87130cf05e6bab25f7ee604e3e9fec8c6a1c12563fdc7b711cb94"
+      "bytes": 842161,
+      "sha256": "4d03331a13dd285de90ce31cc41908bcb168f011f3840340ddef67dbba42a6eb"
     },
     {
       "part": "15",
@@ -142,8 +142,8 @@
       "file": "output/pdf/partes/manual-parte-15-systems-architecture-engineering.pdf",
       "class_count": 12,
       "page_count": 120,
-      "bytes": 906075,
-      "sha256": "58b963dcde1b1ec5c948cab109fe90d96a729e14ff589b8907ee9bf7b1cd5180"
+      "bytes": 906072,
+      "sha256": "50b091d51a7d3b2fb8254535966a929e52e9448b25e4dbc732a6068764822e46"
     },
     {
       "part": "16",
@@ -151,8 +151,8 @@
       "file": "output/pdf/partes/manual-parte-16-advanced-cloud-networking-edge.pdf",
       "class_count": 12,
       "page_count": 129,
-      "bytes": 792482,
-      "sha256": "3bda3e935db37d6233ce82f10bcf1472b7030c4ccdc6c407ce8f87b238dd86d3"
+      "bytes": 792568,
+      "sha256": "1d34bd9aed75e6de607692ec600f1509706f9e0e21f7e8dfdb641763128f37b6"
     },
     {
       "part": "17",
@@ -161,7 +161,7 @@
       "class_count": 12,
       "page_count": 134,
       "bytes": 834466,
-      "sha256": "a77f09cc713b3388d190cde2bfdcada2cf1c88a76ec15857dff29424df1c25a3"
+      "sha256": "f7c8a306844a6ca47cf4d9245e2f9d5dad6372c56c5548874d67250b111bec46"
     },
     {
       "part": "18",
@@ -170,7 +170,7 @@
       "class_count": 12,
       "page_count": 133,
       "bytes": 810687,
-      "sha256": "ad89738d0ca551396c3e6693cbd3290a0ff1f2a698e8cd0d5ddb05157823fe3c"
+      "sha256": "42f3077dcb83e5b6bfa2ceb08a929c117347a046db981f3f0eec08688b935e82"
     },
     {
       "part": "19",
@@ -179,7 +179,7 @@
       "class_count": 12,
       "page_count": 134,
       "bytes": 788179,
-      "sha256": "1377360e3268cf236fc92da5ef808b1982353c01220b7c661371c24a081858ef"
+      "sha256": "a521891bf04a225a20b6540e7aab11d044bc63e829406117ad855eb1c8928221"
     },
     {
       "part": "20",
@@ -188,7 +188,7 @@
       "class_count": 12,
       "page_count": 140,
       "bytes": 857000,
-      "sha256": "a5c0bd33cb054f585bf7022d02413c4c64e5122b1654f3be70da8bf913ac2d96"
+      "sha256": "30940553aebacfd5218874f6fb6800273be1806c601f7a13c2cbafee1110ed26"
     },
     {
       "part": "21",
@@ -196,8 +196,8 @@
       "file": "output/pdf/partes/manual-parte-21-cloud-operations-automation.pdf",
       "class_count": 12,
       "page_count": 143,
-      "bytes": 768759,
-      "sha256": "bed03f56cbf497e4ea127b736a4580b3115d8e66e6183461a939fe0b28aad486"
+      "bytes": 768752,
+      "sha256": "7c63a3e5fcd51504d44b583b41acd258df1345c1a6f7f000e3167e97ad9cd8a0"
     },
     {
       "part": "22",
@@ -205,8 +205,8 @@
       "file": "output/pdf/partes/manual-parte-22-specializations-certifications-career.pdf",
       "class_count": 12,
       "page_count": 131,
-      "bytes": 690049,
-      "sha256": "db5e207d726f1adf8cd3108c2471232de8ce33dce7687246b3c9e05df7626981"
+      "bytes": 690063,
+      "sha256": "9d1aec51ad3fcdaa199fdc1c82cfe0de385ad1cac74de03eb588a87e30d7ea05"
     },
     {
       "part": "23",
@@ -214,8 +214,8 @@
       "file": "output/pdf/partes/manual-parte-23-industry-capstones.pdf",
       "class_count": 12,
       "page_count": 134,
-      "bytes": 738948,
-      "sha256": "c608d5fc99f04b4f941984e9f43f2f3b4e18f4d193993d68546c524fbf2a9463"
+      "bytes": 738997,
+      "sha256": "34bd3a4ddc92b1fd30ffb1cdde01a25549c8f5cbe819b935640719bef3cec29a"
     }
   ],
   "clouds": [
@@ -258,8 +258,8 @@
         "273"
       ],
       "page_count": 257,
-      "bytes": 1632004,
-      "sha256": "ef5f94b95de8153f008ef8b038d4b9d832fb0cfbdd037d5267555b0bec7f2731"
+      "bytes": 1632010,
+      "sha256": "67b3c9a1a591bac0785648abee81a18d6ede4a21e4d8a9c90e3fd9b858e90325"
     },
     {
       "cloud": "azure",
@@ -301,8 +301,8 @@
         "273"
       ],
       "page_count": 287,
-      "bytes": 1901440,
-      "sha256": "198197e62315bbe48c341b3b114cc65edb278bf23afb0a24d659cbf2753c8bc7"
+      "bytes": 1901455,
+      "sha256": "6996713f4c3646673739901797f0d7ec103a7b40cba8f840f7c0c16869972769"
     },
     {
       "cloud": "google-cloud",
@@ -343,8 +343,8 @@
         "273"
       ],
       "page_count": 282,
-      "bytes": 1898933,
-      "sha256": "756ab61103e6de081d64c103126b3685f0bf055db0b27086b2ac65fcca7a7048"
+      "bytes": 1898948,
+      "sha256": "f7a09b77160c64bb1c431cb6ef66c6bfcd762b6a2b104c2d5fdaded4f8d18ba8"
     }
   ],
   "total_files": 27,
