@@ -22,6 +22,10 @@ jobs:
         run: python -m pip install ".[site,manual]"
       - name: Validate curriculum
         run: python scripts/validate_repository.py --strict
+      - name: Verify source registry
+        # Offline y determinista a proposito: la red vive en refresh-sources,
+        # que es manual. Un gate que falla por causas ajenas al cambio se ignora.
+        run: python scripts/verify-sources
       - name: Build and validate site
         run: |
           python scripts/generate_site.py
