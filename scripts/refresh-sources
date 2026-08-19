@@ -148,6 +148,13 @@ def openlibrary_isbn(entry: dict) -> tuple[str | None, str, str]:
         params.pop("author", None)
         data, code = fetch_json(f"https://openlibrary.org/search.json?{urllib.parse.urlencode(params)}{fields}")
     if not data or not data.get("docs"):
+        # Tercer intento sin articulo inicial: openlibrary cataloga varias obras
+        # sin el, y la busqueda por titulo exacto no las encuentra.
+        stripped = re.sub(r"^(the|a|an|el|la|los|las)\s+", "", params["title"], flags=re.I)
+        if stripped != params["title"]:
+            params["title"] = stripped
+            data, code = fetch_json(f"https://openlibrary.org/search.json?{urllib.parse.urlencode(params)}{fields}")
+    if not data or not data.get("docs"):
         return None, "", f"openlibrary: {unreachable(code) or 'el titulo no aparece en el catalogo'}"
 
     doc = None

@@ -4966,7 +4966,9 @@
         "classes/part-21-cloud-operations-automation/257-alertas-on-call-escalamiento-y-comunicacion/README.md": "el mando de incidentes trasladado a operaciones de TI"
       },
       "status": "pendiente",
-      "pending_reason": "ISBN-13 sin resolver: openlibrary: el titulo no aparece en el catalogo; google books: no se pudo comprobar (HTTP 429)"
+      "pending_reason": "ISBN-13 sin resolver: openlibrary: no se pudo comprobar (error de red); google books: no se pudo comprobar (HTTP 429)",
+      "isbn13_candidate": "9781492045922",
+      "isbn13_candidate_note": "ISBN del enlace citado, sin confirmar: no se pudo comprobar (error de red)"
     },
     {
       "id": "ambler-refactoring-databases",
@@ -5334,9 +5336,11 @@
       "usage": {
         "classes/part-12-cloud-native-distributed-architecture/146-twelve-factor-app-y-configuracion-cloud-native/README.md": "propiedades añadidas: telemetría, autenticación y seguridad"
       },
-      "status": "pendiente",
-      "pending_reason": "ISBN-13 sin resolver: openlibrary: no se pudo comprobar (error de red); google books: no se pudo comprobar (HTTP 429)",
-      "verified_title": "Beyond the Twelve-Factor App Exploring the DNA of Highly Scalable, Resilient Cloud Applications"
+      "status": "verificada",
+      "pending_reason": null,
+      "verified_title": "Beyond the Twelve-Factor App Exploring the DNA of Highly Scalable, Resilient Cloud Applications",
+      "isbn13_candidate": "9781492042631",
+      "isbn13_candidate_note": "ISBN del enlace citado, sin confirmar: no se pudo comprobar (HTTP 404)"
     },
     {
       "id": "hohpe-cloud-strategy-a-decision-based-approach",
@@ -5476,7 +5480,7 @@
         "classes/part-00-foundations-computing-networking-linux/002-terminal-sistema-de-archivos-procesos-y-variables-de-entorno/README.md": "creación de procesos y ejecución de programas"
       },
       "status": "pendiente",
-      "pending_reason": "ISBN-13 sin resolver: openlibrary: el titulo no aparece en el catalogo; google books: no se pudo comprobar (HTTP 429)"
+      "pending_reason": "ISBN-13 sin resolver: openlibrary: no se pudo comprobar (error de red); google books: no se pudo comprobar (HTTP 429)"
     },
     {
       "id": "kleppmann-designing-data-intensive-applications",
@@ -5499,8 +5503,8 @@
       "usage": {
         "classes/part-02-aws-core-platform/031-rds-dynamodb-y-elasticache-decision-de-datos/README.md": "modelos de datos, índices y motores de almacenamiento"
       },
-      "status": "pendiente",
-      "pending_reason": "ISBN-13 sin resolver: openlibrary: no se pudo comprobar (error de red); google books: no se pudo comprobar (HTTP 429)",
+      "status": "verificada",
+      "pending_reason": null,
       "verified_title": "Designing Data-Intensive Applications"
     },
     {
