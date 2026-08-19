@@ -46,6 +46,7 @@ from sources_lib import (  # noqa: E402
     render_block,
     render_pending,
 )
+from render_class_sources import INDEX, PARTS_DIR, render_index, render_parts  # noqa: E402
 
 README = ROOT / "README.md"
 PENDING_DOC = ROOT / "sources" / "PENDING.md"
@@ -254,6 +255,28 @@ def main() -> int:
 
     stats = registry_stats(data, citations, ROOT)
     check_readme(stats, report, args.write)
+
+    # Vista por clase: que fuentes fundamentan cada una. Se genera igual que
+    # el resto, para que no pueda quedar desfasada del registro.
+    wanted_docs = {INDEX: render_index(data, citations, ROOT)}
+    wanted_docs.update(render_parts(data, citations, ROOT))
+    if args.write:
+        PARTS_DIR.mkdir(parents=True, exist_ok=True)
+        for path, body in wanted_docs.items():
+            path.write_text(body, encoding="utf-8")
+        for stale in PARTS_DIR.glob("*.md"):
+            if stale not in wanted_docs:
+                stale.unlink()
+    else:
+        for path, body in wanted_docs.items():
+            rel = path.relative_to(ROOT).as_posix()
+            if not path.exists():
+                report.fail("fuentes-por-clase", f"falta {rel}; generalo con: python scripts/verify-sources --write")
+            elif path.read_text(encoding="utf-8") != body:
+                report.fail(
+                    "fuentes-por-clase",
+                    f"{rel} no coincide con el registro; regeneralo con: python scripts/verify-sources --write",
+                )
 
     # El informe de huecos se genera igual que las cifras del README: si se
     # escribe a mano envejece, y un hueco que nadie ve no es informacion.

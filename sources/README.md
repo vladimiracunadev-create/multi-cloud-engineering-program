@@ -34,6 +34,18 @@ Los huecos se clasifican en `pending_kind`, porque no todos significan lo mismo:
 
 El detalle obra por obra vive en [`PENDING.md`](PENDING.md), que **genera el verificador**.
 
+## Donde se lee, segun lo que busques
+
+| Quiero... | Mirar |
+|---|---|
+| saber que fundamenta **una clase concreta** | [`docs/FUENTES.md`](../docs/FUENTES.md) → la parte → la clase |
+| el dato **comprobable por maquina** | [`bibliography.json`](bibliography.json) |
+| saber **que falta y por que** | [`PENDING.md`](PENDING.md) |
+| las **cifras** del programa | el bloque de fuentes del [README](../README.md) |
+
+`docs/FUENTES.md` y los 24 ficheros de `docs/fuentes/` son vistas legibles: las genera el
+verificador desde el registro, de modo que no pueden decir algo distinto de el.
+
 ## Las tres herramientas
 
 ```bash
