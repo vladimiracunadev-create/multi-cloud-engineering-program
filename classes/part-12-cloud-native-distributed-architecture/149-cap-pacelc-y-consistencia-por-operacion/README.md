@@ -607,7 +607,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 - Brewer, E. (2012). *CAP twelve years later: how the rules have changed* — el enunciado correcto y sus matices. <https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/>
 - Abadi, D. (2012). *Consistency tradeoffs in modern distributed database design* — la extensión que incluye la latencia. <https://www.cs.umd.edu/~abadi/papers/abadi-pacelc.pdf>
-- Terry, D. y otros (1994). *Session guarantees for weakly consistent replicated data* — leer lo propio y no retroceder. <https://dl.acm.org/doi/10.5555/645792.668302>
+- Terry, D. y otros (1994). *Session guarantees for weakly consistent replicated data* — leer lo propio y no retroceder. <https://doi.org/10.1109/PDIS.1994.331722>
 - Kleppmann, M. (2017). *Designing Data-Intensive Applications*, cap. 5 y 9 — replicación, relojes y consistencia. <https://dataintensive.net/>
 - Shapiro, M. y otros (2011). *Conflict-free replicated data types* — estructuras que conmutan por construcción. <https://inria.hal.science/inria-00555588/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

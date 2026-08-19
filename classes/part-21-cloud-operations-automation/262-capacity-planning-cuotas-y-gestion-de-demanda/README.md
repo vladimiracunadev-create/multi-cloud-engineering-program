@@ -596,7 +596,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - Gunther, N. (2007). *Guerrilla Capacity Planning* — leyes de escalabilidad y efecto de la utilización. <https://link.springer.com/book/10.1007/978-3-540-31010-5>
-- Google (2018). *The Site Reliability Workbook*, cap. «Managing load» y «Handling overload» — planificación de capacidad con datos de servicio. <https://sre.google/sre-book/handling-overload/>
+- Google (2018). *Site Reliability Engineering*, cap. «Managing load» y «Handling overload» — planificación de capacidad con datos de servicio. <https://sre.google/sre-book/handling-overload/>
 - AWS (2024). *Service Quotas — monitoring and requesting increases*. <https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html>
 - Microsoft (2024). *Azure subscription and service limits, quotas, and constraints* — límites y cuotas que acotan el crecimiento. <https://learn.microsoft.com/azure/azure-resource-manager/management/azure-subscription-service-limits>
 - Google Cloud (2024). *Quotas and limits* — cuotas del proveedor y su ampliación. <https://cloud.google.com/docs/quotas>

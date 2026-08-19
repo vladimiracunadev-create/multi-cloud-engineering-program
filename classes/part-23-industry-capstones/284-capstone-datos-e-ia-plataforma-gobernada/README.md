@@ -626,7 +626,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 - Kleppmann, M. (2017). *Designing Data-Intensive Applications* — fundamentos de almacenamiento y procesamiento del caso. <https://dataintensive.net/>
 - Sculley, D. y otros (2015). *Hidden technical debt in machine learning systems* — la deuda oculta que la plataforma debe contener. <https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html>
-- Google Cloud (2024). *Data governance and lineage on BigQuery and Dataplex* — gobierno y linaje del dato en la plataforma. <https://cloud.google.com/dataplex/docs/data-lineage>
+- Google Cloud (2024). *Data governance and lineage on BigQuery and Dataplex* — gobierno y linaje del dato en la plataforma. <https://docs.cloud.google.com/dataplex/docs/about-data-lineage>
 - AWS (2024). *Machine Learning Lens and data governance guidance* — la lente de aprendizaje automático y el gobierno del dato. <https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/machine-learning-lens.html>
 - Microsoft (2024). *Data governance with Microsoft Purview* — gobierno del dato en Azure. <https://learn.microsoft.com/purview/governance-solutions-overview>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

@@ -608,7 +608,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Huang, P. y otros (2017). *Gray failure: the Achilles' heel of cloud-scale systems* — el fallo que el componente no reconoce. <https://www.microsoft.com/en-us/research/publication/gray-failure-the-achilles-heel-of-cloud-scale-systems/>
+- Huang, P. y otros (2017). *Gray failure: the Achilles' heel of cloud-scale systems* — el fallo que el componente no reconoce. <https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/paper-1.pdf>
 - Bronson, N. y otros (2021). *Metastable failures in distributed systems* — fallos que se sostienen tras desaparecer la causa. <https://sigops.org/s/conferences/hotos/2021/papers/hotos21-s11-bronson.pdf>
 - AWS (2025). *Reliability and constant work* — diseñar para hacer siempre la misma cantidad de trabajo. <https://aws.amazon.com/builders-library/reliability-and-constant-work/>
 - AWS (2025). *Workload isolation using shuffle sharding* — reparto por sorteo y su aritmética. <https://aws.amazon.com/builders-library/workload-isolation-using-shuffle-sharding/>

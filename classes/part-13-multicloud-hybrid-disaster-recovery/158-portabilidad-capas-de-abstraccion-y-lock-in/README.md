@@ -625,7 +625,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 - CNCF (2025). *Cloud native landscape and interoperability* — qué interfaces son comunes entre proveedores. <https://landscape.cncf.io/>
 - Cockcroft, A. (2025). *Lock-in and exit cost* — sustituir el debate por una estimación en semanas. <https://adrianco.medium.com/>
 - Hexagonal architecture (2025). *Ports and adapters* — mantener lo específico en el borde. <https://alistair.cockburn.us/hexagonal-architecture/>
-- Google Cloud (2025). *Portability considerations for hybrid and multicloud* — límites prácticos de la portabilidad. <https://cloud.google.com/architecture/hybrid-multicloud-patterns/considerations>
+- Google Cloud (2025). *Portability considerations for hybrid and multicloud* — límites prácticos de la portabilidad. <https://docs.cloud.google.com/architecture/hybrid-multicloud-patterns-and-practices>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

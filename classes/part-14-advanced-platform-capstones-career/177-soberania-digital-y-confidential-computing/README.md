@@ -679,7 +679,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 - Confidential Computing Consortium (2025). *A technical analysis of confidential computing* — qué protege y qué no. <https://confidentialcomputing.io/resources/white-papers-reports/>
 - IETF (2023). *RFC 9334: Remote attestation procedures architecture* — verificación de qué código se ejecuta. <https://www.rfc-editor.org/rfc/rfc9334.html>
 - Google Cloud (2025). *Sovereign controls and external key management* — residencia, control operativo y claves externas. <https://cloud.google.com/sovereign-cloud>
-- Microsoft (2025). *Sovereignty and access transparency* — registro de acceso del personal del proveedor. <https://learn.microsoft.com/azure/cloud-adoption-framework/scenarios/cloud-for-sovereignty/>
+- Microsoft (2025). *Sovereignty and access transparency* — registro de acceso del personal del proveedor. <https://learn.microsoft.com/en-us/azure/azure-sovereign-clouds/sovereignty-implementation>
 - ENISA (2025). *Cloud sovereignty: technical and legal dimensions* — separación de exigencias técnicas y jurídicas. <https://www.enisa.europa.eu/publications>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

@@ -550,7 +550,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 - CloudEvents (2025). *Specification* — envoltura común: identificador, tipo, origen, sujeto y momento. <https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md>
 - Fowler, M. (2025). *What do you mean by event-driven?* — notificación, transferencia de estado y sus consecuencias. <https://martinfowler.com/articles/201701-event-driven.html>
 - Confluent (2025). *Schema Registry: compatibility types* — compatibilidad hacia atrás, hacia delante y completa. <https://docs.confluent.io/platform/current/schema-registry/fundamentals/avro.html>
-- Richardson, C. (2025). *Saga and event choreography trade-offs* — coreografía frente a orquestación. <https://microservices.io/patterns/data/saga.html>
+- Richardson, C. (2025). *Saga and event choreography trade-offs* — coreografía frente a orquestación. <https://microservices.io/patterns/index.html>
 - Debezium (2025). *Change data capture: when to use it* — límites de publicar cambios de filas como contrato. <https://debezium.io/documentation/reference/stable/architecture.html>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

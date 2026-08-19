@@ -612,7 +612,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - AWS (2025). *Hybrid connectivity: VPN, Direct Connect and Transit Gateway* — mecanismos y cuándo hace falta un concentrador. <https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/introduction.html>
-- Google Cloud (2025). *Hybrid and multicloud networking patterns* — patrones de conexión y sus compromisos. <https://cloud.google.com/architecture/hybrid-multicloud-network-topologies>
+- Google Cloud (2025). *Hybrid and multicloud networking patterns* — patrones de conexión y sus compromisos. <https://docs.cloud.google.com/architecture/hybrid-multicloud-secure-networking-patterns>
 - Azure (2025). *DNS resolution across on-premises and cloud* — reenvío condicional y extremos de resolución. <https://learn.microsoft.com/azure/architecture/hybrid/hybrid-dns-infra>
 - RFC 1918 y RFC 6890 (IETF). *Espacios de direcciones privadas* — base del plan de direccionamiento. <https://www.rfc-editor.org/rfc/rfc6890.html>
 - Google SRE (2025). *Load balancing and DNS TTL trade-offs* — velocidad de conmutación frente a carga de resolución. <https://sre.google/sre-book/load-balancing-frontend/>

@@ -510,7 +510,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 - Open Container Initiative (2025). *Specifications overview* — qué normaliza el conjunto y qué queda fuera. <https://opencontainers.org/release-notices/overview/>
 - NIST (2022). *SP 800-190: Application Container Security Guide* — riesgos por capa y contramedidas. <https://csrc.nist.gov/pubs/sp/800/190/final>
-- CNCF (2025). *Software Supply Chain Best Practices* — inventario, firma, procedencia y verificación. <https://github.com/cncf/tag-security/blob/main/community/resources/software-supply-chain-security/secure-software-factory/Secure_Software_Factory_Whitepaper.pdf>
+- CNCF (2025). *Software Supply Chain Best Practices* — inventario, firma, procedencia y verificación. <https://github.com/cncf/tag-security/blob/main/community/working-groups/supply-chain-security/secure-software-factory/Secure_Software_Factory_Whitepaper.pdf>
 - Linux (2025). *Pressure Stall Information* — señales de saturación por recurso y por grupo de control. <https://docs.kernel.org/accounting/psi.html>
 - Google (2018). *The Site Reliability Workbook*, cap. 15 — simulacros de fallo y lo que se aprende de cada uno. <https://sre.google/workbook/postmortem-culture/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

@@ -652,11 +652,11 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- ENISA (2024). *European Cybersecurity Certification Scheme for Cloud Services* — el esquema europeo de certificación de servicios en la nube. <https://www.enisa.europa.eu/topics/certification>
+- ENISA (2024). *European Cybersecurity Certification Scheme for Cloud Services* — el esquema europeo de certificación de servicios en la nube. <https://www.enisa.europa.eu/publications/eucs-cloud-service-scheme>
 - Comisión Europea (2023). *Data Act — cambio de proveedor y portabilidad en la nube*. <https://digital-strategy.ec.europa.eu/en/policies/data-act>
 - W3C (2023). *Web Content Accessibility Guidelines (WCAG) 2.2* — criterios de accesibilidad exigibles al servicio público. <https://www.w3.org/TR/WCAG22/>
 - AWS (2024). *Digital sovereignty and data residency guidance* — soberanía del dato y residencia en Google Cloud. <https://aws.amazon.com/compliance/data-protection/>
-- Microsoft (2024). *Azure sovereign cloud and data residency* — nube soberana y residencia del dato en Azure. <https://learn.microsoft.com/azure/cloud-adoption-framework/scenarios/sovereignty/>
+- Microsoft (2024). *Azure sovereign cloud and data residency* — nube soberana y residencia del dato en Azure. <https://learn.microsoft.com/en-us/azure/azure-sovereign-clouds/public/overview-sovereign-landing-zone>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

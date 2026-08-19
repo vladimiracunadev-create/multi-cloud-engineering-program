@@ -500,8 +500,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 - Fowler, M. (2025). *Test doubles and contract tests* — dobles por contrato y verificación contra el servicio real. <https://martinfowler.com/bliki/ContractTest.html>
 - Argo CD (2025). *ApplicationSet: pull request generator* — un entorno por cambio propuesto, y su destrucción al cerrarlo. <https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Pull-Request/>
-- ICO (2025). *Anonymisation and re-identification risk* — por qué sustituir identificadores directos no basta. <https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/anonymisation/>
-- FinOps Foundation (2025). *Tagging and orphaned resource detection* — encontrar lo que quedó vivo sin dueño. <https://www.finops.org/framework/capabilities/resource-utilization-efficiency/>
+- ICO (2025). *Anonymisation and re-identification risk* — por qué sustituir identificadores directos no basta. <https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/introduction-to-anonymisation/>
+- FinOps Foundation (2025). *Tagging and orphaned resource detection* — encontrar lo que quedó vivo sin dueño. <https://www.finops.org/framework/previous-capabilities/utilization-efficiency/>
 - Testcontainers (2025). *Ephemeral dependencies for tests* — dependencias desechables con ciclo de vida acotado. <https://testcontainers.com/guides/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

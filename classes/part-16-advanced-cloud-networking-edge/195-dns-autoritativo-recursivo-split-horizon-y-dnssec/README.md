@@ -617,7 +617,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 - RFC 2308 — Negative caching of DNS queries. <https://www.rfc-editor.org/rfc/rfc2308>
 - RFC 4033 — DNS security introduction and requirements (DNSSEC). <https://www.rfc-editor.org/rfc/rfc4033>
 - AWS (2025). *Route 53: private hosted zones and resolver endpoints* — resolución partida entre red privada y pública. <https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-private.html>
-- OWASP (2025). *Subdomain takeover* — registros huérfanos. <https://owasp.org/www-community/attacks/Subdomain_Takeover>
+- OWASP (2025). *Subdomain takeover* — registros huérfanos. <https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/02-Configuration_and_Deployment_Management_Testing/10-Test_for_Subdomain_Takeover>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

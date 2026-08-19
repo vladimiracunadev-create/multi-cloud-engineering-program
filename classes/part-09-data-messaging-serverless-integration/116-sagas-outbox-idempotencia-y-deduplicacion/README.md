@@ -555,8 +555,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 ## 🔗 Referencias
 
-- Richardson, C. (2025). *Transactional outbox pattern* — publicar el hecho en la misma transacción que el cambio. <https://microservices.io/patterns/data/transactional-outbox.html>
-- Richardson, C. (2025). *Saga pattern* — transacciones locales con compensación, coreografiadas y orquestadas. <https://microservices.io/patterns/data/saga.html>
+- Richardson, C. (2025). *Transactional outbox pattern* — publicar el hecho en la misma transacción que el cambio. <https://microservices.io/patterns/index.html>
+- Richardson, C. (2025). *Saga pattern* — transacciones locales con compensación, coreografiadas y orquestadas. <https://microservices.io/patterns/index.html>
 - Stripe (2025). *Idempotent requests* — clave de idempotencia en un efecto externo y su ventana. <https://docs.stripe.com/api/idempotent_requests>
 - Helland, P. (2012). *Idempotence is not a medical condition* — idempotencia como propiedad del efecto, no de la entrega. <https://queue.acm.org/detail.cfm?id=2187821>
 - Garcia-Molina, H. y Salem, K. (1987). *Sagas* — el artículo original sobre transacciones largas con compensación. <https://www.cs.cornell.edu/andru/cs711/2002fa/reading/sagas.pdf>

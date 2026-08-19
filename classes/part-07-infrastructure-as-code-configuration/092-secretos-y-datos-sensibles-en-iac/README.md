@@ -547,7 +547,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - HashiCorp (2025). *Sensitive data in state* — por qué el estado guarda los valores y cómo protegerlo. <https://developer.hashicorp.com/terraform/language/state/sensitive-data>
-- HashiCorp (2025). *Ephemeral values and write-only arguments* — valores que no se guardan en el estado. <https://developer.hashicorp.com/terraform/language/values/ephemeral>
+- HashiCorp (2025). *Ephemeral values and write-only arguments* — valores que no se guardan en el estado. <https://developer.hashicorp.com/terraform/language/manage-sensitive-data/ephemeral>
 - AWS (2025). *Managed master user password for RDS* — credencial generada y rotada por el servicio. <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html>
 - Gitleaks (2025). *Scanning git history for secrets* — detección en el historial, no solo en el árbol actual. <https://github.com/gitleaks/gitleaks>
 - Mozilla (2025). *SOPS: encrypted files in the repository* — cifrado de valores y gestión de la clave. <https://github.com/getsops/sops>

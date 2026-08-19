@@ -595,7 +595,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 - SEI (2025). *Quality attribute workshop and utility tree* — cómo obtener y priorizar escenarios. <https://insights.sei.cmu.edu/library/quality-attribute-workshops-qaws-third-edition/>
 - Ford, N., Parsons, R. y Kua, P. (2017). *Building Evolutionary Architectures* — atributos como funciones de aptitud comprobables. <https://evolutionaryarchitecture.com/>
 - Conway, M. (1968). *How do committees invent?* — relación entre comunicación de equipos y forma del sistema. <https://www.melconway.com/Home/Committees_Paper.html>
-- ISO/IEC (2023). *25010: modelo de calidad del producto software* — taxonomía de atributos. <https://iso25000.com/index.php/normas-iso-25000/iso-25010>
+- ISO/IEC (2023). *25010: modelo de calidad del producto software* — taxonomía de atributos. <https://www.iso.org/standard/78176.html>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

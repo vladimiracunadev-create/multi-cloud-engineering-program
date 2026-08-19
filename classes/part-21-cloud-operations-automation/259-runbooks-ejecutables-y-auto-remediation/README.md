@@ -627,7 +627,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 - Beyer, B. y otros (2018). *The Site Reliability Workbook*, cap. «Automation and toil» — el runbook como procedimiento verificable. <https://sre.google/workbook/eliminating-toil/>
 - AWS (2024). *Systems Manager Automation runbooks* — automatización de procedimientos en AWS. <https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-documents.html>
 - Microsoft (2024). *Azure Automation runbooks* — automatización de procedimientos en Azure. <https://learn.microsoft.com/azure/automation/automation-runbook-types>
-- Google Cloud (2024). *Automated remediation with Cloud Functions and alerting* — remediación disparada desde la alerta. <https://cloud.google.com/architecture/automated-remediation-cloud-monitoring>
+- Google Cloud (2024). *Automated remediation with Cloud Functions and alerting* — remediación disparada desde la alerta. <https://docs.cloud.google.com/architecture/framework/operational-excellence/manage-incidents-and-problems>
 - Limoncelli, T. (2020). *Operational excellence in April Fools' pranks* — sobre automatización probada frente a escrita. <https://queue.acm.org/detail.cfm?id=3380780>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 

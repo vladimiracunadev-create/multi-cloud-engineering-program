@@ -553,7 +553,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 - Azure (2025). *Durable Functions: orchestrator code constraints* — qué no se puede hacer en el código de orquestación. <https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-code-constraints>
 - AWS (2025). *Step Functions: standard and express workflows* — máquina de estados declarativa y sus límites. <https://docs.aws.amazon.com/step-functions/latest/dg/concepts-standard-vs-express.html>
 - Google Cloud (2025). *Workflows: syntax and error handling* — pasos, reintentos y compensación declarativa. <https://cloud.google.com/workflows/docs/reference/syntax>
-- Richardson, C. (2025). *Orchestration-based saga* — cuándo centralizar la secuencia y sus compensaciones. <https://microservices.io/patterns/data/saga.html>
+- Richardson, C. (2025). *Orchestration-based saga* — cuándo centralizar la secuencia y sus compensaciones. <https://microservices.io/patterns/index.html>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

@@ -663,7 +663,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 - AWS (2024). *SaaS Lens, Well-Architected Framework* — la lente de software como servicio. <https://docs.aws.amazon.com/wellarchitected/latest/saas-lens/saas-lens.html>
 - Microsoft (2024). *Multitenant architectural guidance on Azure* — guía de arquitectura multiinquilino en Azure. <https://learn.microsoft.com/azure/architecture/guide/multitenant/overview>
-- Google Cloud (2024). *Multi-tenancy patterns* — patrones de aislamiento entre inquilinos. <https://cloud.google.com/architecture/framework/multitenancy>
+- Google Cloud (2024). *Multi-tenancy patterns* — patrones de aislamiento entre inquilinos. <https://docs.cloud.google.com/kubernetes-engine/docs/best-practices/enterprise-multitenancy>
 - PostgreSQL (2024). *Row Security Policies* — aislamiento por fila dentro de una base compartida. <https://www.postgresql.org/docs/current/ddl-rowsecurity.html>
 - FinOps Foundation (2024). *Unit economics for SaaS providers* — economía unitaria del proveedor de software como servicio. <https://www.finops.org/framework/capabilities/unit-economics/>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

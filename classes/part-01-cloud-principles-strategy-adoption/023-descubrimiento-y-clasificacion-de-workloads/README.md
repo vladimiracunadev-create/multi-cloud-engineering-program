@@ -324,7 +324,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - AWS (2024). *Migration strategies: the 7 Rs* — criterios de elección por estrategia. <https://docs.aws.amazon.com/prescriptive-guidance/latest/large-migration-guide/migration-strategies.html>
-- Microsoft (2024). *Cloud Adoption Framework: assess workloads* — inventario, dependencias y clasificación. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/discover>
+- Microsoft (2024). *Cloud Adoption Framework: assess workloads* — inventario, dependencias y clasificación. <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/discover-existing-workload-inventory>
 - McCrory, D. (2010). *Data Gravity in the Clouds* — por qué los datos atraen a las aplicaciones. <https://datagravitas.com/2010/12/07/data-gravity-in-the-clouds/>
 - Google Cloud (2024). *Migration to Google Cloud: assess and discover workloads* — descubrimiento y agrupación. <https://cloud.google.com/architecture/migration-to-gcp-getting-started>
 - Newman, S. (2019). *Monolith to Microservices*, caps. 2-3 — identificar fronteras y grupos acoplados antes de partir.

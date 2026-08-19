@@ -544,7 +544,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 - Google SRE (2025). *Eliminating toil* — definición, medición y objetivo de reducción. <https://sre.google/sre-book/eliminating-toil/>
 - Google SRE (2025). *Emergency response and playbooks* — contenido y mantenimiento de los procedimientos. <https://sre.google/sre-book/emergency-response/>
-- PagerDuty (2025). *Runbook documentation* — estructura y enlace desde la alerta. <https://response.pagerduty.com/oncall/runbooks/>
+- PagerDuty (2025). *Runbook documentation* — estructura y enlace desde la alerta. <https://response.pagerduty.com/oncall/alerting_principles/>
 - Beyer, B. y otros (2018). *The Site Reliability Workbook*, cap. 6 — escala de automatización y sus riesgos. <https://sre.google/workbook/eliminating-toil/>
 - Woods, D. y otros (2010). *Behind Human Error* — por qué los automatismos que compensan ocultan el deterioro. <https://www.taylorfrancis.com/books/mono/10.1201/9781315568935/behind-human-error>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

@@ -414,7 +414,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 - AWS (2024). *Well-Architected Framework: the review process* — cómo estructurar la revisión de una carga. <https://docs.aws.amazon.com/wellarchitected/latest/framework/the-review-process.html>
 - AWS (2024). *Fault Injection Service* — inyección controlada de fallos de zona, red y recursos. <https://docs.aws.amazon.com/fis/latest/userguide/what-is.html>
-- Beyer, B. et al., eds. (2018). *The Site Reliability Workbook*, cap. 5 — pruebas de fiabilidad y game days. <https://sre.google/workbook/testing-reliability/>
+- Beyer, B. et al., eds. (2018). *Site Reliability Engineering*, cap. 5 — pruebas de fiabilidad y game days. <https://sre.google/sre-book/testing-reliability/>
 - Nygard, M. (2018). *Release It!*, 2.ª ed., cap. 5 — plazos, mamparos y degradación bajo dependencia lenta.
 - Nygard, M. (2011). *Documenting Architecture Decisions* — formato de los ADR que acompañan la entrega. <https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.

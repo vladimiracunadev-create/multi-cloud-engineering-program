@@ -536,7 +536,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 ## 🔗 Referencias
 
 - Kleppmann, M. (2017). *Designing Data-Intensive Applications*, caps. 11 y 12 — procesamiento de flujos y sistemas derivados. <https://dataintensive.net/>
-- Richardson, C. (2025). *Microservice patterns: data management* — tabla de salida, secuencias con compensación y consultas. <https://microservices.io/patterns/data/>
+- Richardson, C. (2025). *Microservice patterns: data management* — tabla de salida, secuencias con compensación y consultas. <https://microservices.io/patterns/index.html>
 - Helland, P. (2016). *Life beyond distributed transactions* — diseñar sin transacciones que abarquen varios servicios. <https://queue.acm.org/detail.cfm?id=3025012>
 - AWS (2025). *Well-Architected: reliability pillar* — garantías, pruebas de fallo y recuperación. <https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html>
 - Google Cloud (2025). *Architecture framework: data and event-driven design* — elección de almacén por patrón de acceso. <https://cloud.google.com/architecture/framework>

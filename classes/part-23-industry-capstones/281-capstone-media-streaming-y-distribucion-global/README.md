@@ -585,8 +585,8 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 - Bitmovin (2024). *Video Developer Report* — métricas de calidad de experiencia. <https://bitmovin.com/video-developer-report/>
 - Netflix Technology Blog (2018). *Dynamic optimizer: per-title and per-shot encoding* — codificación adaptada a cada título y toma. <https://netflixtechblog.com/dynamic-optimizer-a-perceptual-video-encoding-optimization-framework-e19f1e3a277f>
 - AWS (2024). *Media and entertainment reference architectures* — arquitecturas de referencia de medios. <https://aws.amazon.com/media/resources/>
-- Google Cloud (2024). *Live streaming and video-on-demand architectures* — arquitecturas de directo y de vídeo bajo demanda. <https://cloud.google.com/architecture/live-streaming-and-video-on-demand>
-- CTA (2020). *CTA-5004: Common Media Client Data* — medición desde el reproductor. <https://cdn.cta.tech/cta/media/media/resources/standards/pdfs/cta-5004-final.pdf>
+- Google Cloud (2024). *Live streaming and video-on-demand architectures* — arquitecturas de directo y de vídeo bajo demanda. <https://cloud.google.com/solutions/media-entertainment>
+- CTA (2020). *CTA-5004: Common Media Client Data* — medición desde el reproductor. <https://github.com/cta-wave/common-media-client-data>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

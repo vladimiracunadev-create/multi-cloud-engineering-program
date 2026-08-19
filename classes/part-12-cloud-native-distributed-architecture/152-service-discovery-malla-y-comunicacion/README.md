@@ -614,7 +614,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 - Envoy (2025). *Load balancing: algorithms and panic threshold* — menos peticiones, dos al azar y fracción sana mínima. <https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/overview>
 - Mitzenmacher, M. (2001). *The power of two choices in randomized load balancing* — por qué elegir dos al azar funciona tan bien. <https://www.eecs.harvard.edu/~michaelm/postscripts/tpds2001.pdf>
 - gRPC (2025). *Load balancing with long-lived connections* — el problema del reparto con conexiones persistentes. <https://grpc.io/blog/grpc-load-balancing/>
-- Google Cloud (2025). *Service discovery patterns* — descubrimiento en la biblioteca, en la plataforma y con intermediario. <https://cloud.google.com/architecture/service-discovery-patterns>
+- Google Cloud (2025). *Service discovery patterns* — descubrimiento en la biblioteca, en la plataforma y con intermediario. <https://docs.cloud.google.com/kubernetes-engine/docs/concepts/about-service-discovery>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
 
 ---

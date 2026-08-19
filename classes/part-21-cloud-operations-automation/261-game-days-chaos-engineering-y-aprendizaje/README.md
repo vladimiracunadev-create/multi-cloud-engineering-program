@@ -623,7 +623,7 @@ locales enseñan contratos, pero no certifican cumplimiento ni disponibilidad de
 
 - Basiri, A. y otros (2016). *Chaos engineering*, IEEE Software — el experimento de fallo como método. <https://ieeexplore.ieee.org/document/7436642>
 - Rosenthal, C. y Jones, N. (2020). *Chaos Engineering: system resiliency in practice* — el procedimiento completo del experimento. <https://www.oreilly.com/library/view/chaos-engineering/9781492043850/>
-- Google (2018). *The Site Reliability Workbook*, cap. «Testing for reliability» y DiRT — el ensayo como aprendizaje del equipo. <https://sre.google/workbook/reliable-product-launches/>
+- Google (2018). *Site Reliability Engineering*, cap. «Testing for reliability» y DiRT — el ensayo como aprendizaje del equipo. <https://sre.google/sre-book/reliable-product-launches/>
 - AWS (2024). *Fault Injection Service — experiment design*. <https://docs.aws.amazon.com/fis/latest/userguide/what-is.html>
 - Microsoft (2024). *Azure Chaos Studio* — inyección de fallos gestionada en Azure. <https://learn.microsoft.com/azure/chaos-studio/chaos-studio-overview>
 - Documentación oficial vigente del servicio implementado; registra URL y fecha de consulta.
