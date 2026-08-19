@@ -48,6 +48,7 @@ CARRIED = (
     "status",
     "pending_reason",
     "pending_kind",
+    "editorial_note",
     "verified_title",
 )
 
@@ -116,7 +117,8 @@ def main() -> int:
             "isbn13": None,
             "doi": None,
             "locator": None,
-            "source_url": first.url,
+            # El enlace tal como lo cita la clase: es el que hay que comprobar.
+            "source_url": first.raw_url or first.url,
             "authority": authority,
             "accessed": None,
             "used_in": used_in,
@@ -136,7 +138,7 @@ def main() -> int:
                 "paper": "DOI sin resolver: ejecuta scripts/refresh-sources",
             }.get(kind, "URL sin comprobar: ejecuta scripts/refresh-sources")
         if kind not in ("book", "paper") and entry["locator"] is None:
-            entry["locator"] = first.url
+            entry["locator"] = first.raw_url or first.url
         entries.append(entry)
 
     entries.sort(key=lambda e: (e["authority"], e["type"], e["id"]))

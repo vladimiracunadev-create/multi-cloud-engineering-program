@@ -199,7 +199,12 @@ class Citation:
     title: str = ""
     detail: str = ""
     use: str = ""
+    # `url` es la forma normalizada, que solo sirve para decidir identidad.
+    # `raw_url` es el enlace tal como lo cita la clase, y es el unico que se
+    # puede comprobar: quitarle el "www." cambia la peticion y hay sitios que
+    # responden 404 sin el. Confundirlos convierte enlaces sanos en rotos.
     url: str | None = None
+    raw_url: str | None = None
 
     @property
     def kind(self) -> str:
@@ -241,10 +246,11 @@ def parse_citation(class_path: str, line: str) -> Citation:
     text = text.strip()
 
     urls = URL_RE.findall(text)
+    raw_url = urls[-1].strip().rstrip(").,;") if urls else None
     url = normalize_url(urls[-1]) if urls else None
     body = URL_RE.sub("", text).strip().rstrip(".").strip()
 
-    cit = Citation(class_path=class_path, raw=line.strip(), url=url)
+    cit = Citation(class_path=class_path, raw=line.strip(), url=url, raw_url=raw_url)
 
     match = AUTHOR_YEAR_RE.match(body)
     if match:
@@ -537,6 +543,14 @@ def render_block(stats: dict) -> str:
         f"**{_thousands(stats['citations'])}** | **{_thousands(stats['verified'])}** |"
     )
     lines.append("")
+    lines.append("")
+    lines.append(
+        "**Que fundamenta cada clase, una por una:** "
+        "[`docs/FUENTES.md`](docs/FUENTES.md) recorre las 288 clases y, en cada una, "
+        "lista las obras que la sostienen con el uso concreto que hace de ellas y su "
+        "localizador (ISBN, DOI o URL primaria)."
+    )
+    lines.append("")
     lines.append("<details>")
     lines.append("<summary><b>Obras rectoras por parte</b> — libros que ordenan cada área</summary>")
     lines.append("")
@@ -590,6 +604,9 @@ def render_pending(data: dict) -> str:
         for entry in sorted(items, key=lambda e: e["id"]):
             url = entry.get("source_url") or entry.get("locator") or "—"
             title = (entry.get("title") or entry["id"]).replace("|", "/")[:70]
+            nota = entry.get("editorial_note")
+            if nota:
+                title = f"{title}<br>**{nota}**"
             lines.append(f"| {title} | `{url}` | {len(entry.get('used_in', []))} |")
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
