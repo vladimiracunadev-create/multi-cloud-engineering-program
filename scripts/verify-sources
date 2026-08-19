@@ -1,0 +1,279 @@
+#!/usr/bin/env python3
+"""Verificador offline del registro de fuentes. Determinista y sin red.
+
+Corre en CI y bloquea. No abre una sola conexion: comprueba coherencia interna
+entre las clases, el registro y el README. Lo que exige comprobar contra la
+autoridad externa vive en `scripts/refresh-sources`, que no bloquea.
+
+Comprueba:
+  1. el registro parsea y cumple el esquema;
+  2. todo `book` verificado tiene ISBN-13 con digito de control valido, y todo
+     `paper` verificado tiene DOI;
+  3. el `locator` coincide con la forma canonica de su tipo;
+  4. toda obra usada en una clase existe en el registro;
+  5. ninguna entrada del registro queda sin usar;
+  6. ningun bloque de fuentes se repite entre clases;
+  7. cada cita declara el uso que la clase hace de la obra;
+  8. las cifras del README coinciden con el recuento del registro.
+
+Uso:
+    python scripts/verify-sources           # verifica, sale 1 si algo falla
+    python scripts/verify-sources --write   # regenera las cifras del README
+"""
+
+from __future__ import annotations
+
+import argparse
+import collections
+import re
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+from sources_lib import (  # noqa: E402
+    REGISTRY,
+    ROOT,
+    SCHEMA_VERSION,
+    canonical_locator,
+    isbn13_ok,
+    load_registry,
+    read_citations,
+    registry_stats,
+    render_badge,
+    render_block,
+)
+
+README = ROOT / "README.md"
+BADGE_BEGIN, BADGE_END = "<!-- sources:badge:begin -->", "<!-- sources:badge:end -->"
+BLOCK_BEGIN, BLOCK_END = "<!-- sources:block:begin -->", "<!-- sources:block:end -->"
+
+VALID_TYPES = {"book", "paper", "standard", "reference", "dataset"}
+VALID_STATUS = {"verificada", "pendiente"}
+REQUIRED_KEYS = (
+    "id",
+    "identity",
+    "type",
+    "authors",
+    "title",
+    "published",
+    "locator",
+    "authority",
+    "used_in",
+    "status",
+)
+
+
+class Report:
+    def __init__(self) -> None:
+        self.errors: list[str] = []
+        self.notes: list[str] = []
+
+    def fail(self, check: str, message: str) -> None:
+        self.errors.append(f"[{check}] {message}")
+
+    def note(self, message: str) -> None:
+        self.notes.append(message)
+
+
+def check_schema(data: dict, report: Report) -> None:
+    if data.get("schema_version") != SCHEMA_VERSION:
+        report.fail("esquema", f"schema_version esperado {SCHEMA_VERSION}, hallado {data.get('schema_version')!r}")
+    if not str(data.get("policy") or "").strip():
+        report.fail("esquema", "falta la politica del registro")
+    entries = data.get("entries")
+    if not isinstance(entries, list) or not entries:
+        report.fail("esquema", "el registro no tiene entradas")
+        return
+
+    seen_ids: set[str] = set()
+    for entry in entries:
+        eid = entry.get("id", "<sin id>")
+        for key in REQUIRED_KEYS:
+            if key not in entry:
+                report.fail("esquema", f"{eid}: falta el campo obligatorio '{key}'")
+        if eid in seen_ids:
+            report.fail("esquema", f"id duplicado: {eid}")
+        seen_ids.add(eid)
+        if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", eid):
+            report.fail("esquema", f"{eid}: el id no es kebab-case")
+        if entry.get("type") not in VALID_TYPES:
+            report.fail("esquema", f"{eid}: tipo invalido {entry.get('type')!r}")
+        if entry.get("status") not in VALID_STATUS:
+            report.fail("esquema", f"{eid}: estado invalido {entry.get('status')!r}")
+        if not str(entry.get("title") or "").strip():
+            report.fail("esquema", f"{eid}: titulo vacio")
+        if not entry.get("used_in"):
+            report.fail("esquema", f"{eid}: sin used_in")
+        if entry.get("status") == "pendiente" and not str(entry.get("pending_reason") or "").strip():
+            report.fail("esquema", f"{eid}: pendiente sin motivo declarado")
+
+
+def check_locators(data: dict, report: Report) -> None:
+    """Un hueco declarado se acepta; uno rellenado a ojo, no."""
+    for entry in data.get("entries", []):
+        eid = entry["id"]
+        kind = entry.get("type")
+        verified = entry.get("status") == "verificada"
+
+        if entry.get("isbn13") and not isbn13_ok(entry["isbn13"]):
+            report.fail("localizador", f"{eid}: ISBN-13 con digito de control invalido: {entry['isbn13']}")
+        if entry.get("doi") and not re.fullmatch(r"10\.\d{4,9}/\S+", entry["doi"]):
+            report.fail("localizador", f"{eid}: DOI con forma invalida: {entry['doi']}")
+
+        if not verified:
+            continue
+
+        if kind == "book" and not entry.get("isbn13"):
+            report.fail("localizador", f"{eid}: libro verificado sin ISBN-13")
+        if kind == "paper" and not entry.get("doi"):
+            report.fail("localizador", f"{eid}: articulo verificado sin DOI")
+
+        expected = canonical_locator(entry)
+        actual = entry.get("locator")
+        if not actual:
+            report.fail("localizador", f"{eid}: verificada sin locator")
+        elif expected and actual != expected:
+            report.fail("localizador", f"{eid}: locator {actual!r} no es la forma canonica {expected!r}")
+        elif not str(actual).startswith("https://"):
+            report.fail("localizador", f"{eid}: el locator debe ser https: {actual!r}")
+
+        if kind in ("standard", "reference", "dataset") and not entry.get("accessed"):
+            report.fail("localizador", f"{eid}: documentacion verificada sin fecha de acceso")
+        if entry.get("accessed") and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(entry["accessed"])):
+            report.fail("localizador", f"{eid}: fecha de acceso mal formada: {entry['accessed']}")
+
+
+def check_coverage(data: dict, citations, report: Report) -> None:
+    entries = data.get("entries", [])
+    by_identity = {e.get("identity"): e for e in entries}
+    used_identities = {c.identity for c in citations}
+
+    missing = sorted(used_identities - set(by_identity))
+    for identity in missing[:20]:
+        report.fail("cobertura", f"obra citada y ausente del registro: {identity}")
+    if len(missing) > 20:
+        report.fail("cobertura", f"... y {len(missing) - 20} obras citadas mas sin entrada")
+
+    orphan = sorted(set(by_identity) - used_identities)
+    for identity in orphan[:20]:
+        report.fail("huerfanas", f"entrada del registro que ninguna clase usa: {by_identity[identity]['id']}")
+    if len(orphan) > 20:
+        report.fail("huerfanas", f"... y {len(orphan) - 20} entradas mas sin uso")
+
+    # used_in tiene que reflejar exactamente donde se cita.
+    real: dict[str, set[str]] = collections.defaultdict(set)
+    for cit in citations:
+        real[cit.identity].add(cit.class_path)
+    for identity, entry in by_identity.items():
+        declared = set(entry.get("used_in", []))
+        if identity in real and declared != real[identity]:
+            report.fail("cobertura", f"{entry['id']}: used_in no coincide con las clases que la citan")
+
+
+def check_blocks(blocks: dict[str, str], report: Report) -> None:
+    counts: collections.Counter[str] = collections.Counter(b for b in blocks.values() if b.strip())
+    for block, times in counts.items():
+        if times > 1:
+            repeated = [path for path, value in blocks.items() if value == block]
+            report.fail("bloques", f"bloque de fuentes repetido en {times} clases: {', '.join(sorted(repeated)[:3])}")
+    empty = [path for path, value in blocks.items() if not value.strip()]
+    for path in empty:
+        report.fail("bloques", f"clase sin bloque de fuentes: {path}")
+
+
+def check_usage(citations, report: Report) -> None:
+    missing = [c for c in citations if not c.use.strip()]
+    for cit in missing[:15]:
+        report.fail("uso", f"{cit.class_path}: la cita no declara para que se usa -> {cit.raw[:90]}")
+    if len(missing) > 15:
+        report.fail("uso", f"... y {len(missing) - 15} citas mas sin nota de uso")
+
+
+def readme_regions(text: str) -> dict[str, str | None]:
+    def grab(begin: str, end: str) -> str | None:
+        match = re.search(re.escape(begin) + r"(.*?)" + re.escape(end), text, re.S)
+        return match.group(1).strip("\n") if match else None
+
+    return {"badge": grab(BADGE_BEGIN, BADGE_END), "block": grab(BLOCK_BEGIN, BLOCK_END)}
+
+
+def check_readme(stats: dict, report: Report, write: bool) -> None:
+    if not README.exists():
+        report.fail("readme", "no existe README.md")
+        return
+    text = README.read_text(encoding="utf-8")
+    regions = readme_regions(text)
+    wanted = {"badge": render_badge(stats), "block": render_block(stats)}
+
+    for name, current in regions.items():
+        if current is None:
+            report.fail("readme", f"faltan las marcas <!-- sources:{name}:begin/end --> en el README")
+            continue
+        if current.strip() != wanted[name].strip():
+            if write:
+                begin, end = (BADGE_BEGIN, BADGE_END) if name == "badge" else (BLOCK_BEGIN, BLOCK_END)
+                text = re.sub(
+                    re.escape(begin) + r"(.*?)" + re.escape(end),
+                    lambda _m: f"{begin}\n{wanted[name]}\n{end}",
+                    text,
+                    flags=re.S,
+                )
+            else:
+                report.fail(
+                    "readme",
+                    f"la seccion '{name}' del README no coincide con el registro; "
+                    "regenerala con: python scripts/verify-sources --write",
+                )
+    if write:
+        README.write_text(text, encoding="utf-8")
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--write", action="store_true", help="regenera las cifras del README")
+    args = parser.parse_args()
+
+    report = Report()
+    if not REGISTRY.exists():
+        print(f"FALLO: no existe {REGISTRY.relative_to(ROOT).as_posix()}")
+        return 1
+
+    data = load_registry(REGISTRY)
+    citations, blocks = read_citations(ROOT)
+
+    check_schema(data, report)
+    check_locators(data, report)
+    check_coverage(data, citations, report)
+    check_blocks(blocks, report)
+    check_usage(citations, report)
+
+    stats = registry_stats(data, citations, ROOT)
+    check_readme(stats, report, args.write)
+
+    print("Verificacion de fuentes (offline)")
+    print("=" * 62)
+    print(f"clases con bloque de fuentes : {stats['classes']} / {len(blocks)}")
+    print(f"citas leidas                 : {stats['citations']}")
+    print(f"obras distintas en registro  : {stats['entries']}")
+    for kind, count in sorted(stats["by_type"].items()):
+        print(f"    {kind:<10}             : {count}")
+    print(f"verificadas                  : {stats['verified']}")
+    print(f"pendientes                   : {stats['pending']}")
+    print(f"citas con nota de uso        : {stats['with_use']} / {stats['citations']}")
+    cobertura = 100.0 * stats["resolved"] / stats["citations"] if stats["citations"] else 0.0
+    print(f"cobertura                    : {cobertura:.1f} % ({stats['resolved']}/{stats['citations']} citas con entrada)")
+    print("=" * 62)
+
+    if report.errors:
+        print(f"\n{len(report.errors)} problema(s):\n")
+        for error in report.errors:
+            print(f"  x {error}")
+        return 1
+    print("\nOK: registro, clases y README coinciden.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
