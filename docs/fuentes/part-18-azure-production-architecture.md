@@ -70,7 +70,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 - **Microsoft (2025), *Azure Event Grid: event delivery and retry*** — entrega de eventos y política de reintento<br>  ↳ documentación · [learn.microsoft.com](https://learn.microsoft.com/en-us/azure/event-grid/delivery-and-retry) ✅
 - **Microsoft (2025), *Azure Event Hubs: partitions, consumer groups and capture*** — particiones, grupos de consumo y captura<br>  ↳ documentación · [learn.microsoft.com](https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-features) ✅
 - **Microsoft (2025), *Choose between Azure messaging services*** — criterio para elegir entre los tres servicios<br>  ↳ documentación · [learn.microsoft.com](https://learn.microsoft.com/en-us/azure/service-bus-messaging/compare-messaging-services) ✅
-- **Hohpe et al. (2003), *Enterprise Integration Patterns*** — los patrones de integración que sostienen el diseño<br>  ↳ documentación · [enterpriseintegrationpatterns.com](https://enterpriseintegrationpatterns.com) ✅
+- **Hohpe et al. (2003), *Enterprise Integration Patterns*** — los patrones de integración que sostienen el diseño<br>  ↳ libro · [ISBN 9780321200686](https://openlibrary.org/isbn/9780321200686) ✅
 
 ## [225 — Azure Monitor, Application Insights y OpenTelemetry](../../classes/part-18-azure-production-architecture/225-azure-monitor-application-insights-y-opentelemetry/README.md)
 

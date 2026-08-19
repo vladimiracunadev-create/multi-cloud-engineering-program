@@ -18,8 +18,8 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [266 — Ruta DevOps y Delivery Engineer](../../classes/part-22-specializations-certifications-career/266-ruta-devops-y-delivery-engineer/README.md)
 
-- **Humble et al. (2010), *Continuous Delivery*** — las prácticas que definen el rol de entrega<br>  ↳ documentación · [pearson.com](https://pearson.com/en-us/subject-catalog/p/continuous-delivery/P200000009415) ✅
-- **Forsgren et al. (2018), *Accelerate*** — las métricas que predicen el desempeño del equipo<br>  ↳ documentación · [itrevolution.com](https://itrevolution.com/product/accelerate) ✅
+- **Humble et al. (2010), *Continuous Delivery*** — las prácticas que definen el rol de entrega<br>  ↳ libro · [ISBN 9780321670250](https://openlibrary.org/isbn/9780321670250) ✅
+- **Forsgren et al. (2018), *Accelerate*** — las métricas que predicen el desempeño del equipo<br>  ↳ libro · [ISBN 9781942788379](https://openlibrary.org/isbn/9781942788379) ✅
 - **Google (2024), *DORA capabilities: continuous delivery*** — las capacidades medidas por el programa DORA<br>  ↳ documentación · [dora.dev](https://dora.dev/capabilities) ✅
 - **OpenSSF (2024), *SLSA: supply chain levels for software artifacts*** — niveles de integridad exigidos a la cadena de suministro<br>  ↳ documentación · [slsa.dev](https://slsa.dev) ✅
 - **Skelton et al. (2019), *Team Topologies*** — equipos habilitadores frente a porteros<br>  ↳ documentación · [teamtopologies.com](https://teamtopologies.com/book) ✅
@@ -42,7 +42,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [269 — Ruta Cloud Security Engineer](../../classes/part-22-specializations-certifications-career/269-ruta-cloud-security-engineer/README.md)
 
-- **Shostack (2014), *Threat Modeling: designing for security*** — el método de modelado que estructura el rol<br>  ↳ documentación · [shostack.org](https://shostack.org/books/threat-modeling-book) ✅
+- **Shostack (2014), *Threat Modeling: designing for security*** — el método de modelado que estructura el rol<br>  ↳ libro · [ISBN 9781306427067](https://openlibrary.org/isbn/9781306427067) ✅
 - **NIST (2018), *Cybersecurity Framework*** — identificar, proteger, detectar, responder, recuperar<br>  ↳ documentación · [nist.gov](https://nist.gov/cyberframework) ✅
 - **AWS (2024), *Security Pillar, Well-Architected Framework*** — el pilar de seguridad como referencia del rol<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html) ✅
 - **Microsoft (2024), *Azure security best practices and patterns*** — patrones y prácticas de seguridad en Azure<br>  ↳ documentación · [learn.microsoft.com](https://learn.microsoft.com/azure/security/fundamentals/best-practices-and-patterns) ✅
@@ -58,7 +58,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [271 — Ruta Cloud Data y AI Engineer](../../classes/part-22-specializations-certifications-career/271-ruta-cloud-data-y-ai-engineer/README.md)
 
-- **Kleppmann (2017), *Designing Data-Intensive Applications*** — los fundamentos de datos que el rol necesita<br>  ↳ documentación · [dataintensive.net](https://dataintensive.net) ✅
+- **Kleppmann (2017), *Designing Data-Intensive Applications*** — los fundamentos de datos que el rol necesita<br>  ↳ libro · [ISBN 9781491903117](https://openlibrary.org/isbn/9781491903117) ✅
 - **Sculley et al. (2015), *Hidden technical debt in machine learning systems*** — la deuda técnica propia de los sistemas de aprendizaje<br>  ↳ documentación · [papers.nips.cc](https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html) ✅
 - **Google Cloud (2024), *MLOps: continuous delivery and automation pipelines*** — automatización del ciclo de vida del modelo<br>  ↳ documentación · [cloud.google.com](https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning) ✅
 - **AWS (2024), *Machine Learning Lens, Well-Architected Framework*** — la lente de aprendizaje automático del marco<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/machine-learning-lens.html) ✅
@@ -68,7 +68,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 - **Nygard (2011), *Documenting architecture decisions*** — el registro de decisión como herramienta del rol<br>  ↳ documentación · [cognitect.com](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions) ✅
 - **Ford et al. (2021), *Software Architecture: the hard parts*** — las decisiones difíciles y sus compromisos<br>  ↳ libro · [ISBN 9781492086840](https://openlibrary.org/isbn/9781492086840) ✅
-- **Bass et al. (2021), *Software Architecture in Practice*** — el cuerpo de práctica de la disciplina<br>  ↳ documentación · [pearson.com](https://pearson.com/en-us/subject-catalog/p/software-architecture-in-practice/P200000009360) ✅
+- **Bass et al. (2021), *Software Architecture in Practice*** — el cuerpo de práctica de la disciplina<br>  ↳ libro · [ISBN 9780136885672](https://openlibrary.org/isbn/9780136885672) ✅
 - **AWS (2024), *Well-Architected Framework: making architectural decisions*** — cómo el marco estructura la decisión<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html) ✅
 - **Microsoft (2024), *Azure architecture decision guides*** — guías de decisión de arquitectura en Azure<br>  ↳ documentación · [learn.microsoft.com](https://learn.microsoft.com/azure/architecture/guide) ✅
 
@@ -94,7 +94,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 - **Google (2024), *How we hire: interviewing at Google*** — cómo se conduce la entrevista y qué se evalúa<br>  ↳ documentación · [careers.google.com](https://careers.google.com/how-we-hire) ✅
 - **Amazon (2024), *Interview process and behavioral questions guidance*** — proceso de entrevista y preguntas de comportamiento<br>  ↳ documentación · [amazon.jobs](https://amazon.jobs/content/en/how-we-hire/interviewing-at-amazon) ✅
 - **GitHub (2024), *About READMEs*** — qué debe contener el README que acompaña la evidencia<br>  ↳ documentación · [docs.github.com](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes) ✅
-- **Kleppmann (2017), *Designing Data-Intensive Applications*** — base habitual de las entrevistas de diseño<br>  ↳ documentación · [dataintensive.net](https://dataintensive.net) ✅
+- **Kleppmann (2017), *Designing Data-Intensive Applications*** — base habitual de las entrevistas de diseño<br>  ↳ libro · [ISBN 9781491903117](https://openlibrary.org/isbn/9781491903117) ✅
 
 ## [276 — Proyecto: defensa técnica ante panel](../../classes/part-22-specializations-certifications-career/276-proyecto-defensa-tecnica-ante-panel/README.md)
 

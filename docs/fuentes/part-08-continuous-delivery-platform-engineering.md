@@ -14,7 +14,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 - **Martin Fowler (2023), *Patterns for managing source code branches*** — tiempo de vida de ramas y técnicas de división<br>  ↳ documentación · [martinfowler.com](https://martinfowler.com/articles/branching-patterns.html) ✅
 - **Paul Hammant (2020), *Branch by abstraction*** — sustituir un componente sin rama larga<br>  ↳ documentación · [branchbyabstraction.com](https://branchbyabstraction.com) ✅
 - **Google (2020), *Flaky tests at scale*** — causas, cuarentena y coste de la intermitencia<br>  ↳ documentación · [testing.googleblog.com](https://testing.googleblog.com/2020/12/test-flakiness-one-of-main-challenges.html) ✅
-- **Nicole Forsgren et al (2018), *Accelerate*** — tiempo de entrega, lotes pequeños y su efecto medido<br>  ↳ documentación · [itrevolution.com](https://itrevolution.com/product/accelerate) ✅
+- **Nicole Forsgren et al (2018), *Accelerate*** — tiempo de entrega, lotes pequeños y su efecto medido<br>  ↳ libro · [ISBN 9781942788379](https://openlibrary.org/isbn/9781942788379) ✅
 
 ## [098 — GitHub Actions: workflows, runners, permisos y caché](../../classes/part-08-continuous-delivery-platform-engineering/098-github-actions-workflows-runners-permisos-y-cache/README.md)
 
@@ -90,7 +90,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [107 — Developer experience, DORA y carga cognitiva](../../classes/part-08-continuous-delivery-platform-engineering/107-developer-experience-dora-y-carga-cognitiva/README.md)
 
-- **Forsgren et al. (2018), *Accelerate*** — definición de las cuatro medidas y su relación<br>  ↳ documentación · [itrevolution.com](https://itrevolution.com/product/accelerate) ✅
+- **Forsgren et al. (2018), *Accelerate*** — definición de las cuatro medidas y su relación<br>  ↳ libro · [ISBN 9781942788379](https://openlibrary.org/isbn/9781942788379) ✅
 - **DORA (2025), *State of DevOps report*** — evolución de las medidas y advertencias sobre su uso<br>  ↳ documentación · [dora.dev](https://dora.dev/research) ✅
 - **Forsgren et al. (2021), *The SPACE of developer productivity*** — por qué una sola dimensión no basta<br>  ↳ documentación · [queue.acm.org](https://queue.acm.org/detail.cfm?id=3454124) ✅
 - **Google (2025), *Engineering productivity research: flaky tests*** — coste de la inestabilidad sobre la confianza en las puertas<br>  ↳ documentación · [testing.googleblog.com](https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html) ✅
@@ -98,7 +98,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [108 — Proyecto: fábrica de software multi-cloud](../../classes/part-08-continuous-delivery-platform-engineering/108-proyecto-fabrica-de-software-multi-cloud/README.md)
 
-- **Forsgren et al. (2018), *Accelerate*** — capacidades de entrega y su efecto conjunto<br>  ↳ documentación · [itrevolution.com](https://itrevolution.com/product/accelerate) ✅
+- **Forsgren et al. (2018), *Accelerate*** — capacidades de entrega y su efecto conjunto<br>  ↳ libro · [ISBN 9781942788379](https://openlibrary.org/isbn/9781942788379) ✅
 - **CNCF (2025), *Platforms white paper*** — la fábrica como producto interno y sus interfaces<br>  ↳ documentación · [tag-app-delivery.cncf.io](https://tag-app-delivery.cncf.io/whitepapers/platforms) ✅
 - **SLSA (2025), *Levels and requirements*** — qué exige cada nivel de la cadena de construcción<br>  ↳ documentación · [slsa.dev](https://slsa.dev/spec/v1.0/levels) ✅
 - **OpenGitOps (2025), *Principles*** — reconciliación continua como base del recorrido<br>  ↳ documentación · [opengitops.dev](https://opengitops.dev) ✅

@@ -21,7 +21,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 - **AWS (2025), *DynamoDB: partition keys and best practices*** — cardinalidad, reparto y particiones calientes<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html) ✅
 - **Google Cloud (2025), *Bigtable schema design*** — clave de fila, reparto y antipatrones<br>  ↳ documentación · [cloud.google.com](https://cloud.google.com/bigtable/docs/schema-design) ✅
 - **Azure (2025), *Cosmos DB: partitioning and horizontal scaling*** — clave de partición lógica y física<br>  ↳ documentación · [learn.microsoft.com](https://learn.microsoft.com/azure/cosmos-db/partitioning-overview) ✅
-- **Kleppmann (2017), *Designing Data-Intensive Applications*** — modelos de datos y particionado<br>  ↳ documentación · [dataintensive.net](https://dataintensive.net) ✅
+- **Kleppmann (2017), *Designing Data-Intensive Applications*** — modelos de datos y particionado<br>  ↳ libro · [ISBN 9781491903117](https://openlibrary.org/isbn/9781491903117) ✅
 - **Neo4j (2025), *When to use a graph database*** — profundidad variable como criterio de elección<br>  ↳ documentación · [neo4j.com](https://neo4j.com/docs/getting-started/data-modeling) ✅
 
 ## [111 — Caché, invalidación, TTL y consistencia](../../classes/part-09-data-messaging-serverless-integration/111-cache-invalidacion-ttl-y-consistencia/README.md)
@@ -54,7 +54,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 - **Apache Kafka (2025), *Log compaction*** — retención por clave y borrado con mensaje vacío<br>  ↳ documentación · [kafka.apache.org](https://kafka.apache.org/documentation) ✅
 - **Google Cloud (2025), *Pub/Sub: ordering keys and message retention*** — orden por clave y relectura<br>  ↳ documentación · [cloud.google.com](https://cloud.google.com/pubsub/docs/ordering) ✅
 - **AWS (2025), *Kinesis Data Streams: shards and resharding*** — paralelismo por fragmento y coste de reparticionar<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/streams/latest/dev/kinesis-using-sdk-java-resharding.html) ✅
-- **Kleppmann (2017), *Designing Data-Intensive Applications*** — registros, posiciones y reproceso<br>  ↳ documentación · [dataintensive.net](https://dataintensive.net) ✅
+- **Kleppmann (2017), *Designing Data-Intensive Applications*** — registros, posiciones y reproceso<br>  ↳ libro · [ISBN 9781491903117](https://openlibrary.org/isbn/9781491903117) ✅
 
 ## [115 — Arquitectura dirigida por eventos y contratos](../../classes/part-09-data-messaging-serverless-integration/115-arquitectura-dirigida-por-eventos-y-contratos/README.md)
 
@@ -98,7 +98,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [120 — Proyecto: pipeline de pedidos orientado a eventos](../../classes/part-09-data-messaging-serverless-integration/120-proyecto-pipeline-de-pedidos-orientado-a-eventos/README.md)
 
-- **Kleppmann (2017), *Designing Data-Intensive Applications*** — procesamiento de flujos y sistemas derivados<br>  ↳ documentación · [dataintensive.net](https://dataintensive.net) ✅
+- **Kleppmann (2017), *Designing Data-Intensive Applications*** — procesamiento de flujos y sistemas derivados<br>  ↳ libro · [ISBN 9781491903117](https://openlibrary.org/isbn/9781491903117) ✅
 - **Richardson (2025), *Microservice patterns: data management*** — tabla de salida, secuencias con compensación y consultas<br>  ↳ documentación · [microservices.io](https://microservices.io/patterns/index.html) ✅
 - **Helland (2016), *Life beyond distributed transactions*** — diseñar sin transacciones que abarquen varios servicios<br>  ↳ documentación · [queue.acm.org](https://queue.acm.org/detail.cfm?id=3025012) ✅
 - **AWS (2025), *Well-Architected: reliability pillar*** — garantías, pruebas de fallo y recuperación<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html) ✅

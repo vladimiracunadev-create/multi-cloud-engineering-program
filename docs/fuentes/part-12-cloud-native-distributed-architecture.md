@@ -12,7 +12,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 - **Bass et al. (2021), *Software Architecture in Practice*** — atributos de calidad y escenarios<br>  ↳ libro · [ISBN 9780136885672](https://openlibrary.org/isbn/9780136885672) ✅
 - **SEI (2025), *Quality attribute workshop and utility tree*** — cómo obtener y priorizar escenarios<br>  ↳ documentación · [insights.sei.cmu.edu](https://insights.sei.cmu.edu/library/quality-attribute-workshops-qaws-third-edition) ✅
-- **Ford et al. (2017), *Building Evolutionary Architectures*** — atributos como funciones de aptitud comprobables<br>  ↳ documentación · [evolutionaryarchitecture.com](https://evolutionaryarchitecture.com) ✅
+- **Ford et al. (2017), *Building Evolutionary Architectures*** — atributos como funciones de aptitud comprobables<br>  ↳ libro · [ISBN 9781491986363](https://openlibrary.org/isbn/9781491986363) ✅
 - **Conway (1968), *How do committees invent?*** — relación entre comunicación de equipos y forma del sistema<br>  ↳ documentación · [melconway.com](https://melconway.com/Home/Committees_Paper.html) ✅
 - **ISO/IEC (2023), *25010: modelo de calidad del producto software*** — taxonomía de atributos<br>  ↳ norma · [iso.org](https://www.iso.org/standard/78176.html) ⏳
 
@@ -26,7 +26,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [147 — DDD, bounded contexts y ownership de datos](../../classes/part-12-cloud-native-distributed-architecture/147-ddd-bounded-contexts-y-ownership-de-datos/README.md)
 
-- **Evans (2003), *Domain-Driven Design*** — contextos acotados, mapas de contexto y capa de traducción<br>  ↳ documentación · [domainlanguage.com](https://domainlanguage.com/ddd) ✅
+- **Evans (2003), *Domain-Driven Design*** — contextos acotados, mapas de contexto y capa de traducción<br>  ↳ libro · [ISBN 9780321125217](https://openlibrary.org/isbn/9780321125217) ✅
 - **Vernon (2013), *Implementing Domain-Driven Design*** — contextos, relaciones y lenguaje<br>  ↳ documentación · [informit.com](https://informit.com/store/implementing-domain-driven-design-9780321834577) ✅
 - **Brandolini (2025), *Event storming*** — encontrar fronteras a partir de los hechos del negocio<br>  ↳ documentación · [eventstorming.com](https://eventstorming.com) ✅
 - **Fowler (2025), *Bounded context and integration database*** — el antipatrón de la base compartida<br>  ↳ documentación · [martinfowler.com](https://martinfowler.com/bliki/BoundedContext.html) ✅
@@ -45,12 +45,12 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 - **Brewer (2012), *CAP twelve years later: how the rules have changed*** — el enunciado correcto y sus matices<br>  ↳ documentación · [infoq.com](https://infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed) ✅
 - **Abadi (2012), *Consistency tradeoffs in modern distributed database design*** — la extensión que incluye la latencia<br>  ↳ documentación · [cs.umd.edu](https://cs.umd.edu/~abadi/papers/abadi-pacelc.pdf) ✅
 - **Terry et al. (1994), *Session guarantees for weakly consistent replicated data*** — leer lo propio y no retroceder<br>  ↳ artículo · [doi:10.1109/PDIS.1994.331722](https://doi.org/10.1109/PDIS.1994.331722) ✅
-- **Kleppmann (2017), *Designing Data-Intensive Applications*** — replicación, relojes y consistencia<br>  ↳ documentación · [dataintensive.net](https://dataintensive.net) ✅
+- **Kleppmann (2017), *Designing Data-Intensive Applications*** — replicación, relojes y consistencia<br>  ↳ libro · [ISBN 9781491903117](https://openlibrary.org/isbn/9781491903117) ✅
 - **Shapiro et al. (2011), *Conflict-free replicated data types*** — estructuras que conmutan por construcción<br>  ↳ documentación · [inria.hal.science](https://inria.hal.science/inria-00555588) ✅
 
 ## [150 — Replicación, particionado y consenso](../../classes/part-12-cloud-native-distributed-architecture/150-replicacion-particionado-y-consenso/README.md)
 
-- **Kleppmann (2017), *Designing Data-Intensive Applications*** — replicación, particionado y consenso<br>  ↳ documentación · [dataintensive.net](https://dataintensive.net) ✅
+- **Kleppmann (2017), *Designing Data-Intensive Applications*** — replicación, particionado y consenso<br>  ↳ libro · [ISBN 9781491903117](https://openlibrary.org/isbn/9781491903117) ✅
 - **Ongaro et al. (2014), *In search of an understandable consensus algorithm (Raft)*** — elección de líder y mayorías<br>  ↳ documentación · [raft.github.io](https://raft.github.io/raft.pdf) ✅
 - **Kleppmann (2016), *How to do distributed locking*** — por qué un bloqueo con caducidad necesita testigo comprobado en el destino<br>  ↳ documentación · [martin.kleppmann.com](https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html) ✅
 - **Karger et al. (1997), *Consistent hashing and random trees*** — reequilibrado sin recalcular la asignación<br>  ↳ artículo · [doi:10.1145/258533.258660](https://doi.org/10.1145/258533.258660) ✅
@@ -100,6 +100,6 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 - **Nygard (2011), *Documenting architecture decisions*** — formato y motivo del registro de decisiones<br>  ↳ documentación · [cognitect.com](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions) ✅
 - **SEI (2025), *Lightweight architecture evaluation*** — revisión acotada con resultado accionable<br>  ↳ documentación · [insights.sei.cmu.edu](https://insights.sei.cmu.edu/library) ✅
-- **Ford et al. (2017), *Building Evolutionary Architectures*** — funciones de aptitud y revisión continua<br>  ↳ documentación · [evolutionaryarchitecture.com](https://evolutionaryarchitecture.com) ✅
+- **Ford et al. (2017), *Building Evolutionary Architectures*** — funciones de aptitud y revisión continua<br>  ↳ libro · [ISBN 9781491986363](https://openlibrary.org/isbn/9781491986363) ✅
 - **ADR GitHub organization (2025), *Architecture decision records: templates and tooling*** — plantillas y prácticas<br>  ↳ documentación · [adr.github.io](https://adr.github.io) ✅
 - **Ford et al. (2021), *Software Architecture: The Hard Parts*** — registrar compromisos y revisarlos<br>  ↳ libro · [ISBN 9781492086840](https://openlibrary.org/isbn/9781492086840) ✅

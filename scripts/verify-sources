@@ -38,6 +38,8 @@ from sources_lib import (  # noqa: E402
     ROOT,
     SCHEMA_VERSION,
     canonical_locator,
+    group_works,
+    identity_of_citation,
     isbn13_ok,
     load_registry,
     read_citations,
@@ -152,7 +154,11 @@ def check_locators(data: dict, report: Report) -> None:
 def check_coverage(data: dict, citations, report: Report) -> None:
     entries = data.get("entries", [])
     by_identity = {e.get("identity"): e for e in entries}
-    used_identities = {c.identity for c in citations}
+    # Misma agrupacion que usa el extractor: si aqui se contara distinto, el
+    # gate fallaria por desacuerdo entre dos reglas, no por un problema real.
+    groups = group_works(citations)
+    ident_of = identity_of_citation(groups)
+    used_identities = set(groups)
 
     missing = sorted(used_identities - set(by_identity))
     for identity in missing[:20]:
@@ -169,7 +175,7 @@ def check_coverage(data: dict, citations, report: Report) -> None:
     # used_in tiene que reflejar exactamente donde se cita.
     real: dict[str, set[str]] = collections.defaultdict(set)
     for cit in citations:
-        real[cit.identity].add(cit.class_path)
+        real[ident_of[id(cit)]].add(cit.class_path)
     for identity, entry in by_identity.items():
         declared = set(entry.get("used_in", []))
         if identity in real and declared != real[identity]:

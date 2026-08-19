@@ -66,7 +66,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [284 — Capstone datos e IA: plataforma gobernada](../../classes/part-23-industry-capstones/284-capstone-datos-e-ia-plataforma-gobernada/README.md)
 
-- **Kleppmann (2017), *Designing Data-Intensive Applications*** — fundamentos de almacenamiento y procesamiento del caso<br>  ↳ documentación · [dataintensive.net](https://dataintensive.net) ✅
+- **Kleppmann (2017), *Designing Data-Intensive Applications*** — fundamentos de almacenamiento y procesamiento del caso<br>  ↳ libro · [ISBN 9781491903117](https://openlibrary.org/isbn/9781491903117) ✅
 - **Sculley et al. (2015), *Hidden technical debt in machine learning systems*** — la deuda oculta que la plataforma debe contener<br>  ↳ documentación · [papers.nips.cc](https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html) ✅
 - **Google Cloud (2024), *Data governance and lineage on BigQuery and Dataplex*** — gobierno y linaje del dato en la plataforma<br>  ↳ documentación · [docs.cloud.google.com](https://docs.cloud.google.com/dataplex/docs/about-data-lineage) ✅
 - **AWS (2024), *Machine Learning Lens and data governance guidance*** — la lente de aprendizaje automático y el gobierno del dato<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/machine-learning-lens.html) ✅
@@ -100,6 +100,6 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 - **Popper (1963), *Conjeturas y refutaciones*** — el método de predecir y corregir<br>  ↳ documentación · [routledge.com](https://routledge.com/Conjectures-and-Refutations/Popper/p/book/9780415285940) ✅
 - **Beyer et al. (2018), *The Site Reliability Workbook*** — el plan de operación a doce meses<br>  ↳ documentación · [sre.google](https://sre.google/workbook/table-of-contents) ✅
-- **Forsgren et al. (2018), *Accelerate*** — las capacidades que ordenan la mejora del equipo<br>  ↳ documentación · [itrevolution.com](https://itrevolution.com/product/accelerate) ✅
-- **Kleppmann (2017), *Designing Data-Intensive Applications*** — los fundamentos que sostienen el plan técnico<br>  ↳ documentación · [dataintensive.net](https://dataintensive.net) ✅
+- **Forsgren et al. (2018), *Accelerate*** — las capacidades que ordenan la mejora del equipo<br>  ↳ libro · [ISBN 9781942788379](https://openlibrary.org/isbn/9781942788379) ✅
+- **Kleppmann (2017), *Designing Data-Intensive Applications*** — los fundamentos que sostienen el plan técnico<br>  ↳ libro · [ISBN 9781491903117](https://openlibrary.org/isbn/9781491903117) ✅
 - **Ericsson et al. (2016), *Peak*** — práctica deliberada con realimentación<br>  ↳ documentación · [hachettebookgroup.com](https://hachettebookgroup.com/titles/anders-ericsson/peak/9780544456259) ✅

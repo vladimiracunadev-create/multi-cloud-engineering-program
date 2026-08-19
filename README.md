@@ -14,7 +14,7 @@
 [![Clases](https://img.shields.io/badge/clases-288%20·%2024%20partes-7c5cff?style=for-the-badge)](classes/README.md)
 [![Manual](https://img.shields.io/badge/manual-2.884%20páginas-007c83?style=for-the-badge)](site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
 <!-- sources:badge:begin -->
-[![Fuentes](https://img.shields.io/badge/fuentes-1.041%20obras%20trazadas-1f6feb?style=for-the-badge)](sources/bibliography.json)
+[![Fuentes](https://img.shields.io/badge/fuentes-1.032%20obras%20trazadas-1f6feb?style=for-the-badge)](sources/bibliography.json)
 <!-- sources:badge:end -->
 
 [![Android](https://img.shields.io/badge/android-APK%20offline-3ddc84?style=for-the-badge)](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/releases/latest)
@@ -320,9 +320,9 @@ Las cifras de esta sección **las produce el verificador**, no se escriben a man
 `python scripts/verify-sources` falla en CI si dejan de cuadrar.
 
 <!-- sources:block:begin -->
-El programa cita **1.440 veces** un total de **1.041 obras distintas** a lo largo de las **288 clases**. Cada una tiene entrada con localizador resoluble en [`sources/bibliography.json`](sources/bibliography.json): **1.007 verificadas** contra su autoridad y **34 pendientes** con el motivo declarado.
+El programa cita **1.440 veces** un total de **1.032 obras distintas** a lo largo de las **288 clases**. Cada una tiene entrada con localizador resoluble en [`sources/bibliography.json`](sources/bibliography.json): **1.000 verificadas** contra su autoridad y **32 pendientes** con el motivo declarado.
 
-Los huecos se declaran, no se rellenan: **21** el sitio rechaza peticiones automatizadas · **9** la autoridad no respondio al comprobar · **3** sin ISBN o DOI en catalogo · **1** enlace roto en la fuente citada. El detalle, obra por obra, en [`sources/PENDING.md`](sources/PENDING.md).
+Los huecos se declaran, no se rellenan: **20** el sitio rechaza peticiones automatizadas · **8** la autoridad no respondio al comprobar · **3** sin ISBN o DOI en catalogo · **1** enlace roto en la fuente citada. El detalle, obra por obra, en [`sources/PENDING.md`](sources/PENDING.md).
 
 Última comprobación en red: **2026-08-19**.
 
@@ -336,14 +336,92 @@ Los huecos se declaran, no se rellenan: **21** el sitio rechaza peticiones autom
 | Docker y OCI | 20 | 21 | 20 |
 | RFC e IETF | 29 | 33 | 29 |
 | NIST, IEEE y normas | 13 | 22 | 10 |
-| Libros | 35 | 76 | 33 |
+| Libros | 35 | 113 | 34 |
 | Artículos académicos | 35 | 42 | 35 |
 | Seguridad (OWASP, CISA, MITRE) | 19 | 23 | 14 |
 | FinOps Foundation | 6 | 16 | 6 |
 | Proyectos de código abierto | 38 | 48 | 38 |
-| Otras autoridades | 271 | 387 | 248 |
-| **Total** | **1.041** | **1.440** | **1.007** |
+| Otras autoridades | 262 | 350 | 240 |
+| **Total** | **1.032** | **1.440** | **1.000** |
 
+
+### Los 36 libros que sostienen el programa
+
+| Obra | Clases | Localizador |
+|---|---:|---|
+| Kleppmann, *Designing Data-Intensive Applications* (2017) | 13 | [ISBN 9781491903117](https://openlibrary.org/isbn/9781491903117) |
+| Forsgren et al., *Accelerate* (2018) | 12 | [ISBN 9781942788379](https://openlibrary.org/isbn/9781942788379) |
+| Nygard, *Release It!* (2018) | 8 | [ISBN 9781680502398](https://openlibrary.org/isbn/9781680502398) |
+| Bass et al., *Software Architecture in Practice* (2021) | 8 | [ISBN 9780136885672](https://openlibrary.org/isbn/9780136885672) |
+| Ford et al., *Software Architecture: The Hard Parts* (2021) | 7 | [ISBN 9781492086840](https://openlibrary.org/isbn/9781492086840) |
+| Humble et al., *Continuous Delivery* (2010) | 6 | [ISBN 9780321670250](https://openlibrary.org/isbn/9780321670250) |
+| Ford et al., *Building Evolutionary Architectures* (2017) | 5 | [ISBN 9781491986363](https://openlibrary.org/isbn/9781491986363) |
+| Gunther, *Guerrilla Capacity Planning* (2007) | 5 | [ISBN 9783540261384](https://openlibrary.org/isbn/9783540261384) |
+| Storment et al., *Cloud FinOps* (2023) | 4 | [ISBN 9781492098355](https://openlibrary.org/isbn/9781492098355) |
+| Shostack, *Threat Modeling: Designing for Security* (2014) | 4 | [ISBN 9781306427067](https://openlibrary.org/isbn/9781306427067) |
+| Rosenthal et al., *Chaos Engineering: system resiliency in practice* (2020) | 3 | [ISBN 9781492043867](https://openlibrary.org/isbn/9781492043867) |
+| Hohpe, *Cloud Strategy: A Decision-Based Approach* (2020) | 3 | [ISBN 9798665253046](https://openlibrary.org/isbn/9798665253046) |
+| Huyen, *Designing Machine Learning Systems* (2022) | 3 | [ISBN 9781098107963](https://openlibrary.org/isbn/9781098107963) |
+| Hohpe et al., *Enterprise Integration Patterns* (2003) | 3 | [ISBN 9780321200686](https://openlibrary.org/isbn/9780321200686) |
+| Kurose et al., *Computer Networking: A Top-Down Approach* (2021) | 2 | [ISBN 9781292405469](https://openlibrary.org/isbn/9781292405469) |
+| Moses et al., *Data Quality Fundamentals* (2022) | 2 | [ISBN 9781098112042](https://openlibrary.org/isbn/9781098112042) |
+| Evans, *Domain-Driven Design* (2003) | 2 | [ISBN 9780321125217](https://openlibrary.org/isbn/9780321125217) |
+| Richards et al., *Fundamentals of Software Architecture* (2020) | 2 | [ISBN 9781492043454](https://openlibrary.org/isbn/9781492043454) |
+| Ward, *How Linux Works* (2021) | 2 | [ISBN 9798483731795](https://openlibrary.org/isbn/9798483731795) |
+| Newman, *Monolith to Microservices* (2019) | 2 | [ISBN 9781492047841](https://openlibrary.org/isbn/9781492047841) |
+| Majors et al., *Observability Engineering* (2022) | 2 | [ISBN 9781492076445](https://openlibrary.org/isbn/9781492076445) |
+| Dotson, *Practical Cloud Security* (2023) | 2 | [ISBN 9781098148171](https://openlibrary.org/isbn/9781098148171) |
+| Hoffman, *Beyond the Twelve-Factor App* (2016) | 1 | [ISBN 9781491944011](https://openlibrary.org/isbn/9781491944011) |
+| Newman, *Building Microservices* (2021) | 1 | [ISBN 9781492034025](https://openlibrary.org/isbn/9781492034025) |
+| Rice, *Container Security* (2020) | 1 | [ISBN 9781492056706](https://openlibrary.org/isbn/9781492056706) |
+| Dehghani, *Data Mesh: Delivering Data-Driven Value at Scale* (2022) | 1 | [ISBN 9788426735546](https://openlibrary.org/isbn/9788426735546) |
+| Clements et al., *Documenting Software Architectures* (2010) | 1 | [ISBN 9780321552686](https://openlibrary.org/isbn/9780321552686) |
+| Clements et al., *Evaluating Software Architectures: Methods and Case Studies* (2001) | 1 | [ISBN 9780201704822](https://openlibrary.org/isbn/9780201704822) |
+| Wilkinson et al., *Implementing Service Level Objectives* (2020) | 1 | [ISBN 9781492076810](https://openlibrary.org/isbn/9781492076810) |
+| Allspaw, *Incident command for IT* (2016) | 1 | _pendiente_ |
+| Brealey et al., *Principles of Corporate Finance* (2020) | 1 | [ISBN 9781260013900](https://openlibrary.org/isbn/9781260013900) |
+| Ambler et al., *Refactoring Databases* (2006) | 1 | [ISBN 9780321630179](https://openlibrary.org/isbn/9780321630179) |
+| Tornhill, *Software Design X-Rays* (2018) | 1 | [ISBN 9781680502725](https://openlibrary.org/isbn/9781680502725) |
+| Xu, *System Design Interview: an insider's guide* (2020) | 1 | [ISBN 9798664653403](https://openlibrary.org/isbn/9798664653403) |
+| Skelton et al., *Team Topologies* (2019) | 1 | [ISBN 9781942788829](https://openlibrary.org/isbn/9781942788829) |
+| Kerrisk, *The Linux Programming Interface* (2010) | 1 | [ISBN 9781548955809](https://openlibrary.org/isbn/9781548955809) |
+
+### Las 30 fuentes en linea mas citadas
+
+De 996 documentos, normas y articulos que citan las clases. El resto esta en el registro y, clase a clase, en docs/FUENTES.md.
+
+| Fuente | Autoridad | Clases | Enlace |
+|---|---|---:|---|
+| The Site Reliability Workbook: disaster role playing and testing | Google Cloud | 14 | [sre.google](https://sre.google/workbook/table-of-contents) |
+| Team Topologies | teamtopologies.com | 11 | [teamtopologies.com](https://teamtopologies.com/book) |
+| Documenting Architecture Decisions | cognitect.com | 9 | [cognitect.com](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions) |
+| Network design decisions in the Architecture Framework | Google Cloud | 9 | [cloud.google.com](https://cloud.google.com/architecture/framework) |
+| Well-Architected Framework: making architectural decisions | Amazon Web Services | 9 | [docs.aws.amazon.com](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html) |
+| Hidden technical debt in machine learning systems | papers.nips.cc | 6 | [papers.nips.cc](https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html) |
+| AI RMF Generative AI profile: risks of agentic systems | nist.gov | 5 | [nist.gov](https://nist.gov/itl/ai-risk-management-framework) |
+| Chaos engineering | IEEE | 5 | [ieeexplore.ieee.org](https://ieeexplore.ieee.org/document/7503833) |
+| FinOps framework: personas, phases and capabilities | FinOps Foundation | 5 | [finops.org](https://finops.org/framework) |
+| SRE Book: addressing cascading failures | Google Cloud | 5 | [sre.google](https://sre.google/sre-book/addressing-cascading-failures) |
+| DORA: platform engineering and developer experience | dora.dev | 4 | [dora.dev](https://dora.dev/research) |
+| Fault Injection Service: multi-account and multi-region experiments | Amazon Web Services | 4 | [docs.aws.amazon.com](https://docs.aws.amazon.com/fis/latest/userguide/what-is.html) |
+| Landing zone design in Google Cloud | Google Cloud | 4 | [cloud.google.com](https://cloud.google.com/architecture/landing-zones) |
+| MLOps: continuous delivery and automation pipelines | Google Cloud | 4 | [cloud.google.com](https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning) |
+| Platforms White Paper | tag-app-delivery.cncf.io | 4 | [tag-app-delivery.cncf.io](https://tag-app-delivery.cncf.io/whitepapers/platforms) |
+| Resource hierarchy and project factory | Google Cloud | 4 | [cloud.google.com](https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy) |
+| SP 800-207: Zero Trust Architecture | NIST | 4 | [csrc.nist.gov](https://csrc.nist.gov/pubs/sp/800/207/final) |
+| Saga and event choreography trade-offs | microservices.io | 4 | [microservices.io](https://microservices.io/patterns/index.html) |
+| The Datacenter as a Computer | Editorial academica (DOI) | 4 | [doi.org](https://doi.org/10.2200/S00874ED3V01Y201809CAC046) |
+| The Site Reliability Workbook | Google Cloud | 4 | [sre.google](https://sre.google/workbook/implementing-slos) |
+| The Site Reliability Workbook: alerting on SLOs | Google Cloud | 4 | [sre.google](https://sre.google/workbook/alerting-on-slos) |
+| Unit economics as a decision input | FinOps Foundation | 4 | [finops.org](https://finops.org/framework/capabilities/unit-economics) |
+| Account structure and allocation | FinOps Foundation | 3 | [finops.org](https://finops.org/framework/capabilities/allocation) |
+| Amazon SQS: visibility timeout and dead-letter queues | Amazon Web Services | 3 | [docs.aws.amazon.com](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) |
+| Azure Policy: understand policy effects | Microsoft Azure | 3 | [learn.microsoft.com](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects) |
+| Azure Well-Architected Framework | Microsoft Azure | 3 | [learn.microsoft.com](https://learn.microsoft.com/en-us/azure/well-architected) |
+| Benchmarks for cloud providers | cisecurity.org | 3 | [cisecurity.org](https://cisecurity.org/cis-benchmarks) |
+| Bicep vs ARM templates and deployment behaviour | Microsoft Azure | 3 | [learn.microsoft.com](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview) |
+| Cloud Adoption Framework: Azure landing zone design areas | Microsoft Azure | 3 | [learn.microsoft.com](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone) |
+| Configure Liveness, Readiness and Startup Probes | Kubernetes / CNCF | 3 | [kubernetes.io](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes) |
 
 **Que fundamenta cada clase, una por una:** [`docs/FUENTES.md`](docs/FUENTES.md) recorre las 288 clases y, en cada una, lista las obras que la sostienen con el uso concreto que hace de ellas y su localizador (ISBN, DOI o URL primaria).
 
@@ -355,17 +433,22 @@ Los huecos se declaran, no se rellenan: **21** el sitio rechaza peticiones autom
 | Parte 00 — Fundamentos de computación, redes y Linux | *Computer Networking: A Top-Down Approach* · *How Linux Works* · *Cloud FinOps* |
 | Parte 01 — Principios, estrategia y adopción cloud | *Cloud Strategy: A Decision-Based Approach* · *Fundamentals of Software Architecture* · *Practical Cloud Security* |
 | Parte 02 — AWS: plataforma esencial | *Designing Data-Intensive Applications* · *Enterprise Integration Patterns* · *Release It!* |
-| Parte 08 — Entrega continua y platform engineering | *Continuous Delivery* |
-| Parte 09 — Datos, mensajería, serverless e integración | *Release It!* |
-| Parte 10 — Observabilidad, SRE y confiabilidad | *Observability Engineering* · *Chaos Engineering: system resiliency in practice* · *Release It!* |
-| Parte 12 — Arquitectura cloud-native y sistemas distribuidos | *Software Architecture: The Hard Parts* · *Software Architecture in Practice* · *Beyond the Twelve-Factor App* |
+| Parte 07 — Infraestructura como código y configuración | *Accelerate* |
+| Parte 08 — Entrega continua y platform engineering | *Accelerate* · *Continuous Delivery* |
+| Parte 09 — Datos, mensajería, serverless e integración | *Designing Data-Intensive Applications* · *Release It!* |
+| Parte 10 — Observabilidad, SRE y confiabilidad | *Observability Engineering* · *Chaos Engineering: system resiliency in practice* · *Guerrilla Capacity Planning* |
+| Parte 11 — Seguridad, gobierno, cumplimiento y FinOps | *Threat Modeling: Designing for Security* |
+| Parte 12 — Arquitectura cloud-native y sistemas distribuidos | *Software Architecture: The Hard Parts* · *Building Evolutionary Architectures* · *Designing Data-Intensive Applications* |
 | Parte 13 — Multi-cloud, híbrido, migración y recuperación | *Continuous Delivery* |
-| Parte 14 — Plataformas avanzadas, capstones y carrera | *Cloud FinOps* · *Continuous Delivery* · *Software Architecture in Practice* |
-| Parte 15 — Arquitectura de sistemas e ingeniería de requisitos | *Software Architecture in Practice* · *Building Evolutionary Architectures* · *Building Microservices* |
+| Parte 14 — Plataformas avanzadas, capstones y carrera | *Accelerate* · *Cloud FinOps* · *Continuous Delivery* |
+| Parte 15 — Arquitectura de sistemas e ingeniería de requisitos | *Software Architecture in Practice* · *Building Evolutionary Architectures* · *Designing Data-Intensive Applications* |
+| Parte 17 — AWS: arquitectura, automatización y operación en producción | *Enterprise Integration Patterns* |
+| Parte 18 — Azure: arquitectura empresarial y operación en producción | *Enterprise Integration Patterns* |
+| Parte 19 — Google Cloud: arquitectura de datos y operación en producción | *Accelerate* |
 | Parte 20 — Plataformas cloud de datos, analítica, IA y agentes | *Designing Machine Learning Systems* · *Data Quality Fundamentals* · *Data Mesh: Delivering Data-Driven Value at Scale* |
-| Parte 21 — Operación cloud, automatización y respuesta a incidentes | *Chaos Engineering: system resiliency in practice* · *Incident command for IT* · *Release It!* |
-| Parte 22 — Especializaciones, certificaciones y práctica profesional | *Software Architecture: The Hard Parts* · *Cloud FinOps* · *Implementing Service Level Objectives* |
-| Parte 23 — Capstones por industria y defensa final | *Chaos Engineering: system resiliency in practice* |
+| Parte 21 — Operación cloud, automatización y respuesta a incidentes | *Accelerate* · *Chaos Engineering: system resiliency in practice* · *Continuous Delivery* |
+| Parte 22 — Especializaciones, certificaciones y práctica profesional | *Designing Data-Intensive Applications* · *Software Architecture: The Hard Parts* · *Accelerate* |
+| Parte 23 — Capstones por industria y defensa final | *Designing Data-Intensive Applications* · *Accelerate* · *Chaos Engineering: system resiliency in practice* |
 
 </details>
 <!-- sources:block:end -->

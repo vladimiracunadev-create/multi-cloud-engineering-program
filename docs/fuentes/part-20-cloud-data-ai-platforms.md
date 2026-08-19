@@ -18,7 +18,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [242 — Ingesta batch, CDC y streaming](../../classes/part-20-cloud-data-ai-platforms/242-ingesta-batch-cdc-y-streaming/README.md)
 
-- **Kleppmann (2017), *Designing Data-Intensive Applications*** — flujos y captura de cambios<br>  ↳ documentación · [dataintensive.net](https://dataintensive.net) ✅
+- **Kleppmann (2017), *Designing Data-Intensive Applications*** — flujos y captura de cambios<br>  ↳ libro · [ISBN 9781491903117](https://openlibrary.org/isbn/9781491903117) ✅
 - **Debezium (2025), *Change data capture connectors*** — conectores de captura de cambios<br>  ↳ documentación · [debezium.io](https://debezium.io/documentation/reference/stable/index.html) ✅
 - **Apache Beam (2025), *Streaming model: windows, watermarks and triggers*** — ventanas, marcas de agua y disparadores<br>  ↳ documentación · [beam.apache.org](https://beam.apache.org/documentation/programming-guide) ✅
 - **Akidau et al. (2015), *The Dataflow Model*** — el modelo formal que unifica lote y flujo<br>  ↳ documentación · [research.google](https://research.google/pubs/pub43864) ✅

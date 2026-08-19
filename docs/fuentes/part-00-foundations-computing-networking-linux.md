@@ -20,7 +20,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 - **The Open Group (2018), *POSIX.1-2017*** — semántica normativa de fork, execve y wait<br>  ↳ norma · [pubs.opengroup.org](https://pubs.opengroup.org/onlinepubs/9699919799/functions/fork.html) ✅
 - **Kerrisk, *signal(7)*** — Linux manual pages: catálogo de señales y semántica de SIGTERM y SIGKILL<br>  ↳ documentación · [man7.org](https://man7.org/linux/man-pages/man7/signal.7.html) ✅
-- **Kerrisk (2010), *The Linux Programming Interface*** — creación de procesos y ejecución de programas<br>  ↳ libro · _sin localizador_ ⏳
+- **Kerrisk (2010), *The Linux Programming Interface*** — creación de procesos y ejecución de programas<br>  ↳ libro · [ISBN 9781548955809](https://openlibrary.org/isbn/9781548955809) ✅
 - **systemd (2024), *systemd.exec(5)*** — cómo se construye el entorno de un servicio<br>  ↳ documentación · [freedesktop.org](https://freedesktop.org/software/systemd/man/systemd.exec.html) ✅
 - **Ward (2021), *How Linux Works*** — procesos, dispositivos y arranque<br>  ↳ libro · [ISBN 9798483731795](https://openlibrary.org/isbn/9798483731795) ✅
 

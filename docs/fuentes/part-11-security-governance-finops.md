@@ -66,7 +66,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [140 — Threat modeling con STRIDE y attack paths](../../classes/part-11-security-governance-finops/140-threat-modeling-con-stride-y-attack-paths/README.md)
 
-- **Shostack (2014), *Threat Modeling: Designing for Security*** — las cuatro preguntas y la aplicación de la lista por elemento<br>  ↳ documentación · [shostack.org](https://shostack.org/books/threat-modeling-book) ✅
+- **Shostack (2014), *Threat Modeling: Designing for Security*** — las cuatro preguntas y la aplicación de la lista por elemento<br>  ↳ libro · [ISBN 9781306427067](https://openlibrary.org/isbn/9781306427067) ✅
 - **Microsoft (2025), *STRIDE threat categories*** — definición de las seis categorías y su uso<br>  ↳ documentación · [learn.microsoft.com](https://learn.microsoft.com/azure/security/develop/threat-modeling-tool-threats) ✅
 - **OWASP (2025), *Threat modeling process*** — alcance, dinámica de la sesión y resultados accionables<br>  ↳ documentación · [owasp.org](https://owasp.org/www-community/Threat_Modeling_Process) ✅
 - **MITRE (2025), *ATT&CK: tactics and techniques*** — pasos reales de una cadena de ataque<br>  ↳ documentación · [attack.mitre.org](https://attack.mitre.org) ✅

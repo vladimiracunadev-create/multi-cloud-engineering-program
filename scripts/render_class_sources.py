@@ -15,7 +15,7 @@ import collections
 import re
 from pathlib import Path
 
-from sources_lib import ROOT, Citation, part_titles
+from sources_lib import ROOT, Citation, group_works, identity_of_citation, part_titles
 
 INDEX = ROOT / "docs" / "FUENTES.md"
 PARTS_DIR = ROOT / "docs" / "fuentes"
@@ -67,6 +67,7 @@ def _source_line(cit: Citation, entry: dict | None) -> str:
 def render_parts(data: dict, citations: list[Citation], root: Path = ROOT) -> dict[Path, str]:
     """Un fichero por parte, con sus 12 clases y las fuentes de cada una."""
     by_identity = {e.get("identity"): e for e in data.get("entries", [])}
+    ident_of = identity_of_citation(group_works(citations))
     titles = class_titles(root)
     parts = part_titles(root)
 
@@ -99,7 +100,7 @@ def render_parts(data: dict, citations: list[Citation], root: Path = ROOT) -> di
             lines.append(f"## [{titulo}]({rel})")
             lines.append("")
             for cit in per_class[class_path]:
-                lines.append(_source_line(cit, by_identity.get(cit.identity)))
+                lines.append(_source_line(cit, by_identity.get(ident_of[id(cit)])))
             lines.append("")
         out[PARTS_DIR / f"{part}.md"] = "\n".join(lines).rstrip() + "\n"
     return out
@@ -108,6 +109,7 @@ def render_parts(data: dict, citations: list[Citation], root: Path = ROOT) -> di
 def render_index(data: dict, citations: list[Citation], root: Path = ROOT) -> str:
     """Indice: que fundamenta cada parte y donde mirar clase a clase."""
     by_identity = {e.get("identity"): e for e in data.get("entries", [])}
+    ident_of = identity_of_citation(group_works(citations))
     parts = part_titles(root)
 
     per_part: dict[str, list[Citation]] = collections.OrderedDict()
@@ -137,7 +139,7 @@ def render_index(data: dict, citations: list[Citation], root: Path = ROOT) -> st
         libros: collections.Counter[str] = collections.Counter()
         otras: collections.Counter[str] = collections.Counter()
         for cit in cits:
-            entry = by_identity.get(cit.identity)
+            entry = by_identity.get(ident_of[id(cit)])
             if not entry:
                 continue
             if entry.get("type") == "book":

@@ -101,5 +101,5 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 - **Kief Morris (2020), *Infrastructure as Code*** — entornos, promoción y organización del código<br>  ↳ documentación · [infrastructure-as-code.com](https://infrastructure-as-code.com/book) ✅
 - **HashiCorp (2025), *Recommended practices for Terraform in production*** — estados, entornos y flujo de trabajo<br>  ↳ documentación · [developer.hashicorp.com](https://developer.hashicorp.com/terraform/cloud-docs/recommended-practices) ✅
 - **Google (2023), *DORA: change failure rate and lead time*** — métricas de entrega aplicadas a infraestructura<br>  ↳ documentación · [dora.dev](https://dora.dev/research) ✅
-- **Nicole Forsgren et al (2018), *Accelerate*** — efecto de la visibilidad sobre el comportamiento del equipo<br>  ↳ documentación · [itrevolution.com](https://itrevolution.com/product/accelerate) ✅
+- **Nicole Forsgren et al (2018), *Accelerate*** — efecto de la visibilidad sobre el comportamiento del equipo<br>  ↳ libro · [ISBN 9781942788379](https://openlibrary.org/isbn/9781942788379) ✅
 - **OWASP (2025), *Infrastructure as Code security cheat sheet*** — controles y su coste de adopción<br>  ↳ documentación · [cheatsheetseries.owasp.org](https://cheatsheetseries.owasp.org/cheatsheets/Infrastructure_as_Code_Security_Cheat_Sheet.html) ✅

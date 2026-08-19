@@ -51,7 +51,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 ## [186 — Capacidad, latencia, throughput y teoría de colas](../../classes/part-15-systems-architecture-engineering/186-capacidad-latencia-throughput-y-teoria-de-colas/README.md)
 
 - **Little (1961), *A proof for the queuing formula L = λW*** — la relación L = λW aplicada al dimensionamiento de capacidad<br>  ↳ documentación · [pubsonline.informs.org](https://pubsonline.informs.org/doi/10.1287/opre.9.3.383) ⏳
-- **Gunther (2007), *Guerrilla Capacity Planning*** — utilización, escalabilidad y sus límites<br>  ↳ artículo · [doi:10.1007/978-3-540-31010-5](https://doi.org/10.1007/978-3-540-31010-5) ✅
+- **Gunther (2007), *Guerrilla Capacity Planning*** — utilización, escalabilidad y sus límites<br>  ↳ libro · [ISBN 9783540261384](https://openlibrary.org/isbn/9783540261384) ✅
 - **Schroeder et al. (2006), *Open versus closed: a cautionary tale*** — por qué el modelo de carga cambia las conclusiones del ensayo<br>  ↳ documentación · [usenix.org](https://usenix.org/legacy/event/nsdi06/tech/schroeder.html) ✅
 - **Harchol-Balter (2013), *Performance Modeling and Design of Computer Systems*** — colas y variabilidad<br>  ↳ documentación · [cambridge.org](https://www.cambridge.org/core/books/performance-modeling-and-design-of-computer-systems/8E5B6F1D9E2E1E4B2A4C0B9B1B0E3E0D) ⏳
 - **Google (2016), *SRE Book: addressing cascading failures*** — realimentación, rechazo y plazos<br>  ↳ documentación · [sre.google](https://sre.google/sre-book/addressing-cascading-failures) ✅
@@ -62,7 +62,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 - **Abadi (2012), *Consistency tradeoffs in modern distributed database system design (PACELC)*** — el compromiso entre latencia y consistencia cuando no hay partición<br>  ↳ artículo · [ieeexplore.ieee.org](https://ieeexplore.ieee.org/document/6127847) ⏳
 - **Lamport (1978), *Time, clocks, and the ordering of events in a distributed system*** — orden causal de eventos sin reloj global<br>  ↳ artículo · [doi:10.1145/359545.359563](https://doi.org/10.1145/359545.359563) ✅
 - **Ongaro et al. (2014), *In search of an understandable consensus algorithm (Raft)*** — consenso comprensible como alternativa a Paxos<br>  ↳ documentación · [raft.github.io](https://raft.github.io/raft.pdf) ✅
-- **Kleppmann (2017), *Designing Data-Intensive Applications*** — replicación, consistencia y consenso<br>  ↳ documentación · [dataintensive.net](https://dataintensive.net) ✅
+- **Kleppmann (2017), *Designing Data-Intensive Applications*** — replicación, consistencia y consenso<br>  ↳ libro · [ISBN 9781491903117](https://openlibrary.org/isbn/9781491903117) ✅
 
 ## [188 — Contratos de API, eventos y compatibilidad evolutiva](../../classes/part-15-systems-architecture-engineering/188-contratos-de-api-eventos-y-compatibilidad-evolutiva/README.md)
 
@@ -74,7 +74,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [189 — Modelado de amenazas y arquitectura de confianza cero](../../classes/part-15-systems-architecture-engineering/189-modelado-de-amenazas-y-arquitectura-de-confianza-cero/README.md)
 
-- **Shostack (2014), *Threat Modeling: Designing for Security*** — las cuatro preguntas del modelado de amenazas<br>  ↳ documentación · [shostack.org](https://shostack.org/books/threat-modeling-book) ✅
+- **Shostack (2014), *Threat Modeling: Designing for Security*** — las cuatro preguntas del modelado de amenazas<br>  ↳ libro · [ISBN 9781306427067](https://openlibrary.org/isbn/9781306427067) ✅
 - ***Threat Modeling Manifesto (2020)*** — las cuatro preguntas<br>  ↳ documentación · [threatmodelingmanifesto.org](https://threatmodelingmanifesto.org) ✅
 - **NIST SP 800-207 (2020), *Zero Trust Architecture*** — los principios de confianza cero aplicados a la arquitectura<br>  ↳ norma · [csrc.nist.gov](https://csrc.nist.gov/pubs/sp/800/207/final) ✅
 - **Microsoft (2025), *STRIDE threat model*** — las seis categorías de amenaza aplicadas al diseño<br>  ↳ documentación · [learn.microsoft.com](https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats) ✅
@@ -100,6 +100,6 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 - **Bass et al. (2021), *Software Architecture in Practice*** — estructura de la documentación de arquitectura del proyecto<br>  ↳ libro · [ISBN 9780136885672](https://openlibrary.org/isbn/9780136885672) ✅
 - **Ford et al. (2021), *Software Architecture: The Hard Parts*** — decisiones con compromisos explícitos<br>  ↳ libro · [ISBN 9781492086840](https://openlibrary.org/isbn/9781492086840) ✅
-- **Kleppmann (2017), *Designing Data-Intensive Applications*** — decisiones de almacenamiento y replicación del caso<br>  ↳ documentación · [dataintensive.net](https://dataintensive.net) ✅
+- **Kleppmann (2017), *Designing Data-Intensive Applications*** — decisiones de almacenamiento y replicación del caso<br>  ↳ libro · [ISBN 9781491903117](https://openlibrary.org/isbn/9781491903117) ✅
 - **AWS (2025), *Well-Architected Framework*** — los pilares como lista de verificación del diseño<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html) ✅
 - **Google (2025), *Cloud Architecture Framework*** — contraste del diseño con el marco de Google Cloud<br>  ↳ documentación · [cloud.google.com](https://cloud.google.com/architecture/framework) ✅

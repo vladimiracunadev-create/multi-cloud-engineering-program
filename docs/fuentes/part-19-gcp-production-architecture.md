@@ -102,4 +102,4 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 - **Google Cloud (2025), *Enterprise foundations blueprint*** — el plano de fundación empresarial como referencia<br>  ↳ documentación · [cloud.google.com](https://cloud.google.com/architecture/security-foundations) ✅
 - **Google Cloud (2025), *Landing zone design*** — diseño de la zona de aterrizaje del proyecto<br>  ↳ documentación · [cloud.google.com](https://cloud.google.com/architecture/landing-zones) ✅
 - **Beyer et al. (2018), *The Site Reliability Workbook*** — operación con objetivos de nivel de servicio<br>  ↳ documentación · [sre.google](https://sre.google/workbook/table-of-contents) ✅
-- **Forsgren et al. (2018), *Accelerate*** — medir antes y después con las mismas definiciones<br>  ↳ documentación · [itrevolution.com](https://itrevolution.com/product/accelerate) ✅
+- **Forsgren et al. (2018), *Accelerate*** — medir antes y después con las mismas definiciones<br>  ↳ libro · [ISBN 9781942788379](https://openlibrary.org/isbn/9781942788379) ✅

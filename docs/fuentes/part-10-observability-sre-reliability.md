@@ -74,7 +74,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [129 — Capacidad, rendimiento y pruebas de carga](../../classes/part-10-observability-sre-reliability/129-capacidad-rendimiento-y-pruebas-de-carga/README.md)
 
-- **Gunther (2007), *Guerrilla Capacity Planning*** — curva de espera, ley de escalabilidad y márgenes<br>  ↳ artículo · [doi:10.1007/978-3-540-31010-5](https://doi.org/10.1007/978-3-540-31010-5) ✅
+- **Gunther (2007), *Guerrilla Capacity Planning*** — curva de espera, ley de escalabilidad y márgenes<br>  ↳ libro · [ISBN 9783540261384](https://openlibrary.org/isbn/9783540261384) ✅
 - **Tene (2015), *How NOT to measure latency*** — omisión coordinada y modelos abierto y cerrado<br>  ↳ documentación · [infoq.com](https://infoq.com/presentations/latency-response-time) ✅
 - **Google SRE (2025), *Managing load and handling overload*** — comportamiento cerca de la saturación y descarte<br>  ↳ documentación · [sre.google](https://sre.google/sre-book/handling-overload) ✅
 - **Gregg (2020), *Systems Performance*** — metodología de medición y cuellos de botella<br>  ↳ documentación · [brendangregg.com](https://brendangregg.com/systems-performance-2nd-edition-book.html) ✅

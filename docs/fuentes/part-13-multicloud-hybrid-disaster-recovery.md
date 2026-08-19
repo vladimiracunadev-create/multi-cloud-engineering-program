@@ -20,7 +20,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 - **OCI (2025), *Image and runtime specifications*** — portabilidad real de la capa de contenedores<br>  ↳ norma · [opencontainers.org](https://opencontainers.org) ✅
 - **CNCF (2025), *Cloud native landscape and interoperability*** — qué interfaces son comunes entre proveedores<br>  ↳ documentación · [landscape.cncf.io](https://landscape.cncf.io) ✅
-- **Cockcroft (2025), *Lock-in and exit cost*** — sustituir el debate por una estimación en semanas<br>  ↳ documentación · [adrianco.medium.com](https://adrianco.medium.com/) ⏳
+- **Cockcroft (2025), *Lock-in and exit cost*** — sustituir el debate por una estimación en semanas<br>  ↳ documentación · [adrianco.medium.com](https://adrianco.medium.com/) ✅
 - **Hexagonal architecture (2025), *Ports and adapters*** — mantener lo específico en el borde<br>  ↳ documentación · [alistair.cockburn.us](https://alistair.cockburn.us/hexagonal-architecture) ✅
 - **Google Cloud (2025), *Portability considerations for hybrid and multicloud*** — límites prácticos de la portabilidad<br>  ↳ documentación · [docs.cloud.google.com](https://docs.cloud.google.com/architecture/hybrid-multicloud-patterns-and-practices) ✅
 

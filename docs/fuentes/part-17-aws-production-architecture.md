@@ -54,7 +54,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 - **AWS (2025), *Lambda event source mapping: partial batch responses*** — reintento parcial de un lote sin reprocesarlo entero<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html) ✅
 - **AWS (2025), *Amazon EventBridge: rules, archives and replay*** — archivo y reproducción de eventos ya emitidos<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html) ✅
 - **AWS (2025), *Powertools for AWS Lambda: idempotency*** — idempotencia mediante clave y almacén de estado<br>  ↳ documentación · [docs.powertools.aws.dev](https://docs.powertools.aws.dev/lambda/python/latest/utilities/idempotency) ✅
-- **Hohpe et al. (2003), *Enterprise Integration Patterns*** — canal de mensajes inválidos y reintentos<br>  ↳ documentación · [enterpriseintegrationpatterns.com](https://enterpriseintegrationpatterns.com) ✅
+- **Hohpe et al. (2003), *Enterprise Integration Patterns*** — canal de mensajes inválidos y reintentos<br>  ↳ libro · [ISBN 9780321200686](https://openlibrary.org/isbn/9780321200686) ✅
 
 ## [211 — CloudWatch, X-Ray y observabilidad como código](../../classes/part-17-aws-production-architecture/211-cloudwatch-x-ray-y-observabilidad-como-codigo/README.md)
 

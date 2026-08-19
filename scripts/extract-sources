@@ -29,6 +29,7 @@ from sources_lib import (  # noqa: E402
     authority_for,
     dump_registry,
     load_registry,
+    group_works,
     read_citations,
     slugify,
 )
@@ -72,9 +73,7 @@ def main() -> int:
     args = parser.parse_args()
 
     citations, _ = read_citations(ROOT)
-    groups: dict[str, list[Citation]] = collections.OrderedDict()
-    for cit in citations:
-        groups.setdefault(cit.identity, []).append(cit)
+    groups = group_works(citations)
 
     previous: dict[str, dict] = {}
     if REGISTRY.exists():
@@ -98,8 +97,12 @@ def main() -> int:
         if slug_count[base] > 1:
             ident = f"{base}-{hashlib.sha1(identity.encode()).hexdigest()[:6]}"
 
-        first = max(group, key=lambda c: (len(c.title), len(c.detail)))
-        kind = first.kind
+        # Tras fusionar, el grupo mezcla la cita del libro con la de su web.
+        # La obra sigue siendo un libro y sus datos salen de la cita del libro.
+        libro = [c for c in group if c.kind == "book"]
+        candidatos = libro or group
+        first = max(candidatos, key=lambda c: (len(c.title), len(c.detail)))
+        kind = "book" if libro else first.kind
         authority = authority_for(first.url, kind)
         used_in = sorted({c.class_path for c in group})
         usage = {}
@@ -119,6 +122,9 @@ def main() -> int:
             "locator": None,
             # El enlace tal como lo cita la clase: es el que hay que comprobar.
             "source_url": first.raw_url or first.url,
+            "also_cited_at": sorted(
+                {c.raw_url for c in group if c.raw_url and c.raw_url != (first.raw_url or first.url)}
+            ),
             "authority": authority,
             "accessed": None,
             "used_in": used_in,

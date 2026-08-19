@@ -2,7 +2,7 @@
 
 Generado por `python scripts/verify-sources --write`. No editar a mano.
 
-34 de 1041 obras siguen sin verificar contra su
+32 de 1032 obras siguen sin verificar contra su
 autoridad. Ninguna se ha borrado y ninguna se ha rellenado a ojo.
 
 ## enlace-roto (1)
@@ -16,13 +16,12 @@ recurso. Hay que localizar la nueva ubicacion y corregir la cita.
 |---|---|---:|
 | Retail reference architectures and Well-Architected retail lens<br>**No es un enlace movido: AWS no publica ninguna lente Retail. El catalogo oficial de lentes lista Financial Services, Healthcare, Government, IoT, SaaS, SAP y otras, pero no Retail. La cita nombra un documento que no existe y corregirla exige decidir que fuente la sustituye, no cambiar la URL.** | `https://docs.aws.amazon.com/wellarchitected/latest/retail-lens/retail-lens.html` | 1 |
 
-## bloqueo-antibot (21)
+## bloqueo-antibot (20)
 
 _el sitio rechaza peticiones automatizadas; no se puede comprobar por script_
 
 | Obra | Localizador citado | Clases |
 |---|---|---:|
-| Lock-in and exit cost | `https://adrianco.medium.com/` | 1 |
 | Video Developer Report | `https://bitmovin.com/video-developer-report/` | 1 |
 | Leakage and the reproducibility crisis in ML-based science | `https://www.cell.com/patterns/fulltext/S2666-3899(23)00159-9` | 1 |
 | Cloud security technical reference architecture | `https://www.cisa.gov/resources-tools/resources/cloud-security-technical-reference-architecture` | 1 |
@@ -44,7 +43,7 @@ _el sitio rechaza peticiones automatizadas; no se puede comprobar por script_
 | Trade-offs under pressure: heuristics and observations of teams resolv | `https://www.researchgate.net/publication/282869185` | 2 |
 | Letter to Shareholders | `https://www.sec.gov/Archives/edgar/data/1018724/000119312516530910/d168744dex991.htm` | 1 |
 
-## sin-comprobar (9)
+## sin-comprobar (8)
 
 _la autoridad no respondio; no desmiente la fuente_
 
@@ -57,7 +56,6 @@ _la autoridad no respondio; no desmiente la fuente_
 | Check mode and diff mode | `https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_checkmode.html` | 1 |
 | Rolling update strategies | `https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_strategies.html` | 1 |
 | Variable precedence | `https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable` | 1 |
-| The Linux Programming Interface | `—` | 1 |
 | Learning from incidents | `https://www.learningfromincidents.io/` | 1 |
 
 ## sin-identificador (3)

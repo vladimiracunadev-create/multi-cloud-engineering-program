@@ -346,6 +346,40 @@ def read_citations(root: Path = ROOT) -> tuple[list[Citation], dict[str, str]]:
     return citations, blocks
 
 
+def group_works(citations: list[Citation]) -> "collections.OrderedDict[str, list[Citation]]":
+    """Agrupa las citas en obras. Regla unica para extractor y verificador.
+
+    Un libro citado unas veces por su ISBN y otras por la web del autor es UNA
+    obra. La fusion exige que coincidan titulo principal Y apellido del primer
+    autor: hay articulos con el mismo titulo que un libro (el "Chaos
+    engineering" de IEEE no es el libro de Rosenthal y Jones).
+
+    Si esta regla viviera solo en el extractor, el registro y el verificador
+    contarian cosas distintas, que es justo lo que este modulo evita.
+    """
+    groups: collections.OrderedDict[str, list[Citation]] = collections.OrderedDict()
+    for cit in citations:
+        groups.setdefault(cit.identity, []).append(cit)
+
+    def firma(group: list[Citation]) -> tuple[str, str]:
+        first = max(group, key=lambda c: (len(c.title), len(c.detail)))
+        apellido = first.authors[0].split(",")[0].strip() if first.authors else ""
+        return slugify(first.title.split(":")[0], 200), slugify(apellido, 80)
+
+    libros = {firma(g): ident for ident, g in groups.items() if g[0].kind == "book"}
+    for ident in [i for i, g in groups.items() if g[0].kind != "book"]:
+        clave = firma(groups[ident])
+        destino = libros.get(clave)
+        if destino and clave[1] and destino != ident:
+            groups[destino].extend(groups.pop(ident))
+    return groups
+
+
+def identity_of_citation(groups: "collections.OrderedDict[str, list[Citation]]") -> dict[int, str]:
+    """Identidad final de cada cita, ya fusionada."""
+    return {id(cit): identity for identity, group in groups.items() for cit in group}
+
+
 def isbn13_ok(value: str) -> bool:
     """Digito de control de un ISBN-13 (EAN-13)."""
     digits = re.sub(r"[^0-9]", "", value or "")
@@ -422,8 +456,9 @@ def registry_stats(data: dict, citations: list[Citation], root: Path = ROOT) -> 
 
     cites_per_entry: collections.Counter[str] = collections.Counter()
     ident_to_entry = {e.get("identity"): e for e in entries}
+    ident_of = identity_of_citation(group_works(citations))
     for cit in citations:
-        entry = ident_to_entry.get(cit.identity)
+        entry = ident_to_entry.get(ident_of[id(cit)])
         if entry:
             cites_per_entry[entry["id"]] += 1
 
@@ -468,12 +503,21 @@ def registry_stats(data: dict, citations: list[Citation], root: Path = ROOT) -> 
         ranked.sort(key=lambda p: (-p[0], p[1]["title"]))
         areas.append({"part": part, "title": title, "books": [b for _, b in ranked[:3]]})
 
+    books = sorted(
+        [e for e in entries if e.get("type") == "book"],
+        key=lambda e: (-len(e.get("used_in", [])), e.get("title", "")),
+    )
+    online = [e for e in entries if e.get("type") != "book"]
+    top_docs = sorted(online, key=lambda e: (-len(e.get("used_in", [])), e.get("title", "")))[:30]
     return {
         "entries": len(entries),
+        "books": books,
+        "online_total": len(online),
+        "top_docs": top_docs,
         "pending_kinds": pending_breakdown(entries),
         "citations": len(citations),
         # Cobertura real: citas cuya obra tiene entrada, no entradas sobre si mismas.
-        "resolved": sum(1 for c in citations if c.identity in ident_to_entry),
+        "resolved": sum(1 for c in citations if ident_of[id(c)] in ident_to_entry),
         "classes": len({c.class_path for c in citations}),
         "verified": by_status.get("verificada", 0),
         "pending": by_status.get("pendiente", 0),
@@ -543,6 +587,49 @@ def render_block(stats: dict) -> str:
         f"**{_thousands(stats['citations'])}** | **{_thousands(stats['verified'])}** |"
     )
     lines.append("")
+    # Los libros, visibles. Son 36: caben, y son la parte de la bibliografia
+    # que un lector quiere ver sin abrir otro fichero.
+    books = stats.get("books") or []
+    if books:
+        lines.append("")
+        lines.append(f"### Los {len(books)} libros que sostienen el programa")
+        lines.append("")
+        lines.append("| Obra | Clases | Localizador |")
+        lines.append("|---|---:|---|")
+        for book in books:
+            autores = book.get("authors") or []
+            firma = autores[0].split(",")[0].strip() if autores else ""
+            if len(autores) > 1:
+                firma += " et al."
+            anio = f" ({book['published']})" if book.get("published") else ""
+            titulo = (book.get("title") or "").replace("|", "/")
+            obra = f"{firma}, *{titulo}*{anio}" if firma else f"*{titulo}*{anio}"
+            if book.get("isbn13"):
+                donde = f"[ISBN {book['isbn13']}]({book['locator']})"
+            else:
+                donde = "_pendiente_"
+            lines.append(f"| {obra} | {len(book.get('used_in', []))} | {donde} |")
+
+    # Y los enlaces mas citados, con su URL a la vista.
+    docs = stats.get("top_docs") or []
+    if docs:
+        lines.append("")
+        lines.append(f"### Las {len(docs)} fuentes en linea mas citadas")
+        lines.append("")
+        lines.append(
+            f"De {stats.get('online_total', 0)} documentos, normas y articulos que citan las clases. "
+            "El resto esta en el registro y, clase a clase, en docs/FUENTES.md."
+        )
+        lines.append("")
+        lines.append("| Fuente | Autoridad | Clases | Enlace |")
+        lines.append("|---|---|---:|---|")
+        for doc in docs:
+            titulo = (doc.get("title") or doc["id"]).replace("|", "/")
+            url = doc.get("locator") or doc.get("source_url") or ""
+            host = re.sub(r"^https?://(www\.)?", "", url).split("/")[0] if url else "—"
+            enlace = f"[{host}]({url})" if url else "—"
+            lines.append(f"| {titulo} | {doc.get('authority', '')} | {len(doc.get('used_in', []))} | {enlace} |")
+
     lines.append("")
     lines.append(
         "**Que fundamenta cada clase, una por una:** "

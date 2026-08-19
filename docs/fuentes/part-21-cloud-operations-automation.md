@@ -66,9 +66,9 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [260 — Change management, ventanas y rollback](../../classes/part-21-cloud-operations-automation/260-change-management-ventanas-y-rollback/README.md)
 
-- **Forsgren et al. (2018), *Accelerate*** — frecuencia y estabilidad correlacionan positivamente<br>  ↳ documentación · [itrevolution.com](https://itrevolution.com/product/accelerate) ✅
+- **Forsgren et al. (2018), *Accelerate*** — frecuencia y estabilidad correlacionan positivamente<br>  ↳ libro · [ISBN 9781942788379](https://openlibrary.org/isbn/9781942788379) ✅
 - **Google (2024), *DORA: capabilities*** — change approval processes<br>  ↳ documentación · [dora.dev](https://dora.dev/capabilities/streamlining-change-approval) ✅
-- **Humble et al. (2010), *Continuous Delivery*** — canalización de despliegue con retroceso posible<br>  ↳ documentación · [pearson.com](https://pearson.com/en-us/subject-catalog/p/continuous-delivery/P200000009415) ✅
+- **Humble et al. (2010), *Continuous Delivery*** — canalización de despliegue con retroceso posible<br>  ↳ libro · [ISBN 9780321670250](https://openlibrary.org/isbn/9780321670250) ✅
 - **AWS (2024), *Operational Excellence Pillar: managing change*** — gestión del cambio como práctica de excelencia operativa<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html) ✅
 - **Microsoft (2024), *Azure Well-Architected Framework: safe deployment practices*** — prácticas de despliegue seguro por fases<br>  ↳ documentación · [learn.microsoft.com](https://learn.microsoft.com/azure/well-architected/operational-excellence/safe-deployments) ✅
 
@@ -82,7 +82,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 
 ## [262 — Capacity planning, cuotas y gestión de demanda](../../classes/part-21-cloud-operations-automation/262-capacity-planning-cuotas-y-gestion-de-demanda/README.md)
 
-- **Gunther (2007), *Guerrilla Capacity Planning*** — leyes de escalabilidad y efecto de la utilización<br>  ↳ artículo · [doi:10.1007/978-3-540-31010-5](https://doi.org/10.1007/978-3-540-31010-5) ✅
+- **Gunther (2007), *Guerrilla Capacity Planning*** — leyes de escalabilidad y efecto de la utilización<br>  ↳ libro · [ISBN 9783540261384](https://openlibrary.org/isbn/9783540261384) ✅
 - **Google (2018), *Site Reliability Engineering*** — planificación de capacidad con datos de servicio<br>  ↳ documentación · [sre.google](https://sre.google/sre-book/handling-overload) ✅
 - **AWS (2024), *Service Quotas*** — monitoring and requesting increases<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html) ✅
 - **Microsoft (2024), *Azure subscription and service limits, quotas, and constraints*** — límites y cuotas que acotan el crecimiento<br>  ↳ documentación · [learn.microsoft.com](https://learn.microsoft.com/azure/azure-resource-manager/management/azure-subscription-service-limits) ✅
@@ -99,7 +99,7 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 ## [264 — Proyecto: centro de operaciones de CloudShop](../../classes/part-21-cloud-operations-automation/264-proyecto-centro-de-operaciones-de-cloudshop/README.md)
 
 - **Beyer et al. (2018), *The Site Reliability Workbook*** — operación completa de extremo a extremo<br>  ↳ documentación · [sre.google](https://sre.google/workbook/table-of-contents) ✅
-- **Forsgren et al. (2018), *Accelerate*** — las cuatro métricas de entrega<br>  ↳ documentación · [itrevolution.com](https://itrevolution.com/product/accelerate) ✅
+- **Forsgren et al. (2018), *Accelerate*** — las cuatro métricas de entrega<br>  ↳ libro · [ISBN 9781942788379](https://openlibrary.org/isbn/9781942788379) ✅
 - **AWS (2024), *Operational Excellence Pillar*** — el pilar de excelencia operativa como referencia<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html) ✅
 - **Microsoft (2024), *Azure Well-Architected Framework: Operational Excellence*** — el pilar equivalente en Azure<br>  ↳ documentación · [learn.microsoft.com](https://learn.microsoft.com/azure/well-architected/operational-excellence) ✅
 - **Google Cloud (2024), *Architecture Framework: Operational excellence*** — el pilar equivalente en Google Cloud<br>  ↳ documentación · [cloud.google.com](https://cloud.google.com/architecture/framework/operational-excellence) ✅

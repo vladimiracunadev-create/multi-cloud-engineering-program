@@ -94,12 +94,12 @@ clase hace de la obra y su localizador resoluble. ✅ verificada contra su autor
 - **Basiri et al. (2016), *Chaos engineering*** — provocar el fallo como método de verificación<br>  ↳ artículo · [ieeexplore.ieee.org](https://ieeexplore.ieee.org/document/7503833) ⏳
 - **Humble et al. (2010), *Continuous Delivery*** — orden de construcción de la canalización y verificación<br>  ↳ libro · [ISBN 9780321670250](https://openlibrary.org/isbn/9780321670250) ✅
 - **AWS (2025), *Well-Architected review process*** — evaluación con evidencia y registro de deuda<br>  ↳ documentación · [docs.aws.amazon.com](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html) ✅
-- **Forsgren et al. (2018), *Accelerate*** — medir antes y después con las mismas definiciones<br>  ↳ documentación · [itrevolution.com](https://itrevolution.com/product/accelerate) ✅
+- **Forsgren et al. (2018), *Accelerate*** — medir antes y después con las mismas definiciones<br>  ↳ libro · [ISBN 9781942788379](https://openlibrary.org/isbn/9781942788379) ✅
 
 ## [180 — Capstone: defensa, portafolio y plan profesional](../../classes/part-14-advanced-platform-capstones-career/180-capstone-defensa-portafolio-y-plan-profesional/README.md)
 
 - **Kruchten et al. (2012), *Technical debt: from metaphor to theory and practice*** — deuda declarada frente a deuda accidental<br>  ↳ artículo · [doi:10.1109/ms.2012.167](https://doi.org/10.1109/ms.2012.167) ✅
 - **Nygard (2011), *Documenting architecture decisions*** — registro con premisas y alternativas<br>  ↳ documentación · [cognitect.com](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions) ✅
-- **Forsgren et al. (2018), *Accelerate*** — capacidades medibles frente a etiquetas de rol<br>  ↳ documentación · [itrevolution.com](https://itrevolution.com/product/accelerate) ✅
+- **Forsgren et al. (2018), *Accelerate*** — capacidades medibles frente a etiquetas de rol<br>  ↳ libro · [ISBN 9781942788379](https://openlibrary.org/isbn/9781942788379) ✅
 - **Skelton et al. (2019), *Team Topologies*** — carga cognitiva y límite de lo que un equipo puede mantener<br>  ↳ documentación · [teamtopologies.com](https://teamtopologies.com/book) ✅
 - **Google (2025), *Cloud Architecture Framework: review and iterate*** — evaluación con evidencia y revisión periódica<br>  ↳ documentación · [cloud.google.com](https://cloud.google.com/architecture/framework) ✅
