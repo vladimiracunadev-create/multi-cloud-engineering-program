@@ -13,6 +13,10 @@
 [![Version](https://img.shields.io/badge/version-2.2.0-e67e22?style=for-the-badge)](CHANGELOG.md)
 [![Clases](https://img.shields.io/badge/clases-288%20·%2024%20partes-7c5cff?style=for-the-badge)](classes/README.md)
 [![Manual](https://img.shields.io/badge/manual-2.883%20páginas-007c83?style=for-the-badge)](site/downloads/multi-cloud-engineering-manual-v2.0.pdf)
+<!-- sources:badge:begin -->
+[![Fuentes](https://img.shields.io/badge/fuentes-1.044%20obras%20trazadas-1f6feb?style=for-the-badge)](sources/bibliography.json)
+<!-- sources:badge:end -->
+
 [![Android](https://img.shields.io/badge/android-APK%20offline-3ddc84?style=for-the-badge)](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-3fb950?style=for-the-badge)](LICENSE)
 
@@ -311,19 +315,59 @@ El repositorio incluye secuencia de sesiones, resultados observables, instrument
 
 El programa usa libros para ordenar conceptos y profundidad; **toda la redacción es original y no reproduce sus textos**. La documentación oficial vigente complementa cada implementación.
 
-| Área | Obras guía |
-|---|---|
-| Fundamentos y redes | *How Linux Works* · *Computer Networking: A Top-Down Approach* · *Pro Git* |
-| Estrategia y arquitectura cloud | *Cloud Strategy* · *Cloud Native Patterns* · *Fundamentals of Software Architecture* |
-| Sistemas distribuidos y datos | *Designing Data-Intensive Applications* · *Building Microservices* · *Release It!* |
-| Contenedores y Kubernetes | *Docker Deep Dive* · *Kubernetes: Up and Running* · *Kubernetes Patterns* |
-| IaC y entrega | *Infrastructure as Code* · *Continuous Delivery* · *Accelerate* |
-| SRE y operación | *Site Reliability Engineering* · *The Site Reliability Workbook* · *Observability Engineering* |
-| Seguridad y gobierno | *Practical Cloud Security* · *Threat Modeling* · marcos Well-Architected |
-| FinOps y organización | *Cloud FinOps* · *Team Topologies* · *Platform Engineering* |
-| Evolución y decisiones | *Building Evolutionary Architectures* · *Software Architecture: The Hard Parts* |
+Las cifras de esta sección **las produce el verificador**, no se escriben a mano:
+`python scripts/verify-sources --write` las regenera desde el registro, y
+`python scripts/verify-sources` falla en CI si dejan de cuadrar.
 
-[Mapa bibliográfico completo y relación por partes](docs/BIBLIOGRAPHY.md)
+<!-- sources:block:begin -->
+El programa cita **1.440 veces** un total de **1.044 obras distintas** a lo largo de las **288 clases**. Cada una tiene entrada con localizador resoluble en [`sources/bibliography.json`](sources/bibliography.json): **970 verificadas** contra su autoridad y **74 pendientes** con el motivo declarado.
+
+Última comprobación en red: **2026-08-19**.
+
+| Autoridad | Obras | Citas | Verificadas |
+|---|---:|---:|---:|
+| AWS | 151 | 197 | 150 |
+| Azure | 148 | 185 | 145 |
+| GCP | 180 | 267 | 168 |
+| Kubernetes y CNCF | 73 | 91 | 73 |
+| HashiCorp y OpenTofu | 32 | 41 | 31 |
+| Docker y OCI | 20 | 21 | 20 |
+| RFC e IETF | 29 | 33 | 29 |
+| NIST, IEEE y normas | 13 | 22 | 10 |
+| Libros | 35 | 76 | 31 |
+| Artículos académicos | 35 | 42 | 30 |
+| Seguridad (OWASP, CISA, MITRE) | 19 | 23 | 13 |
+| FinOps Foundation | 6 | 16 | 5 |
+| Proyectos de código abierto | 37 | 47 | 36 |
+| Otras autoridades | 266 | 379 | 229 |
+| **Total** | **1.044** | **1.440** | **970** |
+
+<details>
+<summary><b>Obras rectoras por parte</b> — libros que ordenan cada área</summary>
+
+| Parte | Obras rectoras |
+|---|---|
+| Parte 00 — Fundamentos de computación, redes y Linux | *Computer Networking: A Top-Down Approach* · *How Linux Works* · *Cloud FinOps* |
+| Parte 01 — Principios, estrategia y adopción cloud | *Cloud Strategy: A Decision-Based Approach* · *Fundamentals of Software Architecture* · *Practical Cloud Security* |
+| Parte 02 — AWS: plataforma esencial | *Designing Data-Intensive Applications* · *Enterprise Integration Patterns* · *Release It!* |
+| Parte 08 — Entrega continua y platform engineering | *Continuous Delivery* |
+| Parte 09 — Datos, mensajería, serverless e integración | *Release It!* |
+| Parte 10 — Observabilidad, SRE y confiabilidad | *Observability Engineering* · *Chaos Engineering: system resiliency in practice* · *Release It!* |
+| Parte 12 — Arquitectura cloud-native y sistemas distribuidos | *Software Architecture: The Hard Parts* · *Software Architecture in Practice* · *Beyond the Twelve-Factor App* |
+| Parte 13 — Multi-cloud, híbrido, migración y recuperación | *Continuous Delivery* |
+| Parte 14 — Plataformas avanzadas, capstones y carrera | *Cloud FinOps* · *Continuous Delivery* · *Software Architecture in Practice* |
+| Parte 15 — Arquitectura de sistemas e ingeniería de requisitos | *Software Architecture in Practice* · *Building Evolutionary Architectures* · *Building Microservices* |
+| Parte 20 — Plataformas cloud de datos, analítica, IA y agentes | *Designing Machine Learning Systems* · *Data Quality Fundamentals* · *Data Mesh: Delivering Data-Driven Value at Scale* |
+| Parte 21 — Operación cloud, automatización y respuesta a incidentes | *Chaos Engineering: system resiliency in practice* · *Incident command for IT* · *Release It!* |
+| Parte 22 — Especializaciones, certificaciones y práctica profesional | *Software Architecture: The Hard Parts* · *Cloud FinOps* · *Implementing Service Level Objectives* |
+| Parte 23 — Capstones por industria y defensa final | *Chaos Engineering: system resiliency in practice* |
+
+</details>
+<!-- sources:block:end -->
+
+[Registro completo de fuentes](sources/bibliography.json) ·
+[Como funciona el registro](sources/README.md) ·
+[Mapa bibliográfico y relación por partes](docs/BIBLIOGRAPHY.md)
 
 </details>
 

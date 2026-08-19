@@ -124,7 +124,22 @@ AUTHORITY_GROUPS = [
     ("RFC e IETF", ("IETF / RFC Editor",)),
     ("NIST, IEEE y normas", ("NIST", "IEEE", "ISO", "The Open Group", "W3C", "PCI SSC")),
     ("Libros", ("Editorial (libro)",)),
-    ("Articulos academicos", ("Editorial academica (DOI)", "ACM", "arXiv", "USENIX", "IEEE Xplore")),
+    ("Artículos académicos", ("Editorial academica (DOI)", "ACM", "arXiv", "USENIX", "IEEE Xplore", "queue.acm.org")),
+    ("Seguridad (OWASP, CISA, MITRE)", ("OWASP", "CISA", "attack.mitre.org")),
+    ("FinOps Foundation", ("FinOps Foundation",)),
+    (
+        "Proyectos de código abierto",
+        (
+            "Proyecto de codigo abierto",
+            "GitHub",
+            "Proyecto Git",
+            "Linux man-pages",
+            "Linux kernel",
+            "freedesktop.org / systemd",
+            "Apache Software Foundation",
+            "PostgreSQL",
+        ),
+    ),
 ]
 
 
@@ -453,7 +468,7 @@ def render_block(stats: dict) -> str:
     )
     lines.append("")
     verified_on = stats.get("verified_on") or "sin ejecutar"
-    lines.append(f"Ultima comprobacion en red: **{verified_on}**.")
+    lines.append(f"Última comprobación en red: **{verified_on}**.")
     lines.append("")
     lines.append("| Autoridad | Obras | Citas | Verificadas |")
     lines.append("|---|---:|---:|---:|")
@@ -468,7 +483,7 @@ def render_block(stats: dict) -> str:
     )
     lines.append("")
     lines.append("<details>")
-    lines.append("<summary><b>Obras rectoras por parte</b> — libros que ordenan cada area</summary>")
+    lines.append("<summary><b>Obras rectoras por parte</b> — libros que ordenan cada área</summary>")
     lines.append("")
     lines.append("| Parte | Obras rectoras |")
     lines.append("|---|---|")
