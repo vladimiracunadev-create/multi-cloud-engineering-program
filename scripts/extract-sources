@@ -40,7 +40,16 @@ POLICY = (
 )
 
 # Campos que solo produce la capa en red: se conservan al reconstruir.
-CARRIED = ("isbn13", "doi", "locator", "accessed", "status", "pending_reason", "verified_title")
+CARRIED = (
+    "isbn13",
+    "doi",
+    "locator",
+    "accessed",
+    "status",
+    "pending_reason",
+    "pending_kind",
+    "verified_title",
+)
 
 
 def build_id(group: list[Citation], taken: dict[str, int]) -> str:

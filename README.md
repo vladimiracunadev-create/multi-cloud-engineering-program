@@ -320,7 +320,9 @@ Las cifras de esta sección **las produce el verificador**, no se escriben a man
 `python scripts/verify-sources` falla en CI si dejan de cuadrar.
 
 <!-- sources:block:begin -->
-El programa cita **1.440 veces** un total de **1.044 obras distintas** a lo largo de las **288 clases**. Cada una tiene entrada con localizador resoluble en [`sources/bibliography.json`](sources/bibliography.json): **972 verificadas** contra su autoridad y **72 pendientes** con el motivo declarado.
+El programa cita **1.440 veces** un total de **1.044 obras distintas** a lo largo de las **288 clases**. Cada una tiene entrada con localizador resoluble en [`sources/bibliography.json`](sources/bibliography.json): **975 verificadas** contra su autoridad y **69 pendientes** con el motivo declarado.
+
+Los huecos se declaran, no se rellenan: **29** enlace roto en la fuente citada · **25** el sitio rechaza peticiones automatizadas · **12** la autoridad no respondio al comprobar · **3** sin ISBN o DOI en catalogo. El detalle, obra por obra, en [`sources/PENDING.md`](sources/PENDING.md).
 
 Última comprobación en red: **2026-08-19**.
 
@@ -335,12 +337,12 @@ El programa cita **1.440 veces** un total de **1.044 obras distintas** a lo larg
 | RFC e IETF | 29 | 33 | 29 |
 | NIST, IEEE y normas | 13 | 22 | 10 |
 | Libros | 35 | 76 | 33 |
-| Artículos académicos | 35 | 42 | 30 |
+| Artículos académicos | 35 | 42 | 31 |
 | Seguridad (OWASP, CISA, MITRE) | 19 | 23 | 13 |
 | FinOps Foundation | 6 | 16 | 5 |
 | Proyectos de código abierto | 37 | 47 | 36 |
-| Otras autoridades | 266 | 379 | 229 |
-| **Total** | **1.044** | **1.440** | **972** |
+| Otras autoridades | 266 | 379 | 231 |
+| **Total** | **1.044** | **1.440** | **975** |
 
 <details>
 <summary><b>Obras rectoras por parte</b> — libros que ordenan cada área</summary>

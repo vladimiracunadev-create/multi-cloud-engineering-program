@@ -41,7 +41,14 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-from sources_lib import REGISTRY, ROOT, dump_registry, isbn13_ok, load_registry  # noqa: E402
+from sources_lib import (  # noqa: E402
+    REGISTRY,
+    ROOT,
+    classify_pending,
+    dump_registry,
+    isbn13_ok,
+    load_registry,
+)
 
 UA = "multi-cloud-engineering-program/sources-refresh (+https://github.com/vladimiracunadev-create/multi-cloud-engineering-program)"
 TIMEOUT = 25
@@ -439,6 +446,10 @@ def main() -> int:
             return
 
         counters[result] += 1
+        if result == "pendiente":
+            entry["pending_kind"] = classify_pending(entry.get("pending_reason"))
+        else:
+            entry.pop("pending_kind", None)
         if result == "pendiente" and was_verified:
             lost.append(entry)
         else:

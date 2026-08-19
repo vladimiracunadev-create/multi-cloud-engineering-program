@@ -33,6 +33,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 from sources_lib import (  # noqa: E402
+    PENDING_KINDS,
     REGISTRY,
     ROOT,
     SCHEMA_VERSION,
@@ -43,9 +44,11 @@ from sources_lib import (  # noqa: E402
     registry_stats,
     render_badge,
     render_block,
+    render_pending,
 )
 
 README = ROOT / "README.md"
+PENDING_DOC = ROOT / "sources" / "PENDING.md"
 BADGE_BEGIN, BADGE_END = "<!-- sources:badge:begin -->", "<!-- sources:badge:end -->"
 BLOCK_BEGIN, BLOCK_END = "<!-- sources:block:begin -->", "<!-- sources:block:end -->"
 
@@ -252,6 +255,20 @@ def main() -> int:
     stats = registry_stats(data, citations, ROOT)
     check_readme(stats, report, args.write)
 
+    # El informe de huecos se genera igual que las cifras del README: si se
+    # escribe a mano envejece, y un hueco que nadie ve no es informacion.
+    wanted_pending = render_pending(data)
+    if args.write:
+        PENDING_DOC.write_text(wanted_pending, encoding="utf-8")
+    elif not PENDING_DOC.exists():
+        report.fail("pendientes", "falta sources/PENDING.md; generalo con: python scripts/verify-sources --write")
+    elif PENDING_DOC.read_text(encoding="utf-8") != wanted_pending:
+        report.fail(
+            "pendientes",
+            "sources/PENDING.md no coincide con el registro; "
+            "regeneralo con: python scripts/verify-sources --write",
+        )
+
     print("Verificacion de fuentes (offline)")
     print("=" * 62)
     print(f"clases con bloque de fuentes : {stats['classes']} / {len(blocks)}")
@@ -261,6 +278,8 @@ def main() -> int:
         print(f"    {kind:<10}             : {count}")
     print(f"verificadas                  : {stats['verified']}")
     print(f"pendientes                   : {stats['pending']}")
+    for kind, count in sorted(stats["pending_kinds"].items(), key=lambda p: -p[1]):
+        print(f"    {kind:<20} : {count}  ({PENDING_KINDS.get(kind, '')})")
     print(f"citas con nota de uso        : {stats['with_use']} / {stats['citations']}")
     cobertura = 100.0 * stats["resolved"] / stats["citations"] if stats["citations"] else 0.0
     print(f"cobertura                    : {cobertura:.1f} % ({stats['resolved']}/{stats['citations']} citas con entrada)")

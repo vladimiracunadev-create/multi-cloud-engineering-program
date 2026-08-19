@@ -23,6 +23,17 @@ Lo que no se resuelve **no se borra ni se rellena**: queda con `"status": "pendi
 `pending_reason` que dice por que. Un hueco declarado es informacion; uno rellenado por
 intuicion es una invencion con formato de bibliografia.
 
+Los huecos se clasifican en `pending_kind`, porque no todos significan lo mismo:
+
+| `pending_kind` | Que significa | Hay que arreglarlo? |
+|---|---|---|
+| `enlace-roto` | el recurso ya no esta en esa direccion | **si**: la cita apunta a nada |
+| `bloqueo-antibot` | el sitio rechaza peticiones automatizadas | no: no se puede comprobar por script, y no se intenta esquivar |
+| `sin-comprobar` | la autoridad no respondio | no: no desmiente la fuente; se reintenta |
+| `sin-identificador` | ningun catalogo devolvio ISBN o DOI | revisar a mano |
+
+El detalle obra por obra vive en [`PENDING.md`](PENDING.md), que **genera el verificador**.
+
 ## Las tres herramientas
 
 ```bash

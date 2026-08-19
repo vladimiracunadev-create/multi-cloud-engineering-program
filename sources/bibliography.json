@@ -205,7 +205,8 @@
         "classes/part-12-cloud-native-distributed-architecture/149-cap-pacelc-y-consistencia-por-operacion/README.md": "leer lo propio y no retroceder"
       },
       "status": "pendiente",
-      "pending_reason": "DOI 10.5555/645792.668302: no lo resuelven ni crossref ni datacite (no se pudo comprobar (HTTP 404))"
+      "pending_reason": "DOI 10.5555/645792.668302: no lo resuelven ni crossref ni datacite (no se pudo comprobar (HTTP 404))",
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "acm-time-clocks-and-the-ordering-of-events-in-a-distributed",
@@ -2942,7 +2943,9 @@
         "classes/part-23-industry-capstones/277-capstone-retail-comercio-multi-region/README.md": "arquitecturas de referencia del sector minorista"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "amazon-web-services-rotating-aws-kms-keys",
@@ -4362,7 +4365,9 @@
         "classes/part-14-advanced-platform-capstones-career/174-arquitectura-de-seguridad-cloud-empresarial/README.md": "decisiones de arquitectura y capacidades"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "cisa-known-exploited-vulnerabilities-catalog",
@@ -4388,7 +4393,9 @@
         "classes/part-21-cloud-operations-automation/254-patching-imagenes-doradas-y-gestion-de-configuracion/README.md": "vulnerabilidades con explotación activa confirmada"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "cisa-minimum-elements-for-a-software-bill-of-materials",
@@ -4412,7 +4419,9 @@
         "classes/part-05-containers-docker-oci/067-registros-sbom-firma-y-procedencia-de-imagenes/README.md": "contenido mínimo y usos previstos"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "cisa-vulnerability-exploitability-exchange",
@@ -4436,7 +4445,9 @@
         "classes/part-08-continuous-delivery-platform-engineering/101-sast-sca-secretos-sbom-y-firma-en-pipeline/README.md": "declarar si una vulnerabilidad afecta y por qué"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "cisa-zero-trust-maturity-model",
@@ -4460,7 +4471,9 @@
         "classes/part-11-security-governance-finops/133-zero-trust-y-defensa-en-profundidad/README.md": "orden de adopción por pilares"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "docker-oci-back-up-restore-or-migrate-data-volumes",
@@ -4968,7 +4981,8 @@
       "status": "pendiente",
       "pending_reason": "ISBN-13 sin resolver: openlibrary: no se pudo comprobar (error de red); google books: no se pudo comprobar (HTTP 429)",
       "isbn13_candidate": "9781492045922",
-      "isbn13_candidate_note": "ISBN del enlace citado, sin confirmar: no se pudo comprobar (error de red)"
+      "isbn13_candidate_note": "ISBN del enlace citado, sin confirmar: no se pudo comprobar (error de red)",
+      "pending_kind": "sin-comprobar"
     },
     {
       "id": "ambler-refactoring-databases",
@@ -5480,7 +5494,8 @@
         "classes/part-00-foundations-computing-networking-linux/002-terminal-sistema-de-archivos-procesos-y-variables-de-entorno/README.md": "creación de procesos y ejecución de programas"
       },
       "status": "pendiente",
-      "pending_reason": "ISBN-13 sin resolver: openlibrary: no se pudo comprobar (error de red); google books: no se pudo comprobar (HTTP 429)"
+      "pending_reason": "ISBN-13 sin resolver: openlibrary: no se pudo comprobar (error de red); google books: no se pudo comprobar (HTTP 429)",
+      "pending_kind": "sin-comprobar"
     },
     {
       "id": "kleppmann-designing-data-intensive-applications",
@@ -6422,7 +6437,9 @@
         "classes/part-08-continuous-delivery-platform-engineering/104-ambientes-efimeros-y-promocion-entre-entornos/README.md": "encontrar lo que quedó vivo sin dueño"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "finops-foundation-unit-economics",
@@ -7034,7 +7051,9 @@
         "classes/part-21-cloud-operations-automation/259-runbooks-ejecutables-y-auto-remediation/README.md": "remediación disparada desde la alerta"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "google-cloud-autonomic-security-operations",
@@ -7082,7 +7101,9 @@
         "classes/part-21-cloud-operations-automation/255-backups-restore-testing-vaults-e-inmutabilidad/README.md": "el servicio equivalente en Google Cloud"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "google-cloud-being-on-call",
@@ -8102,7 +8123,9 @@
         "classes/part-23-industry-capstones/284-capstone-datos-e-ia-plataforma-gobernada/README.md": "gobierno y linaje del dato en la plataforma"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "google-cloud-data-integrity-backups-versus-replication",
@@ -8765,7 +8788,9 @@
         "classes/part-22-specializations-certifications-career/273-mapeo-aws-azure-google-cloud-kubernetes-y-finops/README.md": "equivalencias de servicio para quien viene de AWS"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "google-cloud-handling-message-failures",
@@ -8817,7 +8842,9 @@
         "classes/part-13-multicloud-hybrid-disaster-recovery/160-conectividad-transito-dns-y-service-discovery/README.md": "patrones de conexión y sus compromisos"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "google-cloud-iam-conditions-overview",
@@ -9017,7 +9044,9 @@
         "classes/part-23-industry-capstones/281-capstone-media-streaming-y-distribucion-global/README.md": "arquitecturas de directo y de vídeo bajo demanda"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "google-cloud-load-balancing-and-dns-ttl-trade-offs",
@@ -9247,7 +9276,9 @@
         "classes/part-23-industry-capstones/283-capstone-saas-multi-tenancy-y-unit-economics/README.md": "patrones de aislamiento entre inquilinos"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "google-cloud-multicloud-and-hybrid-architecture-patterns",
@@ -9613,7 +9644,9 @@
         "classes/part-13-multicloud-hybrid-disaster-recovery/158-portabilidad-capas-de-abstraccion-y-lock-in/README.md": "límites prácticos de la portabilidad"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "google-cloud-postmortem-culture-learning-from-failure",
@@ -9889,7 +9922,9 @@
         "classes/part-23-industry-capstones/277-capstone-retail-comercio-multi-region/README.md": "arquitecturas de comercio en Google Cloud"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "google-cloud-role-recommendations",
@@ -10087,7 +10122,9 @@
         "classes/part-12-cloud-native-distributed-architecture/152-service-discovery-malla-y-comunicacion/README.md": "descubrimiento en la biblioteca, en la plataforma y con intermediario"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "google-cloud-service-level-objectives",
@@ -10621,7 +10658,9 @@
         "classes/part-23-industry-capstones/285-game-day-integrado-y-respuesta-a-incidentes/README.md": "DiRT y ejercicios de continuidad"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "google-cloud-the-site-reliability-workbook-420e7f",
@@ -10723,7 +10762,9 @@
         "classes/part-02-aws-core-platform/036-proyecto-aplicacion-de-tres-capas-en-aws/README.md": "pruebas de fiabilidad y game days"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "google-cloud-the-site-reliability-workbook-9eba1e",
@@ -11325,7 +11366,9 @@
         "classes/part-07-infrastructure-as-code-configuration/092-secretos-y-datos-sensibles-en-iac/README.md": "valores que no se guardan en el estado"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "hashicorp-import-blocks-and-configuration-generation",
@@ -11986,7 +12029,8 @@
         "classes/part-21-cloud-operations-automation/261-game-days-chaos-engineering-y-aprendizaje/README.md": "el experimento de fallo como método"
       },
       "status": "pendiente",
-      "pending_reason": "DOI sin resolver: crossref no devolvio un titulo coincidente"
+      "pending_reason": "DOI sin resolver: crossref no devolvio un titulo coincidente",
+      "pending_kind": "sin-identificador"
     },
     {
       "id": "ieee-chaos-engineering-aa666c",
@@ -12019,7 +12063,8 @@
         "classes/part-18-azure-production-architecture/228-proyecto-cloudshop-productivo-en-azure/README.md": "validación de la resiliencia mediante fallos inyectados"
       },
       "status": "pendiente",
-      "pending_reason": "DOI sin resolver: crossref no devolvio un titulo coincidente"
+      "pending_reason": "DOI sin resolver: crossref no devolvio un titulo coincidente",
+      "pending_kind": "sin-identificador"
     },
     {
       "id": "ieee-consistency-tradeoffs-in-modern-distributed-database",
@@ -12043,7 +12088,8 @@
         "classes/part-15-systems-architecture-engineering/187-consistencia-particiones-relojes-y-consenso/README.md": "el compromiso entre latencia y consistencia cuando no hay partición"
       },
       "status": "pendiente",
-      "pending_reason": "DOI sin resolver: crossref no devolvio un titulo coincidente"
+      "pending_reason": "DOI sin resolver: crossref no devolvio un titulo coincidente",
+      "pending_kind": "sin-identificador"
     },
     {
       "id": "ieee-technical-debt-from-metaphor-to-theory-and-practice",
@@ -15922,7 +15968,9 @@
         "classes/part-23-industry-capstones/280-capstone-sector-publico-soberania-y-continuidad/README.md": "nube soberana y residencia del dato en Azure"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "microsoft-azure-azure-spot-virtual-machines",
@@ -16336,7 +16384,9 @@
         "classes/part-01-cloud-principles-strategy-adoption/023-descubrimiento-y-clasificacion-de-workloads/README.md": "inventario, dependencias y clasificación"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "microsoft-azure-cloud-adoption-framework-enterprise-scale",
@@ -17912,7 +17962,9 @@
         "classes/part-14-advanced-platform-capstones-career/177-soberania-digital-y-confidential-computing/README.md": "registro de acceso del personal del proveedor"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "microsoft-azure-stride-threat-categories",
@@ -18704,7 +18756,9 @@
         "classes/part-16-advanced-cloud-networking-edge/195-dns-autoritativo-recursivo-split-horizon-y-dnssec/README.md": "registros huérfanos"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "owasp-threat-modeling-process",
@@ -19269,7 +19323,9 @@
         "classes/part-05-containers-docker-oci/072-proyecto-stack-oci-endurecido-y-observable/README.md": "inventario, firma, procedencia y verificación"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "proyecto-de-codigo-abierto-sops-encrypted-files-in-the",
@@ -19341,7 +19397,9 @@
         "classes/part-12-cloud-native-distributed-architecture/148-monolito-modular-microservicios-y-funcion/README.md": "pruebas de arquitectura automatizadas"
       },
       "status": "pendiente",
-      "pending_reason": "la URL no resolvio: error de red (<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1010)>)"
+      "pending_reason": "la URL no resolvio: error de red (<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1010)>)",
+      "http_status": 0,
+      "pending_kind": "sin-comprobar"
     },
     {
       "id": "adaptivecapacitylabs-com-trade-offs-under-pressure",
@@ -19413,7 +19471,9 @@
         "classes/part-13-multicloud-hybrid-disaster-recovery/158-portabilidad-capas-de-abstraccion-y-lock-in/README.md": "sustituir el debate por una estimación en semanas"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "aepd-es-guia-sobre-tratamientos-con-inteligencia-artificial",
@@ -20135,7 +20195,9 @@
         "classes/part-23-industry-capstones/281-capstone-media-streaming-y-distribucion-global/README.md": "métricas de calidad de experiencia"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "bitol-io-github-io-open-data-contract-standard-2025",
@@ -20327,7 +20389,9 @@
         "classes/part-15-systems-architecture-engineering/186-capacidad-latencia-throughput-y-teoria-de-colas/README.md": "colas y variabilidad"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 522"
+      "pending_reason": "la URL respondio HTTP 522",
+      "http_status": 522,
+      "pending_kind": "sin-comprobar"
     },
     {
       "id": "careers-google-com-how-we-hire-interviewing-at-google",
@@ -20375,7 +20439,9 @@
         "classes/part-23-industry-capstones/281-capstone-media-streaming-y-distribucion-global/README.md": "medición desde el reproductor"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "cell-com-leakage-and-the-reproducibility-crisis-in-ml-based",
@@ -20400,7 +20466,9 @@
         "classes/part-20-cloud-data-ai-platforms/244-feature-stores-training-pipelines-y-experiment-tracking/README.md": "la fuga de datos como causa de resultados irreproducibles"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "charity-wtf-logs-versus-structured-events",
@@ -20712,7 +20780,9 @@
         "classes/part-09-data-messaging-serverless-integration/116-sagas-outbox-idempotencia-y-deduplicacion/README.md": "el artículo original sobre transacciones largas con compensación"
       },
       "status": "pendiente",
-      "pending_reason": "la URL no resolvio: error de red (<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.)"
+      "pending_reason": "la URL no resolvio: error de red (<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.)",
+      "http_status": 0,
+      "pending_kind": "sin-comprobar"
     },
     {
       "id": "cs-umd-edu-consistency-tradeoffs-in-modern-distributed-database",
@@ -21046,7 +21116,9 @@
         "classes/part-07-infrastructure-as-code-configuration/094-ansible-e-imagen-dorada-para-configuracion/README.md": "simulación de cambios y sus límites"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 429"
+      "pending_reason": "la URL respondio HTTP 429",
+      "http_status": 429,
+      "pending_kind": "sin-comprobar"
     },
     {
       "id": "docs-ansible-com-desired-state-and-idempotency",
@@ -21070,7 +21142,9 @@
         "classes/part-07-infrastructure-as-code-configuration/094-ansible-e-imagen-dorada-para-configuracion/README.md": "idempotencia por módulo y condiciones de omisión"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 429"
+      "pending_reason": "la URL respondio HTTP 429",
+      "http_status": 429,
+      "pending_kind": "sin-comprobar"
     },
     {
       "id": "docs-ansible-com-rolling-update-strategies",
@@ -21094,7 +21168,9 @@
         "classes/part-07-infrastructure-as-code-configuration/094-ansible-e-imagen-dorada-para-configuracion/README.md": "ejecución por tandas y detención ante fallo"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 429"
+      "pending_reason": "la URL respondio HTTP 429",
+      "http_status": 429,
+      "pending_kind": "sin-comprobar"
     },
     {
       "id": "docs-ansible-com-variable-precedence",
@@ -21118,7 +21194,9 @@
         "classes/part-07-infrastructure-as-code-configuration/094-ansible-e-imagen-dorada-para-configuracion/README.md": "los más de veinte niveles y su orden"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 429"
+      "pending_reason": "la URL respondio HTTP 429",
+      "http_status": 429,
+      "pending_kind": "sin-comprobar"
     },
     {
       "id": "docs-anthropic-com-building-evaluations-for-claude-applications",
@@ -21878,7 +21956,9 @@
         "classes/part-23-industry-capstones/287-paquete-de-evidencia-costos-y-riesgos-residuales/README.md": "presentación de evidencia y trazabilidad"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "eecs-harvard-edu-the-power-of-two-choices-in-randomized-load",
@@ -21952,7 +22032,9 @@
         "classes/part-23-industry-capstones/280-capstone-sector-publico-soberania-y-continuidad/README.md": "el esquema europeo de certificación de servicios en la nube"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "enterpriseintegrationpatterns-com-enterprise-integration",
@@ -22029,7 +22111,9 @@
         "classes/part-10-observability-sre-reliability/127-incidentes-severidad-comando-y-comunicacion/README.md": "por qué buscar culpables destruye la información"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "eur-lex-europa-eu-reglamento-general-de-proteccion-de-datos",
@@ -22599,7 +22683,9 @@
         "classes/part-23-industry-capstones/279-capstone-salud-privacidad-e-interoperabilidad/README.md": "el estándar de interoperabilidad clínica"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 202"
+      "pending_reason": "la URL respondio HTTP 202",
+      "http_status": 202,
+      "pending_kind": "sin-comprobar"
     },
     {
       "id": "hpbn-co-high-performance-browser-networking",
@@ -22673,7 +22759,9 @@
         "classes/part-15-systems-architecture-engineering/188-contratos-de-api-eventos-y-compatibilidad-evolutiva/README.md": "por qué todo comportamiento observable acaba siendo contrato"
       },
       "status": "pendiente",
-      "pending_reason": "la URL no resolvio: error de red (<urlopen error [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondi)"
+      "pending_reason": "la URL no resolvio: error de red (<urlopen error [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondi)",
+      "http_status": 0,
+      "pending_kind": "sin-comprobar"
     },
     {
       "id": "iceberg-apache-org-table-specification",
@@ -22747,7 +22835,9 @@
         "classes/part-08-continuous-delivery-platform-engineering/104-ambientes-efimeros-y-promocion-entre-entornos/README.md": "por qué sustituir identificadores directos no basta"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "iec-ch-iec-62443-seguridad-en-sistemas-de-automatizacion",
@@ -22771,7 +22861,9 @@
         "classes/part-23-industry-capstones/282-capstone-industria-iot-edge-y-operacion-desconectada/README.md": "requisitos de seguridad en automatización industrial"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "infoq-com-cap-twelve-years-later-how-the-rules-have-changed",
@@ -23067,7 +23159,9 @@
         "classes/part-11-security-governance-finops/141-cumplimiento-residencia-privacidad-y-evidencia/README.md": "qué se audita y cómo se demuestra"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "iso-org-artificial-intelligence-management-system",
@@ -23091,7 +23185,9 @@
         "classes/part-20-cloud-data-ai-platforms/251-privacidad-gobernanza-sostenibilidad-y-costo-de-ia/README.md": "el sistema de gestión certificable para IA"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "iso-org-iso-31000-gestion-del-riesgo",
@@ -23115,7 +23211,9 @@
         "classes/part-23-industry-capstones/287-paquete-de-evidencia-costos-y-riesgos-residuales/README.md": "riesgo residual y aceptación"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "iso-org-iso-iec-25010",
@@ -23137,7 +23235,9 @@
         "classes/part-15-systems-architecture-engineering/181-requisitos-funcionales-restricciones-y-atributos-de-calidad/README.md": "modelo de calidad de producto software"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "iso25000-com-25010-modelo-de-calidad-del-producto-software",
@@ -23161,7 +23261,9 @@
         "classes/part-12-cloud-native-distributed-architecture/145-requisitos-restricciones-y-atributos-de-calidad/README.md": "taxonomía de atributos"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "itrevolution-com-accelerate",
@@ -23259,7 +23361,9 @@
         "classes/part-21-cloud-operations-automation/263-aiops-automatizacion-asistida-y-limites-humanos/README.md": "cuándo la automatización degrada el desempeño humano"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "journals-sagepub-com-test-enhanced-learning",
@@ -23284,7 +23388,9 @@
         "classes/part-22-specializations-certifications-career/274-preguntas-de-escenario-y-estrategia-de-examen/README.md": "por qué practicar preguntas supera a releer"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "journals-sagepub-com-the-five-stage-model-of-adult-skill",
@@ -23308,7 +23414,9 @@
         "classes/part-22-specializations-certifications-career/265-ruta-cloud-engineer-y-mapa-de-competencias/README.md": "las cinco etapas de adquisición de destreza"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "kernel-org-nf-conntrack-sysctl",
@@ -23476,7 +23584,9 @@
         "classes/part-14-advanced-platform-capstones-career/173-madurez-sre-y-confiabilidad-organizacional/README.md": "análisis entre incidentes y vocabulario común"
       },
       "status": "pendiente",
-      "pending_reason": "la URL no resolvio: error de red (<urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1010)>)"
+      "pending_reason": "la URL no resolvio: error de red (<urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1010)>)",
+      "http_status": 0,
+      "pending_kind": "sin-comprobar"
     },
     {
       "id": "link-springer-com-guerrilla-capacity-planning",
@@ -23601,7 +23711,9 @@
         "classes/part-11-security-governance-finops/138-vulnerabilidades-imagenes-y-cadena-de-suministro/README.md": "descripción del ataque y su prevención"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "melconway-com-how-do-committees-invent",
@@ -23701,7 +23813,9 @@
         "classes/part-09-data-messaging-serverless-integration/120-proyecto-pipeline-de-pedidos-orientado-a-eventos/README.md": "tabla de salida, secuencias con compensación y consultas"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "microservices-io-saga-and-event-choreography-trade-offs",
@@ -23782,7 +23896,9 @@
         "classes/part-21-cloud-operations-automation/258-triage-de-red-computo-datos-y-dependencias/README.md": "fallos parciales que el diagnóstico binario no ve"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "mlflow-org-model-registry-and-stages",
@@ -23902,7 +24018,9 @@
         "classes/part-23-industry-capstones/281-capstone-media-streaming-y-distribucion-global/README.md": "codificación adaptada a cada título y toma"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "nist-gov-ai-risk-management-framework-generative-ai-profile",
@@ -24583,7 +24701,9 @@
         "classes/part-15-systems-architecture-engineering/186-capacidad-latencia-throughput-y-teoria-de-colas/README.md": "la relación L = λW aplicada al dimensionamiento de capacidad"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "pulumi-com-programming-model-and-preview",
@@ -24623,15 +24743,16 @@
       "locator": "https://queue.acm.org/detail.cfm?id=2187821",
       "source_url": "https://queue.acm.org/detail.cfm?id=2187821",
       "authority": "queue.acm.org",
-      "accessed": null,
+      "accessed": "2026-08-19",
       "used_in": [
         "classes/part-09-data-messaging-serverless-integration/116-sagas-outbox-idempotencia-y-deduplicacion/README.md"
       ],
       "usage": {
         "classes/part-09-data-messaging-serverless-integration/116-sagas-outbox-idempotencia-y-deduplicacion/README.md": "idempotencia como propiedad del efecto, no de la entrega"
       },
-      "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "status": "verificada",
+      "pending_reason": null,
+      "http_status": 200
     },
     {
       "id": "queue-acm-org-life-beyond-distributed-transactions",
@@ -24659,7 +24780,9 @@
         "classes/part-23-industry-capstones/278-capstone-financiero-pagos-auditoria-y-recuperacion/README.md": "alternativas a la transacción distribuida"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "queue-acm-org-operational-excellence-in-april-fools-pranks",
@@ -24683,7 +24806,9 @@
         "classes/part-21-cloud-operations-automation/259-runbooks-ejecutables-y-auto-remediation/README.md": "sobre automatización probada frente a escrita"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "queue-acm-org-the-space-of-developer-productivity",
@@ -24708,7 +24833,9 @@
         "classes/part-08-continuous-delivery-platform-engineering/107-developer-experience-dora-y-carga-cognitiva/README.md": "por qué una sola dimensión no basta"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "raft-github-io-in-search-of-an-understandable-consensus",
@@ -24809,7 +24936,9 @@
         "classes/part-23-industry-capstones/285-game-day-integrado-y-respuesta-a-incidentes/README.md": "coordinación en incidentes reales"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "response-pagerduty-com-incident-response-documentation",
@@ -24885,7 +25014,9 @@
         "classes/part-10-observability-sre-reliability/128-runbooks-playbooks-y-automatizacion-operativa/README.md": "estructura y enlace desde la alerta"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 404"
+      "pending_reason": "la URL respondio HTTP 404",
+      "http_status": 404,
+      "pending_kind": "enlace-roto"
     },
     {
       "id": "routledge-com-conjeturas-y-refutaciones",
@@ -25058,7 +25189,9 @@
         "classes/part-01-cloud-principles-strategy-adoption/024-proyecto-decision-de-migracion-sustentada-con-adr/README.md": "decisiones de tipo 1 y tipo 2 según su reversibilidad"
       },
       "status": "pendiente",
-      "pending_reason": "la URL respondio HTTP 403"
+      "pending_reason": "la URL respondio HTTP 403",
+      "http_status": 403,
+      "pending_kind": "bloqueo-antibot"
     },
     {
       "id": "secrets-store-csi-driver-sigs-k8s-io-secrets-store-csi-driver",
@@ -25478,15 +25611,16 @@
       "locator": "https://taylorfrancis.com/books/mono/10.1201/9781315568935/behind-human-error",
       "source_url": "https://taylorfrancis.com/books/mono/10.1201/9781315568935/behind-human-error",
       "authority": "taylorfrancis.com",
-      "accessed": null,
+      "accessed": "2026-08-19",
       "used_in": [
         "classes/part-10-observability-sre-reliability/128-runbooks-playbooks-y-automatizacion-operativa/README.md"
       ],
       "usage": {
         "classes/part-10-observability-sre-reliability/128-runbooks-playbooks-y-automatizacion-operativa/README.md": "por qué los automatismos que compensan ocultan el deterioro"
       },
-      "status": "pendiente",
-      "pending_reason": "la URL no resolvio: error de red (The read operation timed out)"
+      "status": "verificada",
+      "pending_reason": null,
+      "http_status": 200
     },
     {
       "id": "taylorfrancis-com-resilience-engineering",
@@ -25503,15 +25637,16 @@
       "locator": "https://taylorfrancis.com/books/edit/10.1201/9781315605685/resilience-engineering",
       "source_url": "https://taylorfrancis.com/books/edit/10.1201/9781315605685/resilience-engineering",
       "authority": "taylorfrancis.com",
-      "accessed": null,
+      "accessed": "2026-08-19",
       "used_in": [
         "classes/part-10-observability-sre-reliability/132-proyecto-operacion-sre-de-cloudshop/README.md"
       ],
       "usage": {
         "classes/part-10-observability-sre-reliability/132-proyecto-operacion-sre-de-cloudshop/README.md": "por qué la compensación automática oculta el deterioro"
       },
-      "status": "pendiente",
-      "pending_reason": "la URL no resolvio: error de red (The read operation timed out)"
+      "status": "verificada",
+      "pending_reason": null,
+      "http_status": 200
     },
     {
       "id": "teamtopologies-com-team-topologies",

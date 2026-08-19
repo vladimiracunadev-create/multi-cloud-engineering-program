@@ -363,6 +363,42 @@ def canonical_locator(entry: dict) -> str | None:
     return entry.get("locator")
 
 
+# Clases de hueco. Un 404 es un defecto que hay que arreglar; un 403 es un
+# sitio que rechaza robots y no dice nada sobre si el enlace sirve. Mezclarlos
+# convierte el informe de pendientes en ruido que nadie acciona.
+PENDING_KINDS = {
+    "enlace-roto": "el recurso ya no existe en esa direccion",
+    "bloqueo-antibot": "el sitio rechaza peticiones automatizadas; no se puede comprobar por script",
+    "sin-comprobar": "la autoridad no respondio; no desmiente la fuente",
+    "sin-identificador": "no se obtuvo ISBN o DOI de un catalogo",
+    "otro": "sin clasificar",
+}
+
+
+def classify_pending(reason: str | None) -> str:
+    """Clase de hueco, derivada del motivo. Funcion pura y determinista."""
+    text = (reason or "").lower()
+    if "http 404" in text or "http 410" in text:
+        return "enlace-roto"
+    if "http 403" in text or "http 401" in text:
+        return "bloqueo-antibot"
+    if "no se pudo comprobar" in text or "error de red" in text or "http 429" in text:
+        return "sin-comprobar"
+    if "isbn" in text or "doi" in text:
+        return "sin-identificador"
+    if "http 5" in text or "http 2" in text:
+        return "sin-comprobar"
+    return "otro"
+
+
+def pending_breakdown(entries: list[dict]) -> dict[str, int]:
+    counts: collections.Counter[str] = collections.Counter()
+    for entry in entries:
+        if entry.get("status") != "verificada":
+            counts[entry.get("pending_kind") or classify_pending(entry.get("pending_reason"))] += 1
+    return dict(counts)
+
+
 def part_titles(root: Path = ROOT) -> dict[str, str]:
     """Titulo legible de cada parte, leido de su propio indice."""
     titles: dict[str, str] = {}
@@ -428,6 +464,7 @@ def registry_stats(data: dict, citations: list[Citation], root: Path = ROOT) -> 
 
     return {
         "entries": len(entries),
+        "pending_kinds": pending_breakdown(entries),
         "citations": len(citations),
         # Cobertura real: citas cuya obra tiene entrada, no entradas sobre si mismas.
         "resolved": sum(1 for c in citations if c.identity in ident_to_entry),
@@ -466,6 +503,24 @@ def render_block(stats: dict) -> str:
         f"**{_thousands(stats['verified'])} verificadas** contra su autoridad y "
         f"**{_thousands(stats['pending'])} pendientes** con el motivo declarado."
     )
+    kinds = stats.get("pending_kinds") or {}
+    if kinds:
+        etiquetas = {
+            "enlace-roto": "enlace roto en la fuente citada",
+            "bloqueo-antibot": "el sitio rechaza peticiones automatizadas",
+            "sin-comprobar": "la autoridad no respondio al comprobar",
+            "sin-identificador": "sin ISBN o DOI en catalogo",
+            "otro": "otros",
+        }
+        detalle = " · ".join(
+            f"**{count}** {etiquetas.get(kind, kind)}"
+            for kind, count in sorted(kinds.items(), key=lambda p: -p[1])
+        )
+        lines.append("")
+        lines.append(
+            f"Los huecos se declaran, no se rellenan: {detalle}. "
+            "El detalle, obra por obra, en [`sources/PENDING.md`](sources/PENDING.md)."
+        )
     lines.append("")
     verified_on = stats.get("verified_on") or "sin ejecutar"
     lines.append(f"Última comprobación en red: **{verified_on}**.")
@@ -493,6 +548,51 @@ def render_block(stats: dict) -> str:
     lines.append("")
     lines.append("</details>")
     return "\n".join(lines)
+
+
+def render_pending(data: dict) -> str:
+    """Informe de huecos, agrupado por clase de hueco.
+
+    Existe para que los 'pendiente' sean accionables: un enlace roto es un
+    defecto que alguien tiene que arreglar, y un bloqueo antibot no lo es.
+    Se genera; no se escribe a mano.
+    """
+    entries = [e for e in data.get("entries", []) if e.get("status") != "verificada"]
+    lines = [
+        "# Huecos declarados del registro de fuentes",
+        "",
+        "Generado por `python scripts/verify-sources --write`. No editar a mano.",
+        "",
+        f"{len(entries)} de {len(data.get('entries', []))} obras siguen sin verificar contra su",
+        "autoridad. Ninguna se ha borrado y ninguna se ha rellenado a ojo.",
+        "",
+    ]
+    order = ["enlace-roto", "bloqueo-antibot", "sin-comprobar", "sin-identificador", "otro"]
+    grouped: dict[str, list[dict]] = {}
+    for entry in entries:
+        kind = entry.get("pending_kind") or classify_pending(entry.get("pending_reason"))
+        grouped.setdefault(kind, []).append(entry)
+
+    for kind in order:
+        items = grouped.get(kind)
+        if not items:
+            continue
+        lines.append(f"## {kind} ({len(items)})")
+        lines.append("")
+        lines.append(f"_{PENDING_KINDS.get(kind, '')}_")
+        lines.append("")
+        if kind == "enlace-roto":
+            lines.append("Esto si es un defecto: la clase apunta a una direccion que ya no sirve el")
+            lines.append("recurso. Hay que localizar la nueva ubicacion y corregir la cita.")
+            lines.append("")
+        lines.append("| Obra | Localizador citado | Clases |")
+        lines.append("|---|---|---:|")
+        for entry in sorted(items, key=lambda e: e["id"]):
+            url = entry.get("source_url") or entry.get("locator") or "—"
+            title = (entry.get("title") or entry["id"]).replace("|", "/")[:70]
+            lines.append(f"| {title} | `{url}` | {len(entry.get('used_in', []))} |")
+        lines.append("")
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def load_registry(path: Path = REGISTRY) -> dict:
