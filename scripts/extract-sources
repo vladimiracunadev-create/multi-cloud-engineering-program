@@ -1,0 +1,160 @@
+#!/usr/bin/env python3
+"""Construye sources/bibliography.json recogiendo lo que las clases ya citan.
+
+No inventa nada y no busca fuentes nuevas: recorre las 288 clases, agrupa las
+citas por obra y escribe una entrada por obra. Los datos que solo se obtienen
+en red (ISBN, DOI resuelto, fecha de acceso) los rellena `refresh-sources`; este
+extractor los conserva entre ejecuciones para no perder trabajo ya verificado.
+
+Uso:
+    python scripts/extract-sources            # reescribe el registro
+    python scripts/extract-sources --dry-run  # solo informa
+"""
+
+from __future__ import annotations
+
+import argparse
+import collections
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+from sources_lib import (  # noqa: E402
+    REGISTRY,
+    ROOT,
+    SCHEMA_VERSION,
+    Citation,
+    authority_for,
+    dump_registry,
+    load_registry,
+    read_citations,
+    slugify,
+)
+
+POLICY = (
+    "Toda afirmacion del programa se apoya en una entrada de este registro. "
+    "Ninguna entrada se acepta sin localizador verificable. Lo que no se pudo "
+    "resolver queda como 'pendiente' con su motivo, nunca se elimina ni se rellena a ojo."
+)
+
+# Campos que solo produce la capa en red: se conservan al reconstruir.
+CARRIED = ("isbn13", "doi", "locator", "accessed", "status", "pending_reason", "verified_title")
+
+
+def build_id(group: list[Citation], taken: dict[str, int]) -> str:
+    first = group[0]
+    if first.kind == "book":
+        surname = first.authors[0].split(",")[0].strip() if first.authors else ""
+        base = slugify(f"{surname} {first.title}")
+    else:
+        authority = authority_for(first.url, first.kind)
+        base = slugify(f"{authority} {first.title}")
+    base = base or "fuente"
+    taken[base] = taken.get(base, 0) + 1
+    return base
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dry-run", action="store_true")
+    args = parser.parse_args()
+
+    citations, _ = read_citations(ROOT)
+    groups: dict[str, list[Citation]] = collections.OrderedDict()
+    for cit in citations:
+        groups.setdefault(cit.identity, []).append(cit)
+
+    previous: dict[str, dict] = {}
+    if REGISTRY.exists():
+        for entry in load_registry(REGISTRY).get("entries", []):
+            previous[entry.get("identity", entry["id"])] = entry
+
+    # Los ids se derivan del contenido; si dos obras comparten slug se
+    # desambigua con un sufijo estable derivado de la identidad, nunca del orden.
+    slug_count: collections.Counter[str] = collections.Counter()
+    provisional: list[tuple[str, str, list[Citation]]] = []
+    for identity, group in groups.items():
+        base = build_id(group, {})
+        slug_count[base] += 1
+        provisional.append((identity, base, group))
+
+    import hashlib
+
+    entries = []
+    for identity, base, group in provisional:
+        ident = base
+        if slug_count[base] > 1:
+            ident = f"{base}-{hashlib.sha1(identity.encode()).hexdigest()[:6]}"
+
+        first = max(group, key=lambda c: (len(c.title), len(c.detail)))
+        kind = first.kind
+        authority = authority_for(first.url, kind)
+        used_in = sorted({c.class_path for c in group})
+        usage = {}
+        for cit in sorted(group, key=lambda c: c.class_path):
+            if cit.use:
+                usage[cit.class_path] = cit.use
+
+        entry = {
+            "id": ident,
+            "identity": identity,
+            "type": kind,
+            "authors": first.authors,
+            "title": first.title,
+            "published": first.year,
+            "isbn13": None,
+            "doi": None,
+            "locator": None,
+            "source_url": first.url,
+            "authority": authority,
+            "accessed": None,
+            "used_in": used_in,
+            "usage": usage,
+            "status": "pendiente",
+            "pending_reason": None,
+        }
+
+        old = previous.get(identity)
+        if old:
+            for key in CARRIED:
+                if old.get(key) is not None:
+                    entry[key] = old[key]
+        if entry["status"] == "pendiente" and not entry["pending_reason"]:
+            entry["pending_reason"] = {
+                "book": "ISBN-13 sin resolver: ejecuta scripts/refresh-sources",
+                "paper": "DOI sin resolver: ejecuta scripts/refresh-sources",
+            }.get(kind, "URL sin comprobar: ejecuta scripts/refresh-sources")
+        if kind not in ("book", "paper") and entry["locator"] is None:
+            entry["locator"] = first.url
+        entries.append(entry)
+
+    entries.sort(key=lambda e: (e["authority"], e["type"], e["id"]))
+    data = {
+        "schema_version": SCHEMA_VERSION,
+        "verified_on": None,
+        "policy": POLICY,
+        "entries": entries,
+    }
+    if REGISTRY.exists():
+        data["verified_on"] = load_registry(REGISTRY).get("verified_on")
+
+    by_type = collections.Counter(e["type"] for e in entries)
+    print(f"citas leidas          : {len(citations)}")
+    print(f"obras distintas       : {len(entries)}")
+    for kind, count in sorted(by_type.items()):
+        print(f"  {kind:<10}: {count}")
+    print(f"clases cubiertas      : {len({c.class_path for c in citations})}")
+    print(f"citas con nota de uso : {sum(1 for c in citations if c.use)} de {len(citations)}")
+
+    if args.dry_run:
+        print("\n--dry-run: no se escribio nada")
+        return 0
+    dump_registry(data, REGISTRY)
+    print(f"\nescrito {REGISTRY.relative_to(ROOT).as_posix()}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
