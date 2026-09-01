@@ -10,7 +10,7 @@ requires-python = ">=3.11"
 license = {text = "MIT"}
 
 [project.optional-dependencies]
-site = ["markdown==3.10.2"]
+site = ["markdown==3.10.3"]
 manual = ["reportlab==5.0.0", "pypdf==6.14.2"]
 
 [project.scripts]
